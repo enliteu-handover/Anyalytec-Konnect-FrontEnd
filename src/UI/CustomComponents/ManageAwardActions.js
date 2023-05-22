@@ -1,0 +1,41 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+const ManageAwardActions = (props) => {
+
+  const {data, triggerModal} = props;
+  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+
+  const handleDeletion = (arg) => {
+    triggerModal({data:arg, handleState:true});
+  }
+
+  return(
+		<div className="actnsDiv manageIcons">
+      <Link 
+        to={ data.entityType === "nomi_award" ? {pathname:'managenominateawardview', state: {awardManageData:data}} : (data.entityType === "spot_award") ? {pathname:'managespotawardview', state: {awardManageData:data}} : "#"}
+        title="View"
+        className="manageViewIcon"
+      >
+        <span
+          dangerouslySetInnerHTML={{
+            __html: svgIcons && svgIcons.view_icon,
+          }}
+          className="transformScale"
+        ></span>
+        {/* <img src={process.env.PUBLIC_URL + "/images/icons/view.svg"} className="transformScale" alt="View Icon" title="View Details" style={{width:"25px"}} /> */}
+      </Link>
+      <Link to="#" title="Delete" className="manageStopIcon ml-2" onClick={() => handleDeletion(data)} data-toggle="modal" data-target="#stopAllotedAwardModal">
+        <span
+          dangerouslySetInnerHTML={{
+            __html: svgIcons && svgIcons.stop_icon,
+          }}
+          className="transformScale"
+        ></span>
+        {/* <img src={process.env.PUBLIC_URL + "/images/icons/stop.svg"} className="transformScale ml-2" alt="Delete Icon" title="Delete Data" style={{width:"18px"}} /> */}
+      </Link>
+		</div>
+  )
+}
+export default ManageAwardActions;

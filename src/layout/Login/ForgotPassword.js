@@ -1,0 +1,110 @@
+import React, { useState } from "react";
+import classes from "./LoginForm.module.scss";
+import { Link } from "react-router-dom";
+import Button from "../../UI/Button";
+import { httpHandler } from "../../http/http-interceptor";
+import { URL_CONFIG } from "../../constants/rest-config";
+
+const ForgotPassword = () => {
+  const [responseClassName, checkResponseClassName] = useState("");
+  const [responseMsg, checkResponseMsg] = useState("");
+
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [disable, setDisable] = useState(false);
+  // const emailIsValid = enteredEmail.trim() !== "";
+  const IsValidEmail = new RegExp(
+    /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
+  ).test(enteredEmail);
+  const emailInputIsInvalid = !IsValidEmail && emailTouched;
+
+  const emailChangeHandler = (event) => {
+    setDisable(false);
+    setEnteredEmail(event.target.value);
+  };
+
+  const emailBlurHandler = (event) => {
+    setEmailTouched(true);
+    checkResponseMsg(false);
+  };
+  const formSubmitHanlder = (event) => {
+    setEmailTouched(true);
+    setDisable(true);
+    if(IsValidEmail) {
+      const obj = {
+        url: `${URL_CONFIG.FORGOTPASSWORD}?email=${enteredEmail}`,
+        method: "post",
+      };
+      httpHandler(obj)
+      .then((response) => {
+        console.log("response", response);
+        setEnteredEmail("");
+        const resMsg = response?.data?.message;
+        checkResponseClassName("response-succ");
+        checkResponseMsg(resMsg);
+        setEmailTouched(false);
+        setDisable(false);
+      })
+      .catch((error) => {
+        console.log("error", error);
+        const errMsg = error?.response?.data?.message;
+        checkResponseClassName("response-err");
+        checkResponseMsg(errMsg);
+      });
+    }
+    event.preventDefault();
+  };
+
+  const emailInputClass = emailInputIsInvalid ? `${classes.invalid}` : "";
+  return (
+    <div className={classes.loginFormContainer}>
+      <h2 className={`text-center`}>Reset Password</h2>
+      <h4 className="text-center">
+        Please enter your mail address below to reset the password
+      </h4>
+      <div className={classes.formWrapper}>
+        <form onSubmit={formSubmitHanlder} method="post">
+          <div className={classes.form_inputs_div}>
+            <div className="eep-input-group">
+              <div
+                className={`${classes.input_group} ${emailInputClass} form-group input-group`}
+              >
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  className={`${classes.form_control} form-control`}
+                  placeholder="email@domain.com"
+                  onChange={emailChangeHandler}
+                  onBlur={emailBlurHandler}
+                />
+                {emailInputIsInvalid && (
+                  <p className="error-text">Please enter valid email</p>
+                )}
+                {responseMsg && <p className={`${responseClassName} mb-0 mt-3 w-100 text-center response-text`}>{responseMsg}</p>}
+              </div>
+            </div>
+          </div>
+          <div className={classes.btnSubmit_div}>
+            <div className="row justify-content-center">
+              <Button
+                type="submit"
+                disabled={disable}
+                className={`${classes.btnSubmit} btn btn-login`}
+                name="Reset Password"
+              ></Button>
+            </div>
+          </div>
+        </form>
+        <div className={classes.fgt_pwd_div}>
+          <div className="row text-center justify-content-center">
+            <Link to="/login/signin" className={classes.fgt_pwd}>
+              Back to login
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default ForgotPassword;

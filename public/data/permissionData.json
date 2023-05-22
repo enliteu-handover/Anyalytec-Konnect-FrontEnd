@@ -1,0 +1,182 @@
+[
+    {
+        "header": "Admin Panel",
+        "permissions": [
+            {
+                "label": "Admin Panel",
+                "value": "adminPanel",
+                "tipvalue": "Enable user access to branding, department, user and roles/permissions"
+            }
+        ]
+    },
+    {
+        "header": "Dashboard",
+        "permissions": [
+            {
+                "label": "Employee Engagement Dashboard",
+                "value": "employeeEngagementDashboard",
+                "tipvalue": "Enable user to view Engagement dashboard"
+            },
+            {
+                "label": "Hall of Fame",
+                "value": "hallOfFame",
+                "tipvalue": "Enable user to view Hall of Fame dashboard"
+            }
+        ]
+    },
+    {
+        "header": "E cards",
+        "permissions": [
+            {
+                "label": "Templates",
+                "value": "ecardTemplates",
+                "tipvalue": "Enable user to add card designs, messages and schedule"
+            }
+        ]
+    },
+    {
+        "header": "Certificates",
+        "permissions": [
+            {
+                "label": "Send",
+                "value": "certificateSend",
+                "tipvalue": "Enable user to issue certificates"
+            },
+            {
+                "label": "Create",
+                "value": "certificateCreate",
+                "tipvalue": "Enable user to create certificate designs"
+            },
+            {
+                "label": "Modify",
+                "value": "certificateModify",
+                "tipvalue": "Enable user to modify certificate designs"
+            }
+        ]
+    },
+    {
+        "header": "Badges",
+        "permissions": [
+            {
+                "label": "Send",
+                "value": "badgeSend",
+                "tipvalue": "Enable user to issue badges"
+            },
+            {
+                "label": "Create",
+                "value": "badgeCreate",
+                "tipvalue": "Enable user to create badges"
+            },
+            {
+                "label": "Modify",
+                "value": "badgeModify",
+                "tipvalue": "Enable user to modify badges"
+            }
+        ]
+    },
+    {
+        "header": "Awards",
+        "permissions": [
+            {
+                "label": "Create",
+                "value": "awardCreate",
+                "tipvalue": "Enable user to create awards"
+            },
+            {
+                "label": "Modify",
+                "value": "awardModify",
+                "tipvalue": "Enable user to modify awards"
+            },
+            {
+                "label": "Categorisation",
+                "value": "awardCategorisation",
+                "tipvalue": "Enable user to categorize awards"
+            },
+            {
+                "label": "Nominator/ Assignee ",
+                "value": "awardNominatorAssignee",
+                "tipvalue": "Enable user to nominate employees for awards"
+            }
+        ]
+    },
+    {
+        "header": "Program",
+        "permissions": [
+            {
+                "label": "Create",
+                "value": "programCreate",
+                "tipvalue": "Enable user to create program"
+            },
+            {
+                "label": "Modify",
+                "value": "programModify",
+                "tipvalue": "Enable user to modify program"
+            },
+            {
+                "label": "Manage",
+                "value": "programManage",
+                "tipvalue": "Enable user to manage program"
+            }
+        ]
+    },
+    {
+        "header": "Survey",
+        "permissions": [
+            {
+                "label": "Create",
+                "value": "surveyCreate",
+                "tipvalue": "Enable user to create surveys"
+            },
+            {
+                "label": "Modify",
+                "value": "surveyModify",
+                "tipvalue": "Enable user to modify surveys"
+            }
+        ]
+    },
+    {
+        "header": "Ideas",
+        "permissions": [
+            {
+                "label": "Hide",
+                "value": "ideaboxHide",
+                "tipvalue": "Enable user to censure inappropriate posts"
+            }
+        ]
+    },
+    {
+        "header": "Forum",
+        "permissions": [
+            {
+                "label": "Hide",
+                "value": "forumHide",
+                "tipvalue": "Enable user to censure inappropriate posts"
+            }
+        ]
+    },
+    {
+        "header": "Polls",
+        "permissions": [
+            {
+                "label": "Create",
+                "value": "pollCreate",
+                "tipvalue": "Enable user to create polls"
+            },
+            {
+                "label": "Modify",
+                "value": "pollModify",
+                "tipvalue": "Enable user to modify polls"
+            }
+        ]
+    },
+    {
+        "header": "Enlite Wall",
+        "permissions": [
+            {
+                "label": "Hide",
+                "value": "enliteWallHide",
+                "tipvalue": "Enable user to censure inappropriate posts or comments"
+            }
+        ]
+    }
+]

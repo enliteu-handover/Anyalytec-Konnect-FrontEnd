@@ -1,0 +1,140 @@
+import React, {useEffect, useRef, useState} from "react";
+import IdleTimer from 'react-idle-timer';
+import { Link } from "react-router-dom";
+import EEPSessionTimeOutModal from "../modals/EEPSessionTimeOutModal";
+import { httpHandler, ErrorHandling } from "../http/http-interceptor";
+import { URL_CONFIG } from "../constants/rest-config";
+import { useHistory } from "react-router-dom";
+
+// import Modal from 'react-modal';
+// Modal.setAppElement('#root');
+
+const IdleTimerContainer = () => {
+  const idleTimeRef = useRef(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showSessionTimeOutModal, setshowSessionTimeOutModal] = useState({
+      type: "SessionTimeOut",
+      message: "Session Time Out Continue or Logout",
+    });
+
+  const config = {
+    timoutTime: 15,
+    refreshTime: 13
+  }  
+
+  useEffect(() => {
+    checkUserActionSession();
+  },[])
+
+  let checkUserActionTime;
+  const checkUserActionSession = () => {
+    checkUserActionTime = setInterval(() => {
+      const loggedInTime = parseInt(sessionStorage.getItem('loggedInTime'));
+      const diff = parseInt(Math.abs(new Date().getTime()-loggedInTime) / 1000);
+      if(diff === config.refreshTime*60){
+        clearInterval(checkUserActionTime);
+        SessionExtenHandler();
+      }
+    },1000);
+  }
+
+  let interval;
+  const idleWaiting = (flag = false) => {
+    
+    let initSec = 0;
+    interval = setInterval(() => {
+        initSec++;
+        if(initSec === (config.timoutTime*60 - config.refreshTime*60)){
+          setModalIsOpen(false);
+          ErrorHandling();
+        }
+    },1000);
+
+    if(flag){
+      clearInterval(interval);
+    }
+  }
+
+  const onIdle = () => {
+    clearInterval(checkUserActionTime);
+    setModalIsOpen(true);
+    idleWaiting();
+  }
+
+  const onAction = () => {
+    clearInterval(interval);
+    idleWaiting(true);
+  }
+  const SessionExtenHandler = () => {
+    setModalIsOpen(false);
+    clearInterval(checkUserActionTime);
+    const userData = JSON.parse(sessionStorage.userData);
+
+    const obj = {
+      url: URL_CONFIG.REFRESH_TOKEN,
+      method: "post",
+      payload: { "refreshToken": userData.refreshToken },
+    };
+    httpHandler(obj)
+      .then((response) => {
+      const newUserData = {...userData, ...response.data}
+      sessionStorage.userData = JSON.stringify(newUserData);
+      sessionStorage.loggedInTime = new Date().getTime();
+      checkUserActionSession();
+      })
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  }
+
+  const history = useHistory();
+  const logoutHandler = () => {
+    const obj = {
+      url: URL_CONFIG.LOGOUT,
+      method: "post",
+      payload: {},
+    };
+    httpHandler(obj)
+      .then(() => {
+        sessionStorage.clear();
+        history.push("/login/signin");
+      })
+      .catch((error) => {
+        //const errMsg = error.response?.data?.message;
+        console.log("logoutHandler error", error);
+      });
+  };
+
+  return( 
+    <div>
+      {modalIsOpen && (
+          <EEPSessionTimeOutModal
+              data={showSessionTimeOutModal}
+              className={`modal-addmessage`}
+              SessionTimeOutFooterData={
+                <React.Fragment>
+                <Link
+                    to="#"
+                    type="button"
+                    className="eep-btn eep-btn-warning-dark"
+                    onClick={logoutHandler}
+                >
+                    Logout
+                </Link>
+                <Link to="#" type="button" className="eep-btn eep-btn-success" onClick={SessionExtenHandler}>Continue</Link>
+              </React.Fragment>
+              }
+        ></EEPSessionTimeOutModal>
+      )}
+      <IdleTimer ref={idleTimeRef} 
+          timeout={config.refreshTime*60*1000} 
+          onIdle={onIdle}
+          onActive = {onAction}
+          onAction = {onAction}
+          Mousemove = {onAction}
+          >
+      </IdleTimer>
+    </div>
+  );
+}
+export default IdleTimerContainer;

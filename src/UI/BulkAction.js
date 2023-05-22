@@ -1,0 +1,75 @@
+import React from "react";
+import Select from "react-select";
+import classes from "../components/FormElements/Element.module.scss";
+
+const BulkAction = (props) => {
+
+  const { config, onClickCheckbox, onFilterChange, checkBoxInfo, bulkSubmitHandler } = props;
+
+  const customStyles = {  
+    control: (_, { selectProps: { width }}) => ({
+      width: width,
+      display:"flex"
+    }),
+  }
+
+  return (
+    <React.Fragment>
+      <div
+        className="input-group"
+        style={{
+          width: "inherit",
+          outline: "1px solid #dddddd",
+          borderRadius: "7px",
+        }}
+      >
+        <div
+          className="input-group-prepend align-self-center"
+          style={{ padding: "0px 0.5rem" }}
+        >
+          <input 
+            type="checkbox" 
+            name="bulkUpdt"
+            onClick={(event) => onClickCheckbox(event)}
+          />
+        </div>
+        <Select
+          options={config.dropdownOptions}
+          placeholder=""
+          classNamePrefix="eep_select_common contact_number"
+          className={`form-control p-0 basic-single reloadSelectField  ${classes.formControl}`}
+          menuPlacement="bottom"
+          onChange={(event) => onFilterChange(event)}
+          defaultValue={config.defaultValue}
+          isDisabled={!checkBoxInfo.bulkState}
+          width="120px"
+          styles={customStyles}
+        />
+        <div className="input-group-append">
+          {/* <span
+            className="input-group-text c1"
+            style={{
+              padding: "0.2rem 0.5rem",
+              border: "unset",
+              backgroundColor: "#588e21",
+              color: "#ffffff",
+              userSelect: "none",
+            }}
+          >
+            Go
+          </span> */}
+          <button
+            // className="eep-btn eep-btn-go c1"
+            className={`eep-btn eep-btn-go ${!checkBoxInfo.bulkState ? "cursor_default" : ""}`}
+            disabled={!checkBoxInfo.bulkState}
+            onClick={bulkSubmitHandler}
+          >
+            Go
+          </button>
+          
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
+export default BulkAction;

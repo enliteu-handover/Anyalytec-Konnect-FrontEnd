@@ -1,0 +1,455 @@
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import LikedInfoModal from "../../modals/LikedInfoModal";
+import SocialWallCommentsList from "./SocialWallCommentsList";
+import Heart from "../../UI/CustomComponents/Heart";
+
+const SocialWallMiddleContent = (props) => {
+  const { socialWallList, usersPicProps, likeSocialWallPostHandle, commentSocialWallPostHandle, likeStatus } = props;
+  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+  const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+  const initSocialWallList = socialWallList ? socialWallList : [];
+  const [socialWallData, setSocialWallData] = useState(initSocialWallList);
+  const [likedModalData, setLikedModalData] = useState([]);
+  const [replyValue, setReplyValue] = useState("");
+  const maxLikedCount = 3;
+  const defaultProfilePic = process.env.PUBLIC_URL + "/images/user_profile.png";
+  const [subChildrenParent, setSubChildrenParent] = useState({});
+
+  useEffect(() => {
+    setSocialWallData(socialWallList);
+  }, [socialWallList]);
+
+  let userPicIndex;
+  const getUserPicture = (uID) => {
+    userPicIndex = usersPicProps.findIndex((x) => x.id === uID);
+    return userPicIndex !== -1 ? usersPicProps[userPicIndex].pic : defaultProfilePic;
+  };
+
+  const getRewardType = (arg) => {
+    let typeArr = [
+      { type: 1, value: "badge" },
+      { type: 3, value: "award" },
+    ];
+    if (arg) {
+      let myVar = "";
+      typeArr.map((item) => {
+        if (item.type === arg) {
+          myVar = item.value;
+        }
+      });
+      return myVar;
+    }
+  };
+
+  const getHashTag = (arg) => {
+    const arr = [];
+    arg.map((res) => {
+      arr.push({ id: res.id, name: res.hashtagName });
+    });
+    return arr;
+  };
+
+  const likeSocialWallHandler = (arg, i) => {
+    likeSocialWallPostHandle({ isLike: true, data: arg, indx: i });
+  };
+
+  const unLikeSocialWallHandler = (arg, i) => {
+    likeSocialWallPostHandle({ isLike: false, data: arg, indx: i });
+  };
+
+  const commentStateHandler = (indx) => {
+    let postCommentID = "postComment_" + indx;
+    const socialWallDataTemp = JSON.parse(JSON.stringify(socialWallData));
+    for (let i = 0; i < socialWallDataTemp.length; i++) {
+      if (i === indx) {
+        socialWallDataTemp[i].commentState.typeCommentState = !socialWallDataTemp[i].commentState.typeCommentState;
+        setTimeout(() => {
+          if (socialWallDataTemp[i].commentState.typeCommentState) {
+            document.getElementById(postCommentID).focus();
+          }
+        }, 10);
+        break;
+      }
+    }
+    setSocialWallData([...socialWallDataTemp]);
+  };
+
+  const subFn = (res, item) => {
+    if (res.id === item.id) {
+      const obj = { ...item };
+      obj.commentState.typeCommentState = !obj.commentState.typeCommentState;
+      res = obj;
+      if (obj.commentState.typeCommentState) {
+        setTimeout(() => {
+          document.getElementById('postReply_' + item.id).focus();
+        }, 100)
+      }
+      return res;
+    }
+    for (var i = 0; i < res.children.length; i++) {
+      if (res.children[i].children.length) {
+        subFn(res.children[i], item);
+      }
+    }
+  }
+
+  const getSubChildrenParent = (arg) => {
+    setSubChildrenParent(arg);
+  }
+
+  const replyStateHandler = (arg) => {
+    if (arg.topLevelReply) {
+      setSocialWallData((prevState) => {
+        const socialWallDataTemp = [...prevState];
+        for (let i = 0; i < socialWallDataTemp[arg.parentIndex].wallComments.length; i++) {
+          if (socialWallDataTemp[arg.parentIndex].wallComments[i].id === arg.subItem.id) {
+            socialWallDataTemp[arg.parentIndex].wallComments[i].commentState.typeCommentState = !socialWallDataTemp[arg.parentIndex].wallComments[i].commentState.typeCommentState;
+            if (socialWallDataTemp[arg.parentIndex].wallComments[i].commentState.typeCommentState) {
+              setTimeout(() => {
+                document.getElementById("postReply_" + arg.subItem.id).focus();
+              }, 10);
+            }
+            break;
+          }
+        }
+        return socialWallDataTemp;
+      });
+    } else {
+      setSocialWallData((prevState) => {
+        const socialWallDataTemp = [...prevState];
+        for (let i = 0; i < socialWallDataTemp[arg.parentIndex].wallComments.length; i++) {
+          if (socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren && (socialWallDataTemp[arg.parentIndex].wallComments[i].id === subChildrenParent.id)) {
+            for (let j = 0; j < socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren.length; j++) {
+              if (socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren[j].id === arg.subItem.id) {
+                socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren[j].commentState.typeCommentState = !socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren[j].commentState.typeCommentState;
+                if (socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren[j].commentState.typeCommentState) {
+                  setTimeout(() => {
+                    document.getElementById("postReply_" + arg.subItem.id).focus();
+                  }, 10);
+                }
+                break;
+              }
+            }
+          }
+        }
+        return socialWallDataTemp;
+      });
+    }
+  };
+
+  const isEnlited = (arg) => {
+    const userData = sessionStorage.userData
+      ? JSON.parse(sessionStorage.userData)
+      : {};
+    let isLiked = arg.findIndex((x) => x.userId.id === userData.id);
+    if (isLiked === -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const likedModalHandler = (arg) => {
+    setLikedModalData(arg);
+  };
+
+  const commentHandler = (indx, e) => {
+    const socialWallDataTemp = JSON.parse(JSON.stringify(socialWallData));
+    for (let i = 0; i < socialWallDataTemp.length; i++) {
+      if (i === indx) {
+        socialWallDataTemp[i].commentValue = e.target.value;
+      }
+    }
+    setSocialWallData([...socialWallDataTemp]);
+  };
+
+  const replyHandler = (e) => {
+    setReplyValue(e.target.value);
+  };
+
+  const postCommentHandler = (arg, i) => {
+    if (arg.commentValue !== "") {
+      console.log("postCommentHandler Arg", arg);
+      commentSocialWallPostHandle({
+        postSettings: "postComment",
+        commentData: arg.commentValue,
+        data: arg,
+        indx: i,
+      });
+    }
+  };
+
+  const postReplyHandler = (arg, subArg, i, info = {}) => {
+    if (replyValue !== "") {
+      commentSocialWallPostHandle({
+        postSettings: "postReply",
+        commentData: replyValue,
+        data: arg,
+        subData: subArg,
+        indx: i,
+        info: info
+      });
+      setReplyValue("");
+    }
+  };
+
+  const viewAllComments = (arg, i) => {
+    commentSocialWallPostHandle({
+      postSettings: "listComments",
+      data: arg,
+      indx: i,
+    });
+  };
+
+  const lessComments = (arg, indx) => {
+    const socialWallDataTemp = JSON.parse(JSON.stringify(socialWallData));
+    for (let i = 0; i < socialWallDataTemp.length; i++) {
+      if (i === indx) {
+        socialWallDataTemp[i].commentState.listCommentState = false;
+      }
+    }
+    setSocialWallData([...socialWallDataTemp]);
+  };
+
+  const getReplyCounts = (replyData, rCount) => {
+    if (replyData.hasOwnProperty("children")) {
+      if (replyData["children"].length > 0) {
+        rCount += replyData["children"].length;
+        replyData["children"].map((item) => {
+          if (item["children"].length > 0) {
+            getReplyCounts(item, rCount);
+          }
+        });
+      }
+    }
+    return rCount;
+  }
+
+  const getSubChildren = (arg, ret) => {
+
+    for (var i = 0; i < arg.children.length; i++) {
+      arg.children[i]['prentInfo'] = { id: arg.id, message: arg.message, createdBy: arg.createdBy };
+      if (arg.children[i].createdAt) {
+        arg.children[i].createdAt = arg.children[i].createdAt;
+      }
+
+      ret.push(arg.children[i]);
+      if (arg.children[i].children.length) {
+        getSubChildren(arg.children[i], ret);
+      }
+    }
+    return ret;
+
+  }
+
+  const getCustomizedData = (data) => {
+    data.map((res) => {
+      res['subChildren'] = getSubChildren(res, []);
+    });
+    return data;
+  }
+
+  return (
+    <React.Fragment>
+      {likedModalData && (<LikedInfoModal likedModalData={likedModalData} usersPicData={usersPicProps} />)}
+
+      {socialWallData && socialWallData.length && socialWallData.sort((a, b) => (a.id < b.id) ? 1 : -1).map((item, index) => {
+        let rewdType = getRewardType(item.rewardId.type);
+        let hashArr = getHashTag(item.rewardId.hashTag);
+        return (
+          <div className="bg-f7f7f7 br-15 socialWall" key={"socialWall_" + index}>
+            <div className="socialWall_inner if need to remove">
+              <div className="sw_head mb-3 d-flex flex-wrap justify-content-between align-items-center">
+                <div className="sw_from_div d-flex flex-wrap align-items-center">
+                  <img src={(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? getUserPicture(item.rewardId.userId.id) : defaultProfilePic}
+                    className="sr_u_pic"
+                    alt="Profile Image"
+                    title={(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""}
+                  />
+                  <div className="sw_from">
+                    <div className="sw_from_data">
+                      <Link to="#" className="a_hover_txt_deco_none">
+                        <span className="sw_to_val sw_head_nms">{(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
+                      </Link>
+                      <span className="sw_head_con">was enlited by </span>
+                      <Link to="#" className="a_hover_txt_deco_none">
+                        <span className="sw_from_val sw_head_nms">{item.rewardId.createdBy.fullName} </span>
+                      </Link>
+                    </div>
+                    <div className="sw_from_time">
+                      <span className="sw_from_time_val">
+                        {item.createdAt}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="sw_pts">
+                  <span className="sw_pts_val font-helvetica-m">
+                    {item.rewardId[getRewardType(item.rewardId.type)].points}
+                  </span>
+                  <span className="sw_pts_type font-helvetica-m">pt(s)</span>
+                </div>
+              </div>
+              <div className="sw_body bg-white br-10">
+                <div className="sw_msg_div d-flex flex-sm-wrap flex-md-nowrap justify-content-between align-items-start mb-3">
+                  <div className="sw_msg col-md-8 col-lg-9">
+                    <p className="sw_msg_val mb-0">
+                      <span className="font-helvetica-m">@{(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
+                      <span> {item.rewardId.description} </span>
+                      <span>
+                        {hashArr && hashArr.length > 0 && hashArr.map((item, index) => {
+                          return (
+                            <Link to="#" key={"hashTag_" + index}>
+                              #{item.name}{" "}
+                            </Link>
+                          );
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="sw_iconic col-md-4 col-lg-3">
+                    <div className="d-flex flex-column align-items-center">
+                      <img src={item.rewardId.imageByte !== null && item.rewardId.imageByte !== "" ? item.rewardId.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                        className="d_achievements_img sw_iconic_img"
+                        alt="Reward Icon"
+                        title={item.rewardId[rewdType].name}
+                      />
+                      <p className="sw_iconic_nm mb-0 text-center">
+                        {item.rewardId[rewdType].name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="sw_comments_div">
+                  {item.socialWallLike && item.socialWallLike.length > 0 && (
+                    <div className="sw_enlited_lists d-flex flex-wrap align-items-center mb-3">
+                      <div className="sw_enlited_pics mr-3">
+                        <ul className="mb-0 ml-3 pl-0">
+                          {item.socialWallLike && item.socialWallLike.length > 0 && item.socialWallLike.map((item, index) => {
+                            if (index < maxLikedCount) {
+                              return (
+                                <li key={"LikedPic_" + index}>
+                                  <img src={getUserPicture(item.userId.id)} className="img-fluid sr_rank_pic" alt="User" title={item.userId.firstname + " " + item.userId.lastname} />
+                                </li>
+                              );
+                            }
+                          })}
+                        </ul>
+                      </div>
+                      <div className="sw_enlited_nm">
+                        <span className="enlited_lbl">Liked By </span>
+                        {item.socialWallLike && item.socialWallLike.length > 0 && item.socialWallLike.map((like, index) => {
+                          if (index < maxLikedCount) {
+                            return (
+                              <Link to="#" className="enlited_nms a_hover_txt_deco_none" key={"Likeduse_" + index}>
+                                <span> {like.userId.firstname + " " + like.userId.lastname} {item.socialWallLike.length > 1 && index < maxLikedCount ? ", " : ""} </span>
+                              </Link>
+                            );
+                          }
+                        })}
+                        {item.socialWallLike && item.socialWallLike.length > maxLikedCount && (
+                          <React.Fragment>
+                            <span> and </span>
+                            <Link to="#" data-toggle="modal" data-target="#LikedInfoModal" onClick={() => likedModalHandler(item.socialWallLike)}>
+                              <span> {item.socialWallLike.length - maxLikedCount} others </span>
+                            </Link>
+                          </React.Fragment>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="sw_enlite_actions_div">
+                    <div className="sw_enlite_actions d-flex flex-wrap justify-content-between align-items-center">
+                      {!item.commentState.listCommentState && (
+                        <div className="enlite_view_comments enlite_view_less_comments c1" onClick={() => viewAllComments(item, index)}>
+                          {item.commentsCount > 0 && (
+                            <span>View all <span>{item.commentsCount}</span> comment(s)</span>
+                          )}
+                        </div>
+                      )}
+                      {item.commentState.listCommentState && (
+                        <React.Fragment>
+                          <div className="enlite_view_comments enlite_view_less_comments c1" onClick={() => lessComments(item, index)}>
+                            <span>Less comment(s) </span>
+                          </div>
+                        </React.Fragment>
+                      )}
+
+                      <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item.socialWallLike) ? "" : "clicked"}`}>
+                        {/* liked_heart  ${isEnlited(item.socialWallLike) ? "clicked" : ""} */}
+                        {isEnlited(item.socialWallLike) && (
+                          <div className="enlite_action_icon mr-2 c1" onClick={() => likeSocialWallHandler(item, index)}>
+                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon, }}></span>
+                          </div>
+                        )}
+                        {!isEnlited(item.socialWallLike) && (
+                          <div className="enlite_action_icon mr-2 c1 fd_enlided_icon" onClick={() => unLikeSocialWallHandler(item, index)}>
+                            {/* fd_enlided_icon */}
+                            {likeStatus.statee && (item.id === likeStatus.id) && <Heart />}
+                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon, }}></span>
+                          </div>
+                        )}
+                        <div className="enlite_action_icon c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.s_message_icon, }}
+                          onClick={() => commentStateHandler(index)}
+                        ></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                {item.commentState.listCommentState && (
+                  <div className="swCommentLists">
+                    <SocialWallCommentsList
+                      comments={getCustomizedData(item.wallComments)}
+                      getUserPicture={getUserPicture}
+                      replyStateHandler={replyStateHandler}
+                      type={{ section: 'parent', index: index, data: item }}
+                      replyHandler={replyHandler}
+                      postReplyHandler={postReplyHandler}
+                      wallId={item}
+                      parentIndex={index}
+                      getSubChildrenParent={getSubChildrenParent}
+                    />
+                  </div>
+                )}
+              </div>
+              {item.commentState.typeCommentState && (
+                <div className="sw_post_comment_div mt-3">
+                  <div className="d-flex">
+                    <img
+                      src={getUserPicture(userData.id)}
+                      className="sr_rank_pic"
+                      alt="Profile Image"
+                    />
+
+                    <div className="input-group sw_post_comment">
+                      <textarea
+                        className="form-control sw_textarea postComment"
+                        id={"postComment_" + index}
+                        rows="1"
+                        maxLength={120}
+                        placeholder="Add a comment..."
+                        onChange={(e) => commentHandler(index, e)}
+                      ></textarea>
+                      <div
+                        className="input-group-addon postCommentSubmit c1"
+                        onClick={() => postCommentHandler(item, index)}
+                      >
+                        <span className="addon_clr">Post</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </React.Fragment>
+  );
+};
+export default SocialWallMiddleContent;
