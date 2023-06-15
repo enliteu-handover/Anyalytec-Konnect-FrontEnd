@@ -6,9 +6,10 @@ const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefi
   //LoaderHandler('show');
   isLoader ? LoaderHandler('show') : LoaderHandler('hide');
 
-  const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}/${REST_CONFIG.RESTAPPNAME}${url}`;
-  //const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}${url}`;
-  
+  // const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}/${REST_CONFIG.RESTAPPNAME}${url}`;
+  // const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}${url}`;
+  const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}${url}`;
+
   /*
   if (method === "get") {
     return axios[method](finalUrl, { params });
@@ -16,25 +17,25 @@ const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefi
     return axios[method](finalUrl, payload);
   }
   */
-    
+
   if (method === "get") {
     return axios[method](finalUrl, { params });
   }
-  else if(method === "post" || method === "put") {
-    if(formData !== undefined) {
+  else if (method === "post" || method === "put") {
+    if (formData !== undefined) {
       return axios[method](finalUrl, formData);
     } else {
-      return axios[method](finalUrl, payload);  
+      return axios[method](finalUrl, payload);
     }
   }
   else {
     return axios[method](finalUrl, payload);
   }
-  
+
 };
 
 axios.interceptors.request.use(function (config) {
-  const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};  
+  const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const isLoggedIn = userData.accessToken
     ? userData.accessToken
     : "";
@@ -54,9 +55,9 @@ axios.interceptors.response.use(
 
   (err) => {
     LoaderHandler('hide');
-    if(err?.response?.data.status === '401') {
+    if (err?.response?.data.status === '401') {
       ErrorHandling()
-    
+
     }
     return Promise.reject(err);
   }
@@ -69,7 +70,7 @@ axios.interceptors.response.use(
   },
   (err) => {
     LoaderHandler('hide');
-    if(err?.response?.data.status === 401) {
+    if (err?.response?.data.status === 401) {
       ErrorHandling()
     }
     return Promise.reject(err);
@@ -85,11 +86,11 @@ const ErrorHandling = () => {
 
 const LoaderHandler = (arg) => {
   const element = document.getElementById('loader-container');
-  element.classList.remove('d-none','d-block');
-  
-  if(arg === 'show'){
+  element.classList.remove('d-none', 'd-block');
+
+  if (arg === 'show') {
     element.classList.add('d-block');
-  } else{
+  } else {
     element.classList.add('d-none');
   }
 
