@@ -67,15 +67,26 @@ const LoginForm = () => {
 
     if (formIsValid) {
       const obj = {
-        url: URL_CONFIG.LOGIN,
+        url: URL_CONFIG.AUTH_LOGIN_URL,
         method: "post",
         payload: options1,
-        isLoader: true
+        isLoader: true,
+        isAuth: true
       };
       httpHandler(obj)
-        .then((userData) => {
-          sessionStorage.userData = JSON.stringify(userData.data);
+        .then(async (userData) => {
+          debugger
+          // {"refreshToken":"811c621e-c57f-4a3d-8d48-e7a3da0cafb2","id":1,"username":"Administrator","email":"support@teckonnect.com","fullName":"System Administrator","accessToken":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODIyMDE4LCJleHAiOjE2ODY4MjM4MTh9.vHeJXqbDVhJfrsatwjJKzERqaVTS9EWXDwry9-J74tKpkezY6MFKXyhzjcCCZ1UgVmqfRwTe6KxCc1VnjWeB0A","tokenType":"Bearer"}
+          sessionStorage.userData = JSON.stringify({
+            "id": userData.data.data.user?.id, "username": userData?.data?.data?.user?.username,
+            "email": userData?.data?.data?.user?.email_id,
+            "fullName": userData?.data?.data?.user?.username,
+            "tokenType": "Bearer",
+            accessToken: userData?.data?.data?.token
+            // accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODI0NTE1LCJleHAiOjE2ODY4MjYzMTV9.J-C3XMTogyhBQR-00LkHhBS20MeoiPNrpsCoaRRN_CCxQkPldYnv9vx7tpS5r3leRROgbg8DUtHTjRay16b04g"
+          });
           sessionStorage.loggedInTime = new Date().getTime();
+          await updateToLoginUserTokenHandler(userData?.data?.data?.token)
           history.push("/app/dashboard");
         })
         .catch((error) => {
@@ -85,6 +96,18 @@ const LoginForm = () => {
           setLoginError(errMsg);
         });
     }
+  };
+
+  const updateToLoginUserTokenHandler = async (token) => {
+
+    const obj = {
+      url: URL_CONFIG.TOKEN_UPDATE,
+      method: "post",
+      payload: { token: token ?? localStorage.getItem("deviceToken") },
+      isLoader: true
+    };
+
+    await httpHandler(obj);
   };
 
   const nameInputClasses = nameInputIsInvalid ? `${classes.invalid}` : "";

@@ -2,13 +2,14 @@ import axios from "axios";
 import { REST_CONFIG } from "../constants/rest-config";
 // import { history } from "../App";
 
-const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefined, isLoader = true }) => {
+const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefined, isLoader = true, isAuth }) => {
   //LoaderHandler('show');
   isLoader ? LoaderHandler('show') : LoaderHandler('hide');
 
   // const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}/${REST_CONFIG.RESTAPPNAME}${url}`;
   // const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}${url}`;
-  const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}${url}`;
+  const finalUrl = !isAuth ? `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${url}`
+    : `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL_AUTH}${url}`;
 
   /*
   if (method === "get") {
@@ -35,12 +36,16 @@ const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefi
 };
 
 axios.interceptors.request.use(function (config) {
+  debugger
   const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const isLoggedIn = userData.accessToken
     ? userData.accessToken
     : "";
-  if (isLoggedIn) {
-    config.headers["Authorization"] = `Bearer ${isLoggedIn}`;
+  if (config?.data?.tokenValue) {
+    delete config?.data?.tokenValue
+  }
+  if (isLoggedIn || config?.data?.tokenValue) {
+    config.headers["Authorization"] = `Bearer ${isLoggedIn || config?.data?.tokenValue}`;
   }
 
   return config;

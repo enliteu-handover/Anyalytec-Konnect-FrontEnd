@@ -15,8 +15,8 @@ const ChangePassword = () => {
     ? "/images/pw_hide.svg"
     : "/images/pw_show.svg";
 
-  const authResult = new URLSearchParams(window.location.search);
-  const tokenValue = authResult.get('token');
+  // const authResult = new URLSearchParams(window.location.search);
+  // const tokenValue = authResult.get('token');
 
   const [disable, setDisable] = useState(true);
   const [passWord, setPassword] = useState("");
@@ -86,16 +86,20 @@ const ChangePassword = () => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-
+    const params = new URLSearchParams(window.location.search).get('token');
     let options1 = {
-      token: tokenValue,
-      newPassword: passWord,
-      confirmPassword: cPassWord
+      // token: tokenValue,
+      tokenValue: params,
+      // newPassword: passWord,
+      // confirmPassword: cPassWord
+      // old_password: passWord,
+      new_password: passWord,
+      isAuth: true
     };
 
     if (formIsValid) {
       const obj = {
-        url: URL_CONFIG.RESETPASSWORD,
+        url: URL_CONFIG.RESETPASSWORD_AUTH,
         method: "post",
         payload: options1,
       };

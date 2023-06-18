@@ -61,6 +61,7 @@ const UpdateProfileModal = () => {
     if (currentPassWordTouched) {
       //console.log("AKAKAK notes. Have to restrict the character length like min and max");
     }
+    debugger
     if (newPassWordTouched && confirmPassWordTouched) {
       setPWDResponseClassName("");
       setPWDResponseErr("");
@@ -122,19 +123,22 @@ const UpdateProfileModal = () => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+    // const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
     let options = {
-      userId: userData.id,
-      currentPassword: currentPassword,
-      newPassword: newPassword
+      // userId: userData.id,
+      // currentPassword: currentPassword,
+      // newPassword: newPassword,
+      new_password: newPassword,
+      old_password: currentPassword
     };
 
     if (formIsValid) {
       const obj = {
-        url: URL_CONFIG.UPDATEPASSWORD,
-        method: "put",
+        url: URL_CONFIG.AUTH_REST_PASSWORD_URL,
+        method: "patch",
         payload: options,
+        isAuth: true
       };
       httpHandler(obj)
         .then((resp) => {
@@ -155,7 +159,7 @@ const UpdateProfileModal = () => {
   };
 
   const contactNumberChangeHandler = (event) => {
-    if(!isNaN(+event.target.value)) {
+    if (!isNaN(+event.target.value)) {
       setContactNumber(event.target.value);
     }
   };
@@ -236,7 +240,7 @@ const UpdateProfileModal = () => {
                         <label className="font-helvetica-m c-404040 control-label eep_popupLabelMargin mr-2" htmlFor="password" >
                           New Password
                         </label>
-                        <span className="" data-tip="The minimum password length is 8 characters and must contain at least 1 lowercase letter, 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon}}></span>
+                        <span className="" data-tip="The minimum password length is 8 characters and must contain at least 1 lowercase letter, 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon }}></span>
                         <div className="input-group field-wbr" id="show_hide_password">
                           <input className="form-control  pr-password" type={toggleNewPWIcon ? "password" : "text"} id="Newpassword" name="u_upassword" autoComplete="new-password" placeholder="New Password" onChange={newPWDChangeHandler} value={newPassword} maxLength={passMaxLength} />
                           <div className="input-group-addon">

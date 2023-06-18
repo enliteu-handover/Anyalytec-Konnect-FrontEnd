@@ -30,29 +30,44 @@ const ForgotPassword = () => {
   const formSubmitHanlder = (event) => {
     setEmailTouched(true);
     setDisable(true);
-    if(IsValidEmail) {
+    if (IsValidEmail) {
       const obj = {
-        url: `${URL_CONFIG.FORGOTPASSWORD}?email=${enteredEmail}`,
+        // url: `${URL_CONFIG.FORGOTPASSWORD}?email=${enteredEmail}`,
+        url: URL_CONFIG.AUTH_FORGOT_PASSWORD_URL,
         method: "post",
+        payload: { email_id: enteredEmail },
+        isAuth: true
       };
       httpHandler(obj)
-      .then((response) => {
-        console.log("response", response);
-        setEnteredEmail("");
-        const resMsg = response?.data?.message;
-        checkResponseClassName("response-succ");
-        checkResponseMsg(resMsg);
-        setEmailTouched(false);
-        setDisable(false);
-      })
-      .catch((error) => {
-        console.log("error", error);
-        const errMsg = error?.response?.data?.message;
-        checkResponseClassName("response-err");
-        checkResponseMsg(errMsg);
-      });
+        .then(async (response) => {
+          debugger
+          console.log("response", response);
+          setEnteredEmail("");
+          const resMsg = response?.data?.message;
+          checkResponseClassName("response-succ");
+          checkResponseMsg(resMsg);
+          setEmailTouched(false);
+          setDisable(false);
+          await sentEmail(response?.data?.data?.token, enteredEmail)
+        })
+        .catch((error) => {
+          console.log("error", error);
+          const errMsg = error?.response?.data?.message;
+          checkResponseClassName("response-err");
+          checkResponseMsg(errMsg);
+        });
     }
     event.preventDefault();
+  };
+
+  const sentEmail = (token, email) => {
+    const obj = {
+      url: URL_CONFIG.AUTH_FORGOT_PASSWORD_EMAIL_URL,
+      method: "post",
+      payload: { email, token }
+    };
+    httpHandler(obj)
+      .then((response) => { })
   };
 
   const emailInputClass = emailInputIsInvalid ? `${classes.invalid}` : "";

@@ -26,19 +26,17 @@ const REST_CONFIG = {
 
   BASEURL: "dev-enliteu-api.crayond.com",
   METHOD: "https",
-  PORT: 443,
-  RESTAPPNAME: "teckonnect",
+  BASEURL_AUTH: "dev-auth-enliteu.crayond.com",
 
-
-  FIREBASE_API_KEY: "AIzaSyCANqO6D4SlhG1CrGRksD3p2SIA4Pg-nX8",
-  FIREBASE_AUTH_DOMAIN: "health-circles-bf71b.firebaseapp.com",
-  FIREBASE_PROJECT_ID: "health-circles-bf71b",
-  FIREBASE_STORAGE_BUCKET: "health-circles-bf71b.appspot.com",
-  FIREBASE_MESSAGING_SENDER_ID: "470834296777",
-  FIREBASE_APP_ID: "1:470834296777:web:8947c4648082386d5c5a18",
-  FIREBASE_VAPIDKEY: "BHAeFhXXpX0pJWxXwMckY1oYutpguNXy45d5s7XyiDMgs3Au0MNOI_6Liq_AHc_cdCFYMWsh17af9G0YGyZBN2U",
-  SENTRY_AUTH_TOKEN: "c92f19710cc64eceac18d740976127f2457f1bf6851c4c5a8fcc55964077258c",
-  FIREBASE_MEASUREMENT_ID: ""
+  FIREBASE_API_KEY: "AIzaSyB-aEYjSIMXtAI7Z7jILhrR81quV9L319s",
+  FIREBASE_AUTH_DOMAIN: "enliteu-crayond.firebaseapp.com",
+  FIREBASE_PROJECT_ID: "enliteu-crayond",
+  FIREBASE_STORAGE_BUCKET: "enliteu-crayond.appspot.com",
+  FIREBASE_MESSAGING_SENDER_ID: "16677502716",
+  FIREBASE_APP_ID: "1:16677502716:web:8791605d0ee88792912179",
+  FIREBASE_MEASUREMENT_ID: "G-T4PFZZTKZV",
+  FIREBASE_VAPIDKEY: "BBhlYcWVhn72B-x0BD23CdxbXBuHC-w53LEaYWlgavcDZtwNLKF4U8WxkPWTVKq1Cr9dJodk9eijUmeBiCGucu8",
+  SENTRY_AUTH_TOKEN: "AAAAA-IOfvw:APA91bHD3MRQVpB07MmveEhJsATsXulXsRX_zOEL_8ceoPws4BDgeaRYcFwqb0ViQ1KbL2_zZ_HaTxRla6gbN0XCQyNugouqBKAwSFaGOSnyRrz6T_oZr3P0uFplJBp2IqNq2hglcwmy",
 };
 
 // QA Instance Apache 9 Demo purpose
@@ -189,7 +187,14 @@ const URL_CONFIG = {
   NOTIFICATIONs_DELETE: "/notification/delete",
   TOUR: "/users/tour",
   TOUR_UPDATE: "/users/projecttour",
-  SEARCH: "/users/search"
+  SEARCH: "/users/search",
+  TOKEN_UPDATE: "/users/set_device_token",
+
+  AUTH_LOGIN_URL: "/api/v1/auth/login",
+  AUTH_REST_PASSWORD_URL: "/api/v1/auth/reset_password",
+  AUTH_FORGOT_PASSWORD_URL: "/api/v1/auth/forgot_password",
+  AUTH_FORGOT_PASSWORD_EMAIL_URL: "/api/v1/auth/forgot_password_mail",
+  RESETPASSWORD_AUTH: "/api/auth/reset_password",
 };
 
 export { REST_CONFIG, URL_CONFIG };

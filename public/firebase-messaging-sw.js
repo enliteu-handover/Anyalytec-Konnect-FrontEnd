@@ -6,12 +6,13 @@ importScripts(
 );
 
 firebase.initializeApp({
-    apiKey: 'AIzaSyCANqO6D4SlhG1CrGRksD3p2SIA4Pg-nX8',
-    authDomain: 'health-circles-bf71b.firebaseapp.com',
-    projectId: 'health-circles-bf71b',
-    storageBucket: 'health-circles-bf71b.appspot.com',
-    messagingSenderId: '470834296777',
-    appId: '1:470834296777:web:8947c4648082386d5c5a18',
+    apiKey: "AIzaSyB-aEYjSIMXtAI7Z7jILhrR81quV9L319s",
+    authDomain: "enliteu-crayond.firebaseapp.com",
+    projectId: "enliteu-crayond",
+    storageBucket: "enliteu-crayond.appspot.com",
+    messagingSenderId: "16677502716",
+    appId: "1:16677502716:web:8791605d0ee88792912179",
+    measurementId: "G-T4PFZZTKZV"
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
