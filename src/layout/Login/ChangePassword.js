@@ -85,6 +85,7 @@ const ChangePassword = () => {
   };
 
   const formSubmissionHandler = (event) => {
+    debugger
     event.preventDefault();
     const params = new URLSearchParams(window.location.search).get('token');
     let options1 = {
@@ -94,7 +95,6 @@ const ChangePassword = () => {
       // confirmPassword: cPassWord
       // old_password: passWord,
       new_password: passWord,
-      isAuth: true
     };
 
     if (formIsValid) {
@@ -102,6 +102,7 @@ const ChangePassword = () => {
         url: URL_CONFIG.RESETPASSWORD_AUTH,
         method: "post",
         payload: options1,
+        isAuth: true
       };
       httpHandler(obj)
         .then(() => {

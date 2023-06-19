@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classes from "./Table.module.scss";
 const Table = (props) => {
+  const [search, setSearch] = useState('');
   const tableClasses = props?.tableProps ? props.tableProps.classes : "";
 
   const tableId = props?.tableProps ? props.tableProps.tableId : "";
@@ -60,6 +61,7 @@ const Table = (props) => {
     return value;
   };
 
+  const filterData = search ? tableData?.filter(v => v?.name?.toLowerCase()?.includes(search?.toLowerCase())) : tableData;
   return (
     <React.Fragment>
       <div className="row">
@@ -89,7 +91,7 @@ const Table = (props) => {
           </div>
         </div>
         <div className="col-sm-12 col-md-6 text-right">
-          <div id="user_dataTable_filter" className={"filter_"+classes.dataTables_filter}>
+          <div id="user_dataTable_filter" className={"filter_" + classes.dataTables_filter}>
             <label>
               <div className="input-group">
                 <input
@@ -97,6 +99,7 @@ const Table = (props) => {
                   className="form-control form-control-sm"
                   placeholder="Search..."
                   aria-controls="user_dataTable"
+                  onChange={(e) => setSearch(e.target.value)}
                 />
                 <div className="input-group-addon" style={{ right: "0px" }}>
                   <img src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`} alt="Search" />
@@ -114,13 +117,13 @@ const Table = (props) => {
         <thead>
           <tr role="row">
             {tableHeaders.length &&
-              tableHeaders.map((thead,indx) => (
+              tableHeaders.map((thead, indx) => (
                 <th
                   className={
-                    thead.fieldValue !== "action" ? `${thead.sortType === "asc" ? "sorting_asc" : thead.sortType === "desc" ? "sorting_desc" : "sorting" }` : "eepAction_th"
+                    thead.fieldValue !== "action" ? `${thead.sortType === "asc" ? "sorting_asc" : thead.sortType === "desc" ? "sorting_desc" : "sorting"}` : "eepAction_th"
                   }
                   //key={thead.fieldValue}
-                  key={"thData_"+indx}
+                  key={"thData_" + indx}
                   onClick={() => onSortChange(thead)}
                 >
                   {thead.fieldLabel}
@@ -129,13 +132,13 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {tableData.length > 0 &&
-            tableData.map((data, index) => {
+          {filterData?.length > 0 &&
+            filterData?.map((data, index) => {
               return (
                 <tr
                   className={index % 2 === 0 ? "odd" : "even"}
                   //key={`${index}_row`}
-                  key={"row_"+index}
+                  key={"row_" + index}
                 >
                   {tableHeaders.map((thead, ind) => {
                     // thead.fieldValue && thead.fieldValue === "action" ? (
@@ -156,7 +159,7 @@ const Table = (props) => {
                           <td>
                             {thead.component && (
                               <React.Fragment>
-                                {React.cloneElement(thead.component, {data:data})}
+                                {React.cloneElement(thead.component, { data: data })}
                               </React.Fragment>
                             )}
                             {!thead.component && (
@@ -172,9 +175,9 @@ const Table = (props) => {
                 </tr>
               );
             })}
-            {tableData.length <= 0 && 
-              <tr className="odd"><td valign="top" colSpan={tableHeaders.length > 0 ? tableHeaders.length : 1} className="dataTables_empty text-center">No data available.</td></tr>
-            }
+          {tableData.length <= 0 &&
+            <tr className="odd"><td valign="top" colSpan={tableHeaders.length > 0 ? tableHeaders.length : 1} className="dataTables_empty text-center">No data available.</td></tr>
+          }
         </tbody>
       </table>
     </React.Fragment>

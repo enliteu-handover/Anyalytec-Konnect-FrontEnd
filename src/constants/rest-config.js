@@ -193,8 +193,8 @@ const URL_CONFIG = {
   AUTH_LOGIN_URL: "/api/v1/auth/login",
   AUTH_REST_PASSWORD_URL: "/api/v1/auth/reset_password",
   AUTH_FORGOT_PASSWORD_URL: "/api/v1/auth/forgot_password",
-  AUTH_FORGOT_PASSWORD_EMAIL_URL: "/api/v1/auth/forgot_password_mail",
-  RESETPASSWORD_AUTH: "/api/auth/reset_password",
+  AUTH_FORGOT_PASSWORD_EMAIL_URL: "/auth/forgot_password_mail",
+  RESETPASSWORD_AUTH: "/api/v1/auth/reset_password",
 };
 
 export { REST_CONFIG, URL_CONFIG };

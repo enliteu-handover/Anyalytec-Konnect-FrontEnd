@@ -45,6 +45,7 @@ const DeptActionsModal = (props) => {
       selectedValue: initDeptDatas.active ? options[0] : options[1],
     });
     setDeptMode(initDeptDatas.deptEditMode);
+    // setDeptMode(initDeptDatas.active);
 
     setTimeout(() => {
       setShowSelect(true);
@@ -86,7 +87,7 @@ const DeptActionsModal = (props) => {
     const obj = {
       url: URL_CONFIG.ADDDEPARTMENT,
       method: "put",
-      payload: payOptions,
+      payload: typeof payOptions === 'string' ? JSON.parse(payOptions) : payOptions,
     };
     //console.log("updateDepartmentHandler obj", obj);
     httpHandler(obj)

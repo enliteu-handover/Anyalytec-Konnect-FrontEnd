@@ -122,6 +122,7 @@ const UpdateProfileModal = () => {
   }, []);
 
   const formSubmissionHandler = (event) => {
+    debugger
     event.preventDefault();
     // const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
@@ -142,6 +143,7 @@ const UpdateProfileModal = () => {
       };
       httpHandler(obj)
         .then((resp) => {
+          debugger
           setCurrentPassword("");
           setNewPassword("");
           setConfirmPassword("");

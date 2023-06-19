@@ -41,13 +41,12 @@ axios.interceptors.request.use(function (config) {
   const isLoggedIn = userData.accessToken
     ? userData.accessToken
     : "";
-  if (config?.data?.tokenValue) {
-    delete config?.data?.tokenValue
-  }
   if (isLoggedIn || config?.data?.tokenValue) {
     config.headers["Authorization"] = `Bearer ${isLoggedIn || config?.data?.tokenValue}`;
   }
-
+  if (config?.data?.tokenValue) {
+    delete config?.data?.tokenValue
+  }
   return config;
 });
 

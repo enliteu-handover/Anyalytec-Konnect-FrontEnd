@@ -123,6 +123,7 @@ function ListDepartments() {
   }, [breadcrumbArr, dispatch]);
 
   const filterOnChangeHandler = (arg) => {
+    debugger
     fetchDepartmentData({ filterValue: arg });
   };
 

@@ -67,7 +67,11 @@ const ForgotPassword = () => {
       payload: { email, token }
     };
     httpHandler(obj)
-      .then((response) => { })
+      .then((response) => {
+        const resMsg = response?.data?.message;
+        checkResponseClassName("response-succ");
+        checkResponseMsg(resMsg);
+      })
   };
 
   const emailInputClass = emailInputIsInvalid ? `${classes.invalid}` : "";
