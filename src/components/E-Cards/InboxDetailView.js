@@ -146,7 +146,7 @@ const InboxDetailView = () => {
               <div className="item-box-blog">
                 <div className="item-box-blog-image">
                   <figure>
-                    <img src={item.imageByte.image} alt="Birthday-1" style={{ maxWidth: "100%" }} />
+                    <img src={item?.imageByte?.image} alt="Birthday-1" style={{ maxWidth: "100%" }} />
                   </figure>
                 </div>
                 <div className="item-box-blog-body">

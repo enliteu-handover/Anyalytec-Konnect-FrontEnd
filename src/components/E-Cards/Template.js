@@ -131,7 +131,7 @@ const Template = () => {
                           {cardTemplates.birthday.map((item, index) => {
                             return (
                               <div className="parent_slider_img" key={"birthdayTemplate_" + index}>
-                                <img src={item.imageByte.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
+                                <img src={item?.imageByte?.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
                               </div>
                             );
                           })}
@@ -165,7 +165,7 @@ const Template = () => {
                           {cardTemplates.anniversary.map((item, index) => {
                             return (
                               <div className="parent_slider_img" key={"anniversTemplate_" + index}>
-                                <img src={item.imageByte.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
+                                <img src={item?.imageByte?.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
                               </div>
                             );
                           })}
@@ -199,7 +199,7 @@ const Template = () => {
                           {cardTemplates.appreciation.map((item, index) => {
                             return (
                               <div className="parent_slider_img" key={"appreciationTemplate_" + index}>
-                                <img src={item.imageByte.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
+                                <img src={item?.imageByte?.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
                               </div>
                             );
                           })}
@@ -233,7 +233,7 @@ const Template = () => {
                           {cardTemplates.seasonal.map((item, index) => {
                             return (
                               <div className="parent_slider_img" key={"seasonalTemplate_" + index}>
-                                <img src={item.imageByte.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
+                                <img src={item?.imageByte?.image} className="slider_image" id={index} alt="E-Card" title={item.name} />
                               </div>
                             );
                           })}

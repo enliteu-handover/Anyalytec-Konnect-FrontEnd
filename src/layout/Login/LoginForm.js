@@ -10,7 +10,6 @@ const LoginForm = () => {
   const history = useHistory();
   const [togglePWIcon, setTogglePWIcon] = useState(true);
   const pwBgImage = togglePWIcon ? "/images/pw_hide.svg" : "/images/pw_show.svg";
-
   const [userName, setUserName] = useState("");
   const [userNameTouched, setUserNameTouched] = useState(false);
   const userNameIsValid = userName.trim() !== "";
@@ -75,7 +74,7 @@ const LoginForm = () => {
       };
       httpHandler(obj)
         .then(async (userData) => {
-          debugger
+          
           // {"refreshToken":"811c621e-c57f-4a3d-8d48-e7a3da0cafb2","id":1,"username":"Administrator","email":"support@teckonnect.com","fullName":"System Administrator","accessToken":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODIyMDE4LCJleHAiOjE2ODY4MjM4MTh9.vHeJXqbDVhJfrsatwjJKzERqaVTS9EWXDwry9-J74tKpkezY6MFKXyhzjcCCZ1UgVmqfRwTe6KxCc1VnjWeB0A","tokenType":"Bearer"}
           sessionStorage.userData = JSON.stringify({
             "id": userData.data.data.user?.id, "username": userData?.data?.data?.user?.username,
@@ -109,6 +108,7 @@ const LoginForm = () => {
 
     await httpHandler(obj);
   };
+
 
   const nameInputClasses = nameInputIsInvalid ? `${classes.invalid}` : "";
   const passwordInputClasses = passWordInputIsInvalid ? `${classes.invalid}` : "";

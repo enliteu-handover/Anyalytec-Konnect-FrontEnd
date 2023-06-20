@@ -5,6 +5,7 @@ import sharedDataSlice from "./shared-data-slice";
 import tabsSlice from "./tabs-slice";
 import errorHanldingSlice from "./error-handling";
 import toggleSidebarStateSlice from "./toggle-sidebar-state";
+import stateSlice from "./state";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     sharedData: sharedDataSlice.reducer,
     tabs: tabsSlice.reducer,
     errorHandling: errorHanldingSlice.reducer,
-    toggleState: toggleSidebarStateSlice.reducer
+    toggleState: toggleSidebarStateSlice.reducer,
+    storeState: stateSlice.reducer
   },
 });
 

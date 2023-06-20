@@ -60,10 +60,10 @@ const RewardInfoModal = (props) => {
                       return (
                         <div className="gride_container" key={"users_info_reward" + index}>
                           <div className="userPic">
-                            <img src={item.imageByte.image} className="sr_rank_pic" alt={item.imageByte.name} title={item.imageByte.name} />
+                            <img src={item?.imageByte?.image} className="sr_rank_pic" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                           </div>
-                          <div className="userName eep_truncate_min eep_truncate" title={item.imageByte.name}>
-                            {item.imageByte.name}
+                          <div className="userName eep_truncate_min eep_truncate" title={item?.imageByte?.name}>
+                            {item?.imageByte?.name}
                           </div>
                           <div className="useracheivedCount eep_truncate_min eep_truncate">
                             {item.acheivedCount}

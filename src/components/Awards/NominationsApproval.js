@@ -41,11 +41,11 @@ const NominationsApproval = () => {
       .then((response) => { 
         let userPicTempArry = [];
         response.data.map((item) => {
-          if(item.imageByte?.image) {
+          if(item?.imageByte?.image) {
             userPicTempArry.push(
               {
                 "id":item.id,
-                "pic":item.imageByte?.image
+                "pic":item?.imageByte?.image
               }
             )
           }

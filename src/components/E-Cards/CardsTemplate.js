@@ -273,8 +273,8 @@ useEffect(() => {
                             <div className={`card-img_div ${item.scheduled ? "card-img_div_selected" : ""}`}>
                               <img 
                                 className={`card-img ${item.scheduled ? "c_selected" : ""}`} 
-                                src={item.imageByte.image} 
-                                alt={item.imageByte.name} 
+                                src={item?.imageByte?.image} 
+                                alt={item?.imageByte?.name} 
                                 title={item.name} 
                                 onClick={() => handleScheduleState(item)}
                               />                    
@@ -304,7 +304,7 @@ useEffect(() => {
                     return (
                       <div className="Portfolio col-md-3 mb-3" key={"Temp_"+index}>
                         <div className="card-img_div card-img_div_selected">
-                          <img className="card-img c_selected" src={item.imageByte.image} alt={item.imageByte.name} title={item.name} />                    
+                          <img className="card-img c_selected" src={item?.imageByte?.image} alt={item?.imageByte?.name} title={item.name} />                    
                         </div>
                         <div className="delete_template_div">
                           <Link to="#">
@@ -338,8 +338,8 @@ useEffect(() => {
                   <div className="card-img_div">
                     <img 
                       className="card-img"
-                      src={item.imageByte.image} 
-                      alt={item.imageByte.name} 
+                      src={item?.imageByte?.image} 
+                      alt={item?.imageByte?.name} 
                       title={item.name} 
                     />                    
                   </div>

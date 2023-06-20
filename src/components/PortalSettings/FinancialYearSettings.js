@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from "react";
 
-const FinancialYearSettings = () => {
+const FinancialYearSettings = (props) => {
 
   const [monthList, setMonthList] = useState([]);
 
   const yearSelectHandler = (argindex) => {
+    
     let yearTempObj = monthList;
     yearTempObj.map((val, index) => {
       if (index === argindex) {
         val.isSelected = true;
+        val.index = index + 1
       } else {
         val.isSelected = false;
       }
       setMonthList([...yearTempObj]);
     });
+    props.setState({ ...props.state, ['financialYear']: yearTempObj?.find(v => v.isSelected)?.index })
   }
 
   const fetchMonthData = () => {
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {
-        setMonthList(data.months);
+        if (props?.state?.financialYear) {
+          const date = data?.months.map((v, i) => {
+            if (props?.state?.financialYear === (i + 1)) {
+              v.isSelected = true;
+            } else {
+              v.isSelected = false;
+            }
+            return v
+          })
+          setMonthList([...date]);
+        } else { setMonthList(data.months); }
       });
   };
 

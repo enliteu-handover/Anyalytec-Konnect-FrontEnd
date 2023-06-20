@@ -1,6 +1,6 @@
 import React from "react";
 
-const ColorSettings = () => {
+const ColorSettings = (props) => {
 
   const theamSelectHandler = (arg) => {
     let removeClassName = document.querySelectorAll(".theam_container");
@@ -9,7 +9,21 @@ const ColorSettings = () => {
     }
     let addClassName = document.getElementById(arg);
     addClassName.classList.add("active-setting");
+
+    props.setState({ ...props.state, ['color']: arg })
   }
+
+  React.useEffect(() => {
+    
+    if (props?.state?.color) {
+      let removeClassName = document.querySelectorAll(".theam_container");
+      for (var i = 0; i < removeClassName.length; i++) {
+        removeClassName[i].classList.remove('active-setting');
+      }
+      let addClassName = document.getElementById(props.state.color);
+      addClassName.classList.add("active-setting");
+    }
+  }, [])
 
   return (
     <React.Fragment>

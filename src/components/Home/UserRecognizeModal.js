@@ -130,7 +130,7 @@ const UserRecognizeModal = (props) => {
                                         return (
                                           <div className="parent_slider_img_modal" key={"badge_" + index}>
                                             <div className="bg-f1f1f1 text-center p-1 br-15">
-                                              <img src={item.imageByte ? item.imageByte.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="slider_image" id={index} alt="E-Card" title={item.points > 0 ? item.name + " - " +item.points : item.name} onClick={() => imageClickHandler({ itemKey: item, badge: true })} />
+                                              <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="slider_image" id={index} alt="E-Card" title={item.points > 0 ? item.name + " - " +item.points : item.name} onClick={() => imageClickHandler({ itemKey: item, badge: true })} />
                                               <div className="mt-1 px-2 text-secondary eep_truncate" title={item.points > 0 ? item.name + " - " +item.points : item.name}><span className="text-center">{item.name} </span> {item.points > 0 ? <span> - {item.points}</span> : ""}</div>
                                             </div>
                                           </div>
@@ -162,7 +162,7 @@ const UserRecognizeModal = (props) => {
                                         return (
                                           <div className="parent_slider_img_modal" key={"appreciation_" + index}>
                                             <div className="bg-f1f1f1 text-center p-1 br-15 text-center">
-                                              <img src={item.imageByte.image ? item.imageByte.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="slider_image br-15" id={index} alt="E-Card" title={item.name} style={{ width: "100%", height: "100%" }} onClick={() => imageClickHandler({ itemKey: item, badge: false })} />
+                                              <img src={item?.imageByte?.image ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="slider_image br-15" id={index} alt="E-Card" title={item.name} style={{ width: "100%", height: "100%" }} onClick={() => imageClickHandler({ itemKey: item, badge: false })} />
                                               <div className="mt-1 px-2 text-secondary eep_truncate" title={item.name}><span className="text-center">{item.name}</span></div>
                                             </div>
                                           </div>

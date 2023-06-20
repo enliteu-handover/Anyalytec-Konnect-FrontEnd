@@ -166,9 +166,9 @@ const Dashboard = (props) => {
                           {dashboardDetails.directReporters && dashboardDetails.directReporters.length > 0 && dashboardDetails.directReporters.map((item, index) => {
                             return (
                               <div className="d_user_report_details" key={"directReport_" + index}>
-                                <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt={item.imageByte?.name} title={item.imageByte?.name} />
+                                <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                                 <label className="d_u_name font-helvetica-m my-0">
-                                  <Link to={{ pathname: "userdashboard", state: { userData: { userID: item } } }} className="uNameLink a_hover_txt_deco_none">{item.fullName} - {item.department.name}</Link>
+                                  <Link to={{ pathname: "userdashboard", state: { userData: { userID: item } } }} className="uNameLink a_hover_txt_deco_none">{item.fullName} - {item?.department?.name}</Link>
                                 </label>
                               </div>
                             )

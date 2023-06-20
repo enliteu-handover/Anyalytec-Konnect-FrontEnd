@@ -19,6 +19,11 @@ const AddLogo = (props) => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png", "image/svg+xml"];
 
+  const logoUploadHandlerIsNew = (event) => {
+    var file = event.target.files[0];
+    settings.checkKey(settings?.key, file);
+  };
+
   const logoUploadHandler = (event) => {
     var file = event.target.files[0];
     if (file) {
@@ -93,7 +98,7 @@ const AddLogo = (props) => {
         {showAdd &&
           <React.Fragment>
             <div className="img_box c1 mx-auto" style={{ width: settings.imgWidth, height: settings.imgHeight }} onClick={addLogoHandler}>
-              <img src={process.env.PUBLIC_URL+"/images/icons/plus-white.svg"} className="plus_white_img img_outter" alt="Plus White" title="Add Logo" />
+              <img src={process.env.PUBLIC_URL + "/images/icons/plus-white.svg"} className="plus_white_img img_outter" alt="Plus White" title="Add Logo" />
             </div>
             <div className={`pl-1 text-center ${fileClassName}`}>{fileMessage}</div>
           </React.Fragment>
@@ -103,7 +108,7 @@ const AddLogo = (props) => {
             <img id={settings.imgId} src={settings && imageByte.image} width="100%" height="100%" title={settings && imageByte.name} alt="Logo" onClick={() => clearImage(settings.imgId)} />
           </div>
         }
-        <input id={clickId} className="d-none" type="file" onChange={(event) => logoUploadHandler(event)} />
+        <input id={clickId} className="d-none" type="file" onChange={(event) => settings?.isNew ? logoUploadHandlerIsNew(event) : logoUploadHandler(event)} />
       </div>
     </React.Fragment>
   );

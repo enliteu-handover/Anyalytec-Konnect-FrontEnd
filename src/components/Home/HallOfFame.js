@@ -92,7 +92,7 @@ const HallOfFame = (props) => {
                     {item.rewardList.length > 0 && item.rewardList.slice(0, 3).map((item, index) => {
                       return (
                         <div className="d_leaderboard_achievements" key={"HallOfFameRewardList_" + index}>
-                          <img src={item.imageByte.image} className="d_achievements_icon" alt={item.imageByte.name} title={item.imageByte.name} />
+                          <img src={item?.imageByte?.image} className="d_achievements_icon" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                           <p className="mb-0">{item.acheivedCount}</p>
                         </div>
                       )
@@ -136,7 +136,7 @@ const HallOfFame = (props) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Appreciations_" + index}>
                       <div className="col-md-2">
-                        <img src={item.imageByte} className="profile_pic" alt="Birthday Image" title={item.name} />
+                        <img src={item?.imageByte} className="profile_pic" alt="Birthday Image" title={item.name} />
                       </div>
                       <div className="col-md-5 d_leaderboard_align">{item.name}</div>
                       <div className="col-md-5 text-right">
@@ -193,7 +193,7 @@ const HallOfFame = (props) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Certificates_" + index}>
                       <div className="col-md-2">
-                        <img src={item.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
+                        <img src={item?.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
                       </div>
                       <div className="col-md-5 d_leaderboard_align">{item.name}</div>
                       <div className="col-md-5 text-right">
@@ -256,7 +256,7 @@ const HallOfFame = (props) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Badges_" + index}>
                       <div className="col-md-2">
-                        <img src={item.imageByte} className="profile_pic" alt="Badge Image" title={item.name} />
+                        <img src={item?.imageByte} className="profile_pic" alt="Badge Image" title={item.name} />
                       </div>
                       <div className="col-md-5 d_leaderboard_align">{item.name}</div>
                       <div className="col-md-5 text-right">
@@ -310,7 +310,7 @@ const HallOfFame = (props) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Awards_" + index}>
                       <div className="col-md-2">
-                        <img src={item.imageByte} className="profile_pic" alt="Award Image" title={item.name} />
+                        <img src={item?.imageByte} className="profile_pic" alt="Award Image" title={item.name} />
                       </div>
                       <div className="col-md-5 d_leaderboard_align">{item.name}</div>
                       <div className="col-md-5 text-right">

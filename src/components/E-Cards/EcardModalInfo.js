@@ -128,7 +128,7 @@ const EcardModalInfo = (props) => {
                       key={"birthdaymodal_" + index}
                     >
                       <img
-                        src={item.imageByte.image}
+                        src={item?.imageByte?.image}
                         className="slider_image eep_slider_lists"
                         id={index}
                         alt="E-Cards"

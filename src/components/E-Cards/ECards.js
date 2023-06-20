@@ -324,7 +324,7 @@ const ECards = () => {
                               }
                             >
                               <img
-                                src={item.imageByte.image}
+                                src={item?.imageByte?.image}
                                 className="slider_image"
                                 id={index}
                                 alt="E-Card"
@@ -392,7 +392,7 @@ const ECards = () => {
                               }
                             >
                               <img
-                                src={item.imageByte.image}
+                                src={item?.imageByte?.image}
                                 className="slider_image"
                                 id={index}
                                 alt="E-Card"
@@ -461,7 +461,7 @@ const ECards = () => {
                               }
                             >
                               <img
-                                src={item.imageByte.image}
+                                src={item?.imageByte?.image}
                                 className="slider_image"
                                 id={index}
                                 alt="E-Card"
@@ -529,7 +529,7 @@ const ECards = () => {
                               }
                             >
                               <img
-                                src={item.imageByte.image}
+                                src={item?.imageByte?.image}
                                 className="slider_image"
                                 id={index}
                                 alt="E-Card"

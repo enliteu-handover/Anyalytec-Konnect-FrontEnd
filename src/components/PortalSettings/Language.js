@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-const Language = () => {
+const Language = (props) => {
 
   const [languageList, setLanguageList] = useState([]);
 
   const langSelectHandler = (argindex) => {
+    
     let languageTempObj = languageList;
     languageTempObj.map((val, index) => {
       if (index === argindex) {
@@ -14,13 +15,26 @@ const Language = () => {
       }
       setLanguageList([...languageTempObj]);
     });
+    props.setState({ ...props.state, ['language']: languageTempObj?.find(v => v.isSelected)?.language })
   }
 
   const fetchLanguageData = () => {
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {
-        setLanguageList(data.language);
+        if (props?.state?.language) {
+          const date = data?.language.map((v) => {
+            if (props?.state?.language === v?.language) {
+              v.isSelected = true;
+            } else {
+              v.isSelected = false;
+            }
+            return v
+          })
+          setLanguageList([...date]);
+        } else {
+          setLanguageList(data.language);
+        }
       });
   };
 

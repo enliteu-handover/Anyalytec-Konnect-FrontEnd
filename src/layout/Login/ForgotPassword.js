@@ -40,7 +40,7 @@ const ForgotPassword = () => {
       };
       httpHandler(obj)
         .then(async (response) => {
-          debugger
+          
           console.log("response", response);
           setEnteredEmail("");
           const resMsg = response?.data?.message;

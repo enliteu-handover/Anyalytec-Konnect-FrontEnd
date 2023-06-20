@@ -85,7 +85,7 @@ const ChangePassword = () => {
   };
 
   const formSubmissionHandler = (event) => {
-    debugger
+    
     event.preventDefault();
     const params = new URLSearchParams(window.location.search).get('token');
     let options1 = {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import classes from "./Header.module.scss";
@@ -6,8 +6,35 @@ import "../../styles/lib/eep-search.scss";
 import HeaderSearch from "./HeaderSearch";
 import UserNavItem from "./UserNavItem";
 import Notification from "./Notification";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 const Header = () => {
   const pageTitle = useSelector((state) => state.breadcrumb.title);
+  const headerLogo = useSelector((state) => state.storeState.logo);
+  const [state, setState] = useState({
+    "headerLogoByte": null
+  });
+
+  React.useEffect(() => {
+    const obj = {
+      url: URL_CONFIG.ADD_ADMIN_HEADER_LOGO,
+      method: "get"
+    };
+    httpHandler(obj)
+      .then((reponse) => {
+        setState({
+          ...state,
+          "headerLogoByte": reponse?.data?.image ?? ''
+        })
+      })
+  }, [])
+
+  React.useEffect(() => {
+    setState({
+      ...state,
+      "headerLogoByte": headerLogo ?? ""
+    })
+  }, [headerLogo])
 
   return (
     <div>
@@ -24,7 +51,7 @@ const Header = () => {
         </button>
 
         <img
-          src={process.env.PUBLIC_URL + "/images/logo.svg"}
+          src={(state?.headerLogoByte) || (process.env.PUBLIC_URL + "/images/logo.svg")}
           className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
           alt="logo"
         />

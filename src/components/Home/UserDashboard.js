@@ -94,11 +94,11 @@ const UserDashboard = () => {
       .then((response) => {
         let userPicTempArry = [];
         response.data.map((item) => {
-          if (item.imageByte?.image) {
+          if (item?.imageByte?.image) {
             userPicTempArry.push(
               {
                 "id": item.id,
-                "pic": item.imageByte?.image
+                "pic": item?.imageByte?.image
               }
             )
           }
@@ -341,7 +341,7 @@ const UserDashboard = () => {
                     {userDetails.acheivedBadgeList && userDetails.acheivedBadgeList.map((item, index) => {
                       return (
                         <div className="col-auto achievements_img_div" key={"user_Achievements_badges_" + index}>
-                          <img src={item.imageByte ? item.imageByte.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item.imageByte.name} title={item.imageByte.name} />
+                          <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                           <span>{item.acheivedCount > 9 ? item.acheivedCount : "0" + item.acheivedCount}</span>
                         </div>
                       )
@@ -364,7 +364,7 @@ const UserDashboard = () => {
                     {userDetails.acheivedAwardList && userDetails.acheivedAwardList.map((item, index) => {
                       return (
                         <div className="col-auto achievements_img_div" key={"user_Achievements_awards_" + index}>
-                          <img src={item.imageByte ? item.imageByte.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item.imageByte.name} title={item.imageByte.name} />
+                          <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                           <span>{item.acheivedCount > 9 ? item.acheivedCount : "0" + item.acheivedCount}</span>
                         </div>
                       )

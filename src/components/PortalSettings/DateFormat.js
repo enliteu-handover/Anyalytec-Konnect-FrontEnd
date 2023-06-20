@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-const DateFormat = () => {
+const DateFormat = (props) => {
 
   const [dateList, setDateList] = useState([]);
   const [timeList, setTimeList] = useState([]);
 
   const DateTimeHandler = (arg, argindx) => {
+    
     let yearTempObj;
     if (arg.type === "date") {
       yearTempObj = dateList;
@@ -18,6 +19,7 @@ const DateFormat = () => {
         return val;
       });
       setDateList([...yearTempObj]);
+      props.setState({ ...props.state, ['dateFormat']: yearTempObj?.find(v => v.isSelected)?.date })
     } else if (arg.type === "time") {
       yearTempObj = timeList;
       yearTempObj.map((val, index) => {
@@ -29,6 +31,7 @@ const DateFormat = () => {
         return val;
       })
       setTimeList([...yearTempObj]);
+      props.setState({ ...props.state, ['timeFormat']: yearTempObj?.find(v => v.isSelected)?.time })
     }
   }
 
@@ -36,20 +39,42 @@ const DateFormat = () => {
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {
-        setTimeList(data.timeFormats);
+        if (props?.state?.timeFormat) {
+          const time = data?.timeFormats.map(v => {
+            if (props?.state?.timeFormat === v?.time) {
+              v.isSelected = true;
+            } else {
+              v.isSelected = false;
+            }
+            return v
+          })
+          setTimeList([...time]);
+        } else { setTimeList(data.timeFormats); }
       });
   };
 
-  const fetchDateData = () => {
+  const fetchDateData = async () => {
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {
-        setDateList(data.DateFormats);
+        if (props?.state?.dateFormat) {
+          const date = data?.DateFormats.map(v => {
+            if (props?.state?.dateFormat === v?.date) {
+              v.isSelected = true;
+            } else {
+              v.isSelected = false;
+            }
+            return v
+          })
+          setDateList([...date]);
+        } else {
+          setDateList(data.DateFormats);
+        }
       });
   };
 
   useEffect(() => {
-    fetchDateData();
+    fetchDateData()
     fetchTimeData();
   }, []);
 

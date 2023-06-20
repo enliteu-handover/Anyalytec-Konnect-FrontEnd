@@ -14,7 +14,7 @@ const AchievementAwards = (props) => {
             {dashboardDetails.acheivedAwardList.map((item, index) => {
               return (
                 <div className="col-auto achievements_img_div" key={"Achievements_award_" + index}>
-                  <img src={item.imageByte ? item.imageByte.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item.imageByte.name} title={item.imageByte.name} />
+                  <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                   <span>{item.acheivedCount > 9 ? item.acheivedCount : "0" + item.acheivedCount}</span>
                 </div>
               )
@@ -31,7 +31,7 @@ const AchievementAwards = (props) => {
             {dashboardDetails.awaitingAwardList.map((item, index) => {
               return (
                 <div className="col-auto achievements_img_div" key={"Waiting_award_" + index}>
-                  <img src={item.imageByte ? item.imageByte.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-bounce-direct-animation" alt={item.imageByte.name} title={item.imageByte.name} />
+                  <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-bounce-direct-animation" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
                 </div>
               )
             })}

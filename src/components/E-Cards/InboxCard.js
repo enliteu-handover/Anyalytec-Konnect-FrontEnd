@@ -121,7 +121,7 @@ const InboxCard = (props) => {
                                   </div>
                                 )}
                                 <figure>                        
-                                  <img src={item.imageByte.image} alt="E-Card" style={{ maxWidth: "100%" }}/>
+                                  <img src={item?.imageByte?.image} alt="E-Card" style={{ maxWidth: "100%" }}/>
                                 </figure>
                               </div>
                               <div className="item-box-blog-body">

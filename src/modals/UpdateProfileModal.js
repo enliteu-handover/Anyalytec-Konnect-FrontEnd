@@ -61,7 +61,7 @@ const UpdateProfileModal = () => {
     if (currentPassWordTouched) {
       //console.log("AKAKAK notes. Have to restrict the character length like min and max");
     }
-    debugger
+    
     if (newPassWordTouched && confirmPassWordTouched) {
       setPWDResponseClassName("");
       setPWDResponseErr("");
@@ -122,7 +122,7 @@ const UpdateProfileModal = () => {
   }, []);
 
   const formSubmissionHandler = (event) => {
-    debugger
+    
     event.preventDefault();
     // const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
@@ -143,7 +143,7 @@ const UpdateProfileModal = () => {
       };
       httpHandler(obj)
         .then((resp) => {
-          debugger
+          
           setCurrentPassword("");
           setNewPassword("");
           setConfirmPassword("");

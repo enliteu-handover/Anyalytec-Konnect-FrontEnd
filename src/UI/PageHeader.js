@@ -1,6 +1,6 @@
 import React from "react";
 const PageHeader = (props) => {
-  const { title, navLinksLeft, navLinksRight, filter, BulkAction, toggle } = props;
+  const { title, navLinksLeft, sucuss, navLinksRight, filter, BulkAction, toggle } = props;
   return (
     <React.Fragment>
       <div className="d-flex p-0 m-0 eep-templates-setting-title">
@@ -14,7 +14,8 @@ const PageHeader = (props) => {
           )}
         </h3>
         <div className="eep-options-div my-auto eep_select_maindiv">
-          {BulkAction}    
+          {sucuss}
+          {BulkAction}
           {filter}
           {toggle}
         </div>

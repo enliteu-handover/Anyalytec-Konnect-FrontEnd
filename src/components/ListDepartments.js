@@ -19,17 +19,17 @@ function ListDepartments() {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   const [deptData, setDeptData] = useState({});
-  
+
   const getDeptData = (argu) => {
     setDeptData(argu);
   };
 
   const tableSettings = {
-    createdAt : {
+    createdAt: {
       classnames: "",
       objReference: "createdAt"
     },
-    updatedAt : {
+    updatedAt: {
       classnames: "",
       objReference: "updatedAt"
     }
@@ -77,7 +77,7 @@ function ListDepartments() {
       arg.filterValue.value !== ""
     ) {
       obj["params"] = {
-        active:arg.filterValue.value
+        active: arg.filterValue.value
       };
     }
     httpHandler(obj)
@@ -91,8 +91,8 @@ function ListDepartments() {
   };
 
   useEffect(() => {
-    const obj = { 
-      filterValue: { label: "Active", value: true } 
+    const obj = {
+      filterValue: { label: "Active", value: true }
     }
     fetchDepartmentData(obj);
   }, []);
@@ -123,7 +123,7 @@ function ListDepartments() {
   }, [breadcrumbArr, dispatch]);
 
   const filterOnChangeHandler = (arg) => {
-    debugger
+    
     fetchDepartmentData({ filterValue: arg });
   };
 
@@ -133,10 +133,10 @@ function ListDepartments() {
         <React.Fragment>
           <CreateDepartmentModal fetchDeptData={fetchDepartmentData} />
           {deptData && Object.keys(deptData).length > 0 &&
-          <DeptActionsModal
-            viewDepartment={deptData}
-            fetchDeptData={fetchDepartmentData}
-          />
+            <DeptActionsModal
+              viewDepartment={deptData}
+              fetchDeptData={fetchDepartmentData}
+            />
           }
           <PageHeader
             title="Departments"

@@ -195,6 +195,10 @@ const URL_CONFIG = {
   AUTH_FORGOT_PASSWORD_URL: "/api/v1/auth/forgot_password",
   AUTH_FORGOT_PASSWORD_EMAIL_URL: "/auth/forgot_password_mail",
   RESETPASSWORD_AUTH: "/api/v1/auth/reset_password",
+  UPLOAD_FILES: "/file/upload_files",
+  ADD_ADMIN_PANEL: "/adminpanel/panel",
+  ADD_ADMIN_HEADER_LOGO: "/adminpanel/headerlogo",
+  ADD_ADMIN_LOGIN_LOGO: "/auth/panel",
 };
 
 export { REST_CONFIG, URL_CONFIG };

@@ -6054,6 +6054,16 @@ input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
   padding: 8px;
 }
 
+// .Logo{
+//   display: flex;
+// }
+
+.Logo .imgs{
+  height: 200px;
+    width: 200px;
+    margin: auto;
+    border-radius: 16px;
+}
 .Logo .Logo-width {
   width: 100% !important;
 }
