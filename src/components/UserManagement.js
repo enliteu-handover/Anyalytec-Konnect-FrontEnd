@@ -83,7 +83,7 @@ const UserManagement = () => {
     };
     httpHandler(obj)
       .then((userData) => {
-        setUserData(userData.data);
+        setUserData(userData?.data?.map(v => { return { ...v, name: v?.username } }));
       })
       .catch((error) => {
         console.log("fetchUserData error", error);
@@ -140,7 +140,7 @@ const UserManagement = () => {
                     data={userData}
                     tableProps={{
                       classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                      id: "user_dataTable", 
+                      id: "user_dataTable",
                       "aria-describedby": "user_dataTable_info",
                     }}
                     action={null}

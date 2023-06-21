@@ -155,7 +155,7 @@ const BadgeRecognition = (props) => {
                 <div className="p-2">
                   <div className="badge_info_div">
                     <p className="badge_info font-helvetica-m">{data.name}</p>
-                    <p className="badge_info eep_truncate" style={{maxWidth:"100%"}}>{data.hashTag.length > 0 ? getHashTag(data.hashTag) : "---"}</p>
+                    <p className="badge_info eep_truncate" style={{maxWidth:"100%"}}>{data?.hashTag?.length > 0 ? getHashTag(data.hashTag) : "---"}</p>
                     <p className="badge_info font-helvetica-m">{data.points}</p>
                   </div>
                 </div>

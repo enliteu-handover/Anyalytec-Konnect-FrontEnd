@@ -9,6 +9,7 @@ import "../../styles/lib/login-style.scss";
 import "../../styles/lib/bg-animations.scss";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
+import SvgComponent from "../../components/svgComponent";
 
 const Login = () => {
   const [state, setState] = useState({
@@ -49,11 +50,13 @@ const Login = () => {
           <div className={`login_centent_sec eep_scroll_y`}>
             <div className={`row content-sect w-100 align-items-center eep_scroll_y`}>
               <div className={`col-md-6 logo-sec`}>
-                <img
-                  className="mx-auto d-block"
-                  src={(state?.logo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
-                  alt="Logo"
-                />
+                {state?.logo?.includes('.svg') ?
+                  <SvgComponent svgUrl={state?.logo} /> :
+                  <img
+                    className="mx-auto d-block"
+                    src={(state?.logo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
+                    alt="Logo"
+                  />}
               </div>
               <div className={`col-md-6 login-sec`}>
                 <Switch>

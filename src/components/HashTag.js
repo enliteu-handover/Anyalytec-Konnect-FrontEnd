@@ -143,12 +143,14 @@ const HashTag = () => {
   }
 
   const updateHashTagHandler = () => {
+    
     let updatePayOptions = {
       id: hashTagID,
       hashtagName: hashTagValue,
       colorCode: colorValue,
       active: true,
     };
+    
     checkResponseMsg("");
     const obj = {
       url: URL_CONFIG.ADDHASHTAG,
@@ -213,14 +215,17 @@ const HashTag = () => {
 
   const bulkSubmitHandler = () => {
     if (filterData.length && (bulkUpdateBy.updateBy !== null)) {
-      let hashTagData = new FormData();
-      hashTagData.append('hashtag', filterData);
-      hashTagData.append('active', bulkUpdateBy.updateBy);
-      console.log("hashTagData :", hashTagData.getAll('hashtag'), hashTagData.getAll('active'));
+      // let hashTagData = new FormData();
+      // hashTagData.append('hashtag', filterData);
+      // hashTagData.append('active', bulkUpdateBy.updateBy);
+      // console.log("hashTagData :", hashTagData.getAll('hashtag'), hashTagData.getAll('active'));
       const obj = {
         url: URL_CONFIG.HASHTAG_BULK_UPDATE,
         method: "put",
-        formData: hashTagData,
+        formData: {
+          'hashtag': filterData,
+          'active': bulkUpdateBy.updateBy
+        },
       };
       httpHandler(obj)
         .then((response) => {
@@ -299,9 +304,9 @@ const HashTag = () => {
                       <div className="font-weight-bold mb-2 d-flex justify-content-between">
                         <label className="mb-0">{item.hashtagName}</label>
                         {enableBulkState.bulkState &&
-                        <div className="form-check">
-                          <input className="form-check-input p_check_all badge-list" type="checkbox" id="badges_0" value="12" onChange={(event) => filterAction(event, item)} />
-                        </div>
+                          <div className="form-check">
+                            <input className="form-check-input p_check_all badge-list" type="checkbox" id="badges_0" value="12" onChange={(event) => filterAction(event, item)} />
+                          </div>
                         }
                       </div>
                       <HashColor data={item} />

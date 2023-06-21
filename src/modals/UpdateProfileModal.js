@@ -61,7 +61,7 @@ const UpdateProfileModal = () => {
     if (currentPassWordTouched) {
       //console.log("AKAKAK notes. Have to restrict the character length like min and max");
     }
-    
+
     if (newPassWordTouched && confirmPassWordTouched) {
       setPWDResponseClassName("");
       setPWDResponseErr("");
@@ -122,7 +122,7 @@ const UpdateProfileModal = () => {
   }, []);
 
   const formSubmissionHandler = (event) => {
-    
+
     event.preventDefault();
     // const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
@@ -143,7 +143,7 @@ const UpdateProfileModal = () => {
       };
       httpHandler(obj)
         .then((resp) => {
-          
+
           setCurrentPassword("");
           setNewPassword("");
           setConfirmPassword("");
@@ -172,20 +172,23 @@ const UpdateProfileModal = () => {
 
   const contactFormSubmissionHandler = (event) => {
     event.preventDefault();
-    currUserData.telephoneNumber = contactNumber;
-    currUserData.countryCode = countryCode.value;
-    delete currUserData.createdAt;
-    delete currUserData.createdBy;
-    delete currUserData.department.createdBy;
-    delete currUserData.department.createdBy;
-    delete currUserData.updatedAt;
-    delete currUserData.updatedBy;
-    delete currUserData.department.updatedAt;
-    delete currUserData.department.updatedBy;
+    const payload = {
+      telephoneNumber: contactNumber,
+      countryCode: countryCode.value,
+      id: currUserData.id
+    }
+    // delete currUserData.createdAt;
+    // delete currUserData.createdBy;
+    // delete currUserData.department.createdBy;
+    // delete currUserData.department.createdBy;
+    // delete currUserData.updatedAt;
+    // delete currUserData.updatedBy;
+    // delete currUserData.department.updatedAt;
+    // delete currUserData.department.updatedBy;
     const obj = {
       url: URL_CONFIG.GETUSER,
       method: "put",
-      payload: currUserData,
+      payload: payload,
     };
     httpHandler(obj)
       .then((response) => {
@@ -193,6 +196,7 @@ const UpdateProfileModal = () => {
         setPWDResponseClassName("response-succ");
         //setContactResponseErr(respMsg);
         setContactResponseErr("Updated successfully!");
+        window.location.reload()
       })
       .catch((error) => {
         const errMsg = error?.response?.data?.message;

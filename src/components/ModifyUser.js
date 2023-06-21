@@ -23,6 +23,7 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = (event) => {
+    
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -32,6 +33,9 @@ const ModifyUser = () => {
     delete uData.updatedBy;
     delete uData.department.updatedAt;
     delete uData.department.updatedBy;
+    uData.manager = {
+      id: uData.manager
+    };
     setFormSubmitted(true);
     if (formIsValid) {
       const obj = {
@@ -41,11 +45,20 @@ const ModifyUser = () => {
       };
       httpHandler(obj)
         .then((response) => {
-          setShowModal({
-            ...showModal,
-            type: "success",
-            message: response?.data?.message,
-          });
+          const obj_ = {
+            url: URL_CONFIG.RESETPASSWORD_AUTH,
+            method: "post",
+            payload: { new_password: uData?.password },
+            isAuth: true
+          };
+          httpHandler(obj_).then(() => {
+            setShowModal({
+              ...showModal,
+              type: "success",
+              message: response?.data?.message,
+            });
+          })
+
         })
         .catch((error) => {
           console.log("error data", error.response.data);
@@ -61,9 +74,9 @@ const ModifyUser = () => {
   useEffect(() => {
     const userFields = [];
     for (let fields in userMetaData) {
-      if ( fields === "column1" || fields === "column2" || fields === "column3" ) {
+      if (fields === "column1" || fields === "column2" || fields === "column3") {
         for (let fld of userMetaData[fields].fields) {
-          if(fld.type === 'password') {
+          if (fld.type === 'password') {
             fld.mandatory = false;
           }
           if (fld.mandatory) {
@@ -326,7 +339,7 @@ const ModifyUser = () => {
             messageInfo="Contact Administrator."
           />
         </div>
-      }  
+      }
     </React.Fragment>
   );
 };

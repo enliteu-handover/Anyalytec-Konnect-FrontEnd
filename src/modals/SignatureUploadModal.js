@@ -77,29 +77,71 @@ const SignatureUploadModal = () => {
   };
 
   const uploadSignature = () => {
-
+    
     let dataUrlVal = null;
     if (!toggleChecked) {
       dataUrlVal = sigPad.getCanvas().toDataURL("image/png");
     }
 
+    const base64Data = (toggleChecked ? (signValue ? signValue : null) : (dataUrlVal ? dataUrlVal : null)).replace(/^data:image\/\w+;base64,/, '');
+
+    const binaryString = atob(base64Data);
+    const byteNumbers = new Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteNumbers[i] = binaryString.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    const file = new File([blob], 'filename.png', { type: 'image/png' }); 
+
+    const formData = new FormData();
+    formData.append("image", file);
     const obj = {
-      url: URL_CONFIG.UPDATEUSERSIGNATURE,
-      method: "put",
-      payload: {
-        "image": toggleChecked ? (signValue ? signValue : null) : (dataUrlVal ? dataUrlVal : null),
-        "name": "Signature"
-      }
+      url: URL_CONFIG.UPLOAD_FILES,
+      method: "post",
+      payload: formData,
     };
+    // const obj = {
+    //   url: URL_CONFIG.UPDATE_USER_SIGNATURE, 
+    //   method: "put",
+    //   payload: {
+    //     "image": toggleChecked ? (signValue ? signValue : null) : (dataUrlVal ? dataUrlVal : null),
+    //     "name": "Signature"
+    //   }
+    // };
     httpHandler(obj)
       .then((res) => {
-        const respMsg = res?.data?.message;
-        setSignResponseMsg(respMsg);
-        setSignResponseClassName("response-succ");
-        document.getElementById("signature-image").src = toggleChecked ? (signValue ? signValue : signDefault) : (dataUrlVal ? dataUrlVal : signDefault);
+        
+        const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+        const update = {
+          url: URL_CONFIG.UPDATE_USER_SIGNATURE,
+          method: "put",
+          payload: {
+            signPic: res?.data?.data?.[0]?.url ?? "",
+          },
+        };
+
+        if (userData?.id) {
+          update['payload'] = {
+            ...update['payload'],
+            id: userData.id
+          }
+        }
+
+        httpHandler(update)
+          .then((res_update) => {
+            // const respMsg = res?.data?.data?.[0]?.message;
+            const respMsg = "Your signature has been uploaded successfully!.";
+            setSignResponseMsg(respMsg);
+            setSignResponseClassName("response-succ");
+            document.getElementById("signature-image").src =
+              res?.data?.data?.[0]?.url ?? ""
+            //  toggleChecked ? (signValue ? signValue : signDefault) : (dataUrlVal ? dataUrlVal : signDefault);
+
+          })
       })
       .catch((error) => {
-        const errMsg = error.response?.data?.message;
+        const errMsg = error?.data?.data?.[0]?.message;
         console.log("errMsgggg", errMsg);
         setSignResponseMsg(errMsg);
         setSignResponseClassName("response-err");

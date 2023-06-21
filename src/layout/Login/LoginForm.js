@@ -74,10 +74,11 @@ const LoginForm = () => {
       };
       httpHandler(obj)
         .then(async (userData) => {
-          
+
           // {"refreshToken":"811c621e-c57f-4a3d-8d48-e7a3da0cafb2","id":1,"username":"Administrator","email":"support@teckonnect.com","fullName":"System Administrator","accessToken":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODIyMDE4LCJleHAiOjE2ODY4MjM4MTh9.vHeJXqbDVhJfrsatwjJKzERqaVTS9EWXDwry9-J74tKpkezY6MFKXyhzjcCCZ1UgVmqfRwTe6KxCc1VnjWeB0A","tokenType":"Bearer"}
           sessionStorage.userData = JSON.stringify({
-            "id": userData.data.data.user?.id, "username": userData?.data?.data?.user?.username,
+            "id": userData.data.data.user?.id,
+            "username": userData?.data?.data?.user?.username,
             "email": userData?.data?.data?.user?.email_id,
             "fullName": userData?.data?.data?.user?.username,
             "tokenType": "Bearer",

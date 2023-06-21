@@ -89,8 +89,8 @@ const FileField = (props) => {
         <img
           alt="User Pic"
           src={
-            value
-              ? value.image
+            value?.image
+              ? value?.image
               : `${process.env.PUBLIC_URL}/images/user_profile.png`
           }
           id="profile-image"

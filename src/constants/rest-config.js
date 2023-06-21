@@ -66,7 +66,8 @@ const URL_CONFIG = {
   RESETPASSWORD: "/api/auth/resetpassword",
   UPDATEPASSWORD: "/users/updatepassword",
   ALLUSERS: "/users",
-  GETALLUSERS: "/users/activeuser",
+  GETALLUSERS: "/users",
+  // GETALLUSERS: "/users/activeuser",
   GETUSER: "/users/user",
   GET_USERS_BY_DEPARTMENT: "/users/getusersbydepartment",
   IMPORT_USERS: "/excels/import",
@@ -199,6 +200,9 @@ const URL_CONFIG = {
   ADD_ADMIN_PANEL: "/adminpanel/panel",
   ADD_ADMIN_HEADER_LOGO: "/adminpanel/headerlogo",
   ADD_ADMIN_LOGIN_LOGO: "/auth/panel",
+  UPDATE_USER_SIGNATURE: "/users/user",
+  REFRESH_TOKEN_AUTH: "/api/v1/auth/refresh",
+  AUTH_ADD_NEW_USER: "/api/v1/auth/signup",
 };
 
 export { REST_CONFIG, URL_CONFIG };

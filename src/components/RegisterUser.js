@@ -32,20 +32,36 @@ const AddUser = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
+
     if (formIsValid) {
-      uData["active"] = true;
-      const obj = {
-        url: URL_CONFIG.GETUSER,
+      const obj_ = {
+        url: URL_CONFIG.AUTH_ADD_NEW_USER,
         method: "post",
-        payload: uData,
+        payload: {
+          "username": uData?.username ?? '',
+          "email_id": uData?.email ?? '',
+          "mobile_no": uData?.telephoneNumber ?? '',
+          "password": uData?.password ?? ''
+        },
+        isAuth: true
       };
-      httpHandler(obj)
-        .then((response) => {
-          setShowModal({
-            ...showModal,
-            type: "success",
-            message: response?.data?.message,
-          });
+      httpHandler(obj_)
+        .then((user_) => {
+          uData["active"] = true;
+          uData["user_id"] = user_?.data?.data?.user?.id;
+          const obj = {
+            url: URL_CONFIG.GETUSER,
+            method: "post",
+            payload: uData,
+          };
+          httpHandler(obj)
+            .then((response) => {
+              setShowModal({
+                ...showModal,
+                type: "success",
+                message: response?.data?.message,
+              });
+            })
         })
         .catch((error) => {
           console.log("error", error, error.response);
@@ -218,9 +234,8 @@ const AddUser = () => {
                     <button
                       type="submit"
                       disabled={!formIsValid}
-                      className={`eep-btn eep-btn-success mx-auto ${
-                        !formIsValid ? "" : ""
-                      }`}
+                      className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
+                        }`}
                     >
                       Create User
                     </button>

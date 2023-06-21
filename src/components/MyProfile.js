@@ -148,7 +148,7 @@ const MyProfile = () => {
         if (fld["type"] === "file") {
           fld["viewMode"]["actions"] = true;
           fld["disabled"] = false;
-        }      
+        }
         else {
           fld["disabled"] = true;
         }
@@ -164,35 +164,63 @@ const MyProfile = () => {
   }, []);
 
   const onUpload = (arg) => {
-    let currUserDataTemp = JSON.parse(JSON.stringify(currUserDataNew));
-    delete currUserDataTemp.createdAt;
-    delete currUserDataTemp.createdBy;
-    delete currUserDataTemp.department.createdBy;
-    delete currUserDataTemp.department.createdBy;
-    delete currUserDataTemp.updatedAt;
-    delete currUserDataTemp.updatedBy;
-    delete currUserDataTemp.department.updatedAt;
-    delete currUserDataTemp.department.updatedBy;
-    currUserDataTemp.imageByte=arg;
+    
+    const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+    // let currUserDataTemp = JSON.parse(JSON.stringify(currUserDataNew));
+    // delete currUserDataTemp.createdAt;
+    // delete currUserDataTemp.createdBy;
+    // delete currUserDataTemp.department.createdBy;
+    // delete currUserDataTemp.department.createdBy;
+    // delete currUserDataTemp.updatedAt;
+    // delete currUserDataTemp.updatedBy;
+    // delete currUserDataTemp.department.updatedAt;
+    // delete currUserDataTemp.department.updatedBy;
+    // currUserDataTemp.imageByte=arg;
+
+    const base64Data = (arg?.image).replace(/^data:image\/\w+;base64,/, '');
+
+    const binaryString = atob(base64Data);
+    const byteNumbers = new Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteNumbers[i] = binaryString.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    const file = new File([blob], 'filename.png', { type: 'image/png' }); 
+
+    const formData = new FormData();
+    formData.append("image", file);
+
     const obj = {
-      url: URL_CONFIG.GETUSER,
-      method: "put",
-      payload: currUserDataTemp,
+      url: URL_CONFIG.UPLOAD_FILES,
+      method: "post",
+      payload: formData,
     };
     httpHandler(obj)
-      .then(() => {
-        //const respMsg = response?.data?.message;
-        setPictureResponse({
-          message : 'Picture updated successfully!', 
-          type : 'success'
-        }); 
+      .then((res) => {
+        const obj_ = {
+          url: URL_CONFIG.GETUSER,
+          method: "put",
+          payload: {
+            profilePic: res?.data?.data?.[0]?.url ?? "",
+            id: userData?.id
+          },
+        };
+        httpHandler(obj_)
+          .then(() => {
+            //const respMsg = response?.data?.message;
+            setPictureResponse({
+              message: 'Picture updated successfully!',
+              type: 'success'
+            });
+          })
       })
       .catch((error) => {
         const errMsg = error?.response?.data?.message;
         setPictureResponse({
-          message : errMsg, 
-          type : 'danger'
-        }); 
+          message: errMsg,
+          type: 'danger'
+        });
       });
   };
 
@@ -218,7 +246,7 @@ const MyProfile = () => {
 
   return (
     <React.Fragment>
-      {showUpdateProfileModal && <UpdateProfileModal /> }
+      {showUpdateProfileModal && <UpdateProfileModal />}
       <SignatureUploadModal />
 
       <PageHeader

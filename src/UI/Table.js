@@ -62,6 +62,7 @@ const Table = (props) => {
   };
 
   const filterData = search ? tableData?.filter(v => v?.name?.toLowerCase()?.includes(search?.toLowerCase())) : tableData;
+  
   return (
     <React.Fragment>
       <div className="row">

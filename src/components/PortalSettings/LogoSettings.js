@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddLogo from "./AddLogo";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
-import MyComponent from "../svgComponent";
+import SvgComponent from "../svgComponent";
 
 const LogoSettings = (props) => {
 
@@ -59,8 +59,7 @@ const LogoSettings = (props) => {
         <div className="col-md-12 Logo" style={{ display: props?.state?.loginLogoByte && "flex" }}>
           {
             props?.state?.loginLogoByte?.includes('.svg') ?
-              <MyComponent svgUrl={props?.state?.loginLogoByte} /> :
-              //  <>{props?.state?.loginLogoByte}</> :
+              <SvgComponent svgUrl={props?.state?.loginLogoByte} /> :
               props?.state?.loginLogoByte ?
                 <img className='imgs' src={props?.state?.loginLogoByte} />
                 : <AddLogo clickId={"pageLogo"} settings={{ isClear: clearImage, imgHeight: "200px", imgWidth: "200px", imgId: "page-logo", key: "loginLogoByte", checkKey: checkKey, isNew: true, uploadImgArry: uploadImgArry, clearImageHandler: clearImageHandler }} />
@@ -81,9 +80,12 @@ const LogoSettings = (props) => {
 
       <div className="row no-gutters">
         <div className="col-md-12 Logo" style={{ display: props?.state?.headerLogoByte && "flex" }}>
-          {props?.state?.headerLogoByte ?
-            <img className='imgs' src={props?.state?.headerLogoByte} />
-            : <AddLogo clickId={"headerLogo"} settings={{ isClear: clearImage, imgHeight: "200px", imgWidth: "200px", imgId: "header-logo", key: "headerLogoByte", checkKey: checkKey, isNew: true, uploadImgArry: uploadImgArry, clearImageHandler: clearImageHandler }} />
+          {
+            props?.state?.headerLogoByte?.includes('.svg') ?
+              <SvgComponent svgUrl={props?.state?.headerLogoByte} /> :
+              props?.state?.headerLogoByte ?
+                <img className='imgs' src={props?.state?.headerLogoByte} />
+                : <AddLogo clickId={"headerLogo"} settings={{ isClear: clearImage, imgHeight: "200px", imgWidth: "200px", imgId: "header-logo", key: "headerLogoByte", checkKey: checkKey, isNew: true, uploadImgArry: uploadImgArry, clearImageHandler: clearImageHandler }} />
           }  </div>
       </div>
 

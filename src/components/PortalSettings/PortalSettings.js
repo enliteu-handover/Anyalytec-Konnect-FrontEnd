@@ -70,13 +70,15 @@ const PortalSettings = () => {
   }
 
   const handleSubmitAdminPanel = () => {
-
+    const payload = state;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
       method: state?.id ? "put" : "post",
-      payload: state
+      payload: payload
     };
-
+    if (!payload.financialYear) {
+      delete payload.financialYear
+    }
     httpHandler(obj)
       .then((reponse) => {
         seIsDone(reponse?.data?.message ?? '')

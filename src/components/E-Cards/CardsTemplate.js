@@ -9,7 +9,7 @@ import ImagePreloader from "./ImagePreloader";
 
 const CardsTemplate = (props) => {
 
-  const {templateType, getCardsTemplate} = props;
+  const { templateType, getCardsTemplate } = props;
   const [templateTypes, setTemplateTypes] = useState(templateType);
   const [imageData, setImageData] = useState([]);
   const [scheduledImageData, setScheduledImageData] = useState([]);
@@ -27,38 +27,38 @@ const CardsTemplate = (props) => {
   const cardObj = {
     name: null,
     category: null,
-    scheduled:false,
-    settingsId:0,
-    imageByte:{}
+    scheduled: false,
+    settingsId: 0,
+    imageByte: {}
   }
   const [createTemplateData, setCreateTemplateData] = useState(cardObj);
 
   useEffect(() => {
     setTemplateTypes(templateType);
   }, [templateType]);
-  
-useEffect(() => {
-  if(templateTypes.category !== 'anniversary') {
-    let createTemplateDataTemp = JSON.parse(JSON.stringify(createTemplateData));
-    createTemplateDataTemp.category = templateTypes.category;
-    setCreateTemplateData(createTemplateDataTemp);
-    fetchCardData();
-  }
-},[]);
 
-useEffect(() => {
-  if(templateTypes.category === 'anniversary') {
-    if(templateTypes.yearInfo?.id) {
+  useEffect(() => {
+    if (templateTypes.category !== 'anniversary') {
       let createTemplateDataTemp = JSON.parse(JSON.stringify(createTemplateData));
       createTemplateDataTemp.category = templateTypes.category;
-      createTemplateDataTemp.settingsId = templateTypes.yearInfo?.id;
       setCreateTemplateData(createTemplateDataTemp);
-      fetchAnniversaryCardData();
-    } else {
-      setIsLoading(false);
+      fetchCardData();
     }
-  }
-},[templateTypes]);
+  }, []);
+
+  useEffect(() => {
+    if (templateTypes.category === 'anniversary') {
+      if (templateTypes.yearInfo?.id) {
+        let createTemplateDataTemp = JSON.parse(JSON.stringify(createTemplateData));
+        createTemplateDataTemp.category = templateTypes.category;
+        createTemplateDataTemp.settingsId = templateTypes.yearInfo?.id;
+        setCreateTemplateData(createTemplateDataTemp);
+        fetchAnniversaryCardData();
+      } else {
+        setIsLoading(false);
+      }
+    }
+  }, [templateTypes]);
 
   const fetchCardData = () => {
     const obj = {
@@ -72,7 +72,7 @@ useEffect(() => {
         getCardsTemplate(response.data);
         let scheduledImageDataTemp = [];
         response.data.length && response.data.map((item) => {
-          if(item.scheduled) {
+          if (item.scheduled) {
             scheduledImageDataTemp.push(item);
             return scheduledImageDataTemp;
           }
@@ -100,7 +100,7 @@ useEffect(() => {
         getCardsTemplate(response.data.template);
         let scheduledImageDataTemp = [];
         response.data.template.length && response.data.template.map((item) => {
-          if(item.scheduled) {
+          if (item.scheduled) {
             scheduledImageDataTemp.push(item);
             return scheduledImageDataTemp;
           }
@@ -115,27 +115,51 @@ useEffect(() => {
   };
 
   const insertCardData = (arg) => {
-    const obj = {
-      url: URL_CONFIG.CREATE_TEMPLATE_ECARD,
+    
+
+
+    const base64Data = (arg?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
+
+    const binaryString = atob(base64Data);
+    const byteNumbers = new Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteNumbers[i] = binaryString.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    const file = new File([blob], 'filename.png', { type: 'image/png' });
+
+    const formData = new FormData();
+    formData.append("image", file);
+    const obj_ = {
+      url: URL_CONFIG.UPLOAD_FILES,
       method: "post",
-      payload: arg,
+      payload: formData,
     };
-    httpHandler(obj)
-      .then((response) => {
-        if(templateTypes.category === 'anniversary') {
-          fetchAnniversaryCardData();
-        } else {
-          fetchCardData();
-        }
-      })
-      .catch((error) => {
-        console.log("errorrrr", error);
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: error?.response?.data?.message,
-        });
+    httpHandler(obj_).then((response_) => {
+      
+      arg.imageByte = response_?.data?.data?.[0]?.url
+      const obj = {
+        url: URL_CONFIG.CREATE_TEMPLATE_ECARD,
+        method: "post",
+        payload: arg,
+      };
+      httpHandler(obj)
+        .then((response) => {
+          if (templateTypes.category === 'anniversary') {
+            fetchAnniversaryCardData();
+          } else {
+            fetchCardData();
+          }
+        })
+    }).catch((error) => {
+      console.log("errorrrr", error);
+      setShowModal({
+        ...showModal,
+        type: "danger",
+        message: error?.response?.data?.message,
       });
+    });
   }
 
   const TemplateImageLoader = () => {
@@ -152,7 +176,7 @@ useEffect(() => {
       tempFileName = tempFileName.replace(/\s/g, "");
       var reader = new FileReader();
       reader.onload = function () {
-        let imageByte = {image:reader.result, name:tempFileName};
+        let imageByte = { image: reader.result, name: tempFileName };
         let createTemplateDataTemp = JSON.parse(JSON.stringify(createTemplateData));
         createTemplateDataTemp.imageByte = imageByte;
         createTemplateDataTemp.name = tempFileName;
@@ -166,16 +190,16 @@ useEffect(() => {
         type: "danger",
         message: "Invalid Image Type",
       });
-    } 
+    }
   }
 
   const handleScheduleState = (arg) => {
     let imageDataTmp = [...imageData];
-    for(let i=0; i<imageDataTmp.length; i++){
-      if(arg.id === imageDataTmp[i].id){
+    for (let i = 0; i < imageDataTmp.length; i++) {
+      if (arg.id === imageDataTmp[i].id) {
         imageDataTmp[i].scheduled = !imageDataTmp[i].scheduled;
         break;
-      }      
+      }
     }
     setImageData(imageDataTmp);
     getCardsTemplate(imageDataTmp);
@@ -187,14 +211,14 @@ useEffect(() => {
   }
 
   const confirmState = (arg) => {
-    if(arg) {
+    if (arg) {
       const obj = {
-        url: URL_CONFIG.DELETE_TEMPLATE_CARD+"?id="+deletionData.data.id+"&act="+false,
+        url: URL_CONFIG.DELETE_TEMPLATE_CARD + "?id=" + deletionData.data.id + "&act=" + false,
         method: "delete"
       };
       httpHandler(obj)
         .then(() => {
-          if(templateTypes.category === 'anniversary') {
+          if (templateTypes.category === 'anniversary') {
             fetchAnniversaryCardData();
           } else {
             fetchCardData();
@@ -202,20 +226,20 @@ useEffect(() => {
         })
         .catch((error) => {
           setShowModal({
-          ...showModal,
-          type: "danger",
-          message: error?.response?.data?.message,
+            ...showModal,
+            type: "danger",
+            message: error?.response?.data?.message,
+          });
         });
-      });
     } else {
       setDeletionData([]);
       setDeletionState(false);
     }
   }
 
-    return (
-      <React.Fragment>
-        {showModal.type !== null && showModal.message !== null && (
+  return (
+    <React.Fragment>
+      {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
           data={showModal}
           className={`modal-addmessage`}
@@ -244,7 +268,7 @@ useEffect(() => {
       )}
       {deletionState && <DeleteECardTemplateModal confirmState={confirmState} />}
       <div className="row eep-templates-setting-card p-0 m-0">
-        
+
         {templateTypes.isSchedule && (
           <React.Fragment>
             <div className="col-md-12 px-0 mx-0 py-2 my-2">
@@ -264,51 +288,51 @@ useEffect(() => {
               <div className="tab-content px-0" id="pills-tabContent">
                 <div className="tab-pane fade show active" id="showall" role="tabpanel" aria-labelledby="showall-tab">
                   <div className="eCardSettingWrapper">
-                      {isLoading && (
-                        <ImagePreloader />
-                      )}
-                      {imageData && imageData.length > 0 && imageData.map((item, index) => {
-                        return (
-                          <div className="Portfolio col-md-3 mb-3" key={"Temp_"+index}>
-                            <div className={`card-img_div ${item.scheduled ? "card-img_div_selected" : ""}`}>
-                              <img 
-                                className={`card-img ${item.scheduled ? "c_selected" : ""}`} 
-                                src={item?.imageByte?.image} 
-                                alt={item?.imageByte?.name} 
-                                title={item.name} 
-                                onClick={() => handleScheduleState(item)}
-                              />                    
-                            </div>
-                            <div className="delete_template_div">
-                              <Link to="#">
-                                <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/delete.svg`} className="delete_template" title="Delete Card" alt="Delete Icon" onClick={() => handleCardDeletion({type:"card", data:item})} data-toggle="modal" data-target="#deleteECardTemplateModal" />
-                              </Link>
-                            </div>
+                    {isLoading && (
+                      <ImagePreloader />
+                    )}
+                    {imageData && imageData.length > 0 && imageData.map((item, index) => {
+                      return (
+                        <div className="Portfolio col-md-3 mb-3" key={"Temp_" + index}>
+                          <div className={`card-img_div ${item.scheduled ? "card-img_div_selected" : ""}`}>
+                            <img
+                              className={`card-img ${item.scheduled ? "c_selected" : ""}`}
+                              src={item?.imageByte?.image}
+                              alt={item?.imageByte?.name}
+                              title={item.name}
+                              onClick={() => handleScheduleState(item)}
+                            />
                           </div>
-                        )
-                      })}
+                          <div className="delete_template_div">
+                            <Link to="#">
+                              <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/delete.svg`} className="delete_template" title="Delete Card" alt="Delete Icon" onClick={() => handleCardDeletion({ type: "card", data: item })} data-toggle="modal" data-target="#deleteECardTemplateModal" />
+                            </Link>
+                          </div>
+                        </div>
+                      )
+                    })}
                     <div className="Portfolio col-md-3 mb-3 ecar_add_image add_temp_img_div">
                       <div className="n_card_add_col_inner" title="Add Template">
-                        <div className="add_temp_img n_card_add_col">				
+                        <div className="add_temp_img n_card_add_col">
                           <div className="outter">
-                            <img src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`} className="plus_white_img ecard_template_plus" alt="Add Template" title="Add Badge" onClick={TemplateImageLoader}/>                          
+                            <img src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`} className="plus_white_img ecard_template_plus" alt="Add Template" title="Add Badge" onClick={TemplateImageLoader} />
                           </div>
                         </div>
                       </div>
-                      <input type="file" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange}/>
+                      <input type="file" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange} />
                     </div>
                   </div>
                 </div>
                 <div className="tab-pane fade" id="scheduled" role="tabpanel" aria-labelledby="scheduled-tab">
                   {scheduledImageData && scheduledImageData.length > 0 && scheduledImageData.map((item, index) => {
                     return (
-                      <div className="Portfolio col-md-3 mb-3" key={"Temp_"+index}>
+                      <div className="Portfolio col-md-3 mb-3" key={"Temp_" + index}>
                         <div className="card-img_div card-img_div_selected">
-                          <img className="card-img c_selected" src={item?.imageByte?.image} alt={item?.imageByte?.name} title={item.name} />                    
+                          <img className="card-img c_selected" src={item?.imageByte?.image} alt={item?.imageByte?.name} title={item.name} />
                         </div>
                         <div className="delete_template_div">
                           <Link to="#">
-                            <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/delete.svg`} className="delete_template" title="Delete Card" alt="Delete Icon" onClick={() => handleCardDeletion({type:"card", data:item})} data-toggle="modal" data-target="#deleteECardTemplateModal" />
+                            <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/delete.svg`} className="delete_template" title="Delete Card" alt="Delete Icon" onClick={() => handleCardDeletion({ type: "card", data: item })} data-toggle="modal" data-target="#deleteECardTemplateModal" />
                           </Link>
                         </div>
                       </div>
@@ -329,43 +353,43 @@ useEffect(() => {
               <h4 className="c-2c2c2c mb-0">Add Template(s)</h4>
             </div>
             <div className="eCardSettingWrapper col-md-12 templates_card_div templates_card_whole_div px-0">
-            {isLoading && (
-              <ImagePreloader />
-            )}
-            {imageData && imageData.length > 0 && imageData.map((item, index) => {
-              return (
-                <div className="Portfolio col-md-3 mb-3" key={"Temp_"+index}>
-                  <div className="card-img_div">
-                    <img 
-                      className="card-img"
-                      src={item?.imageByte?.image} 
-                      alt={item?.imageByte?.name} 
-                      title={item.name} 
-                    />                    
+              {isLoading && (
+                <ImagePreloader />
+              )}
+              {imageData && imageData.length > 0 && imageData.map((item, index) => {
+                return (
+                  <div className="Portfolio col-md-3 mb-3" key={"Temp_" + index}>
+                    <div className="card-img_div">
+                      <img
+                        className="card-img"
+                        src={item?.imageByte?.image}
+                        alt={item?.imageByte?.name}
+                        title={item.name}
+                      />
+                    </div>
+                    <div className="delete_template_div">
+                      <Link to="#">
+                        <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/delete.svg`} className="delete_template" title="Delete Card" alt="Delete Icon" onClick={() => handleCardDeletion({ type: "card", data: item })} data-toggle="modal" data-target="#deleteECardTemplateModal" />
+                      </Link>
+                    </div>
                   </div>
-                  <div className="delete_template_div">
-                    <Link to="#">
-                      <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/delete.svg`} className="delete_template" title="Delete Card" alt="Delete Icon" onClick={() => handleCardDeletion({type:"card", data:item})} data-toggle="modal" data-target="#deleteECardTemplateModal" />
-                    </Link>
+                )
+              })}
+              <div className="Portfolio col-md-3 mb-3 ecar_add_image add_temp_img_div">
+                <div className="n_card_add_col_inner" title="Add Template">
+                  <div className="add_temp_img n_card_add_col">
+                    <div className="outter">
+                      <img src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`} className="plus_white_img ecard_template_plus" alt="Add Template" title="Add Badge" onClick={TemplateImageLoader} />
+                    </div>
                   </div>
                 </div>
-              )
-            })}
-          <div className="Portfolio col-md-3 mb-3 ecar_add_image add_temp_img_div">
-            <div className="n_card_add_col_inner" title="Add Template">
-              <div className="add_temp_img n_card_add_col">				
-                <div className="outter">
-                  <img src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`} className="plus_white_img ecard_template_plus" alt="Add Template" title="Add Badge" onClick={TemplateImageLoader}/>                          
-                </div>
+                <input type="file" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange} />
               </div>
-            </div>
-            <input type="file" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange}/>
-          </div>
             </div>
           </React.Fragment>
         )}
       </div>
-      </React.Fragment>
-    );
+    </React.Fragment>
+  );
 };
 export default CardsTemplate;

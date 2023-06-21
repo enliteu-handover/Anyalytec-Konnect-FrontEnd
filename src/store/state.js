@@ -7,7 +7,7 @@ const stateSlice = createSlice({
     initialState,
     reducers: {
         updateState(state, action) {
-            debugger
+            
             state.logo = action.payload;
         },
     },

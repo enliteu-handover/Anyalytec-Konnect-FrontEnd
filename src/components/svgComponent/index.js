@@ -1,7 +1,10 @@
-const MyComponent = (svgUrl) => {
+const SvgComponent = (svgUrl) => {
     return (
-        <img src={svgUrl} alt="SVG Image" />
+        <svg>
+            <img src={svgUrl} width="500" height="500" />
+        </svg>
+        //  <div dangerouslySetInnerHTML={{ __html: svgUrl }} />
     );
 }
 
-export default MyComponent;
+export default SvgComponent;

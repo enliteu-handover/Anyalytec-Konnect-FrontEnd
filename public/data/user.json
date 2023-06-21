@@ -82,7 +82,7 @@
         },
         "reloadData": true,
         "RESTConfig": {
-          "url": "/users/activeuser?active=true",
+          "url": "/users?active=true",
           "method": "get",
           "labelFormattingExists": true,
           "label": "{firstname} {lastname}",
@@ -170,7 +170,7 @@
       },
       {
         "type": "password",
-        "label": "Generate Password",
+        "label": "Change Password",
         "name": "password",
         "mandatory": true,
         "disabled": false,

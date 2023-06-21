@@ -75,8 +75,8 @@ const MyBadge = () => {
               <div className="p-2">
                 <div className="badge_info_div">
                   <p className="badge_info font-helvetica-m">{data.badge ? data.badge.name : ""}</p>
-                  {data.hashTag.length > 0 && (
-                    <p className="badge_info eep_truncate" style={{maxWidth:"100%"}}>{data.hashTag.length > 0 ? getMyHashTag(data.hashTag) : "---"}</p>
+                  {data?.hashTag?.length > 0 && (
+                    <p className="badge_info eep_truncate" style={{maxWidth:"100%"}}>{data?.hashTag?.length > 0 ? getMyHashTag(data.hashTag) : "---"}</p>
                   )}
                   <p className="badge_info font-helvetica-m">{data.badge ? (data.badge.points + " pts") : ""}</p>
                 </div>
