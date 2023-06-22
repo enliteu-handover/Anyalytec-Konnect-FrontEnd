@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import PageHeader from "../../UI/PageHeader";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
-import PageHeader from "../../UI/PageHeader";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
 import MyCertificate from "./MyCertificate";
-import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 
 const Certificates = () => {
   const [certificateRecognitionData, setCertificateRecognitionData] = useState([]);
@@ -170,6 +170,7 @@ const Certificates = () => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png", "image/svg+xml"];
   const addCertificateHandler = (event) => {
+    debugger
     var file = event.target.files[0];
     var fileType = file["type"];
     if (validImageTypes.includes(fileType)) {
@@ -180,8 +181,32 @@ const Certificates = () => {
       reader.onload = function () {
         //setRecognitionIcon(reader.result);
         let obj = { imageByte: { image: reader.result, name: tempFileName }, name: tempFileName };
-        console.log("Obj", obj);
-        history.push('composecertificate', { isCustomCertificate: true, certData: obj, currUserData: currUserData, userData: userData, eMailData: eMailData });
+
+
+        const base64Data = (obj?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
+
+        const binaryString = atob(base64Data);
+        const byteNumbers = new Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          byteNumbers[i] = binaryString.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'image/png' });
+        const file = new File([blob], 'filename.png', { type: 'image/png' });
+
+        const formData = new FormData();
+        formData.append("image", file);
+        const obj_ = {
+          url: URL_CONFIG.UPLOAD_FILES,
+          method: "post",
+          payload: formData,
+        };
+        httpHandler(obj_)
+          .then((res) => {
+            obj.imageByte.image = res?.data?.data?.[0]?.url ?? ""
+            history.push('composecertificate',
+              { isCustomCertificate: true, certData: obj, currUserData: currUserData, userData: userData, eMailData: eMailData });
+          })
       };
       reader.readAsDataURL(file);
     } else {

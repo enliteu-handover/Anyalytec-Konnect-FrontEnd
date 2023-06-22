@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import DeleteECardTemplateModal from "../../modals/DeleteECardTemplateModal";
 import ResponseInfo from "../../UI/ResponseInfo";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import DeleteECardTemplateModal from "../../modals/DeleteECardTemplateModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import ImagePreloader from "./ImagePreloader";
 
 const CardsTemplate = (props) => {
@@ -115,9 +115,6 @@ const CardsTemplate = (props) => {
   };
 
   const insertCardData = (arg) => {
-    
-
-
     const base64Data = (arg?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
 
     const binaryString = atob(base64Data);
@@ -137,7 +134,7 @@ const CardsTemplate = (props) => {
       payload: formData,
     };
     httpHandler(obj_).then((response_) => {
-      
+
       arg.imageByte = response_?.data?.data?.[0]?.url
       const obj = {
         url: URL_CONFIG.CREATE_TEMPLATE_ECARD,

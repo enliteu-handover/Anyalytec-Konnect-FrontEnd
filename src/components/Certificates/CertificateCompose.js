@@ -108,6 +108,7 @@ const CertificateCompose = () => {
   }
 
   const sendCertHandler = () => {
+    debugger
     setCertificatePreviewModalShow(false);
     const obj = {
       tnm: toName,
@@ -124,12 +125,12 @@ const CertificateCompose = () => {
   }
 
   async function modifyPdf(obj) {
-
+    debugger
     const defaultParameters = JSON.parse('[{"toField":[{"fontsize":33},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",348]},{"rgbcolor":[111,113,121]}]},{"certNameField":[{"fontsize":24},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",454]},{"rgbcolor":[111,113,121]}]},{"certMsgField":[{"fontsize":20},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":562},{"coordinates":[153,285]},{"rgbcolor":[111,113,121]}]},{"certdateField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[126,113]},{"rgbcolor":[111,113,121]}]},{"certsignField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[556,85]},{"rgbcolor":[111,113,121]}]},{"certsignimgField":[{"imgalign":"center"},{"maxwidth":189},{"coordinates":[556,107]},{"imgsize":[138,36]}]},{"certSource":"certificate-3.pdf"}]');
     const parseJsonValue = Object.keys(cDataValue).length ? JSON.parse(cDataValue.parameters) : defaultParameters;
 
     const { tnm, cnm, cmsg, cbtn } = obj;
-    const certURL = cDataValue?.pdfByte?.image;
+    const certURL = cDataValue?.pdfByte?.image || cDataValue?.imageByte?.image;
     const existingPdfBytes = await fetch(certURL).then(res => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
     pdfDoc.registerFontkit(fontkit);
@@ -275,7 +276,10 @@ const CertificateCompose = () => {
     /* Date Field End */
 
     /* Signature Field Start */
-    var signURL = currUserInfo.signatureByte !== null ? (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
+    // var signURL = currUserInfo.signatureByte !== null ? (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
+    var signURL = currUserInfo.signatureByte !== null ?
+      (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
+    debugger
     if (signURL) {
       let sg_img_coordination_x = parseJsonValue[5]["certsignimgField"][2]["coordinates"][0];
       let sg_img_coordination_y = parseJsonValue[5]["certsignimgField"][2]["coordinates"][1];
@@ -284,8 +288,8 @@ const CertificateCompose = () => {
       var signImage = '';
       //var signDims = '';
       let signImage_w = 0;
-      const signExtension = currUserInfo.signatureByte.image.substring("data:image/".length, currUserInfo.signatureByte.image.indexOf(";base64"));
-
+      // const signExtension = currUserInfo.signatureByte.image.substring("data:image/".length, currUserInfo.signatureByte.image.indexOf(";base64"));
+      const signExtension = signURL.split(".")[signURL.split(".").length - 1]
       if (signExtension === 'jpg' || signExtension === 'jpeg') {
         //signURL = `${process.env.PUBLIC_URL}/images/certificates/signatures/signature_jpeg.jpg`;
         signImageBytes = await fetch(signURL).then((res) => res.arrayBuffer());
@@ -304,6 +308,17 @@ const CertificateCompose = () => {
         //signURL = `${process.env.PUBLIC_URL}/images/certificates/signatures/signature1_png.png`;
         signImageBytes = await fetch(signURL).then((res) => res.arrayBuffer());
         signImage = await pdfDoc.embedPng(signImageBytes);
+        if (signImage.width > sg_img_maxwidth) {
+          let signImage_scale = sg_img_maxwidth / signImage.width;
+          signImage_w = signImage.scale(signImage_scale);
+        } else {
+          signImage_w = signImage.width;
+        }
+      }
+      if (signExtension === 'pdf') {
+        //signURL = `${process.env.PUBLIC_URL}/images/certificates/signatures/signature1_png.png`;
+        signImageBytes = await fetch(signURL).then((res) => res.arrayBuffer());
+        signImage = await pdfDoc.embedPdf(signImageBytes);
         if (signImage.width > sg_img_maxwidth) {
           let signImage_scale = sg_img_maxwidth / signImage.width;
           signImage_w = signImage.scale(signImage_scale);
@@ -375,9 +390,36 @@ const CertificateCompose = () => {
     }
   }
 
-  const handleSendCertificate = (cValue) => {
-
+  const handleSendCertificate = async (cValue) => {
+    debugger
     if (!isSendDisabled) {
+
+      let imgUrl = ''
+      if (cValue?.isTemplateCertificate) {
+        const base64Data = (cValue.pdfDataUrlVal).replace(/^data:application\/\w+;base64,/, '');
+
+        const binaryString = atob(base64Data);
+        const byteNumbers = new Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          byteNumbers[i] = binaryString.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+        const file = new File([blob], 'filename.pdf', { type: 'application/pdf' });
+
+        const formData = new FormData();
+        formData.append("image", file);
+        const obj = {
+          url: URL_CONFIG.UPLOAD_FILES,
+          method: "post",
+          payload: formData,
+        };
+        await httpHandler(obj)
+          .then((res) => {
+            imgUrl = res?.data?.data?.[0]?.url ?? ""
+          })
+      }
+
       let ccValueArr = [];
       ccValue.length > 0 && ccValue.map((res) => {
         return ccValueArr.push(res.value);
@@ -389,7 +431,11 @@ const CertificateCompose = () => {
         certificateName: certificateName.toUpperCase(),
         certificate: cValue.isTemplateCertificate ? { id: cDataValue.id } : null,
         sendmail: true,
-        certificateByte: cValue.isTemplateCertificate ? { image: cValue.pdfDataUrlVal, name: cValue.cData.name } : { image: cValue.cData.imageByte.image, name: cValue.cData.name }
+        certificateByte:
+          cValue?.isTemplateCertificate ? imgUrl : cValue?.cData?.imageByte?.image ?? ""
+        //  cValue.isTemplateCertificate ?
+        //  { image: cValue.pdfDataUrlVal, name: cValue.cData.name } : 
+        //  { image: cValue.cData.imageByte.image, name: cValue.cData.name }
       }
       const payloadObj = {
         url: URL_CONFIG.ASSIGN_CERTIFICATE,

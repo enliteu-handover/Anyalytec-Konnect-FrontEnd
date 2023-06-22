@@ -5,8 +5,8 @@ import { URL_CONFIG } from "../constants/rest-config";
 
 const AddMoreYearModal = (props) => {
 
-  const {refreshAddedYears} = props;
- 
+  const { refreshAddedYears } = props;
+
   const [yearInterval, setYearInterval] = useState("");
   const [yearMessage, setYearMessage] = useState("");
   const [show, setShow] = useState(false);
@@ -15,9 +15,9 @@ const AddMoreYearModal = (props) => {
   const [imgError, setImgError] = useState("");
   const msgMaxLength = 120;
   const [formIsValid, setFormIsValid] = useState(false);
-  const addMoreYearobj =  {
-    yearsInterval:"",
-    message:"",
+  const addMoreYearobj = {
+    yearsInterval: "",
+    message: "",
     imageByte: {}
   }
   const [addMoreYearModalData, setAddMoreYearModalData] = useState(addMoreYearobj);
@@ -27,7 +27,7 @@ const AddMoreYearModal = (props) => {
     setYearMessage("");
     setSubmitResponseMsg("");
     setSubmitResponseClassName("");
-  },[]);
+  }, []);
 
   const onChangeInput = (e) => {
     setYearInterval(e.target.value);
@@ -37,7 +37,7 @@ const AddMoreYearModal = (props) => {
   }
 
   const onChangeTextarea = (e) => {
-    e.target.value = e.target.value.substring(0,msgMaxLength);
+    e.target.value = e.target.value.substring(0, msgMaxLength);
     setYearMessage(e.target.value);
     let addMoreYearModalDataTemp = JSON.parse(JSON.stringify(addMoreYearModalData));
     addMoreYearModalDataTemp.message = e.target.value;
@@ -63,7 +63,7 @@ const AddMoreYearModal = (props) => {
         document.getElementById("addYearImg").src = reader.result;
         let addMoreYearModalDataTemp = JSON.parse(JSON.stringify(addMoreYearModalData));
         addMoreYearModalDataTemp.imageByte.image = reader.result;
-        addMoreYearModalDataTemp.imageByte.name = tempFileName ;
+        addMoreYearModalDataTemp.imageByte.name = tempFileName;
         setAddMoreYearModalData(addMoreYearModalDataTemp);
       };
       reader.readAsDataURL(file);
@@ -73,35 +73,60 @@ const AddMoreYearModal = (props) => {
       RemoveAddYearImg();
       setImgError("Invalid Image Type");
       setAddMoreYearModalData(addMoreYearobj);
-    } 
+    }
   }
-  
+
   const RemoveAddYearImg = () => {
     let addMoreYearModalDataTemp = JSON.parse(JSON.stringify(addMoreYearModalData));
-    addMoreYearModalDataTemp.imageByte= {};
+    addMoreYearModalDataTemp.imageByte = {};
     setAddMoreYearModalData(addMoreYearModalDataTemp);
     document.getElementById("newYearfileLoader").value = "";
     setShow(false);
   }
-  
+
   const AddMoreYearHandler = () => {
+    debugger
     if (formIsValid) {
-      setFormIsValid(false);
-      const obj = {
-        url: URL_CONFIG.ANNIVERSARY_ECARD,
+
+      const base64Data = (addMoreYearModalData?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
+
+      const binaryString = atob(base64Data);
+      const byteNumbers = new Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        byteNumbers[i] = binaryString.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/png' });
+      const file = new File([blob], 'filename.png', { type: 'image/png' });
+
+      const formData = new FormData();
+      formData.append("image", file);
+      const obj_ = {
+        url: URL_CONFIG.UPLOAD_FILES,
         method: "post",
-        payload: addMoreYearModalData,
+        payload: formData,
       };
-      httpHandler(obj)
-        .then((response) => {
-          const resMsg = response?.data?.message;
-          console.log("resMsg", resMsg);
-          resetForm();
-          setSubmitResponseMsg(resMsg);
-          setSubmitResponseClassName("response-succ");
-          refreshAddedYears(true);
-        })
-        .catch((error) => {
+      httpHandler(obj_)
+        .then((res) => {
+          setFormIsValid(false);
+          const obj = {
+            url: URL_CONFIG.ANNIVERSARY_ECARD,
+            method: "post",
+            payload: {
+              ...addMoreYearModalData,
+              imageByte: res?.data?.data?.[0]?.url ?? "",
+            },
+          };
+          httpHandler(obj)
+            .then((response) => {
+              const resMsg = response?.data?.message;
+              console.log("resMsg", resMsg);
+              resetForm();
+              setSubmitResponseMsg(resMsg);
+              setSubmitResponseClassName("response-succ");
+              refreshAddedYears(true);
+            })
+        }).catch((error) => {
           const errMsg = error?.response?.data?.message;
           console.log("error", error, error.response);
           setSubmitResponseMsg(errMsg);
@@ -123,18 +148,18 @@ const AddMoreYearModal = (props) => {
   };
 
   const enablebtn = () => {
-    if(yearInterval > 0 && yearInterval !== "" && yearMessage !== "" && show) {
+    if (yearInterval > 0 && yearInterval !== "" && yearMessage !== "" && show) {
       setFormIsValid(true);
     } else {
       setFormIsValid(false);
     }
-  } 
+  }
 
-  useEffect(()=>{
+  useEffect(() => {
     setSubmitResponseMsg("");
     setSubmitResponseClassName("");
     enablebtn();
-  },[yearInterval, yearMessage, show]);
+  }, [yearInterval, yearMessage, show]);
 
   return (
     <div className="eepModalDiv">
@@ -146,24 +171,24 @@ const AddMoreYearModal = (props) => {
             </div>
             <div className="modal-body eep_scroll_y">
               <div className="row modalBodyHeight">
-                <div className="col-md-5 addMoreYearTemplate_div p-3 my-auto">     
-                  {show && !imgError && (             
-                    <div id="addMoreYearTemplate" className="">														
+                <div className="col-md-5 addMoreYearTemplate_div p-3 my-auto">
+                  {show && !imgError && (
+                    <div id="addMoreYearTemplate" className="">
                       <div className="row prevTempImage_div">
                         <div className="col-md-12">
-                          <img id="addYearImg" className="w-100" src="" alt="Preview Temp Image"/>
+                          <img id="addYearImg" className="w-100" src="" alt="Preview Temp Image" />
                         </div>
-                      </div>              
+                      </div>
                       <div className="row img-control_div my-3">
                         <div className="col-md-12 text-center">
                           <Link to="#" className="clearNewImage mx-2" onClick={RemoveAddYearImg}> Click to remove </Link>
                         </div>
-                      </div>                  
+                      </div>
                     </div>
                   )}
                   {imgError && (
-                    <div id="addMoreYearTemplate" style={{minHeight:"250px"}}>	
-                      <div className="d-flex allign-content-center">	
+                    <div id="addMoreYearTemplate" style={{ minHeight: "250px" }}>
+                      <div className="d-flex allign-content-center">
                         <div className="alert alert-danger" role="alert">{imgError}</div>
                       </div>
                     </div>
@@ -171,7 +196,7 @@ const AddMoreYearModal = (props) => {
                 </div>
                 <div className="col-md-7 addyearCompose_div p-3">
                   <div className="panel panel-default p-4">
-                    <div className="panel-body message">          
+                    <div className="panel-body message">
                       <div className="compose_text">
                         <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/compose.png`} className="" />
                       </div>
@@ -195,34 +220,34 @@ const AddMoreYearModal = (props) => {
                             <div className="bg-white px-3 py-3 yourmessage_inner_div text-center">
                               <div className="col-sm-12 pb-2 mb-2">Upload Image</div>
                               <div className="col-sm-12">
-                                <Link to="#"> 
-                                <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/add-message.svg`} className="add_newyear_img" alt="Add Template" onClick={ClickHandler}/>
-                                </Link> 
+                                <Link to="#">
+                                  <img src={`${process.env.PUBLIC_URL}/images/icons/tasks/add-message.svg`} className="add_newyear_img" alt="Add Template" onClick={ClickHandler} />
+                                </Link>
                                 <input type="file" className="d-none imgFileLoader" id="newYearfileLoader" modalid="addMoreYearModal" name="files" title="Load File" onChange={ChangeHandler} />
                               </div>
                             </div>
                           </div>
                         </div>
-                      </form>                                         
+                      </form>
                       <div className="col-sm-12 p-0 mt-4 addYearComposeButtonDiv">
                         <div className="form-group row">
                           <div className="col-sm-1"></div>
                           <div className="col-sm-11">
                             <button type="button" className="eep-btn eep-btn-cancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                            <button type="submit" className="eep-btn eep-btn-success float-right" disabled={formIsValid ? "" : "disabled"} onClick={AddMoreYearHandler}>                             
+                            <button type="submit" className="eep-btn eep-btn-success float-right" disabled={formIsValid ? "" : "disabled"} onClick={AddMoreYearHandler}>
                               Add
                             </button>
                           </div>
                         </div>
-                        {submitResponseMsg && ( 
-                        <div className="form-group row">
-                          <div className="col-sm-1"></div>
-                          <div className="col-sm-11">
-                            <div className="response-div m-0">
-                              <p className={`${submitResponseClassName} response-text`}>{submitResponseMsg}</p>
+                        {submitResponseMsg && (
+                          <div className="form-group row">
+                            <div className="col-sm-1"></div>
+                            <div className="col-sm-11">
+                              <div className="response-div m-0">
+                                <p className={`${submitResponseClassName} response-text`}>{submitResponseMsg}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
                         )}
                       </div>
                     </div>
