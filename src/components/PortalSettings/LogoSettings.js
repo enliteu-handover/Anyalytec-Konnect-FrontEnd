@@ -57,12 +57,15 @@ const LogoSettings = (props) => {
 
       <div className="row no-gutters mb-3">
         <div className="col-md-12 Logo" style={{ display: props?.state?.loginLogoByte && "flex" }}>
+          
           {
             props?.state?.loginLogoByte?.includes('.svg') ?
               <SvgComponent svgUrl={props?.state?.loginLogoByte} /> :
+
               props?.state?.loginLogoByte ?
                 <img className='imgs' src={props?.state?.loginLogoByte} />
-                : <AddLogo clickId={"pageLogo"} settings={{ isClear: clearImage, imgHeight: "200px", imgWidth: "200px", imgId: "page-logo", key: "loginLogoByte", checkKey: checkKey, isNew: true, uploadImgArry: uploadImgArry, clearImageHandler: clearImageHandler }} />
+                :
+                <AddLogo clickId={"pageLogo"} settings={{ isClear: clearImage, imgHeight: "200px", imgWidth: "200px", imgId: "page-logo", key: "loginLogoByte", checkKey: checkKey, isNew: true, uploadImgArry: uploadImgArry, clearImageHandler: clearImageHandler }} />
           } </div>
       </div>
 

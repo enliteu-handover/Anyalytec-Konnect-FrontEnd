@@ -8,6 +8,7 @@ import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import MyCertificate from "./MyCertificate";
+import { base64ToFile } from "../../helpers";
 
 const Certificates = () => {
   const [certificateRecognitionData, setCertificateRecognitionData] = useState([]);
@@ -184,15 +185,7 @@ const Certificates = () => {
 
 
         const base64Data = (obj?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
-
-        const binaryString = atob(base64Data);
-        const byteNumbers = new Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          byteNumbers[i] = binaryString.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/png' });
-        const file = new File([blob], 'filename.png', { type: 'image/png' });
+        const file = base64ToFile(base64Data);
 
         const formData = new FormData();
         formData.append("image", file);

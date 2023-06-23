@@ -13,7 +13,7 @@ const  NominatedAwardFilteredData = (props) => {
 
 	const getHashTag = (arg) => {
 		const arr = [];
-		arg.map((res) => {
+		arg?.map((res) => {
 			arr.push(res.hashtagName);
 		});
 		return arr.join(", ");

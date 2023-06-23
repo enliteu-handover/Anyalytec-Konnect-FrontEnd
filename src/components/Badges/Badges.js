@@ -43,7 +43,7 @@ const Badges = () => {
   ];
 
   useEffect(() => {
-    
+
     let tabConfig = [];
     if (userRolePermission.badgeSend) {
       tabConfig = [
@@ -58,10 +58,10 @@ const Badges = () => {
       ];
     }
 
-    if(routerData){
+    if (routerData) {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
-        if(res.id === activeTabId){
+        if (res.id === activeTabId) {
           res.active = true
         }
         return res;
@@ -71,7 +71,7 @@ const Badges = () => {
           config: tabConfig,
         })
       );
-      history.replace({pathname: history.location.pathname, state: {}});
+      history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -159,10 +159,15 @@ const Badges = () => {
   };
 
   const bulkSubmitHandler = () => {
+    debugger
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
-        url: URL_CONFIG.BADGE_BULK_UPDATE + "?badge=" + selectedRecords + "&active=" + bulkUpdateBy.updateBy,
+        url: URL_CONFIG.BADGE_BULK_UPDATE,
+        // + "?badge=" + selectedRecords + "&active=" + bulkUpdateBy.updateBy,
         method: "put",
+        payload: {
+          badges: selectedRecords, active: bulkUpdateBy.updateBy
+        }
       };
       httpHandler(obj)
         .then((response) => {
@@ -231,7 +236,7 @@ const Badges = () => {
             <MyBadge />
           </div>
           <div id="badgeTab" className="tab-pane h-100">
-            {!userRolePermission.badgeCreate && !userRolePermission.badgeModify && 
+            {!userRolePermission.badgeCreate && !userRolePermission.badgeModify &&
               <PageHeader
                 title="Badges and Recognition"
                 filter={
@@ -239,7 +244,7 @@ const Badges = () => {
                 }
               ></PageHeader>
             }
-            {userRolePermission.badgeCreate && !userRolePermission.badgeModify && 
+            {userRolePermission.badgeCreate && !userRolePermission.badgeModify &&
               <PageHeader
                 title="Badges and Recognition"
                 navLinksRight={
@@ -254,7 +259,7 @@ const Badges = () => {
                 }
               ></PageHeader>
             }
-            {!userRolePermission.badgeCreate && userRolePermission.badgeModify && 
+            {!userRolePermission.badgeCreate && userRolePermission.badgeModify &&
               <PageHeader
                 title="Badges and Recognition"
                 BulkAction={
@@ -266,7 +271,7 @@ const Badges = () => {
                 }
               ></PageHeader>
             }
-            {userRolePermission.badgeCreate && userRolePermission.badgeModify && 
+            {userRolePermission.badgeCreate && userRolePermission.badgeModify &&
               <PageHeader
                 title="Badges and Recognition"
                 navLinksRight={

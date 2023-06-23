@@ -25,7 +25,7 @@ const AwardRecognizeModal = (props) => {
 
   const getMyHashTag = (arg) => {
     const arr = [];
-    arg.map((res) => {
+    arg?.map((res) => {
       return arr.push(res.hashName);
     });
     return arr.join(", ");

@@ -78,28 +78,28 @@ const Awards = () => {
 
   useEffect(() => {
 
-    if(userRolePermission.awardNominatorAssignee) {
+    if (userRolePermission.awardNominatorAssignee) {
       tabConfig.push(
         { title: "Nominator View", id: "NominatorTab" },
         { title: "My Nominations", id: "MyNominationsTab" },
         { title: "Approval", id: "ApprovalTab" }
       );
     }
-    if(userRolePermission.awardCategorisation) {
+    if (userRolePermission.awardCategorisation) {
       tabConfig.splice(2, 0, { title: "Awards", id: "awardTab" });
       tabConfig.push(
         { title: "Manage", id: "ManageTab" }
       );
     }
 
-    if(!userRolePermission.awardNominatorAssignee && !userRolePermission.awardCategorisation) {
+    if (!userRolePermission.awardNominatorAssignee && !userRolePermission.awardCategorisation) {
       tabConfig.splice((tabConfig.length - 1), 0, { title: "Approval", id: "ApprovalTab" });
     }
 
-    if(routerData){
+    if (routerData) {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
-        if(res.id === activeTabId){
+        if (res.id === activeTabId) {
           return res.active = true
         }
       });
@@ -108,7 +108,7 @@ const Awards = () => {
           config: tabConfig,
         })
       );
-      history.replace({pathname: history.location.pathname, state: {}});
+      history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -157,7 +157,7 @@ const Awards = () => {
         //const errMsg = error.response?.data?.message;
       });
   };
-  
+
   const filterOnChangeHandler = (arg) => {
     if (arg) {
       setFilterBy({ filter: arg.value });
@@ -194,10 +194,15 @@ const Awards = () => {
   };
 
   const bulkSubmitHandler = () => {
+    debugger
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
-        url: URL_CONFIG.AWARD_BULK_UPDATE + "?award=" + selectedRecords + "&active=" + bulkUpdateBy.updateBy,
+        url: URL_CONFIG.AWARD_BULK_UPDATE,
+        // + "?award=" + selectedRecords + "&active=" + bulkUpdateBy.updateBy,
         method: "put",
+        payload: {
+          award: selectedRecords, active: bulkUpdateBy.updateBy
+        }
       };
       httpHandler(obj)
         .then((response) => {
@@ -265,35 +270,15 @@ const Awards = () => {
             <MyAwards />
           </div>
           <div id="NominationsTab" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'NominationsTab' && <Nominations /> }
+            {activeTab && activeTab.id === 'NominationsTab' && <Nominations />}
           </div>
           <div id="awardTab" className="tab-pane h-100">
-            {!userRolePermission.awardCreate && !userRolePermission.awardModify && 
+            {!userRolePermission.awardCreate && !userRolePermission.awardModify &&
               <PageHeader title="Awards and Nomination"
-                filter={ <Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} /> }
+                filter={<Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} />}
               ></PageHeader>
             }
-            {userRolePermission.awardCreate && !userRolePermission.awardModify && 
-              <PageHeader title="Awards and Nomination"
-                navLinksRight={
-                  <Link
-                    className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
-                    to="createaward"
-                    dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
-                  ></Link>
-                }
-                filter={ <Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} /> }
-              ></PageHeader>
-            }
-            {!userRolePermission.awardCreate && userRolePermission.awardModify && 
-              <PageHeader title="Awards and Nomination"
-                filter={ <Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} /> }
-                BulkAction={
-                  <BulkAction config={BULK_ACTION} onClickCheckbox={enableFilterOptions} onFilterChange={onBulkActionChangeHandler} checkBoxInfo={enableBulkState} bulkSubmitHandler={bulkSubmitHandler} /> 
-                }
-              ></PageHeader>
-            }
-            {userRolePermission.awardCreate && userRolePermission.awardModify && 
+            {userRolePermission.awardCreate && !userRolePermission.awardModify &&
               <PageHeader title="Awards and Nomination"
                 navLinksRight={
                   <Link
@@ -302,13 +287,33 @@ const Awards = () => {
                     dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
                   ></Link>
                 }
-                filter={ <Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} /> }
+                filter={<Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} />}
+              ></PageHeader>
+            }
+            {!userRolePermission.awardCreate && userRolePermission.awardModify &&
+              <PageHeader title="Awards and Nomination"
+                filter={<Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} />}
                 BulkAction={
-                  <BulkAction config={BULK_ACTION} onClickCheckbox={enableFilterOptions} onFilterChange={onBulkActionChangeHandler} checkBoxInfo={enableBulkState} bulkSubmitHandler={bulkSubmitHandler} /> 
+                  <BulkAction config={BULK_ACTION} onClickCheckbox={enableFilterOptions} onFilterChange={onBulkActionChangeHandler} checkBoxInfo={enableBulkState} bulkSubmitHandler={bulkSubmitHandler} />
                 }
               ></PageHeader>
             }
-            {activeTab && activeTab.id === 'awardTab' && 
+            {userRolePermission.awardCreate && userRolePermission.awardModify &&
+              <PageHeader title="Awards and Nomination"
+                navLinksRight={
+                  <Link
+                    className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
+                    to="createaward"
+                    dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
+                  ></Link>
+                }
+                filter={<Filter config={HIDE_SHOW_FILTER_CONFIG} onFilterChange={filterOnChangeHandler} />}
+                BulkAction={
+                  <BulkAction config={BULK_ACTION} onClickCheckbox={enableFilterOptions} onFilterChange={onBulkActionChangeHandler} checkBoxInfo={enableBulkState} bulkSubmitHandler={bulkSubmitHandler} />
+                }
+              ></PageHeader>
+            }
+            {activeTab && activeTab.id === 'awardTab' &&
               <AssignAwards
                 filterBy={filterBy}
                 awardData={awardData}
@@ -321,16 +326,16 @@ const Awards = () => {
           </div>
           <div id="NominatorTab" className="tab-pane h-100">
             <PageHeader title="Award Nominator" />
-            {activeTab && activeTab.id === 'NominatorTab' && <AwardRecognition /> }
+            {activeTab && activeTab.id === 'NominatorTab' && <AwardRecognition />}
           </div>
           <div id="MyNominationsTab" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'MyNominationsTab' && <AwardNominationList /> }
+            {activeTab && activeTab.id === 'MyNominationsTab' && <AwardNominationList />}
           </div>
           <div id="ApprovalTab" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'ApprovalTab' && <AwardApprovalList /> }
+            {activeTab && activeTab.id === 'ApprovalTab' && <AwardApprovalList />}
           </div>
           <div id="ManageTab" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'ManageTab' && <ManageAwards /> } 
+            {activeTab && activeTab.id === 'ManageTab' && <ManageAwards />}
           </div>
         </div>
       </div>

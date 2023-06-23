@@ -45,7 +45,7 @@ const SocialWallMiddleContent = (props) => {
 
   const getHashTag = (arg) => {
     const arr = [];
-    arg.map((res) => {
+    arg?.map((res) => {
       arr.push({ id: res.id, name: res.hashtagName });
     });
     return arr;

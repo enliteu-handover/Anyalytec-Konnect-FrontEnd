@@ -10,8 +10,8 @@ const AwardNominationInfo = (props) => {
   const [hashId, setHashId] = useState([]);
   const getMyHashTag = (arg) => {
     const arr = [];
-    arg.map((res) => {
-      return arr.push(res.hashtagName);
+    arg?.map((res) => {
+      return arr?.push(res?.hashtagName);
     });
     return arr.join(", ");
   }; 
@@ -64,7 +64,7 @@ const AwardNominationInfo = (props) => {
               <div className="n_dtls_info">
                 <label className="n_dtls_lb font-helvetica-m">Tags</label>
                 <p className="n_award_category mb-1 text-right">
-                  {getMyHashTag(aDataVal.award.hashTag)}
+                  {getMyHashTag(aDataVal?.award?.hashTag)}
                 </p>
               </div>
               <div className="n_dtls_info">
@@ -141,8 +141,8 @@ const AwardNominationInfo = (props) => {
               <React.Fragment>
                 <div className="eep-dropdown-divider"></div>
                 <div className="btn-group eep_tags_group hashTag eep_scroll_y" style={{maxHeight: "70px"}}>
-                  {aDataVal.award.hashTag &&
-                    aDataVal.award.hashTag.map((dataHash, i) => (
+                  {aDataVal?.award?.hashTag &&
+                    aDataVal?.award?.hashTag.map((dataHash, i) => (
                       <div className="eep_tags" key={"hash_" + i}>
                         <input
                           type="checkbox"

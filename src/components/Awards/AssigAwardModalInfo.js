@@ -5,7 +5,7 @@ const AssignAwardModalInfo = (props) => {
 
   const getMyHashTag = (arg) => {
     const arr = [];
-    arg.map((res) => {
+    arg?.map((res) => {
       arr.push(res.hashtagName);
     });
     return arr.join(", ");
@@ -13,7 +13,7 @@ const AssignAwardModalInfo = (props) => {
 
   const getScheduleDetails = (arg) => {
     const arr = [];
-    arg.map((res) => {
+    arg?.map((res) => {
       arr.push(res.date + '-' + res.month);
     });
     return arr.join(", ");

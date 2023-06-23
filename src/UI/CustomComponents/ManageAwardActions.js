@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ManageAwardActions = (props) => {
 
-  const {data, triggerModal} = props;
+  const { data, triggerModal } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const handleDeletion = (arg) => {
-    triggerModal({data:arg, handleState:true});
+    triggerModal({ data: arg, handleState: true });
   }
-
-  return(
-		<div className="actnsDiv manageIcons">
-      <Link 
-        to={ data.entityType === "nomi_award" ? {pathname:'managenominateawardview', state: {awardManageData:data}} : (data.entityType === "spot_award") ? {pathname:'managespotawardview', state: {awardManageData:data}} : "#"}
+  return (
+    <div className="actnsDiv manageIcons">
+      <Link
+        to={(data?.entityType || props?.data?.type) === "nomi_award" ? { pathname: 'managenominateawardview', state: { awardManageData: data } } : ((data?.entityType || props?.data?.type) === "spot_award") ? { pathname: 'managespotawardview', state: { awardManageData: data } } : "#"}
         title="View"
         className="manageViewIcon"
       >
@@ -35,7 +34,7 @@ const ManageAwardActions = (props) => {
         ></span>
         {/* <img src={process.env.PUBLIC_URL + "/images/icons/stop.svg"} className="transformScale ml-2" alt="Delete Icon" title="Delete Data" style={{width:"18px"}} /> */}
       </Link>
-		</div>
+    </div>
   )
 }
 export default ManageAwardActions;

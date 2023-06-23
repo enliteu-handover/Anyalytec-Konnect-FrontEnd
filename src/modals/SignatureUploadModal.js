@@ -4,6 +4,7 @@ import SignaturePad from "react-signature-canvas";
 import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
 import { translate } from "pdf-lib";
+import { base64ToFile } from "../helpers";
 
 const SignatureUploadModal = () => {
 
@@ -77,7 +78,7 @@ const SignatureUploadModal = () => {
   };
 
   const uploadSignature = () => {
-    
+
     let dataUrlVal = null;
     if (!toggleChecked) {
       dataUrlVal = sigPad.getCanvas().toDataURL("image/png");
@@ -85,14 +86,7 @@ const SignatureUploadModal = () => {
 
     const base64Data = (toggleChecked ? (signValue ? signValue : null) : (dataUrlVal ? dataUrlVal : null)).replace(/^data:image\/\w+;base64,/, '');
 
-    const binaryString = atob(base64Data);
-    const byteNumbers = new Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      byteNumbers[i] = binaryString.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/png' });
-    const file = new File([blob], 'filename.png', { type: 'image/png' }); 
+    const file = base64ToFile(base64Data)
 
     const formData = new FormData();
     formData.append("image", file);
@@ -111,7 +105,7 @@ const SignatureUploadModal = () => {
     // };
     httpHandler(obj)
       .then((res) => {
-        
+
         const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
         const update = {
           url: URL_CONFIG.UPDATE_USER_SIGNATURE,

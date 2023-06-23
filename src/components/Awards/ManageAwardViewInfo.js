@@ -7,7 +7,7 @@ const ManageAwardViewInfo = (props) => {
   const getHashTag = (arg) => {
     if(arg) {
       const arr = [];
-      arg.length > 0 && arg.map((res) => {
+      arg.length > 0 && arg?.map((res) => {
         arr.push(res.hashtagName);
       });
       return arr.join(", ");

@@ -6,6 +6,7 @@ import { httpHandler } from "../../http/http-interceptor";
 import DeleteECardTemplateModal from "../../modals/DeleteECardTemplateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import ImagePreloader from "./ImagePreloader";
+import { base64ToFile } from "../../helpers";
 
 const CardsTemplate = (props) => {
 
@@ -116,15 +117,7 @@ const CardsTemplate = (props) => {
 
   const insertCardData = (arg) => {
     const base64Data = (arg?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
-
-    const binaryString = atob(base64Data);
-    const byteNumbers = new Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      byteNumbers[i] = binaryString.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/png' });
-    const file = new File([blob], 'filename.png', { type: 'image/png' });
+    const file = base64ToFile(base64Data);
 
     const formData = new FormData();
     formData.append("image", file);

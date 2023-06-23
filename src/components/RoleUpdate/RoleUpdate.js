@@ -78,7 +78,7 @@ const RoleUpdate = () => {
       users: [],
     };
 
-    arg.map((res) => {
+    arg?.map((res) => {
       roleBulkUpdate.users.push({ id: res.id });
     });
 

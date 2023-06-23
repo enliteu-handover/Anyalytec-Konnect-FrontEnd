@@ -42,8 +42,8 @@ const AwardRecognition = () => {
 
   const getMyHashTag = (arg) => {
     const arr = [];
-    arg.map((res) => {
-      return arr.push(res.hashtagName);
+    arg?.map((res) => {
+      return arr?.push(res?.hashtagName);
     });
     return arr.join(", ");
   };
@@ -80,7 +80,7 @@ const AwardRecognition = () => {
                         <div className="p-2">
                           <div className="badge_info_div">
                             <p className="badge_info font-helvetica-m">{data.award.name}</p>
-                            <p className="badge_info empty-content-space">{data.award.hashTag.length > 0 ? getMyHashTag(data.award.hashTag) : "---"}</p>
+                            <p className="badge_info empty-content-space">{data?.award?.hashTag?.length > 0 ? getMyHashTag(data.award.hashTag) : "---"}</p>
                             <p className="badge_info font-helvetica-m">{data.award.points}</p>
                           </div>
                         </div>

@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import UpdateProfileModal from "../modals/UpdateProfileModal";
 import SignatureUploadModal from "../modals/SignatureUploadModal";
 import EEPSubmitModal from "../modals/EEPSubmitModal";
+import { base64ToFile } from "../helpers";
 
 const MyProfile = () => {
   const [userMeta, setUserMeta] = useState(null);
@@ -164,7 +165,7 @@ const MyProfile = () => {
   }, []);
 
   const onUpload = (arg) => {
-    
+
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     // let currUserDataTemp = JSON.parse(JSON.stringify(currUserDataNew));
     // delete currUserDataTemp.createdAt;
@@ -178,15 +179,7 @@ const MyProfile = () => {
     // currUserDataTemp.imageByte=arg;
 
     const base64Data = (arg?.image).replace(/^data:image\/\w+;base64,/, '');
-
-    const binaryString = atob(base64Data);
-    const byteNumbers = new Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      byteNumbers[i] = binaryString.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/png' });
-    const file = new File([blob], 'filename.png', { type: 'image/png' }); 
+    const file = base64ToFile(base64Data)
 
     const formData = new FormData();
     formData.append("image", file);
