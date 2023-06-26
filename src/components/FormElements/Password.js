@@ -29,7 +29,7 @@ const Password = (props) => {
   };
 
   useEffect(() => {
-    
+    debugger
     const valueIsValid = value.trim() !== "";
     const inputIsInvalidTest = !valueIsValid && fieldTouched;
     setInputIsInvalid(inputIsInvalidTest);
@@ -38,7 +38,10 @@ const Password = (props) => {
         /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/g
       ).test(value);
       setIsPasswordValid(passwordValid);
-      if(passwordValid) {
+      // if( !props?.field?.disabled){
+      //   setIsPasswordValid(passwordValid);
+      // }
+      if (passwordValid) {
         handleChange(field, value);
       } else {
         handleChange(field, null);
@@ -68,10 +71,10 @@ const Password = (props) => {
   return (
     <React.Fragment>
       <ReactTooltip effect="solid" className="toolTipSize" />
-    
+
       <div className={`col-md-12 form-group text-left ${fieldClasses} ${field.mandatory ? "required" : ""}`} >
         <label className="control-label mr-2">{field.label}</label>
-        <span className="" data-tip="The minimum password length is 8 characters and must contain at least 1 lowercase letter, 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon}}></span>
+        <span className="" data-tip="The minimum password length is 8 characters and must contain at least 1 lowercase letter, 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon }}></span>
         <div className="input-group" id="show_hide_password">
           <input
             className="form-control a_upassword"
@@ -83,7 +86,7 @@ const Password = (props) => {
             onBlur={onBlurHandler}
             disabled={"disabled" in field ? field["disabled"] : false}
             autoComplete="new-password"
-            style={{maxWidth: "calc(100% - 44px)"}}
+            style={{ maxWidth: "calc(100% - 44px)" }}
           />
           <div className="input-group-addon bg-white" >
             <div className="icon-place-holder" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + `${pwBgImage}`})`, }} onClick={passwordToggleHandler}></div>

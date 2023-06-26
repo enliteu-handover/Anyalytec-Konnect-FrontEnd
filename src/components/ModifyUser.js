@@ -11,6 +11,7 @@ import { FormContext } from "./FormElements/FormContext";
 import Card from "../UI/Card";
 import EEPSubmitModal from "../modals/EEPSubmitModal";
 import ResponseInfo from "../UI/ResponseInfo";
+import { base64ToFile } from "../helpers";
 
 const ModifyUser = () => {
   const [userMetaData, setUserMetaData] = useState(null);
@@ -23,7 +24,7 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = (event) => {
-    
+    debugger
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -34,7 +35,7 @@ const ModifyUser = () => {
     delete uData.department.updatedAt;
     delete uData.department.updatedBy;
     uData.manager = {
-      id: uData.manager
+      id: uData?.manager ?? uData?.manager?.id?.id
     };
     setFormSubmitted(true);
     if (formIsValid) {
@@ -45,21 +46,21 @@ const ModifyUser = () => {
       };
       httpHandler(obj)
         .then((response) => {
-          const obj_ = {
-            url: URL_CONFIG.RESETPASSWORD_AUTH,
-            method: "post",
-            payload: { new_password: uData?.password },
-            isAuth: true
-          };
-          httpHandler(obj_).then(() => {
-            setShowModal({
-              ...showModal,
-              type: "success",
-              message: response?.data?.message,
-            });
+          // const obj_ = {
+          //   url: URL_CONFIG.RESETPASSWORD_AUTH,
+          //   method: "post",
+          //   payload: { new_password: uData?.password },
+          //   isAuth: true
+          // };
+          // httpHandler(obj_).then(() => {
+          setShowModal({
+            ...showModal,
+            type: "success",
+            message: response?.data?.message,
           })
-
         })
+
+        // })
         .catch((error) => {
           console.log("error data", error.response.data);
           setShowModal({
@@ -104,22 +105,46 @@ const ModifyUser = () => {
 
   }, [uData, formTouched]);
 
-  const handleChange = (field, event) => {
+  const handleChange = async (field, event) => {
+    debugger
     setFormTouched(true);
-    if (field.type === "datePicker" || field.type === "select") {
+    if (field?.name === "imageByte") {
+      const file = base64ToFile(event?.image?.replace(/^data:image\/\w+;base64,/, ''))
+
+      const formData = new FormData();
+      formData.append("image", file);
+      const obj = {
+        url: URL_CONFIG.UPLOAD_FILES,
+        method: "post",
+        payload: formData,
+      };
+      await httpHandler(obj)
+        .then((res) => {
+          uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
+        })
+
+    } else if (field?.name === "manager") {
+      uData[field.name] = event?.id;
+    } else if (field.type === "datePicker" || field.type === "select") {
       uData[field.name] = field.booleanValue ? (event === 'true' ? true : false) : event;
     } else {
       uData[field.name] = event;
     }
-    setUData((prevState) => {
-      return { ...prevState, ...uData };
-    });
+    // }
+    // setUData((prevState) => {
+    //   return { ...prevState, ...uData };
+    // });
+
+    setUData({ ...uData })
   };
 
   const fetchUserMeta = () => {
+    debugger
     fetch(`${process.env.PUBLIC_URL}/data/user.json`)
       .then((response) => response.json())
       .then((data) => {
+        // delete data.column3.fields[3]
+        data.column3.fields = data.column3.fields.filter(v => v?.type !== "password")
         setUserMetaData(data);
         fetchCurrentUserData(data);
       });
@@ -160,6 +185,7 @@ const ModifyUser = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
+    debugger
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
         if (fld["type"] === "number") {
@@ -187,6 +213,9 @@ const ModifyUser = () => {
               fld["name"] !== "password" ? String(uData[fld["name"]]) : "";
           } else {
             fld["value"] = fld["name"] !== "password" ? uData[fld["name"]] : "";
+            if (fld["name"] === "password") {
+              fld["disabled"] = true;
+            }
           }
         }
       }
@@ -198,6 +227,7 @@ const ModifyUser = () => {
   };
 
   useEffect(() => {
+    debugger
     fetchUserMeta();
   }, []);
 
@@ -237,7 +267,7 @@ const ModifyUser = () => {
       })
     );
   }, [breadcrumbArr, dispatch]);
-
+  console.log('userMetaData', userMetaData)
   return (
     <React.Fragment>
       {userRolePermission.adminPanel &&

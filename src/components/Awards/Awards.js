@@ -194,7 +194,7 @@ const Awards = () => {
   };
 
   const bulkSubmitHandler = () => {
-    debugger
+    
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
         url: URL_CONFIG.AWARD_BULK_UPDATE,

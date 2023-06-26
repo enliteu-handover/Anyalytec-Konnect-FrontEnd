@@ -86,7 +86,7 @@ const AddMoreYearModal = (props) => {
   }
 
   const AddMoreYearHandler = () => {
-    debugger
+    
     if (formIsValid) {
 
       const base64Data = (addMoreYearModalData?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');

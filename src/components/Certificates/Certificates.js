@@ -171,7 +171,7 @@ const Certificates = () => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png", "image/svg+xml"];
   const addCertificateHandler = (event) => {
-    debugger
+    
     var file = event.target.files[0];
     var fileType = file["type"];
     if (validImageTypes.includes(fileType)) {

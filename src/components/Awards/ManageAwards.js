@@ -57,7 +57,7 @@ const ManageAwards = () => {
   }, []);
 
   const triggerModal = (isTrigger) => {
-    debugger
+    
     if (isTrigger) {
       if (isTrigger.handleState) {
         setDeletionData(isTrigger.data);
@@ -170,7 +170,7 @@ const ManageAwards = () => {
   }, []);
 
   const confirmState = (arg) => {
-    debugger
+    
     if (arg) {
       //if(deletionData.entityType === "nomi_award") {
       const obj = {

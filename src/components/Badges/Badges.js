@@ -159,7 +159,7 @@ const Badges = () => {
   };
 
   const bulkSubmitHandler = () => {
-    debugger
+    
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
         url: URL_CONFIG.BADGE_BULK_UPDATE,

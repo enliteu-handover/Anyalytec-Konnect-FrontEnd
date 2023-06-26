@@ -38,6 +38,7 @@ const FileField = (props) => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
   const onChangeHandler = (field, event) => {
+    debugger
     setEnableAction(false);
     var file = event.target.files[0];
     var fileType = file["type"];

@@ -10,6 +10,7 @@ import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
 import Card from "../UI/Card";
 import ResponseInfo from "../UI/ResponseInfo";
+import { base64ToFile } from "../helpers";
 
 const AddUser = () => {
   const dataObj = {};
@@ -112,10 +113,29 @@ const AddUser = () => {
     }
   }, [uData]);
 
-  const handleChange = (field, event) => {
+  const handleChange = async (field, event) => {
+    debugger
     const value = event;
-    field["value"] = value;
-    dataObj[field["name"]] = value;
+
+    if (field["name"] === "imageByte") {
+      const file = base64ToFile(value.image?.replace(/^data:image\/\w+;base64,/, ''))
+
+      const formData = new FormData();
+      formData.append("image", file);
+      const obj = {
+        url: URL_CONFIG.UPLOAD_FILES,
+        method: "post",
+        payload: formData,
+      };
+      await httpHandler(obj)
+        .then((res) => {
+          uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
+        })
+
+    }else{
+      field["value"] = value;
+      dataObj[field["name"]] = value;
+    }
 
     setUData((prevState) => {
       return { ...prevState, ...dataObj };

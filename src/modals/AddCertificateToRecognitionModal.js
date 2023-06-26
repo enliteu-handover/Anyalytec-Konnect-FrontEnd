@@ -21,7 +21,7 @@ const AddCertificateToRecognitionModal = (props) => {
   }, [certData]);
 
   const addCertificateHandler = () => {
-    debugger
+    
     if (certData) {
       const certificateData = JSON.parse(JSON.stringify(certificateDataTemp));
       certificateData.name = certData.certificateTitle;

@@ -8,6 +8,7 @@ import UserNavItem from "./UserNavItem";
 import Notification from "./Notification";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
+import SvgComponent from "../../components/svgComponent";
 const Header = () => {
   const pageTitle = useSelector((state) => state.breadcrumb.title);
   const headerLogo = useSelector((state) => state.storeState.logo);
@@ -50,11 +51,13 @@ const Header = () => {
           <i className="fa fa-bars"></i>
         </button>
 
-        <img
-          src={(state?.headerLogoByte) || (process.env.PUBLIC_URL + "/images/logo.svg")}
-          className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
-          alt="logo"
-        />
+        {
+          state?.headerLogoByte?.includes('.svg') ?
+           <div style={{height:"60px"}}> <SvgComponent svgUrl={state?.headerLogoByte} /></div> : <img
+              src={(state?.headerLogoByte) || (process.env.PUBLIC_URL + "/images/logo.svg")}
+              className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
+              alt="logo"
+            />}
 
         <div className={`eep-topbar-divider d-none d-sm-block`}></div>
 

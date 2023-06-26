@@ -170,7 +170,7 @@
       },
       {
         "type": "password",
-        "label": "Change Password",
+        "label": "Generate Password",
         "name": "password",
         "mandatory": true,
         "disabled": false,

@@ -108,7 +108,7 @@ const CertificateCompose = () => {
   }
 
   const sendCertHandler = () => {
-    debugger
+    
     setCertificatePreviewModalShow(false);
     const obj = {
       tnm: toName,
@@ -125,7 +125,7 @@ const CertificateCompose = () => {
   }
 
   async function modifyPdf(obj) {
-    debugger
+    
     const defaultParameters = JSON.parse('[{"toField":[{"fontsize":33},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",348]},{"rgbcolor":[111,113,121]}]},{"certNameField":[{"fontsize":24},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",454]},{"rgbcolor":[111,113,121]}]},{"certMsgField":[{"fontsize":20},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":562},{"coordinates":[153,285]},{"rgbcolor":[111,113,121]}]},{"certdateField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[126,113]},{"rgbcolor":[111,113,121]}]},{"certsignField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[556,85]},{"rgbcolor":[111,113,121]}]},{"certsignimgField":[{"imgalign":"center"},{"maxwidth":189},{"coordinates":[556,107]},{"imgsize":[138,36]}]},{"certSource":"certificate-3.pdf"}]');
     const parseJsonValue = Object.keys(cDataValue).length ? JSON.parse(cDataValue.parameters) : defaultParameters;
 
@@ -279,7 +279,7 @@ const CertificateCompose = () => {
     // var signURL = currUserInfo.signatureByte !== null ? (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
     var signURL = currUserInfo.signatureByte !== null ?
       (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
-    debugger
+    
     if (signURL) {
       let sg_img_coordination_x = parseJsonValue[5]["certsignimgField"][2]["coordinates"][0];
       let sg_img_coordination_y = parseJsonValue[5]["certsignimgField"][2]["coordinates"][1];
@@ -391,7 +391,7 @@ const CertificateCompose = () => {
   }
 
   const handleSendCertificate = async (cValue) => {
-    debugger
+    
     if (!isSendDisabled) {
 
       let imgUrl = ''
