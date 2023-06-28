@@ -14,7 +14,7 @@ const SocialWallCommentsList = (props) => {
         return (
           <div className="sw_comment_lists d-flex" key={"swCommentList_" + type.section + "_" +subIndex}>
             <img
-              src={getUserPicture(subItem.createdBy.id)}
+              src={getUserPicture(subItem?.createdBy?.id)}
               className="sr_rank_pic"
               alt="Profile Pic"
               title={ subItem.createdBy.firstname +" " +subItem.createdBy.lastname
@@ -37,12 +37,12 @@ const SocialWallCommentsList = (props) => {
                     <span> Reply </span>
                   </span>
                 </div>
-                {type && type.section === 'parent' && subItem.subChildren.length > 0 &&
+                {type && type.section === 'parent' && subItem?.subChildren?.length > 0 &&
                   <div className="all_replies_view ml-3 c1" data-toggle="collapse" data-target={"#children_"+subIndex} onClick={() => getSubChildrenParent(subItem)}>
                     <span dangerouslySetInnerHTML={{__html: svgIcons && svgIcons.view_reply_icon}}></span>
                     <React.Fragment>
-                      <span className="all_replies_count">{" "+subItem.subChildren.length+" "}</span>
-                      <span className="all_replies_txt">{subItem.subChildren.length > 1 ? "Replies" : "Reply"}</span>
+                      <span className="all_replies_count">{" "+subItem?.subChildren?.length+" "}</span>
+                      <span className="all_replies_txt">{subItem?.subChildren?.length > 1 ? "Replies" : "Reply"}</span>
                     </React.Fragment>
                   </div>
                   }
@@ -77,7 +77,7 @@ const SocialWallCommentsList = (props) => {
               </div>
               )}
 
-              {subItem.subChildren && subItem.subChildren.length > 0 && 
+              {subItem.subChildren && subItem?.subChildren?.length > 0 && 
                 <div className="all_replies_lists collapse" id={'children_'+subIndex}>
                   <SocialWallCommentsList
                     comments = {subItem.subChildren}

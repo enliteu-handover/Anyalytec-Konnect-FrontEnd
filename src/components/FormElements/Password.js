@@ -29,7 +29,7 @@ const Password = (props) => {
   };
 
   useEffect(() => {
-    debugger
+    
     const valueIsValid = value.trim() !== "";
     const inputIsInvalidTest = !valueIsValid && fieldTouched;
     setInputIsInvalid(inputIsInvalidTest);

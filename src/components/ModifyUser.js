@@ -24,7 +24,7 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = (event) => {
-    debugger
+    
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -106,7 +106,7 @@ const ModifyUser = () => {
   }, [uData, formTouched]);
 
   const handleChange = async (field, event) => {
-    debugger
+    
     setFormTouched(true);
     if (field?.name === "imageByte") {
       const file = base64ToFile(event?.image?.replace(/^data:image\/\w+;base64,/, ''))
@@ -139,7 +139,7 @@ const ModifyUser = () => {
   };
 
   const fetchUserMeta = () => {
-    debugger
+    
     fetch(`${process.env.PUBLIC_URL}/data/user.json`)
       .then((response) => response.json())
       .then((data) => {
@@ -185,7 +185,7 @@ const ModifyUser = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
-    debugger
+    
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
         if (fld["type"] === "number") {
@@ -227,7 +227,7 @@ const ModifyUser = () => {
   };
 
   useEffect(() => {
-    debugger
+    
     fetchUserMeta();
   }, []);
 

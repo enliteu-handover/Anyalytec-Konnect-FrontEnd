@@ -7,7 +7,7 @@ const ForumCommentsList = (props) => {
   const {forumData, comments, getUserPicture, deleteCommentHandler, commentUnLikeHandler, commentLikeHandler, toggleReply, editCommentHandler, editCommentReplyHandler, toggleReplyList, checkIsReplyLiked} = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-  //console.log("ForumCommentsList props", props);
+  // console.log("ForumCommentsList props", comments);
 
   return (
     <div className="mt-2">
@@ -17,12 +17,12 @@ const ForumCommentsList = (props) => {
             <div className="forum_reply_content_div">
               <div className="forum_profile_container">
                 <div className="forum_profile_image">
-                  <img src={getUserPicture(subItem.createdBy.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
+                  <img src={getUserPicture(subItem?.createdBy?.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
                 </div>
                 <div className="forum_profile_content">
                   <div className="forum_profile_content_inner_div d-flex bd-highlight">
                     <div className="forum_profile_namepost w-100 bd-highlight">
-                      <label className="forum_user_name mb-0">{subItem.createdBy.fullName}</label>
+                      <label className="forum_user_name mb-0">{subItem?.createdBy?.fullName}</label>
                       <label className="forum_nofpostes d-flex align-items-center mb-0" style={{ fontSize: "12px" }}>
                         <div className="d-flex cursor_help mb-0" title={forumData.title}><i className="eep_truncate eep_truncate_max">Comment to - <span>{forumData.title}</span></i></div>
                         <div className="eep-splitter" style={{height: "15px"}}></div>
@@ -30,7 +30,7 @@ const ForumCommentsList = (props) => {
                         <span className="ml-2">{eepFormatDateTime(subItem.createdAt)}</span>
                       </label>
                     </div>
-                    {subItem.createdBy.id === currentUserData.id &&
+                    {subItem?.createdBy?.id === currentUserData.id &&
                     <div className="forumkebab_div  flex-shrink-1 bd-highlight">
                       <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
                         <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>
@@ -62,11 +62,11 @@ const ForumCommentsList = (props) => {
                     }
                   </div>
                   <div className="forum_rplay_icon_div d-flex align-items-center">
-                    {subItem.subChildren.length > 0 &&
+                    {subItem?.subChildren?.length > 0 &&
                     <React.Fragment>
                       <div className="commentReplies c1" onClick={() => toggleReplyList(subItem, subItem.toggleReplyState)}>
                         <span dangerouslySetInnerHTML={{__html: svgIcons && svgIcons.view_reply_icon}} className="mr-2"></span>
-                        <span>{subItem.subChildren.length}</span><span>{subItem.subChildren.length > 1 ? " Replies" : " Reply"}</span>
+                        <span>{subItem?.subChildren?.length}</span><span>{subItem?.subChildren?.length > 1 ? " Replies" : " Reply"}</span>
                       </div>
                       <div className="eep-splitter"></div>
                     </React.Fragment>
@@ -78,20 +78,20 @@ const ForumCommentsList = (props) => {
                   </div>
                 </div>
               </div>
-              {subItem.toggleReplyState && subItem.subChildren.length > 0 &&
+              {subItem.toggleReplyState && subItem?.subChildren?.length > 0 &&
                 <div className="forumReplies_div">
-                  {subItem.subChildren.length > 0 && subItem.subChildren.map((rItem, rIndex) => {
+                  {subItem?.subChildren?.length > 0 && subItem?.subChildren?.map((rItem, rIndex) => {
                     return (
                       <div className="forum_reply_content_div" key={"replyIndex_"+ rIndex}>
                         <div className="forum_profile_container">
                           <div className="forum_profile_image">
-                            <img src={getUserPicture(rItem.createdBy.id)} alt="User Pic" title={rItem.createdBy.fullName} className="rounded-circle forum_profile_image_size" />
+                            <img src={getUserPicture(rItem?.createdBy?.id)} alt="User Pic" title={rItem?.createdBy?.fullName} className="rounded-circle forum_profile_image_size" />
                           </div>
                           <div className="forum_profile_content">
                             {/* <div className="forum_profile_content_inner_div" style="display: flex; justify-content: space-between;"> */}
                             <div className="forum_profile_content_inner_div d-flex bd-highlight">
                               <div className="forum_profile_namepost w-100 bd-highlight">
-                                <label className="forum_user_name mb-0">{rItem.createdBy.fullName}</label>
+                                <label className="forum_user_name mb-0">{rItem?.createdBy?.fullName}</label>
                                 <label className="forum_nofpostes d-flex align-items-center mb-0" style={{ fontSize: "12px" }}>
                                   <div className="d-flex cursor_help mb-0" title={rItem.prentInfo.message}><i className="eep_truncate eep_truncate_max">Replied to - <span>{rItem.prentInfo.message}</span></i></div>
                                   <div className="eep-splitter" style={{height: "15px"}}></div>
@@ -99,7 +99,7 @@ const ForumCommentsList = (props) => {
                                   <span className="ml-2">{eepFormatDateTime(rItem.createdAt)}</span>
                                 </label>
                               </div>
-                              {rItem.createdBy.id === currentUserData.id &&
+                              {rItem?.createdBy?.id === currentUserData.id &&
                                 <div className="forumkebab_div flex-shrink-1 bd-highlight">
                                   <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
                                     <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>

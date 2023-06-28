@@ -31,6 +31,7 @@ const BadgeModal = (props) => {
   }
 
   const getSelectedDept = (args) => {
+    
     if(args){
       const deptArr = [];
       args.map(res => {
@@ -39,7 +40,10 @@ const BadgeModal = (props) => {
       const obj = {
         url: URL_CONFIG.DEPT_USERS,
         method: "get",
-        params: { dept: deptArr.join()},
+        params: { 
+          dept: JSON.stringify(deptArr)
+          // deptArr.join()
+        },
       };
       httpHandler(obj)
         .then((uData) => {

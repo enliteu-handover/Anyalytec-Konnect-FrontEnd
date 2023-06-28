@@ -114,7 +114,7 @@ const AddUser = () => {
   }, [uData]);
 
   const handleChange = async (field, event) => {
-    debugger
+    
     const value = event;
 
     if (field["name"] === "imageByte") {

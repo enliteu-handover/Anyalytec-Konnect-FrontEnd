@@ -18,7 +18,7 @@ const PendingApproval = (props) => {
                   <Link to={{ pathname: "nominationsapproval", state: { item } }} className="c-2c2c2c a_hover_txt_deco_none d_waitingapprovals_list" title="Create new policies for Employee Onboarding ">
                     <p className="mb-2 eep_overflow_ellipsis d_waitingapprovals">
                       <img className="d_list_icon" src={process.env.PUBLIC_URL + "/images/icons/static/award.svg"} alt="program-icon" />
-                      <span className="pl-1">{item.award.name}</span>
+                      <span className="pl-1">{item?.award?.name}</span>
                     </p>
                   </Link>
                   <p className="text-right mb-1 d_waitingapprovals_dt opacity-3">{eepFormatDateTime(item.award.createdAt)}</p>

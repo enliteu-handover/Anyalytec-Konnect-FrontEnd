@@ -83,6 +83,7 @@ const AwardNominations = () => {
   }, []);
 
   const getUsersList = () => {
+    
     let deptID = aDataVal ? ((aDataVal.type === "spot_award") ? aDataVal.departmentId.id : (aDataVal.type === "nomi_award" ? aDataVal.nominatorId.department.id : null)) : null;
     
     const obj = {

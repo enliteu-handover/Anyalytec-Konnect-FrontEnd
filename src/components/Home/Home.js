@@ -131,6 +131,7 @@ const Home = () => {
       isLoader: false
     }
     httpHandler(obj).then((response) => {
+      
       setDashboardDetails(response.data);
     }).catch((error) => {
       console.log("getDashboardDetails error", error);

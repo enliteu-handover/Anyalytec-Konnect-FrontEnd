@@ -142,7 +142,7 @@ const HallOfFame = (props) => {
                       <div className="col-md-5 text-right">
                         <div className="eep-cardbox-base">
                           <ul className="d-flex align-items-center justify-content-end px-0">
-                            {item.users.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
+                            {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
                               return (
                                 <li key={"HOF_Appreciations_user_pic" + index}>
                                   <Link to="#">
@@ -152,11 +152,11 @@ const HallOfFame = (props) => {
                               )
                             })}
 
-                            {item.users && item.users.length > maxLikedCount && (
+                            {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 mx-1"> ... </label>
                                 <Link to="#" className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
-                                  <span className={`c-2c2c2c animated_div div_small ${item.users.length < 10 ? "font-14" : "font-12"}`}> {item.users.length < 10 ? (item.users.length - maxLikedCount) : "9+"} </span>
+                                  <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"} </span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </Link>
                               </React.Fragment>
@@ -199,7 +199,7 @@ const HallOfFame = (props) => {
                       <div className="col-md-5 text-right">
                         <div className="eep-cardbox-base">
                           <ul className="d-flex align-items-center justify-content-end px-0">
-                            {item.users.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
+                            {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
                               return (
                                 <li key={"HOF_Certificates_user_pic" + index}>
                                   <Link to="#">
@@ -209,11 +209,11 @@ const HallOfFame = (props) => {
                               )
                             })}
 
-                            {item.users && item.users.length > maxLikedCount && (
+                            {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 mx-1"> ... </label>
                                 <Link to="#" className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
-                                  <span className={`c-2c2c2c animated_div div_small ${item.users.length < 10 ? "font-14" : "font-12"}`}> {item.users.length < 10 ? (item.users.length - maxLikedCount) : "9+"} </span>
+                                  <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"} </span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </Link>
                               </React.Fragment>
@@ -262,7 +262,7 @@ const HallOfFame = (props) => {
                       <div className="col-md-5 text-right">
                         <div className="eep-cardbox-base">
                           <ul className="d-flex align-items-center justify-content-end px-0">
-                            {item.users.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
+                            {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
                               return (
                                 <li key={"HOF_Badges_user_pic" + index}>
                                   <Link to="#">
@@ -271,11 +271,11 @@ const HallOfFame = (props) => {
                                 </li>
                               );
                             })}
-                            {item.users && item.users.length > maxLikedCount && (
+                            {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 mx-1">... </label>
                                 <Link to="#" className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
-                                  <span className={`c-2c2c2c animated_div div_small ${item.users.length < 10 ? "font-14" : "font-12"}`}> {item.users.length < 10 ? (item.users.length - maxLikedCount) : "9+"} </span>
+                                  <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"} </span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </Link>
                               </React.Fragment>
@@ -316,7 +316,7 @@ const HallOfFame = (props) => {
                       <div className="col-md-5 text-right">
                         <div className="eep-cardbox-base">
                           <ul className="d-flex align-items-center justify-content-end px-0">
-                            {item.users.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
+                            {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
                               return (
                                 <li key={"HOF_Awards_user_pic" + index}>
                                   <Link to="#">
@@ -325,11 +325,11 @@ const HallOfFame = (props) => {
                                 </li>
                               )
                             })}
-                            {item.users && item.users.length > maxLikedCount && (
+                            {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 ml-1">... </label>
                                 <Link to="#" className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
-                                  <span className={`c-2c2c2c animated_div div_small ${item.users.length < 10 ? "font-14" : "font-12"}`}> {item.users.length < 10 ? (item.users.length - maxLikedCount) : "9+"}</span>
+                                  <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"}</span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </Link>
                               </React.Fragment>

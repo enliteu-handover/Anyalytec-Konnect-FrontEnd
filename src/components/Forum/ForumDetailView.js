@@ -65,7 +65,7 @@ const ForumDetailView = () => {
   };
 
   useEffect(() => {
-    if(Object.keys(initialVal).length > 0) {
+    if (Object.keys(initialVal).length > 0) {
       //setForumData({...initialVal});
       //setForumCommentData(getCustomizedData(initialVal.forumComments));
       getForumById(initialVal);
@@ -79,26 +79,26 @@ const ForumDetailView = () => {
   }
 
   const getSubChildren = (arg, ret) => {
-    for(var i = 0; i < arg.children.length; i++) {
-      arg.children[i]['prentInfo'] = {id:arg.id, message:arg.message, createdBy:arg.createdBy};
-      if(arg.children[i].createdAt) {
-        arg.children[i].createdAt = arg.children[i].createdAt;
+    for (var i = 0; i < arg?.children?.length; i++) {
+      arg.children[i]['prentInfo'] = { id: arg?.id, message: arg?.message, createdBy: arg?.createdBy };
+      if (arg?.children?.[i]?.createdAt) {
+        arg.children[i].createdAt = arg.children?.[i]?.createdAt;
       }
 
       ret.push(arg.children[i]);
-      if(arg.children[i].children.length) {
-        getSubChildren(arg.children[i] , ret);
+      if (arg?.children?.[i]?.children?.length) {
+        getSubChildren(arg.children[i], ret);
       }
     }
     return ret;
   }
 
   const getCustomizedData = (data) => {
-    if(data) {
+    if (data) {
       data.map((res) => {
-        res['subChildren'] = getSubChildren(res , []);
+        res['subChildren'] = getSubChildren(res, []);
       });
-     return data;
+      return data;
     }
   }
 
@@ -156,6 +156,7 @@ const ForumDetailView = () => {
   }
 
   const clickCommentReplySubmitHandler = (fData, parentData, replyCommentVal) => {
+    
     if (replyCommentVal.length > 0 && fData) {
       const payOptions = {
         message: replyCommentVal,
@@ -181,7 +182,7 @@ const ForumDetailView = () => {
       });
     }
   }
-  
+
   const updateCommentReplyHandler = (cmtVal, cmtData, fData) => {
     if (cmtVal.length > 0 && fData) {
       const payOptions = {
@@ -208,15 +209,18 @@ const ForumDetailView = () => {
       });
     }
   }
-  
+
   let followEnliteIndex;
   const forumCommentsEnlite = (arg) => {
+    
     setHeartAnimateState(false);
     if (arg) {
       let obj;
       if (arg.isEnlite) {
         obj = {
-          url: URL_CONFIG.ENLITE_FORUM + "?id=" + arg.cmtData.id,
+          url: URL_CONFIG.ENLITE_FORUM,
+          // + "?id=" + arg.cmtData.id,
+          payload: { id: arg.cmtData.id },
           method: "post"
         }
       } else if (!arg.isEnlite) {
@@ -227,11 +231,20 @@ const ForumDetailView = () => {
         }
       }
       httpHandler(obj).then((response) => {
-        if (arg.isEnlite) {
+        
+        if (arg?.isEnlite) {
           setHeartAnimateState(true);
         }
-        getForumById(arg.cmtData);
+        // if (response?.data?.message) {
+        //   setShowModal({
+        //     ...showModal,
+        //     type: "danger",
+        //     message: response?.data?.message,
+        //   });
+        // }
+        getForumById(arg?.cmtData);
       }).catch((error) => {
+        
         const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
         setShowModal({
           ...showModal,
@@ -243,24 +256,29 @@ const ForumDetailView = () => {
   }
 
   const getForumById = (arg) => {
+    
     const obj = {
       url: URL_CONFIG.FORUM_BY_ID + "?id=" + arg.id,
       method: "get"
     }
     httpHandler(obj).then((response) => {
       //console.log("getforum by id response :", response.data);
-      setForumData({ ...response.data });
-      setForumCommentData([...getCustomizedData(response.data.forumComments)]);
+      setForumData({ ...response?.data });
+      setForumCommentData([...getCustomizedData(response?.data?.forumComments)]);
       setToggleComment(false);
       setToggleReplyState({ isToggle: false, cmtData: {}, type: "" });
-    }).catch((error) => {
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Not able to fetch forum details. Something went wrong contact administarator";
-      setShowModal({
-        ...showModal,
-        type: "danger",
-        message: errMsg,
-      });
-    });
+    })
+    // .catch((error) => {
+    //   const errMsg =
+    //     error.response?.data ?
+    //       error.response?.data?.message
+    //       : "Not able to fetch forum details. Something went wrong contact administarator";
+    //   setShowModal({
+    //     ...showModal,
+    //     type: "danger",
+    //     message: errMsg,
+    //   });
+    // });
   }
 
   let userPicIndex;
@@ -282,7 +300,7 @@ const ForumDetailView = () => {
   }
 
   const editCommentHandler = (cmtData) => {
-    toggleCommentHandler(toggleComment, cmtData.message, {type:"edit",cmtData:cmtData});
+    toggleCommentHandler(toggleComment, cmtData.message, { type: "edit", cmtData: cmtData });
   }
 
   const toggleReply = (arg, tType) => {
@@ -301,9 +319,9 @@ const ForumDetailView = () => {
   const toggleReplyList = (replyItem, tState) => {
     let forumCommentDataTemp = JSON.parse(JSON.stringify(forumCommentData));
     console.log("toggleReplyList", replyItem);
-    if(forumCommentDataTemp.length > 0) {
+    if (forumCommentDataTemp.length > 0) {
       forumCommentDataTemp.map((item) => {
-        if(item.id === replyItem.id) {
+        if (item.id === replyItem.id) {
           item.toggleReplyState = !tState;
           return setForumCommentData([...forumCommentDataTemp]);
         }
@@ -319,8 +337,11 @@ const ForumDetailView = () => {
   }
 
   const commentLikeHandler = (cmtData, fData) => {
+		
     const obj = {
-      url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE + "?id=" + cmtData.id,
+      url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
+      //  + "?id=" + cmtData.id,
+      payload: { id: cmtData.id },
       method: "post"
     }
     httpHandler(obj).then(() => {
@@ -337,10 +358,13 @@ const ForumDetailView = () => {
 
   let unLikeIndex;
   const commentUnLikeHandler = (cmtData, fData) => {
+    
     unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId.id === currentUserData.id);
     //console.log("unLikeIndex", unLikeIndex);
     const obj = {
-      url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE + "?id=" + cmtData.forumCommentLikes[unLikeIndex].id,
+      url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
+      //  + "?id=" + cmtData.forumCommentLikes[unLikeIndex].id,
+      payload: { id: cmtData.forumCommentLikes[unLikeIndex].id },
       method: "delete"
     }
     httpHandler(obj).then(() => {
@@ -357,12 +381,12 @@ const ForumDetailView = () => {
 
   const deleteCommentHandler = (cmdData, fData) => {
     disableExistModal();
-    setForumTempData({cmdData: cmdData, fData: fData});
+    setForumTempData({ cmdData: cmdData, fData: fData });
     setConfirmModalState(true);
   }
 
   const confirmState = (isConfirmed) => {
-    if(isConfirmed) {
+    if (isConfirmed) {
       disableExistModal();
       console.log("Perform Delete", forumTempData);
       let httpObj = {
@@ -370,17 +394,17 @@ const ForumDetailView = () => {
         method: "delete"
       };
       httpHandler(httpObj)
-      .then(() => {
-        getForumById(forumTempData.fData);
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
+        .then(() => {
+          getForumById(forumTempData.fData);
+        })
+        .catch((error) => {
+          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
         });
-      });
     } else {
       setForumTempData({});
     }
@@ -394,7 +418,7 @@ const ForumDetailView = () => {
     //console.log("checkIsReplyLiked rData", rData);
     let rLikeIndex = rData.forumCommentLikes.findIndex(x => x.userId.id === currentUserData.id);
     //console.log("rLikeIndex", rLikeIndex);
-    if(rLikeIndex === -1) {
+    if (rLikeIndex === -1) {
       return false;
     } else {
       return true;
@@ -402,7 +426,7 @@ const ForumDetailView = () => {
   }
 
   //console.log("setForumData:", forumData, forumCommentData);
-  
+
   return (
     <React.Fragment>
       <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />
@@ -420,11 +444,11 @@ const ForumDetailView = () => {
         ></EEPSubmitModal>
       )}
 
-      {confirmModalState && 
-        <ConfirmStateModal 
-          hideModal={hideModal} 
-          confirmState={confirmState} 
-          confirmTitle={"Are you sure?"} 
+      {confirmModalState &&
+        <ConfirmStateModal
+          hideModal={hideModal}
+          confirmState={confirmState}
+          confirmTitle={"Are you sure?"}
           confirmMessage={"Do you really want to delete this comment. Make sure the entire replies will be also deleted."}
         />
       }
@@ -452,7 +476,7 @@ const ForumDetailView = () => {
                 <div className="fd_attachemnt_list">
                   {forumData.forumAttachmentFileName.map((atthData, index) => {
                     return (
-                      <div className="attachment_parent" key={"attachmentLists_"+index}>
+                      <div className="attachment_parent" key={"attachmentLists_" + index}>
                         <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
                           <img src={fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType] : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
                         </a>
@@ -487,7 +511,7 @@ const ForumDetailView = () => {
                       }
                     </div>
                   </div>
-                  <div className="reply_button_style main_topic_reply_button text-right" username="admin" onClick={() => toggleCommentHandler(toggleComment, "", {type:"new",cmtData:{}})}>
+                  <div className="reply_button_style main_topic_reply_button text-right" username="admin" onClick={() => toggleCommentHandler(toggleComment, "", { type: "new", cmtData: {} })}>
                     <img src={`${process.env.PUBLIC_URL}/images/icons/static/comment.svg`} alt="reply-icon" className="forum-following-img-size c1" style={{ width: "30px", height: "30px" }} />
                   </div>
                 </div>
@@ -507,8 +531,8 @@ const ForumDetailView = () => {
                   <div className="forum_profile_content">
                     <label className="forum_user_name mb-0">{currentUserData.fullName}</label>
                     <label className="forum_nofpostes d-flex align-items-center mb-0" style={{ fontSize: "12px" }}>
-                        <div className="d-flex cursor_help mb-0" title={forumData.title}><i className="eep_truncate eep_truncate_max">Comment to - <span>{forumData.title}</span></i></div>
-                      </label>
+                      <div className="d-flex cursor_help mb-0" title={forumData.title}><i className="eep_truncate eep_truncate_max">Comment to - <span>{forumData.title}</span></i></div>
+                    </label>
                   </div>
                 </div>
                 <div className="eep-dropdown-divider pb-1"></div>
@@ -519,18 +543,18 @@ const ForumDetailView = () => {
                   <div className="d-flex align-items-center justify-content-between px-3">
                     <span id="rchars">{forumComment.length}/{maxTextAreaLength}</span>
                     {toggleCommentSetting.type === "new" &&
-                    <div 
-                      className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
-                      onClick={() => clickCommentSubmitHandler(forumData)}>
-                      <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
-                    </div>
+                      <div
+                        className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
+                        onClick={() => clickCommentSubmitHandler(forumData)}>
+                        <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
+                      </div>
                     }
                     {toggleCommentSetting.type === "edit" &&
-                    <div 
-                      className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
-                      onClick={() => updateCommentHandler(forumComment, toggleCommentSetting.cmtData, forumData)}>
-                      <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
-                    </div>
+                      <div
+                        className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
+                        onClick={() => updateCommentHandler(forumComment, toggleCommentSetting.cmtData, forumData)}>
+                        <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
+                      </div>
                     }
                   </div>
                 </div>
@@ -542,12 +566,12 @@ const ForumDetailView = () => {
             <div className="fd_comments_count m-2 p-2" id="commentsSize" style={{ borderTop: "1px solid #DBDBDB" }}>
               <span className="fd_count_number">{forumData?.forumComments?.length}</span> <span style={{ color: "#646464" }}> comments</span>
             </div>
-            {forumData?.forumComments?.length > 0 && 
-              <ForumCommentsList 
+            {forumData?.forumComments?.length > 0 &&
+              <ForumCommentsList
                 forumData={forumData}
-                comments={forumCommentData} 
-                getUserPicture={getUserPicture} 
-                deleteCommentHandler={deleteCommentHandler} 
+                comments={forumCommentData}
+                getUserPicture={getUserPicture}
+                deleteCommentHandler={deleteCommentHandler}
                 commentUnLikeHandler={commentUnLikeHandler}
                 commentLikeHandler={commentLikeHandler}
                 toggleReply={toggleReply}
@@ -555,7 +579,7 @@ const ForumDetailView = () => {
                 editCommentReplyHandler={editCommentReplyHandler}
                 toggleReplyList={toggleReplyList}
                 checkIsReplyLiked={checkIsReplyLiked}
-              />            
+              />
             }
             {toggleReplyState.isToggle &&
               <CommentReply toggleReplyState={toggleReplyState} forumData={forumData} closeReply={closeReply} getUserPicture={getUserPicture} clickCommentReplySubmitHandler={clickCommentReplySubmitHandler} updateCommentReplyHandler={updateCommentReplyHandler} />

@@ -59,7 +59,7 @@ const NominatedAwards = (props) => {
 							return(
 								<div className="col-md-4 col-lg-4 col-xl-4 col-sm-4 nm_award_div text-center" key={"NominatedAward_"+index} onClick={() => filterByAwardHandler(item, true)}>
 									<img src={item?.imageByte?.image} className="nm_award_img eep_r_icons_bg"  alt="Award Icon" title={item?.imageByte?.name} /> 
-									<label className="nm_award_lbl">{item.award.name}</label>
+									<label className="nm_award_lbl">{item?.award?.name}</label>
 								</div>
 							)
 						})}

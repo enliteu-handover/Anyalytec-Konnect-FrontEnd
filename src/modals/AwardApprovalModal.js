@@ -71,6 +71,7 @@ const AwardApprovalModal = (props) => {
   }
 
   const recogniseAwardHandler = (arg) => {
+    
     let finalisedDataTemp = JSON.parse(JSON.stringify(finalisedData));
     finalisedDataTemp['wallPost'] = arg ? arg.wallData : false;
     finalisedDataTemp['shareWallPost'] = arg ? arg.shareWallData : false;

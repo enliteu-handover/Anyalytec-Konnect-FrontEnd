@@ -130,6 +130,7 @@ const NominateAwardModalInput = (props) => {
   }
 
   const changeDepartmentHandler = (event) => {
+    
     let value1 = event ? event.value : "";
     setNomiDapartment(event);
     if(value1) {

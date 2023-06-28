@@ -26,7 +26,7 @@ const Forum = () => {
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const [forumList, setForumList] = useState([]);
 	const [forumFollowingList, setForumFollowingList] = useState([]);
-  const [filterParams, setFilterParams] = useState({});
+	const [filterParams, setFilterParams] = useState({});
 	const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 	const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
@@ -35,7 +35,7 @@ const Forum = () => {
 	const location = useLocation();
 	const history = useHistory();
 	const routerData = location.state;
-	
+
 	const breadcrumbArr = [
 		{
 			label: "Home",
@@ -78,36 +78,36 @@ const Forum = () => {
 	];
 
 	useEffect(() => {
-		if(routerData) {
-		  const activeTabId = routerData.activeTab;
-		  tabConfig.map((res) => {
-			if(res.id === activeTabId){
-			  return res.active = true
-			}
-		  });
-	
-		  dispatch(
-			TabsActions.updateTabsconfig({
-			  config: tabConfig,
-			})
-		  );
-		  history.replace({pathname: history.location.pathname, state: {}});
+		if (routerData) {
+			const activeTabId = routerData.activeTab;
+			tabConfig.map((res) => {
+				if (res.id === activeTabId) {
+					return res.active = true
+				}
+			});
+
+			dispatch(
+				TabsActions.updateTabsconfig({
+					config: tabConfig,
+				})
+			);
+			history.replace({ pathname: history.location.pathname, state: {} });
 		} else {
-		  dispatch(
-			TabsActions.updateTabsconfig({
-			  config: tabConfig,
-			})
-		  );
+			dispatch(
+				TabsActions.updateTabsconfig({
+					config: tabConfig,
+				})
+			);
 		}
-	
+
 		return () => {
-		  dispatch(
-			TabsActions.updateTabsconfig({
-			  config: [],
-			})
-		  );
+			dispatch(
+				TabsActions.updateTabsconfig({
+					config: [],
+				})
+			);
 		};
-	  }, []);
+	}, []);
 
 	const hideModal = () => {
 		let collections = document.getElementsByClassName("modal-backdrop");
@@ -142,6 +142,7 @@ const Forum = () => {
 	};
 
 	const createCommunicationPost = (arg) => {
+		
 		let formData = new FormData();
 		if (arg.files && arg.files.length > 0) {
 			arg.files.map((item) => {
@@ -156,7 +157,9 @@ const Forum = () => {
 			existForumDep: null,
 			existForumAttach: null
 		};
-		formData.append('forumRequest', new Blob([JSON.stringify(forumRequestObj)], { type: 'application/json' }));
+		formData.append('forumrequest', JSON.stringify(forumRequestObj)
+			// new Blob([JSON.stringify(forumRequestObj)], { type: 'application/json' })
+		);
 		const obj = {
 			url: URL_CONFIG.FORUM,
 			method: "post",
@@ -178,35 +181,35 @@ const Forum = () => {
 			});
 	};
 
-  const getFilterParams = (paramsData) => {
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
-    } else {
-      setFilterParams({});
-    }
-    getForumList(paramsData);
-  }
+	const getFilterParams = (paramsData) => {
+		if (Object.getOwnPropertyNames(filterParams)) {
+			setFilterParams({ ...paramsData });
+		} else {
+			setFilterParams({});
+		}
+		getForumList(paramsData);
+	}
 
 	const getForumList = (paramsInfo) => {
-    let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.GET_FORUM_LIST,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.GET_FORUM_LIST,
-        method: "get"
-      };
-    }
+		let obj;
+		if (Object.getOwnPropertyNames(paramsInfo)) {
+			obj = {
+				url: URL_CONFIG.GET_FORUM_LIST,
+				method: "get",
+				params: paramsInfo
+			};
+		} else {
+			obj = {
+				url: URL_CONFIG.GET_FORUM_LIST,
+				method: "get"
+			};
+		}
 		httpHandler(obj)
 			.then((forumdata) => {
 				if (listReverse) {
 					setForumList([...forumdata.data]);
 				} else {
-          setForumList([...forumdata.data].reverse());
+					setForumList([...forumdata.data].reverse());
 				}
 			})
 			.catch((error) => {
@@ -232,7 +235,7 @@ const Forum = () => {
 							}
 						)
 					}
-          return userPicTempArry;
+					return userPicTempArry;
 				});
 				setUsersPic(userPicTempArry);
 			})
@@ -241,39 +244,42 @@ const Forum = () => {
 			});
 	};
 
-  const getForumFollowingList = () => {
-    const obj = {
+	const getForumFollowingList = () => {
+		const obj = {
 			url: URL_CONFIG.FORUM_FOLLOWING,
 			method: "get",
 		};
 		httpHandler(obj)
 			.then((forumdata) => {
-        setForumFollowingList(forumdata.data);
+				setForumFollowingList(forumdata.data);
 			})
 			.catch((error) => {
 				console.log("getForumList error", error);
 				//const errMsg = error.response?.data?.message;
 			});
-  }
+	}
 
 	useEffect(() => {
 		getDepartments();
 		fetchAllUsersPics();
 	}, []);
 
-  useEffect(() => {
-    if(activeTab?.id === "forumpot") {
-      getForumList(filterParams);
-      getForumFollowingList();
-    }
-  }, [activeTab]);
+	useEffect(() => {
+		if (activeTab?.id === "forumpot") {
+			getForumList(filterParams);
+			getForumFollowingList();
+		}
+	}, [activeTab]);
 
 
 	const readForum = (arg) => {
+		
 		if (arg) {
 			if (!arg.fData.forumIsRead) {
 				const obj = {
-					url: URL_CONFIG.FORUM_READ_UNREAD + "?id=" + arg.fData.id,
+					url: URL_CONFIG.FORUM_READ_UNREAD,
+					//  + "?id=" + arg.fData.id,
+					payload: { id: arg.fData.id },
 					method: "post"
 				};
 				httpHandler(obj)
@@ -302,10 +308,13 @@ const Forum = () => {
 
 	let unReadIndex;
 	const unReadForum = (forumData) => {
+		debugger
 		if (forumData) {
 			unReadIndex = forumData.forumRead.findIndex(x => x.userId.id === userData.id);
 			const obj = {
-				url: URL_CONFIG.FORUM_READ_UNREAD + "?id=" + forumData.forumRead[unReadIndex].id,
+				url: URL_CONFIG.FORUM_READ_UNREAD,
+				//  + "?id=" + forumData.forumRead[unReadIndex].id,
+				payload: { id: forumData.forumRead[unReadIndex].id },
 				method: "delete"
 			};
 			httpHandler(obj)
@@ -317,14 +326,14 @@ const Forum = () => {
 								item.forumIsRead = false;
 								item.forumRead.splice(unReadIndex, 1);
 							}
-              return forumListTemp;
+							return forumListTemp;
 						});
 					}
-          if (listReverse) {
-            setForumList([...forumListTemp].reverse());
-          } else {
-            setForumList([...forumListTemp]);
-          }
+					if (listReverse) {
+						setForumList([...forumListTemp].reverse());
+					} else {
+						setForumList([...forumListTemp]);
+					}
 					//setForumList(forumListTemp);
 				})
 				.catch((error) => {
@@ -340,10 +349,13 @@ const Forum = () => {
 
 	let followIndex;
 	const unFollowForum = (followInfo) => {
+		debugger
 		if (followInfo) {
-			followIndex = followInfo.forumFollowing.findIndex(x => x.userId.id === userData.id);
+			followIndex = followInfo?.forumFollowing?.findIndex(x => x?.userId?.id === userData?.id);
 			const obj = {
-				url: URL_CONFIG.FORUM_FOLLOWING + "?id=" + followInfo.forumFollowing[followIndex].id,
+				url: URL_CONFIG.FORUM_FOLLOWING,
+				//  + "?id=" + followInfo.forumFollowing[followIndex].id,
+				payload: { id: followInfo.forumFollowing[followIndex].id },
 				method: "delete"
 			};
 			httpHandler(obj)
@@ -355,14 +367,14 @@ const Forum = () => {
 								item.forumIsfollowing = false;
 								item.forumFollowing.splice(followIndex, 1);
 							}
-              return forumListTemp;
+							return forumListTemp;
 						});
 					}
-          if (listReverse) {
-            setForumList([...forumListTemp].reverse());
-          } else {
-            setForumList([...forumListTemp]);
-          }
+					if (listReverse) {
+						setForumList([...forumListTemp].reverse());
+					} else {
+						setForumList([...forumListTemp]);
+					}
 				})
 				.catch((error) => {
 					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -376,8 +388,11 @@ const Forum = () => {
 	}
 
 	const followForum = (arg) => {
+		
 		const obj = {
-			url: URL_CONFIG.FORUM_FOLLOWING + "?id=" + arg.id,
+			url: URL_CONFIG.FORUM_FOLLOWING,
+			//  + "?id=" + arg.id,
+			payload: { id: arg.id },
 			method: "post"
 		};
 		httpHandler(obj)
@@ -403,21 +418,21 @@ const Forum = () => {
 			httpHandler(obj).then(() => {
 				getForumList(filterParams);
 			}).catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
-        });
-      });
+				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+				setShowModal({
+					...showModal,
+					type: "danger",
+					message: errMsg,
+				});
+			});
 		}
 	}
 
 	const dateReceived = (isSort) => {
 		setListReverse(isSort);
-    if(isSort) {
-      setForumList([...forumList].reverse());
-    }
+		if (isSort) {
+			setForumList([...forumList].reverse());
+		}
 	}
 
 	return (
@@ -438,7 +453,7 @@ const Forum = () => {
 								}
 							></EEPSubmitModal>
 						)}
-            {createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} /> }
+						{createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
 								<Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></Link>
@@ -450,7 +465,7 @@ const Forum = () => {
 						{forumList.length > 0 &&
 							<div className="row mx-0 forum_containerr">
 								<div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y">
-                  {activeTab && activeTab.id === 'forumpot' && <ForumList forumList={forumList} userImageArr={usersPic} readForum={readForum} unReadForum={unReadForum} unFollowForum={unFollowForum} followForum={followForum} readAll={readAll} dateReceived={dateReceived} /> }
+									{activeTab && activeTab.id === 'forumpot' && <ForumList forumList={forumList} userImageArr={usersPic} readForum={readForum} unReadForum={unReadForum} unFollowForum={unFollowForum} followForum={followForum} readAll={readAll} dateReceived={dateReceived} />}
 								</div>
 								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 ">
 									<div className="forum_hottopics_wrapper_bg forum_hottopics_wrapper eep-content-section-data eep_scroll_y">
@@ -505,7 +520,7 @@ const Forum = () => {
 								<Filter config={HIDE_SHOW_FILTER_CONFIG} />
 							}
 						/> */}
-            {activeTab && activeTab.id === 'myforums' && <MyForumPosts usersPic={usersPic} deptOptions={departments} /> }
+						{activeTab && activeTab.id === 'myforums' && <MyForumPosts usersPic={usersPic} deptOptions={departments} />}
 					</div>
 				</div>
 			</div>

@@ -144,7 +144,7 @@ const Dashboard = (props) => {
             <div className="bg-f5f5f5 brtl-0 brtr-0 brbr-15 brbl-15 divSetMaxHeight eep_scroll_y" style={{ maxHeight: "516.6px" }}>
               <div className="d_user_official_details">
                 <div className="col-md-12 c-2c2c2c bb_707070 dash_profile_details">
-                  <label className="mb-0">{dashboardDetails.sMonth} <span className="ml-2">{dashboardDetails.experienceType}</span>
+                  <label className="mb-0">{dashboardDetails?.sMonth} <span className="ml-2">{dashboardDetails?.experienceType}</span>
                   </label>
                   <p className="text-right mb-1 d_doj opacity-3"> DOJ: {eepFormatDateTime(dashboardDetails.dateOfJoining)} </p>
                 </div>
