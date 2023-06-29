@@ -233,6 +233,7 @@ function MyIdeas(props) {
   }, []);
 
   const confirmState = (isConfirmed) => {
+    debugger
     disableExistModal();
     if (isConfirmed) {
       let ideaUpdateObj, formData, httpObj;
@@ -259,9 +260,9 @@ function MyIdeas(props) {
       }
       if (ideaTempData.actionType === "delete") {
         httpObj = {
-          url: URL_CONFIG.IDEA,
-          //  + "?id=" + ideaTempData.id,
-          payload: { id: ideaTempData.id },
+          url: URL_CONFIG.IDEA
+            + "?id=" + ideaTempData.id,
+          // payload: { id: ideaTempData.id },
           method: "delete"
         };
       }

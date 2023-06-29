@@ -100,7 +100,7 @@ const MyBadge = () => {
                   )}
 
                   <div className="rewards_backside_list_row flex-column h-100 ">
-                    <h6 className="b_r_flip_nm font-helvetica-m">{data.createdBy.fullName}</h6>
+                    <h6 className="b_r_flip_nm font-helvetica-m">{data?.createdBy?.fullName}</h6>
                     <div className="d-flex flex-column flex-grow-1">
                       <div className="flex-grow-1 eep_scroll_y" style={{ maxHeight: "125px" }}>
                         <p className="b_r_flip_msg">{data.description}</p>

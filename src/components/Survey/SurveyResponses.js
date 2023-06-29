@@ -393,13 +393,13 @@ const SurveyResponses = () => {
 				<div className="eep_with_content table-responsive eep_datatable_table_div p-3" style={{ visibility: "visible" }}>
 
 					<div className="d-flex mb-3">
-						<h3 className="mb-0">{surveyResponseStateData.name}</h3>
+						<h3 className="mb-0">{surveyResponseStateData?.name}</h3>
 						<div className="ml-auto my-auto">
-							<h3 className="mb-0">{surveyResponseStateData.response}/{surveyResponseDataRaw.length}</h3>
+							<h3 className="mb-0">{surveyResponseStateData?.response}/{surveyResponseDataRaw?.length}</h3>
 						</div>
 					</div>
 
-					{surveyResponseData && surveyResponseData.length > 0 && surveyResponseData.map((sData) => {
+					{surveyResponseData && surveyResponseData?.length > 0 && surveyResponseData?.map((sData) => {
 						if(sData && (sData.type === "radio-group" || sData.type === "checkbox-group" || sData.type === "select")) {
 							return (
 								<div className="col-md-12 px-0 mb-3">
