@@ -17,10 +17,10 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 
 const IdeaBox = () => {
 
-	const [deptOptions, setDeptOptions] = useState([]);
+  const [deptOptions, setDeptOptions] = useState([]);
   const [ideaLists, setIdeaLists] = useState([]);
   const [usersPic, setUsersPic] = useState([]);
-	const [createModalShow, setCreateModalShow] = useState(false);
+  const [createModalShow, setCreateModalShow] = useState(false);
   const [ideaData, setIdeaData] = useState(null);
   const [ideaDataState, setIdeaDataState] = useState(false);
   const [ideaListsReverse, setIdeaListsReverse] = useState(false);
@@ -34,61 +34,61 @@ const IdeaBox = () => {
     }
     setShowModal({ type: null, message: null });
   };
-	
+
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-	const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const dispatch = useDispatch();
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const location = useLocation();
   const history = useHistory();
   const routerData = location.state;
 
-	const breadcrumbArr = [
-		{
-			label: "Home",
-			link: "app/dashboard",
-		},
-		{
-			label: "COMMUNICATIONS",
-			link: "app/communication",
-		},
-		{
-			label: "IDEA BOX",
-			link: "",
-		},
-	];
-
-	useEffect(() => {
-		dispatch(
-			BreadCrumbActions.updateBreadCrumb({
-				breadcrumbArr,
-				title: "Idea Box",
-			})
-		);
-		return () => {
-			BreadCrumbActions.updateBreadCrumb({
-				breadcrumbArr: [],
-				title: "",
-			});
-		};
-	}, []);
-
-	const tabConfig = [
-		{
-			title: "Ideas",
-			id: "ideas",
-		},
-		{
-			title: "My Ideas",
-			id: "myideas",
-		}
-	];
+  const breadcrumbArr = [
+    {
+      label: "Home",
+      link: "app/dashboard",
+    },
+    {
+      label: "COMMUNICATIONS",
+      link: "app/communication",
+    },
+    {
+      label: "IDEA BOX",
+      link: "",
+    },
+  ];
 
   useEffect(() => {
-    if(routerData) {
+    dispatch(
+      BreadCrumbActions.updateBreadCrumb({
+        breadcrumbArr,
+        title: "Idea Box",
+      })
+    );
+    return () => {
+      BreadCrumbActions.updateBreadCrumb({
+        breadcrumbArr: [],
+        title: "",
+      });
+    };
+  }, []);
+
+  const tabConfig = [
+    {
+      title: "Ideas",
+      id: "ideas",
+    },
+    {
+      title: "My Ideas",
+      id: "myideas",
+    }
+  ];
+
+  useEffect(() => {
+    if (routerData) {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
-        if(res.id === activeTabId){
+        if (res.id === activeTabId) {
           res.active = true
         }
       });
@@ -98,7 +98,7 @@ const IdeaBox = () => {
           config: tabConfig,
         })
       );
-      history.replace({pathname: history.location.pathname, state: {}});
+      history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -116,30 +116,30 @@ const IdeaBox = () => {
     };
   }, []);
 
-	const fetchDepartmentData = () => {
-		const obj = {
-			url: URL_CONFIG.ALLDEPARTMENTS,
-			method: "get",
-			params: { active:true },
+  const fetchDepartmentData = () => {
+    const obj = {
+      url: URL_CONFIG.ALLDEPARTMENTS,
+      method: "get",
+      params: { active: true },
     };
     httpHandler(obj)
-    .then((deptData) => {
-      let optionsTemp = [];
-      deptData.data.map((deptValue) => {
-        return optionsTemp.push({value: deptValue.id, label: deptValue.name});
+      .then((deptData) => {
+        let optionsTemp = [];
+        deptData.data.map((deptValue) => {
+          return optionsTemp.push({ value: deptValue.id, label: deptValue.name });
+        })
+        setDeptOptions(optionsTemp);
       })
-      setDeptOptions(optionsTemp);
-    })
-    .catch((error) => {
-      console.log("fetchDepartmentData error", error);
-      //const errMsg = error.response?.data?.message;
-    });
-	}
+      .catch((error) => {
+        console.log("fetchDepartmentData error", error);
+        //const errMsg = error.response?.data?.message;
+      });
+  }
 
   const getFilterParams = (paramsData) => {
     console.log("paramsData", paramsData);
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
+    if (Object.getOwnPropertyNames(filterParams)) {
+      setFilterParams({ ...paramsData });
     } else {
       setFilterParams({});
     }
@@ -148,7 +148,7 @@ const IdeaBox = () => {
 
   const fetchIdeas = (isIdeaActive, ideaID = null, paramsInfo = {}) => {
     let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
+    if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
         url: URL_CONFIG.IDEA,
         method: "get",
@@ -162,33 +162,33 @@ const IdeaBox = () => {
     }
     /*
     const obj = {
-			url: URL_CONFIG.IDEA,
-			method: "get"
+      url: URL_CONFIG.IDEA,
+      method: "get"
     };
     */
     httpHandler(obj)
-    .then((ideaData) => {
-      if(!isIdeaActive) {
-        //setIdeaLists(ideaData.data);
-        if(ideaListsReverse) {
-          setIdeaLists([...ideaData.data].reverse());
+      .then((ideaData) => {
+        if (!isIdeaActive) {
+          //setIdeaLists(ideaData.data);
+          if (ideaListsReverse) {
+            setIdeaLists([...ideaData.data].reverse());
+          } else {
+            setIdeaLists(ideaData.data);
+          }
+          setIdeaData(null);
+          setIdeaDataState(false);
         } else {
-          setIdeaLists(ideaData.data);
+          if (ideaListsReverse) {
+            markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
+          } else {
+            markIdeaAsActiveState(ideaData.data, ideaID);
+          }
         }
-        setIdeaData(null);
-        setIdeaDataState(false);    
-      } else {
-        if(ideaListsReverse) {
-          markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
-        } else {
-          markIdeaAsActiveState(ideaData.data, ideaID);
-        }
-      }
-    })
-    .catch((error) => {
-      console.log("fetchIdeas error", error);
-      //const errMsg = error.response?.data?.message;
-    });
+      })
+      .catch((error) => {
+        console.log("fetchIdeas error", error);
+        //const errMsg = error.response?.data?.message;
+      });
   }
 
   const fetchAllUsers = () => {
@@ -197,14 +197,14 @@ const IdeaBox = () => {
       method: "get"
     };
     httpHandler(obj)
-      .then((response) => { 
+      .then((response) => {
         let userPicTempArry = [];
         response.data.map((item) => {
-          if(item?.imageByte?.image) {
+          if (item?.imageByte?.image) {
             userPicTempArry.push(
               {
-                "id":item.id,
-                "pic":item?.imageByte?.image
+                "id": item.id,
+                "pic": item?.imageByte?.image
               }
             )
           }
@@ -213,17 +213,17 @@ const IdeaBox = () => {
         setUsersPic(userPicTempArry);
       })
       .catch((error) => {
-        console.log("ALLUSERS API error => ",error);   
+        console.log("ALLUSERS API error => ", error);
       });
   };
 
-	useEffect(() => {
-		fetchDepartmentData();
+  useEffect(() => {
+    fetchDepartmentData();
     fetchAllUsers();
-	}, []);
+  }, []);
 
   useEffect(() => {
-    if(activeTab?.id === "ideas") {
+    if (activeTab?.id === "ideas") {
       fetchIdeas(false);
     }
   }, [activeTab]);
@@ -231,7 +231,7 @@ const IdeaBox = () => {
   const markIdeaAsActiveState = (loopData, ideaIDData) => {
     let ideaDataTemp = JSON.parse(JSON.stringify(loopData));
     ideaDataTemp && ideaDataTemp.length > 0 && ideaDataTemp.map((item) => {
-      if(item.id === ideaIDData) {
+      if (item.id === ideaIDData) {
         item.ideaIsActive = true;
       } else {
         item.ideaIsActive = false;
@@ -241,9 +241,9 @@ const IdeaBox = () => {
     setIdeaLists(ideaDataTemp);
   }
 
-	const createCommunicationPost = (arg) => {
+  const createCommunicationPost = (arg) => {
     let formData = new FormData();
-    if(arg.files && arg.files.length > 0) {
+    if (arg.files && arg.files.length > 0) {
       arg.files.map((item) => {
         formData.append('file', item);
         return item;
@@ -257,32 +257,35 @@ const IdeaBox = () => {
       existIdeaDept: null,
       existIdeaAttach: null
     }
-    formData.append('ideaRequest', new Blob([JSON.stringify(ideaRequestObj)], { type: 'application/json'}));
+
+    formData.append('ideaRequest',JSON.stringify(ideaRequestObj)
+    //  new Blob([JSON.stringify(ideaRequestObj)], { type: 'application/json' })
+     );
 
     const obj = {
-			url: URL_CONFIG.IDEA,
-			method: "post",
-			formData: formData,
+      url: URL_CONFIG.IDEA,
+      method: "post",
+      formData: formData,
     };
     httpHandler(obj)
-    .then((response) => {
-      fetchIdeas(false);
-      setCreateModalShow(false);
-      setShowModal({
-        ...showModal,
-        type: "success",
-        message: response?.data?.message,
+      .then((response) => {
+        fetchIdeas(false);
+        setCreateModalShow(false);
+        setShowModal({
+          ...showModal,
+          type: "success",
+          message: response?.data?.message,
+        });
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+        setCreateModalErr(errMsg);
       });
-    })
-    .catch((error) => {
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-      setCreateModalErr(errMsg);
-    });
-	}
+  }
 
   const viewIdeaData = (iData) => {
-    if(!iData.ideaIsRead) {
-      readIdeaData(iData,true,true);
+    if (!iData.ideaIsRead) {
+      readIdeaData(iData, true, true);
     } else {
       markIdeaAsActiveState(ideaLists, iData.id);
     }
@@ -291,96 +294,106 @@ const IdeaBox = () => {
   }
 
   const readIdeaData = (iData, isActive, isRead) => {
-    if(iData) {
+    debugger
+    if (iData) {
       let obj;
-      let iReadIndex;
-      if(isRead) {
+      let iReadIndex = 0;
+      if (isRead) {
         obj = {
-          url: URL_CONFIG.IDEA_READ_UNREAD + "?id=" +iData.id,
+          url: URL_CONFIG.IDEA_READ_UNREAD,
+          //  + "?id=" +iData.id,
+          payload: { id: iData.id },
           method: "post",
         };
       }
-      if(!isRead) {
-        iReadIndex = iData.ideaRead.findIndex(x => x.userId.id === loggedUserData.id);
+      if (!isRead) {
+        // iReadIndex = iData.ideaRead.findIndex(x => x.userId.id === loggedUserData.id);
         obj = {
-          url: URL_CONFIG.IDEA_READ_UNREAD + "?id=" +iData.ideaRead[iReadIndex].id,
-          method: "delete",
+          url: URL_CONFIG.IDEA_READ_UNREAD,
+          //  + "?id=" + iData.ideaRead[iReadIndex].id,
+          payload: { id: iData.ideaRead[iReadIndex].id },
+          method: "put",
         };
       }
       httpHandler(obj)
-      .then(() => {
-        if(isRead) {
-          fetchIdeas(true, iData.id, filterParams);
-        }
-        if(!isRead) {
-          let ideaListsTemp = JSON.parse(JSON.stringify(ideaLists));
-          if(ideaListsTemp && ideaListsTemp.length > 0) {
-            ideaListsTemp.map((idea) => {
-              if(idea.id === iData.id) {
-                idea.ideaIsRead = false;
-                idea.ideaRead.splice(iReadIndex, 1);
-                if(isActive) {
-                  idea.ideaIsActive = true;
-                }
-              } else {
-                if(isActive) {
-                  idea.ideaIsActive = false;
-                }
-              }
-              return idea;
-            });
-            setIdeaLists(ideaListsTemp);
+        .then(() => {
+          if (isRead) {
+            fetchIdeas(true, iData.id, filterParams);
           }
-        }
-      })
-      .catch((error) => {
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: error?.response?.data?.message,
+          if (!isRead) {
+            let ideaListsTemp = JSON.parse(JSON.stringify(ideaLists));
+            if (ideaListsTemp && ideaListsTemp.length > 0) {
+              ideaListsTemp.map((idea) => {
+                if (idea.id === iData.id) {
+                  idea.ideaIsRead = false;
+                  idea.ideaRead.splice(iReadIndex, 1);
+                  if (isActive) {
+                    idea.ideaIsActive = true;
+                  }
+                } else {
+                  if (isActive) {
+                    idea.ideaIsActive = false;
+                  }
+                }
+                return idea;
+              });
+              setIdeaLists(ideaListsTemp);
+            }
+          }
+        })
+        .catch((error) => {
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: error?.response?.data?.message,
+          });
+          //const errMsg = error.response?.data?.message;
         });
-        //const errMsg = error.response?.data?.message;
-      });
     }
   }
 
   const markImportant = (iData, isImportant) => {
+    debugger
     let obj;
-    let iImportantIndex;
-    if(isImportant) {
+    let iImportantIndex = 0;
+    if (isImportant) {
       obj = {
-        url: URL_CONFIG.IDEA_IMPORTANT_UNIMPORTANT + "?id=" +iData.id,
+        url: URL_CONFIG.IDEA_IMPORTANT_UNIMPORTANT,
+        //  + "?id=" + iData.id,
+        payload: { id: iData.id },
         method: "post",
       };
     }
-    if(!isImportant) {
-      iImportantIndex = iData.ideaFavorite.findIndex(x => x.userId.id === loggedUserData.id);
+    if (!isImportant) {
+      // iImportantIndex = iData.ideaFavorites.findIndex(x => x.userId.id === loggedUserData.id);
       obj = {
-        url: URL_CONFIG.IDEA_IMPORTANT_UNIMPORTANT + "?id=" +iData.ideaFavorite[iImportantIndex].id,
-        method: "delete",
+        url: URL_CONFIG.IDEA_IMPORTANT_UNIMPORTANT,
+        //  + "?id=" + iData.ideaFavorites[iImportantIndex].id,
+        payload: { id: iData.ideaFavorites[iImportantIndex].id },
+        method: "put",
       };
     }
     httpHandler(obj)
       .then(() => {
-        if(isImportant) {
-          if(iData.ideaIsActive) {
+        if (isImportant) {
+          if (iData.ideaIsActive) {
             fetchIdeas(true, iData.id, filterParams);
           } else {
             fetchIdeas(false);
           }
-        } 
-        if(!isImportant) {
+        }
+        if (!isImportant) {
           let ideaDataTemp = JSON.parse(JSON.stringify(ideaLists))
           ideaDataTemp && ideaDataTemp.length > 0 && ideaDataTemp.map((item) => {
-            if(item.ideaIsActive) {
+            if (item.ideaIsActive) {
               item.ideaIsActive = true;
             } else {
               item.ideaIsActive = false;
             }
-            if(item.id === iData.id) {
-              if(item.ideaFavorite && item.ideaFavorite.length > 0) {
+            if (item.id === iData.id) {
+              if (item.ideaFavorites && item.ideaFavorites.length > 0) {
                 item.ideaIsImportant = false;
-                item.ideaFavorite.splice(iImportantIndex, 1);
+                item.ideaFavorites.splice(iImportantIndex, 1);
               }
             }
             return item;
@@ -395,17 +408,17 @@ const IdeaBox = () => {
           type: "danger",
           message: errMsg,
         });
-    });
+      });
   }
 
   const readAllIdeas = (isReadAll) => {
-    if(isReadAll) {
+    if (isReadAll) {
       const obj = {
         url: URL_CONFIG.IDEA_READ_ALL,
         method: "post"
       };
       httpHandler(obj)
-        .then(() => { 
+        .then(() => {
           fetchIdeas(false);
         })
         .catch((error) => {
@@ -428,8 +441,8 @@ const IdeaBox = () => {
     setIdeaLists([...ideaLists].reverse());
   }
 
-	return (
-		<React.Fragment>
+  return (
+    <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
           data={showModal}
@@ -457,28 +470,28 @@ const IdeaBox = () => {
           }
         ></EEPSubmitModal>
       )}
-			<div className="row eep-content-section-data no-gutters">
-				<div className="tab-content col-md-12 h-100 response-allign-middle">
-					<div id="ideas" className="tab-pane active h-100">
-						{createModalShow && <CreateEditCommunicationModal deptOptions={deptOptions} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="idea" communicationData={null} /> }
-						<PageHeader title="Idea Box"
-							navLinksRight={
-								<Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateEditCommunicationModal"></Link>
-							}
-							filter={
-								<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
-							}
-						/>
+      <div className="row eep-content-section-data no-gutters">
+        <div className="tab-content col-md-12 h-100 response-allign-middle">
+          <div id="ideas" className="tab-pane active h-100">
+            {createModalShow && <CreateEditCommunicationModal deptOptions={deptOptions} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="idea" communicationData={null} />}
+            <PageHeader title="Idea Box"
+              navLinksRight={
+                <Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateEditCommunicationModal"></Link>
+              }
+              filter={
+                <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
+              }
+            />
             {ideaLists && ideaLists.length > 0 &&
               <React.Fragment>
-    						<div className="row mx-0 ideaaboxContainer">
+                <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
                     {/* <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} /> */}
-                    {activeTab && activeTab.id === 'ideas' && <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} /> }
+                    {activeTab && activeTab.id === 'ideas' && <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} />}
                   </div>
                   <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
-                    {ideaDataState && <IdeaDetailView ideaData={ideaData} usersPic={usersPic} /> }
-                    {!ideaDataState && 
+                    {ideaDataState && <IdeaDetailView ideaData={ideaData} usersPic={usersPic} />}
+                    {!ideaDataState &&
                       <div className="row eep-content-section-data no-gutters">
                         <div className="eep_blank_div">
                           <img src={`${process.env.PUBLIC_URL}/images/icons/static/readData.png`} alt="Read Data" />
@@ -490,7 +503,7 @@ const IdeaBox = () => {
                 </div>
               </React.Fragment>
             }
-						{ideaLists && ideaLists.length <= 0 &&
+            {ideaLists && ideaLists.length <= 0 &&
               <ResponseInfo
                 title="Nothing to show yet."
                 responseImg="noIdeaShare"
@@ -498,10 +511,10 @@ const IdeaBox = () => {
                 messageInfo="Nothing is really ours until we share it"
                 subMessageInfo="C. S. Lewis"
               />
-						}
-					</div>
-					<div id="myideas" className="tab-pane h-100">
-						{/* <PageHeader title="My Idea"
+            }
+          </div>
+          <div id="myideas" className="tab-pane h-100">
+            {/* <PageHeader title="My Idea"
 							navLinksLeft={
 								<Link 
                   to={{
@@ -518,12 +531,12 @@ const IdeaBox = () => {
 								<Filter config={HIDE_SHOW_FILTER_CONFIG} />
 							}
 						/> */}
-            {activeTab && activeTab.id === 'myideas' && <MyIdeas usersPic={usersPic} deptOptions={deptOptions} /> }
-					</div>
-				</div>
-			</div>
-		</React.Fragment>
-	);
+            {activeTab && activeTab.id === 'myideas' && <MyIdeas usersPic={usersPic} deptOptions={deptOptions} />}
+          </div>
+        </div>
+      </div>
+    </React.Fragment>
+  );
 }
 
 export default IdeaBox;

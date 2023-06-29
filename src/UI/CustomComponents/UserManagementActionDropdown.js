@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const UserManagementActionDropdown = (props) => {
-
+debugger
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   return (
     <div className="ans-type text-center c1">
@@ -16,11 +16,11 @@ const UserManagementActionDropdown = (props) => {
       ></span>
 
       <div className="eep-dropdown-menu dropdown-menu dropdown-menu-right shadow pt-4 pb-4">
-        <Link className="dropdown-item" to={`users/view/${props.data.id}`}>
+        <Link className="dropdown-item" to={`users/view/${props?.data?.user_id}`}>
           View User
         </Link>
         <div className="dropdown-divider"></div>
-        <Link className="dropdown-item" to={`users/update/${props.data.id}`}>
+        <Link className="dropdown-item" to={`users/update/${props?.data?.user_id}`}>
           Modify User
         </Link>
       </div>

@@ -306,16 +306,16 @@ const Forum = () => {
 		}
 	}
 
-	let unReadIndex;
+	let unReadIndex=0;
 	const unReadForum = (forumData) => {
 		debugger
 		if (forumData) {
-			unReadIndex = forumData.forumRead.findIndex(x => x.userId.id === userData.id);
+			// unReadIndex = forumData.forumRead.findIndex(x => x.userId.id === userData.id);
 			const obj = {
 				url: URL_CONFIG.FORUM_READ_UNREAD,
 				//  + "?id=" + forumData.forumRead[unReadIndex].id,
 				payload: { id: forumData.forumRead[unReadIndex].id },
-				method: "delete"
+				method: "put"
 			};
 			httpHandler(obj)
 				.then(() => {
@@ -347,16 +347,16 @@ const Forum = () => {
 		}
 	}
 
-	let followIndex;
+	let followIndex=0;
 	const unFollowForum = (followInfo) => {
 		debugger
 		if (followInfo) {
-			followIndex = followInfo?.forumFollowing?.findIndex(x => x?.userId?.id === userData?.id);
+			// followIndex = followInfo?.forumFollowing?.findIndex(x => x?.userId?.id === userData?.id);
 			const obj = {
 				url: URL_CONFIG.FORUM_FOLLOWING,
 				//  + "?id=" + followInfo.forumFollowing[followIndex].id,
 				payload: { id: followInfo.forumFollowing[followIndex].id },
-				method: "delete"
+				method: "put"
 			};
 			httpHandler(obj)
 				.then(() => {

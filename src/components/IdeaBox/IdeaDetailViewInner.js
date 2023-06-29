@@ -65,8 +65,9 @@ const IdeaDetailViewInner = (props) => {
     likeAnIdea(arg);
   }
 
-  //console.log("ideaDetail ==>>>", ideaDetail);
-
+  // console.log("ideaDetail ==>>>", isDetailListMode);
+  // console.log("ideaDetail ==>>>", loggedUserData);
+  // console.log("ideaDetail ==>>>>>>",   isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes));
 	return (
 		<React.Fragment>
       {ideaDetail && Object.keys(ideaDetail).length > 0 && 

@@ -35,15 +35,15 @@ const DatePickerComponent = (props) => {
     handleChange(field, date?.toISOString()?.slice(0, 10));
   };
 
-  const handleCalendarClose = () => {};
+  const handleCalendarClose = () => { };
 
-  const handleCalendarOpen = () => {};
+  const handleCalendarOpen = () => { };
   const fieldClasses = inputIsInvalid ? `${"invalid"}` : "";
+
   return (
     <div
-      className={`col-md-12 form-group text-left ${
-        field.mandatory ? "required" : ""
-      }`}
+      className={`col-md-12 form-group text-left ${field.mandatory ? "required" : ""
+        }`}
     >
       <label className="control-label">{field.label}</label>
       <div className="eepCustomDatepicker">
@@ -63,7 +63,10 @@ const DatePickerComponent = (props) => {
           disabled={"disabled" in field ? field["disabled"] : false}
           placeholderText="Click to select a date"
           minDate={field.min.subYear ? subYears(new Date(), field.min.val) : field.min.addMonth ? addMonths(new Date(), field.min.val) : null}
-          maxDate={field.max.subYear ? subYears(new Date(), field.max.val) : field.max.addMonth ? addMonths(new Date(), field.max.val) : null}
+          maxDate={field.max.subYear ?
+            subYears(new Date(), field.max.val) :
+            field.max.addMonth ?
+              addMonths(new Date(), field.max.val) : null}
         />
       </div>
       {inputIsInvalid && (

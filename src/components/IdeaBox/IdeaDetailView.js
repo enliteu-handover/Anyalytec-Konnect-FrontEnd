@@ -8,11 +8,11 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 
 const IdeaDetailView = (props) => {
 
-	const {ideaData, usersPic} = props;
+  const { ideaData, usersPic } = props;
 
-	const initIdeaDetail = ideaData ? ideaData : null;
+  const initIdeaDetail = ideaData ? ideaData : null;
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-	const [ideaDetail, setIdeaDetail] = useState(null);
+  const [ideaDetail, setIdeaDetail] = useState(null);
   const [isCommentSubmitted, setIsCommentSubmitted] = useState(false);
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const hideModal = () => {
@@ -26,10 +26,10 @@ const IdeaDetailView = (props) => {
   let iLikedIndex;
   const isIdeaLiked = (uID, ideaLikes) => {
     iLikedIndex = ideaLikes.findIndex(x => x.userId.id === uID);
-    if(iLikedIndex !== -1) {
-      return {isLiked: true, likedID: ideaLikes[iLikedIndex].id};
+    if (iLikedIndex !== -1) {
+      return { isLiked: true, likedID: ideaLikes[iLikedIndex].id };
     } else {
-      return {isLiked: false, likedID: null};
+      return { isLiked: false, likedID: null };
     }
   }
 
@@ -39,7 +39,7 @@ const IdeaDetailView = (props) => {
       method: "get"
     };
     httpHandler(obj)
-      .then((iData) => { 
+      .then((iData) => {
         //console.log("readAllIdeas API response => ",iData);
         setIdeaDetail(iData.data);
       })
@@ -54,7 +54,7 @@ const IdeaDetailView = (props) => {
   }
 
   useEffect(() => {
-    if(initIdeaDetail) {
+    if (initIdeaDetail) {
       fetchIdeaDetail();
     }
   }, [initIdeaDetail]);
@@ -62,7 +62,7 @@ const IdeaDetailView = (props) => {
   const commentSubmitHandler = (cmtData) => {
     setIsCommentSubmitted(false);
     let formData = new FormData();
-    if(cmtData.files && cmtData.files.length > 0) {
+    if (cmtData.files && cmtData.files.length > 0) {
       cmtData.files.map((item) => {
         formData.append('file', item);
         return item;
@@ -74,73 +74,80 @@ const IdeaDetailView = (props) => {
         id: ideaDetail.id
       }
     }
-    formData.append('ideaCommentsRequest', new Blob([JSON.stringify(ideaCommentsRequestObj)], { type: 'application/json'}));
+    formData.append('ideaCommentsRequest', JSON.stringify(ideaCommentsRequestObj)
+      //  new Blob([JSON.stringify(ideaCommentsRequestObj)], { type: 'application/json'})
+    );
 
     const obj = {
-			url: URL_CONFIG.IDEA_COMMENT,
-			method: "post",
-			formData: formData,
+      url: URL_CONFIG.IDEA_COMMENT,
+      method: "post",
+      formData: formData,
     };
     httpHandler(obj)
-    .then(() => {
-      setIsCommentSubmitted(true);
-      fetchIdeaDetail();
-    })
-    .catch((error) => {
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-      setShowModal({
-        ...showModal,
-        type: "danger",
-        message: errMsg,
+      .then(() => {
+        setIsCommentSubmitted(true);
+        fetchIdeaDetail();
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: errMsg,
+        });
       });
-    });
   }
 
   const likeAnIdea = (likeInfo) => {
+    debugger
     let obj;
-    if(likeInfo.isLike) {
+    if (likeInfo.isLike) {
       obj = {
-        url: URL_CONFIG.IDEA_LIKE_DISLIKE + "?id=" + likeInfo.iData.id,
+        url: URL_CONFIG.IDEA_LIKE_DISLIKE,
+        //  + "?id=" + likeInfo.iData.id,
+        payload: { id: likeInfo.iData.id },
         method: "post"
-      };    
+      };
     }
-    if(!likeInfo.isLike) {
+    if (!likeInfo.isLike) {
       let likedInfoData = isIdeaLiked(loggedUserData.id, likeInfo.iData.ideaLikes);
-      if(likedInfoData.isLiked) {
+      if (likedInfoData.isLiked) {
         obj = {
-          url: URL_CONFIG.IDEA_LIKE_DISLIKE + "?id=" + likedInfoData.likedID,
-          method: "delete"
+          url: URL_CONFIG.IDEA_LIKE_DISLIKE,
+          //  + "?id=" + likedInfoData.likedID,
+          payload: { id: likedInfoData.likedID },
+          method: "put"
         };
       }
     }
 
     httpHandler(obj)
-    .then(() => { 
-      //console.log("likeAnIdea API response => ",response);
-      if(likeInfo.isLike) {
-        fetchIdeaDetail();
-      }
-      if(!likeInfo.isLike) {
-        let ideaDetailTemp = JSON.parse(JSON.stringify(ideaDetail));
-        let iLikedIndexx = ideaDetailTemp.ideaLikes.findIndex(x => x.userId.id === loggedUserData.id);
-        if(iLikedIndexx !== -1) {
-          ideaDetailTemp.ideaLikes.splice(iLikedIndexx,1);
-          setIdeaDetail({...ideaDetailTemp});
+      .then(() => {
+        //console.log("likeAnIdea API response => ",response);
+        if (likeInfo.isLike) {
+          fetchIdeaDetail();
         }
-      }
-    })
-    .catch((error) => {
-      console.log("likeAnIdea API error => ",error);
-      setShowModal({
-        ...showModal,
-        type: "danger",
-        message: error?.response?.data?.message,
+        if (!likeInfo.isLike) {
+          let ideaDetailTemp = JSON.parse(JSON.stringify(ideaDetail));
+          let iLikedIndexx = ideaDetailTemp.ideaLikes.findIndex(x => x.userId.id === loggedUserData.id);
+          if (iLikedIndexx !== -1) {
+            ideaDetailTemp.ideaLikes.splice(iLikedIndexx, 1);
+            setIdeaDetail({ ...ideaDetailTemp });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("likeAnIdea API error => ", error);
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: error?.response?.data?.message,
+        });
       });
-    });
   }
 
-	return (
-		<React.Fragment>
+  return (
+    <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
           data={showModal}
@@ -177,7 +184,7 @@ const IdeaDetailView = (props) => {
         </React.Fragment>
       }
       {ideaDetail && Object.keys(ideaDetail).length <= 0 &&
-        <div className="ideabox_mesgbutton_wrapper h-100" style={{display:"flex"}}>
+        <div className="ideabox_mesgbutton_wrapper h-100" style={{ display: "flex" }}>
           <ResponseInfo
             title="Not able to fetch property data. Please try again from beginning."
             responseImg="noRecord"
@@ -185,8 +192,8 @@ const IdeaDetailView = (props) => {
           />
         </div>
       }
-		</React.Fragment>
-	)
+    </React.Fragment>
+  )
 }
 
 export default IdeaDetailView;
