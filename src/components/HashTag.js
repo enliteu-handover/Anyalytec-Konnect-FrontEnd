@@ -160,6 +160,13 @@ const HashTag = () => {
     };
 
     checkResponseMsg("");
+
+    if (!hashTagValue) {
+      checkResponseMsg("Hashtag name is required!");
+      checkResponseClassName("response-text response-err");
+      return
+    }
+
     const obj = {
       url: URL_CONFIG.ADDHASHTAG,
       method: "put",
