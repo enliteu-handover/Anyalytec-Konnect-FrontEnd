@@ -41,6 +41,7 @@ const IdeaList = (props) => {
 	}
 
   const readAllCommunicationsFromList = (arg) => {
+    debugger
     readAllIdeas(arg);
   }
 

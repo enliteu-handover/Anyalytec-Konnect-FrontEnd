@@ -412,6 +412,7 @@ const IdeaBox = () => {
   }
 
   const readAllIdeas = (isReadAll) => {
+    debugger
     if (isReadAll) {
       const obj = {
         url: URL_CONFIG.IDEA_READ_ALL,

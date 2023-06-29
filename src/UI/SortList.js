@@ -9,6 +9,7 @@ const SortList = (props) => {
   let checker = arr => arr.every(v => v.ideaIsRead === true);
 
   const markAllAsRead = () => {
+    debugger
     var checkBox = document.getElementById("postCheckbox");
     if(checkBox.checked === true) {
       if(!checker(communicationPostLists)) {

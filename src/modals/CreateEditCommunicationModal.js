@@ -88,8 +88,8 @@ const CreateEditCommunicationModal = (props) => {
       }
       //communicationData.ideaDepartment.length > 0 && communicationData.ideaDepartment.map((item) => {
       communicationData[postDepartment].length > 0 && communicationData[postDepartment].map((item) => {
-        modalArr.push(item.deptId.id);
-        deptArr.push({label: item.deptId.name, value: item.deptId.id});
+        modalArr.push(item?.deptId?.id);
+        deptArr.push({label: item?.deptId?.name, value: item?.deptId?.id});
         return [modalArr, deptArr];
       });
       setModalDepartment(modalArr);

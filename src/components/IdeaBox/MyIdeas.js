@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
 import YearFilter from "../../UI/YearFilter";
 import Table from "../../UI/Table";
@@ -17,14 +17,14 @@ import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationMo
 
 function MyIdeas(props) {
 
-  const {usersPic, deptOptions} = props;
+  const { usersPic, deptOptions } = props;
 
   const initUsersPic = usersPic ? usersPic : [];
   const initDeptOptions = deptOptions ? deptOptions : [];
-	const svgIcons = useSelector((state) => state.sharedData.svgIcons);
-  
+  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+
   const yrDt = new Date().getFullYear();
-  const [yearFilterValue, setYearFilterValue] = useState({filterby: yrDt});
+  const [yearFilterValue, setYearFilterValue] = useState({ filterby: yrDt });
   const [usersPics, setUsersPics] = useState([]);
   const [deptOptionData, setDeptOptionData] = useState([]);
   const [myIdeasList, setMyIdeasList] = useState([]);
@@ -33,7 +33,7 @@ function MyIdeas(props) {
   const [ideaViewModalState, setIdeaViewModalState] = useState(false);
   const [ideaEditModalState, setIdeaEditModalState] = useState(false);
   const [communicationModalErr, setCommunicationModalErr] = useState("");
-  const [confirmStateModalObj, setConfirmStateModalObj] = useState({confirmTitle:null, confirmMessage:null});
+  const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
@@ -54,9 +54,9 @@ function MyIdeas(props) {
       link: "app/dashboard",
     },
     {
-			label: "COMMUNICATIONS",
-			link: "app/communication",
-		},
+      label: "COMMUNICATIONS",
+      link: "app/communication",
+    },
     {
       label: "IDEA BOX",
       link: "",
@@ -78,28 +78,28 @@ function MyIdeas(props) {
   }, [initUsersPic, initDeptOptions]);
 
   const IconWithLengthSettings = {
-    favourites : {
+    favourites: {
       title: "Favourites",
       default: "StarDefault.svg",
       isValue: "StarFavourite.svg",
       classnames: "eep-rotate-animation mr-2",
       objReference: "ideaFavorite"
     },
-    likes : {
+    likes: {
       title: "Likes",
       default: "HeartDefault.svg",
       isValue: "Heart.svg",
       classnames: "eep-pulsess-animation mr-2",
       objReference: "ideaLikes"
     },
-    comments : {
+    comments: {
       title: "Comments",
       default: "MessageDefault.svg",
       isValue: "Message.svg",
       classnames: "eep-stretch-animation mr-2",
       objReference: "ideaComments"
     },
-    createdAt : {
+    createdAt: {
       classnames: "",
       objReference: "createdAt"
     }
@@ -116,7 +116,7 @@ function MyIdeas(props) {
     let iDataTemp = JSON.parse(JSON.stringify(iData));
     iDataTemp["actionType"] = "unpost";
     setIdeaTempData(iDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to unpost this Idea?"});
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to unpost this Idea?" });
     setConfirmModalState(true);
   }
 
@@ -125,7 +125,7 @@ function MyIdeas(props) {
     let iDataTemp = JSON.parse(JSON.stringify(iData));
     iDataTemp["actionType"] = "post";
     setIdeaTempData(iDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to post this Idea?"});
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to post this Idea?" });
     setConfirmModalState(true);
   }
 
@@ -134,7 +134,7 @@ function MyIdeas(props) {
     let iDataTemp = JSON.parse(JSON.stringify(iData));
     iDataTemp["actionType"] = "delete";
     setIdeaTempData(iDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Idea?"});
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Idea?" });
     setConfirmModalState(true);
   }
 
@@ -160,12 +160,12 @@ function MyIdeas(props) {
       method: "get"
     };
     httpHandler(obj)
-      .then((iData) => { 
+      .then((iData) => {
         setIdeaTempData(iData.data);
-        if(ideaData.actionType === "view") {
+        if (ideaData.actionType === "view") {
           setIdeaViewModalState(true);
         }
-        if(ideaData.actionType === "edit") {
+        if (ideaData.actionType === "edit") {
           setIdeaEditModalState(true);
         }
       })
@@ -215,28 +215,28 @@ function MyIdeas(props) {
       url: URL_CONFIG.MY_IDEAS,
       method: "get",
     };
-    if(paramData && Object.keys(paramData).length > 0 && paramData !== "") {
+    if (paramData && Object.keys(paramData).length > 0 && paramData !== "") {
       obj["params"] = paramData;
     }
     httpHandler(obj)
       .then((myIdeas) => {
-        setMyIdeasList([...myIdeas.data]);
+        setMyIdeasList([...myIdeas?.data?.map(v => { return { ...v, name: v?.title } })]);
       })
       .catch((error) => {
         console.log("error", error.response);
         //const errMsg = error.response?.data?.message;
       });
   }
-  
+
   useEffect(() => {
     fetchMyIdeasData(yearFilterValue);
   }, []);
 
   const confirmState = (isConfirmed) => {
     disableExistModal();
-    if(isConfirmed) {
+    if (isConfirmed) {
       let ideaUpdateObj, formData, httpObj;
-      if(ideaTempData.actionType === "unpost" || ideaTempData.actionType === "post") {
+      if (ideaTempData.actionType === "unpost" || ideaTempData.actionType === "post") {
         //console.log("ideaTempData", ideaTempData);
         formData = new FormData();
         ideaUpdateObj = {
@@ -248,32 +248,36 @@ function MyIdeas(props) {
           dept: [],
           existIdeaAttach: []
         }
-        formData.append('ideaRequest', new Blob([JSON.stringify(ideaUpdateObj)], { type: 'application/json'}));
+        formData.append('ideaRequest', JSON.stringify(ideaUpdateObj)
+          //  new Blob([JSON.stringify(ideaUpdateObj)], { type: 'application/json'})
+        );
         httpObj = {
           url: URL_CONFIG.IDEA,
           method: "put",
           formData: formData,
         };
       }
-      if(ideaTempData.actionType === "delete") {
+      if (ideaTempData.actionType === "delete") {
         httpObj = {
-          url: URL_CONFIG.IDEA + "?id=" + ideaTempData.id,
+          url: URL_CONFIG.IDEA,
+          //  + "?id=" + ideaTempData.id,
+          payload: { id: ideaTempData.id },
           method: "delete"
         };
       }
 
       httpHandler(httpObj)
-      .then(() => {
-        fetchMyIdeasData(yearFilterValue);
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
+        .then(() => {
+          fetchMyIdeasData(yearFilterValue);
+        })
+        .catch((error) => {
+          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
         });
-      });
     } else {
       setIdeaTempData({});
     }
@@ -282,7 +286,7 @@ function MyIdeas(props) {
   const updateCommunicationPost = (updateDatas) => {
     setCommunicationModalErr("");
     let formData = new FormData();
-    if(updateDatas.files && updateDatas.files.length > 0) {
+    if (updateDatas.files && updateDatas.files.length > 0) {
       updateDatas.files.map((item) => {
         formData.append('file', item);
         return item;
@@ -292,7 +296,7 @@ function MyIdeas(props) {
     let existIdeaDeptArr = [];
     let deptValsArr = [];
     updateDatas.dept.length > 0 && updateDatas.dept.map((dID) => {
-      if(updateDatas.existPostDept.indexOf(dID) !== -1) {
+      if (updateDatas.existPostDept.indexOf(dID) !== -1) {
         existIdeaDeptArr.push(dID);
       } else {
         deptValsArr.push(dID);
@@ -309,46 +313,48 @@ function MyIdeas(props) {
       dept: deptValsArr,
       existIdeaAttach: updateDatas.existPostAttach
     }
-    formData.append('ideaRequest', new Blob([JSON.stringify(ideaUpdateObj)], { type: 'application/json'}));
+    formData.append('ideaRequest', JSON.stringify(ideaUpdateObj)
+      //  new Blob([JSON.stringify(ideaUpdateObj)], { type: 'application/json' })
+    );
     const obj = {
-			url: URL_CONFIG.IDEA,
-			method: "put",
-			formData: formData,
+      url: URL_CONFIG.IDEA,
+      method: "put",
+      formData: formData,
     };
     httpHandler(obj)
-    .then((response) => {
-      setIdeaEditModalState(false);
-      fetchMyIdeasData(yearFilterValue);
-      setShowModal({
-        ...showModal,
-        type: "success",
-        message: response?.data?.message,
+      .then((response) => {
+        setIdeaEditModalState(false);
+        fetchMyIdeasData(yearFilterValue);
+        setShowModal({
+          ...showModal,
+          type: "success",
+          message: response?.data?.message,
+        });
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+        setCommunicationModalErr(errMsg);
       });
-    })
-    .catch((error) => {
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-      setCommunicationModalErr(errMsg);
-    });
   }
 
   const onFilterChange = (filterValue) => {
     console.log("filterValue", filterValue);
-    setYearFilterValue({filterby: filterValue.value});
-    fetchMyIdeasData({filterby: filterValue.value});
+    setYearFilterValue({ filterby: filterValue.value });
+    fetchMyIdeasData({ filterby: filterValue.value });
   }
 
   return (
     <React.Fragment>
       <PageHeader title="My Ideas" navLinksLeft={<Link to="ideabox" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
-				filter={
-					<YearFilter onFilterChange={onFilterChange} />
-				}
-			/>
-      {confirmModalState && 
-        <ConfirmStateModal 
-          hideModal={hideModal} 
-          confirmState={confirmState} 
-          confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"} 
+        filter={
+          <YearFilter onFilterChange={onFilterChange} />
+        }
+      />
+      {confirmModalState &&
+        <ConfirmStateModal
+          hideModal={hideModal}
+          confirmState={confirmState}
+          confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"}
           confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
         />
       }
@@ -357,8 +363,8 @@ function MyIdeas(props) {
         <IdeaViewModal ideaTempData={ideaTempData} hideModal={hideModal} usersPics={usersPics} ideaViewModalState={ideaViewModalState} />
       }
 
-      {ideaEditModalState && 
-        <CreateEditCommunicationModal hideModal={hideModal} deptOptions={deptOptionData} createModalShow={ideaEditModalState} updateCommunicationPost={updateCommunicationPost} communicationModalErr={communicationModalErr} communicationType="idea" communicationData={ideaTempData} /> 
+      {ideaEditModalState &&
+        <CreateEditCommunicationModal hideModal={hideModal} deptOptions={deptOptionData} createModalShow={ideaEditModalState} updateCommunicationPost={updateCommunicationPost} communicationModalErr={communicationModalErr} communicationType="idea" communicationData={ideaTempData} />
       }
 
       {showModal.type !== null && showModal.message !== null && (

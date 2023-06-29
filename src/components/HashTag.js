@@ -105,12 +105,20 @@ const HashTag = () => {
   };
 
   const addHashTagHandler = () => {
+    debugger
     let payOptions = {
       hashtagName: hashTagValue,
       colorCode: colorValue,
       active: true,
     };
     checkResponseMsg("");
+
+    if (!hashTagValue) {
+      checkResponseMsg("Hashtag name is required!");
+      checkResponseClassName("response-text response-err");
+      return
+    }
+
     const obj = {
       url: URL_CONFIG.ADDHASHTAG,
       method: "post",
@@ -143,14 +151,14 @@ const HashTag = () => {
   }
 
   const updateHashTagHandler = () => {
-    
+
     let updatePayOptions = {
       id: hashTagID,
       hashtagName: hashTagValue,
       colorCode: colorValue,
       active: true,
     };
-    
+
     checkResponseMsg("");
     const obj = {
       url: URL_CONFIG.ADDHASHTAG,
