@@ -48,7 +48,7 @@ const SocialWallCommentsList = (props) => {
                   }
               </div>
 
-              {subItem.commentState.typeCommentState && (
+              {subItem?.commentState?.typeCommentState && (
               <div className="reply_append">
                 <div className="d-flex">
                   {/* <img src={getUserPicture(userData.id)}

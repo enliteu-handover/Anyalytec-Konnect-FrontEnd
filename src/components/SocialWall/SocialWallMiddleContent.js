@@ -100,6 +100,7 @@ const SocialWallMiddleContent = (props) => {
   }
 
   const replyStateHandler = (arg) => {
+    
     if (arg.topLevelReply) {
       setSocialWallData((prevState) => {
         const socialWallDataTemp = [...prevState];
@@ -140,10 +141,11 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const isEnlited = (arg) => {
+    
     const userData = sessionStorage.userData
       ? JSON.parse(sessionStorage.userData)
       : {};
-    let isLiked = arg.findIndex((x) => x.userId.id === userData.id);
+    let isLiked = arg?.findIndex((x) => x?.userId?.id === userData?.id);
     if (isLiked === -1) {
       return true;
     } else {
@@ -255,39 +257,39 @@ const SocialWallMiddleContent = (props) => {
     <React.Fragment>
       {likedModalData && (<LikedInfoModal likedModalData={likedModalData} usersPicData={usersPicProps} />)}
 
-      {socialWallData && socialWallData.length && socialWallData.sort((a, b) => (a.id < b.id) ? 1 : -1).map((item, index) => {
-        let rewdType = getRewardType(item.rewardId.type);
-        let hashArr = getHashTag(item.rewardId.hashTag);
+      {socialWallData && socialWallData?.length && socialWallData.sort((a, b) => (a.id < b.id) ? 1 : -1).map((item, index) => {
+        let rewdType = getRewardType(item?.rewardId?.type);
+        let hashArr = getHashTag(item?.rewardId?.hashTag);
         return (
           <div className="bg-f7f7f7 br-15 socialWall" key={"socialWall_" + index}>
             <div className="socialWall_inner if need to remove">
               <div className="sw_head mb-3 d-flex flex-wrap justify-content-between align-items-center">
                 <div className="sw_from_div d-flex flex-wrap align-items-center">
-                  <img src={(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? getUserPicture(item.rewardId.userId.id) : defaultProfilePic}
+                  <img src={(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? getUserPicture(item?.rewardId?.userId?.id) : defaultProfilePic}
                     className="sr_u_pic"
                     alt="Profile Image"
-                    title={(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""}
+                    title={(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""}
                   />
                   <div className="sw_from">
                     <div className="sw_from_data">
                       <Link to="#" className="a_hover_txt_deco_none">
-                        <span className="sw_to_val sw_head_nms">{(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
+                        <span className="sw_to_val sw_head_nms">{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
                       </Link>
                       <span className="sw_head_con">was enlited by </span>
                       <Link to="#" className="a_hover_txt_deco_none">
-                        <span className="sw_from_val sw_head_nms">{item.rewardId.createdBy.fullName} </span>
+                        <span className="sw_from_val sw_head_nms">{item?.rewardId?.createdBy?.fullName} </span>
                       </Link>
                     </div>
                     <div className="sw_from_time">
                       <span className="sw_from_time_val">
-                        {item.createdAt}
+                        {item?.createdAt}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="sw_pts">
                   <span className="sw_pts_val font-helvetica-m">
-                    {item.rewardId[getRewardType(item.rewardId.type)].points}
+                    {item?.rewardId[getRewardType(item?.rewardId?.type)]?.points}
                   </span>
                   <span className="sw_pts_type font-helvetica-m">pt(s)</span>
                 </div>
@@ -296,13 +298,13 @@ const SocialWallMiddleContent = (props) => {
                 <div className="sw_msg_div d-flex flex-sm-wrap flex-md-nowrap justify-content-between align-items-start mb-3">
                   <div className="sw_msg col-md-8 col-lg-9">
                     <p className="sw_msg_val mb-0">
-                      <span className="font-helvetica-m">@{(item.rewardId.userId !== null && item.rewardId.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
-                      <span> {item.rewardId.description} </span>
+                      <span className="font-helvetica-m">@{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
+                      <span> {item?.rewardId?.description} </span>
                       <span>
-                        {hashArr && hashArr.length > 0 && hashArr.map((item, index) => {
+                        {hashArr && hashArr?.length > 0 && hashArr.map((item, index) => {
                           return (
                             <Link to="#" key={"hashTag_" + index}>
-                              #{item.name}{" "}
+                              #{item?.name}{" "}
                             </Link>
                           );
                         })}
@@ -311,27 +313,27 @@ const SocialWallMiddleContent = (props) => {
                   </div>
                   <div className="sw_iconic col-md-4 col-lg-3">
                     <div className="d-flex flex-column align-items-center">
-                      <img src={item.rewardId.imageByte !== null && item.rewardId.imageByte !== "" ? item.rewardId.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                      <img src={item?.rewardId?.imageByte !== null && item?.rewardId?.imageByte !== "" ? item?.rewardId?.imageByte?.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                         className="d_achievements_img sw_iconic_img"
                         alt="Reward Icon"
-                        title={item.rewardId[rewdType].name}
+                        title={item?.rewardId[rewdType]?.name}
                       />
                       <p className="sw_iconic_nm mb-0 text-center">
-                        {item.rewardId[rewdType].name}
+                        {item?.rewardId[rewdType]?.name}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="sw_comments_div">
-                  {item.socialWallLike && item.socialWallLike.length > 0 && (
+                  {item?.socialWallLike && item?.socialWallLike.length > 0 && (
                     <div className="sw_enlited_lists d-flex flex-wrap align-items-center mb-3">
                       <div className="sw_enlited_pics mr-3">
                         <ul className="mb-0 ml-3 pl-0">
-                          {item.socialWallLike && item.socialWallLike.length > 0 && item.socialWallLike.map((item, index) => {
+                          {item?.socialWallLike && item?.socialWallLike?.length > 0 && item?.socialWallLike.map((item, index) => {
                             if (index < maxLikedCount) {
                               return (
                                 <li key={"LikedPic_" + index}>
-                                  <img src={getUserPicture(item.userId.id)} className="img-fluid sr_rank_pic" alt="User" title={item.userId.firstname + " " + item.userId.lastname} />
+                                  <img src={getUserPicture(item?.userId?.id)} className="img-fluid sr_rank_pic" alt="User" title={item?.userId?.firstname + " " + item?.userId?.lastname} />
                                 </li>
                               );
                             }
@@ -340,20 +342,20 @@ const SocialWallMiddleContent = (props) => {
                       </div>
                       <div className="sw_enlited_nm">
                         <span className="enlited_lbl">Liked By </span>
-                        {item.socialWallLike && item.socialWallLike.length > 0 && item.socialWallLike.map((like, index) => {
+                        {item?.socialWallLike && item?.socialWallLike?.length > 0 && item?.socialWallLike.map((like, index) => {
                           if (index < maxLikedCount) {
                             return (
                               <Link to="#" className="enlited_nms a_hover_txt_deco_none" key={"Likeduse_" + index}>
-                                <span> {like.userId.firstname + " " + like.userId.lastname} {item.socialWallLike.length > 1 && index < maxLikedCount ? ", " : ""} </span>
+                                <span> {like?.userId?.firstname + " " + like?.userId?.lastname} {item?.socialWallLike.length > 1 && index < maxLikedCount ? ", " : ""} </span>
                               </Link>
                             );
                           }
                         })}
-                        {item.socialWallLike && item.socialWallLike.length > maxLikedCount && (
+                        {item?.socialWallLike && item?.socialWallLike?.length > maxLikedCount && (
                           <React.Fragment>
                             <span> and </span>
-                            <Link to="#" data-toggle="modal" data-target="#LikedInfoModal" onClick={() => likedModalHandler(item.socialWallLike)}>
-                              <span> {item.socialWallLike.length - maxLikedCount} others </span>
+                            <Link to="#" data-toggle="modal" data-target="#LikedInfoModal" onClick={() => likedModalHandler(item?.socialWallLike)}>
+                              <span> {item?.socialWallLike?.length - maxLikedCount} others </span>
                             </Link>
                           </React.Fragment>
                         )}
@@ -363,14 +365,14 @@ const SocialWallMiddleContent = (props) => {
 
                   <div className="sw_enlite_actions_div">
                     <div className="sw_enlite_actions d-flex flex-wrap justify-content-between align-items-center">
-                      {!item.commentState.listCommentState && (
+                      {!item?.commentState?.listCommentState && (
                         <div className="enlite_view_comments enlite_view_less_comments c1" onClick={() => viewAllComments(item, index)}>
-                          {item.commentsCount > 0 && (
-                            <span>View all <span>{item.commentsCount}</span> comment(s)</span>
+                          {item?.commentsCount > 0 && (
+                            <span>View all <span>{item?.commentsCount}</span> comment(s)</span>
                           )}
                         </div>
                       )}
-                      {item.commentState.listCommentState && (
+                      {item?.commentState?.listCommentState && (
                         <React.Fragment>
                           <div className="enlite_view_comments enlite_view_less_comments c1" onClick={() => lessComments(item, index)}>
                             <span>Less comment(s) </span>
@@ -378,17 +380,17 @@ const SocialWallMiddleContent = (props) => {
                         </React.Fragment>
                       )}
 
-                      <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item.socialWallLike) ? "" : "clicked"}`}>
-                        {/* liked_heart  ${isEnlited(item.socialWallLike) ? "clicked" : ""} */}
-                        {isEnlited(item.socialWallLike) && (
+                      <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"}`}>
+                        {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
+                        {isEnlited(item?.socialWallLike) && (
                           <div className="enlite_action_icon mr-2 c1" onClick={() => likeSocialWallHandler(item, index)}>
                             <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon, }}></span>
                           </div>
                         )}
-                        {!isEnlited(item.socialWallLike) && (
+                        {!isEnlited(item?.socialWallLike) && (
                           <div className="enlite_action_icon mr-2 c1 fd_enlided_icon" onClick={() => unLikeSocialWallHandler(item, index)}>
                             {/* fd_enlided_icon */}
-                            {likeStatus.statee && (item.id === likeStatus.id) && <Heart />}
+                            {likeStatus?.statee && (item.id === likeStatus.id) && <Heart />}
                             <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon, }}></span>
                           </div>
                         )}
@@ -401,7 +403,7 @@ const SocialWallMiddleContent = (props) => {
                   </div>
                 </div>
 
-                {item.commentState.listCommentState && (
+                {item?.commentState?.listCommentState && (
                   <div className="swCommentLists">
                     <SocialWallCommentsList
                       comments={getCustomizedData(item.wallComments)}
@@ -417,7 +419,7 @@ const SocialWallMiddleContent = (props) => {
                   </div>
                 )}
               </div>
-              {item.commentState.typeCommentState && (
+              {item?.commentState?.typeCommentState && (
                 <div className="sw_post_comment_div mt-3">
                   <div className="d-flex">
                     <img

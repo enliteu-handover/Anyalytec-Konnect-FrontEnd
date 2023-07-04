@@ -46,7 +46,7 @@ const ViewUser = () => {
   };
 
   const fetchCurrentUserData = (userMeta) => {
-    debugger
+    
     const obj = {
       url: URL_CONFIG.GETUSER,
       method: "get",

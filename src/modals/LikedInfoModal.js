@@ -39,19 +39,19 @@ const LikedInfoModal = (props) => {
                         >
                           <div className="m_enlitedList_info">
                             <img
-                              src={getUserPicture(item.userId.id)}
+                              src={getUserPicture(item?.userId?.id)}
                               className="sr_rank_pic"
                               alt="Profile Image"
                               title={
-                                item.userId.firstname +
+                                item?.userId?.firstname +
                                 " " +
-                                item.userId.lastname
+                                item?.userId?.lastname
                               }
                             />
                             <label htmlFor="" className="sr_rank_nm">
-                              {item.userId.firstname +
+                              {item?.userId?.firstname +
                                 " " +
-                                item.userId.lastname}
+                                item?.userId?.lastname}
                             </label>
                           </div>
                           <div className="m_enlitedList_dt">

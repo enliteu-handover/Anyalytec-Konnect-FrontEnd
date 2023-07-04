@@ -266,7 +266,7 @@ const Notifications = () => {
 		},
 	];
 
-	console.log("checkedData In :", checkedData);
+	// console.log("checkedData In :", checkedData);
 
 	return (
 		<React.Fragment >

@@ -308,7 +308,7 @@ const Forum = () => {
 
 	let unReadIndex=0;
 	const unReadForum = (forumData) => {
-		debugger
+		
 		if (forumData) {
 			// unReadIndex = forumData.forumRead.findIndex(x => x.userId.id === userData.id);
 			const obj = {
@@ -349,7 +349,7 @@ const Forum = () => {
 
 	let followIndex=0;
 	const unFollowForum = (followInfo) => {
-		debugger
+		
 		if (followInfo) {
 			// followIndex = followInfo?.forumFollowing?.findIndex(x => x?.userId?.id === userData?.id);
 			const obj = {

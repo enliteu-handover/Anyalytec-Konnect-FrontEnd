@@ -85,6 +85,7 @@ const CreatePoll = () => {
 	}, []);
 
 	useEffect(() => {
+		
 		if(initPollData) {
 			fetchUserData();
 			console.log("initPollData", initPollData);
@@ -106,11 +107,12 @@ const CreatePoll = () => {
 			setEndDate(new Date(endDate));
 			let userOptionsTemp = [];
 			if(pollResponse) {
+				
 				console.log("pollResponse", pollResponse);
 				setAssignUserState(true);
 				setAssignUser({ value: 'Users', label: 'Users' });
-				userOptionsTemp = pollResponse.map(item => {
-					return {value: item.userId.id, label: (item.userId.firstname +" "+ item.userId.lastname + " - " + item.userId.department.name)};
+				userOptionsTemp = Array.isArray(pollResponse)&&pollResponse?.map(item => {
+					return {value: item?.userId?.id, label: (item?.userId?.firstname +" "+ item?.userId?.lastname + " - " + item?.userId?.department?.name)};
 				});
 				setSelectedUsers([...userOptionsTemp]);
 				setSelectedDepts([]);
@@ -123,7 +125,7 @@ const CreatePoll = () => {
 		let enableFlag = false;
 		if(pollTitle && endDate) {
 			let optionsFlag = false;
-			if(type.value === 'TextareaChoices'){
+			if(type?.value === 'TextareaChoices'){
 				const validTextArea = textAreaArr.filter(res => res.value !== '');
 				if(validTextArea.length >= 2){
 					optionsFlag = true;
@@ -245,7 +247,7 @@ const CreatePoll = () => {
 	}
 
 	const addMoreHandler = (copy = false, index=null) => {
-		if (type.value === 'MultipleChoices') {
+		if (type?.value === 'MultipleChoices') {
 			setMultipleChoiceArr(prev => {
 				const prevData = [...prev];
 				prevData.push({ value: (copy && index !== null) ? prevData[index].value : '' });
@@ -262,7 +264,7 @@ const CreatePoll = () => {
 	}
 
 	const deleteHandler = (index) => {
-		if (type.value === 'MultipleChoices') {
+		if (type?.value === 'MultipleChoices') {
 			setMultipleChoiceArr(prev => {
 				const prevData = [...prev];
 				prevData.splice(index,1);
@@ -301,15 +303,15 @@ const CreatePoll = () => {
 			active: true,
 			endDate: formatFilterDate(endDate),
 		}
-		if(type && type.value === "MultipleChoices") {
-			requestData["type"] = type.value;
+		if(type && type?.value === "MultipleChoices") {
+			requestData["type"] = type?.value;
 			optionsVal = multipleChoiceArr.map(item => {
 				return {option: item.value};
 			});
 			requestData["options"] = optionsVal;
 		}
-		if(type && type.value === "TextareaChoices") {
-			requestData["type"] = type.value;
+		if(type && type?.value === "TextareaChoices") {
+			requestData["type"] = type?.value;
 			optionsVal = textAreaArr.map(item => {
 				return {option: item.value};
 			});
@@ -409,7 +411,7 @@ const CreatePoll = () => {
 									<div className="col-md-8 col-lg-9 col-xs-12 col-sm-12 align-self-end">
 										<textarea className="form-control poll-title border_none px-0 mb-3" name="poll-title" rows="1" placeholder="Poll title goes here..." value={pollTitle} maxLength={255} onChange={(evt) => setPollTitle(evt.target.value)}></textarea>
 										<div className="pollMultipleChoice mb-3">
-											{type.value === 'MultipleChoices' &&
+											{type?.value === 'MultipleChoices' &&
 												<div className="row no-gutters c_pollAns_whole_div p_multiOptions_div pollTypeCheck">
 													{multipleChoiceArr.map((res, index) => {
 														return <div key={'choice_' + index} className="c_pollAns_div">
@@ -432,7 +434,7 @@ const CreatePoll = () => {
 												</div>
 											}
 
-											{type.value === 'TextareaChoices' &&
+											{type?.value === 'TextareaChoices' &&
 												<div className="row no-gutters c_pollAns_whole_div p_textareaOptions_div pollTypeCheck">
 													{textAreaArr.map((res, index) => {
 														return <div key={'textArea_' + index} className="c_pollAns_div">

@@ -163,7 +163,7 @@ const Dashboard = (props) => {
                       </div>
                       <div id="d_collapseOne" className="panel-collapse collapse in eep_scroll_y" role="tabpanel" aria-labelledby="d_headingOne">
                         <div className="panel-body">
-                          {dashboardDetails.directReporters && dashboardDetails.directReporters.length > 0 && dashboardDetails.directReporters.map((item, index) => {
+                          {dashboardDetails?.directReporters && dashboardDetails?.directReporters?.length > 0 && dashboardDetails?.directReporters?.map((item, index) => {
                             return (
                               <div className="d_user_report_details" key={"directReport_" + index}>
                                 <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
@@ -188,17 +188,17 @@ const Dashboard = (props) => {
                       </div>
                       <div id="d_collapseTwo" className="panel-collapse collapse eep_scroll_y" role="tabpanel" aria-labelledby="d_headingTwo">
                         <div className="panel-body">
-                          {dashboardDetails.department?.users && dashboardDetails.department.users.map((item, index) => {
+                          {dashboardDetails?.department?.users && dashboardDetails.department.users.map((item, index) => {
                             return (
                               <div className="d_user_report_details" key={"department_user_" + index}>
                                 <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt="Elisa Mcgonnigle" title="Elisa Mcgonnigle" />
-                                {userSessionData.id !== item.id &&
+                                {userSessionData?.id !== item?.id &&
                                   <label className="d_u_name font-helvetica-m my-0">
                                     <Link to={{ pathname: "userdashboard", state: { userData: { userID: item, } } }} className="uNameLink a_hover_txt_deco_none">{item.fullName}</Link>
                                   </label>
                                 }
-                                {userSessionData.id === item.id &&
-                                  <span className="d_u_name font-helvetica-m my-0">{item.fullName}</span>
+                                {userSessionData?.id === item?.id &&
+                                  <span className="d_u_name font-helvetica-m my-0">{item?.fullName}</span>
                                 }
                               </div>
                             )

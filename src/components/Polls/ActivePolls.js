@@ -12,7 +12,8 @@ import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomCom
 import PollCustomComponent from "../../UI/CustomComponents/PollCustomComponent";
 import PollActions from "../../UI/CustomComponents/PollActions";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
+import axios from "axios";
 
 const ActivePolls = () => {
 	const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const ActivePolls = () => {
 	const [activePollsList, setActivePollsList] = useState([]);
 	const [pollTempData, setPollTempData] = useState({});
 	const [confirmModalState, setConfirmModalState] = useState(false);
-	const [confirmStateModalObj, setConfirmStateModalObj] = useState({confirmTitle:null, confirmMessage:null});
+	const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const hideModal = () => {
 		let collections = document.getElementsByClassName("modal-backdrop");
@@ -76,8 +77,8 @@ const ActivePolls = () => {
 
 	const deletePoll = (arg) => {
 		setPollTempData(arg);
-		setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this poll?"});
-    setConfirmModalState(true);
+		setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this poll?" });
+		setConfirmModalState(true);
 	}
 
 	const cSettings = {
@@ -140,25 +141,37 @@ const ActivePolls = () => {
 	}, []);
 
 	const confirmState = (isConfirmed) => {
-		if(isConfirmed) {
-			let httpObj = {
-				url: URL_CONFIG.POLL + "?id=" + pollTempData.id,
-				method: "delete"
-			};
-			httpHandler(httpObj).then(() => {
+		
+		if (isConfirmed) {
+			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.POLL}`, { data: { id: pollTempData.id } }).then(() => {
 				disableExistModal();
 				fetchActivePollData();
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
-        });
+				setShowModal({
+					...showModal,
+					type: "danger",
+					message: errMsg,
+				});
 			});
+			// 	let httpObj = {
+			// 		url: URL_CONFIG.POLL + "?id=" + pollTempData.id,
+			// 		method: "delete"
+			// 	};
+			// 	httpHandler(httpObj).then(() => {
+			// 		disableExistModal();
+			// 		fetchActivePollData();
+			// 	}).catch((error) => {
+			// 		const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+			// setShowModal({
+			//   ...showModal,
+			//   type: "danger",
+			//   message: errMsg,
+			// });
+			// 	});
 		} else {
-      setPollTempData({});
-    }
+			setPollTempData({});
+		}
 	}
 
 	return (
@@ -174,14 +187,14 @@ const ActivePolls = () => {
 					}
 				></EEPSubmitModal>
 			)}
-			{confirmModalState && 
-        <ConfirmStateModal 
-          hideModal={hideModal} 
-          confirmState={confirmState} 
-          confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"} 
-          confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
-        />
-      }
+			{confirmModalState &&
+				<ConfirmStateModal
+					hideModal={hideModal}
+					confirmState={confirmState}
+					confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"}
+					confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
+				/>
+			}
 			<div className="eep-container-sidebar h-100 eep_scroll_y">
 				<div className="container-sm eep-container-sm">
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>

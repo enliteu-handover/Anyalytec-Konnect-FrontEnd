@@ -304,11 +304,13 @@ const ForumDetailView = () => {
   }
 
   const toggleReply = (arg, tType) => {
+    
     setToggleComment(false);
     setToggleReplyState({ isToggle: true, cmtData: arg, type: tType });
   }
 
   const editCommentReplyHandler = (cmtData) => {
+    
     toggleReply(cmtData, "edit");
   }
 

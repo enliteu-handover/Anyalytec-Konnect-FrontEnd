@@ -233,7 +233,7 @@ function MyIdeas(props) {
   }, []);
 
   const confirmState = (isConfirmed) => {
-    debugger
+    
     disableExistModal();
     if (isConfirmed) {
       let ideaUpdateObj, formData, httpObj;

@@ -79,8 +79,8 @@ const PollAnswer = () => {
 				params: { id: pData.id }
 			};
 			httpHandler(obj).then((response) => {
-				//console.log("fetchPollDetail response", response.data);
-				setPollData(response.data);
+				// console.log("fetchPollDetail response", response.data);
+				setPollData(response?.data);
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
 				setShowModal({
@@ -93,7 +93,7 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
-		console.log("pDataValue & viewTypeValue", pDataValue, viewTypeValue);
+		// console.log("pDataValue & viewTypeValue", pDataValue, viewTypeValue);
 		if(pDataValue) {
 			if(viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
@@ -221,7 +221,7 @@ const PollAnswer = () => {
 		}
 	}
 
-	//console.log("setPollData", pollData);
+	// console.log("setPollData", pollData);
 
 	return (
 		<React.Fragment>
@@ -261,7 +261,7 @@ const PollAnswer = () => {
 								<div className="col-md-8">
 									<label className="my-3" style={{fontSize: "24px"}}>{pollData ? pollData?.name : ""}</label>
 									<div className="poll-area col-md-6">
-										{pollData && JSON.parse(pollData.options).length > 0 && JSON.parse(pollData.options).map((item, index) => {
+										{pollData && JSON.parse(pollData?.options)?.length > 0 && JSON.parse(pollData?.options)?.map((item, index) => {
 											return (
 												<React.Fragment key={"pollanswer_" + index}>
 													<input id={"opt-" + index} type="checkbox" name="polls" />
@@ -306,7 +306,7 @@ const PollAnswer = () => {
 									}
 								</div>
 							}
-							{pollData && pollData.createdBy.id === currentUserData.id && 
+							{pollData && pollData?.createdBy?.id === currentUserData?.id && 
 								<div className="col-md-4 col-lg-3 col-xs-12 col-sm-12 align-self-start">
 									<div className="col-md-12 bg-f5f5f5 br-10 p-3 mb-3">
 										<label className="mb-0">Type : <span>{pollData.type}</span></label>
@@ -320,11 +320,11 @@ const PollAnswer = () => {
 										</div>
 										<div className="eep-dropdown-divider"></div>
 										<div className="eep_scroll_y" style={{maxHeight: "245px"}}>
-										{pollData.pollResponse && pollData.pollResponse.length > 0 && pollData.pollResponse.sort((a, b) => (a.userId.id > b.userId.id) ? 1 : -1).map((item, index) => {
+										{pollData?.pollResponse && pollData?.pollResponse?.length > 0 && pollData?.pollResponse?.sort((a, b) => (a.userId.id > b.userId.id) ? 1 : -1).map((item, index) => {
 											return (
 												<div className={`d-flex ${pollData.pollResponse.length - 1 === index ? "" : "mb-2"}`} key={"responseUser_"+index}>
 													<img src={item.state === "submitted" ? process.env.PUBLIC_URL + "/images/icons/static/res-green.svg" : process.env.PUBLIC_URL + "/images/icons/static/res-red.svg" } alt={item.state} title={item.state} style={{width: "15px"}} />
-													<label className="mb-0 ml-2">{item.userId.firstname + " " + item.userId.lastname}</label>
+													<label className="mb-0 ml-2">{item?.userId?.firstname + " " + item?.userId?.lastname}</label>
 												</div>
 											)
 										})}

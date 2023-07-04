@@ -49,7 +49,7 @@ const MyProfile = () => {
   };
 
   const fetchCurrentUserData = (userMeta) => {
-    debugger
+    
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     const obj = {
       url: URL_CONFIG.GETUSER,

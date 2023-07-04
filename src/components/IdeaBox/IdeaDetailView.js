@@ -99,7 +99,7 @@ const IdeaDetailView = (props) => {
   }
 
   const likeAnIdea = (likeInfo) => {
-    debugger
+    
     let obj;
     if (likeInfo.isLike) {
       obj = {

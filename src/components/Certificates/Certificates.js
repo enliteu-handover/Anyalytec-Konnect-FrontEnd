@@ -216,7 +216,7 @@ const Certificates = () => {
     };
     setPreviewDataUri(obj);
   }
-  console.log("certificateRecognitionData", certificateRecognitionData);
+  // console.log("certificateRecognitionData", certificateRecognitionData);
   return (
     <React.Fragment>
       {myCertificateModalShow && (<CertificatePreviewModal previewDataUri={previewDataUri} />)}

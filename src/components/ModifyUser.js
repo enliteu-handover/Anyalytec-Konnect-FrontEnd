@@ -169,7 +169,7 @@ const ModifyUser = () => {
       });
   };
 
-  console.log("setUData", uData);
+  // console.log("setUData", uData);
 
   const loadData = (data, fieldName) => {
     const entries = fieldName.split(".");

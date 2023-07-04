@@ -294,7 +294,7 @@ const IdeaBox = () => {
   }
 
   const readIdeaData = (iData, isActive, isRead) => {
-    debugger
+    
     if (iData) {
       let obj;
       let iReadIndex = 0;
@@ -353,7 +353,7 @@ const IdeaBox = () => {
   }
 
   const markImportant = (iData, isImportant) => {
-    debugger
+    
     let obj;
     let iImportantIndex = 0;
     if (isImportant) {
@@ -412,7 +412,7 @@ const IdeaBox = () => {
   }
 
   const readAllIdeas = (isReadAll) => {
-    debugger
+    
     if (isReadAll) {
       const obj = {
         url: URL_CONFIG.IDEA_READ_ALL,

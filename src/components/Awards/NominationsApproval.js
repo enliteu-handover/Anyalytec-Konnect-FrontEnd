@@ -210,7 +210,7 @@ const NominationsApproval = () => {
                         <div className="p-3">
                           <div className="ap_col_inner text-left">
                             <img 
-                              src={getUserPicture(item.userId.id)}
+                              src={getUserPicture(item?.userId?.id)}
                               className="r_award_img selected" 
                               alt="User Pic" 
                               title={item.userId.fullName}
@@ -231,7 +231,7 @@ const NominationsApproval = () => {
                             {isApproval && !awardDatas.recognized &&
                               <div className="ap_approval_img_div ap_submition_div">
                                 <div 
-                                  className={getIsUserApproved(item.userId.id) ? "ap_not_approved_blank" : "ap_not_approved"}
+                                  className={getIsUserApproved(item?.userId?.id) ? "ap_not_approved_blank" : "ap_not_approved"}
                                   onClick={() => selectUserHandler(item, false)}
                                 >
                                   <span
@@ -243,7 +243,7 @@ const NominationsApproval = () => {
                                   </span>
                                 </div>
                                 <div 
-                                  className={getIsUserApproved(item.userId.id) ? "ap_approved" : "ap_approved_blank"}
+                                  className={getIsUserApproved(item?.userId?.id) ? "ap_approved" : "ap_approved_blank"}
                                   onClick={() => selectUserHandler(item, true)}
                                 >
                                   <span

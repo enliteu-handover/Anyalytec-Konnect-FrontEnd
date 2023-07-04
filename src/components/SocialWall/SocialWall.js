@@ -54,7 +54,7 @@ const SocialWall = () => {
     };
     httpHandler(obj)
       .then((response) => {
-        setRankingLists(response.data);
+        setRankingLists(response?.data);
       })
       .catch((error) => {
         console.log("error", error);
@@ -69,7 +69,7 @@ const SocialWall = () => {
     httpHandler(obj)
       .then((response) => {
         let userPicTempArry = [];
-        response.data.map((item) => {
+        response?.data?.map((item) => {
           if (item?.imageByte?.image) {
             userPicTempArry.push(
               {
@@ -104,7 +104,11 @@ const SocialWall = () => {
     const obj = {
       url: URL_CONFIG.SOCIALWALL_LIST,
       method: "get",
-      params: { direction: "asc", pageSize: 100 }
+      params: {
+        direction: "asc",
+        //  pageSize: 100
+        limit: 100
+      }
     };
     //pageSize=2&pageNo=0&sortBy=createdAt&direction=desc
     httpHandler(obj)
@@ -128,11 +132,14 @@ const SocialWall = () => {
   }
 
   const likeSocialWallPostHandle = (arg) => {
+    
     if (arg) {
       let obj;
       if (arg.isLike) {
         obj = {
-          url: URL_CONFIG.SOCIALWALL_LIKE + "?id=" + arg.data.id,
+          url: URL_CONFIG.SOCIALWALL_LIKE,
+          //  + "?id=" + arg.data.id,
+          payload: { id: arg?.data?.id },
           method: "post",
           isLoader: false
         };
@@ -148,10 +155,12 @@ const SocialWall = () => {
       }
       httpHandler(obj)
         .then(() => {
+          
           fetchSocialWallSingleData({ id: arg.data.id, indx: arg.indx });
           likeStatus({ statee: arg.isLike, id: arg.data.id });
         })
         .catch((error) => {
+          
           console.log("likeSocialWallPostHandle API error", error);
         });
     }

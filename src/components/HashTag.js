@@ -105,7 +105,7 @@ const HashTag = () => {
   };
 
   const addHashTagHandler = () => {
-    debugger
+    
     let payOptions = {
       hashtagName: hashTagValue,
       colorCode: colorValue,
@@ -244,7 +244,7 @@ const HashTag = () => {
       };
       httpHandler(obj)
         .then((response) => {
-          console.log("bulkSubmitHandler response :", response);
+          // console.log("bulkSubmitHandler response :", response);
           fetchhashTag(filterBy.filter);
           setEnableBulkState({ bulkState: false });
         })

@@ -295,11 +295,11 @@ const CertificateCompose = () => {
         signImageBytes = await fetch(signURL).then((res) => res.arrayBuffer());
         signImage = await pdfDoc.embedJpg(signImageBytes);
         if (signImage.width > sg_img_maxwidth) {
-          console.log("Ifff");
+          // console.log("Ifff");
           let signImage_scale = sg_img_maxwidth / signImage.width;
           signImage_w = signImage.scale(signImage_scale);
         } else {
-          console.log("Else");
+          // console.log("Else");
           signImage_w = signImage.width;
           sg_img_coordination_x += sg_img_maxwidth / 2 - signImage_w / 2;
         }
