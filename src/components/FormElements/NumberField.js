@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import classes from "./Element.module.scss";
-import { FormContext } from "../FormElements/FormContext";
 import Select from "react-select";
+import { FormContext } from "../FormElements/FormContext";
+import classes from "./Element.module.scss";
 
 const TextField = (props) => {
-  const { field, submitted } = props;
+  const { field, submitted, maxLength } = props;
   const initValue = field.value && field.value !== undefined ? field.value : "";
 
   const [value, setValue] = useState(initValue);
@@ -58,7 +58,7 @@ const TextField = (props) => {
         // setDefCountryCode(initCountryCode);
       });
   };
-  
+
   useEffect(() => {
     fetchCountryCodeData();
   }, []);
@@ -76,7 +76,7 @@ const TextField = (props) => {
 
   const onChangeHandler = (field, event) => {
 
-    if(!isNaN(+event.target.value)) {
+    if (!isNaN(+event.target.value)) {
       setValue(event.target.value);
       handleChange(field, event.target.value);
     }
@@ -100,9 +100,8 @@ const TextField = (props) => {
 
   return (
     <div
-      className={`col-md-12 form-group text-left ${fieldClasses} ${
-        field.mandatory ? "required" : ""
-      }`}
+      className={`col-md-12 form-group text-left ${fieldClasses} ${field.mandatory ? "required" : ""
+        }`}
     >
       <label className="control-label">{field.label}</label>
       <div className="input-group">
@@ -148,6 +147,7 @@ const TextField = (props) => {
           name={field.name}
           placeholder={field.label}
           value={value}
+          maxLength={maxLength}
           // onChange={(event) => handleChange(field, event)}
           onChange={(event) => onChangeHandler(field, event)}
           onBlur={onBlurHandler}

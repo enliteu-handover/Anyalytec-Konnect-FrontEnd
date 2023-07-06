@@ -3,21 +3,23 @@ import { useState, useEffect } from "react";
 import Element from "./Element";
 const FormContainer = (props) => {
   const { fields } = props.userData ? props.userData : [];
+  debugger
   const { onUpload, response } = props;
   const submitted = "formSubmitted" in props ? props.formSubmitted : false;
   return (
     <React.Fragment>
       {fields
         ? fields.map((field, i) => (
-            <React.Fragment key={i}>
-              <Element
-                field={field}
-                submitted={submitted}
-                onUpload={onUpload}
-                response={response}
-              ></Element>
-            </React.Fragment>
-          ))
+          <React.Fragment key={i}>
+            <Element
+              field={field}
+              maxLength={field?.maxLength}
+              submitted={submitted}
+              onUpload={onUpload}
+              response={response}
+            ></Element>
+          </React.Fragment>
+        ))
         : null}
     </React.Fragment>
   );

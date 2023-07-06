@@ -294,7 +294,7 @@ const UpdateProfileModal = () => {
                                 <Select options={countryCodeData} placeholder="" classNamePrefix="eep_select_common contact_number" className={`form-control a_designation basic-single`} style={{ height: "auto" }} menuPlacement="top" onChange={(event) => onChangeCountryHandler(event)} value={countryCode} maxMenuHeight={150} />
                               )}
                             </div>
-                            <input type="text" className="form-control  u_cnumber" placeholder="Contact Number" autoComplete="off" name="telephoneNumber" d="telephoneNumber" onChange={(event) => contactNumberChangeHandler(event)} value={contactNumber} style={{ height: "auto" }} />
+                            <input type="text" className="form-control  u_cnumber" maxLength="10" placeholder="Contact Number" autoComplete="off" name="telephoneNumber" d="telephoneNumber" onChange={(event) => contactNumberChangeHandler(event)} value={contactNumber} style={{ height: "auto" }} />
                           </div>
                         </div>
                       </div>

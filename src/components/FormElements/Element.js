@@ -9,7 +9,7 @@ import NumberField from "./NumberField";
 import FileField from "./FileField";
 import SignatureField from "./SignatureField";
 
-const Elements = ({ field, submitted, onUpload, response }) => {
+const Elements = ({ field, submitted, onUpload, response,maxLength }) => {
   
   switch (field.type) {
     case "text":
@@ -36,7 +36,7 @@ const Elements = ({ field, submitted, onUpload, response }) => {
       return field.display && <Password field={field} submitted={submitted} />;
     case "number":
       return (
-        field.display && <NumberField field={field} submitted={submitted} />
+        field.display && <NumberField maxLength={maxLength} field={field} submitted={submitted} />
       );
     case "file":
       return (

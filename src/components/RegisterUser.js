@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
-import PageHeader from "../UI/PageHeader";
-import FormContainer from "./FormElements/FormContainer";
-import EEPSubmitModal from "../modals/EEPSubmitModal";
-import { FormContext } from "./FormElements/FormContext";
-import { httpHandler } from "../http/http-interceptor";
-import { URL_CONFIG } from "../constants/rest-config";
+import { Link } from "react-router-dom";
 import Card from "../UI/Card";
+import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
+import { URL_CONFIG } from "../constants/rest-config";
 import { base64ToFile } from "../helpers";
+import { httpHandler } from "../http/http-interceptor";
+import EEPSubmitModal from "../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
+import FormContainer from "./FormElements/FormContainer";
+import { FormContext } from "./FormElements/FormContext";
 
 const AddUser = () => {
   const dataObj = {};
@@ -33,7 +33,8 @@ const AddUser = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-
+    alert(formIsValid)
+    return
     if (formIsValid) {
       const obj_ = {
         url: URL_CONFIG.AUTH_ADD_NEW_USER,
@@ -76,6 +77,7 @@ const AddUser = () => {
   };
 
   useEffect(() => {
+    debugger
     const userFields = [];
     for (let fields in userMetaData) {
       if (
@@ -106,6 +108,17 @@ const AddUser = () => {
       if (uData[fld] === undefined) {
         isValidForm = false;
       }
+      if (fld === 'email') {
+        var isphone = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(uData[fld]);
+        if (!isphone) {
+          isValidForm = false;
+        }
+      }
+      if (fld === 'telephoneNumber') {
+        if (uData[fld]?.length !== 10) {
+          isValidForm = false;
+        }
+      }
     }
 
     if (userFields.length) {
@@ -114,7 +127,7 @@ const AddUser = () => {
   }, [uData]);
 
   const handleChange = async (field, event) => {
-    
+
     const value = event;
 
     if (field["name"] === "imageByte") {
@@ -132,7 +145,7 @@ const AddUser = () => {
           uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
         })
 
-    }else{
+    } else {
       field["value"] = value;
       dataObj[field["name"]] = value;
     }

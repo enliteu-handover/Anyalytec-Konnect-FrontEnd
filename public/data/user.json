@@ -107,6 +107,7 @@
         "disabled": false,
         "display": true,
         "contactNumber": true,
+        "maxLength":10,
         "viewMode": {
           "type": "number",
           "value": "telephoneNumber"
