@@ -9,7 +9,8 @@ import DateFormatDisplay from "../UI/CustomComponents/DateFormatDisplay";
 import ActionCustomComponent from "../UI/CustomComponents/ActionCustomComponent";
 import ResponseInfo from "../UI/ResponseInfo";
 import { httpHandler } from "../http/http-interceptor";
-import { URL_CONFIG } from "../constants/rest-config";
+import { REST_CONFIG, URL_CONFIG } from "../constants/rest-config";
+import axios from "axios";
 
 const Notifications = () => {
 
@@ -84,6 +85,7 @@ const Notifications = () => {
 	// }
 
 	const allChecke = (e) => {
+		debugger
 		setRenderTable(false);
 		if (e.target.checked) {
 			setTimeout(() => {
@@ -107,7 +109,7 @@ const Notifications = () => {
 		if (checkState) {
 			checkDataTemp.push(nData.id);
 			setCheckedData(checkDataTemp);
-		} 
+		}
 		else {
 			checkDataTemp.map((val, index) => {
 				if (nData.id === val) {
@@ -135,6 +137,7 @@ const Notifications = () => {
 	}
 
 	const readUnreadNotifications = (arg, status) => {
+		debugger
 		if (arg) {
 			let notificationReadPayload;
 			if (status === "read") {
@@ -166,6 +169,7 @@ const Notifications = () => {
 	}
 
 	const readUnreadAllNotifications = (arg) => {
+		debugger
 		if (checkedData.length) {
 			let notificationReadPayload;
 			if (arg === "readAll") {
@@ -198,33 +202,39 @@ const Notifications = () => {
 	}
 
 	const clearNotifications = (arg) => {
-		let obj;
-		if (arg.action === "clear") {
+		debugger
+		let obj = {};
+		if (arg?.action === "clear") {
 			if (arg.data) {
 				obj = {
-					url: URL_CONFIG.NOTIFICATIONs_DELETE + "?id=" + arg.data,
-					method: "delete",
+					// url: URL_CONFIG.NOTIFICATIONs_DELETE,
+					//  + "?id=" + arg.data,
+					// method: "delete",
+					id: checkedData
 				};
 			}
 		}
-		if (arg.action === "clearAll") {
+		if (arg?.action === "clearAll") {
 			if (checkedData.length) {
 				obj = {
-					url: URL_CONFIG.NOTIFICATIONs_DELETE + "?id=" + checkedData,
-					method: "delete",
+					// url: URL_CONFIG.NOTIFICATIONs_DELETE,
+					//  + "?id=" + checkedData,
+					id: checkedData
+					// method: "delete",
 				};
 			}
 		}
 		if (obj) {
 			console.log("clearNotifications Obj :", obj);
-			// httpHandler(obj)
-			// 	.then((response) => {
-			// 		console.log("readUnreadAllNotifications response", response.data);
-			// 		fetchNotifications();
-			// 	})
-			// 	.catch((error) => {
-			// 		console.log("fetchNotifications API error", error);
-			// 	});
+			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.NOTIFICATIONs_DELETE}`, { data: { ...obj } })
+				// httpHandler(obj)
+				.then((response) => {
+					console.log("readUnreadAllNotifications response", response?.data);
+					fetchNotifications();
+				})
+				.catch((error) => {
+					console.log("fetchNotifications API error", error);
+				});
 		}
 	}
 

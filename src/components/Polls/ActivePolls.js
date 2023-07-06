@@ -143,7 +143,8 @@ const ActivePolls = () => {
 	const confirmState = (isConfirmed) => {
 		
 		if (isConfirmed) {
-			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.POLL}`, { data: { id: pollTempData.id } }).then(() => {
+			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.POLL}`, { data: { id: pollTempData.id } })
+			.then(() => {
 				disableExistModal();
 				fetchActivePollData();
 			}).catch((error) => {

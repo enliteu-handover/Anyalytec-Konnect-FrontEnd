@@ -148,7 +148,7 @@ const SocialWall = () => {
         const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
         let isLiked = arg.data.socialWallLike.findIndex(x => x.userId.id === userData.id);
         obj = {
-          url: URL_CONFIG.SOCIALWALL_DISLIKE + "?id=" + arg.data.socialWallLike[isLiked].id,
+          url: URL_CONFIG.SOCIALWALL_DISLIKE + "?id=" + arg?.data?.socialWallLike[isLiked]?.id,
           method: "delete",
           isLoader: false
         };
