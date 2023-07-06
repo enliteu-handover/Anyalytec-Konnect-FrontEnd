@@ -36,7 +36,7 @@ const SurveyResult = () => {
 	const [selectedDepts, setSelectedDepts] = useState([]);
 	const [confirmModalState, setConfirmModalState] = useState(false);
 	const [filterParams, setFilterParams] = useState({});
-	const [confirmStateModalObj, setConfirmStateModalObj] = useState({confirmTitle:null, confirmMessage:null});
+	const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const hideModal = () => {
 		let collections = document.getElementsByClassName("modal-backdrop");
@@ -54,13 +54,13 @@ const SurveyResult = () => {
 			link: "app/dashboard",
 		},
 		{
-      label: "Communication",
-      link: "app/communication",
-    },
-    {
-      label: "Survey",
-      link: "app/mysurvey",
-    },
+			label: "Communication",
+			link: "app/communication",
+		},
+		{
+			label: "Survey",
+			link: "app/mysurvey",
+		},
 		{
 			label: "SURVEY Result",
 			link: "",
@@ -89,17 +89,17 @@ const SurveyResult = () => {
 	}
 
 	const markImportantUnimportant = (arg) => {
-		if(arg) {
+		if (arg) {
 			let obj;
-			if(arg.isImportant) {
+			if (arg.isImportant) {
 				obj = {
-					url: URL_CONFIG.SURVEY_IMPORTANT_UNIMPORTANT + "?id=" +arg.sData.id,
+					url: URL_CONFIG.SURVEY_IMPORTANT_UNIMPORTANT + "?id=" + arg.sData.id,
 					method: "post",
 				};
 			}
-			if(!arg.isImportant) {
+			if (!arg.isImportant) {
 				obj = {
-					url: URL_CONFIG.SURVEY_IMPORTANT_UNIMPORTANT + "?id=" +arg.sData.id,
+					url: URL_CONFIG.SURVEY_IMPORTANT_UNIMPORTANT + "?id=" + arg.sData.id,
 					method: "delete",
 				};
 			}
@@ -108,38 +108,38 @@ const SurveyResult = () => {
 				fetchSurveyResultDetail(filterParams);
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
-        });
+				setShowModal({
+					...showModal,
+					type: "danger",
+					message: errMsg,
+				});
 			});
 		}
 	}
 
 	const deleteSurvey = (sData) => {
-    disableExistModal();
-    let sDataTemp = JSON.parse(JSON.stringify(sData));
-    sDataTemp["actionType"] = "delete";
-    setSurveyTempData(sDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Survey?"});
-    setConfirmModalState(true);
-  }
+		disableExistModal();
+		let sDataTemp = JSON.parse(JSON.stringify(sData));
+		sDataTemp["actionType"] = "delete";
+		setSurveyTempData(sDataTemp);
+		setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Survey?" });
+		setConfirmModalState(true);
+	}
 
 	const republishSurvey = (sInfo) => {
-		if(sInfo && Object.keys(sInfo).length > 0) {
+		if (sInfo && Object.keys(sInfo).length > 0) {
 			const obj = {
 				url: URL_CONFIG.SURVEY_BY_ID,
 				method: "get",
-				params: {id: sInfo.id}
+				params: { id: sInfo.id }
 			};
 			httpHandler(obj).then((sData) => {
 				updateAssignInfo(sData.data);
 			})
-			.catch((error) => {
-				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-				console.log("republishSurvey error", errMsg);
-			});
+				.catch((error) => {
+					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+					console.log("republishSurvey error", errMsg);
+				});
 		}
 	}
 
@@ -203,18 +203,18 @@ const SurveyResult = () => {
 
 	const fetchSurveyResultDetail = (paramsInfo) => {
 		let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.SURVEY_RESULT,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.SURVEY_RESULT,
-        method: "get"
-      };
-    }
+		if (Object.getOwnPropertyNames(paramsInfo)) {
+			obj = {
+				url: URL_CONFIG.SURVEY_RESULT,
+				method: "get",
+				params: paramsInfo
+			};
+		} else {
+			obj = {
+				url: URL_CONFIG.SURVEY_RESULT,
+				method: "get"
+			};
+		}
 		httpHandler(obj).then((response) => {
 			setSurveyResultList(response.data);
 		}).catch((error) => {
@@ -231,47 +231,47 @@ const SurveyResult = () => {
 	}, []);
 
 	const getFilterParams = (paramsData) => {
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
-    } else {
-      setFilterParams({});
-    }
-    fetchSurveyResultDetail(paramsData);
-  }
+		if (Object.getOwnPropertyNames(filterParams)) {
+			setFilterParams({ ...paramsData });
+		} else {
+			setFilterParams({});
+		}
+		fetchSurveyResultDetail(paramsData);
+	}
 
 	const confirmState = (isConfirmed) => {
-		if(isConfirmed) {
+		if (isConfirmed) {
 			let httpObj;
-			if(surveyTempData.actionType === "delete") {
-        httpObj = {
-          url: URL_CONFIG.SURVEY + "?id=" + surveyTempData.id,
-          method: "delete"
-        };
-      }
+			if (surveyTempData.actionType === "delete") {
+				httpObj = {
+					url: URL_CONFIG.SURVEY + "?id=" + surveyTempData.id,
+					method: "delete"
+				};
+			}
 			httpHandler(httpObj).then(() => {
 				fetchSurveyResultDetail(filterParams);
 				disableExistModal();
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
-        });
+				setShowModal({
+					...showModal,
+					type: "danger",
+					message: errMsg,
+				});
 			});
 		} else {
-      setSurveyTempData({});
-    }
+			setSurveyTempData({});
+		}
 	}
 
 	const updateAssignInfo = (sData) => {
-		if(sData) {
+		if (sData) {
 			setSurveyTitle(sData.name);
-			const options = [{value: 'Users', label: 'Users'},{value: 'Departments', label: 'Departments'}];
+			const options = [{ value: 'Users', label: 'Users' }, { value: 'Departments', label: 'Departments' }];
 			let assignData = [];
-			let surveyDataTemp = []; 
+			let surveyDataTemp = [];
 			let jsonTemp;
-			if(sData.deptList && sData.deptList.length > 0) {
+			if (sData.deptList && sData.deptList.length > 0) {
 				assignData = sData.deptList.map(item => {
 					return {
 						label: item.name,
@@ -282,7 +282,7 @@ const SurveyResult = () => {
 				setSelectedUsers([]);
 				setSelectedDepts(assignData);
 			}
-			if(sData.userList && sData.userList.length > 0) {
+			if (sData.userList && sData.userList.length > 0) {
 				assignData = sData.userList.map(item => {
 					return {
 						label: item.fullName,
@@ -293,7 +293,7 @@ const SurveyResult = () => {
 				setSelectedDepts([]);
 				setSelectedUsers(assignData);
 			}
-			if(sData.surveyQuestions && sData.surveyQuestions.length > 0) {
+			if (sData.surveyQuestions && sData.surveyQuestions.length > 0) {
 				sData.surveyQuestions.map((item) => {
 					jsonTemp = JSON.parse(item.parameters);
 					surveyDataTemp.push(jsonTemp);
@@ -307,18 +307,18 @@ const SurveyResult = () => {
 	}
 
 	const previewHandler = (pJsonData) => {
-    const wrap = $('#prevSurveyModal');
-    $("#prevSurveyModal").html('');
-    if(pJsonData !== undefined && pJsonData.length){
-      wrap.formRender({
-        formData: pJsonData
-      });
+		const wrap = $('#prevSurveyModal');
+		$("#prevSurveyModal").html('');
+		if (pJsonData !== undefined && pJsonData.length) {
+			wrap.formRender({
+				formData: pJsonData
+			});
 			setJsonData([...pJsonData]);
-    }else{
-      var no_data = `<div className='text-center'><img src=${process.env.PUBLIC_URL + "/images/no-data.jpg"} className='w-50' /></div>`;
-      $("#prevSurveyModal").html(no_data);
-    }
-  }
+		} else {
+			var no_data = `<div className='text-center'><img src=${process.env.PUBLIC_URL + "/images/no-data.jpg"} className='w-50' /></div>`;
+			$("#prevSurveyModal").html(no_data);
+		}
+	}
 
 	const confirmRepublishSurveyHandler = () => {
 		disableExistModal();
@@ -393,14 +393,14 @@ const SurveyResult = () => {
 					}
 				></EEPSubmitModal>
 			)}
-			{confirmModalState && 
-        <ConfirmStateModal 
-          hideModal={hideModal} 
-          confirmState={confirmState} 
-          confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"} 
-          confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
-        />
-      }
+			{confirmModalState &&
+				<ConfirmStateModal
+					hideModal={hideModal}
+					confirmState={confirmState}
+					confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"}
+					confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
+				/>
+			}
 			<div className="eep-container-sidebar h-100 eep_scroll_y">
 				<div className="container-sm eep-container-sm">
 					<div className={`row eep-create-survey-div eep_with_sidebar vertical-scroll-snap no-gutters ${toggleClass ? "side_open" : ""}`}>
@@ -424,12 +424,12 @@ const SurveyResult = () => {
 					</div>
 				</div>
 			</div>
-			
+
 			<button type="button" data-toggle="modal" data-target="#surveyPreviewModal" id="previewSurvey" className="eep-btn eep-btn-cancel eep-btn-xsml mr-2 d-none">Preview</button>
 
 			{previewState &&
-				<SurveyPreviewModal 
-					title={surveyTitle} 
+				<SurveyPreviewModal
+					title={surveyTitle}
 					assignUser={assignUser}
 					selectedDepts={selectedDepts}
 					selectedUsers={selectedUsers}

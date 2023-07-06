@@ -72,7 +72,7 @@ const SurveyQuestions = () => {
 		if (cstate) {
 			checkedDataTemp.push(arg);
 			setCheckedData([...checkedDataTemp]);
-		} 
+		}
 		else {
 			checkedDataTemp.map((val, index) => {
 				if (arg.id === val.id) {
@@ -116,6 +116,7 @@ const SurveyQuestions = () => {
 	}
 
 	const fetchSurveyQuestionDetail = (paramData = {}) => {
+		
 		const obj = {
 			url: URL_CONFIG.SURVEY_QUESTIONBANK,
 			method: "get",
@@ -136,7 +137,7 @@ const SurveyQuestions = () => {
 	}
 
 	useEffect(() => {
-		fetchSurveyQuestionDetail({ filterby: yearFilterValue });
+		fetchSurveyQuestionDetail({ ...yearFilterValue });
 	}, []);
 
 	const onFilterChange = (filterValue) => {
@@ -146,9 +147,9 @@ const SurveyQuestions = () => {
 
 	const createSurveyHandler = () => {
 		setPreviewState(false);
-		let surveyDataTemp = []; 
+		let surveyDataTemp = [];
 		let jsonTemp;
-		if(checkedData && checkedData.length > 0) {
+		if (checkedData && checkedData.length > 0) {
 			checkedData.map((item) => {
 				jsonTemp = JSON.parse(item.parameters);
 				surveyDataTemp.push(jsonTemp);
@@ -162,7 +163,7 @@ const SurveyQuestions = () => {
 	const confirmCreateSurveyHandler = () => {
 		hideModal();
 		setPreviewState(false);
-		eepHistory.push('createsurvey', {surveyData: {isQuestionBank:true, surveyQuestions:jsonData }});
+		eepHistory.push('createsurvey', { surveyData: { isQuestionBank: true, surveyQuestions: jsonData } });
 	}
 
 	return (
@@ -195,7 +196,7 @@ const SurveyQuestions = () => {
 					}
 				></EEPSubmitModal>
 			)}
-			{previewState && <SurveyPreviewQuestionModal confirmCreateSurveyHandler={confirmCreateSurveyHandler} jsonData={jsonData} /> }
+			{previewState && <SurveyPreviewQuestionModal confirmCreateSurveyHandler={confirmCreateSurveyHandler} jsonData={jsonData} />}
 			<div className="eep-container-sidebar h-100 eep_scroll_y">
 				<div className="container-sm eep-container-sm">
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
@@ -218,8 +219,8 @@ const SurveyQuestions = () => {
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />
 					</div>
 					<div className="d-flex justify-content-center mb-3">
-						<button type="button" className="eep-btn eep-btn-success eep-btn-xsml urm_done_btn c1" data-toggle="modal" data-target="#SurveyPreviewQuestionModal" disabled={checkedData.length > 0 ? false : true } onClick={createSurveyHandler} > Create Survey </button>
-          </div>
+						<button type="button" className="eep-btn eep-btn-success eep-btn-xsml urm_done_btn c1" data-toggle="modal" data-target="#SurveyPreviewQuestionModal" disabled={checkedData.length > 0 ? false : true} onClick={createSurveyHandler} > Create Survey </button>
+					</div>
 				</div>
 			</div>
 		</React.Fragment>

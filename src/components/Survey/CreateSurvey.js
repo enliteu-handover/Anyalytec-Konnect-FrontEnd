@@ -79,7 +79,7 @@ const CreateSurvey = () => {
 		if (initSurveyData) {
 			fetchUserData();
 			fetchDepts();
-			if(initSurveyData && !initSurveyData.isQuestionBank) {
+			if (initSurveyData && !initSurveyData.isQuestionBank) {
 				fetchSurveyData(initSurveyData.sData);
 			}
 		} else {
@@ -116,9 +116,9 @@ const CreateSurvey = () => {
 			httpHandler(obj).then((sData) => {
 				updateAssignInfo(sData.data);
 			}).catch((error) => {
-					console.log("fetchSurveyData error", error);
-					//const errMsg = error.response?.data?.message;
-				});
+				console.log("fetchSurveyData error", error);
+				//const errMsg = error.response?.data?.message;
+			});
 		}
 	}
 
@@ -254,12 +254,12 @@ const CreateSurvey = () => {
 		}
 
 		if (isUpdate) {
-			requestData["id"] = initSurveyData.id;
+			requestData["id"] = initSurveyData?.id ?? initSurveyData?.sData?.id;
 		}
 
 		//console.log("Survey jsonData", jsonData);
 
-		if(jsonData .length > 0) {
+		if (jsonData.length > 0) {
 			//console.log("Valid json");
 			const obj = {
 				url: URL_CONFIG.SURVEY,
@@ -295,11 +295,11 @@ const CreateSurvey = () => {
 
 	useEffect(() => {
 		setBtnDisabled(true);
-		if(surveyTitle && surveyTitle !== "" && assignUser && Object.keys(assignUser).length > 0) {
-			if(assignUser.value === "Users") {
+		if (surveyTitle && surveyTitle !== "" && assignUser && Object.keys(assignUser).length > 0) {
+			if (assignUser.value === "Users") {
 				setBtnDisabled(selectedUsers.length > 0 ? false : true);
 			}
-			else if(assignUser.value === "Departments") {
+			else if (assignUser.value === "Departments") {
 				setBtnDisabled(selectedDepts.length > 0 ? false : true);
 			}
 			else {

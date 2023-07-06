@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Element from "./Element";
 const FormContainer = (props) => {
   const { fields } = props.userData ? props.userData : [];
-  debugger
+  
   const { onUpload, response } = props;
   const submitted = "formSubmitted" in props ? props.formSubmitted : false;
   return (

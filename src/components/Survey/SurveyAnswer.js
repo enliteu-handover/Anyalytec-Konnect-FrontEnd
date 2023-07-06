@@ -86,11 +86,12 @@ const SurveyAnswer = () => {
   }
 
   const fetchSurveyInfo = (sData) => {
+    
     if(sData) {
       const obj = {
         url: URL_CONFIG.SHOW_SURVEY,
         method: "get",
-        params: {responseId: sData.id}
+        params: {responseId: sData?.survey?.id}
       };
       httpHandler(obj).then((res) => {
         let surveyDataTemp = []; 

@@ -77,7 +77,7 @@ const AddUser = () => {
   };
 
   useEffect(() => {
-    debugger
+    
     const userFields = [];
     for (let fields in userMetaData) {
       if (
