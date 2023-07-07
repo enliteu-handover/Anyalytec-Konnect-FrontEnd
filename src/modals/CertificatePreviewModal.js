@@ -1,4 +1,5 @@
 import React from "react";
+import PDF from "react-pdf-js";
 
 const CertificatePreviewModal = (props) => {
   const { previewDataUri } = props;
@@ -18,18 +19,29 @@ const CertificatePreviewModal = (props) => {
                     <div className="thumbnailWrapper" style={{ margin: "0px; padding: 0px", height: "calc(100vh - 125px)", }}>
                       {previewDataUri.isIframe && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
-                          <iframe src={previewDataUri.dataSrc + "#toolbar=0"} controlsList="nodownload" className="certPreviewModal"
-                            title="Certificate" style={{ width: "100%", height: "100%" }} height="100%" width="100%"></iframe>
+
+                          <PDF
+                            file={previewDataUri?.dataSrc} />
+                          {/* <iframe src={previewDataUri.dataSrc + "#toolbar=0"} controlsList="nodownload" className="certPreviewModal"
+                            title="Certificate" style={{ width: "100%", height: "100%" }} height="100%" width="100%"></iframe> */}
                         </div>
                       )}
                       {!previewDataUri.isIframe && previewDataUri.dataSrc.hasOwnProperty('pdfByte') && previewDataUri.dataSrc?.pdfByte !== null && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
-                          <iframe src={previewDataUri.dataSrc.pdfByte.image + "#toolbar=0"} controlsList="nodownload" className="certPreviewModal" title="Certificate" style={{ width: "100%", height: "100%" }} height="100%" width="100%"></iframe>
+                          <PDF
+                            file={previewDataUri?.dataSrc?.pdfByte?.image} />
+                          {/* <iframe src={previewDataUri.dataSrc.pdfByte.image
+                          //  + "#toolbar=0"
+                          } 
+                          // controlsList="nodownload" 
+                          sandbox="allow-scripts"
+                          className="certPreviewModal"
+                           title="Certificate" style={{ width: "100%", height: "100%" }} height="100%" width="100%"></iframe> */}
                         </div>
                       )}
-                      {!previewDataUri.isIframe && !previewDataUri.dataSrc.hasOwnProperty('pdfByte') && (
+                      {!previewDataUri?.isIframe && !previewDataUri?.dataSrc.hasOwnProperty('pdfByte') && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
-                          <img src={previewDataUri.dataSrc.imageByte?.image} className="w-100" alt={previewDataUri.dataSrc.name} title={previewDataUri.dataSrc.name}  />
+                          <img src={previewDataUri?.dataSrc?.imageByte?.image} className="w-100" alt={previewDataUri?.dataSrc?.name} title={previewDataUri?.dataSrc?.name} />
                         </div>
                       )}
                       {!previewDataUri.isIframe && previewDataUri.dataSrc === null && (
