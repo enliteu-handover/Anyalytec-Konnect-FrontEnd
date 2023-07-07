@@ -203,6 +203,11 @@ const URL_CONFIG = {
   UPDATE_USER_SIGNATURE: "/users/user",
   REFRESH_TOKEN_AUTH: "/api/v1/auth/refresh",
   AUTH_ADD_NEW_USER: "/api/v1/auth/signup",
+  ADDBRANCH: "/branches/create",
+  UPDATE_BRANCH: "/branches/update",
+  GET_ALL_BRANCH: "/branches/branches",
+  GET_ALL_COUNTRY: "/country/country_name",
+
 };
 
 export { REST_CONFIG, URL_CONFIG };

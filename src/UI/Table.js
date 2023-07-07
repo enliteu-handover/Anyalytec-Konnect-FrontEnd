@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import classes from "./Table.module.scss";
+import Select from "react-select";
+
 const Table = (props) => {
+  const { isPage, offset = 0, limit = 100, isPrev, isNext, defualtonChange,showTable } = props;
   const [search, setSearch] = useState('');
   const tableClasses = props?.tableProps ? props.tableProps.classes : "";
 
@@ -62,7 +65,24 @@ const Table = (props) => {
   };
 
   const filterData = search ? tableData?.filter(v => v?.name?.toLowerCase()?.includes(search?.toLowerCase())) : tableData;
-  
+
+  const options = [
+    {
+      label: "15",
+      value: 15,
+    },
+    {
+      label: "50",
+      value: 50,
+    },
+    {
+      label: "100",
+      value: 100,
+    }, {
+      label: "200",
+      value: 200,
+    }
+  ]
   return (
     <React.Fragment>
       <div className="row">
@@ -100,7 +120,7 @@ const Table = (props) => {
                   className="form-control form-control-sm"
                   placeholder="Search..."
                   aria-controls="user_dataTable"
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => props?.isSearch ? props?.isSearch(e) : setSearch(e.target.value)}
                 />
                 <div className="input-group-addon" style={{ right: "0px" }}>
                   <img src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`} alt="Search" />
@@ -181,6 +201,18 @@ const Table = (props) => {
           }
         </tbody>
       </table>
+
+      {isPage && <div className={classes.pagination}>
+        <div className={classes.left}>Rows per page :
+          <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`}
+            placeholder="" options={options} defaultValue={showTable} onChange={(e) => defualtonChange('showTable', e)} />
+        </div>
+        <div className={classes.right}>{offset} - {limit} <span>of {props?.totalCount}</span> |
+          <svg onClick={() => isPrev()} style={{ width: "26px", cursor: "pointer", fill: "#808080f2" }} aria-hidden="true" viewBox="0 0 24 24" tabindex="-1"><path d="M2 12c0 5.52 4.48 10 10 10s10-4.48 10-10S17.52 2 12 2 2 6.48 2 12zm18 0c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8 8 3.58 8 8zM8 12l4-4 1.41 1.41L11.83 11H16v2h-4.17l1.59 1.59L12 16l-4-4z"></path></svg>
+          <svg onClick={() => isNext()} style={{ width: "26px", cursor: "pointer", fill: "#808080f2" }} aria-hidden="true" viewBox="0 0 24 24" tabindex="-1"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zM4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8-8-3.58-8-8zm12 0-4 4-1.41-1.41L12.17 13H8v-2h4.17l-1.59-1.59L12 8l4 4z"></path></svg>
+
+        </div>
+      </div>}
     </React.Fragment>
   );
 };

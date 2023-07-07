@@ -119,6 +119,21 @@ const AdminPanel = () => {
                 <span>Hashtag Library</span>
               </div>
             </Link>
+
+            {/* <Link to="/app/branchMaster">
+              <div className="admin_panel_items bg-white">
+                <div className="outter">
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/HashTag.svg"
+                    }
+                    className="image-circle"
+                    alt="branch Master"
+                  />
+                </div>
+                <span>branch Master</span>
+              </div>
+            </Link> */}
           </div>
         </React.Fragment>
       }

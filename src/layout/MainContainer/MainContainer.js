@@ -58,6 +58,7 @@ import Rewards from "../../components/Rewards/Rewards";
 import EEPApp from "../../components/EEPApp/EEPApp";
 import Help from "../Header/Help";
 import Search from "../../components/Search/Search";
+import BranchMaster from "../../components/Branch";
 
 const MainContainer = () => {
   const getTabs = useSelector((state) => state.tabs.config);
@@ -100,6 +101,9 @@ const MainContainer = () => {
                             </Route>
                             <Route path="/app/adminpanel" exact>
                               <AdminPanel />
+                            </Route>
+                            <Route path="/app/branchMaster" exact>
+                              <BranchMaster />
                             </Route>
                             <Route path="/app/help">
                               <Help />

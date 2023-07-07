@@ -151,7 +151,7 @@ const DeptActionsModal = (props) => {
                         <div className="d-flex justify-content-between">
                           <div className="d-flex flex-column align-items-start">
                             <label>Created By</label>
-                            <p className="font-helvetica-m">{deptDatas.createdBy?.firstname + " " + deptDatas.createdBy?.lastname}</p>
+                            <p className="font-helvetica-m">{(deptDatas?.createdBy?.firstname ?? '-') + " " + (deptDatas?.createdBy?.lastname ?? '')}</p>
                           </div>
                           <div className="d-flex flex-column align-items-start">
                             <label>Created On</label>
@@ -163,7 +163,7 @@ const DeptActionsModal = (props) => {
                         <div className="d-flex justify-content-between">
                           <div className="d-flex flex-column align-items-start">
                             <label>Updated By</label>
-                            <p className="font-helvetica-m">{deptDatas.updatedBy?.firstname + " " + deptDatas.updatedBy?.lastname}</p>
+                            <p className="font-helvetica-m">{(deptDatas?.updatedBy?.firstname ?? '-') + " " + (deptDatas?.updatedBy?.lastname ?? '')}</p>
                           </div>
                           <div className="d-flex flex-column align-items-start">
                             <label>Updated On</label>

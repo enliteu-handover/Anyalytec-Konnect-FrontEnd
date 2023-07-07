@@ -85,7 +85,7 @@ const Notifications = () => {
 	// }
 
 	const allChecke = (e) => {
-		debugger
+		
 		setRenderTable(false);
 		if (e.target.checked) {
 			setTimeout(() => {
@@ -137,7 +137,7 @@ const Notifications = () => {
 	}
 
 	const readUnreadNotifications = (arg, status) => {
-		debugger
+		
 		if (arg) {
 			let notificationReadPayload;
 			if (status === "read") {
@@ -169,7 +169,7 @@ const Notifications = () => {
 	}
 
 	const readUnreadAllNotifications = (arg) => {
-		debugger
+		
 		if (checkedData.length) {
 			let notificationReadPayload;
 			if (arg === "readAll") {
@@ -202,7 +202,7 @@ const Notifications = () => {
 	}
 
 	const clearNotifications = (arg) => {
-		debugger
+		
 		let obj = {};
 		if (arg?.action === "clear") {
 			if (arg.data) {

@@ -87,7 +87,7 @@ const CertificateCompose = () => {
   const [certificatePreviewModalShow, setCertificatePreviewModalShow] = useState(false);
 
   const previewHandler = () => {
-    debugger
+    
     setCertificatePreviewModalShow(true);
     const obj = {
       tnm: toName,
