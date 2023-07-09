@@ -34,7 +34,6 @@ const AddUser = () => {
     event.preventDefault();
     setFormSubmitted(true);
     alert(formIsValid)
-    return
     if (formIsValid) {
       const obj_ = {
         url: URL_CONFIG.AUTH_ADD_NEW_USER,

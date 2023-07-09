@@ -8,7 +8,8 @@ const CreateBranchModal = (props) => {
     const [state, setState] = useState({
         country: null,
         name: "",
-        description: ""
+        description: "",
+        active: false
     });
     const [countryData, setCountryData] = useState([]);
     const [responseClassName, checkResponseClassName] = useState("");
@@ -55,7 +56,7 @@ const CreateBranchModal = (props) => {
             return
         }
         let payOptions = {
-            active: true, countryId: state?.country?.value, branchName: state?.name, description: state?.description
+            active: state?.active, countryId: state?.country?.value, branchName: state?.name, description: state?.description
         };
         if (props?.editData) {
             payOptions = {
@@ -83,7 +84,7 @@ const CreateBranchModal = (props) => {
     };
 
     useEffect(() => {
-        
+
         setState({
             ...state,
             ...props.editData,
@@ -108,6 +109,15 @@ const CreateBranchModal = (props) => {
                                         {props?.editData ? 'Update ' : 'Create new '}
                                         Branch
                                     </h5>
+                                </div>
+                                <div className="form-group field-wbr">
+                                    <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`}
+                                        placeholder="" options={[
+                                            { label: "Active", value: true },
+                                            { label: "Inactive", value: false }
+                                        ]} value={{
+                                            value: state.active, label: state.active ? 'Active' : 'Inactive'
+                                        }} onChange={(e) => onChange('active', e.value)} />
                                 </div>
                                 <div className="form-group field-wbr">
                                     <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`} placeholder="" options={countryData} value={state.country} onChange={(e) => onChange('country', e.value)} />

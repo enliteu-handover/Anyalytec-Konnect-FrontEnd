@@ -3,7 +3,7 @@ import classes from "./Table.module.scss";
 import Select from "react-select";
 
 const Table = (props) => {
-  const { isPage, offset = 0, limit = 100, isPrev, isNext, defualtonChange,showTable } = props;
+  const { isPage, offset = 0, limit = 100, isPrev, isNext, defualtonChange, showTable } = props;
   const [search, setSearch] = useState('');
   const tableClasses = props?.tableProps ? props.tableProps.classes : "";
 
@@ -155,6 +155,7 @@ const Table = (props) => {
         <tbody>
           {filterData?.length > 0 &&
             filterData?.map((data, index) => {
+              // filterData?.slice(offset,limit)?.map((data, index) => {
               return (
                 <tr
                   className={index % 2 === 0 ? "odd" : "even"}
@@ -196,23 +197,25 @@ const Table = (props) => {
                 </tr>
               );
             })}
-          {tableData.length <= 0 &&
+          {tableData?.length <= 0 &&
             <tr className="odd"><td valign="top" colSpan={tableHeaders.length > 0 ? tableHeaders.length : 1} className="dataTables_empty text-center">No data available.</td></tr>
           }
         </tbody>
       </table>
 
-      {isPage && <div className={classes.pagination}>
-        <div className={classes.left}>Rows per page :
-          <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`}
-            placeholder="" options={options} defaultValue={showTable} onChange={(e) => defualtonChange('showTable', e)} />
-        </div>
-        <div className={classes.right}>{offset} - {limit} <span>of {props?.totalCount}</span> |
-          <svg onClick={() => isPrev()} style={{ width: "26px", cursor: "pointer", fill: "#808080f2" }} aria-hidden="true" viewBox="0 0 24 24" tabindex="-1"><path d="M2 12c0 5.52 4.48 10 10 10s10-4.48 10-10S17.52 2 12 2 2 6.48 2 12zm18 0c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8 8 3.58 8 8zM8 12l4-4 1.41 1.41L11.83 11H16v2h-4.17l1.59 1.59L12 16l-4-4z"></path></svg>
-          <svg onClick={() => isNext()} style={{ width: "26px", cursor: "pointer", fill: "#808080f2" }} aria-hidden="true" viewBox="0 0 24 24" tabindex="-1"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zM4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8-8-3.58-8-8zm12 0-4 4-1.41-1.41L12.17 13H8v-2h4.17l-1.59-1.59L12 8l4 4z"></path></svg>
 
+      {isPage &&
+        <div className={classes.pagination}>
+          <div className={classes.left}>Rows per page :
+            <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`}
+              placeholder="" options={options} defaultValue={showTable} onChange={(e) => defualtonChange('showTable', e)} />
+          </div>
+          <div className={classes.right}>{offset} - {limit} <span>of {props?.totalCount}</span> |
+            <svg onClick={() => isPrev()} style={{ width: "26px", cursor: "pointer", fill: "#808080f2" }} aria-hidden="true" viewBox="0 0 24 24" tabindex="-1"><path d="M2 12c0 5.52 4.48 10 10 10s10-4.48 10-10S17.52 2 12 2 2 6.48 2 12zm18 0c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8 8 3.58 8 8zM8 12l4-4 1.41 1.41L11.83 11H16v2h-4.17l1.59 1.59L12 16l-4-4z"></path></svg>
+            <svg onClick={() => isNext()} style={{ width: "26px", cursor: "pointer", fill: "#808080f2" }} aria-hidden="true" viewBox="0 0 24 24" tabindex="-1"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10zM4 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8-8-3.58-8-8zm12 0-4 4-1.41-1.41L12.17 13H8v-2h4.17l-1.59-1.59L12 8l4 4z"></path></svg>
+          </div>
         </div>
-      </div>}
+      }
     </React.Fragment>
   );
 };
