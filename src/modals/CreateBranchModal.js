@@ -9,7 +9,7 @@ const CreateBranchModal = (props) => {
         country: null,
         name: "",
         description: "",
-        active: false
+        active: true
     });
     const [countryData, setCountryData] = useState([]);
     const [responseClassName, checkResponseClassName] = useState("");
@@ -36,6 +36,7 @@ const CreateBranchModal = (props) => {
     };
 
     const onChange = (k, event) => {
+        debugger
         checkResponseMsg("");
         setState({
             ...state,
@@ -84,13 +85,23 @@ const CreateBranchModal = (props) => {
     };
 
     useEffect(() => {
-
-        setState({
-            ...state,
-            ...props.editData,
-            country: { label: props.editData?.country?.countryName, value: props.editData?.country?.id },
-        })
+        debugger
+        if (props?.editData) {
+            setState({
+                ...state,
+                ...props.editData,
+                country: { label: props.editData?.country?.countryName, value: props.editData?.country?.id },
+            })
+        } else {
+            setState({
+                country: null,
+                name: "",
+                description: "",
+                active: true
+            })
+        }
     }, [props.editData]);
+
     return (
         <div className="eepModalDiv">
             <div className="modal fade" id="CreateBranchModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -112,7 +123,7 @@ const CreateBranchModal = (props) => {
                                 </div>
                                 <div className="form-group field-wbr">
                                     <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`}
-                                        placeholder="" options={[
+                                        placeholder="status" options={[
                                             { label: "Active", value: true },
                                             { label: "Inactive", value: false }
                                         ]} value={{
@@ -120,7 +131,11 @@ const CreateBranchModal = (props) => {
                                         }} onChange={(e) => onChange('active', e.value)} />
                                 </div>
                                 <div className="form-group field-wbr">
-                                    <Select classNamePrefix="eep_select_common select" className={`a_designation basic-single`} placeholder="" options={countryData} value={state.country} onChange={(e) => onChange('country', e.value)} />
+                                    <Select classNamePrefix="eep_select_common select"
+                                        className={`a_designation basic-single`}
+                                        placeholder="country"
+                                        options={countryData} value={state.country}
+                                        onChange={(e) => onChange('country', e)} />
                                 </div>
                                 <div className="form-group">
                                     <input type="text" className="form-control text-center field-wbr" name="name" placeholder="Enter Branch Name" autoComplete="off" value={state.name} onChange={(e) => onChange('name', e.target.value)} />

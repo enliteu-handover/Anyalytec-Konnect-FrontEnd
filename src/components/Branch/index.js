@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
-import Table from "../../UI/Table";
 import ResponseInfo from "../../UI/ResponseInfo";
 import PageHeader from "../../UI/PageHeader";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
@@ -9,6 +8,7 @@ import BranchMasterActions from "../../UI/CustomComponents/branchMasterAction";
 import CreateBranchModal from "../../modals/CreateBranchModal";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
+import TableComponent from "../../UI/tableComponent";
 
 const BranchMaster = () => {
     const dispatch = useDispatch();
@@ -22,10 +22,8 @@ const BranchMaster = () => {
     const [editData, setEditData] = useState(null)
 
     const isDelete = (argu) => {
-        
     };
     const getDeptData = (argu) => {
-        
         setEditData(argu);
     };
 
@@ -46,22 +44,22 @@ const BranchMaster = () => {
 
     const userDataTableHeaders = [
         {
-            fieldLabel: "Country",
-            fieldValue: "country.countryName",
+            header: "Country",
+            accessorKey: "country.countryName",
         },
         {
-            fieldLabel: "Branch Name",
-            fieldValue: "name",
+            header: "Branch Name",
+            accessorKey: "name",
         },
         {
-            fieldLabel: "Discription",
-            fieldValue: "description",
+            header: "Discription",
+            accessorKey: "description",
         },
-        {
-            fieldLabel: "Action",
-            fieldValue: "action",
-            component: <BranchMasterActions isDelete={isDelete} getDeptData={getDeptData} />,
-        },
+        // {
+        //     header: "Action",
+        //     accessorKey: "action",
+        //     component: <BranchMasterActions isDelete={isDelete} getDeptData={getDeptData} />,
+        // },
     ];
 
     useEffect(() => {
@@ -74,62 +72,26 @@ const BranchMaster = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchAllBrachData = (search, limit, offset) => {
+        debugger
         const obj = {
             url: URL_CONFIG.GET_ALL_BRANCH + `?offset=${offset ?? state?.offset}` + `&limit=${limit ?? state?.limit}` + `&search=${search ? search : ""}`,
             method: "get",
         };
         httpHandler(obj).then((response) => {
+            debugger
             setState({
                 ...state,
-                data: { data: response?.data, totalCount: 60 }
+                // data: { data: response?.data, totalCount: response?.totalCount ?? 0 },
+                data: response?.data
             })
         })
-        setEditData(null)
+        // setEditData(null)
     }
 
     useEffect(() => {
+        debugger
         fetchAllBrachData()
     }, []);
-
-    const isSearch = (value) => {
-        fetchAllBrachData(value.target.value)
-    }
-    const isPrev = () => {
-        if (state.offset > 0) {
-            const limit = state.limit - state.showTable?.value
-            const offset = state.offset - state.showTable?.value
-            setState({
-                ...state,
-                limit,
-                offset
-            })
-            fetchAllBrachData('', limit, offset)
-        }
-    }
-    const isNext = () => {
-        if (state.limit < state?.data?.totalCount) {
-            const limit = state.limit + state.showTable?.value
-            const offset = state.limit
-            setState({
-                ...state,
-                limit,
-                offset
-            })
-            fetchAllBrachData('', limit, offset)
-        }
-
-    }
-    const defualtonChange = (k, v) => {
-        const limit = v?.value
-        const offset = 0
-        state.limit = limit
-        state.offset = offset
-        state[k] = v
-        setState({
-            ...state,
-        })
-        fetchAllBrachData('', limit, offset)
-    };
 
     return (
         <React.Fragment>
@@ -144,33 +106,20 @@ const BranchMaster = () => {
                             data-target="#CreateBranchModal"
                             to="#"
                             dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
+                            onClick={() => setEditData(null)}
                         ></Link>
                     }
                 ></PageHeader>
                 <div className="eep-user-management eep-content-start" id="content-start">
                     <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
                         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-                                <Table
-                                    isSearch={isSearch}
-                                    isPage={true}
-                                    offset={state?.offset}
-                                    limit={state?.limit}
-                                    showTable={state?.showTable}
-                                    isPrev={isPrev}
-                                    isNext={isNext}
-                                    defualtonChange={defualtonChange}
-                                    component="branchMaster"
-                                    headers={userDataTableHeaders}
-                                    data={state?.data?.data}
-                                    totalCount={state?.data?.totalCount}
-                                    tableProps={{
-                                        classes:
-                                            "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                                        id: "user_dataTable_branch",
-                                        "aria-describedby": "user_dataTable_info",
-                                    }}
-                                    action={null}
-                                ></Table>
+                            {state?.data?.data?.length > 0 && <TableComponent
+                                data={state?.data?.data ?? []}
+                                columns={userDataTableHeaders}
+                                action={
+                                    <BranchMasterActions isDelete={isDelete} getDeptData={getDeptData} />
+                                }
+                            />}
                         </div>
                     </div>
                 </div> </React.Fragment>
