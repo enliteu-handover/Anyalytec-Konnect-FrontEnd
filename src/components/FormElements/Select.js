@@ -21,7 +21,7 @@ const SelectDropdown = (props) => {
   const [fieldTouched, setFieldTouched] = useState(false);
   
   useEffect(() => {
-    debugger
+    
     setValue(initValue)
   }, [field.value]);
   useEffect(() => {
@@ -87,7 +87,7 @@ const SelectDropdown = (props) => {
   };
 
   const getDropdownOptions = () => {
-    debugger
+    
     const obj = {
       url: RESTConfig.url,
       method: RESTConfig.method,

@@ -227,7 +227,7 @@
         "type": "select",
         "label": "Branch",
         "name": "branch",
-        "mandatory": false,
+        "mandatory": true,
         "disabled": false,
         "viewMode": {
           "type": "text",

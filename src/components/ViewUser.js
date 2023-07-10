@@ -46,7 +46,7 @@ const ViewUser = () => {
   };
 
   const fetchCurrentUserData = (userMeta) => {
-    
+
     const obj = {
       url: URL_CONFIG.GETUSER,
       method: "get",
@@ -54,7 +54,21 @@ const ViewUser = () => {
     };
     httpHandler(obj)
       .then((uData) => {
-        setTimeout(() => {
+        setTimeout(async () => {
+
+          if (uData?.data?.country?.id) {
+            const obj_ = {
+              url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
+              method: "get"
+            };
+            await httpHandler(obj_)
+              .then((user_) => {
+                userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+                setUserMeta({
+                  ...userMeta,
+                })
+              })
+          }
           userDataValueMapping(userMeta, uData.data);
         }, 0);
       })
@@ -114,8 +128,8 @@ const ViewUser = () => {
             fld["type"] = fld["viewMode"]["type"];
             if (fld["viewMode"]["value"].indexOf(".") !== -1) {
               fld["value"] = loadData(uData, fld["viewMode"]["value"]);
-            } else {              
-              if(fld["name"] === "active") {
+            } else {
+              if (fld["name"] === "active") {
                 fld["value"] = uData[fld['name']] ? "Active" : "Inactive";
               } else {
                 fld["value"] = fld["name"] !== "password" ? uData[fld["viewMode"]["value"]] : "";
@@ -130,13 +144,18 @@ const ViewUser = () => {
           }
         }
 
-        if(fld["type"] === "signature") {
+        if (fld["type"] === "signature") {
           fld["disabled"] = false;
-        }        
+        }
         else {
           fld["disabled"] = true;
         }
-
+        if (fld["name"] === "gender") {
+          fld["label"] = uData?.gender?.label ?? '';
+        }
+        if (fld["name"] === "branch") {
+          fld["label"] = uData?.branch?.label ?? '';
+        }
       }
     }
     setUserMeta((prevState) => {
@@ -200,12 +219,12 @@ const ViewUser = () => {
                     </Card>
                   </div>
                   <div className="d-flex justify-content-center mb-3">
-                      <Link
-                        to="/app/usermanagement"
-                        className="eep-btn eep-btn-cancel eep-btn-nofocus c-2c2c2c a_hover_txt_deco_none"
-                      >
-                        Back
-                      </Link>
+                    <Link
+                      to="/app/usermanagement"
+                      className="eep-btn eep-btn-cancel eep-btn-nofocus c-2c2c2c a_hover_txt_deco_none"
+                    >
+                      Back
+                    </Link>
                   </div>
                 </form>
               )}
@@ -222,7 +241,7 @@ const ViewUser = () => {
             messageInfo="Contact Administrator."
           />
         </div>
-      } 
+      }
     </React.Fragment>
   );
 };

@@ -126,7 +126,7 @@ const AddUser = () => {
   }, [uData]);
 
   const handleChange = async (field, event) => {
-    debugger
+    
     const value = event;
 
     if (field["name"] === "imageByte") {
@@ -280,9 +280,9 @@ const AddUser = () => {
                   <div className="row w-100 mb-3">
                     <button
                       type="submit"
-                    // disabled={!formIsValid}
-                    // className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
-                    //   }`}
+                    disabled={!formIsValid}
+                    className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
+                      }`}
                     >
                       Create User
                     </button>
