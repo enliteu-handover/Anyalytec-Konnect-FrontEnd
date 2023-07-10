@@ -24,7 +24,7 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = (event) => {
-    
+
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -37,6 +37,9 @@ const ModifyUser = () => {
     uData.manager = {
       id: uData?.manager ?? uData?.manager?.id?.id
     };
+    if (uData?.branch) { uData.branch_id = uData?.branch?.id ?? uData?.branch }
+    if (uData?.user_id) { uData.id = uData?.user_id }
+    if (uData?.gender) { uData.gender = uData?.gender?.label ?? uData?.gender }
     setFormSubmitted(true);
     if (formIsValid) {
       const obj = {
@@ -106,7 +109,7 @@ const ModifyUser = () => {
   }, [uData, formTouched]);
 
   const handleChange = async (field, event) => {
-    
+    debugger
     setFormTouched(true);
     if (field?.name === "imageByte") {
       const file = base64ToFile(event?.image?.replace(/^data:image\/\w+;base64,/, ''))
@@ -123,23 +126,51 @@ const ModifyUser = () => {
           uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
         })
 
+    } else if (field?.name === "branch") {
+      uData[field.name] = event;
+      const _inx = userMetaData.column3.fields.findIndex(v => v.name === field.name)
+      const lb_ = userMetaData.column3.fields[_inx].options?.find(v => v.value === event)
+      userMetaData.column3.fields[_inx].value = { label: lb_?.label }
+      setUserMetaData({
+        ...userMetaData,
+      })
+    } else if (field?.name === "gender") {
+      uData[field.name] = event;
+      const _inx = userMetaData.column1.fields.findIndex(v => v.name === field.name)
+      userMetaData.column1.fields[_inx].value = { label: event }
+      setUserMetaData({
+        ...userMetaData,
+      })
     } else if (field?.name === "manager") {
       uData[field.name] = event?.id;
+    } else if (field["name"] === "country") {
+      uData[field.name] = event;
+      const _inx = userMetaData.column3.fields.findIndex(v => v.name === 'branch')
+      userMetaData.column3.fields[_inx].value = ''
+      const obj_ = {
+        url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + event.id,
+        method: "get"
+      };
+      await httpHandler(obj_)
+        .then((user_) => {
+          userMetaData.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+          setUserMetaData({
+            ...userMetaData,
+          })
+        })
     } else if (field.type === "datePicker" || field.type === "select") {
       uData[field.name] = field.booleanValue ? (event === 'true' ? true : false) : event;
     } else {
       uData[field.name] = event;
     }
     // }
-    // setUData((prevState) => {
-    //   return { ...prevState, ...uData };
-    // });
-
-    setUData({ ...uData })
+    setUData((prevState) => {
+      return { ...prevState, ...uData };
+    });
   };
 
   const fetchUserMeta = () => {
-    
+
     fetch(`${process.env.PUBLIC_URL}/data/user.json`)
       .then((response) => response.json())
       .then((data) => {
@@ -150,16 +181,33 @@ const ModifyUser = () => {
       });
   };
 
-  const fetchCurrentUserData = (userMeta) => {
+  const fetchCurrentUserData = async (userMeta) => {
+
     const obj = {
       url: URL_CONFIG.GETUSER,
       method: "get",
       params: { id },
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((uData) => {
-        setTimeout(() => {
+
+        setTimeout(async () => {
           setUData(uData.data);
+
+          if (uData?.data?.country?.id) {
+            const obj_ = {
+              url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
+              method: "get"
+            };
+            await httpHandler(obj_)
+              .then((user_) => {
+                userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+                setUserMetaData({
+                  ...userMeta,
+                })
+              })
+          }
+
           userDataValueMapping(userMeta, uData.data);
         }, 0);
       })
@@ -168,8 +216,6 @@ const ModifyUser = () => {
         const errMsg = error.response?.data?.message;
       });
   };
-
-  // console.log("setUData", uData);
 
   const loadData = (data, fieldName) => {
     const entries = fieldName.split(".");
@@ -185,9 +231,11 @@ const ModifyUser = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
-    
+
+
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
+
         if (fld["type"] === "number") {
           if (fld["contactNumber"]) {
             if (fld["subField"]) {
@@ -221,14 +269,16 @@ const ModifyUser = () => {
       }
     }
 
-    setUserMetaData((prevState) => {
-      return { ...prevState, ...userMeta };
+    setUserMetaData((prev) => {
+      return { ...prev, ...userMeta }
     });
   };
 
   useEffect(() => {
-    
+
+
     fetchUserMeta();
+
   }, []);
 
   const hideModal = () => {
@@ -267,7 +317,6 @@ const ModifyUser = () => {
       })
     );
   }, [breadcrumbArr, dispatch]);
-  console.log('userMetaData', userMetaData)
   return (
     <React.Fragment>
       {userRolePermission.adminPanel &&

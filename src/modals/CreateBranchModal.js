@@ -36,7 +36,7 @@ const CreateBranchModal = (props) => {
     };
 
     const onChange = (k, event) => {
-        debugger
+        
         checkResponseMsg("");
         setState({
             ...state,
@@ -85,7 +85,7 @@ const CreateBranchModal = (props) => {
     };
 
     useEffect(() => {
-        debugger
+        
         if (props?.editData) {
             setState({
                 ...state,

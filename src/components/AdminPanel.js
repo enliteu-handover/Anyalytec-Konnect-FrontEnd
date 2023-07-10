@@ -120,7 +120,7 @@ const AdminPanel = () => {
               </div>
             </Link>
 
-            <Link to="/app/branchMaster">
+            {/* <Link to="/app/branchMaster">
               <div className="admin_panel_items bg-white">
                 <div className="outter">
                   <img
@@ -133,7 +133,7 @@ const AdminPanel = () => {
                 </div>
                 <span>branch Master</span>
               </div>
-            </Link>
+            </Link> */}
           </div>
         </React.Fragment>
       }

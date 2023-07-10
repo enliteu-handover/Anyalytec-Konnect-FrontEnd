@@ -16,10 +16,17 @@ const SelectDropdown = (props) => {
   const [value, setValue] = useState(initValue);
 
   const [defaultValue, setDefaultValue] = useState(null);
-  const initOptions = field.options ? field.options : [];
-  const [options, setOptions] = useState(initOptions);
+  const [options, setOptions] = useState([]);
 
   const [fieldTouched, setFieldTouched] = useState(false);
+  
+  useEffect(() => {
+    debugger
+    setValue(initValue)
+  }, [field.value]);
+  useEffect(() => {
+    setOptions(field.options ? field.options : [])
+  }, [field.options]);
 
   const valueIsValid =
     (value && typeof value === "string" && value.trim() !== "") ||
@@ -35,9 +42,9 @@ const SelectDropdown = (props) => {
     }
   }, [submitted]);
 
+
   useEffect(() => {
     const value = initValue ? initValue : "";
-
     if (
       RESTConfig &&
       RESTConfig.value &&
@@ -80,6 +87,7 @@ const SelectDropdown = (props) => {
   };
 
   const getDropdownOptions = () => {
+    debugger
     const obj = {
       url: RESTConfig.url,
       method: RESTConfig.method,
@@ -158,16 +166,17 @@ const SelectDropdown = (props) => {
 
   return (
     <div
-      className={`col-md-12 form-group text-left selectField-withReload ${fieldClasses} ${
-        field.mandatory ? "required" : ""
-      }`}
+      className={`col-md-12 form-group text-left selectField-withReload ${fieldClasses} ${field.mandatory ? "required" : ""
+        }`}
     >
-      
+
       <label className="control-label">{field.label}</label>
       <div className="input-group">
+        {/* {JSON.stringify(value)} */}
         {options && !defaultValue && (
           <Select
             defaultValue={value}
+            value={value}
             options={options}
             isSearchable={true}
             className={`form-control basic-single ${field.reloadData ? "reloadSelectField" : ""} ${classes.formControl}`}

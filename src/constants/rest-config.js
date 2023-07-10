@@ -207,6 +207,7 @@ const URL_CONFIG = {
   UPDATE_BRANCH: "/branches/update",
   GET_ALL_BRANCH: "/branches/branches",
   GET_ALL_COUNTRY: "/country/country_name",
+  GET_ALL_BRANCH_NAME: "/branches/branch_name",
 
 };
 

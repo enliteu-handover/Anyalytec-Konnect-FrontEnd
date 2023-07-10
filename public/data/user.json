@@ -37,6 +37,28 @@
         "mandatory": true,
         "disabled": false,
         "display": true
+      },
+      {
+        "type": "select",
+        "label": "Gender",
+        "name": "gender",
+        "mandatory": true,
+        "disabled": false,
+        "viewMode": {
+          "type": "text",
+          "value": "gender.name"
+        },
+        "options": [
+          {
+            "value": "Male",
+            "label": "Male"
+          },
+          {
+            "value": "Female",
+            "label": "Female"
+          }
+        ],
+        "display": true
       }
     ]
   },
@@ -107,7 +129,7 @@
         "disabled": false,
         "display": true,
         "contactNumber": true,
-        "maxLength":10,
+        "maxLength": 10,
         "viewMode": {
           "type": "number",
           "value": "telephoneNumber"
@@ -136,8 +158,14 @@
         "mandatory": true,
         "disabled": false,
         "display": true,
-        "min": {"subYear" : true, "val": 1},
-        "max": {"addMonth" : true, "val": 1}
+        "min": {
+          "subYear": true,
+          "val": 1
+        },
+        "max": {
+          "addMonth": true,
+          "val": 1
+        }
       },
       {
         "type": "datePicker",
@@ -146,8 +174,14 @@
         "mandatory": true,
         "disabled": false,
         "display": true,
-        "min": {"subYear" : false, "val": null},
-        "max": {"subYear" : true, "val": 18}
+        "min": {
+          "subYear": false,
+          "val": null
+        },
+        "max": {
+          "subYear": true,
+          "val": 18
+        }
       },
       {
         "type": "select",
@@ -165,6 +199,39 @@
           "method": "get",
           "label": "roleName",
           "value": "role.id"
+        },
+        "options": [],
+        "display": true
+      },
+      {
+        "type": "select",
+        "label": "Country",
+        "name": "country",
+        "mandatory": true,
+        "disabled": false,
+        "viewMode": {
+          "type": "text",
+          "value": "country.name"
+        },
+        "reloadData": true,
+        "RESTConfig": {
+          "url": "/country/country_name",
+          "method": "get",
+          "label": "name",
+          "value": "country.id"
+        },
+        "options": [],
+        "display": true
+      },
+      {
+        "type": "select",
+        "label": "Branch",
+        "name": "branch",
+        "mandatory": false,
+        "disabled": false,
+        "viewMode": {
+          "type": "text",
+          "value": "branch.name"
         },
         "options": [],
         "display": true
@@ -244,8 +311,14 @@
         "mandatory": false,
         "disabled": true,
         "display": true,
-        "min": {"subYear" : false, "val": 1},
-        "max": {"addMonth" : false, "val": 1}
+        "min": {
+          "subYear": false,
+          "val": 1
+        },
+        "max": {
+          "addMonth": false,
+          "val": 1
+        }
       }
     ]
   },
@@ -266,8 +339,14 @@
         "mandatory": true,
         "disabled": true,
         "display": true,
-        "min": {"subYear" : false, "val": 1},
-        "max": {"addMonth" : false, "val": 1}
+        "min": {
+          "subYear": false,
+          "val": 1
+        },
+        "max": {
+          "addMonth": false,
+          "val": 1
+        }
       }
     ]
   }

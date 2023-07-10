@@ -72,13 +72,13 @@ const BranchMaster = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchAllBrachData = (search, limit, offset) => {
-        debugger
+        
         const obj = {
             url: URL_CONFIG.GET_ALL_BRANCH + `?offset=${offset ?? state?.offset}` + `&limit=${limit ?? state?.limit}` + `&search=${search ? search : ""}`,
             method: "get",
         };
         httpHandler(obj).then((response) => {
-            debugger
+            
             setState({
                 ...state,
                 // data: { data: response?.data, totalCount: response?.totalCount ?? 0 },
@@ -89,7 +89,7 @@ const BranchMaster = () => {
     }
 
     useEffect(() => {
-        debugger
+        
         fetchAllBrachData()
     }, []);
 

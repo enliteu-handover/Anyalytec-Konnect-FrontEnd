@@ -33,7 +33,6 @@ const AddUser = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-    alert(formIsValid)
     if (formIsValid) {
       const obj_ = {
         url: URL_CONFIG.AUTH_ADD_NEW_USER,
@@ -50,6 +49,7 @@ const AddUser = () => {
         .then((user_) => {
           uData["active"] = true;
           uData["user_id"] = user_?.data?.data?.user?.id;
+          uData["branch_id"] = uData?.branch;
           const obj = {
             url: URL_CONFIG.GETUSER,
             method: "post",
@@ -76,7 +76,7 @@ const AddUser = () => {
   };
 
   useEffect(() => {
-    
+
     const userFields = [];
     for (let fields in userMetaData) {
       if (
@@ -126,7 +126,7 @@ const AddUser = () => {
   }, [uData]);
 
   const handleChange = async (field, event) => {
-
+    debugger
     const value = event;
 
     if (field["name"] === "imageByte") {
@@ -144,11 +144,26 @@ const AddUser = () => {
           uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
         })
 
+    } else if (field["name"] === "country") {
+      field["value"] = value;
+      dataObj[field["name"]] = value;
+
+      const obj_ = {
+        url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + value.id,
+        method: "get"
+      };
+      await httpHandler(obj_)
+        .then((user_) => {
+
+          userMetaData.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+          setUserMetaData({
+            ...userMetaData,
+          })
+        })
     } else {
       field["value"] = value;
       dataObj[field["name"]] = value;
     }
-
     setUData((prevState) => {
       return { ...prevState, ...dataObj };
     });
@@ -265,9 +280,9 @@ const AddUser = () => {
                   <div className="row w-100 mb-3">
                     <button
                       type="submit"
-                      disabled={!formIsValid}
-                      className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
-                        }`}
+                    // disabled={!formIsValid}
+                    // className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
+                    //   }`}
                     >
                       Create User
                     </button>
