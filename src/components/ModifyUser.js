@@ -109,7 +109,7 @@ const ModifyUser = () => {
   }, [uData, formTouched]);
 
   const handleChange = async (field, event) => {
-    
+    debugger
     setFormTouched(true);
     if (field?.name === "imageByte") {
       const file = base64ToFile(event?.image?.replace(/^data:image\/\w+;base64,/, ''))
@@ -146,7 +146,8 @@ const ModifyUser = () => {
     } else if (field["name"] === "country") {
       uData[field.name] = event;
       const _inx = userMetaData.column3.fields.findIndex(v => v.name === 'branch')
-      userMetaData.column3.fields[_inx].value = ''
+      userMetaData.column3.fields[_inx].value = null
+      uData['branch'] = null;
       const obj_ = {
         url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + event.id,
         method: "get"
