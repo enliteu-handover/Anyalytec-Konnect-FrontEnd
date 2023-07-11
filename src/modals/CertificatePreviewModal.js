@@ -1,8 +1,14 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import PDF from "react-pdf-js";
 
 const CertificatePreviewModal = (props) => {
-  const { previewDataUri } = props;
+  // const { previewDataUri } = props;
+  const [previewDataUri, setpreviewDataUri] = useState({})
+  useEffect(() => {
+    setpreviewDataUri(props.previewDataUri)
+  }, [props.previewDataUri])
 
   return (
     <div className="eepModalDiv">
@@ -19,7 +25,6 @@ const CertificatePreviewModal = (props) => {
                     <div className="thumbnailWrapper" style={{ margin: "0px; padding: 0px", height: "calc(100vh - 125px)", }}>
                       {previewDataUri.isIframe && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
-
                           <PDF
                             file={previewDataUri?.dataSrc} />
                           {/* <iframe src={previewDataUri.dataSrc + "#toolbar=0"} controlsList="nodownload" className="certPreviewModal"
@@ -28,8 +33,8 @@ const CertificatePreviewModal = (props) => {
                       )}
                       {!previewDataUri.isIframe && previewDataUri.dataSrc.hasOwnProperty('pdfByte') && previewDataUri.dataSrc?.pdfByte !== null && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
-                          <PDF
-                            file={previewDataUri?.dataSrc?.pdfByte?.image} />
+                          {previewDataUri?.dataSrc?.pdfByte?.image && <PDF
+                            file={previewDataUri?.dataSrc?.pdfByte?.image} />}
                           {/* <iframe src={previewDataUri.dataSrc.pdfByte.image
                           //  + "#toolbar=0"
                           } 
@@ -40,6 +45,11 @@ const CertificatePreviewModal = (props) => {
                         </div>
                       )}
                       {!previewDataUri?.isIframe && !previewDataUri?.dataSrc.hasOwnProperty('pdfByte') && (
+                        <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
+                          <img src={previewDataUri?.dataSrc?.imageByte?.image} className="w-100" alt={previewDataUri?.dataSrc?.name} title={previewDataUri?.dataSrc?.name} />
+                        </div>
+                      )}
+                      {!previewDataUri?.isIframe && previewDataUri?.dataSrc?.imageByte?.image && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
                           <img src={previewDataUri?.dataSrc?.imageByte?.image} className="w-100" alt={previewDataUri?.dataSrc?.name} title={previewDataUri?.dataSrc?.name} />
                         </div>
