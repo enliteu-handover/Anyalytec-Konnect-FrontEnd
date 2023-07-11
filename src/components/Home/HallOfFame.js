@@ -189,21 +189,23 @@ const HallOfFame = (props) => {
             <div className="bg-white br-15 h-100 border border-1">
               <div className="p-3">
                 <h4>Certificates</h4>
-                {hallOfFameDetails.dashboardCertificateList.map((item, index) => {
+                {hallOfFameDetails?.dashboardCertificateList?.map((item, index) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Certificates_" + index}>
                       <div className="col-md-2">
                         <img src={item?.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
                       </div>
-                      <div className="col-md-5 d_leaderboard_align">{item.name}</div>
+                      <div className="col-md-5 d_leaderboard_align">{item?.name}</div>
                       <div className="col-md-5 text-right">
                         <div className="eep-cardbox-base">
                           <ul className="d-flex align-items-center justify-content-end px-0">
-                            {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
+                            {item?.users?.length > 0 && item?.users?.slice(0, 3)?.map((useritem, index) => {
                               return (
                                 <li key={"HOF_Certificates_user_pic" + index}>
                                   <Link to="#">
-                                    <img src={getUserPicture(useritem.id)} className="img-fluid rounded-circle" title={useritem.fullName} alt={useritem.fullName} />
+                                    <img src={getUserPicture(useritem?.id)}
+                                      className="img-fluid rounded-circle"
+                                      title={useritem.fullName} alt={useritem.fullName} />
                                   </Link>
                                 </li>
                               )

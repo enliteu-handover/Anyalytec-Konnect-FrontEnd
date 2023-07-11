@@ -329,6 +329,7 @@ const ECards = () => {
                                 id={index}
                                 alt="E-Card"
                                 title={item.name}
+                                style={{ height: "180px" }}
                               />
                             </div>
                           );
@@ -397,6 +398,7 @@ const ECards = () => {
                                 id={index}
                                 alt="E-Card"
                                 title={item.name}
+                                style={{ height: "180px" }}
                               />
                             </div>
                           );
@@ -466,6 +468,7 @@ const ECards = () => {
                                 id={index}
                                 alt="E-Card"
                                 title={item.name}
+                                style={{ height: "180px" }}
                               />
                             </div>
                           );
@@ -534,6 +537,7 @@ const ECards = () => {
                                 id={index}
                                 alt="E-Card"
                                 title={item.name}
+                                style={{ height: "180px" }}
                               />
                             </div>
                           );
