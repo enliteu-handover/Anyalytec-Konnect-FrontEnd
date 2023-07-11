@@ -118,6 +118,7 @@ const CreatAwards = () => {
   const onSubmitHandler = () => {
     regData['active'] = true;
     regData['libraryAwards'] = libDataVal ? { id: libDataVal.id } : null;
+    regData['imageByte'] = regData?.imageByte?.image ?? '';
     const obj = {
       url: URL_CONFIG.CREATE_AWARD,
       method: "post",

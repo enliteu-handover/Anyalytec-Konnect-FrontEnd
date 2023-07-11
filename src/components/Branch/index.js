@@ -16,7 +16,7 @@ const BranchMaster = () => {
     const [state, setState] = useState({
         data: {},
         offset: 0,
-        limit: 15,
+        limit: 1000,
         showTable: { label: "15", value: 15 }
     })
     const [editData, setEditData] = useState(null)

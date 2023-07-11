@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import ResponseInfo from "../../UI/ResponseInfo";
-import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import PageHeader from "../../UI/PageHeader";
+import ResponseInfo from "../../UI/ResponseInfo";
 import YearFilter from "../../UI/YearFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 
 const MyCertificate = () => {
 
