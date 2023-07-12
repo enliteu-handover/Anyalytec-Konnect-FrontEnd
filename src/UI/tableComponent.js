@@ -1,7 +1,7 @@
 import React from "react";
 import { MaterialReactTable } from "material-react-table";
 
-const TableComponent = ({ columns = [], data = [], action }) => {
+const TableComponent = ({ columns = [], data = [], action, searchHidden, actionHidden }) => {
     if (data?.length > 0 && columns?.length > 0)
         return (
             <MaterialReactTable
@@ -16,16 +16,17 @@ const TableComponent = ({ columns = [], data = [], action }) => {
                 enableFullScreenToggle={false}
                 enableHiding={false}
                 enableSortingRemoval={false}
-                enableRowActions={true}
+                enableRowActions={actionHidden ? false : true}
+                enableGlobalFilter={searchHidden ? false : true}
                 initialState={{
-                    showGlobalFilter: true,
+                    showGlobalFilter: searchHidden ? false : true,
                 }}
                 muiSearchTextFieldProps={{
                     placeholder: 'Search...',
                     variant: 'outlined',
                 }}
                 renderRowActions={({ row, table }) =>
-                    React.cloneElement(action, { data: data[row.index] })
+                    action ? React.cloneElement(action, { data: data[row.index] }) : ''
                 }
                 muiTablePaginationProps={{
                     rowsPerPageOptions: [5, 10, 50, 100],

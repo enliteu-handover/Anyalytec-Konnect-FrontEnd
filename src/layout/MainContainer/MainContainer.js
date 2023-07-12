@@ -59,6 +59,7 @@ import EEPApp from "../../components/EEPApp/EEPApp";
 import Help from "../Header/Help";
 import Search from "../../components/Search/Search";
 import BranchMaster from "../../components/Branch";
+import BulkUpload from "../../bulkUpload";
 
 const MainContainer = () => {
   const getTabs = useSelector((state) => state.tabs.config);
@@ -81,6 +82,9 @@ const MainContainer = () => {
                       <div className="eep-content-section-div">
                         <div className="eep-content-section eep_scroll_y">
                           <Switch>
+                          <Route path="/app/bulkUpload">
+                              <BulkUpload />
+                            </Route>
                             <Route path="/app/dashboard" exact>
                               <Home />
                             </Route>

@@ -208,6 +208,7 @@ const URL_CONFIG = {
   GET_ALL_BRANCH: "/branches/branches",
   GET_ALL_COUNTRY: "/country/country_name",
   GET_ALL_BRANCH_NAME: "/branches/branch_name",
+  UPSERT_BULK_USER: "/users/bulkuser",
 
 };
 

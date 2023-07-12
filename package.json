@@ -6,8 +6,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-free": "^5.13.1",
-    "@mui/icons-material": "^5.13.7",
-    "@mui/material": "^5.13.7",
     "@pdf-lib/fontkit": "^1.1.1",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",
@@ -48,7 +46,8 @@
     "read-excel-file": "^5.5.3",
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",

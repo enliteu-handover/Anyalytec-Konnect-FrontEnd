@@ -49,7 +49,7 @@ const MyProfile = () => {
   };
 
   const fetchCurrentUserData = (userMeta) => {
-    
+
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     const obj = {
       url: URL_CONFIG.GETUSER,
@@ -58,7 +58,21 @@ const MyProfile = () => {
     };
     httpHandler(obj)
       .then((uData) => {
-        setTimeout(() => {
+        setTimeout(async () => {
+
+          if (uData?.data?.country?.id) {
+            const obj_ = {
+              url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
+              method: "get"
+            };
+            await httpHandler(obj_)
+              .then((user_) => {
+                userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+                setUserMeta({
+                  ...userMeta,
+                })
+              })
+          }
           userDataValueMapping(userMeta, uData.data);
         }, 0);
         setCurrUserDataNew(uData.data);
@@ -74,8 +88,14 @@ const MyProfile = () => {
   };
 
   const loadData = (data, fieldName) => {
-    const entries = fieldName.split(".");
     let value = Object.assign({}, data);
+    const entries = fieldName.split(".");
+    if (fieldName?.includes('gender')) {
+      return value[entries[0]].label
+    }
+    if (fieldName?.includes('branch')) {
+      return value[entries[0]].label
+    }
     for (const field of entries) {
       if (value[field]) {
         value = value[field];
@@ -87,6 +107,7 @@ const MyProfile = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
+    
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
         if (fld["type"] === "password") {
@@ -164,7 +185,7 @@ const MyProfile = () => {
   useEffect(() => {
     fetchUserMeta();
   }, []);
-
+  console.log('userMeta', userMeta);
   const onUpload = (arg) => {
 
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};

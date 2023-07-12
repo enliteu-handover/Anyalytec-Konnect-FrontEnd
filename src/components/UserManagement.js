@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
-import PageHeader from "../UI/PageHeader";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import * as XLSX from 'xlsx';
+import UserManagementActionDropdown from "../UI/CustomComponents/UserManagementActionDropdown";
+import Filter from "../UI/Filter";
+import PageHeader from "../UI/PageHeader";
+import ResponseInfo from "../UI/ResponseInfo";
 import Table from "../UI/Table";
-import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
 import { FILTER_CONFIG } from "../constants/ui-config";
-import Filter from "../UI/Filter";
-import UserManagementActionDropdown from "../UI/CustomComponents/UserManagementActionDropdown";
-import ResponseInfo from "../UI/ResponseInfo";
+import { httpHandler } from "../http/http-interceptor";
+import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
 
 const UserManagement = () => {
 
+  const [isUpload, setIsUpload] = useState(true);
   const [userData, setUserData] = useState([]);
+  const [data, setData] = useState([{ username: "tester", email: "test@gmail.com" }]);
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
@@ -109,9 +113,80 @@ const UserManagement = () => {
     fetchUserData({ filterValue: arg.value });
   };
 
+  const userBulkDataTableHeaders = [
+    {
+      header: "Username",
+      accessorKey: "username",
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+    }
+  ];
+
+  const onSucess = (e) => {
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const data = new Uint8Array(event.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      const excelJson = JSON.parse(JSON.stringify(json, null, 2));
+      const headers = excelJson[0];
+      const dataArray = excelJson.slice(1);
+      const payload = dataArray.map(row => {
+        if (row?.length > 0) {
+          const obj = {};
+          headers.forEach((header, index) => {
+            obj[header] = row[index];
+          });
+          return obj;
+        }
+      })?.filter(v => v);
+
+      if (payload?.length > 0) {
+        const obj_ = {
+          url: URL_CONFIG.UPSERT_BULK_USER,
+          method: "post",
+          payload: {
+            data: payload ?? []
+          }
+        };
+        httpHandler(obj_)
+          .then((response) => {
+            setIsUpload(false)
+          })
+      }
+    }
+    reader.readAsArrayBuffer(file);
+  }
+
+  const openBulk = () => {
+    setIsUpload(true)
+  }
+
+  const downloadExcel = (data) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, "FailureUsers.xlsx");
+  };
+
   return (
     <React.Fragment>
-      {userRolePermission.adminPanel &&
+      <CreateBulkUploadModal
+        data={data}
+        userBulkDataTableHeaders={userBulkDataTableHeaders}
+        // isUpload={false}
+        isUpload={isUpload}
+        downloadExcel={downloadExcel}
+        onSucess={onSucess}
+      />
+
+      {userRolePermission?.adminPanel &&
         <React.Fragment>
           <PageHeader
             title="User Management"
@@ -123,10 +198,19 @@ const UserManagement = () => {
               ></Link>
             }
             filter={
-              <Filter
-                config={FILTER_CONFIG}
-                onFilterChange={filterOnChangeHandler}
-              />
+              <>
+                <Link
+                  className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
+                  data-toggle="modal"
+                  data-target="#CreateBulkUploadModal"
+                  to="#"
+                  onClick={openBulk}
+                > <img src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
+                <Filter
+                  config={FILTER_CONFIG}
+                  onFilterChange={filterOnChangeHandler}
+                />
+              </>
             }
           ></PageHeader>
 

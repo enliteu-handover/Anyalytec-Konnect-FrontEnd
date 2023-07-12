@@ -94,6 +94,9 @@ const ViewUser = () => {
   const userDataValueMapping = (userMeta, uData) => {
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
+        if (fld["type"] === "password") {
+          fld["display"] = false;
+        }
         if ("viewMode" in fld) {
           if (fld["type"] === "number") {
             if (fld["contactNumber"]) {

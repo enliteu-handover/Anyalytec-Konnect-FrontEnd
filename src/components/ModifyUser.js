@@ -109,7 +109,7 @@ const ModifyUser = () => {
   }, [uData, formTouched]);
 
   const handleChange = async (field, event) => {
-    
+
     setFormTouched(true);
     if (field?.name === "imageByte") {
       const file = base64ToFile(event?.image?.replace(/^data:image\/\w+;base64,/, ''))
@@ -235,7 +235,9 @@ const ModifyUser = () => {
 
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
-
+        if (fld["type"] === "password") {
+          fld["display"] = false;
+        }
         if (fld["type"] === "number") {
           if (fld["contactNumber"]) {
             if (fld["subField"]) {
