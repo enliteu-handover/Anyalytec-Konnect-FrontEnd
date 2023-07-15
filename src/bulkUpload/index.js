@@ -156,7 +156,6 @@ const BulkUploadOrgChart = () => {
             })
             .catch((error) => {
                 console.log("fetchUserData error", error);
-                //const errMsg = error.response?.data?.message;
             });
     };
 
