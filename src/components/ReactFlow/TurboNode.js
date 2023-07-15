@@ -11,7 +11,7 @@ export default memo(({ data }) => {
                     data-toggle="modal"
                     data-target="#UserDetailView"
                     to="#"
-                    onClick={data?.getDetails && data?.getDetails(data)}
+                    // onClick={getDetails?.getDetails && getDetails?.getDetails(data)}
                     dangerouslySetInnerHTML={{ __html: "<img src='/images/icons8-info-50.svg'/>" }}
                 ></Link>
             </div>

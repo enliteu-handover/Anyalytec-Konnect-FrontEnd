@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
-import ReactFlow, { Controls, addEdge, useEdgesState, useNodesState } from 'reactflow';
+import React from 'react';
+import ReactFlow, { Controls, useEdgesState, useNodesState } from 'reactflow';
 import 'reactflow/dist/base.css';
 // import TurboEdge from './TurboEdge';
+import { useState } from 'react';
 import TurboNode from './TurboNode';
-import './style.css';
 import UserDetailView from './modal';
+import './style.css';
 
 const ps = {
     sourcePosition: "bottom",
@@ -17,7 +18,6 @@ const initialNodes = [
         position: { x: 0, y: 0 },
         data: { icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO' },
         type: 'turbo',
-        getDetails: () => null
     },
     {
         id: '2',
@@ -83,20 +83,16 @@ const nodeTypes = {
     turbo: TurboNode,
 };
 
-const defaultEdgeOptions = {
-    type: 'turbo',
-    markerEnd: 'edge-circle',
-};
-const getDetails=(data)=>{
-debugger
-}
-
 const Flow = () => {
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-    const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), []);
-    const defaultViewport = { x: 0, y: 0, zoom: 0.7 };
+    const defaultViewport = { x: 0, y: 0, zoom: 0.7
+        // style: { strokeWidth: 3, stroke: 'black' },
+        // type: 'floating',
+        // markerEnd: {
+        //   color: 'black',
+        // },
+     };
     return (
         <div style={{ height: "88%" }}>
             <UserDetailView />
@@ -105,7 +101,12 @@ const Flow = () => {
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
-                // onConnect={onConnect}
+                onElementClick={(event, element) => {
+                    debugger
+                    if (element && element.id) {
+                        // onNodeClick(event, element);
+                    }
+                }}
                 // fitView
                 // minZoom={0.2}
                 // maxZoom={4}
