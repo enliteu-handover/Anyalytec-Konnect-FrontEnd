@@ -34,36 +34,36 @@ const AddUser = () => {
     event.preventDefault();
     setFormSubmitted(true);
     if (formIsValid) {
-      const obj_ = {
-        url: URL_CONFIG.AUTH_ADD_NEW_USER,
+      // const obj_ = {
+      //   url: URL_CONFIG.AUTH_ADD_NEW_USER,
+      //   method: "post",
+      //   payload: {
+      //     "username": uData?.username ?? '',
+      //     "email_id": uData?.email ?? '',
+      //     "mobile_no": uData?.telephoneNumber ?? '',
+      //     "password": uData?.password ?? ''
+      //   },
+      //   isAuth: true
+      // };
+      // httpHandler(obj_)
+      //   .then((user_) => {
+      uData["active"] = true;
+      uData["user_id"] = 0;
+      uData["branch_id"] = uData?.branch;
+      const obj = {
+        url: URL_CONFIG.GETUSER,
         method: "post",
-        payload: {
-          "username": uData?.username ?? '',
-          "email_id": uData?.email ?? '',
-          "mobile_no": uData?.telephoneNumber ?? '',
-          "password": uData?.password ?? ''
-        },
-        isAuth: true
+        payload: uData,
       };
-      httpHandler(obj_)
-        .then((user_) => {
-          uData["active"] = true;
-          uData["user_id"] = user_?.data?.data?.user?.id;
-          uData["branch_id"] = uData?.branch;
-          const obj = {
-            url: URL_CONFIG.GETUSER,
-            method: "post",
-            payload: uData,
-          };
-          httpHandler(obj)
-            .then((response) => {
-              setShowModal({
-                ...showModal,
-                type: "success",
-                message: response?.data?.message,
-              });
-            })
+      httpHandler(obj)
+        .then((response) => {
+          setShowModal({
+            ...showModal,
+            type: "success",
+            message: response?.data?.message,
+          });
         })
+        // })
         .catch((error) => {
           console.log("error", error, error.response);
           setShowModal({
@@ -126,7 +126,7 @@ const AddUser = () => {
   }, [uData]);
 
   const handleChange = async (field, event) => {
-    
+
     const value = event;
 
     if (field["name"] === "imageByte") {
@@ -280,9 +280,9 @@ const AddUser = () => {
                   <div className="row w-100 mb-3">
                     <button
                       type="submit"
-                    disabled={!formIsValid}
-                    className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
-                      }`}
+                      disabled={!formIsValid}
+                      className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
+                        }`}
                     >
                       Create User
                     </button>

@@ -231,7 +231,7 @@
         "disabled": false,
         "viewMode": {
           "type": "text",
-          "value": "branch.name"
+          "value": "branch.label"
         },
         "options": [],
         "display": true

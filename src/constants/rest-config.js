@@ -1,32 +1,8 @@
-// QA Instance Apache 9 development purpose
-/*
-const REST_CONFIG = {
-  BASEURL: "65.1.238.219",
-  METHOD: "http",
-  PORT: 9080,
-  RESTAPPNAME: "teckonnect",
-};
-*/
-
-// Arvind Laptop
-/*
-const REST_CONFIG = {
-  BASEURL: "127.0.0.1",
-  METHOD: "http",
-  PORT: 8080,
-};
-*/
-
 // Crayond
 const REST_CONFIG = {
-  // BASEURL: "dev-enliteu-api.crayond.com",
-  // METHOD: "https",
-  // PORT: 443,
-  // RESTAPPNAME: "teckonnect",
-
-  BASEURL: "dev-enliteu-api.crayond.com",
-  METHOD: "https",
-  BASEURL_AUTH: "dev-auth-enliteu.crayond.com",
+  BASEURL: process.env.REACT_APP_BASEURL,
+  METHOD: process.env.REACT_APP_METHOD,
+  BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
 
   FIREBASE_API_KEY: "AIzaSyB-aEYjSIMXtAI7Z7jILhrR81quV9L319s",
   FIREBASE_AUTH_DOMAIN: "enliteu-crayond.firebaseapp.com",
@@ -209,7 +185,7 @@ const URL_CONFIG = {
   GET_ALL_COUNTRY: "/country/country_name",
   GET_ALL_BRANCH_NAME: "/branches/branch_name",
   UPSERT_BULK_USER: "/users/bulkuser",
-
+  UPSERT_BULK_ORG: "/users/bulkorg",
 };
 
 export { REST_CONFIG, URL_CONFIG };

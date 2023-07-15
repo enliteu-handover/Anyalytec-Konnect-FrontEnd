@@ -7090,6 +7090,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 
 .bulk_user_upload {
   margin-top: 20px;
+
   .sample__header_xlsx {
     display: flex;
     font-size: 14px;
@@ -7104,16 +7105,18 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
     width: 200px;
     display: flex;
     border-radius: 8px;
-& input {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  opacity: 0;
-}
+
+    & input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      opacity: 0;
+    }
+
     .download_icon {
       position: absolute;
       margin: auto;
@@ -7135,5 +7138,33 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
       margin: auto;
       font-size: 14px;
     }
+  }
+}
+
+.orgUpload_User_List {
+  display: flex;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 1px 3px 3px #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+
+  .img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: -4px;
+    margin-right: 10px;
+  }
+
+  .title {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .dis {
+    color: #818181;
+    font-size: 12px;
   }
 }

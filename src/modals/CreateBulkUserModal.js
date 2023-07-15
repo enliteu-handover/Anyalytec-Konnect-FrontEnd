@@ -2,7 +2,7 @@ import React from "react";
 import TableComponent from "../UI/tableComponent";
 
 const CreateBulkUploadModal = (props) => {
-    const { isUpload, userBulkDataTableHeaders, data, onSucess, downloadExcel } = props;
+    const { isUpload, userBulkDataTableHeaders, data, onSucess, downloadExcel, failureData, title } = props;
     return (
         <div className="eepModalDiv">
             <div className="modal fade" id="CreateBulkUploadModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -15,7 +15,7 @@ const CreateBulkUploadModal = (props) => {
                             {isUpload && <div className="modalBodyHeight">
                                 <h5 className="modal-title w-100 text-center mt-3 bulk_exampleModalLabel"
                                 >
-                                    {'User Bulk Upload'}
+                                    {title ?? 'User Bulk Upload'}
                                 </h5>
                                 <div className="eep-dropdown-divider"></div>
                                 <div className="d-flex">
@@ -60,17 +60,16 @@ const CreateBulkUploadModal = (props) => {
                                         searchHidden={true}
                                         columns={userBulkDataTableHeaders ?? []}
                                     /><br />
-                                    <button onClick={() => downloadExcel(data)} className="eep-btn eep-btn-success"
-
+                                    {failureData?.length > 0 && < button onClick={() => downloadExcel(title ? data : failureData)} className="eep-btn eep-btn-success"
                                     >
                                         {'Download Failure & Modify'}
-                                    </button> </>}
+                                    </button>} </>}
                             </div>}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 export default CreateBulkUploadModal;

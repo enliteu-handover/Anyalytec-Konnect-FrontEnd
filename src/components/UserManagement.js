@@ -17,7 +17,7 @@ const UserManagement = () => {
 
   const [isUpload, setIsUpload] = useState(true);
   const [userData, setUserData] = useState([]);
-  const [data, setData] = useState([{ username: "tester", email: "test@gmail.com" }]);
+  const [data, setData] = useState({});
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
@@ -117,15 +117,66 @@ const UserManagement = () => {
     {
       header: "Username",
       accessorKey: "username",
-    },
-    {
+    }, {
+      header: "First Name",
+      accessorKey: "firstname",
+    }, {
+      header: "Last Name",
+      accessorKey: "lastname",
+    }, {
       header: "Email",
       accessorKey: "email",
+    }, {
+      header: "DOJ",
+      accessorKey: "doj",
+    }, {
+      header: "DOB",
+      accessorKey: "dob",
+    },
+    {
+      header: "Designation",
+      accessorKey: "roleName",
+    }, {
+      header: "Contact",
+      accessorKey: "mobile_number",
+    }, {
+      header: "To",
+      accessorKey: "manager",
+    }, {
+      header: "Country",
+      accessorKey: "country",
+    }, {
+      header: "Branch",
+      accessorKey: "mobile_number",
+    }, {
+      header: "Status",
+      accessorKey: "status",
+      Cell: ({ cell, column }) => (
+        <span
+          style={{
+            color: cell.getValue()?.toLowerCase() === 'failure' ? 'red' : 'green',
+          }}
+        >
+          {cell.getValue()}
+        </span>
+      ),
+    }, {
+      header: "Message",
+      accessorKey: "message",
+      Cell: ({ cell, column }) => (
+        <span
+          style={{
+            color: 'red',
+          }}
+        >
+          {cell.getValue()}
+        </span>
+      ),
     }
   ];
 
   const onSucess = (e) => {
-
+    
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -157,6 +208,8 @@ const UserManagement = () => {
         };
         httpHandler(obj_)
           .then((response) => {
+            
+            setData({ ...response?.data?.data ?? {} })
             setIsUpload(false)
           })
       }
@@ -168,8 +221,9 @@ const UserManagement = () => {
     setIsUpload(true)
   }
 
-  const downloadExcel = (data) => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
+  const downloadExcel = (failure) => {
+    
+    const worksheet = XLSX.utils.json_to_sheet(failure);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     XLSX.writeFile(workbook, "FailureUsers.xlsx");
@@ -178,7 +232,10 @@ const UserManagement = () => {
   return (
     <React.Fragment>
       <CreateBulkUploadModal
-        data={data}
+        data={data?.allData?.map(v => {
+          return { ...v, manager: v?.isdefault ? 0 : 1 }
+        }) ?? []}
+        failureData={data?.failureData ?? []}
         userBulkDataTableHeaders={userBulkDataTableHeaders}
         // isUpload={false}
         isUpload={isUpload}
@@ -205,7 +262,7 @@ const UserManagement = () => {
                   data-target="#CreateBulkUploadModal"
                   to="#"
                   onClick={openBulk}
-                > <img src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
+                > <img src={'/images/Group 106594.svg'} /> Add Bulk Users</Link>
                 <Filter
                   config={FILTER_CONFIG}
                   onFilterChange={filterOnChangeHandler}
