@@ -1,10 +1,10 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'reactflow';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-
-export default memo(({ data }) => {
+import "./style.css"
+export default memo(({ nodeData: data }) => {
+    debugger
     return (
-        <>
+        <div className='react-flow'>
             <div className="cloud gradient">
                 <Link
                     className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
@@ -28,8 +28,6 @@ export default memo(({ data }) => {
                         </div>
                     </div>
 
-                    <Handle type="target" position={Position.Left} />
-                    <Handle type="source" position={Position.Right} />
                     <div className="footer">
                         <img
                             className='img'
@@ -37,6 +35,6 @@ export default memo(({ data }) => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 });

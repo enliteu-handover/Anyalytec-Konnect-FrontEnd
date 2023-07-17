@@ -48,7 +48,8 @@
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "react-d3-tree": "^1.16.1"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",
