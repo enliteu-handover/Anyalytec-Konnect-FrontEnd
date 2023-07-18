@@ -14,9 +14,26 @@ const UserDetailView = (props) => {
                             <div className="modalBodyHeight">
                                 <h5 className="modal-title w-100 text-center mt-3 bulk_exampleModalLabel"
                                 >
-                                    {data?.title ?? '-'}
+                                    {'User Info'}
                                 </h5>
                                 <div className="eep-dropdown-divider"></div>
+                                <div className="org_user_info">
+                                    <div className="img"><img src={data?.icon ?? `${process.env.PUBLIC_URL}/images/user_profile.png`} /> </div>
+                                    <div className="title">{data?.title ?? '-'}</div>
+                                    <div className="dis">{((data?.subline ?? '') + ' . ' + (data?.email ?? '')) ?? '-'}</div>
+                                    <div className="eep-dropdown-divider"></div>
+                                    <div className="footer">
+                                        <div className="f1">
+                                            {'Working Country'}<br /><br />
+                                            <span> <img src={data?.country_logo ||
+                                                `${process.env.PUBLIC_URL}/images/user_profile.png`} /> {data?.country_name ?? '-'}</span>
+                                        </div>
+                                        <div className="f2">
+                                            {'Branch'}<br /><br />
+                                            <span>{data?.branch ?? '-'}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,8 @@ const BulkUploadOrgChart = () => {
     const [data, setData] = useState({});
     const [state, setState] = useState({
         userData: [],
-        selectUser: null
+        selectUser: null,
+        chartData: []
     });
 
     const onChange = (k, event) => {
@@ -31,7 +32,7 @@ const BulkUploadOrgChart = () => {
     }
 
     const onSucess = (e) => {
-        
+
 
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -94,7 +95,7 @@ const BulkUploadOrgChart = () => {
     }, [breadcrumbArr, dispatch]);
 
     const downloadExcel = (failure) => {
-        
+
         const worksheet = XLSX.utils.json_to_sheet(failure);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -141,9 +142,12 @@ const BulkUploadOrgChart = () => {
             method: "get"
         };
         httpHandler(obj)
-            .then((userData) => {
+            .then(async (userData) => {
+                
+                const res = await chartData(userData?.data, userData?.data)
                 setState({
                     ...state,
+                    chartData: res ?? [],
                     userData: userData?.data?.map(v => {
                         return {
                             //...v,
@@ -160,11 +164,29 @@ const BulkUploadOrgChart = () => {
     };
 
     useEffect(() => {
+        
         fetchUserData();
     }, []);
 
-    const CustomOption = ({ innerProps, label, value, data }) => {
+    const chartData = (allData, data) => {
         
+        const filter = data?.map(v => {
+            const child = allData?.filter(c => c?.manager === v?.id)
+            return {
+                icon: v?.imageByte?.image ?? '',
+                title: v?.username ?? '',
+                subline: `${(v?.role?.roleName + '. ') ?? ''}${(v?.designation + '. ') ?? ''}${v?.email ?? ''}`,
+                country_name: v?.country?.label ?? '',
+                country_logo: v?.country?.flag ?? '',
+                branch: v?.branch?.label ?? '',
+                children: chartData(allData, child?.length > 0 ? child : [])
+            }
+        })
+        return filter;
+    }
+
+    const CustomOption = ({ innerProps, label, value, data }) => {
+
         return <div {...innerProps} className="orgUpload_User_List">
             <div><img className="img" src={data?.profile_pic ?? `${process.env.PUBLIC_URL}/images/user_profile.png`} /></div>
             <div>
@@ -173,6 +195,7 @@ const BulkUploadOrgChart = () => {
             </div>
         </div>
     }
+
     return (
         <React.Fragment>
 
@@ -190,15 +213,14 @@ const BulkUploadOrgChart = () => {
             <PageHeader title="Org Chart"
                 filter={
                     <div className="d-flex align-items-center align-content-center">
-                        <button type="submit" className="eep-btn eep-btn-success eep-btn-xsml add_newdepartment"
+                        {/* <button type="submit" className="eep-btn eep-btn-success eep-btn-xsml add_newdepartment"
                             style={{
                                 marginBottom: 14,
                                 marginRight: 10
                             }}
                         >
                             Your  Points : 100
-                        </button>
-
+                        </button> */}
                         <Link
                             style={{
                                 marginBottom: 14,
@@ -226,7 +248,7 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
-            <FlowDiagram />
+            <FlowDiagram chartData={state?.chartData??[]} />
         </React.Fragment>
     );
 };

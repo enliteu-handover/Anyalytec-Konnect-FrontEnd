@@ -7169,3 +7169,60 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
     font-size: 11px;
   }
 }
+
+.org_user_info {
+  padding: 10px;
+
+  .img {
+    & img {
+      width: 100px;
+      margin: auto;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .title {
+    font-size: 20px;
+    margin: 10px 0px 10px !important;
+    font-weight: bold !important;
+  }
+
+  .dis {
+    color: #818181;
+    margin: 0px 0px 16px;
+    font-size: 15px;
+  }
+
+  .footer {
+    display: flex;
+
+    .f1 {
+      color: #818181;
+      margin-right: 20px;
+
+      & span {
+        font-weight: bold;
+        color: #000;
+
+        & img {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .f2 {
+      color: #818181;
+
+      & span {
+        font-weight: bold;
+        color: #000;
+      }
+    }
+  }
+}

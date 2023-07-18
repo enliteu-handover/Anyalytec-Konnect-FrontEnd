@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Tree from "react-d3-tree";
 import NodeLabel from "./TurboNode";
-import "./style.css";
 import UserDetailView from "./modal";
-import { useState } from "react";
-import { useEffect } from "react";
+import "./style.css";
 
 const myTreeData = [
     {
-        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-        _collapsed: false,
-        collapsed: false,
+        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`,
+        title: 'Admin01',
+        subline: 'Admin . CEO',
+        email: 'test@email.com',
+        country_name: "c-name",
+        country_logo: "",
+        branch: "b-branch",
         children: [
             {
                 icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
@@ -72,7 +74,7 @@ const myTreeData = [
                                 icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
                                 children: [
                                     {
-                                        focus:true,
+                                        focus: true,
                                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin---', subline: 'Admin CEO',
                                     },
                                     {
@@ -91,31 +93,22 @@ const myTreeData = [
     }
 ];
 
-const test = {
-    shape: "rect",
-    shapeProps: {
-        width: 10,
-        height: 10,
-        x: -20,
-        y: 20,
-        stroke: "#2F80ED"
-    }
-};
-
-function App() {
+function App(props) {
+    const { chartData } = props;
     const [state, setState] = useState({
         view: null,
-        data: myTreeData
+        data: myTreeData,
+        collapsible: false
     })
     const handleAction = (data) => {
-        
         setState({
             ...state,
-            view: data
+            view: data,
+            collapsible: false
         })
     }
     const handleMore = (data) => {
-        
+
     }
     // useEffect(() => {
     //     const nodeNameToFocus = "Admin---"
@@ -176,7 +169,7 @@ function App() {
                         x: -100
                     }
                 }}
-                // collapsible={collapsible}
+                collapsible={state?.collapsible}
                 initialDepth={0.01}
             />
         </div>
