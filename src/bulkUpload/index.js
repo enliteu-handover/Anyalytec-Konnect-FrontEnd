@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 import * as XLSX from 'xlsx';
 import PageHeader from "../UI/PageHeader";
-import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
-import { Link } from "react-router-dom";
+import FlowDiagram from "../components/ReactFlow";
 import { URL_CONFIG } from "../constants/rest-config";
 import { httpHandler } from "../http/http-interceptor";
-import FlowDiagram from "../components/ReactFlow";
+import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
 
 const BulkUploadOrgChart = () => {
     const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const BulkUploadOrgChart = () => {
     });
 
     const onChange = (k, event) => {
+        debugger
         setState({
             ...state,
             [k]: event
@@ -143,7 +144,7 @@ const BulkUploadOrgChart = () => {
         };
         httpHandler(obj)
             .then(async (userData) => {
-                
+
                 const res = await chartData(userData?.data, userData?.data)
                 setState({
                     ...state,
@@ -164,22 +165,27 @@ const BulkUploadOrgChart = () => {
     };
 
     useEffect(() => {
-        
+
         fetchUserData();
     }, []);
 
     const chartData = (allData, data) => {
-        
+
         const filter = data?.map(v => {
             const child = allData?.filter(c => c?.manager === v?.id)
             return {
+                manager:v?.manager,
+                user_id:v?.id,
+                user_node_id: v?.username ?? '',
                 icon: v?.imageByte?.image ?? '',
                 title: v?.username ?? '',
-                subline: `${(v?.role?.roleName + '. ') ?? ''}${(v?.designation + '. ') ?? ''}${v?.email ?? ''}`,
+                subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
+                email: v?.email ? ' ● ' + v?.email : '',
                 country_name: v?.country?.label ?? '',
                 country_logo: v?.country?.flag ?? '',
                 branch: v?.branch?.label ?? '',
-                children: chartData(allData, child?.length > 0 ? child : [])
+                children: chartData(allData, child?.length > 0 ? child : []),
+                // _collapsed:false
             }
         })
         return filter;
@@ -242,13 +248,14 @@ const BulkUploadOrgChart = () => {
                             // options={state?.userData ?? []}
                             // value={{
                             //     value: state.selectUser
-                            // }} onChange={(e) => onChange('selectUser', e)}
+                            // }} 
+                            onChange={(e) => onChange('selectUser', e?.label)}
                             />
                         </div>
                     </div>
                 }
             ></PageHeader>
-            <FlowDiagram chartData={state?.chartData??[]} />
+            {state?.chartData?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? []} />}
         </React.Fragment>
     );
 };

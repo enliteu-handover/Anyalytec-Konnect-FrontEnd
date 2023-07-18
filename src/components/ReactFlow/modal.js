@@ -20,7 +20,7 @@ const UserDetailView = (props) => {
                                 <div className="org_user_info">
                                     <div className="img"><img src={data?.icon ?? `${process.env.PUBLIC_URL}/images/user_profile.png`} /> </div>
                                     <div className="title">{data?.title ?? '-'}</div>
-                                    <div className="dis">{((data?.subline ?? '') + ' . ' + (data?.email ?? '')) ?? '-'}</div>
+                                    <div className="dis">{((data?.subline ?? '')  + (data?.email ?? '')) ?? '-'}</div>
                                     <div className="eep-dropdown-divider"></div>
                                     <div className="footer">
                                         <div className="f1">
