@@ -504,7 +504,7 @@ const IdeaBox = () => {
                 </div>
               </React.Fragment>
             }
-            {ideaLists && ideaLists.length <= 0 &&
+            {ideaLists && ideaLists?.length <= 0 &&
               <ResponseInfo
                 title="Nothing to show yet."
                 responseImg="noIdeaShare"

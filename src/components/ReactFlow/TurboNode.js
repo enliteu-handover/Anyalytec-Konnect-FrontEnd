@@ -1,17 +1,17 @@
 import React, { memo } from 'react';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./style.css"
-export default memo(({ nodeData: data }) => {
-    debugger
+export default memo(({ nodeData: data, handleAction, handleMore }) => {
     return (
         <div className='react-flow'>
-            <div className="cloud gradient">
+            <div className="cloud gradient"
+            >
                 <Link
                     className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
                     data-toggle="modal"
                     data-target="#UserDetailView"
+                    onClick={() => handleAction ? handleAction(data) : null}
                     to="#"
-                    // onClick={getDetails?.getDetails && getDetails?.getDetails(data)}
                     dangerouslySetInnerHTML={{ __html: "<img src='/images/icons8-info-50.svg'/>" }}
                 ></Link>
             </div>
@@ -28,10 +28,12 @@ export default memo(({ nodeData: data }) => {
                         </div>
                     </div>
 
-                    <div className="footer">
+                    <div className="footer"
+                        onClick={() => handleMore ? handleMore(data) : null}
+                    >
                         <img
                             className='img'
-                            src={`${process.env.PUBLIC_URL}/images/icons8-broadcasting-50.svg`} /> 75 Users
+                            src={`${process.env.PUBLIC_URL}/images/icons8-broadcasting-50.svg`} /> {data?._children?.length ?? "No"} Users
                     </div>
                 </div>
             </div>

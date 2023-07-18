@@ -2,23 +2,18 @@ import React from "react";
 import Tree from "react-d3-tree";
 import NodeLabel from "./TurboNode";
 import "./style.css";
+import UserDetailView from "./modal";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const myTreeData = [
     {
         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-        attributes: {
-            keyA: "val A",
-            keyB: "val B",
-            keyC: "val C"
-        },
+        _collapsed: false,
+        collapsed: false,
         children: [
             {
                 icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                attributes: {
-                    keyA: "val A",
-                    keyB: "val B",
-                    keyC: "val C"
-                },
                 children: [
                     {
                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
@@ -41,35 +36,16 @@ const myTreeData = [
             },
             {
                 icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                attributes: {
-                    keyA: "val A",
-                    keyB: "val B",
-                    keyC: "val C"
-                },
                 children: [
                     {
                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                        attributes: {
-                            keyA: "val A",
-                            keyB: "val B",
-                            keyC: "val C"
-                        },
                         children: [
                             {
                                 icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                attributes: {
-                                    keyA: "val A",
-                                    keyB: "val B",
-                                    keyC: "val C"
-                                },
                                 children: [
                                     {
                                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                        attributes: {
-                                            keyA: "val A",
-                                            keyB: "val B",
-                                            keyC: "val C"
-                                        }
+
                                     },
                                     {
                                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
@@ -91,27 +67,13 @@ const myTreeData = [
                 children: [
                     {
                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                        attributes: {
-                            keyA: "val A",
-                            keyB: "val B",
-                            keyC: "val C"
-                        },
                         children: [
                             {
                                 icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                attributes: {
-                                    keyA: "val A",
-                                    keyB: "val B",
-                                    keyC: "val C"
-                                },
                                 children: [
                                     {
-                                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                        attributes: {
-                                            keyA: "val A",
-                                            keyB: "val B",
-                                            keyC: "val C"
-                                        }
+                                        focus:true,
+                                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin---', subline: 'Admin CEO',
                                     },
                                     {
                                         icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
@@ -141,40 +103,82 @@ const test = {
 };
 
 function App() {
-    return (
-        <div className="App">
-            <h1>ORG Chart POC</h1>
-            <div id="treeWrapper" style={{ width: "100%", height: "100vh" }}>
-                <Tree
-                    data={myTreeData}
-                    // nodeSvgShape={svgSquare}
-                    // nodeSvgShape={test}
-                    pathFunc="step"
-                    separation={{ siblings: 2, nonSiblings: 2 }}
-                    orientation="vertical"
-                    translate={{ x: 900, y: 100 }}
-                    allowForeignObjects={true}
-                    zoom={5}
-                    styles={{
-                        links: {
+    const [state, setState] = useState({
+        view: null,
+        data: myTreeData
+    })
+    const handleAction = (data) => {
+        
+        setState({
+            ...state,
+            view: data
+        })
+    }
+    const handleMore = (data) => {
+        
+    }
+    // useEffect(() => {
+    //     const nodeNameToFocus = "Admin---"
 
-                            stroke: 'red',
-                            strokeWidth: "2px",
-                        },
-                    }}
-                    onClick={e => alert('good')}
-                    nodeLabelComponent={{
-                        render: <NodeLabel className="myLabelComponentInSvg" />,
-                        foreignObjectWrapper: {
-                            width: 220,
-                            height: 200,
-                            y: -50,
-                            x: -100
-                        }
-                    }}
-                    initialDepth={0.01}
-                />
-            </div>
+    //     const focusedNode = findNode(state.data, nodeNameToFocus);
+    //     if (focusedNode) {
+    //         focusedNode.focused = true;
+    //         setState({
+    //             ...state,
+    //         })
+    //     }
+    // }, [])
+
+    // function findNode(treeDatas, nodeName) {
+    //     for (const treeData of treeDatas.treeData) {
+    //         if (treeData.title === nodeName) {
+    //             treeData.focused = true;
+    //         } else if (treeData?.children) {
+    //             for (const child of treeData.children) {
+    //                 findNode(child, nodeName);
+    //             }
+    //         }
+    //         arr.pus
+    //     }
+
+    //     return treeDatas;
+    // }
+
+    return (
+        <div style={{ width: "100%", height: "100vh" }}>
+            <UserDetailView data={state?.view} />
+            <Tree
+                data={state?.data}
+                // nodeSvgShape={svgSquare}
+                // nodeSvgShape={test}
+                zoom={1}
+                // zoomable={true}
+                pathFunc="step"
+                separation={{ siblings: 2, nonSiblings: 2 }}
+                orientation="vertical"
+                translate={{ x: 600, y: 100 }}
+                allowForeignObjects={true}
+                styles={{
+                    links: {
+                        stroke: '#9e9e9e57',
+                        strokeWidth: "1px",
+                    },
+                }}
+                nodeLabelComponent={{
+                    render: <NodeLabel
+                        handleAction={handleAction}
+                        handleMore={handleMore}
+                    />,
+                    foreignObjectWrapper: {
+                        width: 220,
+                        height: 200,
+                        y: -50,
+                        x: -100
+                    }
+                }}
+                // collapsible={collapsible}
+                initialDepth={0.01}
+            />
         </div>
     );
 }

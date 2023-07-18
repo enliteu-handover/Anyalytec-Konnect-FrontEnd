@@ -1,7 +1,7 @@
 import React from "react";
 
 const UserDetailView = (props) => {
-    const { title } = props;
+    const { data } = props;
     return (
         <div className="eepModalDiv">
             <div className="modal fade" id="UserDetailView" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -14,7 +14,7 @@ const UserDetailView = (props) => {
                             <div className="modalBodyHeight">
                                 <h5 className="modal-title w-100 text-center mt-3 bulk_exampleModalLabel"
                                 >
-                                    {title ?? 'User Bulk Upload'}
+                                    {data?.title ?? '-'}
                                 </h5>
                                 <div className="eep-dropdown-divider"></div>
                             </div>

@@ -1,12 +1,13 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { eepFormatDateTime } from "../../shared/SharedService";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SocialWallLeftContent from "./SocialWallLeftContent";
 import SocialWallMiddleContent from "./SocialWallMiddleContent";
 import SocialWallRightContent from "./SocialWallRightContent";
-import { eepFormatDateTime } from "../../shared/SharedService";
 
 const SocialWall = () => {
 
@@ -134,35 +135,44 @@ const SocialWall = () => {
   const likeSocialWallPostHandle = (arg) => {
     
     if (arg) {
-      let obj;
       if (arg.isLike) {
-        obj = {
+        let obj = {
           url: URL_CONFIG.SOCIALWALL_LIKE,
           //  + "?id=" + arg.data.id,
           payload: { id: arg?.data?.id },
           method: "post",
           isLoader: false
         };
-      }
-      if (!arg.isLike) {
-        const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-        let isLiked = arg.data.socialWallLike.findIndex(x => x.userId.id === userData.id);
-        obj = {
-          url: URL_CONFIG.SOCIALWALL_DISLIKE + "?id=" + arg?.data?.socialWallLike[isLiked]?.id,
-          method: "delete",
-          isLoader: false
-        };
-      }
-      httpHandler(obj)
-        .then(() => {
-          
+        httpHandler(obj).then(() => {
           fetchSocialWallSingleData({ id: arg.data.id, indx: arg.indx });
           likeStatus({ statee: arg.isLike, id: arg.data.id });
         })
-        .catch((error) => {
-          
-          console.log("likeSocialWallPostHandle API error", error);
-        });
+          .catch((error) => {
+            console.log("likeSocialWallPostHandle API error", error);
+          });
+      }
+      if (!arg.isLike) {
+        const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+        let isLiked = arg.data.socialWallLike.findIndex(x => x.userId.user_id === userData.id);
+        //   obj = {
+        //     url: URL_CONFIG.SOCIALWALL_DISLIKE + "?id=" + arg?.data?.socialWallLike[isLiked]?.id,
+        //     method: "delete",
+        //     isLoader: false
+        //   };
+        // }
+        // httpHandler(obj)
+        axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.SOCIALWALL_DISLIKE}` + "?id=" + arg?.data?.socialWallLike[isLiked]?.id
+          // , { data: { id: arg?.data?.socialWallLike[isLiked]?.id } }
+        )
+          .then(() => {
+            fetchSocialWallSingleData({ id: arg.data.id, indx: arg.indx });
+            likeStatus({ statee: arg.isLike, id: arg.data.id });
+          })
+          .catch((error) => {
+
+            console.log("likeSocialWallPostHandle API error", error);
+          });
+      }
     }
   };
 
@@ -245,12 +255,12 @@ const SocialWall = () => {
   const getSubChildren = (arg, ret) => {
     for (var i = 0; i < arg.children.length; i++) {
       arg.children[i]['prentInfo'] = { id: arg.id, message: arg.message, createdBy: arg.createdBy };
-
+ 
       if (arg.children[i].createdAt) {
         arg.children[i].createdAt = eepFormatDateTime(arg.children[i].createdAt);
       }
       ret.push(arg.children[i]);
-
+ 
       if (arg.children[i].children.length) {
         getSubChildren(arg.children[i], ret);
       }

@@ -25,7 +25,7 @@ const IdeaDetailView = (props) => {
 
   let iLikedIndex;
   const isIdeaLiked = (uID, ideaLikes) => {
-    iLikedIndex = ideaLikes.findIndex(x => x.userId.id === uID);
+    iLikedIndex = ideaLikes.findIndex(x => x.userId.user_id === uID);
     if (iLikedIndex !== -1) {
       return { isLiked: true, likedID: ideaLikes[iLikedIndex].id };
     } else {
@@ -129,7 +129,7 @@ const IdeaDetailView = (props) => {
         }
         if (!likeInfo.isLike) {
           let ideaDetailTemp = JSON.parse(JSON.stringify(ideaDetail));
-          let iLikedIndexx = ideaDetailTemp.ideaLikes.findIndex(x => x.userId.id === loggedUserData.id);
+          let iLikedIndexx = ideaDetailTemp.ideaLikes.findIndex(x => x.userId.user_id === loggedUserData.id);
           if (iLikedIndexx !== -1) {
             ideaDetailTemp.ideaLikes.splice(iLikedIndexx, 1);
             setIdeaDetail({ ...ideaDetailTemp });

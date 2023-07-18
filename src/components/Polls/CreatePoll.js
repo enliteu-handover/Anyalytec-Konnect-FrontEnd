@@ -247,6 +247,7 @@ const CreatePoll = () => {
 	}
 
 	const addMoreHandler = (copy = false, index=null) => {
+		
 		if (type?.value === 'MultipleChoices') {
 			setMultipleChoiceArr(prev => {
 				const prevData = [...prev];

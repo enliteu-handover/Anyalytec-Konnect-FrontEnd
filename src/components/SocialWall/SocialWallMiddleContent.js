@@ -56,6 +56,7 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const unLikeSocialWallHandler = (arg, i) => {
+    
     likeSocialWallPostHandle({ isLike: false, data: arg, indx: i });
   };
 
@@ -145,7 +146,7 @@ const SocialWallMiddleContent = (props) => {
     const userData = sessionStorage.userData
       ? JSON.parse(sessionStorage.userData)
       : {};
-    let isLiked = arg?.findIndex((x) => x?.userId?.id === userData?.id);
+    let isLiked = arg?.findIndex((x) => x?.userId?.user_id === userData?.id);
     if (isLiked === -1) {
       return true;
     } else {
