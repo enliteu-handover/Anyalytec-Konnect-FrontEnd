@@ -26,12 +26,14 @@
     "pdf-lib": "^1.17.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
+    "react-d3-tree": "^1.16.1",
     "react-datepicker": "^4.7.0",
     "react-dnd": "^15.1.2",
     "react-dnd-html5-backend": "^15.1.2",
     "react-dom": "^17.0.2",
     "react-idle-timer": "^4.6.4",
     "react-modal": "^3.15.1",
+    "react-organizational-chart": "^1.1.0",
     "react-pdf-js": "^5.1.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
@@ -47,8 +49,7 @@
     "sass": "^1.49.9",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5",
-    "react-d3-tree": "^1.16.1"
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",
