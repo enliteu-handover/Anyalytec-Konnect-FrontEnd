@@ -7,8 +7,8 @@ import "./style.css";
 function App(props) {
     const { chartData } = props;
     const treeContainerRef = useRef(null);
-    const [zoomFactor, setZoomFactor] = React.useState(1);
-    // const [zoomFactor, setZoomFactor] = React.useState(0.6);
+    // const [zoomFactor, setZoomFactor] = React.useState(1);
+    const [zoomFactor, setZoomFactor] = React.useState(0.6);
     const [translate, setTranslate] = useState({ x: 600, y: 100 });
 
     const [state, setState] = useState({
