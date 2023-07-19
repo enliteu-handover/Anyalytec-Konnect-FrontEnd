@@ -42,7 +42,6 @@
     "react-svg": "^16.1.17",
     "react-toastify": "^9.1.1",
     "react-tooltip": "^4.2.21",
-    "reactflow": "^11.7.4",
     "reactour": "^1.19.0",
     "read-excel-file": "^5.5.3",
     "sass": "^1.49.9",

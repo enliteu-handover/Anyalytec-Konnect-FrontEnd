@@ -6,7 +6,6 @@ import "./style.css";
 
 function App(props) {
     const { chartData } = props;
-    console.log('chartData',chartData);
     const treeContainerRef = useRef(null);
     const [zoomFactor, setZoomFactor] = React.useState(1);
     // const [zoomFactor, setZoomFactor] = React.useState(0.6);
