@@ -79,8 +79,13 @@
     bottom: 10px;
 }
 
-.zoomable div{
+.zoomable div {
     border: 1px solid #9e9e9ec4;
     padding: 8px;
     cursor: pointer;
+}
+
+.custom-line ul:-moz-first-node li::before{
+    --line-color: blue !important;
+    --tree-line-color: blue !important;
 }
