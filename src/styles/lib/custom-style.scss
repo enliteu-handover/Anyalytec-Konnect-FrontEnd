@@ -7179,7 +7179,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
       margin: auto;
       height: 100px;
       border-radius: 50%;
-      object-fit: cover;
+      // object-fit: cover;
     }
   }
 
@@ -7200,7 +7200,9 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 
     .f1 {
       color: #818181;
-      margin-right: 20px;
+      // margin-right: 20px;
+      width: 200px;
+      text-align: left;
 
       & span {
         font-weight: bold;
@@ -7218,6 +7220,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 
     .f2 {
       color: #818181;
+      text-align: left;
 
       & span {
         font-weight: bold;

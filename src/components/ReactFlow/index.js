@@ -4,110 +4,39 @@ import NodeLabel from "./TurboNode";
 import UserDetailView from "./modal";
 import "./style.css";
 
-const myTreeData = [
-    {
-        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`,
-        title: 'Admin01',
-        subline: 'Admin . CEO',
-        email: 'test@email.com',
-        country_name: "c-name",
-        country_logo: "",
-        branch: "b-branch",
-        children: [
-            {
-                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                children: [
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                    },
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                        children: [
-                            {
-                                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                            }
-                        ]
-                    },
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                    }
-                ]
-            },
-            {
-                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-            },
-            {
-                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                children: [
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                        children: [
-                            {
-                                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                children: [
-                                    {
-                                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-
-                                    },
-                                    {
-                                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                    }
-                                ]
-                            },
-                            {
-                                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                            }
-                        ]
-                    },
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                    }
-                ]
-            },
-            {
-                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                children: [
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                        children: [
-                            {
-                                icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                children: [
-                                    {
-                                        focus: true,
-                                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin---', subline: 'Admin CEO',
-                                    },
-                                    {
-                                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO',
-                    }
-                ]
-            }
-        ]
-    }
-];
-
 function App(props) {
-    const treeContainerRef = useRef(null); // Reference to the tree container element
+    const { chartData } = props;
+    console.log('chartData',chartData);
+    const treeContainerRef = useRef(null);
+    const [zoomFactor, setZoomFactor] = React.useState(1);
+    // const [zoomFactor, setZoomFactor] = React.useState(0.6);
     const [translate, setTranslate] = useState({ x: 600, y: 100 });
 
-    const { chartData } = props;
     const [state, setState] = useState({
         view: null,
         data: chartData,
         collapsible: true
     })
 
-    const handleAction = (data) => {
+    const chartDataFunctionCollapse = (allData, data) => {
+        const filter = data?.map(v => {
+            const child = allData?.filter(c => c?.manager === v?.user_id)
+            return {
+                ...v,
+                children: chartDataFunction(allData, child?.length > 0 ? child : []),
+                _collapsed: false
+            }
+        })
+        return filter;
+    }
+
+    const handleAction = async (data) => {
+        
+        const respone_data = await chartDataFunctionCollapse(state.data, state.data)
         setState({
             ...state,
             view: data,
+            data: respone_data
         })
     };
 
@@ -138,20 +67,32 @@ function App(props) {
             return {
                 ...v,
                 children: chartDataFunction(allData, child?.length > 0 ? child : [], id),
-                color: id === v?.user_node_id ? "red" : "",
+                color: id === v?.user_node_id ? "#1076B4" : "",
+                background: id === v?.user_node_id ? "#E2EDF3" : "",
             }
         })
         return filter;
     }
 
+    const handleZoomIn = () => {
+        if (zoomFactor !== 1) {
+            setZoomFactor(zoomFactor + 0.1);
+        }
+    };
+
+    const handleZoomOut = () => {
+        if (!JSON.stringify(zoomFactor)?.includes(0.2)) {
+            setZoomFactor(zoomFactor - 0.1);
+        }
+    };
+
     return (
         <div style={{ width: "100%", height: "100vh" }}>
             <UserDetailView data={state?.view} />
-            <div ref={treeContainerRef} style={{ width: "100%", height: "100vh" }}>
+            <div ref={treeContainerRef} style={{ width: "100%", height: "70vh" }}>
                 <Tree
                     data={state?.data}
-                    zoom={1}
-                    // zoomable={true}
+                    zoom={zoomFactor}
                     pathFunc="step"
                     separation={{ siblings: 2, nonSiblings: 2 }}
                     orientation="vertical"
@@ -163,7 +104,6 @@ function App(props) {
                             strokeWidth: "1px",
                         },
                     }}
-                    nodeSvgShape={{ shape: "none" }}
                     nodeLabelComponent={{
                         render: <NodeLabel
                             handleAction={handleAction}
@@ -178,6 +118,13 @@ function App(props) {
                 // collapsible={state?.collapsible}
                 // initialDepth={0.01}
                 />
+            </div>
+            <div className="zoomable">
+                <div onClick={handleZoomOut}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width={'10px'} viewBox="0 0 32 5"><path d="M0 0h32v4.2H0z"></path></svg>
+                </div>
+                <div onClick={handleZoomIn}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M32 18.133H18.133V32h-4.266V18.133H0v-4.266h13.867V0h4.266v13.867H32z"></path></svg> </div>
             </div>
         </div>
     );

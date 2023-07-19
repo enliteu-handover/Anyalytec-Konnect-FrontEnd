@@ -78,5 +78,11 @@
         "icon": ""
       }
     ]
+  },
+  {
+    "label": "Org Chart",
+    "link": "orgChart",
+    "icon": "download.svg",
+    "isDirectLink": true
   }
 ]

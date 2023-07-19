@@ -128,7 +128,7 @@ const Dashboard = (props) => {
   return (
     <React.Fragment>
       <Tour steps={steps} {...tourProps} />
-    
+
       <div className="row eep_dashboard_div">
         <div className="col-sm-12 col-xs-12 col-md-6 col-lg-3 position_sticky eep-content-section eep-content-section-max">
           <div className="bg-f5f5f5 br-15 h-100 divFullHeight">
@@ -139,6 +139,10 @@ const Dashboard = (props) => {
                   <label className="d_u_name font-helvetica-m my-0">{userSessionData.username}</label>
                   <p className="d_u_dept">{dashboardDetails.designation} - {dashboardDetails.departmentName}</p>
                 </div>
+                &nbsp;&nbsp;&nbsp;
+                <Link to={{ pathname: "orgChart" }}>
+                  <img width={'30px'} src={process.env.PUBLIC_URL + "/images/download.png"} />
+                </Link>
               </div>
             </div>
             <div className="bg-f5f5f5 brtl-0 brtr-0 brbr-15 brbl-15 divSetMaxHeight eep_scroll_y" style={{ maxHeight: "516.6px" }}>
@@ -151,31 +155,31 @@ const Dashboard = (props) => {
                 <div className="col-md-12 c-2c2c2c px-0">
                   <div className="panel-group" id="d_accordion" role="tablist" aria-multiselectable="true">
                     {dashboardDetails.directReporters && dashboardDetails.directReporters.length > 0 &&
-                    <div className="panel panel-default bb_707070 dash_profile_details">
-                      <div className="panel-heading" role="tab" id="d_headingOne">
-                        <h4 className="panel-title mb-0">
-                          <a className="c-2c2c2c a_hover_txt_deco_none" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
-                            <label className="mb-0 c1 title_lbl">{dashboardDetails.directReports > 9 ? dashboardDetails.directReports : "0" + dashboardDetails.directReports} <span className="ml-2">Direct Report</span>
-                            </label>
-                            <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
-                          </a>
-                        </h4>
-                      </div>
-                      <div id="d_collapseOne" className="panel-collapse collapse in eep_scroll_y" role="tabpanel" aria-labelledby="d_headingOne">
-                        <div className="panel-body">
-                          {dashboardDetails?.directReporters && dashboardDetails?.directReporters?.length > 0 && dashboardDetails?.directReporters?.map((item, index) => {
-                            return (
-                              <div className="d_user_report_details" key={"directReport_" + index}>
-                                <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
-                                <label className="d_u_name font-helvetica-m my-0">
-                                  <Link to={{ pathname: "userdashboard", state: { userData: { userID: item } } }} className="uNameLink a_hover_txt_deco_none">{item.fullName} - {item?.department?.name}</Link>
-                                </label>
-                              </div>
-                            )
-                          })}
+                      <div className="panel panel-default bb_707070 dash_profile_details">
+                        <div className="panel-heading" role="tab" id="d_headingOne">
+                          <h4 className="panel-title mb-0">
+                            <a className="c-2c2c2c a_hover_txt_deco_none" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
+                              <label className="mb-0 c1 title_lbl">{dashboardDetails.directReports > 9 ? dashboardDetails.directReports : "0" + dashboardDetails.directReports} <span className="ml-2">Direct Report</span>
+                              </label>
+                              <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="d_collapseOne" className="panel-collapse collapse in eep_scroll_y" role="tabpanel" aria-labelledby="d_headingOne">
+                          <div className="panel-body">
+                            {dashboardDetails?.directReporters && dashboardDetails?.directReporters?.length > 0 && dashboardDetails?.directReporters?.map((item, index) => {
+                              return (
+                                <div className="d_user_report_details" key={"directReport_" + index}>
+                                  <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
+                                  <label className="d_u_name font-helvetica-m my-0">
+                                    <Link to={{ pathname: "userdashboard", state: { userData: { userID: item } } }} className="uNameLink a_hover_txt_deco_none">{item.fullName} - {item?.department?.name}</Link>
+                                  </label>
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
                       </div>
-                    </div>
                     }
                     <div className="panel panel-default dash_profile_details first-step">
                       <div className="panel-heading" role="tab" id="d_headingTwo">

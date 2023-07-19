@@ -26,9 +26,8 @@ const Sidebar = () => {
   return (
     <React.Fragment>
       <ul
-        className={`navbar-nav sidebar sidebar-dark accordion eep-navbar-div eep-navbar-newversion menu-bg-theme ${
-          sidebarToggled ? "eep-navbar-div-sm toggled" : ""
-        }`}
+        className={`navbar-nav sidebar sidebar-dark accordion eep-navbar-div eep-navbar-newversion menu-bg-theme ${sidebarToggled ? "eep-navbar-div-sm toggled" : ""
+          }`}
         id="accordionSidebar"
       >
         <li className="nav-item">
@@ -52,7 +51,7 @@ const Sidebar = () => {
                 data-target={
                   menu && menu.subMenu ? `#collapseSection${index}` : ""
                 }
-                to={menu.isDirectLink ? `/app/`+menu.link : "#"}
+                to={menu.isDirectLink ? `/app/` + menu.link : "#"}
               >
                 <img
                   className="eep-menu-icon"
@@ -73,7 +72,7 @@ const Sidebar = () => {
                         <Link
                           className="collapse-item"
                           key={"submenu" + index}
-                          to={`/app/`+submenu.link}
+                          to={`/app/` + submenu.link}
                         >
                           {submenu.label}
                         </Link>

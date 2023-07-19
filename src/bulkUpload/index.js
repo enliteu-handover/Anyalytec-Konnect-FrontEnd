@@ -21,7 +21,7 @@ const BulkUploadOrgChart = () => {
     });
 
     const onChange = (k, event) => {
-        debugger
+        
         setState({
             ...state,
             [k]: event
@@ -174,13 +174,13 @@ const BulkUploadOrgChart = () => {
         const filter = data?.map(v => {
             const child = allData?.filter(c => c?.manager === v?.id)
             return {
-                manager:v?.manager,
-                user_id:v?.id,
+                manager: v?.manager,
+                user_id: v?.id,
                 user_node_id: v?.username ?? '',
                 icon: v?.imageByte?.image ?? '',
                 title: v?.username ?? '',
                 subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
-                email: v?.email ? ' ● ' + v?.email : '',
+                email: v?.email ? (' ● ' + v?.email) : '',
                 country_name: v?.country?.label ?? '',
                 country_logo: v?.country?.flag ?? '',
                 branch: v?.branch?.label ?? '',
@@ -192,7 +192,6 @@ const BulkUploadOrgChart = () => {
     }
 
     const CustomOption = ({ innerProps, label, value, data }) => {
-
         return <div {...innerProps} className="orgUpload_User_List">
             <div><img className="img" src={data?.profile_pic ?? `${process.env.PUBLIC_URL}/images/user_profile.png`} /></div>
             <div>
@@ -245,11 +244,7 @@ const BulkUploadOrgChart = () => {
                                 classNamePrefix="eep_select_common select"
                                 className={`a_designation basic-single`}
                                 placeholder="select..."
-                            // options={state?.userData ?? []}
-                            // value={{
-                            //     value: state.selectUser
-                            // }} 
-                            onChange={(e) => onChange('selectUser', e?.label)}
+                                onChange={(e) => onChange('selectUser', e?.label)}
                             />
                         </div>
                     </div>
