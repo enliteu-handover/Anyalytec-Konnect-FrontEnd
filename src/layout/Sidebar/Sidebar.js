@@ -22,7 +22,8 @@ const Sidebar = () => {
   }, []);
 
   //console.log("sidebarMenu", sidebarMenu);
-
+  const user_details = sessionStorage.getItem('userData');
+  
   return (
     <React.Fragment>
       <ul
@@ -37,8 +38,11 @@ const Sidebar = () => {
           <div
             className={`px-3 pt-0 pb-2 text-white profile-nm text-wrap card-text`}
           >
-            <span className="u_full_name mb-2 mt-1"> System Administrator</span>{" "}
-            <span className="u_initials mt-3 d-none">SA</span>
+            <span className="u_full_name mb-2 mt-1">{user_details ?
+              JSON.parse(user_details)?.fullName : ""}</span>
+            <span className="u_initials mt-3 d-none">{
+            user_details ?
+            JSON.parse(user_details)?.fullName?.[0]?.toUpperCase() : ""}</span>
           </div>
         </li>
         <hr className={`sidebar-divider my-2`} />

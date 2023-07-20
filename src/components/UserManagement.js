@@ -176,7 +176,7 @@ const UserManagement = () => {
   ];
 
   const onSucess = (e) => {
-    
+
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -208,7 +208,7 @@ const UserManagement = () => {
         };
         httpHandler(obj_)
           .then((response) => {
-            
+
             setData({ ...response?.data?.data ?? {} })
             setIsUpload(false)
           })
@@ -222,7 +222,7 @@ const UserManagement = () => {
   }
 
   const downloadExcel = (failure) => {
-    
+
     const worksheet = XLSX.utils.json_to_sheet(failure);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -241,6 +241,7 @@ const UserManagement = () => {
         isUpload={isUpload}
         downloadExcel={downloadExcel}
         onSucess={onSucess}
+        url={'https://objectstore.e2enetworks.net/enliteu/User%20Upload.xlsx'}
       />
 
       {userRolePermission?.adminPanel &&
@@ -262,7 +263,7 @@ const UserManagement = () => {
                   data-target="#CreateBulkUploadModal"
                   to="#"
                   onClick={openBulk}
-                > <img src={'/images/Group 106594.svg'} /> Add Bulk Users</Link>
+                > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Add Bulk Users</Link>
                 <Filter
                   config={FILTER_CONFIG}
                   onFilterChange={filterOnChangeHandler}

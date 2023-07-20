@@ -16,19 +16,21 @@ const LogoutModal = () => {
   }, []);
 
   const logoutHandler = () => {
-    const obj = {
-      url: URL_CONFIG.LOGOUT,
-      method: "post",
-      payload: {},
-    };
-    httpHandler(obj)
-      .then(() => {
-        sessionStorage.clear();
-        history.push("/login/signin");
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message;
-      });
+    // const obj = {
+    //   url: URL_CONFIG.LOGOUT,
+    //   method: "post",
+    //   payload: {},
+    // };
+    // httpHandler(obj)
+    //   .then(() => {
+    //     sessionStorage.clear();
+    //     history.push("/login/signin");
+    //   })
+    //   .catch((error) => {
+    //     const errMsg = error.response?.data?.message;
+    //   });
+    sessionStorage.clear();
+    history.push("/login/signin");
   };
 
   return (

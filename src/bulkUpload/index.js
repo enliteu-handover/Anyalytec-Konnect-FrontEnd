@@ -11,6 +11,7 @@ import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 
 const BulkUploadOrgChart = () => {
+    const user_details = sessionStorage.getItem('userData');
     const dispatch = useDispatch();
     const [isUpload, setIsUpload] = useState(true);
     const [data, setData] = useState({});
@@ -21,7 +22,7 @@ const BulkUploadOrgChart = () => {
     });
 
     const onChange = (k, event) => {
-        
+
         setState({
             ...state,
             [k]: event
@@ -185,6 +186,9 @@ const BulkUploadOrgChart = () => {
                 country_logo: v?.country?.flag ?? '',
                 branch: v?.branch?.label ?? '',
                 children: chartData(allData, child?.length > 0 ? child : []),
+                isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
+                color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
+                background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
                 // _collapsed:false
             }
         })
@@ -213,6 +217,7 @@ const BulkUploadOrgChart = () => {
                 isUpload={isUpload}
                 downloadExcel={downloadExcel}
                 onSucess={onSucess}
+                url={'https://objectstore.e2enetworks.net/enliteu/Org%20Upload.xlsx'}
             />
 
             <PageHeader title="Org Chart"
@@ -236,14 +241,14 @@ const BulkUploadOrgChart = () => {
                             data-target="#CreateBulkUploadModal"
                             to="#"
                             onClick={openBulk}
-                        > <img src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
+                        > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
 
                         <div className="form-group field-wbr" style={{ width: "280px" }}>
                             <Select
                                 options={state?.userData ?? []} components={{ Option: CustomOption }}
                                 classNamePrefix="eep_select_common select"
                                 className={`a_designation basic-single`}
-                                placeholder="select..."
+                                placeholder="search..."
                                 onChange={(e) => onChange('selectUser', e?.label)}
                             />
                         </div>

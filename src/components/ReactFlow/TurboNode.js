@@ -25,7 +25,7 @@ export default memo(({ nodeData: data, handleAction }) => {
                                 className='img'
                                 src={data?.icon || `${process.env.PUBLIC_URL}/images/user_profile.png`} /></div>
                         <div>
-                            <div className="title">{data?.title}</div>
+                            <div className="title">{data?.title + ' ' + (data?.isloggedUser ? 'You' : '')}</div>
                             {data?.subline && <div className="subline">{data?.subline}</div>}
                         </div>
                     </div>

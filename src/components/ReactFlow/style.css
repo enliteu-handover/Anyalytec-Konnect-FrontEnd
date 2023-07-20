@@ -89,3 +89,7 @@
     --line-color: blue !important;
     --tree-line-color: blue !important;
 }
+.highlight-parent-links {
+    stroke: yellow !important; /* Set the highlight color for parent links */
+    stroke-width: 2px; /* Set the desired stroke width */
+  }

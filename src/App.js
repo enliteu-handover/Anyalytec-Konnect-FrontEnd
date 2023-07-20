@@ -9,10 +9,12 @@ import IdleTimerContainer from "./IdleTimer/IdleTimerContainer";
 import RolePermissions from "./components/RolePermissions/RolePermissions";
 import TourState from "./components/Tour/TourState";
 import { firebaseInitialization } from "./notification";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // import FirebaseToken from "./components/Firebase/FirebaseToken";
 
 function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const fetchSvgIcons = () => {
     fetch(`${process.env.PUBLIC_URL}/data/svgIcons.json`)
@@ -29,6 +31,9 @@ function App() {
   useEffect(() => {
     fetchSvgIcons();
     firebaseInitialization()
+    if (!sessionStorage?.userData) {
+      history.push("/login/signin");
+    }
   }, []);
 
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import TableComponent from "../UI/tableComponent";
 
 const CreateBulkUploadModal = (props) => {
-    const { isUpload, userBulkDataTableHeaders, data, onSucess, downloadExcel, failureData, title } = props;
+    const { url, isUpload, userBulkDataTableHeaders, data, onSucess, downloadExcel, failureData, title } = props;
     return (
         <div className="eepModalDiv">
             <div className="modal fade" id="CreateBulkUploadModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -21,12 +21,14 @@ const CreateBulkUploadModal = (props) => {
                                 <div className="d-flex">
                                     <br /> <div className="align-items-start align-content-center bulk_user_upload">
                                         <div className="sample__header_xlsx">Sample File</div>
-                                        <div className="sample_xlsx action-border">
-                                            <div className="download_icon"><img src='/images/icons8-download.svg' /></div>
-                                            <div className="sample_text">
-                                                <img src={'/images/icons8-microsoft-excel.svg'} /> <br /><br />
-                                                sample.xlsx</div>
-                                        </div>
+                                        <a href={url}>
+                                            <div className="sample_xlsx action-border">
+                                                <div className="download_icon"><img src='/images/icons8-download.svg' /></div>
+                                                <div className="sample_text">
+                                                    <img src={'/images/icons8-microsoft-excel.svg'} /> <br /><br />
+                                                    sample.xlsx</div>
+                                            </div>
+                                        </a>
                                     </div>
 
                                     <div className="align-items-start align-content-center bulk_user_upload bulk_user_upload_xl">

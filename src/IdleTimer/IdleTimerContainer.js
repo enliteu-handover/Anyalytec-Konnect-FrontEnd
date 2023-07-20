@@ -66,7 +66,7 @@ const IdleTimerContainer = () => {
     idleWaiting(true);
   }
   const SessionExtenHandler = () => {
-    
+
     setModalIsOpen(false);
     clearInterval(checkUserActionTime);
     const userData = JSON.parse(sessionStorage.userData);
@@ -79,7 +79,7 @@ const IdleTimerContainer = () => {
     };
     httpHandler(obj)
       .then((response) => {
-        
+
         // const newUserData = {...userData, ...response.data}
         const token = JSON.parse(atob(response?.data?.data?.token?.split('.')[1]));
         const newUserData = JSON.stringify({
@@ -102,20 +102,22 @@ const IdleTimerContainer = () => {
 
   const history = useHistory();
   const logoutHandler = () => {
-    const obj = {
-      url: URL_CONFIG.LOGOUT,
-      method: "post",
-      payload: {},
-    };
-    httpHandler(obj)
-      .then(() => {
-        sessionStorage.clear();
-        history.push("/login/signin");
-      })
-      .catch((error) => {
-        //const errMsg = error.response?.data?.message;
-        console.log("logoutHandler error", error);
-      });
+    // const obj = {
+    //   url: URL_CONFIG.LOGOUT,
+    //   method: "post",
+    //   payload: {},
+    // };
+    // httpHandler(obj)
+    //   .then(() => {
+    //     sessionStorage.clear();
+    //     history.push("/login/signin");
+    //   })
+    //   .catch((error) => {
+    //     //const errMsg = error.response?.data?.message;
+    //     console.log("logoutHandler error", error);
+    //   });
+    sessionStorage.clear();
+    history.push("/login/signin");
   };
 
   return (
