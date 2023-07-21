@@ -27,7 +27,6 @@
     "pdf-lib": "^1.17.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
-    "react-d3-tree": "^1.16.1",
     "react-datepicker": "^4.7.0",
     "react-dnd": "^15.1.2",
     "react-dnd-html5-backend": "^15.1.2",
