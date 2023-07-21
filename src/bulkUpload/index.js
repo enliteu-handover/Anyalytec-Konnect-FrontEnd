@@ -153,6 +153,7 @@ const BulkUploadOrgChart = () => {
                     userData: userData?.data?.map(v => {
                         return {
                             //...v,
+                            id: v?.id,
                             value: v?.role?.roleName,
                             profile_pic: v?.imageByte?.image,
                             label: v?.username
@@ -170,63 +171,53 @@ const BulkUploadOrgChart = () => {
         fetchUserData();
     }, []);
 
-    // const chartData = (allData, data) => {
-    //     const filter = data?.map(v => {
-    //         const child = allData?.filter(c => c?.manager === v?.id)
-    //         return {
-    //             id:v?.id,
-    //             manager: v?.manager,
-    //             user_id: v?.id,
-    //             user_node_id: v?.username ?? '',
-    //             icon: v?.imageByte?.image ?? '',
-    //             title: v?.username ?? '',
-    //             subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
-    //             email: v?.email ? (' ● ' + v?.email) : '',
-    //             country_name: v?.country?.label ?? '',
-    //             country_logo: v?.country?.flag ?? '',
-    //             branch: v?.branch?.label ?? '',
-    //             children: chartData(allData, child?.length > 0 ? child : []),
-    //             isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
-    //             color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
-    //             background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
-    //             // _collapsed:false
-    //         }
-    //     })
-    //     return filter;
-    // }
+    const chartDataChildData = (allData, v) => {
+        const child = allData?.filter(c => c?.manager === v?.id)
+        return child;
+    }
 
 
     const chartData = (allData, data) => {
         var initialEdges = [];
-        const edgeType = "step";
+        const edgeType = "simplebezier";
         const animated = false;
-        const filter = data?.map(v => {
+        const position = { x: 0, y: 0 };
+        const initialNodes = data?.map(v => {
             allData?.map(c => {
                 if (c?.manager === v?.id) {
                     return initialEdges.push(
-                        { id: ("e" + c?.id + v?.id), source: c?.id, target: v?.id, type: edgeType, animated }
+                        {
+                            id: ("e" + v?.id + c?.id), source: JSON.stringify(v?.id), target: JSON.stringify(c?.id), type: edgeType, animated,
+                            markerEnd: {
+                                type: "arrow"
+                            }
+                        }
                     )
                 }
             })
             return {
-                id: v?.id,
-                manager: v?.manager,
-                user_id: v?.id,
-                user_node_id: v?.username ?? '',
-                icon: v?.imageByte?.image ?? '',
-                title: v?.username ?? '',
-                subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
-                email: v?.email ? (' ● ' + v?.email) : '',
-                country_name: v?.country?.label ?? '',
-                country_logo: v?.country?.flag ?? '',
-                branch: v?.branch?.label ?? '',
-                isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
-                color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
-                background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
-                // _collapsed:false
+                id: JSON.stringify(v?.id),
+                position, type: 'cutom',
+                data: {
+                    id: JSON.stringify(v?.id),
+                    manager: v?.manager,
+                    user_id: v?.id,
+                    user_node_id: v?.username ?? '',
+                    icon: v?.imageByte?.image ?? '',
+                    title: v?.username ?? '',
+                    subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
+                    email: v?.email ? (' ● ' + v?.email) : '',
+                    country_name: v?.country?.label ?? '',
+                    country_logo: v?.country?.flag ?? '',
+                    branch: v?.branch?.label ?? '',
+                    isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
+                    color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
+                    background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
+                    children: chartDataChildData(allData, v),
+                }
             }
         })
-        return { data: filter, initialEdges }
+        return { initialNodes, initialEdges }
     }
 
 
@@ -284,13 +275,15 @@ const BulkUploadOrgChart = () => {
                                 classNamePrefix="eep_select_common select"
                                 className={`a_designation basic-single`}
                                 placeholder="search..."
-                                onChange={(e) => onChange('selectUser', e?.label)}
+                                onChange={(e) => onChange('selectUser', e?.id)}
                             />
                         </div>
                     </div>
                 }
             ></PageHeader>
-            {state?.chartData && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
+
+            {
+                state?.chartData?.initialNodes?.length > 0 && state?.chartData?.initialEdges?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
         </React.Fragment>
     );
 };

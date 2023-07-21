@@ -1,15 +1,16 @@
 import dagre from "dagre";
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
+    ConnectionMode,
+    getConnectedEdges,
+    getOutgoers,
     useEdgesState,
     useNodesState,
-    getOutgoers,
-    getConnectedEdges,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-import TurboNode from './TurboNode';
-import { useState } from "react";
+import { TurboNode } from './TurboNode';
+import UserDetailView from "./modal";
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -25,51 +26,51 @@ const initialNodes = [
     },
     {
         id: "2",
-        data: { title: "node 2" },
+        data: { onCollapse: 'nodeClick', title: "Admin 2" },
         position, type: 'cutom',
     },
     {
         id: "2a",
-        data: { title: "node 2a" },
+        data: { onCollapse: 'nodeClick', title: "node 2a" },
         position, type: 'cutom',
     },
     {
         id: "2b",
-        data: { title: "node 2b" },
+        data: { onCollapse: 'nodeClick', title: "node 2b" },
         position, type: 'cutom',
     },
     {
         id: "2c",
-        data: { title: "node 2c" },
+        data: { onCollapse: 'nodeClick', title: "node 2c" },
         position, type: 'cutom',
     },
     {
         id: "2d",
-        data: { title: "node 2d" },
+        data: { onCollapse: 'nodeClick', title: "node 2d" },
         position, type: 'cutom',
     },
     {
         id: "3",
-        data: { title: "node 3" },
+        data: { onCollapse: 'nodeClick', title: "node 3" },
         position, type: 'cutom',
     },
     {
         id: "4",
-        data: { title: "node 4" },
+        data: { onCollapse: 'nodeClick', title: "node 4" },
         position, type: 'cutom',
     },
     {
         id: "5",
-        data: { title: "node 5" },
+        data: { onCollapse: 'nodeClick', title: "node 5" },
         position, type: 'cutom',
     },
     {
         id: "6",
         type: "output",
-        data: { title: "output" },
+        data: { onCollapse: 'nodeClick', title: "output" },
         position, type: 'cutom',
     },
-    { id: "7", type: "output", data: { title: "output" }, position, type: 'cutom', }
+    { id: "7", type: "output", data: { onCollapse: 'nodeClick', title: "output" }, position, type: 'cutom', }
 ];
 
 const initialEdges = [
@@ -110,8 +111,8 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
         // We are shifting the dagre node position (anchor=center center) to the top left
         // so it matches the React Flow node anchor point (top left).
         node.position = {
-            x: nodeWithPosition.x - nodeWidth / 2,
-            y: nodeWithPosition.y - nodeHeight / 2
+            x: nodeWithPosition.x - nodeWidth + ((nodeWithPosition.x) / 4),
+            y: nodeWithPosition.y - nodeHeight + ((nodeWithPosition.y) / 4)
         };
 
         return node;
@@ -120,20 +121,18 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
     return { nodes, edges };
 };
 
-
 const LayoutFlow = (props) => {
     const { chartData } = props;
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-        initialNodes,
-        initialEdges
+        chartData?.initialNodes,
+        chartData?.initialEdges
     );
-    
     const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
     const [hidden, setHidden] = useState(true);
-    const nodeTypes = {
-        cutom: TurboNode,
-    };
+    const [state, setState] = useState({
+        view: null,
+    })
     const onConnect = useCallback((params) => setEdges((eds) => setNodes(params, eds)), []);
 
     const hide = (hidden, childEdgeID, childNodeID) => (nodeOrEdge) => {
@@ -155,8 +154,8 @@ const LayoutFlow = (props) => {
     let outgoers = [];
     let connectedEdges = [];
     let stack = [];
+
     const nodeClick = (some, node) => {
-        debugger
         let currentNodeID = node.id;
         stack.push(node);
         while (stack.length > 0) {
@@ -187,17 +186,111 @@ const LayoutFlow = (props) => {
         setHidden(!hidden);
     };
 
+    const handleAction = async (data) => {
+        setState({
+            ...state,
+            view: data,
+        })
+    };
+
+    const nodeTypes = {
+        cutom: (props) => <TurboNode {...props} nodeEevent={nodeClick} handleAction={handleAction} />,
+    };
+
+    useEffect(() => {
+        debugger
+        if (props?.selectUser) {
+            focusNode(props.selectUser);
+        }
+    }, [props.selectUser]);
+
+
+    function getSourceIds(jsonData, targetId) {
+        debugger
+        const sourceIds = [];
+
+        function findSourceId(targetId) {
+            for (const item of jsonData) {
+                if (item.target === targetId) {
+                    sourceIds.push({ source: item.source, target: item.target });
+                    findSourceId(item.source); // Recursive call to find the next source ID
+                }
+            }
+        }
+
+        findSourceId(targetId);
+        return sourceIds;
+    }
+
+    const focusNode = (selectedNodeId) => {
+        debugger
+
+        const sourceIds = getSourceIds(edges, JSON.stringify(selectedNodeId));
+
+        const eds = edges?.map(v => {
+            let obj = {};
+            obj = {
+                ...v,
+                style: {}
+            }
+            if (sourceIds?.find(c => c.source === v.source && v.target === c.target)?.source) {
+                obj = {
+                    ...obj,
+                    style: { stroke: "#1076B4" }
+                }
+            }
+            return {
+                ...obj
+            }
+        })
+        const nds = nodes?.map(v => {
+            let obj = {};
+            obj = {
+                ...v,
+                data: {
+                    ...v.data,
+                    color: v?.data?.isloggedUser ? "#607d8b8a" : "",
+                    background: v?.data?.isloggedUser ? "#E2EDF3" : "",
+                }
+            }
+            if (JSON.stringify(selectedNodeId) === v?.id) {
+                obj = {
+                    ...obj,
+                    data: {
+                        ...v.data,
+                        color: "#1076B4",
+                        background: "#E2EDF3",
+                    }
+
+                }
+            }
+            return {
+                ...obj,
+            }
+        })
+        console.log('nodes', nds);
+        console.log('selectedNodeId', selectedNodeId);
+        setEdges([...eds])
+        setNodes([...nds])
+        // style: { stroke: "red" }
+    };
     return (
-        <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            nodeTypes={nodeTypes}
-            fitView
-            onNodeClick={nodeClick}
-        />
+        <React.Fragment>
+            <UserDetailView data={state?.view} />
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                onConnect={ConnectionMode.Loose}
+            // onNodesChange={onNodesChange}
+            // onEdgesChange={onEdgesChange}
+            // // fitView
+            // nodesDraggable={false}
+            // nodesConnectable={false}
+            // elementsSelectable={false}
+            // onNodeClick={nodeClick}
+            />
+        </React.Fragment>
     );
 };
 

@@ -50,7 +50,7 @@
     font-weight: bold;
     font-size: 10px;
     padding: 6px 0px;
-
+    cursor: pointer !important;
 }
 
 .react-flow .footer .img {
@@ -70,6 +70,7 @@
     transform-origin: center center;
     padding: 2px;
     overflow: hidden;
+    cursor: pointer !important;
     z-index: 1;
 }
 
@@ -83,4 +84,8 @@
     border: 1px solid #9e9e9ec4;
     padding: 8px;
     cursor: pointer;
+}
+.react-flow__handle{
+    background: transparent;
+    border: none;
 }
