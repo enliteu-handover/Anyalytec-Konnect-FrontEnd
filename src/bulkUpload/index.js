@@ -179,7 +179,7 @@ const BulkUploadOrgChart = () => {
 
     const chartData = (allData, data) => {
         var initialEdges = [];
-        const edgeType = "simplebezier";
+        const edgeType = "step";
         const animated = false;
         const position = { x: 0, y: 0 };
         const initialNodes = data?.map(v => {

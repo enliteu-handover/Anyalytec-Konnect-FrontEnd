@@ -58,7 +58,7 @@ export const TurboNode = ({ data, nodeEevent, handleAction }) => {
                     data-toggle="modal"
                     data-target="#UserDetailView"
                     onClick={() => {
-                        debugger
+
                         handleAction(data)
                     }}
                     to="#"
@@ -66,7 +66,8 @@ export const TurboNode = ({ data, nodeEevent, handleAction }) => {
                 ></Link>
             </div>
             <div className="wrapper gradient" style={{
-                border: data?.color && `2px solid ${data?.color}`
+                border: data?.color && `2px solid ${data?.color}`,
+                borderRadius: 7
             }}>
                 <div className="inner">
                     <div className="body" style={{ background: data?.background }}>
@@ -86,11 +87,11 @@ export const TurboNode = ({ data, nodeEevent, handleAction }) => {
                         <img
                             className='img'
                             src={`${process.env.PUBLIC_URL}/images/icons8-broadcasting-50.svg`} />
-                        &nbsp;{data?.children?.length ?? " No"}&nbsp;Users
+                        &nbsp;{data?.children?.length > 0 ? data?.children?.length : " No"}&nbsp;Users
                     </div>
                 </div>
             </div>
-            <Handle type="target" position={Position.Top} />
+            <Handle type="target" position={Position.Right} />
             <Handle type="source" position={Position.Bottom} />
         </div>
     );

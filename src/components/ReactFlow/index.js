@@ -1,11 +1,12 @@
 import dagre from "dagre";
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactFlow, {
     ConnectionMode,
+    Controls,
     getConnectedEdges,
     getOutgoers,
     useEdgesState,
-    useNodesState,
+    useNodesState
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -14,78 +15,6 @@ import UserDetailView from "./modal";
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
-const position = { x: 0, y: 0 };
-const edgeType = "step";
-const animated = false;
-
-const initialNodes = [
-    {
-        id: "1",
-        data: { icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO' },
-        position, type: 'cutom',
-    },
-    {
-        id: "2",
-        data: { onCollapse: 'nodeClick', title: "Admin 2" },
-        position, type: 'cutom',
-    },
-    {
-        id: "2a",
-        data: { onCollapse: 'nodeClick', title: "node 2a" },
-        position, type: 'cutom',
-    },
-    {
-        id: "2b",
-        data: { onCollapse: 'nodeClick', title: "node 2b" },
-        position, type: 'cutom',
-    },
-    {
-        id: "2c",
-        data: { onCollapse: 'nodeClick', title: "node 2c" },
-        position, type: 'cutom',
-    },
-    {
-        id: "2d",
-        data: { onCollapse: 'nodeClick', title: "node 2d" },
-        position, type: 'cutom',
-    },
-    {
-        id: "3",
-        data: { onCollapse: 'nodeClick', title: "node 3" },
-        position, type: 'cutom',
-    },
-    {
-        id: "4",
-        data: { onCollapse: 'nodeClick', title: "node 4" },
-        position, type: 'cutom',
-    },
-    {
-        id: "5",
-        data: { onCollapse: 'nodeClick', title: "node 5" },
-        position, type: 'cutom',
-    },
-    {
-        id: "6",
-        type: "output",
-        data: { onCollapse: 'nodeClick', title: "output" },
-        position, type: 'cutom',
-    },
-    { id: "7", type: "output", data: { onCollapse: 'nodeClick', title: "output" }, position, type: 'cutom', }
-];
-
-const initialEdges = [
-    { id: "e12", source: "1", target: "2", type: edgeType, animated, style: { stroke: "red" } },
-    { id: "e13", source: "1", target: "3", type: edgeType, animated },
-    { id: "e22a", source: "2", target: "2a", type: edgeType, animated },
-    { id: "e22b", source: "2", target: "2b", type: edgeType, animated },
-    { id: "e22c", source: "2", target: "2c", type: edgeType, animated },
-    { id: "e2c2d", source: "2c", target: "2d", type: edgeType, animated },
-    { id: "e45", source: "3", target: "4", type: edgeType, animated },
-    { id: "e45", source: "4", target: "5", type: edgeType, animated },
-    { id: "e56", source: "5", target: "6", type: edgeType, animated },
-    { id: "e57", source: "5", target: "7", type: edgeType, animated }
-];
-
 const nodeWidth = 172;
 const nodeHeight = 36;
 
@@ -102,19 +31,14 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
     });
 
     dagre.layout(dagreGraph);
-
     nodes.forEach((node) => {
         const nodeWithPosition = dagreGraph.node(node.id);
         node.targetPosition = isHorizontal ? "left" : "top";
         node.sourcePosition = isHorizontal ? "right" : "bottom";
-
-        // We are shifting the dagre node position (anchor=center center) to the top left
-        // so it matches the React Flow node anchor point (top left).
         node.position = {
             x: nodeWithPosition.x - nodeWidth + ((nodeWithPosition.x) / 4),
-            y: nodeWithPosition.y - nodeHeight + ((nodeWithPosition.y) / 4)
+            y: nodeWithPosition.y - nodeHeight + ((nodeWithPosition.y) / 2)
         };
-
         return node;
     });
 
@@ -122,18 +46,21 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
 };
 
 const LayoutFlow = (props) => {
+
     const { chartData } = props;
+
+
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
         chartData?.initialNodes,
         chartData?.initialEdges
     );
+
     const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
     const [hidden, setHidden] = useState(true);
     const [state, setState] = useState({
         view: null,
     })
-    const onConnect = useCallback((params) => setEdges((eds) => setNodes(params, eds)), []);
 
     const hide = (hidden, childEdgeID, childNodeID) => (nodeOrEdge) => {
         if (
@@ -198,7 +125,7 @@ const LayoutFlow = (props) => {
     };
 
     useEffect(() => {
-        debugger
+
         if (props?.selectUser) {
             focusNode(props.selectUser);
         }
@@ -206,7 +133,7 @@ const LayoutFlow = (props) => {
 
 
     function getSourceIds(jsonData, targetId) {
-        debugger
+
         const sourceIds = [];
 
         function findSourceId(targetId) {
@@ -223,7 +150,6 @@ const LayoutFlow = (props) => {
     }
 
     const focusNode = (selectedNodeId) => {
-        debugger
 
         const sourceIds = getSourceIds(edges, JSON.stringify(selectedNodeId));
 
@@ -231,12 +157,14 @@ const LayoutFlow = (props) => {
             let obj = {};
             obj = {
                 ...v,
+                animated: false,
                 style: {}
             }
             if (sourceIds?.find(c => c.source === v.source && v.target === c.target)?.source) {
                 obj = {
                     ...obj,
-                    style: { stroke: "#1076B4" }
+                    style: { stroke: "#1076B4", strokeWidth: 3 },
+                    animated: true
                 }
             }
             return {
@@ -274,6 +202,9 @@ const LayoutFlow = (props) => {
         setNodes([...nds])
         // style: { stroke: "red" }
     };
+
+    const defaultViewport = { x: 200, y: 20, zoom: 0.7 };
+
     return (
         <React.Fragment>
             <UserDetailView data={state?.view} />
@@ -282,14 +213,10 @@ const LayoutFlow = (props) => {
                 edges={edges}
                 nodeTypes={nodeTypes}
                 onConnect={ConnectionMode.Loose}
-            // onNodesChange={onNodesChange}
-            // onEdgesChange={onEdgesChange}
-            // // fitView
-            // nodesDraggable={false}
-            // nodesConnectable={false}
-            // elementsSelectable={false}
-            // onNodeClick={nodeClick}
-            />
+                defaultViewport={defaultViewport}
+            >
+                <Controls />
+            </ReactFlow>
         </React.Fragment>
     );
 };
