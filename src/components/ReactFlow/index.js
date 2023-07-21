@@ -8,7 +8,7 @@ function App(props) {
     const { chartData } = props;
     const treeContainerRef = useRef(null);
     // const [zoomFactor, setZoomFactor] = React.useState(1);
-    const [zoomFactor, setZoomFactor] = React.useState(0.6);
+    const [zoomFactor, setZoomFactor] = React.useState(0.7);
     const [translate, setTranslate] = useState({ x: 600, y: 100 });
 
     const [state, setState] = useState({
@@ -30,7 +30,6 @@ function App(props) {
     }
 
     const handleAction = async (data) => {
-
         const respone_data = await chartDataFunctionCollapse(state.data, state.data)
         setState({
             ...state,
