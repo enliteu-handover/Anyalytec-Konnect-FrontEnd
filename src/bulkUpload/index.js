@@ -18,7 +18,7 @@ const BulkUploadOrgChart = () => {
     const [state, setState] = useState({
         userData: [],
         selectUser: null,
-        chartData: []
+        chartData: null
     });
 
     const onChange = (k, event) => {
@@ -170,11 +170,46 @@ const BulkUploadOrgChart = () => {
         fetchUserData();
     }, []);
 
-    const chartData = (allData, data) => {
+    // const chartData = (allData, data) => {
+    //     const filter = data?.map(v => {
+    //         const child = allData?.filter(c => c?.manager === v?.id)
+    //         return {
+    //             id:v?.id,
+    //             manager: v?.manager,
+    //             user_id: v?.id,
+    //             user_node_id: v?.username ?? '',
+    //             icon: v?.imageByte?.image ?? '',
+    //             title: v?.username ?? '',
+    //             subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
+    //             email: v?.email ? (' ● ' + v?.email) : '',
+    //             country_name: v?.country?.label ?? '',
+    //             country_logo: v?.country?.flag ?? '',
+    //             branch: v?.branch?.label ?? '',
+    //             children: chartData(allData, child?.length > 0 ? child : []),
+    //             isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
+    //             color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
+    //             background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
+    //             // _collapsed:false
+    //         }
+    //     })
+    //     return filter;
+    // }
 
+
+    const chartData = (allData, data) => {
+        var initialEdges = [];
+        const edgeType = "step";
+        const animated = false;
         const filter = data?.map(v => {
-            const child = allData?.filter(c => c?.manager === v?.id)
+            allData?.map(c => {
+                if (c?.manager === v?.id) {
+                    return initialEdges.push(
+                        { id: ("e" + c?.id + v?.id), source: c?.id, target: v?.id, type: edgeType, animated }
+                    )
+                }
+            })
             return {
+                id: v?.id,
                 manager: v?.manager,
                 user_id: v?.id,
                 user_node_id: v?.username ?? '',
@@ -185,15 +220,15 @@ const BulkUploadOrgChart = () => {
                 country_name: v?.country?.label ?? '',
                 country_logo: v?.country?.flag ?? '',
                 branch: v?.branch?.label ?? '',
-                children: chartData(allData, child?.length > 0 ? child : []),
                 isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
                 color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
                 background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
                 // _collapsed:false
             }
         })
-        return filter;
+        return { data: filter, initialEdges }
     }
+
 
     const CustomOption = ({ innerProps, label, value, data }) => {
         return <div {...innerProps} className="orgUpload_User_List">
@@ -255,7 +290,7 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
-            {state?.chartData?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? []} />}
+            {state?.chartData && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
         </React.Fragment>
     );
 };

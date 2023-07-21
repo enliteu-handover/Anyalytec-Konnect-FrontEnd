@@ -1,130 +1,204 @@
-import React, { useEffect, useRef, useState } from "react";
-import Tree from "react-d3-tree";
-import NodeLabel from "./TurboNode";
-import UserDetailView from "./modal";
-import "./style.css";
+import dagre from "dagre";
+import React, { useCallback } from 'react';
+import ReactFlow, {
+    useEdgesState,
+    useNodesState,
+    getOutgoers,
+    getConnectedEdges,
+} from "reactflow";
 
-function App(props) {
+import "reactflow/dist/style.css";
+import TurboNode from './TurboNode';
+import { useState } from "react";
+
+const dagreGraph = new dagre.graphlib.Graph();
+dagreGraph.setDefaultEdgeLabel(() => ({}));
+const position = { x: 0, y: 0 };
+const edgeType = "step";
+const animated = false;
+
+const initialNodes = [
+    {
+        id: "1",
+        data: { icon: `${process.env.PUBLIC_URL}/images/user_profile.png`, title: 'Admin', subline: 'Admin CEO' },
+        position, type: 'cutom',
+    },
+    {
+        id: "2",
+        data: { title: "node 2" },
+        position, type: 'cutom',
+    },
+    {
+        id: "2a",
+        data: { title: "node 2a" },
+        position, type: 'cutom',
+    },
+    {
+        id: "2b",
+        data: { title: "node 2b" },
+        position, type: 'cutom',
+    },
+    {
+        id: "2c",
+        data: { title: "node 2c" },
+        position, type: 'cutom',
+    },
+    {
+        id: "2d",
+        data: { title: "node 2d" },
+        position, type: 'cutom',
+    },
+    {
+        id: "3",
+        data: { title: "node 3" },
+        position, type: 'cutom',
+    },
+    {
+        id: "4",
+        data: { title: "node 4" },
+        position, type: 'cutom',
+    },
+    {
+        id: "5",
+        data: { title: "node 5" },
+        position, type: 'cutom',
+    },
+    {
+        id: "6",
+        type: "output",
+        data: { title: "output" },
+        position, type: 'cutom',
+    },
+    { id: "7", type: "output", data: { title: "output" }, position, type: 'cutom', }
+];
+
+const initialEdges = [
+    { id: "e12", source: "1", target: "2", type: edgeType, animated, style: { stroke: "red" } },
+    { id: "e13", source: "1", target: "3", type: edgeType, animated },
+    { id: "e22a", source: "2", target: "2a", type: edgeType, animated },
+    { id: "e22b", source: "2", target: "2b", type: edgeType, animated },
+    { id: "e22c", source: "2", target: "2c", type: edgeType, animated },
+    { id: "e2c2d", source: "2c", target: "2d", type: edgeType, animated },
+    { id: "e45", source: "3", target: "4", type: edgeType, animated },
+    { id: "e45", source: "4", target: "5", type: edgeType, animated },
+    { id: "e56", source: "5", target: "6", type: edgeType, animated },
+    { id: "e57", source: "5", target: "7", type: edgeType, animated }
+];
+
+const nodeWidth = 172;
+const nodeHeight = 36;
+
+const getLayoutedElements = (nodes, edges, direction = "TB") => {
+    const isHorizontal = direction === "LR";
+    dagreGraph.setGraph({ rankdir: direction });
+
+    nodes.forEach((node) => {
+        dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+
+    edges.forEach((edge) => {
+        dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    nodes.forEach((node) => {
+        const nodeWithPosition = dagreGraph.node(node.id);
+        node.targetPosition = isHorizontal ? "left" : "top";
+        node.sourcePosition = isHorizontal ? "right" : "bottom";
+
+        // We are shifting the dagre node position (anchor=center center) to the top left
+        // so it matches the React Flow node anchor point (top left).
+        node.position = {
+            x: nodeWithPosition.x - nodeWidth / 2,
+            y: nodeWithPosition.y - nodeHeight / 2
+        };
+
+        return node;
+    });
+
+    return { nodes, edges };
+};
+
+
+const LayoutFlow = (props) => {
     const { chartData } = props;
-    const treeContainerRef = useRef(null);
-    // const [zoomFactor, setZoomFactor] = React.useState(1);
-    const [zoomFactor, setZoomFactor] = React.useState(0.7);
-    const [translate, setTranslate] = useState({ x: 600, y: 100 });
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        initialNodes,
+        initialEdges
+    );
+    
+    const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+    const [hidden, setHidden] = useState(true);
+    const nodeTypes = {
+        cutom: TurboNode,
+    };
+    const onConnect = useCallback((params) => setEdges((eds) => setNodes(params, eds)), []);
 
-    const [state, setState] = useState({
-        view: null,
-        data: chartData,
-        collapsible: true
-    })
-
-    const chartDataFunctionCollapse = (allData, data) => {
-        const filter = data?.map(v => {
-            const child = allData?.filter(c => c?.manager === v?.user_id)
-            return {
-                ...v,
-                children: chartDataFunction(allData, child?.length > 0 ? child : []),
-                _collapsed: false
-            }
-        })
-        return filter;
-    }
-
-    const handleAction = async (data) => {
-        const respone_data = await chartDataFunctionCollapse(state.data, state.data)
-        setState({
-            ...state,
-            view: data,
-            data: respone_data
-        })
+    const hide = (hidden, childEdgeID, childNodeID) => (nodeOrEdge) => {
+        if (
+            childEdgeID.includes(nodeOrEdge.id) ||
+            childNodeID.includes(nodeOrEdge.id)
+        )
+            nodeOrEdge.hidden = hidden;
+        return nodeOrEdge;
     };
 
-    useEffect(() => {
-        if (props.selectUser) { focusNode(props.selectUser); }
-    }, [props.selectUser]);
-
-    const focusNode = (selectedNodeId) => {
-        const container = treeContainerRef.current;
-        const a = chartDataFunction(state.data, state.data, props.selectUser)
-        setState({ ...state, data: a })
-        setTimeout(() => {
-            const nodeElement = document.getElementById(selectedNodeId);
-            const dimensions = nodeElement.getBoundingClientRect();
-            const containerDimensions = container.getBoundingClientRect();
-            const offsetX = dimensions.x - containerDimensions.x - containerDimensions.width / 2 + dimensions.width / 2;
-            const offsetY = dimensions.y - containerDimensions.y - containerDimensions.height / 2 + dimensions.height / 2;
-            setTranslate((prevTranslate) => ({
-                x: (prevTranslate.x - offsetX),
-                y: (prevTranslate.y - offsetY),
-            }));
-        }, 1);
+    const checkTarget = (edge, id) => {
+        let edges = edge.filter((ed) => {
+            return ed.target !== id;
+        });
+        return edges;
     };
 
-    const chartDataFunction = (allData, data, id) => {
-        const filter = data?.map(v => {
-            const child = allData?.filter(c => c?.manager === v?.user_id)
-            return {
-                ...v,
-                children: chartDataFunction(allData, child?.length > 0 ? child : [], id),
-                color: id === v?.user_node_id ? "#1076B4" : v?.isloggedUser ? v?.color : "",
-                background: id === v?.user_node_id ? "#E2EDF3" : v?.isloggedUser ? v?.background : "",
-            }
-        })
-        return filter;
-    }
-
-    const handleZoomIn = () => {
-        if (zoomFactor !== 1) {
-            setZoomFactor(zoomFactor + 0.1);
+    let outgoers = [];
+    let connectedEdges = [];
+    let stack = [];
+    const nodeClick = (some, node) => {
+        debugger
+        let currentNodeID = node.id;
+        stack.push(node);
+        while (stack.length > 0) {
+            let lastNOde = stack.pop();
+            let childnode = getOutgoers(lastNOde, nodes, edges);
+            let childedge = checkTarget(
+                getConnectedEdges([lastNOde], edges),
+                currentNodeID
+            );
+            childnode.map((goer, key) => {
+                stack.push(goer);
+                outgoers.push(goer);
+            });
+            childedge.map((edge, key) => {
+                connectedEdges.push(edge);
+            });
         }
-    };
 
-    const handleZoomOut = () => {
-        if (!JSON.stringify(zoomFactor)?.includes(0.2)) {
-            setZoomFactor(zoomFactor - 0.1);
-        }
+        let childNodeID = outgoers.map((node) => {
+            return node.id;
+        });
+        let childEdgeID = connectedEdges.map((edge) => {
+            return edge.id;
+        });
+
+        setNodes((node) => node.map(hide(hidden, childEdgeID, childNodeID)));
+        setEdges((edge) => edge.map(hide(hidden, childEdgeID, childNodeID)));
+        setHidden(!hidden);
     };
 
     return (
-        <div style={{ width: "100%", height: "100vh" }}>
-            <UserDetailView data={state?.view} />
-            <div ref={treeContainerRef} style={{ width: "100%", height: "70vh" }}>
-                <Tree
-                    data={state?.data}
-                    zoom={zoomFactor}
-                    pathFunc="step"
-                    separation={{ siblings: 2, nonSiblings: 2 }}
-                    orientation="vertical"
-                    translate={translate}
-                    allowForeignObjects={true}
-                    styles={{
-                        links: {
-                            stroke: '#9e9e9e57',
-                            strokeWidth: "1px",
-                        },
-                    }}
-                    nodeLabelComponent={{
-                        render: <NodeLabel
-                            handleAction={handleAction}
-                        />,
-                        foreignObjectWrapper: {
-                            width: 220,
-                            height: 200,
-                            y: -50,
-                            x: -100
-                        }
-                    }}
-                // collapsible={state?.collapsible}
-                // initialDepth={0.01}
-                />
-            </div>
-            <div className="zoomable">
-                <div onClick={handleZoomOut}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width={'10px'} viewBox="0 0 32 5"><path d="M0 0h32v4.2H0z"></path></svg>
-                </div>
-                <div onClick={handleZoomIn}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M32 18.133H18.133V32h-4.266V18.133H0v-4.266h13.867V0h4.266v13.867H32z"></path></svg> </div>
-            </div>
-        </div>
+        <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            fitView
+            onNodeClick={nodeClick}
+        />
     );
-}
-export default App;
+};
+
+export default LayoutFlow;
