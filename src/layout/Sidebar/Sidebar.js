@@ -99,7 +99,7 @@ const Sidebar = () => {
                   src={`${process.env.PUBLIC_URL}/images/menu/${menu.icon}`}
                 /> */}
                 <div style={{ display: "flex" }}><span
-                  style={{ width: "22px",marginTop:"-2px" }}>
+                  style={{ width: "30px",marginTop:"-6px" }}>
                   {icon[menu.icon]}</span>&nbsp;&nbsp;
                   <span>{menu.label}</span>
                 </div>
