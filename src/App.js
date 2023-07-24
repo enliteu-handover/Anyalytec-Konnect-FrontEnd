@@ -1,21 +1,24 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./App.scss";
-import Login from "./layout/Login/Login";
-import { Redirect, Route, Switch, BrowserRouter } from "react-router-dom";
-import MainContainer from "./layout/MainContainer/MainContainer";
-import { sharedDataActions } from "./store/shared-data-slice";
 import IdleTimerContainer from "./IdleTimer/IdleTimerContainer";
 import RolePermissions from "./components/RolePermissions/RolePermissions";
 import TourState from "./components/Tour/TourState";
+import Login from "./layout/Login/Login";
+import MainContainer from "./layout/MainContainer/MainContainer";
 import { firebaseInitialization } from "./notification";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { sharedDataActions } from "./store/shared-data-slice";
 // import FirebaseToken from "./components/Firebase/FirebaseToken";
-
+import { URL_CONFIG } from "./constants/rest-config";
+import { httpHandler } from "./http/http-interceptor";
+import "./styles/theme/theme.scss";
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const [theme, setTheme] = useState({})
+  const headerLogo = useSelector((state) => state.storeState);
   const fetchSvgIcons = () => {
     fetch(`${process.env.PUBLIC_URL}/data/svgIcons.json`)
       .then((response) => response.json())
@@ -36,8 +39,26 @@ function App() {
     }
   }, []);
 
+  React.useEffect(() => {
+    getThemePanel(headerLogo?.color)
+  }, [headerLogo])
+
+  const getThemePanel = (color) => {
+    const obj = {
+      url: URL_CONFIG.ADD_ADMIN_PANEL,
+      method: "get"
+    };
+
+    httpHandler(obj)
+      .then((reponse) => {
+        setTheme({
+          color: color ?? reponse?.data?.[0]?.color,
+        })
+      })
+  }
+
   return (
-    <React.Fragment>
+    <div class="user-element" data-user={theme?.color ?? "color_one"}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
@@ -61,7 +82,7 @@ function App() {
         </Switch>
       </BrowserRouter>
 
-    </React.Fragment>
+    </div>
   );
 }
 

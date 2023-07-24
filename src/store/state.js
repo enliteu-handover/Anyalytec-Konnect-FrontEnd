@@ -7,7 +7,6 @@ const stateSlice = createSlice({
     initialState,
     reducers: {
         updateState(state, action) {
-            
             state.logo = action.payload;
         },
     },

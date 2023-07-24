@@ -263,7 +263,8 @@ const UserDashboard = () => {
                 <div className="d_user_official_details_inner p-3">
                   <div className="d_user_official_details">
                     <div className="col-md-12 c-2c2c2c bb_707070 px-0 mb-3">
-                      <label className="mb-0">{userDetails.sMonth} <span className="ml-2">{userDetails.experienceType}</span>
+                      <label className="mb-0">{
+                      userDetails?.experienceType === 'years' ? userDetails?.experience : userDetails?.sMonth} <span className="ml-2">{userDetails.experienceType}</span>
                       </label>
                       <p className="text-right mb-1"> DOJ: {eepFormatDateTime(userDetails.dateOfJoining)} </p>
                     </div>

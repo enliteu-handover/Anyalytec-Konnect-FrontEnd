@@ -33,7 +33,7 @@ const Header = () => {
   React.useEffect(() => {
     setState({
       ...state,
-      "headerLogoByte": headerLogo ?? ""
+      "headerLogoByte": headerLogo?.headerLogoByte ?? ""
     })
   }, [headerLogo])
 

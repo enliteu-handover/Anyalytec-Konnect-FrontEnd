@@ -82,7 +82,7 @@ const PortalSettings = () => {
     httpHandler(obj)
       .then((reponse) => {
         seIsDone(reponse?.data?.message ?? '')
-        dispatch(storeStateActions.updateState(state?.headerLogoByte ?? ''))
+        dispatch(storeStateActions.updateState(state ?? ''))
       })
   };
 
