@@ -18,7 +18,8 @@ const BulkUploadOrgChart = () => {
     const [state, setState] = useState({
         userData: [],
         selectUser: null,
-        chartData: null
+        chartData: null,
+        uploadData: null
     });
 
     const onChange = (k, event) => {
@@ -33,10 +34,15 @@ const BulkUploadOrgChart = () => {
         setIsUpload(true)
     }
 
+    const handleChange = (e) => {
+        setState({
+            ...state,
+            uploadData: e.target.files[0]
+        })
+    }
     const onSucess = (e) => {
-
-
-        const file = e.target.files[0];
+        
+        const file = state.uploadData;
         const reader = new FileReader();
 
         reader.onload = (event) => {
@@ -230,7 +236,6 @@ const BulkUploadOrgChart = () => {
             </div>
         </div>
     }
-
     return (
         <React.Fragment>
 
@@ -242,8 +247,11 @@ const BulkUploadOrgChart = () => {
                 // isUpload={false}
                 isUpload={isUpload}
                 downloadExcel={downloadExcel}
-                onSucess={onSucess}
                 url={'https://objectstore.e2enetworks.net/enliteu/Org%20Upload.xlsx'}
+                isOrg={true}
+                onSucess={onSucess}
+                fileName={state?.uploadData?.name ?? ''}
+                handleChange={handleChange}
             />
 
             <PageHeader title="Org Chart"

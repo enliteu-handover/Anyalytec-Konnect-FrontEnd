@@ -18,6 +18,7 @@ const UserManagement = () => {
   const [isUpload, setIsUpload] = useState(true);
   const [userData, setUserData] = useState([]);
   const [data, setData] = useState({});
+  const [state, setState] = useState({ uploadData: null });
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
@@ -175,9 +176,16 @@ const UserManagement = () => {
     }
   ];
 
+  const handleChange = (e) => {
+    setState({
+      ...state,
+      uploadData: e.target.files[0]
+    })
+  }
+
   const onSucess = (e) => {
 
-    const file = e.target.files[0];
+    const file = state.uploadData;
     const reader = new FileReader();
 
     reader.onload = (event) => {
@@ -229,6 +237,7 @@ const UserManagement = () => {
     XLSX.writeFile(workbook, "FailureUsers.xlsx");
   };
 
+
   return (
     <React.Fragment>
       <CreateBulkUploadModal
@@ -240,8 +249,10 @@ const UserManagement = () => {
         // isUpload={false}
         isUpload={isUpload}
         downloadExcel={downloadExcel}
-        onSucess={onSucess}
         url={'https://objectstore.e2enetworks.net/enliteu/User%20Upload.xlsx'}
+        onSucess={onSucess}
+        fileName={state?.uploadData?.name ?? ''}
+        handleChange={handleChange}
       />
 
       {userRolePermission?.adminPanel &&

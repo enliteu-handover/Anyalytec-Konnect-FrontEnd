@@ -36,7 +36,7 @@ const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefi
 };
 
 axios.interceptors.request.use(function (config) {
-  
+
   const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const isLoggedIn = userData.accessToken
     ? userData.accessToken

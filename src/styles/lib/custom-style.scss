@@ -7229,3 +7229,13 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
     }
   }
 }
+
+.org-bulk-upload-download {
+  font-size: 12px;
+
+  & a {
+    color: #588e21 !important;
+    cursor: pointer;
+    text-decoration: underline !important;
+  }
+}

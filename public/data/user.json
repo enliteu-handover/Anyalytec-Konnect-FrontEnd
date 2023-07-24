@@ -91,28 +91,7 @@
         },
         "options": [],
         "display": true
-      },
-      {
-        "type": "select",
-        "label": "Manager",
-        "name": "manager",
-        "mandatory": false,
-        "disabled": false,
-        "viewMode": {
-          "type": "text",
-          "value": "manager.username"
-        },
-        "reloadData": true,
-        "RESTConfig": {
-          "url": "/users?active=true",
-          "method": "get",
-          "labelFormattingExists": true,
-          "label": "{firstname} {lastname}",
-          "value": "manager.id"
-        },
-        "options": [],
-        "display": true
-      },
+      },  
       {
         "type": "email",
         "label": "Email",
