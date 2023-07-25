@@ -1,6 +1,5 @@
 import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
 export const idmRoleMapping = async (role, permission = ['update', 'read', 'create', 'delete']) => {
-    debugger;
     const roles = await getRoles({});
     const finfRole = roles.find(v => v.name === role)
     const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
@@ -29,14 +28,47 @@ const getIds = (GetPermissions) => {
 
 const getPermission = (GetPermissions, validate) => {
     let array = {};
-    const chilMapped = (data) => {
+    const chilMapped = (data, name) => {
         return data?.map(v => {
-            const firstLetterLowercase = v?.name?.charAt(0).toLowerCase() + v?.name?.slice(1);
-            const result = firstLetterLowercase?.replace(/\s/g, '');
-            array[result] = validate[v?.id]['read']
-            chilMapped(v?.child)
+            var nm = v?.name
+            if (name?.toLowerCase() === 'awards') {
+                var nm = 'award ' + v?.name
+            } else if (name?.toLowerCase() === 'badges') {
+                var nm = 'badge ' + v?.name
+            } else if (name?.toLowerCase() === 'certificates') {
+                var nm = 'certificate ' + v?.name
+            } else if (name?.toLowerCase() === 'polls') {
+                var nm = 'poll ' + v?.name
+            } else if (name?.toLowerCase() === 'program') {
+                var nm = 'program ' + v?.name
+            } else if (name?.toLowerCase() === 'e cards') {
+                var nm = 'ecard ' + v?.name
+            } else if (name?.toLowerCase() === 'enlite wall') {
+                var nm = 'enlite Wall ' + v?.name
+            } else if (name?.toLowerCase() === 'survey') {
+                var nm = 'survey ' + v?.name
+            } else if (name?.toLowerCase() === 'forum') {
+                var nm = 'forum ' + v?.name
+            }else if (name?.toLowerCase() === 'ideas') {
+                var nm = 'ideabox ' + v?.name
+            }
+            const transformedSentence = transformSentence(nm);
+            array[transformedSentence] = validate[v?.id]['read']
+            chilMapped(v?.child, v?.name)
         })
     }
     chilMapped(GetPermissions ?? [])
     return array;
+};
+
+function transformSentence(sentence) {
+    const words = sentence.split(' ');
+    const formattedWords = words.map((word, index) => {
+        if (index === 0) {
+            return word.charAt(0).toLowerCase() + word.slice(1);
+        } else {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+    });
+    return formattedWords.join('');
 }

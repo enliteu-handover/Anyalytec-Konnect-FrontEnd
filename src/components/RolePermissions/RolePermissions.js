@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { sharedDataActions } from "../../store/shared-data-slice";
+// import { httpHandler } from "../../http/http-interceptor";
+// import { URL_CONFIG } from "../../constants/rest-config";
 import { idmRoleMapping } from "../../idm";
+import { sharedDataActions } from "../../store/shared-data-slice";
 
 const RolePermissions = () => {
 
@@ -11,23 +11,25 @@ const RolePermissions = () => {
 
   const fetchPermission = async () => {
     const roleData = await idmRoleMapping('admin');
-    debugger
+    dispatch(sharedDataActions.getUserRolePermission({
+      userRolePermission: roleData
+    }));
     return
-    const obj = {
-      url: URL_CONFIG.USER_PERMISSION,
-      method: "get",
-    };
-    httpHandler(obj).then((response) => {
-      dispatch(sharedDataActions.getUserRolePermission({
-        userRolePermission: response?.data?.screen
-      }))
-    }).catch((error) => {
-      console.log("fetchPermission error", error);
-    });
+    // const obj = {
+    //   url: URL_CONFIG.USER_PERMISSION,
+    //   method: "get",
+    // };
+    // httpHandler(obj).then((response) => {
+    //   dispatch(sharedDataActions.getUserRolePermission({
+    //     userRolePermission: response?.data?.screen
+    //   }))
+    // }).catch((error) => {
+    //   console.log("fetchPermission error", error);
+    // });
   }
 
   useEffect(() => {
-    debugger
+    
     fetchPermission();
   }, []);
 

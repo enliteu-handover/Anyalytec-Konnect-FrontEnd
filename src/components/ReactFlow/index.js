@@ -125,7 +125,6 @@ const LayoutFlow = (props) => {
     };
 
     useEffect(() => {
-
         if (props?.selectUser) {
             focusNode(props.selectUser);
         }
@@ -140,7 +139,7 @@ const LayoutFlow = (props) => {
             for (const item of jsonData) {
                 if (item.target === targetId) {
                     sourceIds.push({ source: item.source, target: item.target });
-                    findSourceId(item.source); // Recursive call to find the next source ID
+                    if (item?.source) { findSourceId(item?.source); } // Recursive call to find the next source ID
                 }
             }
         }
@@ -196,6 +195,7 @@ const LayoutFlow = (props) => {
                 ...obj,
             }
         })
+        console.log('eds', eds);
         console.log('nodes', nds);
         console.log('selectedNodeId', selectedNodeId);
         setEdges([...eds])

@@ -19,7 +19,8 @@ const BulkUploadOrgChart = () => {
         userData: [],
         selectUser: null,
         chartData: null,
-        uploadData: null
+        uploadData: null,
+        orgChartData: null
     });
 
     const onChange = (k, event) => {
@@ -32,16 +33,17 @@ const BulkUploadOrgChart = () => {
 
     const openBulk = () => {
         setIsUpload(true)
-    }
+    };
 
     const handleChange = (e) => {
         setState({
             ...state,
             uploadData: e.target.files[0]
         })
-    }
+    };
+
     const onSucess = (e) => {
-        
+
         const file = state.uploadData;
         const reader = new FileReader();
 
@@ -80,7 +82,7 @@ const BulkUploadOrgChart = () => {
             }
         }
         reader.readAsArrayBuffer(file);
-    }
+    };
 
     const breadcrumbArr = [
         {
@@ -173,15 +175,31 @@ const BulkUploadOrgChart = () => {
     };
 
     useEffect(() => {
-
         fetchUserData();
+        fetchOrgData();
     }, []);
+
+    const fetchOrgData = () => {
+        const obj = {
+            url: URL_CONFIG.EXPORT_BULK_ORG,
+            method: "post"
+        };
+        httpHandler(obj)
+            .then(async (exportData) => {
+                setState({
+                    ...state,
+                    orgChartData: exportData?.data?.data ?? {}
+                });
+            })
+            .catch((error) => {
+                console.log("fetchOrgUserData error", error);
+            });
+    };
 
     const chartDataChildData = (allData, v) => {
         const child = allData?.filter(c => c?.manager === v?.id)
         return child;
     }
-
 
     const chartData = (allData, data) => {
         var initialEdges = [];
@@ -226,7 +244,6 @@ const BulkUploadOrgChart = () => {
         return { initialNodes, initialEdges }
     }
 
-
     const CustomOption = ({ innerProps, label, value, data }) => {
         return <div {...innerProps} className="orgUpload_User_List">
             <div><img className="img" src={data?.profile_pic ?? `${process.env.PUBLIC_URL}/images/user_profile.png`} /></div>
@@ -235,7 +252,15 @@ const BulkUploadOrgChart = () => {
                 <span className="dis">  {value}</span>
             </div>
         </div>
-    }
+    };
+
+    const handleExportDownload = () => {
+        const worksheet = XLSX.utils.json_to_sheet(state?.orgChartData?.data ?? []);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "export.xlsx");
+    };
+
     return (
         <React.Fragment>
 
@@ -248,10 +273,11 @@ const BulkUploadOrgChart = () => {
                 isUpload={isUpload}
                 downloadExcel={downloadExcel}
                 url={'https://objectstore.e2enetworks.net/enliteu/Org%20Upload.xlsx'}
-                isOrg={true}
+                isOrg={state?.orgChartData}
                 onSucess={onSucess}
                 fileName={state?.uploadData?.name ?? ''}
                 handleChange={handleChange}
+                handleExportDownload={handleExportDownload}
             />
 
             <PageHeader title="Org Chart"

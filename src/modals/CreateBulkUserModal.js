@@ -2,7 +2,7 @@ import React from "react";
 import TableComponent from "../UI/tableComponent";
 
 const CreateBulkUploadModal = (props) => {
-    const { url, fileName, isOrg, handleChange, isUpload, userBulkDataTableHeaders, data, onSucess, downloadExcel, failureData, title } = props;
+    const { url, fileName, isOrg, handleExportDownload, handleChange, isUpload, userBulkDataTableHeaders, data, onSucess, downloadExcel, failureData, title } = props;
     return (
         <div className="eepModalDiv">
             <div className="modal fade" id="CreateBulkUploadModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -44,7 +44,7 @@ const CreateBulkUploadModal = (props) => {
                                     </div>
                                 </div>
                                 <br />
-                                {isOrg && <span className="org-bulk-upload-download">The existing upload data can be downloaded by<a> clicking here</a></span>}
+                                {(!isOrg?.newUsers) && <span className="org-bulk-upload-download">The existing upload data can be downloaded by<a onClick={() => handleExportDownload()}> clicking here</a></span>}
                                 <br />  <div className="eep-dropdown-divider"></div>
                                 <div className="modal-footer justify-content-center p-0">
                                     <button className="eep-btn eep-btn-cancel eep-btn-xsml" type="button" data-dismiss="modal">

@@ -186,6 +186,7 @@ const URL_CONFIG = {
   GET_ALL_BRANCH_NAME: "/branches/branch_name",
   UPSERT_BULK_USER: "/users/bulkuser",
   UPSERT_BULK_ORG: "/users/bulkorg",
+  EXPORT_BULK_ORG: "/users/export_org",
 };
 
 export { REST_CONFIG, URL_CONFIG };
