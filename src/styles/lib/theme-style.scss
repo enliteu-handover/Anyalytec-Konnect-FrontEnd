@@ -209,13 +209,13 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
 }
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
-  color: #ffffff !important;
+  // color: #ffffff !important;
 }
 .sidebar .nav-item .collapse .collapse-inner .collapse-item:hover,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover,
 .sidebar .nav-item .collapse .collapse-inner .collapse-item.active,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
-  background-color: rgba(27, 71, 90, 0.5) !important;
+  // background-color: rgba(27, 71, 90, 0.5) !important;
   font-weight: inherit !important;
 }
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
@@ -290,7 +290,7 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
   }
   #accordionSidebar.sidebar,
   #accordionSidebar.sidebar .nav-item .nav-link {
-    width: 13rem !important;
+    // width: 13rem !important;
   }
 }
 #accordionSidebar.toggled .nav-item .nav-link span {
@@ -396,7 +396,7 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
     line-height: initial;
   }
   .sidebar .nav-item a.nav-link {
-    padding: 0.7rem 0.7rem 0.7rem 1rem !important;
+    padding: 0.7rem 0.7rem 0.7rem 1rem;
   }
 }
 body {
@@ -574,7 +574,7 @@ body {
 }
 .eep-btn-hover-deny:hover {
   background-color: #e85858 !important;
-  color: #ffffff !important;
+  // color: #ffffff !important;
 }
 .eep-btn-default {
   color: #606060 !important;
@@ -631,8 +631,8 @@ a.eep-btn:hover {
   align-items: center;
 }
 .btn-secondaryy {
-  color: #606060 !important;
-  color: #adadad !important;
+  // color: #606060 !important;
+  // color: #adadad !important;
   background-color: #e6e6e6 !important;
   border-color: transparent !important;
   padding: 4px 12px !important;
@@ -648,7 +648,7 @@ a.eep-btn:hover {
 }
 .eep-container-sma a.btn-secondaryy.active {
   background-color: #e85858 !important;
-  color: #ffffff !important;
+  // color: #ffffff !important;
   border-color: transparent !important;
   border-radius: 10px 10px 0px 0px !important;
   padding: 0.3rem 30px !important;

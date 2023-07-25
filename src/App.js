@@ -13,7 +13,7 @@ import { sharedDataActions } from "./store/shared-data-slice";
 // import FirebaseToken from "./components/Firebase/FirebaseToken";
 import { URL_CONFIG } from "./constants/rest-config";
 import { httpHandler } from "./http/http-interceptor";
-import "./styles/theme/theme.scss";
+import "./styles/root/root.scss";
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();

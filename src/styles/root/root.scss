@@ -13,19 +13,19 @@
 
         .user-element[data-user="color_two"] {
 
-            --eep-tap-bg-color: #F0F0F0;
+            --eep-tap-bg-color: #d3d3d38f;
             --eep-header-color: #151419;
             --eep-menu-bg-color: #FFFFFF;
             // --eep-menu-linear-color: -
             --eep-header-bg-color: #EFEFEF;
             --eep-menu-primary-color: #244AC4;
-            --eep-submenu-bg-color: #F0F0F0;
+            --eep-submenu-bg-color: #e3e3e3;
         }
 
         .user-element[data-user="color_three"] {
             --eep-tap-bg-color: #2F2F31;
             --eep-header-color: #F0F0F0;
-            
+
             --eep-menu-bg-color: #141516;
             --eep-menu-linear-color: #080809;
             --eep-header-bg-color: #EFEFEF;
@@ -61,11 +61,13 @@
         --urm-label-margin: 8px;
         --eep-page-title-height: 38px;
     }
-    #accordionSidebar.sidebar .nav-item .nav-link svg{
+
+    #accordionSidebar.sidebar .nav-item .nav-link svg {
         padding: 6px;
         border-radius: 2px;
         background-color: var(--eep-submenu-bg-color) !important;
     }
+
     #content-wrapper {
         position: relative;
     }
@@ -273,11 +275,10 @@
         background-color: var(--eep-submenu-bg-color);
         padding: 0px !important;
         margin-bottom: 0px !important;
+        width: 192px;
     }
-    .collapse-item:hover{
-        color: #fff;
-    }
-    .sidebar .nav-item .collapse-item{
+
+    .sidebar .nav-item .collapse-item {
         background-color: var(--eep-submenu-bg-color);
         color: var(--eep-header-color);
     }
@@ -354,7 +355,7 @@
         #accordionSidebar.sidebar .nav-item .nav-link {
             color: var(--eep-header-color);
             // background-color: var(--eep-menu-bg-color) !important;
-            width: 13rem !important;
+            // width: 13rem !important;
         }
     }
 
@@ -402,20 +403,20 @@
     }
 
     .eep-navbar-div .nav-item.active .nav-link {
-        background-color: rgba(var(--eep-menu-primary-color), 0.5);
+        background-color: var(--eep-menu-bg-color);
         font-weight: inherit !important;
         color: #fff;
     }
 
     .eep-navbar-div .collapse-item.active {
-        background-color: var(--eep-menu-primary-color);
+        background-color: var(--eep-menu-bg-color);
         color: var(--eep-header-color);
         font-weight: inherit !important;
     }
 
     .eep-navbar-div .collapse-item.active:hover,
     .eep-navbar-div .collapse-item:hover {
-        background-color: var(--eep-menu-primary-color) !important; //abc
+        background-color: var(--eep-menu-bg-color); //abc
     }
 
     .eep-navbar-div .nav-item a.nav-link:before {
@@ -484,11 +485,17 @@
     .sidebar .nav-item .collapse,
     .sidebar .nav-item .collapsing {
         margin: 0px !important;
+        margin: 0px 1px 10px 15px !important;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        overflow: hidden;
     }
 
     .sidebar .nav-item .collapse .collapse-inner,
     .sidebar .nav-item .collapsing .collapse-inner {
-        border-radius: 0px !important;
+        // border-radius: 12px !important;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
 
     .sidebar .nav-item.active .nav-link {
@@ -507,7 +514,7 @@
         }
 
         .sidebar .nav-item a.nav-link {
-            padding: 0.7rem 0.7rem 0.7rem 1rem !important;
+            padding: 0.7rem 0.7rem 0.7rem 1rem;
         }
     }
 
@@ -771,8 +778,8 @@
     }
 
     .btn-secondaryy {
-        color: #606060 !important;
-        color: #adadad !important;
+        // color: #606060 !important;
+        // color: #adadad !important;
         background-color: #e6e6e6 !important;
         border-color: transparent !important;
         padding: 4px 12px !important;
@@ -791,7 +798,7 @@
 
     .eep-container-sma a.btn-secondaryy.active {
         background-color: var(--eep-tap-bg-color) !important;
-        color: #ffffff;
+        color: var(--eep-header-color);
         border-color: transparent !important;
         border-radius: 10px 10px 0px 0px !important;
         padding: 0.3rem 30px !important;
@@ -1203,4 +1210,19 @@
         .eep-navbar-div {
             margin-right: 0px;
         }
+    }
+
+    .collapse-item:hover {
+        color: var(--eep-header-color) !important;
+        background-color: var(--eep-menu-bg-color) !important;
+    }
+
+    .nav-link[aria-expanded="true"] {
+        background-color: var(--eep-submenu-bg-color) !important;
+        margin: 0px 15px !important;
+        width: 192px !important;
+        border-bottom: 1px solid #9e9e9e6e;
+        padding: 0.7rem 0.7rem 0.7rem 0rem !important;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
     }
