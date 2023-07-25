@@ -202,7 +202,7 @@
         font-family: "helveticaneuelight" !important;
         font-size: 22px;
         margin-bottom: 0px;
-        color: var(--eep-header-color);
+        color: #000 !important;
     }
 
     .notification-icon {
@@ -397,9 +397,7 @@
 
     .eep-navbar-div {
         margin-right: 14px;
-        background: transparent linear-gradient(180deg,
-                var(--eep-menu-bg-color) 0%,
-                var(--eep-menu-linear-color) 100%);
+        background: var(--eep-menu-bg-color);
     }
 
     .eep-navbar-div .nav-item.active .nav-link {
@@ -994,7 +992,7 @@
         border-radius: 0px;
         text-transform: uppercase;
         letter-spacing: 2px;
-        font-size: 11px;
+        font-size: 14px !important;
         line-height: 11px;
         font-family: "Roboto";
         margin: 10px 0px 10px 0px;
@@ -1225,4 +1223,8 @@
         padding: 0.7rem 0.7rem 0.7rem 0rem !important;
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
+    }
+    #userDropdown{
+        background-color: var(--eep-body-bg-color) !important;
+        width: auto !important;
     }

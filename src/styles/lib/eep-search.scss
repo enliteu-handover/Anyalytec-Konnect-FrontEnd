@@ -1,7 +1,7 @@
 .eep_searchbar {
     height: 40px;
-    background-color: #DDDDDD;
-    border-radius: 30px;
+    background-color: #fff;
+    border-radius: 10px;
     padding: 10px;
 }
 .eep_search_input {
@@ -9,18 +9,18 @@
     border: 0;
     outline: 0;
     background: none;
-    width: 0;
+    width: 250px !important;
     line-height: 20px;
     transition: width 0.4s linear;
     padding: 0px;
     font-family: "helveticaneuelight";
     letter-spacing: 1px;
 }
-.eep_searchbar:hover > .eep_search_input {
-    padding: 0 10px;
-    width: 250px;
-    transition: width 0.4s linear;
-}
+// .eep_searchbar:hover > .eep_search_input {
+//     padding: 0 10px;
+//     width: 250px;
+//     transition: width 0.4s linear;
+// }
 .eep_search_icon {
     height: 20px;
     width: 20px;
