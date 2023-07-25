@@ -69,7 +69,7 @@ const Sidebar = () => {
       >
         <li className="nav-item">
           <div className={`px-3 pt-3 pb-0 profile-greet text-white text-left`}>
-            Hello
+            Hello,
           </div>
           <div
             className={`px-3 pt-0 pb-2 text-white profile-nm text-wrap card-text`}

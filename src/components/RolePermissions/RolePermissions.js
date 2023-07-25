@@ -1,14 +1,18 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { sharedDataActions } from "../../store/shared-data-slice";
+import { idmRoleMapping } from "../../idm";
 
 const RolePermissions = () => {
 
   const dispatch = useDispatch();
 
-  const fetchPermission = () => {
+  const fetchPermission = async () => {
+    const roleData = await idmRoleMapping('admin');
+    debugger
+    return
     const obj = {
       url: URL_CONFIG.USER_PERMISSION,
       method: "get",
@@ -23,14 +27,15 @@ const RolePermissions = () => {
   }
 
   useEffect(() => {
+    debugger
     fetchPermission();
   }, []);
 
-  return(
+  return (
     <React.Fragment>
-      
+
     </React.Fragment>
   );
-  
+
 }
 export default RolePermissions;
