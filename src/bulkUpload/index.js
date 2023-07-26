@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import * as XLSX from 'xlsx';
 import PageHeader from "../UI/PageHeader";
-import FlowDiagram from "../components/ReactFlow";
+import FlowDiagram from "../components/ReactFlow/index";
 import { URL_CONFIG } from "../constants/rest-config";
 import { httpHandler } from "../http/http-interceptor";
 import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
@@ -315,9 +315,12 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
-
-            {
-                state?.chartData?.initialNodes?.length > 0 && state?.chartData?.initialEdges?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
+            {state?.orgChartData?.newUsers && <div style={{
+                position: 'fixed',
+                top: '50%',
+                right: '46%',
+            }}>No Data!.</div>}
+            {(!state?.orgChartData?.newUsers) && state?.chartData?.initialNodes?.length > 0 && state?.chartData?.initialEdges?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
         </React.Fragment>
     );
 };

@@ -3,13 +3,15 @@
     "label": "Dashboard",
     "link": "dashboard",
     "icon": "Dashboard.svg",
-    "isDirectLink": true
+    "isDirectLink": true,
+    "dashboard": true
   },
   {
     "label": "Recognition",
     "link": "recognition",
     "icon": "Recognition.svg",
     "isDirectLink": false,
+    "recognition": true,
     "subMenu": [
       {
         "label": "Recognize",
@@ -19,7 +21,8 @@
       {
         "label": "Library",
         "link": "library",
-        "icon": ""
+        "icon": "",
+        "library": true
       },
       {
         "label": "SocialWall",
@@ -33,26 +36,31 @@
     "link": "communication",
     "icon": "Communication.svg",
     "isDirectLink": false,
+    "communication": true,
     "subMenu": [
       {
         "label": "Survey",
         "link": "mysurvey",
-        "icon": ""
+        "icon": "",
+        "survey": true
       },
       {
         "label": "Forums",
         "link": "forum",
-        "icon": ""
+        "icon": "",
+        "forum": true
       },
       {
         "label": "Polls",
         "link": "closedpolls",
-        "icon": ""
+        "icon": "",
+        "polls": true
       },
       {
         "label": "Idea Box",
         "link": "ideabox",
-        "icon": ""
+        "icon": "",
+        "ideabox": true
       }
     ]
   },
@@ -61,6 +69,7 @@
     "link": "rewards",
     "icon": "Rewards.svg",
     "isDirectLink": false,
+    "rewards": true,
     "subMenu": [
       {
         "label": "Points",
@@ -83,6 +92,7 @@
     "label": "Org Chart",
     "link": "orgChart",
     "icon": "download.svg",
-    "isDirectLink": true
+    "isDirectLink": true,
+    "org": true
   }
 ]

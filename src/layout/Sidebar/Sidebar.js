@@ -8,17 +8,20 @@ import Dashboard from "./icon/dashboard";
 import Org from "./icon/org";
 import Recognition from "./icon/recognition";
 import Rewards from "./icon/rewards";
+import { sideMenuHidden } from "../../helpers";
 // import classes from "./Sidebar.module.scss";
 const Sidebar = () => {
   const [sidebarMenu, setSidebarMenu] = useState([]);
   const [sidebarToggled, setSidebarToggled] = useState(false);
   const [theme, setTheme] = useState({})
   const headerLogo = useSelector((state) => state.storeState);
+  const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+
   const fetchSidebarMenu = () => {
     fetch(`${process.env.PUBLIC_URL}/data/sidebarMenu.json`)
       .then((response) => response.json())
       .then((data) => {
-        setSidebarMenu(data);
+        setSidebarMenu(sideMenuHidden(data, userRolePermission));
       });
   };
 
@@ -27,11 +30,10 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    getThemePanel()
     fetchSidebarMenu();
-  }, []);
+    getThemePanel()
+  }, [userRolePermission]);
 
-  //console.log("sidebarMenu", sidebarMenu);
   const user_details = sessionStorage.getItem('userData');
 
   React.useEffect(() => {
@@ -98,7 +100,7 @@ const Sidebar = () => {
                   alt={menu.icon}
                   src={`${process.env.PUBLIC_URL}/images/menu/${menu.icon}`}
                 /> */}
-                <div style={{ display: "flex",alignItems:"center" }}><span
+                <div style={{ display: "flex", alignItems: "center" }}><span
                   style={{ width: "30px" }}>
                   {icon[menu.icon]}</span>&nbsp;&nbsp;
                   <span>{menu.label}</span>

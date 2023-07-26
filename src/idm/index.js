@@ -1,7 +1,7 @@
 import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
 export const idmRoleMapping = async (role, permission = ['update', 'read', 'create', 'delete']) => {
     const roles = await getRoles({});
-    const finfRole = roles.find(v => v.name === role)
+    const finfRole = roles.find(v => v.name?.toLowerCase() === role?.toLowerCase())
     const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
     const GetPermissions = JSON.parse(localStorage.getItem('permissions'));
     var validate = null;

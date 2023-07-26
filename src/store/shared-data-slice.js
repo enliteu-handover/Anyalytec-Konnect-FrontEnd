@@ -30,7 +30,6 @@ const sharedDataSlice = createSlice({
         if (document.getElementById('flexCheckDefault_' + res)) {
           document.getElementById('flexCheckDefault_' + res).checked = true;
         }
-
       })
 
 
