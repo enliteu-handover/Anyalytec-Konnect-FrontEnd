@@ -85,7 +85,7 @@ function ListDepartments() {
         setUserData(userData.data);
       })
       .catch((error) => {
-        console.log("error", error.response);
+        console.log("ALLDEPARTMENTS", error.response);
         //const errMsg = error.response?.data?.message;
       });
   };

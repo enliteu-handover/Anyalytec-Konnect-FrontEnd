@@ -185,9 +185,8 @@ const MyProfile = () => {
   useEffect(() => {
     fetchUserMeta();
   }, []);
-  console.log('userMeta', userMeta);
+  
   const onUpload = (arg) => {
-
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     // let currUserDataTemp = JSON.parse(JSON.stringify(currUserDataNew));
     // delete currUserDataTemp.createdAt;

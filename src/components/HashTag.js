@@ -100,7 +100,7 @@ const HashTag = () => {
         setHashTag(hashTag.data);
       })
       .catch((error) => {
-        console.log("error", error.response);
+        console.log("ACTIVE_HASHTAG", error.response);
       });
   };
 
@@ -135,7 +135,7 @@ const HashTag = () => {
         fetchhashTag(true);
       })
       .catch((error) => {
-        console.log("errorrrr", error);
+        console.log("ADDHASHTAG", error);
         const errMsg = error?.response?.data?.message;
         checkResponseMsg(errMsg);
         checkResponseClassName("response-text response-err");
@@ -182,7 +182,7 @@ const HashTag = () => {
         fetchhashTag(true);
       })
       .catch((error) => {
-        console.log("errorrrr", error);
+        console.log("ADDHASHTAG", error);
         const errMsg = error?.response?.data?.message;
         checkResponseMsg(errMsg);
         checkResponseClassName("response-text response-err");
@@ -250,7 +250,7 @@ const HashTag = () => {
         })
         .catch((error) => {
           const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-          console.log("bulkSubmitHandler error : ", errMsg);
+          console.log("HASHTAG_BULK_UPDATE error : ", errMsg);
         });
     }
   }

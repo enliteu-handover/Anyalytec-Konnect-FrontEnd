@@ -33,7 +33,7 @@ const MyBadge = () => {
   };
 
   useEffect(() => {
-    fetchMyAwardData({filterby: yearFilterValue});
+    fetchMyAwardData({filterby: yearFilterValue?.filterby});
   }, []);
 
   const getMyHashTag = (arg) => {

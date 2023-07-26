@@ -47,7 +47,6 @@ const getTokenFunction = async (intializedApp) => {
     try {
         let currentToken = await getToken(messaging, { vapidKey: REST_CONFIG.FIREBASE_VAPIDKEY });
         localStorage.setItem("deviceToken", currentToken);
-        console.log('app.js')
     } catch (error) {
         console.log("An error occurred while retrieving token. ", error);
     }

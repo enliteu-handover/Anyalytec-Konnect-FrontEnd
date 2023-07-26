@@ -65,7 +65,7 @@ const ModifyUser = () => {
 
         // })
         .catch((error) => {
-          console.log("error data", error.response.data);
+          console.log("GETUSER data", error.response.data);
           setShowModal({
             ...showModal,
             type: "danger",
@@ -213,7 +213,7 @@ const ModifyUser = () => {
         }, 0);
       })
       .catch((error) => {
-        console.log("error", error.response);
+        console.log("GETUSER", error.response);
         const errMsg = error.response?.data?.message;
       });
   };

@@ -225,11 +225,9 @@ const Notifications = () => {
 			}
 		}
 		if (obj) {
-			console.log("clearNotifications Obj :", obj);
 			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.NOTIFICATIONs_DELETE}`, { data: { ...obj } })
 				// httpHandler(obj)
 				.then((response) => {
-					console.log("readUnreadAllNotifications response", response?.data);
 					fetchNotifications();
 				})
 				.catch((error) => {

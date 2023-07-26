@@ -11,9 +11,11 @@ import MainContainer from "./layout/MainContainer/MainContainer";
 import { firebaseInitialization } from "./notification";
 import { sharedDataActions } from "./store/shared-data-slice";
 // import FirebaseToken from "./components/Firebase/FirebaseToken";
+import { getRoles } from '@crayond_dev/idm-client';
 import { URL_CONFIG } from "./constants/rest-config";
 import { httpHandler } from "./http/http-interceptor";
 import "./styles/root/root.scss";
+
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -37,7 +39,24 @@ function App() {
     if (!sessionStorage?.userData) {
       history.push("/login/signin");
     }
+    addRole();
   }, []);
+
+  const addRole = async () => {
+    const roles = await getRoles({});
+    let payOptionsRole = {
+      data: roles
+    };
+
+    const objRole = {
+      url: URL_CONFIG.ADDROLE,
+      method: "post",
+      payload: payOptionsRole,
+    };
+    if (roles?.length > 0) {
+      await httpHandler(objRole)
+    }
+  }
 
   React.useEffect(() => {
     getThemePanel(headerLogo?.color)

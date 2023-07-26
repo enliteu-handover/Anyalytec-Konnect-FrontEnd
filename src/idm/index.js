@@ -9,7 +9,7 @@ export const idmRoleMapping = async (role, permission = ['update', 'read', 'crea
         validate = validateAuthorization(getIds(GetPermissions), permission);
     }
 
-    return getPermission(GetPermissions, validate)
+    return { roleId: finfRole?.id, data: getPermission(GetPermissions, validate), rolesData: roles }
     // return validate;
 }
 
@@ -49,7 +49,7 @@ const getPermission = (GetPermissions, validate) => {
                 var nm = 'survey ' + v?.name
             } else if (name?.toLowerCase() === 'forum') {
                 var nm = 'forum ' + v?.name
-            }else if (name?.toLowerCase() === 'ideas') {
+            } else if (name?.toLowerCase() === 'ideas') {
                 var nm = 'ideabox ' + v?.name
             }
             const transformedSentence = transformSentence(nm);

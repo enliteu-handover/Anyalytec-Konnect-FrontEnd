@@ -170,7 +170,7 @@ const BulkUploadOrgChart = () => {
                 });
             })
             .catch((error) => {
-                console.log("fetchUserData error", error);
+                console.log("GETALLUSERS error", error);
             });
     };
 
@@ -192,7 +192,7 @@ const BulkUploadOrgChart = () => {
                 });
             })
             .catch((error) => {
-                console.log("fetchOrgUserData error", error);
+                console.log("EXPORT_BULK_ORG error", error);
             });
     };
 

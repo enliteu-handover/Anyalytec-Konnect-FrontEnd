@@ -9,6 +9,7 @@ const RolePermissions = () => {
 
   const dispatch = useDispatch();
 
+
   const fetchPermission = async () => {
     const obj = {
       url: URL_CONFIG.USER_PERMISSION,
@@ -18,8 +19,35 @@ const RolePermissions = () => {
       const roleData = await idmRoleMapping(response?.data?.roleId?.roleName);
       console.log('roleData', roleData);
       dispatch(sharedDataActions.getUserRolePermission({
-        userRolePermission: roleData
+        userRolePermission: roleData?.data
       }));
+
+      let payOptionsRole = {
+        data: roleData?.rolesData,
+        role_id: roleData?.roleId,
+        screen: JSON.stringify(roleData?.data)
+      };
+
+      const objRole = {
+        url: URL_CONFIG.ADDROLE,
+        method: "post",
+        payload: payOptionsRole,
+      };
+
+      await httpHandler(objRole)
+      // const payOptions = {
+      //   // id: rsid,
+      //   role: {
+      //     id: roleData?.roleId
+      //   },
+      //   screen: {}
+      // }
+      // const obj = {
+      //   url: URL_CONFIG.ROLE_SCREEN_MAPPING,
+      //   method: "put",
+      //   payload: payOptions,
+      // };
+      // httpHandler(obj);
     }).catch((error) => {
       console.log("fetchPermission error", error);
     });

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 // import classes from "./Login.module.scss";
-import LoginForm from "./LoginForm";
-import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./ChangePassword";
+import ForgotPassword from "./ForgotPassword";
+import LoginForm from "./LoginForm";
 // import { useSelector } from "react-redux";
-import { Route, Redirect, Switch } from "react-router-dom";
-import "../../styles/lib/login-style.scss";
-import "../../styles/lib/bg-animations.scss";
+import { Redirect, Route, Switch } from "react-router-dom";
+import SvgComponent from "../../components/svgComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
-import SvgComponent from "../../components/svgComponent";
+import "../../styles/lib/bg-animations.scss";
+import "../../styles/lib/login-style.scss";
 
 const Login = () => {
   const [state, setState] = useState({
@@ -26,8 +26,9 @@ const Login = () => {
           ...state,
           "logo": reponse?.data?.image ?? ''
         })
-      })
-  }, [])
+      }).catch(err => console.log(err)
+      )
+    }, [])
   return (
     <React.Fragment>
       <div className="bg-area">

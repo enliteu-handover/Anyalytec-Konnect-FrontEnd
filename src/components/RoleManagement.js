@@ -129,8 +129,8 @@ const RoleManagement = () => {
   };
 
   useEffect(() => {
-    fetchRoleData();
-    fetchPermissionData();
+    // fetchRoleData();
+    // fetchPermissionData();
   }, []);
 
   const triggerColorPicker = () => {

@@ -12,6 +12,7 @@ import { FILTER_CONFIG } from "../constants/ui-config";
 import { httpHandler } from "../http/http-interceptor";
 import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
+import { getRoles } from '@crayond_dev/idm-client';
 
 const UserManagement = () => {
 
@@ -184,11 +185,11 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-
+    debugger
     const file = state.uploadData;
     const reader = new FileReader();
 
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       const data = new Uint8Array(event.target.result);
       const workbook = XLSX.read(data, { type: "array" });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -196,7 +197,9 @@ const UserManagement = () => {
       const excelJson = JSON.parse(JSON.stringify(json, null, 2));
       const headers = excelJson[0];
       const dataArray = excelJson.slice(1);
-      const payload = dataArray.map(row => {
+      const roles = await getRoles({});
+
+      const payloadConstruction = dataArray.map((row) => {
         if (row?.length > 0) {
           const obj = {};
           headers.forEach((header, index) => {
@@ -205,6 +208,12 @@ const UserManagement = () => {
           return obj;
         }
       })?.filter(v => v);
+
+      const payload = await payloadConstruction?.map(v => {
+        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase())?.id
+        v.role = imd_role || ''
+        return { ...v }
+      })
 
       if (payload?.length > 0) {
         const obj_ = {
