@@ -21,7 +21,7 @@ const PendingApproval = (props) => {
                       <span className="pl-1">{item?.award?.name}</span>
                     </p>
                   </Link>
-                  <p className="text-right mb-1 d_waitingapprovals_dt opacity-3">{eepFormatDateTime(item.award.createdAt)}</p>
+                  <p className="text-right mb-1 d_waitingapprovals_dt opacity-3">{eepFormatDateTime(item?.award?.createdAt)}</p>
                 </div>
               )
             })}
