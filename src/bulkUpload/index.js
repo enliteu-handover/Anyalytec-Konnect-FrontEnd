@@ -78,7 +78,7 @@ const BulkUploadOrgChart = () => {
                         setData({ ...response?.data?.data ?? {} })
                         setIsUpload(false)
                         fetchUserData();
-                    });
+                    }).catch((error) => console.log(error));;
             }
         }
         reader.readAsArrayBuffer(file);

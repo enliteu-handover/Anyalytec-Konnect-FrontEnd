@@ -187,6 +187,7 @@ const URL_CONFIG = {
   UPSERT_BULK_USER: "/users/bulkuser",
   UPSERT_BULK_ORG: "/users/bulkorg",
   EXPORT_BULK_ORG: "/users/export_org",
+  UPDATE_SLACK_USERS: "/users/fetch_slack_user",
 };
 
 export { REST_CONFIG, URL_CONFIG };

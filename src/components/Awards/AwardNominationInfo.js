@@ -46,8 +46,8 @@ const AwardNominationInfo = (props) => {
             <div className="r_award_lcol_inner text-center">
               <img
                 src={
-                  aDataVal.imageByte
-                    ? aDataVal.imageByte.image
+                  aDataVal?.imageByte
+                    ? aDataVal?.imageByte?.image
                     : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                 }
                 className="r_award_img selected"
@@ -57,7 +57,7 @@ const AwardNominationInfo = (props) => {
             </div>
             <div className="col-md-12 text-center">
               <label className="n_award_add_label font-helvetica-m n_award_name">
-                {aDataVal.award.name}
+                {aDataVal?.award?.name}
               </label>
             </div>
             <div className="n_award_info_div">
@@ -70,25 +70,25 @@ const AwardNominationInfo = (props) => {
               <div className="n_dtls_info">
                 <label className="n_dtls_lb font-helvetica-m">Points</label>
                 <p className="n_award_points mb-1 text-right">
-                  {aDataVal.award.points}
+                  {aDataVal?.award?.points}
                 </p>
               </div>
               <div className="n_dtls_info ">
                 <label className="n_dtls_lb font-helvetica-m">Team</label>
                 <p className="n_award_dept mb-1 text-right">
-                  {(aDataVal.type === "spot_award") ? aDataVal.departmentId.name : (aDataVal.type === "nomi_award" ? aDataVal.nominatorId.department.name : "") }
+                  {(aDataVal?.type === "spot_award") ? aDataVal?.departmentId?.name : (aDataVal?.type === "nomi_award" ? aDataVal?.nominatorId?.department?.name : "") }
                 </p>
               </div>
-              {aDataVal && aDataVal.type === "nomi_award" && (
+              {aDataVal && aDataVal?.type === "nomi_award" && (
                 <React.Fragment>
                   <div className="n_dtls_info ">
                     <label className="n_dtls_lb font-helvetica-m">Nomination Type</label>
-                    <p className="n_award_type mb-1 text-right">{aDataVal.subType}</p>
+                    <p className="n_award_type mb-1 text-right">{aDataVal?.subType}</p>
                   </div>
                   <div className="n_dtls_info ">
                     <label className="n_dtls_lb font-helvetica-m">Judge</label>
                     <p className="n_award_judge mb-1 text-right">
-                      {aDataVal.judgeId.fullName}
+                      {aDataVal?.judgeId?.fullName}
                     </p>
                   </div>
                 </React.Fragment>
@@ -132,12 +132,12 @@ const AwardNominationInfo = (props) => {
               ></textarea>
               <span className="help-block">
                 <p id="characterLeft" className="help-block ">
-                  {commonMsgValue.length}/{msgMaxLength}
+                  {commonMsgValue?.length}/{msgMaxLength}
                 </p>
               </span>
             </div>
 
-            {aDataVal && aDataVal.type === "spot_award" && (
+            {aDataVal && aDataVal?.type === "spot_award" && (
               <React.Fragment>
                 <div className="eep-dropdown-divider"></div>
                 <div className="btn-group eep_tags_group hashTag eep_scroll_y" style={{maxHeight: "70px"}}>

@@ -142,7 +142,7 @@ const AddUser = () => {
       await httpHandler(obj)
         .then((res) => {
           uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
-        })
+        }).catch((error) => console.log(error));
 
     } else if (field["name"] === "country") {
       field["value"] = value;
@@ -159,7 +159,7 @@ const AddUser = () => {
           setUserMetaData({
             ...userMetaData,
           })
-        })
+        }).catch((error) => console.log(error));
     } else {
       field["value"] = value;
       dataObj[field["name"]] = value;
@@ -176,7 +176,7 @@ const AddUser = () => {
       .then((response) => response.json())
       .then((data) => {
         setUserMetaData(data);
-      });
+      }).catch((error) => console.log(error));;
   };
 
   useEffect(() => {

@@ -135,7 +135,7 @@ const Awards = () => {
       .then((response) => response.json())
       .then((data) => {
         setNominateTypeData(data);
-      });
+      }).catch((error) => console.log(error));;
   };
 
   useEffect(() => {

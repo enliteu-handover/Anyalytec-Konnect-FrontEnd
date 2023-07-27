@@ -30,7 +30,7 @@ function App() {
             svgIcons: data,
           })
         );
-      });
+      }).catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -39,10 +39,10 @@ function App() {
     if (!sessionStorage?.userData) {
       history.push("/login/signin");
     }
-    addRole();
+    addRoleAndSlack();
   }, []);
 
-  const addRole = async () => {
+  const addRoleAndSlack = async () => {
     const roles = await getRoles({});
     let payOptionsRole = {
       data: roles
@@ -53,7 +53,12 @@ function App() {
       method: "post",
       payload: payOptionsRole,
     };
+    const slack = {
+      url: URL_CONFIG.UPDATE_SLACK_USERS,
+      method: "get",
+    };
     if (roles?.length > 0) {
+      await httpHandler(slack)
       await httpHandler(objRole)
     }
   }
@@ -73,7 +78,7 @@ function App() {
         setTheme({
           color: color ?? reponse?.data?.[0]?.color,
         })
-      })
+      }).catch((error) => console.log(error));
   }
 
   return (

@@ -65,6 +65,7 @@ const AwardNominations = () => {
   ];
 
   useEffect(() => {
+    
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
         breadcrumbArr,
@@ -84,7 +85,8 @@ const AwardNominations = () => {
 
   const getUsersList = () => {
     
-    let deptID = aDataVal ? ((aDataVal.type === "spot_award") ? aDataVal.departmentId.id : (aDataVal.type === "nomi_award" ? aDataVal.nominatorId.department.id : null)) : null;
+    let deptID = aDataVal ? ((aDataVal?.type === "spot_award") ? aDataVal.departmentId?.id : 
+    (aDataVal?.type === "nomi_award" ? aDataVal?.nominatorId?.department?.id : null)) : null;
     
     const obj = {
       url: URL_CONFIG.DEPT_USERS,
@@ -184,7 +186,7 @@ const AwardNominations = () => {
         <React.Fragment>
           <PageHeader
             title={
-              aDataVal && aDataVal.type === "spot_award"
+              aDataVal && aDataVal?.type === "spot_award"
                 ? "Recognize Spot Award"
                 : "Nominate Award"
             }
@@ -231,7 +233,7 @@ const AwardNominations = () => {
           <div className="row r_award_row_div">
             <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-left">
               <div className="bg-f5f5f5 br-10 h-100 position-relative">
-                {aDataVal && aDataVal.type === "spot_award" && (
+                {aDataVal && aDataVal?.type === "spot_award" && (
                   <React.Fragment>
                     <div className="r_award_type">
                       <label className="mb-0">Spot</label>
@@ -263,7 +265,7 @@ const AwardNominations = () => {
           </div>
         </React.Fragment>
       }
-      {!userRolePermission.awardNominatorAssignee &&
+      {!userRolePermission?.awardNominatorAssignee &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo title="Oops! Looks illigal way." responseImg="accessDenied" responseClass="response-info" messageInfo="Contact Administrator." />
         </div>

@@ -39,7 +39,7 @@ const AwardRecognizeModal = (props) => {
       });
 
       setFinalisedData({
-        manageAwards: { id: aDataVal.id },
+        manageAwards: { id: aDataVal?.id },
         paramsList: obj,
         hashTag: hashVal,
       });
@@ -168,7 +168,7 @@ const AwardRecognizeModal = (props) => {
                   <div className="row equal-cols justify-content-md-center no-gutters awardRecognizeModal">
                     <div className="col-md-3 col-lg-3 col-xs-12 col-sm-12 text-left">
                       <div className="bg-f5f5f5 br-10 h-100">
-                        {aDataVal && aDataVal.type === "spot_award" && (
+                        {aDataVal && aDataVal?.type === "spot_award" && (
                           <React.Fragment>
                             <div className="r_award_type">
                               <label className="mb-0">Spot</label>
@@ -181,8 +181,8 @@ const AwardRecognizeModal = (props) => {
                               <div className="r_award_lcol_inner text-left">
                                 <img
                                   src={
-                                    aDataVal.imageByte
-                                      ? aDataVal.imageByte.image
+                                    aDataVal?.imageByte
+                                      ? aDataVal?.imageByte?.image
                                       : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                                   }
                                   className="r_award_img selected mr-2"
@@ -190,11 +190,11 @@ const AwardRecognizeModal = (props) => {
                                   title="Award Name"
                                 />
                                 <label className="n_award_add_label font-helvetica-m n_award_name">
-                                  {aDataVal.award.name}
+                                  {aDataVal?.award.name}
                                 </label>
                               </div>
                               <div className="n_award_info_div">
-                                {aDataVal && aDataVal.type === "spot_award" && (
+                                {aDataVal && aDataVal?.type === "spot_award" && (
                                   <div className="n_dtls_info">
                                     <label className="n_dtls_lb font-helvetica-m">Tags</label>
                                     <p className="n_award_category mb-1 text-right">
@@ -205,29 +205,29 @@ const AwardRecognizeModal = (props) => {
                                 <div className="n_dtls_info">
                                   <label className="n_dtls_lb font-helvetica-m">Points</label>
                                   <p className="n_award_points mb-1 text-right">
-                                    {aDataVal.award.points}
+                                    {aDataVal?.award?.points}
                                   </p>
                                 </div>
                                 <div className="n_dtls_info ">
                                   <label className="n_dtls_lb font-helvetica-m">Team</label>
                                   <p className="n_award_dept mb-1 text-right">
-                                    {(aDataVal.type === "spot_award") ? aDataVal.departmentId.name : (aDataVal.type === "nomi_award" ? aDataVal.nominatorId.department.name : "")}
+                                    {(aDataVal?.type === "spot_award") ? aDataVal?.departmentId?.name : (aDataVal?.type === "nomi_award" ? aDataVal?.nominatorId?.department?.name : "")}
                                   </p>
                                 </div>
-                                {aDataVal && aDataVal.type === "nomi_award" && (
+                                {aDataVal && aDataVal?.type === "nomi_award" && (
                                   <React.Fragment>
                                     <div className="n_dtls_info ">
                                       <label className="n_dtls_lb font-helvetica-m">
                                         Nomination Type
                                       </label>
                                       <p className="n_award_type mb-1 text-right">
-                                        {aDataVal.subType}
+                                        {aDataVal?.subType}
                                       </p>
                                     </div>
                                     <div className="n_dtls_info ">
                                       <label className="n_dtls_lb font-helvetica-m">Judge</label>
                                       <p className="n_award_judge mb-1 text-right">
-                                        {aDataVal.judgeId.fullName}
+                                        {aDataVal?.judgeId.fullName}
                                       </p>
                                     </div>
                                   </React.Fragment>
@@ -268,7 +268,7 @@ const AwardRecognizeModal = (props) => {
                                     </span>
                                   </div>
                                 </div>
-                                {aDataVal && aDataVal.type === "spot_award" && (
+                                {aDataVal && aDataVal?.type === "spot_award" && (
                                   <div className="n_dtls_info selection_summary">
                                     <div className="text-right eep_recog_enable">
                                       <label className="mb-0 mr-1">Wall Post:</label>
@@ -284,7 +284,7 @@ const AwardRecognizeModal = (props) => {
                                   </div>
                                 </div>
                               )}
-                              {!awardResponseMsg && aDataVal.type === 'spot_award' && (
+                              {!awardResponseMsg && aDataVal?.type === 'spot_award' && (
                                 <div className="d-flex flex-column justify-content-center align-items-center">
                                   {toggleSwitch && (
                                     <button
@@ -314,7 +314,7 @@ const AwardRecognizeModal = (props) => {
                                   </button>
                                 </div>
                               )}
-                              {!awardResponseMsg && aDataVal.type === 'nomi_award' && (
+                              {!awardResponseMsg && aDataVal?.type === 'nomi_award' && (
                                 <div className="d-flex flex-column justify-content-center align-items-center">
                                   <button
                                     type="submit"

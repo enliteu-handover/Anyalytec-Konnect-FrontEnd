@@ -185,7 +185,7 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-    debugger
+    
     const file = state.uploadData;
     const reader = new FileReader();
 
@@ -228,7 +228,7 @@ const UserManagement = () => {
 
             setData({ ...response?.data?.data ?? {} })
             setIsUpload(false)
-          })
+          }).catch((error) => console.log(error));
       }
     }
     reader.readAsArrayBuffer(file);

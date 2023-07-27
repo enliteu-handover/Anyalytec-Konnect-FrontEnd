@@ -155,15 +155,15 @@ const AwardRecognition = () => {
                             </div>
                             <div className="an_dtls_info">
                               <label className="an_dtls_lb">Dept</label>
-                              <p className="an_dtls_p">{data.nominatorId.department.name}</p>
+                              <p className="an_dtls_p">{data.nominatorId?.department?.name}</p>
                             </div>
                             <div className="an_dtls_info">
                               <label className="an_dtls_lb">Judge</label>
-                              <p className="an_dtls_p">{data.judgeId.fullName}</p>
+                              <p className="an_dtls_p">{data?.judgeId?.fullName}</p>
                             </div>
                             <div className="an_dtls_info">
                               <label className="an_dtls_lb">Award type</label>
-                              <p className="an_dtls_p">{data.subType}</p>
+                              <p className="an_dtls_p">{data?.subType}</p>
                             </div>
                           </div>
                           <div className="an_dtls_action_div">

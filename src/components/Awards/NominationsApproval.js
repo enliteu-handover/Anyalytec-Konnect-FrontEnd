@@ -213,15 +213,15 @@ const NominationsApproval = () => {
                               src={getUserPicture(item?.userId?.id)}
                               className="r_award_img selected" 
                               alt="User Pic" 
-                              title={item.userId.fullName}
+                              title={item?.userId?.fullName}
                             />
-                            <label className="n_award_add_label font-helvetica-m">{item.userId.fullName}</label>
+                            <label className="n_award_add_label font-helvetica-m">{item?.userId?.fullName}</label>
                           </div>
                           <div className="ap_award_info_div">
-                            <p className="ap_award_info ap_acat" title="Category">{awardDatas.award.name}</p>
-                            <p className="ap_award_info ap_udept" title="Department">{awardDatas.judgeId.department.name}</p>
+                            <p className="ap_award_info ap_acat" title="Category">{awardDatas?.award?.name}</p>
+                            <p className="ap_award_info ap_udept" title="Department">{awardDatas?.judgeId?.department?.name}</p>
                             <p className="ap_award_info" title="Enlite Points">{awardDatas.award.points}</p>
-                            <p className="ap_award_info" title="Nominated By">{awardDatas.nominatorId.fullName}</p>
+                            <p className="ap_award_info" title="Nominated By">{awardDatas?.nominatorId?.fullName}</p>
                             <p className="ap_award_info ap_award_msg" title="Message">{item.message}</p>                   
                           </div>
                           <div className="ap_approval_div">

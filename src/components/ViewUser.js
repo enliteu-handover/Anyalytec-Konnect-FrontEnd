@@ -42,7 +42,7 @@ const ViewUser = () => {
       .then((data) => {
         setUserMeta(data);
         fetchCurrentUserData(data);
-      });
+      }).catch((error) => console.log(error));;
   };
 
   const fetchCurrentUserData = (userMeta) => {
@@ -67,7 +67,7 @@ const ViewUser = () => {
                 setUserMeta({
                   ...userMeta,
                 })
-              })
+              }).catch((error) => console.log(error));
           }
           userDataValueMapping(userMeta, uData.data);
         }, 0);

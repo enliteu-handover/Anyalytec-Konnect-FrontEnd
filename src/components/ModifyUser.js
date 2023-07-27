@@ -124,7 +124,7 @@ const ModifyUser = () => {
       await httpHandler(obj)
         .then((res) => {
           uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
-        })
+        }).catch((error) => console.log(error));
 
     } else if (field?.name === "branch") {
       uData[field.name] = event;
@@ -158,7 +158,7 @@ const ModifyUser = () => {
           setUserMetaData({
             ...userMetaData,
           })
-        })
+        }).catch((error) => console.log(error));
     } else if (field.type === "datePicker" || field.type === "select") {
       uData[field.name] = field.booleanValue ? (event === 'true' ? true : false) : event;
     } else {
@@ -179,7 +179,7 @@ const ModifyUser = () => {
         data.column3.fields = data.column3.fields.filter(v => v?.type !== "password")
         setUserMetaData(data);
         fetchCurrentUserData(data);
-      });
+      }).catch((error) => console.log(error));;
   };
 
   const fetchCurrentUserData = async (userMeta) => {
@@ -206,7 +206,7 @@ const ModifyUser = () => {
                 setUserMetaData({
                   ...userMeta,
                 })
-              })
+              }).catch((error) => console.log(error));
           }
 
           userDataValueMapping(userMeta, uData.data);

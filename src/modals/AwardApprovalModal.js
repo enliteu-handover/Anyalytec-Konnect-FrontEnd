@@ -130,7 +130,7 @@ const AwardApprovalModal = (props) => {
 														</div>
 														<div className="n_dtls_info ">
 															<label className="n_dtls_lb font-helvetica-m">Team</label>
-															<p className="n_award_dept mb-1 text-right">{awardDatas.nominatorId.department.name}</p>
+															<p className="n_award_dept mb-1 text-right">{awardDatas.nominatorId?.department?.name}</p>
 														</div>
 														<div className="n_dtls_info ">
 															<label className="n_dtls_lb font-helvetica-m">Nomination Type</label>
@@ -138,7 +138,7 @@ const AwardApprovalModal = (props) => {
 														</div>
 														<div className="n_dtls_info ">
 															<label className="n_dtls_lb font-helvetica-m">Nominated By</label>
-															<p className="n_award_nominatedby mb-1 text-right">{awardDatas.nominatorId.fullName}</p>
+															<p className="n_award_nominatedby mb-1 text-right">{awardDatas?.nominatorId?.fullName}</p>
 														</div>
 														<div className="n_dtls_info selection_summary">
 															<div className="selection_summary_div selection_summary_tot">

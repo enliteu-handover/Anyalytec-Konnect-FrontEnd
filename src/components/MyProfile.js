@@ -45,7 +45,7 @@ const MyProfile = () => {
       .then((data) => {
         setUserMeta(data);
         fetchCurrentUserData(data);
-      });
+      }).catch((error) => console.log(error));;
   };
 
   const fetchCurrentUserData = (userMeta) => {
@@ -71,7 +71,7 @@ const MyProfile = () => {
                 setUserMeta({
                   ...userMeta,
                 })
-              })
+              }).catch((error) => console.log(error));
           }
           userDataValueMapping(userMeta, uData.data);
         }, 0);
@@ -185,7 +185,7 @@ const MyProfile = () => {
   useEffect(() => {
     fetchUserMeta();
   }, []);
-  
+
   const onUpload = (arg) => {
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     // let currUserDataTemp = JSON.parse(JSON.stringify(currUserDataNew));
@@ -227,7 +227,7 @@ const MyProfile = () => {
               message: 'Picture updated successfully!',
               type: 'success'
             });
-          })
+          }).catch((error) => console.log(error));
       })
       .catch((error) => {
         const errMsg = error?.response?.data?.message;

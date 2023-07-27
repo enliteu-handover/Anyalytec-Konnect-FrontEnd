@@ -104,7 +104,7 @@ const RoleManagement = () => {
       .then((response) => response.json())
       .then((data) => {
         setPermissionData(data);
-      });
+      }).catch((error) => console.log(error));;
   };
 
   const fetchRoleData = () => {
