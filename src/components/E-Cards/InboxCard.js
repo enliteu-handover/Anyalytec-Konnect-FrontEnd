@@ -128,7 +128,7 @@ const InboxCard = (props) => {
                                 <div className="row">
                                   <div className="col-md-10">
                                     <div className="item-box-blog-heading">
-                                      <h5>{item.fromUserId.firstname + item.fromUserId.lastname}</h5>
+                                      <h5>{item?.fromUserId?.firstname + item?.fromUserId?.lastname}</h5>
                                     </div>
                                   </div>
                                   <div className="col-md-2 pl-0 my-auto">

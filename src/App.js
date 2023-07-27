@@ -36,9 +36,6 @@ function App() {
   useEffect(() => {
     fetchSvgIcons();
     firebaseInitialization()
-    if (!sessionStorage?.userData) {
-      history.push("/login/signin");
-    }
     addRoleAndSlack();
   }, []);
 
@@ -81,6 +78,11 @@ function App() {
       }).catch((error) => console.log(error));
   }
 
+  const PrivateRoute = ({ children }) => {
+    // history.push('/login')
+    return sessionStorage?.userData ? children : <Redirect to="/login/signin" />;
+  };
+
   return (
     <div class="user-element" data-user={theme?.color ?? "color_one"}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -90,17 +92,26 @@ function App() {
           </div>
         </div>
         <Switch>
-          <Route path="/" exact>
+          <Route path="/login"><Login /></Route>
+          {/* <Route path="/" exact>
             <Redirect to="/login" />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
+          </Route> */}
           <Route path="/app">
-            <IdleTimerContainer />
-            <MainContainer />
-            <RolePermissions />
-            <TourState />
+            <PrivateRoute>
+              <IdleTimerContainer />
+            </PrivateRoute>
+
+            <PrivateRoute>
+              <MainContainer />
+            </PrivateRoute>
+
+            <PrivateRoute>
+              <RolePermissions />
+            </PrivateRoute>
+
+            <PrivateRoute>
+              <TourState />
+            </PrivateRoute>
             {/* <FirebaseToken /> */}
           </Route>
         </Switch>

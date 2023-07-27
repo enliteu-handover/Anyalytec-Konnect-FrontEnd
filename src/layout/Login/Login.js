@@ -28,7 +28,7 @@ const Login = () => {
         })
       }).catch(err => console.log(err)
       )
-    }, [])
+  }, [])
   return (
     <React.Fragment>
       <div className="bg-area">

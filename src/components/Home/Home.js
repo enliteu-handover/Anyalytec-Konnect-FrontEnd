@@ -133,7 +133,7 @@ const Home = () => {
     }
     httpHandler(obj).then((response) => {
       
-      setDashboardDetails(response.data);
+      setDashboardDetails(response?.data);
     }).catch((error) => {
       console.log("getDashboardDetails error", error);
     });
@@ -223,7 +223,7 @@ const Home = () => {
   return (
     <div className="row eep-content-section-data no-gutters">
       <div className="tab-content col-md-12 h-100">
-        {Object.keys(dashboardDetails).length > 0 &&
+        {Object.keys(dashboardDetails)?.length > 0 &&
           <div id="My_Dashboard" className="tab-pane active h-100">
             <Dashboard dashboardDetails={dashboardDetails} getUserPicture={getUserPicture} />
           </div>

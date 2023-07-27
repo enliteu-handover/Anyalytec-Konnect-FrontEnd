@@ -78,21 +78,21 @@ const Awards = () => {
 
   useEffect(() => {
 
-    if (userRolePermission.awardNominatorAssignee) {
+    if (userRolePermission?.awardNominatorAssignee) {
       tabConfig.push(
         { title: "Nominator View", id: "NominatorTab" },
         { title: "My Nominations", id: "MyNominationsTab" },
         { title: "Approval", id: "ApprovalTab" }
       );
     }
-    if (userRolePermission.awardCategorisation) {
+    if (userRolePermission?.awardCategorisation) {
       tabConfig.splice(2, 0, { title: "Awards", id: "awardTab" });
       tabConfig.push(
         { title: "Manage", id: "ManageTab" }
       );
     }
 
-    if (!userRolePermission.awardNominatorAssignee && !userRolePermission.awardCategorisation) {
+    if (!userRolePermission?.awardNominatorAssignee && !userRolePermission?.awardCategorisation) {
       tabConfig.splice((tabConfig.length - 1), 0, { title: "Approval", id: "ApprovalTab" });
     }
 

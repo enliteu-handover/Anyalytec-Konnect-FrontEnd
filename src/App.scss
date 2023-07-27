@@ -179,3 +179,11 @@ table.dataTable thead .sorting_desc:after {
   text-transform: uppercase !important;
   /* Add your desired styles for the table header */
 }
+
+.no_access {
+  margin: auto;
+  display: flex;
+  position: absolute;
+  left: 30%;
+  top: 40%;
+}

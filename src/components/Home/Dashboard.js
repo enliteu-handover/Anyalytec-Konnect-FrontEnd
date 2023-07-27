@@ -137,7 +137,7 @@ const Dashboard = (props) => {
                 <img src={userSessionData.id ? getUserPicture(userSessionData.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt="Profile Image" title={userSessionData.username} />
                 <div className="d_u_details">
                   <label className="d_u_name font-helvetica-m my-0">{userSessionData.username}</label>
-                  <p className="d_u_dept">{dashboardDetails.designation} - {dashboardDetails.departmentName}</p>
+                  <p className="d_u_dept">{dashboardDetails?.designation} - {dashboardDetails?.departmentName}</p>
                 </div>
                 &nbsp;&nbsp;&nbsp;
                 <Link to={{ pathname: "orgChart" }}>

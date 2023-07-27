@@ -13,7 +13,7 @@ const Inbox = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const hideModal = () => {
-  let collections = document.getElementsByClassName("modal-backdrop");
+    let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
       collections[i].remove();
     }
@@ -55,14 +55,14 @@ const Inbox = () => {
     const obj = {
       url: URL_CONFIG.ECARD_INBOX,
       method: "get",
-      params: { id: userData.id}
+      params: { id: userData.id }
     };
     httpHandler(obj)
       .then((response) => {
-        const groupByCategory = response.data.reduce((group, card) => {     
+        const groupByCategory = response?.data?.reduce((group, card) => {
           const { type } = card;
           group[type] = group[type] ?? [];
-          group[type].push(card);          
+          group[type].push(card);
           return group;
         }, {});
         setInboxData(groupByCategory);
@@ -72,14 +72,14 @@ const Inbox = () => {
       });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchInboxData();
-  },[]);
+  }, []);
 
 
   const likeECard = (arg) => {
     const obj = {
-      url: URL_CONFIG.ECARD_LIKE + "?id=" + arg.id +"&like=" + !arg.liked,
+      url: URL_CONFIG.ECARD_LIKE + "?id=" + arg.id + "&like=" + !arg.liked,
       method: "put",
     };
     httpHandler(obj)
@@ -130,14 +130,14 @@ const Inbox = () => {
         <div className="col-md-12">
           <div id="inbox-accordion">
             <div className="accordion" id="accordionInbox">
-              <InboxCard inboxCardSettings={{"id":"InboxOne","dataTarget":"collapseInboxBirthday","title":"Birthday","show":"show","expand":"true","carousel":"inboxBirthdayCarousel"}} inboxData = {inboxData?.birthday} likeECard={likeECard} />
-              <InboxCard inboxCardSettings={{"id":"InboxTwo","dataTarget":"collapseInboxWorkAnniversary","title":"Work Anniversary","show":"","expand":"false","carousel":"inboxWorkAnniversaryCarousel"}} inboxData = {inboxData?.anniversary} likeECard={likeECard} />
-              <InboxCard inboxCardSettings={{"id":"InboxThree","dataTarget":"collapseInboxAppreciation","title":"Appreciation","show":"","expand":"false","carousel":"inboxAppreciationCarousel"}} inboxData = {inboxData?.appreciation} likeECard={likeECard} />
-              <InboxCard inboxCardSettings={{"id":"InboxFour","dataTarget":"collapseInboxSeasonal","title":"Seasonal Greetings","show":"","expand":"false","carousel":"inboxSeasonalCarousel"}} inboxData = {inboxData?.seasonal} likeECard={likeECard} />              
+              <InboxCard inboxCardSettings={{ "id": "InboxOne", "dataTarget": "collapseInboxBirthday", "title": "Birthday", "show": "show", "expand": "true", "carousel": "inboxBirthdayCarousel" }} inboxData={inboxData?.birthday} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxTwo", "dataTarget": "collapseInboxWorkAnniversary", "title": "Work Anniversary", "show": "", "expand": "false", "carousel": "inboxWorkAnniversaryCarousel" }} inboxData={inboxData?.anniversary} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxThree", "dataTarget": "collapseInboxAppreciation", "title": "Appreciation", "show": "", "expand": "false", "carousel": "inboxAppreciationCarousel" }} inboxData={inboxData?.appreciation} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxFour", "dataTarget": "collapseInboxSeasonal", "title": "Seasonal Greetings", "show": "", "expand": "false", "carousel": "inboxSeasonalCarousel" }} inboxData={inboxData?.seasonal} likeECard={likeECard} />
             </div>
           </div>
-          </div>
         </div>
+      </div>
     </React.Fragment>
   );
 };
