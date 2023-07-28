@@ -1,10 +1,10 @@
+import { getRoles } from '@crayond_dev/idm-client';
 import React, { useEffect, useState } from "react";
-import classes from "./LoginForm.module.scss";
+import { Link, useHistory } from "react-router-dom";
 import Button from "../../UI/Button";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import classes from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -87,6 +87,7 @@ const LoginForm = () => {
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
+          addRoleAndSlack();
           if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
             const url = new URL(sessionStorage?.redirect);
             const router = url.pathname; // This will give you "/app/ecardIndex"
@@ -118,6 +119,27 @@ const LoginForm = () => {
     await httpHandler(obj);
   };
 
+  const addRoleAndSlack = async () => {
+    const roles = await getRoles({});
+    
+    let payOptionsRole = {
+      data: roles
+    };
+
+    const objRole = {
+      url: URL_CONFIG.ADDROLE,
+      method: "post",
+      payload: payOptionsRole,
+    };
+    const slack = {
+      url: URL_CONFIG.UPDATE_SLACK_USERS,
+      method: "get",
+    };
+    if (roles?.length > 0) {
+      await httpHandler(slack)
+      await httpHandler(objRole)
+    }
+  }
 
   const nameInputClasses = nameInputIsInvalid ? `${classes.invalid}` : "";
   const passwordInputClasses = passWordInputIsInvalid ? `${classes.invalid}` : "";

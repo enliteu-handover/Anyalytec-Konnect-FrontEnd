@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     fetchSvgIcons();
     firebaseInitialization()
-    addRoleAndSlack();
+    // addRoleAndSlack();
   }, []);
 
   const addRoleAndSlack = async () => {

@@ -30,6 +30,7 @@ const LogoutModal = () => {
     //     const errMsg = error.response?.data?.message;
     //   });
     sessionStorage.clear();
+    localStorage.clear(); 
     history.push("/login/signin");
   };
 
@@ -45,7 +46,7 @@ const LogoutModal = () => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header justify-content-center border-0">
-            <div 
+            <div
               className="d-flex justify-content-center w-100 modal-icon-box"
             >
               <img

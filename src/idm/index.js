@@ -1,7 +1,7 @@
 import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
 export const idmRoleMapping = async (role, permission = ['update', 'read', 'create', 'delete']) => {
     const roles = await getRoles({});
-    const finfRole = roles.find(v => v.name?.toLowerCase() === role?.toLowerCase())
+    const finfRole = roles.find(v => v.id === role)
     const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
     const GetPermissions = JSON.parse(localStorage.getItem('permissions'));
     var validate = null;
@@ -72,3 +72,15 @@ function transformSentence(sentence) {
     });
     return formattedWords.join('');
 }
+
+
+export const LoaderHandler = (arg) => {
+    const element = document.getElementById('loader-container');
+    element.classList.remove('d-none', 'd-block');
+  
+    if (arg === 'show') {
+      element.classList.add('d-block');
+    } else {
+      element.classList.add('d-none');
+    }
+  }

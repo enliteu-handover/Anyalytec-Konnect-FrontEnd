@@ -85,6 +85,7 @@ const ErrorHandling = () => {
   // history.push(`${process.env.PUBLIC_URL}/login/signin`);
   // history.push(`${process.env.PUBLIC_URL}/login/signin`);
   sessionStorage.clear();
+  localStorage.clear();
   window.location.href = `${process.env.PUBLIC_URL}/login/signin`;
 }
 
