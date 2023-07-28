@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import * as XLSX from 'xlsx';
@@ -12,6 +12,7 @@ import { BreadCrumbActions } from "../store/breadcrumb-slice";
 
 const BulkUploadOrgChart = () => {
     const user_details = sessionStorage.getItem('userData');
+    const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
     const dispatch = useDispatch();
     const [isUpload, setIsUpload] = useState(true);
     const [data, setData] = useState({});
@@ -146,12 +147,12 @@ const BulkUploadOrgChart = () => {
         }
     ];
 
-    const fetchUserData = (arg) => {
+    const fetchUserData = async (arg) => {
         const obj = {
             url: URL_CONFIG.GETALLUSERS,
             method: "get"
         };
-        httpHandler(obj)
+        await httpHandler(obj)
             .then(async (userData) => {
 
                 const res = await chartData(userData?.data, userData?.data)
@@ -175,16 +176,16 @@ const BulkUploadOrgChart = () => {
     };
 
     useEffect(() => {
-        fetchUserData();
         fetchOrgData();
+        fetchUserData();
     }, []);
 
-    const fetchOrgData = () => {
+    const fetchOrgData = async () => {
         const obj = {
             url: URL_CONFIG.EXPORT_BULK_ORG,
             method: "post"
         };
-        httpHandler(obj)
+        await httpHandler(obj)
             .then(async (exportData) => {
                 setState({
                     ...state,
@@ -291,21 +292,22 @@ const BulkUploadOrgChart = () => {
                         >
                             Your  Points : 100
                         </button> */}
-                        <Link
-                            style={{
-                                marginBottom: 14,
-                                marginRight: 10
-                            }}
-                            className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
-                            data-toggle="modal"
-                            data-target="#CreateBulkUploadModal"
-                            to="#"
-                            onClick={openBulk}
-                        > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
-
+                        {userRolePermission?.adminPanel &&
+                            <Link
+                                style={{
+                                    marginBottom: 14,
+                                    marginRight: 10
+                                }}
+                                className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
+                                data-toggle="modal"
+                                data-target="#CreateBulkUploadModal"
+                                to="#"
+                                onClick={openBulk}
+                            > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
+                        }
                         <div className="form-group field-wbr" style={{ width: "280px" }}>
                             <Select
-                                options={state?.userData ?? []} components={{ Option: CustomOption }}
+                                options={(state?.orgChartData?.newUsers) && (state?.userData ?? [])} components={{ Option: CustomOption }}
                                 classNamePrefix="eep_select_common select"
                                 className={`a_designation basic-single`}
                                 placeholder="search..."
@@ -315,11 +317,12 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
-            {state?.orgChartData?.newUsers && <div style={{
-                position: 'fixed',
-                top: '50%',
-                right: '46%',
-            }}>No Data!.</div>}
+            {state?.orgChartData?.newUsers &&
+                <div style={{
+                    position: 'fixed',
+                    top: '50%',
+                    right: '46%',
+                }}>No Data!.</div>}
             {(!state?.orgChartData?.newUsers) && state?.chartData?.initialNodes?.length > 0 && state?.chartData?.initialEdges?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
         </React.Fragment>
     );

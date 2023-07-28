@@ -185,7 +185,7 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-    
+
     const file = state.uploadData;
     const reader = new FileReader();
 
@@ -249,7 +249,7 @@ const UserManagement = () => {
 
   return (
     <React.Fragment>
-      <CreateBulkUploadModal
+      {userRolePermission?.adminPanel && <CreateBulkUploadModal
         data={data?.allData?.map(v => {
           return { ...v, manager: v?.isdefault ? 0 : 1 }
         }) ?? []}
@@ -262,7 +262,7 @@ const UserManagement = () => {
         onSucess={onSucess}
         fileName={state?.uploadData?.name ?? ''}
         handleChange={handleChange}
-      />
+      />}
 
       {userRolePermission?.adminPanel &&
         <React.Fragment>

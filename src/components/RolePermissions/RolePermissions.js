@@ -17,7 +17,6 @@ const RolePermissions = () => {
       method: "get",
     };
     httpHandler(obj).then(async (response) => {
-      
       const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
       console.log('roleData', roleData);
       dispatch(sharedDataActions.getUserRolePermission({

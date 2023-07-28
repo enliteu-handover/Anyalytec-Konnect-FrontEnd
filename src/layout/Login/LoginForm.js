@@ -74,7 +74,6 @@ const LoginForm = () => {
       };
       httpHandler(obj)
         .then(async (userData) => {
-
           // {"refreshToken":"811c621e-c57f-4a3d-8d48-e7a3da0cafb2","id":1,"username":"Administrator","email":"support@teckonnect.com","fullName":"System Administrator","accessToken":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODIyMDE4LCJleHAiOjE2ODY4MjM4MTh9.vHeJXqbDVhJfrsatwjJKzERqaVTS9EWXDwry9-J74tKpkezY6MFKXyhzjcCCZ1UgVmqfRwTe6KxCc1VnjWeB0A","tokenType":"Bearer"}
           sessionStorage.userData = JSON.stringify({
             "id": userData.data.data.user?.id,
@@ -87,7 +86,7 @@ const LoginForm = () => {
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          addRoleAndSlack();
+          await addRoleAndSlack();
           if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
             const url = new URL(sessionStorage?.redirect);
             const router = url.pathname; // This will give you "/app/ecardIndex"
@@ -121,7 +120,7 @@ const LoginForm = () => {
 
   const addRoleAndSlack = async () => {
     const roles = await getRoles({});
-    
+
     let payOptionsRole = {
       data: roles
     };
@@ -131,12 +130,12 @@ const LoginForm = () => {
       method: "post",
       payload: payOptionsRole,
     };
-    const slack = {
-      url: URL_CONFIG.UPDATE_SLACK_USERS,
-      method: "get",
-    };
+    // const slack = {
+    //   url: URL_CONFIG.UPDATE_SLACK_USERS,
+    //   method: "get",
+    // };
     if (roles?.length > 0) {
-      await httpHandler(slack)
+      // await httpHandler(slack)
       await httpHandler(objRole)
     }
   }
