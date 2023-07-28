@@ -32,7 +32,7 @@ const Awards = () => {
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const location = useLocation();
   const history = useHistory();
-  const routerData = location.state;
+  const routerData = location.state || { activeTab: window.location.hash.substring(1)?.split('?')?.[0] };
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const breadcrumbArr = [
@@ -108,7 +108,7 @@ const Awards = () => {
           config: tabConfig,
         })
       );
-      history.replace({ pathname: history.location.pathname, state: {} });
+      // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -194,7 +194,7 @@ const Awards = () => {
   };
 
   const bulkSubmitHandler = () => {
-    
+
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
         url: URL_CONFIG.AWARD_BULK_UPDATE,

@@ -41,7 +41,8 @@ const IdeaBox = () => {
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const location = useLocation();
   const history = useHistory();
-  const routerData = location.state;
+  // const routerData = location.state;
+  const routerData = location.state || { activeTab: window.location.hash.substring(1)?.split('?')?.[0] };
 
   const breadcrumbArr = [
     {
@@ -98,7 +99,7 @@ const IdeaBox = () => {
           config: tabConfig,
         })
       );
-      history.replace({ pathname: history.location.pathname, state: {} });
+      // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -258,9 +259,9 @@ const IdeaBox = () => {
       existIdeaAttach: null
     }
 
-    formData.append('ideaRequest',JSON.stringify(ideaRequestObj)
-    //  new Blob([JSON.stringify(ideaRequestObj)], { type: 'application/json' })
-     );
+    formData.append('ideaRequest', JSON.stringify(ideaRequestObj)
+      //  new Blob([JSON.stringify(ideaRequestObj)], { type: 'application/json' })
+    );
 
     const obj = {
       url: URL_CONFIG.IDEA,
@@ -294,7 +295,7 @@ const IdeaBox = () => {
   }
 
   const readIdeaData = (iData, isActive, isRead) => {
-    
+
     if (iData) {
       let obj;
       let iReadIndex = 0;
@@ -353,7 +354,7 @@ const IdeaBox = () => {
   }
 
   const markImportant = (iData, isImportant) => {
-    
+
     let obj;
     let iImportantIndex = 0;
     if (isImportant) {
@@ -412,7 +413,7 @@ const IdeaBox = () => {
   }
 
   const readAllIdeas = (isReadAll) => {
-    
+
     if (isReadAll) {
       const obj = {
         url: URL_CONFIG.IDEA_READ_ALL,

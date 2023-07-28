@@ -14,7 +14,8 @@ const ECardIndex = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   const location = useLocation();
   const history = useHistory();
-  const routerData = location.state;
+  // const routerData = location.state;
+  const routerData = location.state || { activeTab: window.location.hash.substring(1)?.split('?')?.[0] };
 
   const breadcrumbArr = [
     {
@@ -73,7 +74,7 @@ const ECardIndex = () => {
           config: tabConfig,
         })
       );
-      history.replace({ pathname: history.location.pathname, state: {} });
+      // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({

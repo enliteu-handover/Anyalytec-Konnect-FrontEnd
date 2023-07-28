@@ -87,7 +87,15 @@ const LoginForm = () => {
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          history.push("/app/dashboard");
+          if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
+            const url = new URL(sessionStorage?.redirect);
+            const router = url.pathname; // This will give you "/app/ecardIndex"
+            console.log(router);
+            history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
+            sessionStorage.removeItem('redirect')
+          } else {
+            history.push("/app/dashboard");
+          }
         })
         .catch((error) => {
           console.log("formSubmissionHandler error", error.response);

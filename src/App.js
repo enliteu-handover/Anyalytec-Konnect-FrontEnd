@@ -79,7 +79,9 @@ function App() {
   }
 
   const PrivateRoute = ({ children }) => {
-    // history.push('/login')
+    if (!sessionStorage?.userData) {
+      sessionStorage.setItem('redirect', window.location.href)
+    }
     return sessionStorage?.userData ? children : <Redirect to="/login/signin" />;
   };
 
