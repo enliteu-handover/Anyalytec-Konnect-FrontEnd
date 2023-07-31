@@ -64,6 +64,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
+    debugger
     if (userRolePermission.employeeEngagementDashboard) {
       tabConfig.push({
         title: "Rewards & Recognition",
@@ -78,11 +79,11 @@ const Home = () => {
     }
 
     if (userRolePermission.employeeEngagementDashboard || userRolePermission.hallOfFame) {
-      if (routerData) {
+      if (routerData?.activeTab) {
         const activeTabId = routerData.activeTab;
         tabConfig.map((res) => {
           if (res.id === activeTabId) {
-            res.active = true
+            res['active'] = true
           }
         });
         dispatch(
@@ -90,7 +91,7 @@ const Home = () => {
             config: tabConfig,
           })
         );
-        history.replace({ pathname: history.location.pathname, state: {} });
+        // history.replace({ pathname: history.location.pathname, state: {} });
       } else {
         dispatch(
           TabsActions.updateTabsconfig({
@@ -109,9 +110,10 @@ const Home = () => {
     }
 
   }, [userRolePermission]);
+  
 
   useEffect(() => {
-    if (activeTab?.id !== "My_Dashboard") { return }
+    // dispatch(TabsActions.tabOnChange({tabInfo:tabConfig?.[0]}))
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
         breadcrumbArr,
@@ -124,7 +126,7 @@ const Home = () => {
         title: "",
       });
     };
-  }, [activeTab]);
+  }, []);
 
   const getDashboardDetails = () => {
     const obj = {

@@ -85,7 +85,7 @@ const Sidebar = () => {
           </div>
         </li>
         <hr className={`sidebar-divider my-2`} />
-        {sidebarMenu.map((menu, index) => {
+        {sidebarMenu?.map((menu, index) => {
           return (
             <li className="nav-item" key={"list" + index}>
               <Link
@@ -94,7 +94,7 @@ const Sidebar = () => {
                 data-target={
                   menu && menu.subMenu ? `#collapseSection${index}` : ""
                 }
-                to={menu.isDirectLink ? `/app/` + menu.link : "#"}
+                to={menu.isDirectLink ? (`/app/` + menu.link) : "#"}
               >
                 {/* <img
                   className="eep-menu-icon"
@@ -108,14 +108,14 @@ const Sidebar = () => {
                 </div>
 
               </Link>
-              {menu.subMenu && (
+              {menu?.subMenu && (
                 <div
                   id={`collapseSection${index}`}
                   className="collapse"
                   data-parent="#accordionSidebar"
                 >
                   <div className="bg-white py-2 collapse-inner rounded">
-                    {menu.subMenu.map((submenu, index) => {
+                    {menu?.subMenu.map((submenu, index) => {
                       return (
                         <Link
                           className="collapse-item"

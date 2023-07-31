@@ -10,9 +10,9 @@ const UserNavItem = () => {
   return (
     <React.Fragment>
       <LogoutModal />
-      <li className="nav-item dropdown no-arrow mx-1 eep_header_dp">
+      <li className="nav-item dropdown no-arrow mx-1 eep_header_dp nav-link_icons">
         <Link
-          className={`nav-link dropdown-toggle px-0`}
+          // className={`nav-link_icons`}
           id="userDropdown"
           role="button"
           data-toggle="dropdown"

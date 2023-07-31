@@ -16,7 +16,7 @@ if(getTabs.length && !activeTab.length){
     elements[i].classList.remove('active');
   }
 
-  document.getElementById(activeTab[0].id).classList.add('active');
+  document.getElementById(activeTab?.[0]?.id)?.classList?.add('active');
 
   dispatch(TabsActions.tabOnChange({tabInfo:activeTab[0]}))
 }
