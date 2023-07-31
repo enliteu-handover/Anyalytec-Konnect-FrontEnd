@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./App.scss";
 import IdleTimerContainer from "./IdleTimer/IdleTimerContainer";
 import RolePermissions from "./components/RolePermissions/RolePermissions";
@@ -10,15 +9,12 @@ import Login from "./layout/Login/Login";
 import MainContainer from "./layout/MainContainer/MainContainer";
 import { firebaseInitialization } from "./notification";
 import { sharedDataActions } from "./store/shared-data-slice";
-// import FirebaseToken from "./components/Firebase/FirebaseToken";
-import { getRoles } from '@crayond_dev/idm-client';
 import { URL_CONFIG } from "./constants/rest-config";
 import { httpHandler } from "./http/http-interceptor";
 import "./styles/root/root.scss";
 
 function App() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [theme, setTheme] = useState({})
   const headerLogo = useSelector((state) => state.storeState);
   const fetchSvgIcons = () => {
@@ -36,29 +32,7 @@ function App() {
   useEffect(() => {
     fetchSvgIcons();
     firebaseInitialization()
-    // addRoleAndSlack();
   }, []);
-
-  const addRoleAndSlack = async () => {
-    const roles = await getRoles({});
-    let payOptionsRole = {
-      data: roles
-    };
-
-    const objRole = {
-      url: URL_CONFIG.ADDROLE,
-      method: "post",
-      payload: payOptionsRole,
-    };
-    const slack = {
-      url: URL_CONFIG.UPDATE_SLACK_USERS,
-      method: "get",
-    };
-    if (roles?.length > 0) {
-      await httpHandler(slack)
-      await httpHandler(objRole)
-    }
-  }
 
   React.useEffect(() => {
     getThemePanel(headerLogo?.color)
@@ -95,9 +69,9 @@ function App() {
         </div>
         <Switch>
           <Route path="/login"><Login /></Route>
-          {/* <Route path="/" exact>
+          <Route path="/" exact>
             <Redirect to="/login" />
-          </Route> */}
+          </Route>
           <Route path="/app">
             <PrivateRoute>
               <IdleTimerContainer />

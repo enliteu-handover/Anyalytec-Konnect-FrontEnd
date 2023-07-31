@@ -48,14 +48,19 @@ export const sideMenuHidden = (data, userRolePermission) => {
         !userRolePermission?.ideaboxHide) {
         const i = arr.findIndex(v => v.communication)
         delete arr[i]
-    }; if (!userRolePermission?.awardCreate && !userRolePermission?.certificateCreate &&
-        !userRolePermission?.badgeCreate) {
-        const parentI = arr.findIndex(v => v.recognition);
-        const parent = arr.find(v => v.recognition);
-        const i = parent.subMenu.filter(v => !v.library)
-        parent.subMenu = i
-        arr[parentI] = parent
-    };
+    }; if(!userRolePermission?.awardCreate && !userRolePermission?.certificateCreate &&
+             !userRolePermission?.badgeCreate){
+        const i = arr.findIndex(v => v.library)
+        delete arr[i]
+    }
+    //  if (!userRolePermission?.awardCreate && !userRolePermission?.certificateCreate &&
+    //     !userRolePermission?.badgeCreate) {
+    //     const parentI = arr.findIndex(v => v.recognition);
+    //     const parent = arr.find(v => v.recognition);
+    //     const i = parent.subMenu.filter(v => !v.library)
+    //     parent.subMenu = i
+    //     arr[parentI] = parent
+    // };
 
     return arr;
 

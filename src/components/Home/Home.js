@@ -24,7 +24,7 @@ const Home = () => {
 
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   //console.log("userRolePermission", userRolePermission);
-  const tourState = useSelector((state) => state.sharedData.tourState);
+  // const tourState = useSelector((state) => state.sharedData.tourState);
   //console.log("tourState", tourState);
 
   const breadcrumbArr = [
@@ -34,6 +34,7 @@ const Home = () => {
     },
     {
       label: "Dashboard",
+      id: "My_Dashboard",
       link: "#",
     },
   ];
@@ -63,21 +64,20 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    
-    if(userRolePermission.employeeEngagementDashboard) {
+    if (userRolePermission.employeeEngagementDashboard) {
       tabConfig.push({
         title: "Rewards & Recognition",
         id: "Rewards_Recognition",
       });
     }
-    if(userRolePermission.hallOfFame) {
+    if (userRolePermission.hallOfFame) {
       tabConfig.push({
         title: "Hall of Fame",
         id: "Hall_of_Fame",
       });
     }
 
-    if(userRolePermission.employeeEngagementDashboard || userRolePermission.hallOfFame) {
+    if (userRolePermission.employeeEngagementDashboard || userRolePermission.hallOfFame) {
       if (routerData) {
         const activeTabId = routerData.activeTab;
         tabConfig.map((res) => {
@@ -107,10 +107,11 @@ const Home = () => {
         );
       };
     }
-    
+
   }, [userRolePermission]);
 
   useEffect(() => {
+    if (activeTab?.id !== "My_Dashboard") { return }
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
         breadcrumbArr,
@@ -123,7 +124,7 @@ const Home = () => {
         title: "",
       });
     };
-  }, []);
+  }, [activeTab]);
 
   const getDashboardDetails = () => {
     const obj = {
@@ -132,7 +133,7 @@ const Home = () => {
       isLoader: false
     }
     httpHandler(obj).then((response) => {
-      
+
       setDashboardDetails(response?.data);
     }).catch((error) => {
       console.log("getDashboardDetails error", error);
@@ -172,7 +173,7 @@ const Home = () => {
       method: "get",
       isLoader: false
     };
-    if(Object.getOwnPropertyNames(paramsInfo)) {
+    if (Object.getOwnPropertyNames(paramsInfo)) {
       obj["params"] = paramsInfo;
     }
     httpHandler(obj)
@@ -189,21 +190,21 @@ const Home = () => {
   }
 
   const fetchIsNotification = () => {
-		const obj = {
-			url: URL_CONFIG.NOTIFICATIONS_BY_ID,
-			method: "get",
+    const obj = {
+      url: URL_CONFIG.NOTIFICATIONS_BY_ID,
+      method: "get",
       isLoader: true
-		};
-		httpHandler(obj)
-			.then((response) => {
+    };
+    httpHandler(obj)
+      .then((response) => {
         dispatch(sharedDataActions.getIsNotification({
           isNotification: response?.data
-         }))
-			})
-			.catch((error) => {
-				console.log("fetchNotifications API error", error);
-			});
-	}
+        }))
+      })
+      .catch((error) => {
+        console.log("fetchNotifications API error", error);
+      });
+  }
 
   useEffect(() => {
     getDashboardDetails();
@@ -219,7 +220,6 @@ const Home = () => {
       ? usersPic[userPicIndex].pic
       : process.env.PUBLIC_URL + "/images/user_profile.png";
   };
-
   return (
     <div className="row eep-content-section-data no-gutters">
       <div className="tab-content col-md-12 h-100">

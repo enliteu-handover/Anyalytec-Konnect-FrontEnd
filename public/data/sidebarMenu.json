@@ -19,17 +19,18 @@
         "icon": ""
       },
       {
-        "label": "Library",
-        "link": "library",
-        "icon": "",
-        "library": true
-      },
-      {
         "label": "SocialWall",
         "link": "socialwall",
         "icon": ""
       }
     ]
+  },
+  {
+    "label": "Library",
+    "link": "library",
+    "icon": "Library.svg",
+    "isDirectLink": true,
+    "library": true
   },
   {
     "label": "Communication",

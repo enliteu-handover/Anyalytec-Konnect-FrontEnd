@@ -53,7 +53,7 @@ const Header = () => {
 
         {
           state?.headerLogoByte?.includes('.svg') ?
-           <div style={{height:"60px"}}> <SvgComponent svgUrl={state?.headerLogoByte} /></div> : <img
+            <div style={{ height: "60px" }}> <SvgComponent svgUrl={state?.headerLogoByte} /></div> : <img
               src={(state?.headerLogoByte) || (process.env.PUBLIC_URL + "/images/logo.svg")}
               className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
               alt="logo"
@@ -67,6 +67,10 @@ const Header = () => {
 
         {/* Search  */}
         <HeaderSearch />
+
+        <button className="eep-btn our_points_in_dashboard">
+          Points : 1000
+        </button>
 
         <ul className="navbar-nav">
           {/* Nav Item - Search Dropdown (Visible Only XS) */}

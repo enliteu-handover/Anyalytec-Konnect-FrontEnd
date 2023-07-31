@@ -123,7 +123,7 @@ const BulkUploadOrgChart = () => {
         }, {
             header: "Status",
             accessorKey: "status",
-            Cell: ({ cell, column }) => (
+            Cell: ({ cell }) => (
                 <span
                     style={{
                         color: cell.getValue()?.toLowerCase() === 'failure' ? 'red' : 'green',
@@ -135,7 +135,7 @@ const BulkUploadOrgChart = () => {
         }, {
             header: "Message",
             accessorKey: "message",
-            Cell: ({ cell, column }) => (
+            Cell: ({ cell }) => (
                 <span
                     style={{
                         color: 'red',
@@ -176,8 +176,8 @@ const BulkUploadOrgChart = () => {
     };
 
     useEffect(() => {
-        fetchOrgData();
         fetchUserData();
+        fetchOrgData();
     }, []);
 
     const fetchOrgData = async () => {
@@ -203,7 +203,7 @@ const BulkUploadOrgChart = () => {
     }
 
     const chartData = (allData, data) => {
-        var initialEdges = [];
+        let initialEdges = [];
         const edgeType = "step";
         const animated = false;
         const position = { x: 0, y: 0 };
@@ -317,13 +317,19 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
+            
             {state?.orgChartData?.newUsers &&
                 <div style={{
                     position: 'fixed',
                     top: '50%',
                     right: '46%',
                 }}>No Data!.</div>}
-            {(!state?.orgChartData?.newUsers) && state?.chartData?.initialNodes?.length > 0 && state?.chartData?.initialEdges?.length > 0 && <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
+
+            {(!state?.orgChartData?.newUsers) &&
+             state?.chartData?.initialNodes?.length > 0 &&
+             state?.chartData?.initialEdges?.length > 0 &&
+             <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
+        
         </React.Fragment>
     );
 };

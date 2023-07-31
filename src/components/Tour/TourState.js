@@ -62,7 +62,6 @@ const TourState = () => {
       params: { id: userData.id  }
     };
     httpHandler(obj).then((response) => {
-      console.log("fetchTourState response", response.data);
       if(response.data) {
         dispatch(sharedDataActions.getTourState({
           tourState: response?.data

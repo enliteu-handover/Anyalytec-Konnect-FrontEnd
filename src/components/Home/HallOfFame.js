@@ -24,10 +24,12 @@ const HallOfFame = (props) => {
     },
     {
       label: "Dashboard",
+      id: "My_Dashboard",
       link: "app/dashboard",
     },
     {
       label: "HALL OF FAME",
+      id: "Hall_of_Fame",
       link: "#",
     },
   ];

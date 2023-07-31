@@ -24,7 +24,7 @@ const Badges = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   const location = useLocation();
   const history = useHistory();
-  const routerData = location.state;
+  const routerData = location.state || { activeTab: "badgeTab" };
 
   const dispatch = useDispatch();
   const breadcrumbArr = [
@@ -48,12 +48,12 @@ const Badges = () => {
     if (userRolePermission.badgeSend) {
       tabConfig = [
         {
-          title: "My Badges",
-          id: "mybadgeTab",
-        },
-        {
           title: "Badges",
           id: "badgeTab",
+        },
+        {
+          title: "My Badges",
+          id: "mybadgeTab",
         }
       ];
     }
@@ -159,7 +159,7 @@ const Badges = () => {
   };
 
   const bulkSubmitHandler = () => {
-    
+
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
         url: URL_CONFIG.BADGE_BULK_UPDATE,

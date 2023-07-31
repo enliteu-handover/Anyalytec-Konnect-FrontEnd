@@ -57,6 +57,7 @@ const Sidebar = () => {
   const icon = {
     'Dashboard.svg': <Dashboard color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
     'Recognition.svg': <Recognition color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
+    'Library.svg': <Recognition color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
     'Communication.svg': <Communication color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
     'Rewards.svg': <Rewards color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
     'download.svg': <Org color={theme?.color === 'color_two' ? "#000" : "#fff"} />

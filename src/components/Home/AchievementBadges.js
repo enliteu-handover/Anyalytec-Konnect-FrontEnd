@@ -5,7 +5,6 @@ const AchievementBadges = (props) => {
 
   const { dashboardDetails } = props;
 
-  console.log("dashboardDetails props", props);
 
   return (
     <div className="bg-f5f5f5 br-10 achievements_section_div h-100 eep_scroll_y">

@@ -11,7 +11,7 @@ import Highcharts, { keys } from "highcharts";
 
 const RewardsRecognition = (props) => {
 
-  const {allUserDatas} = props;
+  const { allUserDatas } = props;
 
   const [filterParams, setFilterParams] = useState({});
   const [rrData, setRRData] = useState({});
@@ -221,10 +221,10 @@ const RewardsRecognition = (props) => {
           y: 44,
           sliced: true,
           selected: true
-        },  {
+        }, {
           name: 'Explorer',
           y: 22
-        },  {
+        }, {
           name: 'Innovation',
           y: 4
         }, {
@@ -291,12 +291,12 @@ const RewardsRecognition = (props) => {
         name: 'Spot Awards',
         data: [13, 9, 7, 13, 14, 5, 3,
           8, 11, 4, 10, 12]
-    
+
       }, {
         name: 'Nomination Awards',
         data: [12, 10, 11, 7, 11, 7, 9,
           0, 1, 4, 2, 6]
-    
+
       }]
     },
     certificate: {
@@ -307,7 +307,7 @@ const RewardsRecognition = (props) => {
       },
       title: {
         // text: 'Browser<br>shares<br>January<br>2022',
-        text: 'Certificates',        
+        text: 'Certificates',
         align: 'center',
         verticalAlign: 'middle',
         y: 60
@@ -378,6 +378,12 @@ const RewardsRecognition = (props) => {
     },
     {
       label: "Dashboard",
+      id: "My_Dashboard",
+      link: "#",
+    }, 
+    {
+      label: "Rewards & Recognition",
+      id: "Rewards_Recognition",
       link: "#",
     },
   ];
@@ -398,19 +404,19 @@ const RewardsRecognition = (props) => {
   }, []);
 
   const fetchRewardsRecognition = (paramsInfo) => {
-		let obj = {
-			url: URL_CONFIG.REWARDS_RECOGNITION,
-			method: "get"
-		};
-    if(Object.getOwnPropertyNames(paramsInfo)) {
+    let obj = {
+      url: URL_CONFIG.REWARDS_RECOGNITION,
+      method: "get"
+    };
+    if (Object.getOwnPropertyNames(paramsInfo)) {
       obj["params"] = paramsInfo;
     }
-		httpHandler(obj).then((response) => {
+    httpHandler(obj).then((response) => {
       setRRData(response.data);
     }).catch((error) => {
       console.log("fetchRewardsRecognition API error", error);
     });
-	}
+  }
 
   const getFilterParams = (paramsData) => {
     if (Object.getOwnPropertyNames(filterParams)) {
@@ -426,25 +432,25 @@ const RewardsRecognition = (props) => {
   }, []);
 
   useEffect(() => {
-    if(rrData && Object.keys(rrData).length) {
+    if (rrData && Object.keys(rrData).length) {
       // Login Chart Start
       let loginChartTemp = defaultChartOptions.login;
       loginChartTemp["yAxis"]["max"] = initAllUserDatas.length;
       let plotBandsArr = [];
       let plotBandsArrMaxLoop = 3;
       let colorTemp = ["#DF5353", "#DDDF0D", "#55BF3B"]
-      for(let i=0; i<plotBandsArrMaxLoop; i++) {
-        let fromTemp = i===0 ? 0 : Math.round((initAllUserDatas.length) / (plotBandsArrMaxLoop-(i-1)));
+      for (let i = 0; i < plotBandsArrMaxLoop; i++) {
+        let fromTemp = i === 0 ? 0 : Math.round((initAllUserDatas.length) / (plotBandsArrMaxLoop - (i - 1)));
         plotBandsArr.push({
           "from": fromTemp,
-          "to": Math.round((initAllUserDatas.length) / (plotBandsArrMaxLoop-i)),
+          "to": Math.round((initAllUserDatas.length) / (plotBandsArrMaxLoop - i)),
           "thickness": 20,
           "color": colorTemp[i]
         });
       }
       loginChartTemp["yAxis"]["plotBands"] = plotBandsArr;
       loginChartTemp["series"][0]["data"] = [rrData.loginUserCount];
-      (rrData.loginUserCount > 0) ? setLoginChart({...loginChartTemp}) : setLoginChart({});
+      (rrData.loginUserCount > 0) ? setLoginChart({ ...loginChartTemp }) : setLoginChart({});
       // Login Chart End
 
       // Recognition Chart Start
@@ -454,7 +460,7 @@ const RewardsRecognition = (props) => {
         colorByPoint: true
       }];
       //setRecognitionChart({...recognitionChartTemp});
-      (rrData.eCardsCount > 0 || rrData.certificateCount > 0 || rrData.badgeCount > 0 || rrData.awardCount > 0) ? setRecognitionChart({...recognitionChartTemp}) : setRecognitionChart({});
+      (rrData.eCardsCount > 0 || rrData.certificateCount > 0 || rrData.badgeCount > 0 || rrData.awardCount > 0) ? setRecognitionChart({ ...recognitionChartTemp }) : setRecognitionChart({});
       // Recognition Chart End
 
       // E-Cards Chart Start
@@ -469,7 +475,7 @@ const RewardsRecognition = (props) => {
         ]
       }];
       //setEcardChart({...ecardsTemp});
-      (rrData.birthdayECardsCount > 0 || rrData.anniversaryECardsCount > 0 || rrData.appreciationECardsCount > 0 || rrData.seasonalECardsCount > 0) ? setEcardChart({...ecardsTemp}) : setEcardChart({});
+      (rrData.birthdayECardsCount > 0 || rrData.anniversaryECardsCount > 0 || rrData.appreciationECardsCount > 0 || rrData.seasonalECardsCount > 0) ? setEcardChart({ ...ecardsTemp }) : setEcardChart({});
       // E-Cards Chart End
 
       // Certificate Chart Start
@@ -482,7 +488,7 @@ const RewardsRecognition = (props) => {
         data: Object.keys(rrData.categorizedCertificateCount).length > 0 ? Object.entries(rrData.categorizedCertificateCount) : []
       }];
       //setCertificateChart({...certificateTemp});
-      (Object.keys(rrData.categorizedCertificateCount).length > 0) ? setCertificateChart({...certificateTemp}) : setCertificateChart({});
+      (Object.keys(rrData.categorizedCertificateCount).length > 0) ? setCertificateChart({ ...certificateTemp }) : setCertificateChart({});
       // Certificate Chart End
 
       // Badge Chart Start
@@ -493,30 +499,30 @@ const RewardsRecognition = (props) => {
         data: Object.keys(rrData.categorizedBadgeCount).length > 0 ? Object.entries(rrData.categorizedBadgeCount) : []
       }];
       //setBadgeChart({...badgeTemp});
-      (Object.keys(rrData.categorizedBadgeCount).length > 0) ? setBadgeChart({...badgeTemp}) : setBadgeChart({});
+      (Object.keys(rrData.categorizedBadgeCount).length > 0) ? setBadgeChart({ ...badgeTemp }) : setBadgeChart({});
       // Badge Chart End
 
       // Award Chart Start
       let awardTemp = defaultChartOptions.awards;
-      awardTemp["xAxis"] =  {
+      awardTemp["xAxis"] = {
         crosshair: true,
         categories: Object.keys(rrData.categorizedBadgeCount).length > 0 ? Object.keys(rrData.categorizedBadgeCount) : []
       }
       let spotAwardArr = [];
       let nomiAwardArr = [];
-      Object.keys(rrData["categorizedAwardCount"]).forEach(function(key) {
+      Object.keys(rrData["categorizedAwardCount"]).forEach(function (key) {
         spotAwardArr.push(rrData["categorizedAwardCount"][key]["spotCount"]);
         nomiAwardArr.push(rrData["categorizedAwardCount"][key]["nomiCount"]);
       });
       awardTemp["series"] = [{
         name: 'Spot Awards',
-        data: spotAwardArr    
+        data: spotAwardArr
       }, {
         name: 'Nomination Awards',
-        data: nomiAwardArr    
+        data: nomiAwardArr
       }];
       //setAwardChart({...awardTemp});
-      (Object.keys(rrData["categorizedAwardCount"]).length  > 0) ? setAwardChart({...recognitionChartTemp}) : setAwardChart({});
+      (Object.keys(rrData["categorizedAwardCount"]).length > 0) ? setAwardChart({ ...recognitionChartTemp }) : setAwardChart({});
       // Award Chart End
 
     }
@@ -531,14 +537,6 @@ const RewardsRecognition = (props) => {
     }
 
   }, [rrData]);
-
-  console.log("------rrData------", rrData);
-  // console.log("setLoginChart", loginChart);
-  // console.log("setRecognitionChart", recognitionChart);
-  // console.log("setEcardChart", ecardChart);
-  // console.log("setCertificateChart", certificateChart);
-  // console.log("setBadgeChart", badgeChart);
-  // console.log("setAwardChart", awardChart);
 
   return (
     <React.Fragment>
@@ -641,8 +639,8 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">Logged IN</label>
-                    {Object.keys(loginChart).length > 0 && 
-                      <DashboardCharts chartType="login" chartData={loginChart}  />
+                    {Object.keys(loginChart).length > 0 &&
+                      <DashboardCharts chartType="login" chartData={loginChart} />
                     }
                     {Object.keys(loginChart).length <= 0 &&
                       <div className="parent_div">
@@ -659,10 +657,10 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">Overall Recognition</label>
-                    {Object.keys(recognitionChart).length > 0 && 
+                    {Object.keys(recognitionChart).length > 0 &&
                       <DashboardCharts chartType="recognition" chartData={recognitionChart} />
                     }
-                    {Object.keys(recognitionChart).length <= 0 && 
+                    {Object.keys(recognitionChart).length <= 0 &&
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
@@ -677,10 +675,10 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">E-Cards</label>
-                    {Object.keys(ecardChart).length > 0 && 
+                    {Object.keys(ecardChart).length > 0 &&
                       <DashboardCharts chartType="ecards" chartData={ecardChart} />
                     }
-                    {Object.keys(ecardChart).length <= 0 && 
+                    {Object.keys(ecardChart).length <= 0 &&
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
@@ -695,10 +693,10 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">Certificates</label>
-                    {Object.keys(certificateChart).length > 0 && 
+                    {Object.keys(certificateChart).length > 0 &&
                       <DashboardCharts chartType="certificate" chartData={certificateChart} />
                     }
-                    {Object.keys(certificateChart).length <= 0 && 
+                    {Object.keys(certificateChart).length <= 0 &&
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
@@ -713,10 +711,10 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">Badges</label>
-                    {Object.keys(badgeChart).length > 0 && 
+                    {Object.keys(badgeChart).length > 0 &&
                       <DashboardCharts chartType="badge" chartData={badgeChart} />
                     }
-                    {Object.keys(badgeChart).length <= 0 && 
+                    {Object.keys(badgeChart).length <= 0 &&
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
@@ -731,10 +729,10 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">Awards</label>
-                    {Object.keys(awardChart).length > 0 && 
+                    {Object.keys(awardChart).length > 0 &&
                       <DashboardCharts chartType="awards" chartData={awardChart} />
                     }
-                    {Object.keys(awardChart).length <= 0 && 
+                    {Object.keys(awardChart).length <= 0 &&
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
@@ -764,7 +762,7 @@ const RewardsRecognition = (props) => {
                   </div>
                 </div>
               </div> */}
-              
+
             </div>
 
           </div>

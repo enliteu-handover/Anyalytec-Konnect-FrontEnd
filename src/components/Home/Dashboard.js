@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import Tour from 'reactour';
+// import Tour from 'reactour';
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import Recognitions from "./Recognitions";
 import MyTask from "./MyTask";
@@ -15,7 +15,7 @@ const Dashboard = (props) => {
   const { dashboardDetails, getUserPicture } = props;
   const userSessionData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const dispatch = useDispatch();
-  const [startTour, setStartTour] = useState(false);
+  // const [startTour, setStartTour] = useState(false);
 
   const breadcrumbArr = [
     {
@@ -43,91 +43,91 @@ const Dashboard = (props) => {
     };
   }, []);
 
-  const tourProps = {
-    isOpen: startTour,
-    onRequestClose: () => setStartTour(false),
-    showNavigation: true,
-    showNumber: true,
-    showButtons: true,
-    showCloseButton: true,
-    showNavigationNumber: false,
-    disableKeyboardNavigation: true,
-    rounded: 5,
-    scrollDuration: 1,
-    maskSpace: 10,
-  }
+  // const tourProps = {
+  //   isOpen: startTour,
+  //   onRequestClose: () => setStartTour(false),
+  //   showNavigation: true,
+  //   showNumber: true,
+  //   showButtons: true,
+  //   showCloseButton: true,
+  //   showNavigationNumber: false,
+  //   disableKeyboardNavigation: true,
+  //   rounded: 5,
+  //   scrollDuration: 1,
+  //   maskSpace: 10,
+  // }
 
-  const steps = [
-    {
-      selector: '.first-step',
-      content: () => {
-        return (
-          <div className='tour_content'>
-            {/* // "body-scroll-lock": "^4.0.0-beta.0", */}
-            <div className='content'>
-              <p>The nodeType property returns the node type, as a number, of the specified node.
-                If the node is an element node, the nodeType property will return 1.
-                If the node is an attribute node, the nodeType property will return 2.
-                If the node is a text node, the nodeType property will return 3.
-                If the node is a comment node, the nodeType property will return 8.
-                This property is read-only.</p>
-            </div>
-            <div className='btn_content'>
-              <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
-            </div>
-          </div>
-        )
-      },
-      position: "top"
-    },
-    {
-      selector: '.first-step1',
-      content: () => {
-        return (
-          <div className='tour_content'>
-            <div className='content'>
-              <p>'This is my first Step'</p>
-              <p>'This is my first Step'</p>
-            </div>
-            <div className='btn_content'>
-              <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
-            </div>
-          </div>
-        )
-      },
-      position: "top"
-    },
-    {
-      selector: '.first-step2',
-      content: () => {
-        return (
-          <div className='tour_content'>
-            <div className='content pt-3'>
-              <p>'This is my first Step'</p>
-              <p>'This is my first Step'</p>
-            </div>
-            <div className='btn_content'>
-              <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
-            </div>
-          </div>
-        )
-      },
-      position: "top"
-    },
-    {
-      selector: '.first-step3',
-      content: () => {
-        return (
-          'This is my first Step'
-        )
-      },
-      position: "top"
-    },
-  ];
+  // const steps = [
+  //   {
+  //     selector: '.first-step',
+  //     content: () => {
+  //       return (
+  //         <div className='tour_content'>
+  //           {/* // "body-scroll-lock": "^4.0.0-beta.0", */}
+  //           <div className='content'>
+  //             <p>The nodeType property returns the node type, as a number, of the specified node.
+  //               If the node is an element node, the nodeType property will return 1.
+  //               If the node is an attribute node, the nodeType property will return 2.
+  //               If the node is a text node, the nodeType property will return 3.
+  //               If the node is a comment node, the nodeType property will return 8.
+  //               This property is read-only.</p>
+  //           </div>
+  //           <div className='btn_content'>
+  //             <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
+  //           </div>
+  //         </div>
+  //       )
+  //     },
+  //     position: "top"
+  //   },
+  //   {
+  //     selector: '.first-step1',
+  //     content: () => {
+  //       return (
+  //         <div className='tour_content'>
+  //           <div className='content'>
+  //             <p>'This is my first Step'</p>
+  //             <p>'This is my first Step'</p>
+  //           </div>
+  //           <div className='btn_content'>
+  //             <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
+  //           </div>
+  //         </div>
+  //       )
+  //     },
+  //     position: "top"
+  //   },
+  //   {
+  //     selector: '.first-step2',
+  //     content: () => {
+  //       return (
+  //         <div className='tour_content'>
+  //           <div className='content pt-3'>
+  //             <p>'This is my first Step'</p>
+  //             <p>'This is my first Step'</p>
+  //           </div>
+  //           <div className='btn_content'>
+  //             <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
+  //           </div>
+  //         </div>
+  //       )
+  //     },
+  //     position: "top"
+  //   },
+  //   {
+  //     selector: '.first-step3',
+  //     content: () => {
+  //       return (
+  //         'This is my first Step'
+  //       )
+  //     },
+  //     position: "top"
+  //   },
+  // ];
 
   return (
     <React.Fragment>
-      <Tour steps={steps} {...tourProps} />
+      {/* <Tour steps={steps} {...tourProps} /> */}
 
       <div className="row eep_dashboard_div">
         <div className="col-sm-12 col-xs-12 col-md-6 col-lg-3 position_sticky eep-content-section eep-content-section-max">

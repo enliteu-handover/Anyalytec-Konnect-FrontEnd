@@ -25,7 +25,7 @@ const Certificates = () => {
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const location = useLocation();
   const history = useHistory();
-  const routerData = location.state;
+  let routerData = location.state || { activeTab: "certificate" };
 
   const breadcrumbArr = [
     {
@@ -62,17 +62,18 @@ const Certificates = () => {
     if (userRolePermission.certificateSend) {
       tabConfig = [
         {
-          title: "My Certificates",
-          id: "mycertificate",
-        },
-        {
           title: "Certificates",
           id: "certificate",
+        },
+        {
+          title: "My Certificates",
+          id: "mycertificate",
         }
       ];
     }
 
-    if (routerData) {
+    if (routerData?.activeTab) {
+      debugger
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
         if (res.id === activeTabId) {
@@ -85,7 +86,7 @@ const Certificates = () => {
           config: tabConfig,
         })
       );
-      history.replace({ pathname: history.location.pathname, state: {} });
+      // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -171,7 +172,7 @@ const Certificates = () => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png", "image/svg+xml"];
   const addCertificateHandler = (event) => {
-    
+
     var file = event.target.files[0];
     var fileType = file["type"];
     if (validImageTypes.includes(fileType)) {

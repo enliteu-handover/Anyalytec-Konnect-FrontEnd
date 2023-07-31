@@ -32,7 +32,7 @@ const Awards = () => {
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const location = useLocation();
   const history = useHistory();
-  const routerData = location.state || { activeTab: window.location.hash.substring(1)?.split('?')?.[0] };
+  const routerData = location.state || { activeTab: (window.location.hash.substring(1)?.split('?')?.[0]) || 'awardTab' };
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const breadcrumbArr = [
@@ -96,7 +96,7 @@ const Awards = () => {
       tabConfig.splice((tabConfig.length - 1), 0, { title: "Approval", id: "ApprovalTab" });
     }
 
-    if (routerData) {
+    if (routerData?.activeTab) {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
         if (res.id === activeTabId) {
