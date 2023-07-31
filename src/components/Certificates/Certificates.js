@@ -73,7 +73,6 @@ const Certificates = () => {
     }
 
     if (routerData?.activeTab) {
-      debugger
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
         if (res.id === activeTabId) {

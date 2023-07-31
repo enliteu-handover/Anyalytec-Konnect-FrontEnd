@@ -40,7 +40,7 @@ const Communication = () => {
           <div className="recognition_items bg-white">
             <div className="outter">
               <img
-                src={process.env.PUBLIC_URL + "/images/icons/communications/Survey.svg"}
+                src={"/images/icons/communications/Survey.svg"}
                 className="image-circle"
                 alt="Survey"
               />
@@ -53,7 +53,7 @@ const Communication = () => {
             <div className="outter">
               <img
                 src={
-                  process.env.PUBLIC_URL + "/images/icons/communications/Forum.svg"
+                  "/images/icons/communications/Forum.svg"
                 }
                 className="image-circle"
                 alt="Forums"
@@ -67,7 +67,7 @@ const Communication = () => {
             <div className="outter">
               <img
                 src={
-                  process.env.PUBLIC_URL + "/images/icons/communications/Polls.svg"
+                  "/images/icons/communications/Polls.svg"
                 }
                 className="image-circle"
                 alt="Polls"
@@ -81,7 +81,7 @@ const Communication = () => {
             <div className="outter">
               <img
                 src={
-                  process.env.PUBLIC_URL + "/images/icons/communications/IdeaBox.svg"
+                  "/images/icons/communications/IdeaBox.svg"
                 }
                 className="image-circle"
                 alt="Idea Box"

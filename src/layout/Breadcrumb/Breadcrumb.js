@@ -18,11 +18,8 @@ const Breadcrumb = () => {
       for (let i = 0; i < elements.length; i++) {
         elements[i].classList.remove('active');
       }
-
       document.getElementById(activeTab[0].id).classList.add('active');
-
       dispatch(TabsActions.tabOnChange({ tabInfo: activeTab[0] }));
-
     }
   };
 
@@ -31,6 +28,7 @@ const Breadcrumb = () => {
       action([{ title: val?.label, id: val?.id }])
     } else {
       return history.push(`/${val.link}`)
+      
     }
   }
   return (

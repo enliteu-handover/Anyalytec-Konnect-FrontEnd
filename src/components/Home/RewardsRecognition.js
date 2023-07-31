@@ -378,30 +378,28 @@ const RewardsRecognition = (props) => {
     },
     {
       label: "Dashboard",
-      id: "My_Dashboard",
       link: "#",
-    }, 
+    },
     {
       label: "Rewards & Recognition",
-      id: "Rewards_Recognition",
       link: "#",
     },
   ];
 
-  useEffect(() => {
-    dispatch(
-      BreadCrumbActions.updateBreadCrumb({
-        breadcrumbArr,
-        title: "Rewards & Recognition",
-      })
-    );
-    return () => {
-      BreadCrumbActions.updateBreadCrumb({
-        breadcrumbArr: [],
-        title: "",
-      });
-    };
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     BreadCrumbActions.updateBreadCrumb({
+  //       breadcrumbArr,
+  //       title: "Rewards & Recognition",
+  //     })
+  //   );
+  //   return () => {
+  //     BreadCrumbActions.updateBreadCrumb({
+  //       breadcrumbArr: [],
+  //       title: "",
+  //     });
+  //   };
+  // }, []);
 
   const fetchRewardsRecognition = (paramsInfo) => {
     let obj = {
