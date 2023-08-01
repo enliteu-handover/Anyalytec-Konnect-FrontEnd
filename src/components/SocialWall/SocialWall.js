@@ -8,6 +8,7 @@ import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SocialWallLeftContent from "./SocialWallLeftContent";
 import SocialWallMiddleContent from "./SocialWallMiddleContent";
 import SocialWallRightContent from "./SocialWallRightContent";
+import { LoaderHandler } from "../../idm";
 
 const SocialWall = () => {
 
@@ -102,6 +103,7 @@ const SocialWall = () => {
   };
 
   const fetchSocialWallList = () => {
+    LoaderHandler('show')
     const obj = {
       url: URL_CONFIG.SOCIALWALL_LIST,
       method: "get",
@@ -118,7 +120,7 @@ const SocialWall = () => {
         data && data.length > 0 && data.map(res => {
           return res.createdAt = eepFormatDateTime(res.createdAt);
         });
-
+        LoaderHandler('hide')
         setSocialWallList(data);
       })
       .catch((error) => {
@@ -133,7 +135,7 @@ const SocialWall = () => {
   }
 
   const likeSocialWallPostHandle = (arg) => {
-    
+
     if (arg) {
       if (arg.isLike) {
         let obj = {

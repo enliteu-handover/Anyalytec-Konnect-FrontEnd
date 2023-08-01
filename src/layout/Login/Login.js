@@ -51,13 +51,15 @@ const Login = () => {
           <div className={`login_centent_sec eep_scroll_y`}>
             <div className={`row content-sect w-100 align-items-center eep_scroll_y`}>
               <div className={`col-md-6 logo-sec`}>
-                {state?.logo?.includes('.svg') ?
+                {state?.logo && (state?.logo?.includes('.svg') ?
                   <SvgComponent svgUrl={state?.logo} /> :
                   <img
                     className="mx-auto d-block"
-                    src={(state?.logo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
+                    src={(state?.logo)
+                      //  || (process.env.PUBLIC_URL + "/images/logo.svg")
+                    }
                     alt="Logo"
-                  />}
+                  />)}
               </div>
               <div className={`col-md-6 login-sec`}>
                 <Switch>

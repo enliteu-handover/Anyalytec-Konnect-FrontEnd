@@ -307,7 +307,7 @@ const BulkUploadOrgChart = () => {
                         }
                         <div className="form-group field-wbr" style={{ width: "280px" }}>
                             <Select
-                                options={(state?.orgChartData?.newUsers) && (state?.userData ?? [])} components={{ Option: CustomOption }}
+                                options={(!state?.orgChartData?.newUsers) && (state?.userData ?? [])} components={{ Option: CustomOption }}
                                 classNamePrefix="eep_select_common select"
                                 className={`a_designation basic-single`}
                                 placeholder="search..."

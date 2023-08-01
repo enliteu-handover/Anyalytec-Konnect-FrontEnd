@@ -10,7 +10,7 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import SvgComponent from "../../components/svgComponent";
 const Header = () => {
-  const pageTitle = useSelector((state) => state.breadcrumb.title);
+  // const pageTitle = useSelector((state) => state.breadcrumb.title);
   const headerLogo = useSelector((state) => state.storeState.logo);
   const [state, setState] = useState({
     "headerLogoByte": null
@@ -59,11 +59,11 @@ const Header = () => {
               alt="logo"
             />}
 
-        <div className={`eep-topbar-divider d-none d-sm-block`}></div>
+        {/* <div className={`eep-topbar-divider d-none d-sm-block`}></div>
 
         <div className={`pg_heading`}>
           <h2>{pageTitle}</h2>
-        </div>
+        </div> */}
 
         {/* Search  */}
         <HeaderSearch />
