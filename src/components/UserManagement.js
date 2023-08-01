@@ -258,7 +258,7 @@ const UserManagement = () => {
         // isUpload={false}
         isUpload={isUpload}
         downloadExcel={downloadExcel}
-        url={'https://objectstore.e2enetworks.net/enliteu/User%20Upload.xlsx'}
+        url={'https://objectstore.e2enetworks.net/enliteu/Bulk_user_upload_template.xlsx'}
         onSucess={onSucess}
         fileName={state?.uploadData?.name ?? ''}
         handleChange={handleChange}

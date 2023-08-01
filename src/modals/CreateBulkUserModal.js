@@ -44,7 +44,7 @@ const CreateBulkUploadModal = (props) => {
                                     </div>
                                 </div>
                                 <br />
-                                {(!isOrg?.newUsers) && <span className="org-bulk-upload-download">The existing upload data can be downloaded by<a onClick={() => handleExportDownload()}> clicking here</a></span>}
+                                {(!isOrg?.newUsers && title) && <span className="org-bulk-upload-download">The existing upload data can be downloaded by<a onClick={() => handleExportDownload()}> clicking here</a></span>}
                                 <br />  <div className="eep-dropdown-divider"></div>
                                 <div className="modal-footer justify-content-center p-0">
                                     <button className="eep-btn eep-btn-cancel eep-btn-xsml" type="button" data-dismiss="modal">
