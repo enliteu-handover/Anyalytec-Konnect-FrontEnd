@@ -29,8 +29,8 @@ const RoleUpdate = () => {
     };
     await httpHandler(obj)
       .then((userData) => {
-        setUserData(userData.data);
-        setFilteredUserData(userData.data);
+        setUserData(userData?.data);
+        setFilteredUserData(userData?.data);
       })
       .catch((error) => {
         console.log("error", error);
@@ -116,7 +116,7 @@ const RoleUpdate = () => {
             className="eep_scroll_y urm_drage urm_drag_drop isDragging"
             id="drage_container"
           >
-            {filteredUserData.length > 0 &&
+            {filteredUserData?.length > 0 &&
               filteredUserData.map((data, index) => {
                 return (
                   <UserDraggable

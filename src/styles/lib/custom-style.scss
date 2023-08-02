@@ -6491,7 +6491,7 @@ table.eep_table_spacer tbody tr td:last-child {
   align-items: center;
   padding: 0.25rem;
   border-bottom: 1px solid #d9d9d9;
-  margin: 0 0.25rem;
+  padding: 10px;
 }
 
 .urm_profile_container.hidecontent {
@@ -6534,6 +6534,7 @@ table.eep_table_spacer tbody tr td:last-child {
   margin-right: 0.5rem;
   font-size: 12px;
   min-width: 100px;
+  text-align: center;
 }
 
 #drop_container .urm_profile_department,

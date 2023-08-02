@@ -57,10 +57,10 @@ const RoleManagement = () => {
   ];
 
   const tabConfig = [
-    // {
-    //   title: "Role",
-    //   id: "roleTab",
-    // },
+    {
+      title: "Role",
+      id: "roleTab",
+    },
     {
       title: "Role Update",
       id: "roleUpdateTab",
@@ -82,22 +82,22 @@ const RoleManagement = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if(userRolePermission.adminPanel) {
-      dispatch(
-        TabsActions.updateTabsconfig({
-          config: tabConfig,
-        })
-      );
-      return () => {
-        dispatch(
-          TabsActions.updateTabsconfig({
-            config: [],
-          })
-        );
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   if(userRolePermission.adminPanel) {
+  //     dispatch(
+  //       TabsActions.updateTabsconfig({
+  //         config: tabConfig,
+  //       })
+  //     );
+  //     return () => {
+  //       dispatch(
+  //         TabsActions.updateTabsconfig({
+  //           config: [],
+  //         })
+  //       );
+  //     };
+  //   }
+  // }, []);
 
   const fetchPermissionData = () => {
     fetch(`${process.env.PUBLIC_URL}/data/permissionData.json`)

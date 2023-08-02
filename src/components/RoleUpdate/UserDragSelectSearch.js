@@ -87,7 +87,7 @@ const UserDragSelectSearch = (props) => {
     <div className="urm_select_container">
       <div className="urm_search_container">
         <div className="urm_title">USERS</div>
-        <div className="search_icon c1">
+        {/* <div className="search_icon c1">
           <span className="search_input_field">
             <input
               type="text"
@@ -103,7 +103,7 @@ const UserDragSelectSearch = (props) => {
               __html: svgIcons && svgIcons.search_icon,
             }}
           ></span>
-        </div>
+        </div> */}
       </div>
       <div className="urm_select_container_inner_div">
         <div className="urm_department_select" id="urm_department">

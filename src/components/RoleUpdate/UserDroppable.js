@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DropAssignedUsers from "./DropAssignedUsers";
 import { useDrop } from "react-dnd";
 const UserDroppable = (props) => {
-  
+  debugger
   
 
   const { role, userData, onRoleBulkUpdate, roleUpdated, getUserOnDragRemove, dropAreaRole } = props;
