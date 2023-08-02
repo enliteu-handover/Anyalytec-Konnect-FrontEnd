@@ -13,29 +13,29 @@ const DropAssignedUsers = (props) => {
         <div className="urm_profile_container text-center">
           <div className="urm_profile_pic">
             <img
-              src={userData.imageByte ? userData.imageByte.image : process.env.PUBLIC_URL + "/images/user_profile.png"}
+              src={userData?.imageByte?.image ? userData?.imageByte.image : process.env.PUBLIC_URL + "/images/user_profile.png"}
               className="role_image"
               alt="profilePiccture"
             />
           </div>
           <div className="urm_profile_name">
-            {userData.firstname} {userData.lastname}
+            {userData?.firstname} {userData?.lastname}
           </div>
-          <div className="urm_profile_department">{userData.department.name}</div>
+          <div className="urm_profile_department">{userData?.department.name}</div>
           <div
             className="urm_profile_role"
             style={{
               backgroundColor:
-                userData.role &&
-                userData.role.colorCode &&
-                userData.role.colorCode.indexOf("#") !== -1
-                  ? userData.role.colorCode
-                  : userData.role && userData.role.colorCode
-                  ? "#" + userData.role.colorCode
+                userData?.role &&
+                userData?.role.colorCode &&
+                userData?.role.colorCode.indexOf("#") !== -1
+                  ? userData?.role.colorCode
+                  : userData?.role && userData?.role.colorCode
+                  ? "#" + userData?.role.colorCode
                   : null,
             }}
           >
-            {userData.role && userData.role.roleName}
+            {userData?.role && userData?.role.roleName}
           </div>
           {showcontrol && (
             <div className="dropdown eep_custom_dropdown c-c1c1c1 c1">

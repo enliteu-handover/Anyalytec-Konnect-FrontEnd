@@ -57,10 +57,10 @@ const RoleManagement = () => {
   ];
 
   const tabConfig = [
-    {
-      title: "Role",
-      id: "roleTab",
-    },
+    // {
+    //   title: "Role",
+    //   id: "roleTab",
+    // },
     {
       title: "Role Update",
       id: "roleUpdateTab",
@@ -313,9 +313,9 @@ const RoleManagement = () => {
 
   return (
     <React.Fragment>
-      {userRolePermission.adminPanel &&
+      {userRolePermission?.adminPanel &&
         <div className="tab-content">
-          <div id="roleTab" className="tab-pane active">
+          {/* <div id="roleTab" className="tab-pane active">
             <div className="row">
               <div className="col-sm-12 col-md-6 eep-content-section eep_scroll_y">
                 <div className="urm_left_heading">User Roles</div>
@@ -425,7 +425,6 @@ const RoleManagement = () => {
                                       <label htmlFor={`panelLabel_${index}_${i}`} className="permission_check_label"> {datap.label} </label>
                                     </div>
                                     <div className="sub_module_permission">
-                                      {/* <input type="checkbox" id={`panelLabel_${index}`} className="permission_check" abcdef={`${rolePermissionData[datap.value] ? "yezz" : "noo"}`} checked={rolePermissionData[datap.value] ? true : false} /> */}
                                       <input type="checkbox" id={`panelLabel_${index}_${i}`} name={`panelLabel_${index}_${i}`} className="permission_check" checked={datap.allow} value={datap.allow} onChange={() => checkBoxOnChangeHandler(datas, index, i)}/>
                                     </div>
                                   </div>
@@ -443,7 +442,6 @@ const RoleManagement = () => {
                   { roleDataClicked && (
                     <React.Fragment>
                       <div className="save_btn">
-                        {/* <input type="button" className="eep-btn eep-btn-success" value="update" onClick={updatePermission}/> */}
                         {!roleScreenResponseMsg && (
                           <button type="button" className="eep-btn eep-btn-success" onClick = {() => updatePermission(roleID, roleScreenID)}> Update </button>
                         )}
@@ -464,15 +462,15 @@ const RoleManagement = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div id="roleUpdateTab" className="tab-pane">
+          </div> */}
+          <div id="roleUpdateTab" className="tab-pane active">
             <div className="row" id="roleUpdateTab">
               <RoleUpdate /> 
             </div>
           </div>
         </div>
       }
-      {!userRolePermission.adminPanel &&
+      {!userRolePermission?.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo
             title="Oops! Looks illigal way."

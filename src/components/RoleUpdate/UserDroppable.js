@@ -3,6 +3,7 @@ import DropAssignedUsers from "./DropAssignedUsers";
 import { useDrop } from "react-dnd";
 const UserDroppable = (props) => {
   
+  
 
   const { role, userData, onRoleBulkUpdate, roleUpdated, getUserOnDragRemove, dropAreaRole } = props;
   const [filteredUserData, setFilteredUserData] = useState([]);
@@ -67,7 +68,7 @@ const UserDroppable = (props) => {
           className="urm_profile_container_wrapper urm_drag_drop"
           style={{ display: role ? "grid" : "none" }}
         >
-          {filteredUserData.length > 0 &&
+          {filteredUserData?.length > 0 &&
             filteredUserData.map((res, index) => {
               return (
                 <DropAssignedUsers
@@ -79,12 +80,12 @@ const UserDroppable = (props) => {
               );
             })}
 
-            {filteredUserData.length < 0 && (
+            {filteredUserData?.length < 0 && (
               <p>No record found</p>
             )}
 
           {showFlag &&
-            droppedData.length > 0 &&
+            droppedData?.length > 0 &&
             droppedData.map((res, index) => {
               return (
                 <DropAssignedUsers

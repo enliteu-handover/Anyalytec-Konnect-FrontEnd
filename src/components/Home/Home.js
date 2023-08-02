@@ -64,7 +64,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    debugger
+    
     if (userRolePermission.employeeEngagementDashboard) {
       tabConfig.push({
         title: "Rewards & Recognition",

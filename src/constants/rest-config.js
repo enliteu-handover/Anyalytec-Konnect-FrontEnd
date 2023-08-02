@@ -57,7 +57,7 @@ const URL_CONFIG = {
   HASHTAG_BULK_UPDATE: "/hashtags/activehashtag",
   ALLROLES: "/roles",
   ADDROLE: "/roles/role",
-  ROLES_BULK_UPDATE: "/users/updateroles",
+  ROLES_BULK_UPDATE: "/roles/updateroles",
   GET_ROLE_PERMISSIONS: "/roleScreenMappings/rolescreenroleid",
   ROLE_SCREEN_MAPPING: "/roleScreenMappings/roleScreenMapping",
   USER_PERMISSION: "/roleScreenMappings/rolescreenroleid",

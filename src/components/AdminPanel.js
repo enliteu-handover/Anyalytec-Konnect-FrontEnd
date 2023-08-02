@@ -91,7 +91,7 @@ const AdminPanel = () => {
                 <span>User Management</span>
               </div>
             </Link>
-            {/* <Link to="/app/rolemanagement">
+            <Link to="/app/rolemanagement">
               <div className="admin_panel_items bg-white">
                 <div className="outter">
                   <img
@@ -104,7 +104,7 @@ const AdminPanel = () => {
                 </div>
                 <span>Role Management</span>
               </div>
-            </Link> */}
+            </Link>
             <Link to="/app/hashtag">
               <div className="admin_panel_items bg-white">
                 <div className="outter">

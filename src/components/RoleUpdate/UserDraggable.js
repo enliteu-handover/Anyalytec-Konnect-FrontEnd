@@ -39,7 +39,7 @@ const UserDraggable = (prop) => {
     >
       <div className="urm_profile_pic">
         <img
-          src={data.imageByte ? data.imageByte.image : process.env.PUBLIC_URL + "/images/user_profile.png"}
+          src={data?.imageByte?.image ? data.imageByte.image : process.env.PUBLIC_URL + "/images/user_profile.png"}
           className="role_image"
           alt="profilePiccture"
         />

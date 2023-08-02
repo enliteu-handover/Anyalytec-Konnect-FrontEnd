@@ -19,7 +19,7 @@ const RoleUpdate = () => {
   const [roleUpdated, setRoleUpdated] = useState(false);
   const [removedUserOnDrop, setRemovedUserOnDrop] = useState(null);
 
-  const fetchUserData = () => {
+  const fetchUserData = async () => {
     const obj = {
       url: URL_CONFIG.ALLUSERS,
       method: "get",
@@ -27,7 +27,7 @@ const RoleUpdate = () => {
         active: true
       }
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((userData) => {
         setUserData(userData.data);
         setFilteredUserData(userData.data);
@@ -72,7 +72,7 @@ const RoleUpdate = () => {
     setDropAreaRole(arg);
   };
 
-  const roleBulkUpdateHandler = (arg) => {
+  const roleBulkUpdateHandler = async (arg) => {
     const roleBulkUpdate = {
       role: { id: dropAreaRole },
       users: [],
@@ -87,10 +87,10 @@ const RoleUpdate = () => {
       method: "put",
       payload: roleBulkUpdate,
     };
-    httpHandler(obj)
-      .then((res) => {
-        fetchUserData();
+    await httpHandler(obj)
+      .then(async (res) => {
         setRoleUpdated(true);
+        await fetchUserData();
       })
       .catch((error) => {
         console.log("error", error);
@@ -143,7 +143,7 @@ const RoleUpdate = () => {
             onRoleBulkUpdate={roleBulkUpdateHandler}
             roleUpdated={roleUpdated}
             getUserOnDragRemove={getUserOnDragRemove}
-            dropAreaRole = {dropAreaRole}
+            dropAreaRole={dropAreaRole}
           />
           {/* </div> */}
           {/* </div> */}
