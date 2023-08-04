@@ -17,6 +17,10 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 
 const Feedback = () => {
 
+  const [allfeedback, setFeedbacks] = useState([]);
+
+
+
   const [deptOptions, setDeptOptions] = useState([]);
   const [ideaLists, setIdeaLists] = useState([]);
   const [usersPic, setUsersPic] = useState([]);
@@ -161,16 +165,9 @@ const Feedback = () => {
         method: "get"
       };
     }
-    /*
-    const obj = {
-      url: URL_CONFIG.IDEA,
-      method: "get"
-    };
-    */
     httpHandler(obj)
       .then((ideaData) => {
         if (!isIdeaActive) {
-          //setIdeaLists(ideaData.data);
           if (ideaListsReverse) {
             setIdeaLists([...ideaData.data].reverse());
           } else {
@@ -221,6 +218,7 @@ const Feedback = () => {
   useEffect(() => {
     fetchDepartmentData();
     fetchAllUsers();
+    fetchAllFeedbacks();
   }, []);
 
   useEffect(() => {
@@ -353,65 +351,6 @@ const Feedback = () => {
     }
   }
 
-  const markImportant = (iData, isImportant) => {
-
-    let obj;
-    let iImportantIndex = 0;
-    if (isImportant) {
-      obj = {
-        url: URL_CONFIG.IDEA_IMPORTANT_UNIMPORTANT,
-        //  + "?id=" + iData.id,
-        payload: { id: iData.id },
-        method: "post",
-      };
-    }
-    if (!isImportant) {
-      // iImportantIndex = iData.ideaFavorites.findIndex(x => x.userId.id === loggedUserData.id);
-      obj = {
-        url: URL_CONFIG.IDEA_IMPORTANT_UNIMPORTANT,
-        //  + "?id=" + iData.ideaFavorites[iImportantIndex].id,
-        payload: { id: iData.ideaFavorites[iImportantIndex].id },
-        method: "put",
-      };
-    }
-    httpHandler(obj)
-      .then(() => {
-        if (isImportant) {
-          if (iData.ideaIsActive) {
-            fetchIdeas(true, iData.id, filterParams);
-          } else {
-            fetchIdeas(false);
-          }
-        }
-        if (!isImportant) {
-          let ideaDataTemp = JSON.parse(JSON.stringify(ideaLists))
-          ideaDataTemp && ideaDataTemp.length > 0 && ideaDataTemp.map((item) => {
-            if (item.ideaIsActive) {
-              item.ideaIsActive = true;
-            } else {
-              item.ideaIsActive = false;
-            }
-            if (item.id === iData.id) {
-              if (item.ideaFavorites && item.ideaFavorites.length > 0) {
-                item.ideaIsImportant = false;
-                item.ideaFavorites.splice(iImportantIndex, 1);
-              }
-            }
-            return item;
-          });
-          setIdeaLists(ideaDataTemp);
-        }
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
-        });
-      });
-  }
-
   const readAllIdeas = (isReadAll) => {
 
     if (isReadAll) {
@@ -441,6 +380,54 @@ const Feedback = () => {
   const dateReceived = (isSort) => {
     setIdeaListsReverse(isSort);
     setIdeaLists([...ideaLists].reverse());
+  }
+
+  const fetchAllFeedbacks = () => {
+
+    let obj = {
+      url: URL_CONFIG.GET_ALL_FEEDBACKS,
+      method: "get"
+    };
+    httpHandler(obj)
+      .then((all_feed) => {
+        setFeedbacks(all_feed?.data?.data);
+
+      })
+      .catch((error) => {
+        console.log("fetchIdeas error", error);
+      });
+  }
+
+  const markImportant = (iData, isImportant) => {
+    debugger
+    let obj;
+    let iImportantIndex = 0;
+    if (isImportant) {
+      obj = {
+        url: URL_CONFIG.FEEDBACK_IMPORTANT_UNIMPORTANT,
+        payload: { id: iData.id, favorite: isImportant },
+        method: "post",
+      };
+    }
+    if (!isImportant) {
+      obj = {
+        url: URL_CONFIG.FEEDBACK_IMPORTANT_UNIMPORTANT,
+        payload: { id: iData.id, id_dlt: iData.feedbackFavorites[iImportantIndex].id, favorite: isImportant },
+        method: "post",
+      };
+    }
+    httpHandler(obj)
+      .then(() => {
+        fetchAllFeedbacks()
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: errMsg,
+        });
+      });
   }
 
   return (
@@ -477,10 +464,7 @@ const Feedback = () => {
           <div id="feedback" className="tab-pane active h-100">
 
             {createModalShow && <CreateEditCommunicationModal
-              deptOptions={deptOptions} createModalShow={createModalShow}
-              createCommunicationPost={createCommunicationPost}
-              communicationModalErr={createModalErr} communicationType="feedback"
-              communicationData={null} />}
+              deptOptions={deptOptions} fetchAllFeedbacks={fetchAllFeedbacks} />}
 
             <PageHeader title="Feedback"
               navLinksRight={
@@ -490,14 +474,23 @@ const Feedback = () => {
                 <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
               }
             />
-            {ideaLists && ideaLists.length > 0 &&
+            {allfeedback && allfeedback?.length > 0 &&
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
-                  <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
-                    {/* <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} /> */}
-                    {activeTab && activeTab.id === 'feedback' && <FeedbackList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} />}
+                  <div className="col-md-4 eep-content-section-data eep_scroll_y pl-0">
+                    {activeTab && activeTab.id === 'feedback' &&
+
+                      <FeedbackList
+                        feedbackListsData={allfeedback}
+                        usersPic={usersPic}
+                        viewIdeaData={viewIdeaData}
+                        readIdeaData={readIdeaData}
+                        markImportant={markImportant}
+                        readAllIdeas={readAllIdeas}
+                        dateReceived={dateReceived} />}
+
                   </div>
-                  <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
+                  <div className="col-md-8 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
                     {ideaDataState && <FeedbackDetailView ideaData={ideaData} usersPic={usersPic} />}
                     {!ideaDataState &&
                       <div className="row eep-content-section-data no-gutters">
@@ -522,23 +515,6 @@ const Feedback = () => {
             }
           </div>
           <div id="myfeedback" className="tab-pane h-100">
-            {/* <PageHeader title="My Idea"
-							navLinksLeft={
-								<Link 
-                  to={{
-                    pathname: "/app/ideabox",
-                    state: {
-                      activeTab: 'feedback'
-                    },
-                  }}
-                  className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" 
-                  dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}
-                ></Link>
-							}
-							filter={
-								<Filter config={HIDE_SHOW_FILTER_CONFIG} />
-							}
-						/> */}
             {activeTab && activeTab.id === 'myfeedback' && <MyFeedback usersPic={usersPic} deptOptions={deptOptions} />}
           </div>
         </div>

@@ -62,12 +62,6 @@
         "link": "ideabox",
         "icon": "",
         "ideabox": true
-      },
-      {
-        "label": "Feedback",
-        "link": "feedback",
-        "icon": "",
-        "feedback": true
       }
     ]
   },

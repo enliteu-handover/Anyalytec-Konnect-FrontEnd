@@ -10,7 +10,7 @@ import { httpHandler } from "../http/http-interceptor";
 import { base64ToFile } from "../helpers";
 
 const CreateEditCommunicationModal = (props) => {
-    const { deptOptions, hideModal, communicationType } = props;
+    const { deptOptions, fetchAllFeedbacks } = props;
     Quill.register(
         {
             "formats/emoji": quillEmoji.EmojiBlot,
@@ -37,6 +37,7 @@ const CreateEditCommunicationModal = (props) => {
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
     const initDeptOptions = deptOptions ? deptOptions : {};
 
+    const [error, seterror] = useState('');
     const [modalAttachements, setModalAttachements] = useState([]);
     const [modalErrorAttachements, setModalErrorAttachements] = useState({ errCount: [], errLengthCount: [] });
     const [errorAtthState, setErrorAtthState] = useState(false);
@@ -141,6 +142,7 @@ const CreateEditCommunicationModal = (props) => {
     }
 
     const CreateFunction = async () => {
+        seterror('');
         let users = [];
         state?.userValue?.length && state?.userValue.map((item) => {
             return users.push(item.value);
@@ -161,7 +163,7 @@ const CreateEditCommunicationModal = (props) => {
             logo: state?.logo.icon ?? null,
             attachments: [],
             category_id: state?.category?.id ?? null,
-            show_as: state?.show_as ?? null
+            show_as: state?.show_as?.name ?? null
         };
 
         if (attachementFiles?.length > 0) {
@@ -187,7 +189,8 @@ const CreateEditCommunicationModal = (props) => {
             payload
         };
         httpHandler(obj).then((response) => {
-            debugger
+            seterror(response?.data?.message)
+            fetchAllFeedbacks()
         }).catch((error) => {
             console.log("add feedback error", error);
         });
@@ -264,6 +267,14 @@ const CreateEditCommunicationModal = (props) => {
                         <div className="modal-body py-0 px-0 eep_scroll_y">
                             <div className="row justify-content-md-center mb-1">
 
+                                {error &&
+                                    <div className="col-md-12">
+                                        <div className="d-flex justify-content-end my-1">
+                                            <span className="c1"> {error}</span>
+                                        </div>
+                                    </div>
+                                }
+
                                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
                                     <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">How do you feel today?</label>
                                 </div>
@@ -311,7 +322,7 @@ const CreateEditCommunicationModal = (props) => {
                                 </div>
 
                                 <div className="col-md-12 mb-3">
-                                    {[{ name: "Mike Oliver" }, { name: "Anonymous" }]?.map(v => {
+                                    {[{ name: JSON.parse(sessionStorage.userData)?.username }, { name: "Anonymous" }]?.map(v => {
                                         return <button
                                             style={{
                                                 background: state?.show_as?.name === v?.name ? '#244AC4' : '#eee',
@@ -326,7 +337,7 @@ const CreateEditCommunicationModal = (props) => {
                                         >{v?.name}</button>
                                     })}
                                 </div>
-                                
+
                                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
                                     <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">Share to</label>
                                 </div>
@@ -454,8 +465,8 @@ const CreateEditCommunicationModal = (props) => {
                                 </div>
                             </div>
                             <div className="communication_add_action_div d-flex justify-content-center">
-                                <button type="button" className="eep-btn eep-btn-cancel eep-btn-nofocus eep-btn-xsml mr-2" data-dismiss="modal" onClick={hideModal}>Cancel</button>
-                                <button type="button" className="eep-btn eep-btn-success eep-btn-xsml ml-3" onClick={CreateFunction}>Create</button>
+                                <button type="button" className="eep-btn eep-btn-cancel eep-btn-nofocus eep-btn-xsml mr-2" data-dismiss="modal">Cancel</button>
+                                <button type="button" className="eep-btn eep-btn-success eep-btn-xsml ml-3" onClick={()=>CreateFunction()}>Post</button>
                             </div>
                         </div>
                     </div>
