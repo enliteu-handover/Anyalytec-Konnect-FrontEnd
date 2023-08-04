@@ -198,6 +198,9 @@ const URL_CONFIG = {
   GET_FEED_CATEGORY: "/feedback/get_category",
   GET_ALL_FEEDBACKS: "/feedback/get_feedback",
   FEEDBACK_IMPORTANT_UNIMPORTANT: "/feedback/feedbackfavorites",
+  FEEDBACK_READ_UNREAD: "/feedback/feedbackread",
+  FEEDBACK_READ_ALL: "/feedback/feedbackreadall",
+
 };
 
 export { REST_CONFIG, URL_CONFIG };

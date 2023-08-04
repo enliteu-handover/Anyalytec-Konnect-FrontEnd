@@ -292,94 +292,8 @@ const Feedback = () => {
     setIdeaDataState(true);
   }
 
-  const readIdeaData = (iData, isActive, isRead) => {
-
-    if (iData) {
-      let obj;
-      let iReadIndex = 0;
-      if (isRead) {
-        obj = {
-          url: URL_CONFIG.IDEA_READ_UNREAD,
-          //  + "?id=" +iData.id,
-          payload: { id: iData.id },
-          method: "post",
-        };
-      }
-      if (!isRead) {
-        // iReadIndex = iData.ideaRead.findIndex(x => x.userId.id === loggedUserData.id);
-        obj = {
-          url: URL_CONFIG.IDEA_READ_UNREAD,
-          //  + "?id=" + iData.ideaRead[iReadIndex].id,
-          payload: { id: iData.ideaRead[iReadIndex].id },
-          method: "put",
-        };
-      }
-      httpHandler(obj)
-        .then(() => {
-          if (isRead) {
-            fetchIdeas(true, iData.id, filterParams);
-          }
-          if (!isRead) {
-            let ideaListsTemp = JSON.parse(JSON.stringify(ideaLists));
-            if (ideaListsTemp && ideaListsTemp.length > 0) {
-              ideaListsTemp.map((idea) => {
-                if (idea.id === iData.id) {
-                  idea.ideaIsRead = false;
-                  idea.ideaRead.splice(iReadIndex, 1);
-                  if (isActive) {
-                    idea.ideaIsActive = true;
-                  }
-                } else {
-                  if (isActive) {
-                    idea.ideaIsActive = false;
-                  }
-                }
-                return idea;
-              });
-              setIdeaLists(ideaListsTemp);
-            }
-          }
-        })
-        .catch((error) => {
-          setShowModal({
-            ...showModal,
-            type: "danger",
-            message: error?.response?.data?.message,
-          });
-          //const errMsg = error.response?.data?.message;
-        });
-    }
-  }
-
-  const readAllIdeas = (isReadAll) => {
-
-    if (isReadAll) {
-      const obj = {
-        url: URL_CONFIG.IDEA_READ_ALL,
-        method: "post"
-      };
-      httpHandler(obj)
-        .then(() => {
-          fetchIdeas(false);
-        })
-        .catch((error) => {
-          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-          setShowModal({
-            ...showModal,
-            type: "danger",
-            message: errMsg,
-          });
-        });
-    }
-  }
-
   const triggerCreateModal = () => {
     setCreateModalShow(true);
-  }
-
-  const dateReceived = (isSort) => {
-    setIdeaListsReverse(isSort);
-    setIdeaLists([...ideaLists].reverse());
   }
 
   const fetchAllFeedbacks = () => {
@@ -399,7 +313,6 @@ const Feedback = () => {
   }
 
   const markImportant = (iData, isImportant) => {
-    debugger
     let obj;
     let iImportantIndex = 0;
     if (isImportant) {
@@ -428,6 +341,66 @@ const Feedback = () => {
           message: errMsg,
         });
       });
+  }
+
+  const readIdeaData = (iData, isActive, isRead) => {
+
+    if (iData) {
+      let obj;
+      let iReadIndex = 0;
+      if (isRead) {
+        obj = {
+          url: URL_CONFIG.FEEDBACK_READ_UNREAD,
+          payload: { id: iData.id, reed: isRead },
+          method: "post",
+        };
+      }
+      if (!isRead) {
+        obj = {
+          url: URL_CONFIG.FEEDBACK_READ_UNREAD,
+          payload: { id: iData.id, id_dlt: iData.feedbackRead[iReadIndex].id, reed: isRead },
+          method: "post",
+        };
+      }
+      httpHandler(obj)
+        .then(() => {
+          fetchAllFeedbacks()
+        })
+        .catch((error) => {
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: error?.response?.data?.message,
+          });
+          //const errMsg = error.response?.data?.message;
+        });
+    }
+  }
+
+  const readAllIdeas = (isReadAll) => {
+
+    if (isReadAll) {
+      const obj = {
+        url: URL_CONFIG.FEEDBACK_READ_ALL,
+        method: "post"
+      };
+      httpHandler(obj)
+        .then(() => {
+          fetchAllFeedbacks()
+        })
+        .catch((error) => {
+          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
+        });
+    }
+  }
+
+  const dateReceived = (isSort) => {
+    setFeedbacks([...allfeedback].reverse());
   }
 
   return (
@@ -469,9 +442,6 @@ const Feedback = () => {
             <PageHeader title="Feedback"
               navLinksRight={
                 <Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateEditCommunicationModal"></Link>
-              }
-              filter={
-                <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
               }
             />
             {allfeedback && allfeedback?.length > 0 &&

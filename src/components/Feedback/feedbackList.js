@@ -51,7 +51,10 @@ const FeedbackList = (props) => {
 
   return (
     <React.Fragment>
-      <SortList readAllCommunicationsFromList={readAllCommunicationsFromList} communicationPostLists={feedbackListsData} dateReceivedOrder={dateReceivedOrder} />
+      <SortList
+        readAllCommunicationsFromList={readAllCommunicationsFromList}
+        communicationPostLists={feedbackListsData}
+        dateReceivedOrder={dateReceivedOrder} />
       <div className="ideashorting_div">
         {ideaLists && ideaLists?.map((item, index) => {
           return (
