@@ -31,7 +31,7 @@ const  NominatedAwardFilteredData = (props) => {
 				}
 			</div>
 			<div className="c_nm_award_div px-3">
-				<img src={clickeddAwardData?.imageByte?.image} className="c_nm_award_img eep_r_icons_bg" alt="Award Icon" title={clickeddAwardData.imageByte.name} /> 
+				<img src={clickeddAwardData?.imageByte?.image} className="c_nm_award_img eep_r_icons_bg" alt="Award Icon" title={clickeddAwardData?.imageByte?.name} /> 
 				<label className="c_nm_award_lbl font-helvetica-m">{clickeddAwardData?.award?.name}</label>
 			</div>
 			<div className="c_nm_award_cat_div px-x">

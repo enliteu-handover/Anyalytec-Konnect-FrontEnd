@@ -1,8 +1,12 @@
 // Crayond
 const REST_CONFIG = {
-  BASEURL: process.env.REACT_APP_BASEURL,
-  METHOD: process.env.REACT_APP_METHOD,
+  BASEURL: '127.0.0.1:3000',
+  METHOD: 'http',
   BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
+
+  // BASEURL: process.env.REACT_APP_BASEURL,
+  // METHOD: process.env.REACT_APP_METHOD,
+  // BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
 
   FIREBASE_API_KEY: process.env.REACT_APP_FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -188,6 +192,10 @@ const URL_CONFIG = {
   UPSERT_BULK_ORG: "/users/bulkorg",
   EXPORT_BULK_ORG: "/users/export_org",
   UPDATE_SLACK_USERS: "/users/fetch_slack_user",
+
+
+  ADD_FEEDBACK: "/feedback/createFeedback",
+  GET_FEED_CATEGORY: "/feedback/get_category",
 };
 
 export { REST_CONFIG, URL_CONFIG };

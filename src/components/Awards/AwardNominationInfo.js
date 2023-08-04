@@ -46,7 +46,7 @@ const AwardNominationInfo = (props) => {
             <div className="r_award_lcol_inner text-center">
               <img
                 src={
-                  aDataVal?.imageByte
+                  aDataVal?.imageByte?.image
                     ? aDataVal?.imageByte?.image
                     : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                 }

@@ -175,9 +175,9 @@ const AssignAwards = (props) => {
                           : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                       }
                       className="badge_img"
-                      alt={data.imageByte ? data.imageByte.name : "Award Icon"}
+                      alt={data?.imageByte?.name ? data.imageByte.name : "Award Icon"}
                       title={
-                        data.imageByte ? data.imageByte.name : "Award Icon"
+                        data?.imageByte?.name ? data.imageByte.name : "Award Icon"
                       }
                     />
                     {bulkUpdateState && bulkUpdateState.bulkState && (

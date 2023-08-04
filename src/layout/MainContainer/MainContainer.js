@@ -60,6 +60,7 @@ import Help from "../Header/Help";
 import Search from "../../components/Search/Search";
 import BranchMaster from "../../components/Branch";
 import BulkUploadOrgChart from "../../bulkUpload";
+import Feedback from "../../components/Feedback";
 
 const MainContainer = () => {
   const getTabs = useSelector((state) => state.tabs.config);
@@ -213,6 +214,9 @@ const MainContainer = () => {
                             </Route>
                             <Route path="/app/ideabox">
                               <IdeaBox />
+                            </Route>
+                            <Route path="/app/feedback">
+                              <Feedback />
                             </Route>
                             <Route path="/app/forum">
                               <Forum />

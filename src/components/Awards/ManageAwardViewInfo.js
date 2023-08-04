@@ -21,7 +21,7 @@ const ManageAwardViewInfo = (props) => {
           {Object.keys(aDataValue).length > 0 &&
             <React.Fragment>
               <div className="n_award_add_col_inner_fromaward">
-                <img src={aDataValue?.imageByte ? aDataValue.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`} className="r_award_img selected" alt="Award Icon" title={aDataValue?.award?.name} />
+                <img src={aDataValue?.imageByte?.image ? aDataValue.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`} className="r_award_img selected" alt="Award Icon" title={aDataValue?.award?.name} />
                 <label className="n_award_add_label font-helvetica-m n_award_name">{aDataValue?.award?.name}</label>
               </div>
               {aDataValue?.entityType === "spot_award" && 
