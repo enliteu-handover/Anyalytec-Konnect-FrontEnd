@@ -1,12 +1,12 @@
 // Crayond
 const REST_CONFIG = {
-  // BASEURL: '127.0.0.1:3000',
-  // METHOD: 'http',
-  // BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
-
-  BASEURL: process.env.REACT_APP_BASEURL,
-  METHOD: process.env.REACT_APP_METHOD,
+  BASEURL: '127.0.0.1:3000',
+  METHOD: 'http',
   BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
+
+  // BASEURL: process.env.REACT_APP_BASEURL,
+  // METHOD: process.env.REACT_APP_METHOD,
+  // BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
 
   FIREBASE_API_KEY: process.env.REACT_APP_FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -200,7 +200,7 @@ const URL_CONFIG = {
   FEEDBACK_IMPORTANT_UNIMPORTANT: "/feedback/feedbackfavorites",
   FEEDBACK_READ_UNREAD: "/feedback/feedbackread",
   FEEDBACK_READ_ALL: "/feedback/feedbackreadall",
-
+  FEEDBACK_BY_ID: "/feedback/feedback_by_id",
 };
 
 export { REST_CONFIG, URL_CONFIG };

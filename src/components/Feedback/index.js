@@ -14,6 +14,7 @@ import FeedbackDetailView from "./feedbackDetailView";
 import ResponseInfo from "../../UI/ResponseInfo";
 import CreateEditCommunicationModal from "../../modals/feed"
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import "./style.scss";
 
 const Feedback = () => {
 
@@ -227,19 +228,6 @@ const Feedback = () => {
     }
   }, [activeTab]);
 
-  const markIdeaAsActiveState = (loopData, ideaIDData) => {
-    let ideaDataTemp = JSON.parse(JSON.stringify(loopData));
-    ideaDataTemp && ideaDataTemp.length > 0 && ideaDataTemp.map((item) => {
-      if (item.id === ideaIDData) {
-        item.ideaIsActive = true;
-      } else {
-        item.ideaIsActive = false;
-      }
-      return item;
-    });
-    setIdeaLists(ideaDataTemp);
-  }
-
   const createCommunicationPost = (arg) => {
     let formData = new FormData();
     if (arg.files && arg.files.length > 0) {
@@ -280,16 +268,6 @@ const Feedback = () => {
         const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
         setCreateModalErr(errMsg);
       });
-  }
-
-  const viewIdeaData = (iData) => {
-    if (!iData.ideaIsRead) {
-      readIdeaData(iData, true, true);
-    } else {
-      markIdeaAsActiveState(ideaLists, iData.id);
-    }
-    setIdeaData(iData);
-    setIdeaDataState(true);
   }
 
   const triggerCreateModal = () => {
@@ -403,6 +381,28 @@ const Feedback = () => {
     setFeedbacks([...allfeedback].reverse());
   }
 
+  const viewIdeaData = (iData) => {
+    if (!iData.feedBackIsRead) {
+      readIdeaData(iData, true, true);
+    } else {
+      markIdeaAsActiveState(allfeedback, iData.id);
+    }
+    setIdeaData(iData);
+  }
+
+  const markIdeaAsActiveState = (loopData, feedBackIDData) => {
+    let feedBackDataTemp = JSON.parse(JSON.stringify(loopData));
+    feedBackDataTemp && feedBackDataTemp.length > 0 && feedBackDataTemp.map((item) => {
+      if (item.id === feedBackIDData) {
+        item.feedBackIsActive = true;
+      } else {
+        item.feedBackIsActive = false;
+      }
+      return item;
+    });
+    setFeedbacks(feedBackDataTemp);
+  }
+
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
@@ -461,8 +461,14 @@ const Feedback = () => {
 
                   </div>
                   <div className="col-md-8 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
-                    {ideaDataState && <FeedbackDetailView ideaData={ideaData} usersPic={usersPic} />}
-                    {!ideaDataState &&
+                    {ideaData &&
+
+                      <FeedbackDetailView
+                        ideaData={ideaData}
+                        usersPic={usersPic} />
+                    }
+
+                    {!ideaData &&
                       <div className="row eep-content-section-data no-gutters">
                         <div className="eep_blank_div">
                           <img src={`${process.env.PUBLIC_URL}/images/icons/static/readData.png`} alt="Read Data" />

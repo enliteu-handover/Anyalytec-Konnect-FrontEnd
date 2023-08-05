@@ -135,7 +135,7 @@ const FeedbackComments = (props) => {
 					<textarea className="form-control ideabox-message-textarea ideabox_contentt_size eep_scroll_y" name="comment" id="ideaCommentTextarea" maxLength={commentMaxLength} placeholder="Add a comment" value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea>
 					<div className="text-right" style={{color: "#858796", paddingRight: "5px", fontSize: "10px"}}><span>{ideaComment.length}</span>/<span>{commentMaxLength}</span></div>
 
-          {cmtErrorAttachements.errCount.length > 0 && errorAtthState &&
+          {cmtErrorAttachements?.errCount?.length > 0 && errorAtthState &&
             <div className="col-md-12" style={{fontSize:"10px"}}>
               <div className="alert alert-danger my-1" role="alert">
                 <span>{cmtErrorAttachements.errCount.length}</span><span>{cmtErrorAttachements.errCount.length > 1 ? " - Invalid files!" : " - Invalid file!"}</span>
@@ -143,7 +143,8 @@ const FeedbackComments = (props) => {
               </div>
             </div>
           }
-          {cmtErrorAttachements.errLengthCount.length > 0 && errorLengthAtthState &&
+          
+          {cmtErrorAttachements?.errLengthCount?.length > 0 && errorLengthAtthState &&
             <div className="col-md-12" style={{fontSize:"10px"}}>
               <div className="alert alert-danger my-1" role="alert">
                 <span>{cmtErrorAttachements.errLengthCount.length}</span><span> - File Size exceeds, File Size should be less than 1mb.</span>
@@ -161,15 +162,15 @@ const FeedbackComments = (props) => {
                 <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span> 
               </div>
 							
-              {attachementFiles.length > 0 &&
+              {attachementFiles?.length > 0 &&
               <div className="idea_attachement_clear_comments c1 d-flex" style={{ order: "1"}} onClick={clearAllAtthments}>
 								<span className="idea_atth_clear">Clear</span>
 							</div>
               }
-              {attachementFiles.length > 0 &&
+              {attachementFiles?.length > 0 &&
                 <React.Fragment>
                   <img src={`${process.env.PUBLIC_URL}/images/icons/special/attachment-add.svg`} className="ideabox-attach-img-size_2 image-circle c1 command_attachement right_side_commandadd_icon mr-2" id="command_attachement_plus" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} />
-                  {attachementFiles.map((item,index) => {
+                  {attachementFiles?.map((item,index) => {
                     return (
                       <div className="attachments_list mb-0" key={"attachments_list_" + index}>
                         <div className="attachments_list_a">
@@ -182,7 +183,7 @@ const FeedbackComments = (props) => {
                   )}
                 </React.Fragment>
               }
-              {attachementFiles.length <= 0 &&
+              {attachementFiles?.length <= 0 &&
 							<div 
                 id="command_attachement_icon" 
                 className="c1 command_attachement eep_attachment_icon mr-2"

@@ -24,27 +24,27 @@ const FeedbackDetailView = (props) => {
   };
 
   let iLikedIndex;
-  const isIdeaLiked = (uID, ideaLikes) => {
-    iLikedIndex = ideaLikes.findIndex(x => x.userId.user_id === uID);
+  const isIdeaLiked = (uID, feedbackLikes) => {
+    iLikedIndex = feedbackLikes.findIndex(x => x.userId.user_id === uID);
     if (iLikedIndex !== -1) {
-      return { isLiked: true, likedID: ideaLikes[iLikedIndex].id };
+      return { isLiked: true, likedID: feedbackLikes[iLikedIndex].id };
     } else {
       return { isLiked: false, likedID: null };
     }
   }
 
   const fetchIdeaDetail = () => {
+    debugger
     const obj = {
-      url: URL_CONFIG.IDEA_BY_ID + "?id=" + ideaData.id,
+      // url: URL_CONFIG.IDEA_BY_ID + "?id=" + 19,
+      url: URL_CONFIG.FEEDBACK_BY_ID + "?id=" + ideaData.id,
       method: "get"
     };
     httpHandler(obj)
       .then((iData) => {
-        //console.log("readAllIdeas API response => ",iData);
         setIdeaDetail(iData.data);
       })
       .catch((error) => {
-        //console.log("readAllIdeas API error => ",error);
         setShowModal({
           ...showModal,
           type: "danger",
@@ -54,6 +54,7 @@ const FeedbackDetailView = (props) => {
   }
 
   useEffect(() => {
+    debugger
     if (initIdeaDetail) {
       fetchIdeaDetail();
     }
@@ -99,7 +100,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const likeAnIdea = (likeInfo) => {
-    
+
     let obj;
     if (likeInfo.isLike) {
       obj = {
@@ -110,7 +111,7 @@ const FeedbackDetailView = (props) => {
       };
     }
     if (!likeInfo.isLike) {
-      let likedInfoData = isIdeaLiked(loggedUserData.id, likeInfo.iData.ideaLikes);
+      let likedInfoData = isIdeaLiked(loggedUserData.id, likeInfo.iData.feedbackLikes);
       if (likedInfoData.isLiked) {
         obj = {
           url: URL_CONFIG.IDEA_LIKE_DISLIKE,
@@ -129,9 +130,9 @@ const FeedbackDetailView = (props) => {
         }
         if (!likeInfo.isLike) {
           let ideaDetailTemp = JSON.parse(JSON.stringify(ideaDetail));
-          let iLikedIndexx = ideaDetailTemp.ideaLikes.findIndex(x => x.userId.user_id === loggedUserData.id);
+          let iLikedIndexx = ideaDetailTemp.feedbackLikes.findIndex(x => x.userId.user_id === loggedUserData.id);
           if (iLikedIndexx !== -1) {
-            ideaDetailTemp.ideaLikes.splice(iLikedIndexx, 1);
+            ideaDetailTemp.feedbackLikes.splice(iLikedIndexx, 1);
             setIdeaDetail({ ...ideaDetailTemp });
           }
         }
