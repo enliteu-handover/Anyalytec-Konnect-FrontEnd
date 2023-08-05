@@ -62,6 +62,53 @@ const FeedbackDetailViewInner = (props) => {
     likeAnIdeaHandler({ iData: ideaDetail, emojiData })
   }
 
+  const renderChildComponent = (data, a) => {
+    var padding = a + 6;
+    return data && data?.children?.map((cmtData, index) => {
+      return (
+        <div className="ideaCommentLists ideaCommentListsChild p-2" key={"commentList_" + index}
+          style={{ marginLeft: padding }}
+        >
+          {/* <div style={{
+            width: padding,
+            height: '1px',
+            background: 'grey',
+            marginTop: '12px'
+          }}></div> */}
+          <div>
+            <div className="box-content mb-1">
+              <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
+              <div className="reply_user_name">
+                <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
+                  &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt)}</span></label>
+              </div>
+            </div>
+            <p className="eep_command_posts">{cmtData?.message}</p>
+            {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
+              <div className="eep_command_attachements">
+                {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
+                  return (
+                    <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
+                      <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}>
+                        <img src={atthData.docByte?.image ? atthData.docByte?.image
+                          : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm" alt="icon" title={atthData?.ideaAttachmentsFileName} />
+                      </a>
+                    </div>
+                  )
+                })}
+              </div>
+            }
+            {/* <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span> */}
+            <span
+              onClick={() => handleCommand(cmtData)}
+              className="text-left mb-0 eep_dt replay">{cmtData?.children?.length + ' Replay'}</span>
+            {renderChildComponent(cmtData, padding)}
+          </div>
+        </div>
+      )
+    })
+  }
+
   return (
     <React.Fragment>
       {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
@@ -168,46 +215,14 @@ const FeedbackDetailViewInner = (props) => {
 
               {ideaDetail?.children.length > 0 &&
                 <React.Fragment>
-                  {isDetailListMode && ideaDetail?.children?.slice(0, 2).map((cmtData, index) => {
-                    return (
-                      <div className="ideaCommentLists p-2" key={"commentList_" + index}>
-                        <div className="box-content mb-1">
-                          <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
-                          <div className="reply_user_name">
-                            <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
-                              &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt)}</span></label>
-                          </div>
-                        </div>
-                        <p className="eep_command_posts">{cmtData?.message}</p>
-                        {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
-                          <div className="eep_command_attachements">
-                            {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
-                              return (
-                                <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
-                                  <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}>
-                                    <img src={atthData.docByte?.image ? atthData.docByte?.image
-                                      // fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
-                                      : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm" alt="icon" title={atthData?.ideaAttachmentsFileName} />
-                                  </a>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        }
-                        <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span>
-                        <span
-                          onClick={() => handleCommand(cmtData)}
-                          className="text-left mb-0 eep_dt replay">{'Replay'}</span>
-                        {/* <p className="text-right mb-0 eep_dt">{eepFormatDateTime(cmtData?.createdAt)}</p> */}
-                      </div>
-                    )
-                  })}
-                  {ideaDetail?.children?.length > 3 &&
+                  {renderChildComponent(ideaDetail, 0)}
+
+                  {/* {ideaDetail?.children?.length > 3 &&
                     <div className="comment_length text-right mt-2">
                       {!isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(false)}><label className="idea_viewComments c1">View all <span>{ideaDetail.ideaComments.length}</span> <span>{ideaDetail.ideaComments.length === 1 ? "comment" : "comments"}</span></label></div>}
                       {isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(true)}><label className="idea_viewComments c1">View less</label> </div>}
                     </div>
-                  }
+                  } */}
                 </React.Fragment>
               }
 

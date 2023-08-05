@@ -112,7 +112,24 @@
         }
     }
 }
-.replay{
+
+.replay {
     text-align: right;
     cursor: pointer;
+    color: #244AC4;
+}
+
+.ideaCommentListsChild {
+    margin-bottom: 0px;
+    display: flex;
+    // align-items: center;
+
+    .ideabox-profile-img-size {
+        width: 26px;
+        height: 26px;
+    }
+
+    .reply_user_name {
+        font-size: 12px;
+    }
 }

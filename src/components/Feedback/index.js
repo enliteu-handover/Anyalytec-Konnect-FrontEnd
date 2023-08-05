@@ -21,7 +21,6 @@ const Feedback = () => {
   const [allfeedback, setFeedbacks] = useState([]);
 
 
-
   const [deptOptions, setDeptOptions] = useState([]);
   const [ideaLists, setIdeaLists] = useState([]);
   const [usersPic, setUsersPic] = useState([]);

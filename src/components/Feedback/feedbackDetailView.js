@@ -9,7 +9,7 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 const FeedbackDetailView = (props) => {
 
   const { ideaData, usersPic } = props;
-  const [state, setState] = useState({ isComment: false, isCommentData: null });
+  const [state, setState] = useState({ isComment: false, isCommentData: null, childData: null });
 
 
   const initIdeaDetail = ideaData ? ideaData : null;
@@ -133,7 +133,7 @@ const FeedbackDetailView = (props) => {
 
   const handleCommand = (childData) => {
     debugger
-    setState({ ...state, isComment: childData?.id ? true : !state?.isComment, isCommentData: { id: ideaDetail.id, parent_id: childData?.id } })
+    setState({ ...state, isComment: childData?.id ? true : !state?.isComment, isCommentData: { id: ideaDetail.id, parent_id: childData?.id }, childData: (childData ?? null) })
   }
 
   return (
@@ -169,7 +169,7 @@ const FeedbackDetailView = (props) => {
         <React.Fragment>
           <div className="ideabox_mesgbutton_wrapper">
             <FeedbackDetailViewInner handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnIdea={likeAnIdea} isDetailView={false} />
-            {state?.isComment && <FeedbackComments commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
+            {state?.isComment && <FeedbackComments childReplay={state?.childData} commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
           </div>
         </React.Fragment>
       }
