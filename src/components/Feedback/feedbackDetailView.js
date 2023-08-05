@@ -9,6 +9,8 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 const FeedbackDetailView = (props) => {
 
   const { ideaData, usersPic } = props;
+  const [state, setState] = useState({ isComment: false, isCommentData: null });
+
 
   const initIdeaDetail = ideaData ? ideaData : null;
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
@@ -54,35 +56,41 @@ const FeedbackDetailView = (props) => {
   }
 
   useEffect(() => {
-    debugger
     if (initIdeaDetail) {
       fetchIdeaDetail();
     }
   }, [initIdeaDetail]);
 
-  const commentSubmitHandler = (cmtData) => {
+  const commentSubmitHandler = async (cmtData) => {
+    debugger
     setIsCommentSubmitted(false);
-    let formData = new FormData();
-    if (cmtData.files && cmtData.files.length > 0) {
-      cmtData.files.map((item) => {
-        formData.append('file', item);
-        return item;
-      });
+    let files = [];
+    if (cmtData?.files && cmtData?.files?.length > 0) {
+      for (const item of cmtData.files) {
+        let formData = new FormData();
+        formData.append('image', item);
+        const obj = {
+          url: URL_CONFIG.UPLOAD_FILES,
+          method: "post",
+          payload: formData,
+        };
+        await httpHandler(obj)
+          .then((res) => {
+            files.push(res?.data?.data?.[0]?.url)
+          })
+      };
     }
     const ideaCommentsRequestObj = {
       comments: cmtData.commentValue,
-      idea: {
-        id: ideaDetail.id
-      }
+      id: state.isCommentData?.id,
+      files,
+      parent_id: state.isCommentData?.parent_id,
     }
-    formData.append('ideaCommentsRequest', JSON.stringify(ideaCommentsRequestObj)
-      //  new Blob([JSON.stringify(ideaCommentsRequestObj)], { type: 'application/json'})
-    );
 
     const obj = {
-      url: URL_CONFIG.IDEA_COMMENT,
+      url: URL_CONFIG.FEEDBACK_COMMENT,
       method: "post",
-      formData: formData,
+      payload: { ...ideaCommentsRequestObj },
     };
     httpHandler(obj)
       .then(() => {
@@ -100,51 +108,32 @@ const FeedbackDetailView = (props) => {
   }
 
   const likeAnIdea = (likeInfo) => {
-
-    let obj;
-    if (likeInfo.isLike) {
-      obj = {
-        url: URL_CONFIG.IDEA_LIKE_DISLIKE,
-        //  + "?id=" + likeInfo.iData.id,
-        payload: { id: likeInfo.iData.id },
-        method: "post"
-      };
-    }
-    if (!likeInfo.isLike) {
-      let likedInfoData = isIdeaLiked(loggedUserData.id, likeInfo.iData.feedbackLikes);
-      if (likedInfoData.isLiked) {
-        obj = {
-          url: URL_CONFIG.IDEA_LIKE_DISLIKE,
-          //  + "?id=" + likedInfoData.likedID,
-          payload: { id: likedInfoData.likedID },
-          method: "put"
-        };
-      }
-    }
+    debugger
+    let obj = {
+      url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE,
+      payload: {
+        id: likeInfo?.iData?.id, emojiData: likeInfo?.emojiData, dlt_id: likeInfo?.iData?.
+          feedbackLikes?.[0]?.id
+      },
+      method: "post"
+    };
 
     httpHandler(obj)
       .then(() => {
-        //console.log("likeAnIdea API response => ",response);
-        if (likeInfo.isLike) {
-          fetchIdeaDetail();
-        }
-        if (!likeInfo.isLike) {
-          let ideaDetailTemp = JSON.parse(JSON.stringify(ideaDetail));
-          let iLikedIndexx = ideaDetailTemp.feedbackLikes.findIndex(x => x.userId.user_id === loggedUserData.id);
-          if (iLikedIndexx !== -1) {
-            ideaDetailTemp.feedbackLikes.splice(iLikedIndexx, 1);
-            setIdeaDetail({ ...ideaDetailTemp });
-          }
-        }
+        fetchIdeaDetail();
       })
       .catch((error) => {
-        console.log("likeAnIdea API error => ", error);
         setShowModal({
           ...showModal,
           type: "danger",
           message: error?.response?.data?.message,
         });
       });
+  }
+
+  const handleCommand = (childData) => {
+    debugger
+    setState({ ...state, isComment: childData?.id ? true : !state?.isComment, isCommentData: { id: ideaDetail.id, parent_id: childData?.id } })
   }
 
   return (
@@ -179,8 +168,8 @@ const FeedbackDetailView = (props) => {
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
         <React.Fragment>
           <div className="ideabox_mesgbutton_wrapper">
-            <FeedbackDetailViewInner ideaDetail={ideaDetail} usersPic={usersPic} likeAnIdea={likeAnIdea} isDetailView={false} />
-            <FeedbackComments commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />
+            <FeedbackDetailViewInner handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnIdea={likeAnIdea} isDetailView={false} />
+            {state?.isComment && <FeedbackComments commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
           </div>
         </React.Fragment>
       }

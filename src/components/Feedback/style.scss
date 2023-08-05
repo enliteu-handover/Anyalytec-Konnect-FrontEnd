@@ -19,10 +19,34 @@
 }
 
 .item_blog_like_a_feedback {
+
+    .emoji {
+        width: auto;
+        padding: 4px;
+        background: #fff;
+        border-radius: 6px;
+        margin-bottom: 14px;
+        height: 30px;
+        display: flex;
+        margin-right: 4px;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #80808045;
+    }
+
     .c1 {
         background: #fff;
         padding: 6px;
         border-radius: 4px;
+        position: relative;
+
+        .EmojiPickerReact {
+            height: 300px !important;
+            width: 350px !important;
+            position: absolute;
+            z-index: 100;
+            bottom: 30px;
+        }
     }
 
     .c2 {
@@ -72,4 +96,23 @@
     border-radius: 4px !important;
     padding: 2px;
     z-index: 1;
+}
+
+.modal-content {
+    .birthdy_div {
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: #000;
+        }
+
+        .parent_slider_img {
+            border: 2px solid #9e9e9e3d;
+            width: 96% !important;
+        }
+    }
+}
+.replay{
+    text-align: right;
+    cursor: pointer;
 }

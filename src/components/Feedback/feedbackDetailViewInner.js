@@ -1,43 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { eepFormatDateTime } from "../../shared/SharedService";
+import EmojiPicker, { Emoji, SuggestionMode } from 'emoji-picker-react';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import ReactTooltip from "react-tooltip";
 import ResponseInfo from "../../UI/ResponseInfo";
+import { eepFormatDateTime } from "../../shared/SharedService";
+import FeedbackDetailViewMore from "./more";
+
+
 
 const FeedbackDetailViewInner = (props) => {
 
-  const { ideaDetail, usersPic, likeAnIdea, isDetailView } = props;
+  const { ideaDetail, usersPic, handleCommand, likeAnIdea, isDetailView } = props;
+  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
-  const initIsDetailView = isDetailView ? isDetailView : false;
-  const [toggleAttachements, setToggleAttachements] = useState(false);
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-  const [isDetailListMode, setIsDetailListMode] = useState(true);
-
-  useEffect(() => {
-    if (initIsDetailView) {
-      setIsDetailListMode(false);
-    } else {
-      setIsDetailListMode(true);
-    }
-  }, [initIsDetailView]);
-
-  const toggleAttachement = () => {
-    setToggleAttachements(!toggleAttachements);
-  }
+  const [isDetailListMode, setIsDetailListMode] = useState(false);
+  const [state, setState] = useState({
+    more: null,
+    openicon: false
+  });
 
   let userPicIndex;
   const getUserPicture = (uID) => {
     userPicIndex = usersPic.findIndex(x => x.id === uID);
     return userPicIndex !== -1 ? usersPic[userPicIndex].pic : process.env.PUBLIC_URL + "/images/user_profile.png";
-  }
-
-  let iLikedIndex;
-  const isIdeaLiked = (uID, feedbackLikes) => {
-
-    iLikedIndex = feedbackLikes.findIndex(x => x.userId?.user_id === uID);
-    if (iLikedIndex !== -1) {
-      return { isLiked: true, likedID: feedbackLikes[iLikedIndex].id };
-    } else {
-      return { isLiked: false, likedID: null };
-    }
   }
 
   const fileTypeAndImgSrcArray = {
@@ -66,8 +53,18 @@ const FeedbackDetailViewInner = (props) => {
     likeAnIdea(arg);
   };
 
+  const onClearMore = () => {
+    setState({ ...state, more: null })
+  }
+
+  const onClickEmoji = (emojiData, ideaDetail) => {
+    setState({ ...state, openicon: false })
+    likeAnIdeaHandler({ iData: ideaDetail, emojiData })
+  }
+
   return (
     <React.Fragment>
+      {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
         <React.Fragment>
           <div className="ideabox-border bg-efefef sticky-top right_profile_div_r">
@@ -113,57 +110,102 @@ const FeedbackDetailViewInner = (props) => {
                       )
                     })}
                     {ideaDetail?.feedbackAttachmentFileName?.slice(3, ideaDetail?.feedbackAttachmentFileName?.length)?.length !== 0 && <div className="attachment_parent_feedback_more" key={"attachmentLists_"}>
-                      <a>
-                        {ideaDetail?.feedbackAttachmentFileName?.slice(3, ideaDetail?.feedbackAttachmentFileName?.length)?.length + ' +'}
-                      </a>
+                      <Link
+                        to="#"
+                        data-target="#collapseBirthday"
+                        data-toggle="modal"
+                        style={{ color: "#fff" }}
+                        onClick={() => setState({ ...state, more: ideaDetail?.feedbackAttachmentFileName })}
+                      >
+                        {'+' + ideaDetail?.feedbackAttachmentFileName?.slice(3, ideaDetail?.feedbackAttachmentFileName?.length)?.length}
+                      </Link>
                     </div>}
                   </div>
                 </div>
               }
               <div className="item_blog_like_a_feedback text-left mb-2">
-                <span className={"c1"}>
-                  <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" title="Dislike" className="post_heart" onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })} />
-                  &nbsp;React   </span>
-                <span className={"c1 c2"}>
-                  <img src={`${process.env.PUBLIC_URL}/images/icons8-comments-50-2.svg`} alt="like" title="Dislike" className="post_heart" onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })} />
+
+                <div style={{ display: "flex" }}>{ideaDetail?.feedbackLikes && Object.keys(ideaDetail?.feedbackLikes)?.map((v, i) => {
+                  return <>
+                    <ReactTooltip
+                      effect='solid'
+                      id={`tooltip${i}`}
+                    >{ideaDetail?.feedbackLikes?.[v]?.map(v => v.username)?.join(', ')}</ReactTooltip>
+                    <div
+                      className="emoji"
+                      data-tip data-for={`tooltip${i}`}
+                      onClick={(e) => {
+                        onClickEmoji(
+                          ideaDetail?.feedbackLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, ideaDetail)
+                      }}
+                    > <Emoji
+                        unified={v}
+                        size={22}
+                      />{ideaDetail?.feedbackLikes?.[v]?.map(v => v.username)?.length}</div>
+                  </>
+                })}
+                </div>
+                <span className={"c1"} onClick={() => setState({ ...state, openicon: !state.openicon })}>
+
+                  {state?.openicon && <EmojiPicker
+                    onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
+                    suggestedEmojisMode={SuggestionMode.RECENT}
+                    skinTonesDisabled />}
+
+                  <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
+                  //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
+                  />
+                  &nbsp;React
+                </span>
+                <span className={"c1 c2"}
+                  onClick={() => handleCommand()}>
+                  <img src={`${process.env.PUBLIC_URL}/images/icons8-comments-50-2.svg`} alt="command" className="post_heart"
+                  />
                   &nbsp;Comment   </span>
+
+                <div className='replay' onClick={() => setIsDetailListMode(!isDetailListMode)}>{ideaDetail?.children?.length} Replies</div>
               </div>
 
-              {ideaDetail?.ideaComments.length > 0 &&
+              {ideaDetail?.children.length > 0 &&
                 <React.Fragment>
-                  {!isDetailListMode && ideaDetail.ideaComments.sort((a, b) => (a.id > b.id) ? 1 : -1).map((cmtData, index) => {
+                  {isDetailListMode && ideaDetail?.children?.slice(0, 2).map((cmtData, index) => {
                     return (
                       <div className="ideaCommentLists p-2" key={"commentList_" + index}>
                         <div className="box-content mb-1">
-                          <img src={getUserPicture(cmtData.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
+                          <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
                           <div className="reply_user_name">
-                            <label className="mb-0">{cmtData.createdBy?.firstname + " " + cmtData.createdBy?.lastname}</label>
+                            <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
+                              &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt)}</span></label>
                           </div>
                         </div>
-                        <p className="eep_command_posts">{cmtData.comments}</p>
-                        {cmtData.ideaCommentAttach && cmtData.ideaCommentAttach.length > 0 &&
+                        <p className="eep_command_posts">{cmtData?.message}</p>
+                        {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
                           <div className="eep_command_attachements">
-                            {cmtData.ideaCommentAttach.map((atthData, atthIndex) => {
+                            {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
                               return (
                                 <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
-                                  <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                                  <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}>
                                     <img src={atthData.docByte?.image ? atthData.docByte?.image
                                       // fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
-                                      : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm" alt="icon" title={atthData.ideaAttachmentsFileName} />
+                                      : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm" alt="icon" title={atthData?.ideaAttachmentsFileName} />
                                   </a>
                                 </div>
                               )
                             })}
                           </div>
                         }
-                        <p className="text-right mb-0 eep_dt">{eepFormatDateTime(cmtData.createdAt)}</p>
+                        <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span>
+                        <span
+                          onClick={() => handleCommand(cmtData)}
+                          className="text-left mb-0 eep_dt replay">{'Replay'}</span>
+                        {/* <p className="text-right mb-0 eep_dt">{eepFormatDateTime(cmtData?.createdAt)}</p> */}
                       </div>
                     )
                   })}
-                  {!isDetailView &&
+                  {ideaDetail?.children?.length > 3 &&
                     <div className="comment_length text-right mt-2">
-                      {isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(false)}><label className="idea_viewComments c1">View all <span>{ideaDetail.ideaComments.length}</span> <span>{ideaDetail.ideaComments.length === 1 ? "comment" : "comments"}</span></label></div>}
-                      {!isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(true)}><label className="idea_viewComments c1">View less</label> </div>}
+                      {!isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(false)}><label className="idea_viewComments c1">View all <span>{ideaDetail.ideaComments.length}</span> <span>{ideaDetail.ideaComments.length === 1 ? "comment" : "comments"}</span></label></div>}
+                      {isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(true)}><label className="idea_viewComments c1">View less</label> </div>}
                     </div>
                   }
                 </React.Fragment>
@@ -173,6 +215,7 @@ const FeedbackDetailViewInner = (props) => {
           </div>
         </React.Fragment>
       }
+
       {ideaDetail && Object.keys(ideaDetail).length <= 0 &&
         <ResponseInfo
           title="Fetching property data. Please wait for the response."

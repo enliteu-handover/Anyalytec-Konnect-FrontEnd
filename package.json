@@ -17,6 +17,7 @@
     "bootstrap-switch-button-react": "^1.2.0",
     "dagre": "^0.8.5",
     "date-fns": "2.29.3",
+    "emoji-picker-react": "^4.4.10",
     "firebase": "^9.22.0",
     "formBuilder": "^3.0.2",
     "highcharts": "^10.2.1",

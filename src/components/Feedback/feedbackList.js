@@ -34,14 +34,7 @@ const FeedbackList = (props) => {
     markImportant(arg, false);
   }
 
-  let userPicIndex;
-  const getUserPicture = (uID) => {
-    userPicIndex = usersPic.findIndex(x => x.id === uID);
-    return userPicIndex !== -1 ? usersPic[userPicIndex].pic : process.env.PUBLIC_URL + "/images/user_profile.png";
-  }
-
   const readAllCommunicationsFromList = (arg) => {
-
     readAllIdeas(arg);
   }
 
