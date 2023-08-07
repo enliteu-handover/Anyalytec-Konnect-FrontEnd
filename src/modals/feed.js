@@ -6,10 +6,10 @@ import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import { URL_CONFIG } from "../constants/rest-config";
-import { httpHandler } from "../http/http-interceptor";
 import { base64ToFile } from "../helpers";
+import { httpHandler } from "../http/http-interceptor";
 
-const CreateEditCommunicationModal = (props) => {
+const CreateFeedbackModal = (props) => {
     const { deptOptions, fetchAllFeedbacks } = props;
     Quill.register(
         {
@@ -28,21 +28,26 @@ const CreateEditCommunicationModal = (props) => {
         deptValue: null, userValue: null, message: '',
         shareTo: '',
         modalTitle: '',
-        category: '',
-        logo: '',
-        show_as: ''
+        category:
+            { id: 1, name: 'Suggestion' },
+        logo: {
+            icon: "😍",
+            title: 'Happy'
+        },
+        show_as: { name: JSON.parse(sessionStorage.userData)?.username }
     });
 
-    //const initCreateModalShow = createModalShow ? createModalShow : false;
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
     const initDeptOptions = deptOptions ? deptOptions : {};
 
+    const [disbale, setDisable] = useState(true);
     const [error, seterror] = useState('');
     const [modalAttachements, setModalAttachements] = useState([]);
     const [modalErrorAttachements, setModalErrorAttachements] = useState({ errCount: [], errLengthCount: [] });
     const [errorAtthState, setErrorAtthState] = useState(false);
     const [errorLengthAtthState, setErrorLengthAtthState] = useState(false);
     const [attachementFiles, setAttachementFiles] = useState([]);
+
     var titleMaxLength = 150;
     const fileTypeAndImgSrcArray = {
         "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
@@ -74,7 +79,6 @@ const CreateEditCommunicationModal = (props) => {
         "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "image/jpeg", "image/jpg", "image/png", "image/gif", "image/svg+xml",
     ];
-
     const onChangeValues = (bool, eve) => {
         let key = bool ? 'deptValue' : 'userValue';
         let keyvalid = bool ? 'userValue' : 'deptValue';
@@ -97,6 +101,7 @@ const CreateEditCommunicationModal = (props) => {
     let errLengthFiles = [];
     const maxFileSize = 1024000;
     var atthFiles = [];
+
     const onChangeHandler = (event, cType) => {
         var file = [];
         file = event.target.files;
@@ -259,21 +264,38 @@ const CreateEditCommunicationModal = (props) => {
         }
     ];
 
+    React.useEffect(() => {
+        if (state?.shareTo?.value === 'public' && state?.modalTitle && state?.message) {
+            setDisable(false)
+        } else if (state?.shareTo?.value === 'departments' &&
+            state?.deptValue?.length > 0 && state?.modalTitle && state?.message) {
+            setDisable(false)
+        } else if (state?.shareTo?.value === 'users' &&
+            state?.userValue?.length > 0 && state?.modalTitle && state?.message) {
+            setDisable(false)
+        } else {
+            setDisable(true)
+        }
+    }, [state]);
+    
     return (
         <div className="eepModalDiv">
-            <div className="modal fade tc_design show" id="CreateEditCommunicationModal" aria-modal="true" style={{ display: "block" }}>
+            <div className="modal fade tc_design show" id="CreateFeedbackModal" aria-modal="true" style={{ display: "block" }}>
                 <div className="modal-dialog w-75">
                     <div className="modal-content p-4 eep_scroll_y">
                         <div className="modal-body py-0 px-0 eep_scroll_y">
-                            <div className="row justify-content-md-center mb-1">
-
+                            <div className="add-feedback-model">
+                                <div className="title">Your Feedback</div>
                                 {error &&
-                                    <div className="col-md-12">
+                                    <div className="col-md-6">
                                         <div className="d-flex justify-content-end my-1">
                                             <span className="c1"> {error}</span>
                                         </div>
                                     </div>
                                 }
+                            </div>
+                            <br /><br /><br />
+                            <div className="row justify-content-md-center mb-1">
 
                                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
                                     <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">How do you feel today?</label>
@@ -284,12 +306,13 @@ const CreateEditCommunicationModal = (props) => {
                                             style={{
                                                 opacity: state?.logo?.title === v?.title ? '1' : '0.4',
                                                 fontSize: '40px',
-                                                cursor: "pointer"
+                                                cursor: "pointer",
+                                                textAlign: "center"
                                             }}
                                             onClick={() => onChange('logo', v)}
                                         >
                                             {v?.icon}<br />
-                                            <span style={{ fontSize: 12, position: 'absolute' }}>{state?.logo?.title === v?.title && v?.title}</span>
+                                            <div style={{ fontSize: 12 }}>{state?.logo?.title === v?.title && v?.title}</div>
                                         </div>
                                     })}
                                 </div>
@@ -377,7 +400,73 @@ const CreateEditCommunicationModal = (props) => {
                                         <label className="font-helvetica-m c-404040 eep_popupLabelMargin eep_required_label">Title</label>
                                         <label><span>{state?.modalTitle.length}</span>/<span>{titleMaxLength}</span></label>
                                     </div>
-                                    <textarea className="communication-title border_none eep_scroll_y w-100" name="title" id="title" rows="1" placeholder="Enter the title..." value={state.modalTitle} maxLength={titleMaxLength} onChange={(event) => onChange('modalTitle', event.target.value)}></textarea>
+
+                                    <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="title" id="title"
+                                        rows="2" placeholder="Enter the title..." value={state.modalTitle} maxLength={titleMaxLength}
+                                        onChange={(event) => onChange('modalTitle', event.target.value)} />
+                                </div>
+
+                                {modalErrorAttachements?.errCount.length > 0 && errorAtthState &&
+                                    <div className="col-md-12">
+                                        <div className="alert alert-danger my-2" role="alert">
+                                            <span>{modalErrorAttachements.errCount.length}</span><span>{modalErrorAttachements.errCount.length > 1 ? " - Invalid files!" : " - Invalid file!"}</span>
+                                            <button type="button" className="close eep-error-close" onClick={() => setErrorAtthState(false)}><span aria-hidden="true">×</span></button>
+                                        </div>
+                                    </div>
+                                }
+                                {modalErrorAttachements?.errLengthCount.length > 0 && errorLengthAtthState &&
+                                    <div className="col-md-12">
+                                        <div className="alert alert-danger my-2" role="alert">
+                                            <span>{modalErrorAttachements.errLengthCount.length}</span><span> - File Size exceeds, File Size should be less than 1mb.</span>
+                                            <button type="button" className="close eep-error-close" onClick={() => setErrorLengthAtthState(false)}><span aria-hidden="true">×</span></button>
+                                        </div>
+                                    </div>
+                                }
+
+                                {attachementFiles?.length > 0 &&
+                                    <div className="col-md-12">
+                                        <div className="d-flex justify-content-end my-1" onClick={clearAllAtthments}>
+                                            <span className="c1"> Clear all</span>
+                                        </div>
+                                    </div>
+                                }
+                                <div className="col-md-12 my-2">
+                                    <div className="d-flex">
+                                        <label className="font-helvetica-m c-404040 eep_popupLabelMargin">Upload</label>
+                                    </div>
+                                    <div className="attachments_list_whole_div text-left" style={{ display: "flex" }}>
+                                        {attachementFiles?.length <= 0 &&
+                                            <img
+                                                onClick={() => addIconClickHandler("new")}
+                                                src={process.env.PUBLIC_URL + "/images/icons/special/attachment-add.svg"} className="c1 attachments_adds attachments_add" title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip" alt="attachment-add-icon"
+                                            />
+                                            //     <div
+                                            //     className="attachments_adds i_pin_icon eep_attachment_icon c1"
+                                            //     dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.attachment_icon }}
+                                            //     title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip"
+                                            //     onClick={() => addIconClickHandler("new")}
+                                            // ></div>
+                                        }
+                                        {attachementFiles?.length > 0 &&
+                                            <React.Fragment>
+                                                <img src={process.env.PUBLIC_URL + "/images/icons/special/attachment-add.svg"} className="c1 attachments_adds attachments_add" title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} />
+                                                {attachementFiles?.map((item, index) => {
+                                                    return (
+                                                        <div className="attachments_list" key={"attachments_list_" + index}>
+                                                            <div className="attachments_list_a">
+                                                                <a href={item?.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
+                                                                    <img src={item?.atthmentDataURI} className="image-circle c1 ideabox_popup_attachement_dflex_image_f" alt="icon" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                                )}
+                                            </React.Fragment>
+                                        }
+                                    </div>
+                                    <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+                                    <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
                                 </div>
                                 <div className={`col-md-12`}>
                                     <div className="d-flex justify-content-between">
@@ -406,67 +495,10 @@ const CreateEditCommunicationModal = (props) => {
                                         placeholder="Add message" value={state.message} onChange={handleMessage} />
                                     {/* <textarea rows="4" cols="50" placeholder="Enter the description..." name="description" id="description" className="communication-modal-textarea eep_scroll_y" maxLength={descMaxLength} value={modalDescription} onChange={(event) => setModalDescription(event.target.value)}></textarea> */}
                                 </div>
-                                {modalErrorAttachements?.errCount.length > 0 && errorAtthState &&
-                                    <div className="col-md-12">
-                                        <div className="alert alert-danger my-2" role="alert">
-                                            <span>{modalErrorAttachements.errCount.length}</span><span>{modalErrorAttachements.errCount.length > 1 ? " - Invalid files!" : " - Invalid file!"}</span>
-                                            <button type="button" className="close eep-error-close" onClick={() => setErrorAtthState(false)}><span aria-hidden="true">×</span></button>
-                                        </div>
-                                    </div>
-                                }
-                                {modalErrorAttachements?.errLengthCount.length > 0 && errorLengthAtthState &&
-                                    <div className="col-md-12">
-                                        <div className="alert alert-danger my-2" role="alert">
-                                            <span>{modalErrorAttachements.errLengthCount.length}</span><span> - File Size exceeds, File Size should be less than 1mb.</span>
-                                            <button type="button" className="close eep-error-close" onClick={() => setErrorLengthAtthState(false)}><span aria-hidden="true">×</span></button>
-                                        </div>
-                                    </div>
-                                }
-
-                                {attachementFiles?.length > 0 &&
-                                    <div className="col-md-12">
-                                        <div className="d-flex justify-content-end my-1" onClick={clearAllAtthments}>
-                                            <span className="c1"> Clear all</span>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12 my-2">
-                                    <div className="attachments_list_whole_div text-right communication_modal_attachement_dflex ">
-                                        {attachementFiles?.length <= 0 &&
-                                            <div
-                                                className="attachments_adds i_pin_icon eep_attachment_icon c1"
-                                                dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.attachment_icon }}
-                                                title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip"
-                                                onClick={() => addIconClickHandler("new")}
-                                            ></div>
-                                        }
-                                        {attachementFiles?.length > 0 &&
-                                            <React.Fragment>
-                                                <img src={process.env.PUBLIC_URL + "/images/icons/special/attachment-add.svg"} className="c1 attachments_adds attachments_add" title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} />
-                                                {attachementFiles?.map((item, index) => {
-                                                    return (
-                                                        <div className="attachments_list" key={"attachments_list_" + index}>
-                                                            <div className="attachments_list_a">
-                                                                <a href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
-                                                                    <img src={item.imgSrcIcon} className="image-circle c1 ideabox_popup_attachement_dflex_image" alt="icon" />
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                }
-                                                )}
-                                            </React.Fragment>
-                                        }
-                                    </div>
-                                    <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
-                                    <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
-                                </div>
                             </div>
                             <div className="communication_add_action_div d-flex justify-content-center">
                                 <button type="button" className="eep-btn eep-btn-cancel eep-btn-nofocus eep-btn-xsml mr-2" data-dismiss="modal">Cancel</button>
-                                <button type="button" className="eep-btn eep-btn-success eep-btn-xsml ml-3" onClick={()=>CreateFunction()}>Post</button>
+                                <button type="button" className="eep-btn eep-btn-success eep-btn-xsml ml-3" disabled={disbale} onClick={() => CreateFunction()}>Post</button>
                             </div>
                         </div>
                     </div>
@@ -475,4 +507,4 @@ const CreateEditCommunicationModal = (props) => {
         </div>
     );
 }
-export default CreateEditCommunicationModal;
+export default CreateFeedbackModal;

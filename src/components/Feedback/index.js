@@ -6,7 +6,7 @@ import ResponseInfo from "../../UI/ResponseInfo";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import CreateEditCommunicationModal from "../../modals/feed";
+import CreateFeedbackModal from "../../modals/feed";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import FeedbackDetailView from "./feedbackDetailView";
@@ -330,12 +330,12 @@ const Feedback = () => {
         <div className="tab-content col-md-12 h-100 response-allign-middle">
           <div id="feedback" className="tab-pane active h-100">
 
-            {createModalShow && <CreateEditCommunicationModal
+            {createModalShow && <CreateFeedbackModal
               deptOptions={deptOptions} fetchAllFeedbacks={fetchAllFeedbacks} />}
 
             <PageHeader title="Feedback"
               navLinksRight={
-                <Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateEditCommunicationModal"></Link>
+                <Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateFeedbackModal"></Link>
               }
             />
             {allfeedback && allfeedback?.length > 0 &&

@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+// import ReactQuill, { Quill } from 'react-quill';
+// import quillEmoji from "react-quill-emoji";
+// import "react-quill-emoji/dist/quill-emoji.css";
+// import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 
 const FeedbackComments = (props) => {
+  // Quill.register(
+  //   {
+  //     "formats/emoji": quillEmoji.EmojiBlot,
+  //     "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
+  //     "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
+  //     "modules/emoji-shortname": quillEmoji.ShortNameEmoji
+  //   },
+  //   true
+  // );
+  const { commentSubmitHandler, childReplay } = props;
 
-  const { commentSubmitHandler, isCommentSubmitted, childReplay } = props;
-  
   const commentMaxLength = 120;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
-  const initIsCommentSubmitted = isCommentSubmitted ? isCommentSubmitted : false;
-  const [ideaComment, setIdeaComment] = useState("");
+  const [ideaComment, setIdeaComment] = useState('');
   const [cmtAttachements, setCmtAttachements] = useState([]);
   const [cmtErrorAttachements, setCmtErrorAttachements] = useState({ errCount: [], errLengthCount: [] });
   const [errorAtthState, setErrorAtthState] = useState(false);
   const [errorLengthAtthState, setErrorLengthAtthState] = useState(false);
   const [attachementFiles, setAttachementFiles] = useState([]);
-
-  useEffect(() => {
-    //if(initIsCommentSubmitted) {
-    setIdeaComment("");
-    setCmtAttachements([]);
-    setAttachementFiles([]);
-    setCmtErrorAttachements({ errCount: [], errLengthCount: [] });
-    setErrorAtthState(false);
-    setErrorLengthAtthState(false);
-    //}
-  }, [initIsCommentSubmitted]);
 
   const addIconClickHandler = (arg) => {
     document.getElementById("cmt_attachmentFileLoaderNew").value = null;
@@ -128,6 +128,12 @@ const FeedbackComments = (props) => {
     }
   }
 
+  console.log('ideaComment', ideaComment);
+
+  const onchangeText = (v) => {
+    setIdeaComment(v)
+  }
+
   return (
     <div className="ideabox_mesgbutton_container">
       <div className="reply-textarea-inner reply-textarea-inner-f">
@@ -136,10 +142,30 @@ const FeedbackComments = (props) => {
             borderBottom: '1px solid #9E9E9E',
             fontStyle: 'italic'
           }}>Replay To: {childReplay?.message ?? ''}</span>}
-          <textarea className="form-control ideabox-message-textarea ideabox-message-textarea-f ideabox_contentt_size eep_scroll_y" 
-          name="comment" id="ideaCommentTextarea" 
-          maxLength={commentMaxLength} placeholder="Add a comment" 
-          value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea>
+
+
+          {/* <ReactQuill
+            modules={{
+              toolbar: {
+                container: [
+                  ["bold"],
+                  ["emoji"],
+                ]
+              },
+              "emoji-toolbar": true,
+              // "emoji-textarea": true,
+              // "emoji-shortname": true
+            }}
+            theme="snow"
+            // className='testedit'
+            placeholder="Add a comment" value={ideaComment} onChange={onchangeText} /> */}
+
+          <textarea
+            className="form-control ideabox-message-textarea ideabox-message-textarea-f ideabox_contentt_size eep_scroll_y"
+            name="comment" id="ideaCommentTextarea"
+            maxLength={commentMaxLength} placeholder="Add a comment"
+            value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea>
+
           <div className="text-right" style={{ color: "#858796", paddingRight: "5px", fontSize: "10px" }}><span>{ideaComment.length}</span>/<span>{commentMaxLength}</span></div>
 
           {cmtErrorAttachements?.errCount?.length > 0 && errorAtthState &&

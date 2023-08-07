@@ -51,7 +51,7 @@ const FeedbackList = (props) => {
       <div className="ideashorting_div">
         {ideaLists && ideaLists?.map((item, index) => {
           return (
-            <div className={`ideabox-profile-container  ideabox-profile-container-f ideashorting_div_child ${item.feedBackIsRead ? "ideaMarkedAsRead" : ""} ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
+            <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child ${item.feedBackIsRead ? "ideaMarkedAsRead" : ""} ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
               <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
                 <div className="rounded-circle" style={{ fontSize: 33 }}>{item?.logo}</div>
               </div>
