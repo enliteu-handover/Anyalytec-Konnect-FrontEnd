@@ -49,7 +49,7 @@ const Login = () => {
       <div className="eep-login-page">
         <div className="container">
           <div className={`login_centent_sec eep_scroll_y`}>
-            <div className={`row content-sect w-100 align-items-center eep_scroll_y`}>
+            <div className={`row content-sect w-100 width80 align-items-center eep_scroll_y`}>
               <div className={`col-md-6 logo-sec`}>
                 {state?.logo && (state?.logo?.includes('.svg') ?
                   <SvgComponent svgUrl={state?.logo} /> :

@@ -36,7 +36,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const fetchIdeaDetail = () => {
-    debugger
+    
     const obj = {
       // url: URL_CONFIG.IDEA_BY_ID + "?id=" + 19,
       url: URL_CONFIG.FEEDBACK_BY_ID + "?id=" + ideaData.id,
@@ -62,7 +62,7 @@ const FeedbackDetailView = (props) => {
   }, [initIdeaDetail]);
 
   const commentSubmitHandler = async (cmtData) => {
-    debugger
+    
     setIsCommentSubmitted(false);
     let files = [];
     if (cmtData?.files && cmtData?.files?.length > 0) {
@@ -108,7 +108,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const likeAnIdea = (likeInfo) => {
-    debugger
+    
     let obj = {
       url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE,
       payload: {
@@ -131,9 +131,42 @@ const FeedbackDetailView = (props) => {
       });
   }
 
-  const handleCommand = (childData) => {
-    debugger
-    setState({ ...state, isComment: childData?.id ? true : !state?.isComment, isCommentData: { id: ideaDetail.id, parent_id: childData?.id }, childData: (childData ?? null) })
+  const likeAnIdeaChild = (likeInfo) => {
+    
+    let obj = {
+      url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE_CHILD,
+      payload: {
+        id: likeInfo?.iData?.id, emojiData: likeInfo?.emojiData, dlt_id: likeInfo?.iData?.
+          feedbackLikes?.[0]?.id
+      },
+      method: "post"
+    };
+
+    httpHandler(obj)
+      .then(() => {
+        fetchIdeaDetail();
+      })
+      .catch((error) => {
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: error?.response?.data?.message,
+        });
+      });
+  }
+
+  const handleCommand = (childData, bool) => {
+    
+    if (childData === 'replay') {
+      setState({ ...state, isComment: !bool && false, isCommentData: null, childData: null })
+      return
+    }
+    setState({
+      ...state,
+      isComment: childData?.id ? true : !state?.isComment,
+      isCommentData: { id: ideaDetail.id, parent_id: childData?.id },
+      childData: (childData ?? null)
+    })
   }
 
   return (
@@ -168,7 +201,7 @@ const FeedbackDetailView = (props) => {
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
         <React.Fragment>
           <div className="ideabox_mesgbutton_wrapper">
-            <FeedbackDetailViewInner handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnIdea={likeAnIdea} isDetailView={false} />
+            <FeedbackDetailViewInner likeAnIdeaChild={likeAnIdeaChild} handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnIdea={likeAnIdea} isDetailView={false} />
             {state?.isComment && <FeedbackComments childReplay={state?.childData} commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
           </div>
         </React.Fragment>

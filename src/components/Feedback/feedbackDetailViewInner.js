@@ -11,14 +11,14 @@ import FeedbackDetailViewMore from "./more";
 
 const FeedbackDetailViewInner = (props) => {
 
-  const { ideaDetail, usersPic, handleCommand, likeAnIdea, isDetailView } = props;
-  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+  const { ideaDetail, usersPic, handleCommand, likeAnIdea, likeAnIdeaChild, isDetailView } = props;
 
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const [isDetailListMode, setIsDetailListMode] = useState(false);
   const [state, setState] = useState({
     more: null,
-    openicon: false
+    openicon: false,
+    childopenicon: null
   });
 
   let userPicIndex;
@@ -62,11 +62,16 @@ const FeedbackDetailViewInner = (props) => {
     likeAnIdeaHandler({ iData: ideaDetail, emojiData })
   }
 
+  const onClickChildEmoji = (emojiData, ideaDetail) => {
+    setState({ ...state, childopenicon: emojiData?.id })
+    likeAnIdeaChild({ iData: ideaDetail, emojiData })
+  }
+
   const renderChildComponent = (data, a) => {
     var padding = a + 6;
     return data && data?.children?.map((cmtData, index) => {
       return (
-        <div className="ideaCommentLists ideaCommentListsChild p-2" key={"commentList_" + index}
+        <div className="ideaCommentLists ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
           style={{ marginLeft: padding }}
         >
           {/* <div style={{
@@ -77,7 +82,7 @@ const FeedbackDetailViewInner = (props) => {
           }}></div> */}
           <div>
             <div className="box-content mb-1">
-              <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
+              <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size" />
               <div className="reply_user_name">
                 <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
                   &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt)}</span></label>
@@ -98,10 +103,48 @@ const FeedbackDetailViewInner = (props) => {
                 })}
               </div>
             }
+            <div className="item_blog_like_a_feedback text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
+
+              <div style={{ height: "30px" }}>{cmtData?.forumCommentLikes && Object.keys(cmtData?.forumCommentLikes)?.map((v, i) => {
+                return <>
+                  <ReactTooltip
+                    effect='solid'
+                    id={`tooltip${i}${v}`}
+                  >{cmtData?.forumCommentLikes?.[v]?.map(c => c?.username)?.join(', ')}</ReactTooltip>
+                  <div
+                    className="emoji"
+                    data-tip data-for={`tooltip${i}${v}`}
+                    onClick={(e) => {
+                      onClickChildEmoji(
+                        cmtData?.forumCommentLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, cmtData)
+                    }}
+                  > <Emoji
+                      unified={v}
+                      size={16}
+                    />{cmtData?.forumCommentLikes?.[v]?.map(v => v.username)?.length}</div>
+                </>
+              })}
+              </div>
+              <span className={"c1"} onClick={() => setState({ ...state, childopenicon: cmtData?.id === state?.childopenicon ? null : cmtData?.id })}>
+
+                {state?.childopenicon === cmtData?.id && <EmojiPicker
+                  onEmojiClick={(e) => onClickChildEmoji(e, cmtData)}
+                  suggestedEmojisMode={SuggestionMode.RECENT}
+                  skinTonesDisabled />}
+
+                <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
+                //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
+                />
+                &nbsp;React
+              </span>&nbsp;
+              ●&nbsp;<span
+                onClick={() => handleCommand(cmtData)}
+                className="text-left mb-0 eep_dt replay">{cmtData?.children?.length + (cmtData?.children?.length === 1 ?
+                  ' Replay' : ' Replies')}</span>
+            </div>
+
             {/* <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span> */}
-            <span
-              onClick={() => handleCommand(cmtData)}
-              className="text-left mb-0 eep_dt replay">{cmtData?.children?.length + ' Replay'}</span>
+
             {renderChildComponent(cmtData, padding)}
           </div>
         </div>
@@ -114,18 +157,20 @@ const FeedbackDetailViewInner = (props) => {
       {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
         <React.Fragment>
-          <div className="ideabox-border bg-efefef sticky-top right_profile_div_r">
+          <div className="sticky-top right_profile_div_r right_profile_div_r-feed">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <div className="ideabox-profile-img-size rounded-circle" style={{ fontSize: 33 }}>{ideaDetail?.logo}</div>
-                {/* <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" /> */}
+                <div className="rounded-circle" style={{ fontSize: 33 }}>{ideaDetail?.logo}</div>
+                {/* <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="rounded-circle" /> */}
                 <div className="wrapper-one-content">
                   <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail?.title}</div>
                   <div className="header-user-destination ideabox_contentt_size">{ideaDetail?.category}</div>
                 </div>
               </div>
               <div className="ideabox-profile-expand-inner-container header-content-wrapper-two">
-                <div className="header-user-post-date ideabox_contentt_size ideabox-date">{eepFormatDateTime(ideaDetail.createdAt)}</div>
+                <div className="header-user-post-date ideabox_contentt_size ideabox-date">
+                  {eepFormatDateTime(ideaDetail.createdAt)}
+                </div>
               </div>
             </div>
 
@@ -176,53 +221,54 @@ const FeedbackDetailViewInner = (props) => {
                   return <>
                     <ReactTooltip
                       effect='solid'
-                      id={`tooltip${i}`}
-                    >{ideaDetail?.feedbackLikes?.[v]?.map(v => v.username)?.join(', ')}</ReactTooltip>
+                      id={`tooltip${i}${v}`}
+                    >{ideaDetail?.feedbackLikes?.[v]?.map(c => c?.username)?.join(', ')}</ReactTooltip>
                     <div
                       className="emoji"
-                      data-tip data-for={`tooltip${i}`}
+                      data-tip data-for={`tooltip${i}${v}`}
                       onClick={(e) => {
                         onClickEmoji(
                           ideaDetail?.feedbackLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, ideaDetail)
                       }}
                     > <Emoji
                         unified={v}
-                        size={22}
+                        size={16}
                       />{ideaDetail?.feedbackLikes?.[v]?.map(v => v.username)?.length}</div>
                   </>
                 })}
                 </div>
-                <span className={"c1"} onClick={() => setState({ ...state, openicon: !state.openicon })}>
+                <div className="eep-dropdown-divider"></div>
 
-                  {state?.openicon && <EmojiPicker
-                    onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
-                    suggestedEmojisMode={SuggestionMode.RECENT}
-                    skinTonesDisabled />}
+                <div className='parent'>
+                  <div>   <span className={"c1"} onClick={() => setState({ ...state, openicon: !state.openicon })}>
 
-                  <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
-                  //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
-                  />
-                  &nbsp;React
-                </span>
-                <span className={"c1 c2"}
-                  onClick={() => handleCommand()}>
-                  <img src={`${process.env.PUBLIC_URL}/images/icons8-comments-50-2.svg`} alt="command" className="post_heart"
-                  />
-                  &nbsp;Comment   </span>
+                    {state?.openicon && <EmojiPicker
+                      onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
+                      suggestedEmojisMode={SuggestionMode.RECENT}
+                      skinTonesDisabled />}
 
-                <div className='replay' onClick={() => setIsDetailListMode(!isDetailListMode)}>{ideaDetail?.children?.length} Replies</div>
+                    <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
+                    //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
+                    />
+                    &nbsp;React
+                  </span>
+                    <span className={"c1 c2"}
+                      onClick={() => handleCommand()}>
+                      <img src={`${process.env.PUBLIC_URL}/images/icons8-comments-50-2.svg`} alt="command" className="post_heart"
+                      />
+                      &nbsp;Comment   </span>
+                  </div>
+                  <div className='replay' onClick={() => {
+                    setIsDetailListMode(!isDetailListMode)
+                    handleCommand("replay", !isDetailListMode)
+                  }} >{ideaDetail?.children?.length === 0 ? 'No ' : ideaDetail?.children?.length} {
+                      ideaDetail?.children?.length === 1 ? 'Replay' : 'Replies'}</div>
+                </div>
               </div>
 
-              {ideaDetail?.children.length > 0 &&
+              {isDetailListMode && ideaDetail?.children?.length > 0 &&
                 <React.Fragment>
                   {renderChildComponent(ideaDetail, 0)}
-
-                  {/* {ideaDetail?.children?.length > 3 &&
-                    <div className="comment_length text-right mt-2">
-                      {!isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(false)}><label className="idea_viewComments c1">View all <span>{ideaDetail.ideaComments.length}</span> <span>{ideaDetail.ideaComments.length === 1 ? "comment" : "comments"}</span></label></div>}
-                      {isDetailListMode && <div className="v_commants v_post_comments c1 ideabox_contentt_size" onClick={() => setIsDetailListMode(true)}><label className="idea_viewComments c1">View less</label> </div>}
-                    </div>
-                  } */}
                 </React.Fragment>
               }
 

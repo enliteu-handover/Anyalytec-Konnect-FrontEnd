@@ -203,6 +203,7 @@ const URL_CONFIG = {
   FEEDBACK_BY_ID: "/feedback/feedback_by_id",
   FEEDBACK_LIKE_DISLIKE: "/feedback/feedbacklikes",
   FEEDBACK_COMMENT: "/feedback/feedbackcomments",
+  FEEDBACK_LIKE_DISLIKE_CHILD: "/feedback/feedbacklikechilds",
 };
 
 export { REST_CONFIG, URL_CONFIG };

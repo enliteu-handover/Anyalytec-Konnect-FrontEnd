@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import PageHeader from "../../UI/PageHeader";
+import ResponseInfo from "../../UI/ResponseInfo";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import CreateEditCommunicationModal from "../../modals/feed";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
-import PageHeader from "../../UI/PageHeader";
-import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import MyFeedback from "./myFeedback";
-import FeedbackList from "./feedbackList";
 import FeedbackDetailView from "./feedbackDetailView";
-import ResponseInfo from "../../UI/ResponseInfo";
-import CreateEditCommunicationModal from "../../modals/feed"
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import FeedbackList from "./feedbackList";
+import MyFeedback from "./myFeedback";
 import "./style.scss";
 
 const Feedback = () => {
@@ -22,15 +20,11 @@ const Feedback = () => {
 
 
   const [deptOptions, setDeptOptions] = useState([]);
-  const [ideaLists, setIdeaLists] = useState([]);
   const [usersPic, setUsersPic] = useState([]);
   const [createModalShow, setCreateModalShow] = useState(false);
   const [ideaData, setIdeaData] = useState(null);
-  const [ideaDataState, setIdeaDataState] = useState(false);
-  const [ideaListsReverse, setIdeaListsReverse] = useState(false);
-  const [createModalErr, setCreateModalErr] = useState("");
-  const [filterParams, setFilterParams] = useState({});
   const [showModal, setShowModal] = useState({ type: null, message: null });
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -44,9 +38,7 @@ const Feedback = () => {
   const dispatch = useDispatch();
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const location = useLocation();
-  const history = useHistory();
-  // const routerData = location.state;
-  const routerData = location.state || { activeTab: window.location.hash.substring(1)?.split('?')?.[0] };
+  const routerData = location.state;
 
   const breadcrumbArr = [
     {
@@ -137,55 +129,6 @@ const Feedback = () => {
       })
       .catch((error) => {
         console.log("fetchDepartmentData error", error);
-        //const errMsg = error.response?.data?.message;
-      });
-  }
-
-  const getFilterParams = (paramsData) => {
-    console.log("paramsData", paramsData);
-    if (Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({ ...paramsData });
-    } else {
-      setFilterParams({});
-    }
-    fetchIdeas(false, null, paramsData);
-  }
-
-  const fetchIdeas = (isIdeaActive, ideaID = null, paramsInfo = {}) => {
-    let obj;
-    if (Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.IDEA,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.IDEA,
-        method: "get"
-      };
-    }
-    httpHandler(obj)
-      .then((ideaData) => {
-        if (!isIdeaActive) {
-          if (ideaListsReverse) {
-            setIdeaLists([...ideaData.data].reverse());
-          } else {
-            setIdeaLists(ideaData.data);
-          }
-          setIdeaData(null);
-          setIdeaDataState(false);
-        } else {
-          if (ideaListsReverse) {
-            markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
-          } else {
-            markIdeaAsActiveState(ideaData.data, ideaID);
-          }
-        }
-      })
-      .catch((error) => {
-        console.log("fetchIdeas error", error);
-        //const errMsg = error.response?.data?.message;
       });
   }
 
@@ -220,54 +163,6 @@ const Feedback = () => {
     fetchAllUsers();
     fetchAllFeedbacks();
   }, []);
-
-  useEffect(() => {
-    if (activeTab?.id === "feedback") {
-      fetchIdeas(false);
-    }
-  }, [activeTab]);
-
-  const createCommunicationPost = (arg) => {
-    let formData = new FormData();
-    if (arg.files && arg.files.length > 0) {
-      arg.files.map((item) => {
-        formData.append('file', item);
-        return item;
-      });
-    }
-    const ideaRequestObj = {
-      title: arg.title,
-      description: arg.description,
-      active: true,
-      dept: arg.dept,
-      existIdeaDept: null,
-      existIdeaAttach: null
-    }
-
-    formData.append('ideaRequest', JSON.stringify(ideaRequestObj)
-      //  new Blob([JSON.stringify(ideaRequestObj)], { type: 'application/json' })
-    );
-
-    const obj = {
-      url: URL_CONFIG.IDEA,
-      method: "post",
-      formData: formData,
-    };
-    httpHandler(obj)
-      .then((response) => {
-        fetchIdeas(false);
-        setCreateModalShow(false);
-        setShowModal({
-          ...showModal,
-          type: "success",
-          message: response?.data?.message,
-        });
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setCreateModalErr(errMsg);
-      });
-  }
 
   const triggerCreateModal = () => {
     setCreateModalShow(true);
@@ -479,7 +374,7 @@ const Feedback = () => {
                 </div>
               </React.Fragment>
             }
-            {ideaLists && ideaLists?.length <= 0 &&
+            {allfeedback && allfeedback?.length <= 0 &&
               <ResponseInfo
                 title="Nothing to show yet."
                 responseImg="noIdeaShare"

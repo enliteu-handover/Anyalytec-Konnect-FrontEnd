@@ -23,6 +23,13 @@
   width: 90% !important;
 }
 
+@media screen and (min-width: 768px) {
+
+  .width80 {
+    width: 80% !important;
+  }
+}
+
 .br-b-25 {
   border-radius: 0px !important;
   // border-radius: 0px 0px 0px 25px;
@@ -7242,14 +7249,12 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   }
 }
 
-.our_points_in_dashboard{
-  
-}
+.our_points_in_dashboard {}
 
-.break_back{
+.break_back {
   color: #a3a3a3 !important;
   z-index: 10;
   cursor: pointer !important;
 }
-.break_back_active{
-}
+
+.break_back_active {}

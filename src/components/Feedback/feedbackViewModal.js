@@ -32,7 +32,7 @@ const IdeaViewModal = (props) => {
           role="document"
           style={{ maxHeight: "none" }}
         >
-          <div className="modal-content p-4">
+          <div className="modal-content modal-content-f p-4">
             <div className="modal-header p-1 border-0 flex-column">
               <button className="close closed" type="button" data-dismiss="modal" aria-label="Close" onClick={hideModal}></button>
             </div>

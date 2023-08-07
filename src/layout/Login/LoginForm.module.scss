@@ -6,6 +6,7 @@
     margin-bottom: 0px;
     font-weight: 100;
   }
+
   h4 {
     font-family: "helveticaneuelight" !important;
     font-size: 14px;
@@ -13,6 +14,7 @@
     margin-top: 10px;
     color: #606060;
     letter-spacing: 1px;
+
     &::after {
       content: " ";
       width: 50px;
@@ -26,10 +28,12 @@
     }
   }
 }
+
 .formWrapper {
   #password {
     padding-right: 45px;
   }
+
   .form_inputs_div {
     display: flex;
     flex-direction: column;
@@ -39,6 +43,7 @@
     align-items: center;
     width: 100%;
   }
+
   .input_group {
     align-items: center;
     width: 100%;
@@ -74,6 +79,7 @@
     width: auto;
   }
 }
+
 .fgt_pwd_div {
   margin-bottom: 0px !important;
 }
@@ -84,6 +90,7 @@
   letter-spacing: 1px;
   text-decoration: none;
   cursor: pointer;
+
   &:hover {
     color: #606060;
   }
@@ -92,7 +99,8 @@
 .form_control::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #cccccc;
-  opacity: 1; /* Firefox */
+  opacity: 1;
+  /* Firefox */
 }
 
 input:focus {

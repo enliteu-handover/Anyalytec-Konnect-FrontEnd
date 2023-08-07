@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 const FeedbackComments = (props) => {
 
   const { commentSubmitHandler, isCommentSubmitted, childReplay } = props;
-  debugger
+  
   const commentMaxLength = 120;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const initIsCommentSubmitted = isCommentSubmitted ? isCommentSubmitted : false;
@@ -130,13 +130,16 @@ const FeedbackComments = (props) => {
 
   return (
     <div className="ideabox_mesgbutton_container">
-      <div className="reply-textarea-inner">
+      <div className="reply-textarea-inner reply-textarea-inner-f">
         <div className="reply-textarea-div position-relative">
           {childReplay?.message && <span style={{
             borderBottom: '1px solid #9E9E9E',
             fontStyle: 'italic'
           }}>Replay To: {childReplay?.message ?? ''}</span>}
-          <textarea className="form-control ideabox-message-textarea ideabox_contentt_size eep_scroll_y" name="comment" id="ideaCommentTextarea" maxLength={commentMaxLength} placeholder="Add a comment" value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea>
+          <textarea className="form-control ideabox-message-textarea ideabox-message-textarea-f ideabox_contentt_size eep_scroll_y" 
+          name="comment" id="ideaCommentTextarea" 
+          maxLength={commentMaxLength} placeholder="Add a comment" 
+          value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea>
           <div className="text-right" style={{ color: "#858796", paddingRight: "5px", fontSize: "10px" }}><span>{ideaComment.length}</span>/<span>{commentMaxLength}</span></div>
 
           {cmtErrorAttachements?.errCount?.length > 0 && errorAtthState &&

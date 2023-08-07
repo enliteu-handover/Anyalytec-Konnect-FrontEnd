@@ -18,7 +18,25 @@
     }
 }
 
+.right_profile_div_r-feed {
+    background-color: #fff !important;
+    border: 1px solid #EAEAEA;
+    //     z-index: 10 !important;
+    //     height: 50px;
+    //     padding: 0px 10px;
+
+    //     .ideabox-profile-expand-container {
+    //         align-items: center;
+    //     }
+}
+
 .item_blog_like_a_feedback {
+    .parent {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0px;
+    }
 
     .emoji {
         width: auto;
@@ -39,6 +57,7 @@
         padding: 6px;
         border-radius: 4px;
         position: relative;
+        height: max-content;
 
         .EmojiPickerReact {
             height: 300px !important;
@@ -63,6 +82,8 @@
     margin: 10px;
     border-radius: 6px;
     width: 100%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 .feedback-profile-img-size {
@@ -98,7 +119,7 @@
     z-index: 1;
 }
 
-.modal-content {
+.modal-content-f {
     .birthdy_div {
 
         .slick-prev:before,
@@ -119,7 +140,7 @@
     color: #244AC4;
 }
 
-.ideaCommentListsChild {
+.ideaCommentListsChild-f {
     margin-bottom: 0px;
     display: flex;
     // align-items: center;
@@ -132,4 +153,41 @@
     .reply_user_name {
         font-size: 12px;
     }
+}
+
+.ideabox-message-textarea-f {
+    height: 30px !important;
+}
+
+.reply-textarea-inner-f {
+    width: 95% !important;
+    float: right;
+    padding: 10px;
+}
+
+// .ideashorting_div_child {
+// }
+
+.funtional_parts-f {
+    display: flex;
+    justify-content: right;
+}
+
+.ideabox-date-f {
+    position: absolute;
+    width: max-content;
+    right: 4px;
+    bottom: 4px;
+}
+
+.head {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ideabox-profile-container-f {
+    height: 60px;
+    margin-top: 10px !important;
 }
