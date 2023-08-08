@@ -36,7 +36,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const fetchIdeaDetail = () => {
-    
+
     const obj = {
       // url: URL_CONFIG.IDEA_BY_ID + "?id=" + 19,
       url: URL_CONFIG.FEEDBACK_BY_ID + "?id=" + ideaData.id,
@@ -62,7 +62,7 @@ const FeedbackDetailView = (props) => {
   }, [initIdeaDetail]);
 
   const commentSubmitHandler = async (cmtData) => {
-    
+
     setIsCommentSubmitted(false);
     let files = [];
     if (cmtData?.files && cmtData?.files?.length > 0) {
@@ -96,6 +96,7 @@ const FeedbackDetailView = (props) => {
       .then(() => {
         setIsCommentSubmitted(true);
         fetchIdeaDetail();
+        setState({ ...state, isComment: false })
       })
       .catch((error) => {
         const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
@@ -108,7 +109,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const likeAnIdea = (likeInfo) => {
-    
+
     let obj = {
       url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE,
       payload: {
@@ -132,7 +133,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const likeAnIdeaChild = (likeInfo) => {
-    
+
     let obj = {
       url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE_CHILD,
       payload: {
@@ -156,7 +157,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const handleCommand = (childData, bool) => {
-    
+
     if (childData === 'replay') {
       setState({ ...state, isComment: !bool && false, isCommentData: null, childData: null })
       return

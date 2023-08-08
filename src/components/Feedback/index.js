@@ -46,10 +46,6 @@ const Feedback = () => {
       link: "app/dashboard",
     },
     {
-      label: "COMMUNICATIONS",
-      link: "app/communication",
-    },
-    {
       label: "Feedback",
       link: "",
     },

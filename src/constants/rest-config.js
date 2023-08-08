@@ -204,6 +204,8 @@ const URL_CONFIG = {
   FEEDBACK_LIKE_DISLIKE: "/feedback/feedbacklikes",
   FEEDBACK_COMMENT: "/feedback/feedbackcomments",
   FEEDBACK_LIKE_DISLIKE_CHILD: "/feedback/feedbacklikechilds",
+  MY_FEEDBACK: "/feedback/myfeedback",
+  FEEDBACK_DELETE: "/feedback/myfeedback",
 };
 
 export { REST_CONFIG, URL_CONFIG };

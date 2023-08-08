@@ -110,7 +110,7 @@ const FeedbackDetailViewInner = (props) => {
                   <ReactTooltip
                     effect='solid'
                     id={`tooltip${i}${v}`}
-                  >{cmtData?.forumCommentLikes?.[v]?.map(c => c?.username)?.join(', ')}</ReactTooltip>
+                  >{cmtData?.forumCommentLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
                   <div
                     className="emoji"
                     data-tip data-for={`tooltip${i}${v}`}
@@ -138,9 +138,11 @@ const FeedbackDetailViewInner = (props) => {
                 &nbsp;React
               </span>&nbsp;
               ●&nbsp;<span
-                onClick={() => handleCommand(cmtData)}
                 className="text-left mb-0 eep_dt replay">{cmtData?.children?.length + (cmtData?.children?.length === 1 ?
                   ' Replay' : ' Replies')}</span>
+              ●&nbsp;<span
+                onClick={() => handleCommand(cmtData)}
+                className="text-left mb-0 eep_dt replay">Replay</span>
             </div>
 
             {/* <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span> */}
@@ -222,7 +224,7 @@ const FeedbackDetailViewInner = (props) => {
                     <ReactTooltip
                       effect='solid'
                       id={`tooltip${i}${v}`}
-                    >{ideaDetail?.feedbackLikes?.[v]?.map(c => c?.username)?.join(', ')}</ReactTooltip>
+                    >{ideaDetail?.feedbackLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
                     <div
                       className="emoji"
                       data-tip data-for={`tooltip${i}${v}`}

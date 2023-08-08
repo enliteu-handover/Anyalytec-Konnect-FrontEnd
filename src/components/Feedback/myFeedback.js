@@ -1,40 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import PageHeader from "../../UI/PageHeader";
-import YearFilter from "../../UI/YearFilter";
-import Table from "../../UI/Table";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import IconWithLength from "../../UI/CustomComponents/IconWithLength";
-import MyIdeaActions from "../../UI/CustomComponents/MyIdeaActions";
+import MyFeedActions from "../../UI/CustomComponents/MyFeedActions";
+import PageHeader from "../../UI/PageHeader";
+import Table from "../../UI/Table";
+import YearFilter from "../../UI/YearFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import FeedbackDetailView from "./feedbackViewModal";
-import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 function MyFeedback(props) {
 
-  const { usersPic, deptOptions } = props;
-
-  const initUsersPic = usersPic ? usersPic : [];
-  const initDeptOptions = deptOptions ? deptOptions : [];
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const yrDt = new Date().getFullYear();
   const [yearFilterValue, setYearFilterValue] = useState({ filterby: yrDt });
-  const [usersPics, setUsersPics] = useState([]);
-  const [deptOptionData, setDeptOptionData] = useState([]);
-  const [myIdeasList, setMyIdeasList] = useState([]);
-  const [ideaTempData, setIdeaTempData] = useState({});
+  const [myfeedbackList, setMyfeedbackList] = useState([]);
+  const [feedbackTempData, setfeedbackTempData] = useState({});
   const [confirmModalState, setConfirmModalState] = useState(false);
-  const [ideaViewModalState, setIdeaViewModalState] = useState(false);
-  const [ideaEditModalState, setIdeaEditModalState] = useState(false);
-  const [communicationModalErr, setCommunicationModalErr] = useState("");
   const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -42,9 +32,7 @@ function MyFeedback(props) {
     }
     setShowModal({ type: null, message: null });
     setConfirmModalState(false);
-    setIdeaViewModalState(false);
-    setIdeaEditModalState(false);
-    setIdeaTempData({});
+    setfeedbackTempData({});
   };
 
   const dispatch = useDispatch();
@@ -54,11 +42,7 @@ function MyFeedback(props) {
       link: "app/dashboard",
     },
     {
-      label: "COMMUNICATIONS",
-      link: "app/communication",
-    },
-    {
-      label: "IDEA BOX",
+      label: "MY FEEDBACK",
       link: "",
     },
   ];
@@ -67,15 +51,10 @@ function MyFeedback(props) {
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
         breadcrumbArr,
-        title: "My Ideas",
+        title: "My Feedback",
       })
     );
   }, [breadcrumbArr, dispatch]);
-
-  useEffect(() => {
-    setUsersPics(initUsersPic);
-    setDeptOptionData(initDeptOptions);
-  }, [initUsersPic, initDeptOptions]);
 
   const IconWithLengthSettings = {
     favourites: {
@@ -83,21 +62,21 @@ function MyFeedback(props) {
       default: "StarDefault.svg",
       isValue: "StarFavourite.svg",
       classnames: "eep-rotate-animation mr-2",
-      objReference: "ideaFavorite"
+      objReference: "feedbackFavorite"
     },
     likes: {
       title: "Likes",
       default: "HeartDefault.svg",
       isValue: "Heart.svg",
       classnames: "eep-pulsess-animation mr-2",
-      objReference: "ideaLikes"
+      objReference: "feedbackLikes"
     },
     comments: {
       title: "Comments",
       default: "MessageDefault.svg",
       isValue: "Message.svg",
       classnames: "eep-stretch-animation mr-2",
-      objReference: "ideaComments"
+      objReference: "feedbackComments"
     },
     createdAt: {
       classnames: "",
@@ -107,78 +86,18 @@ function MyFeedback(props) {
 
   const disableExistModal = () => {
     setConfirmModalState(false);
-    setIdeaViewModalState(false);
-    setIdeaEditModalState(false);
   }
 
-  const unPostIdea = (iData) => {
-    disableExistModal();
-    let iDataTemp = JSON.parse(JSON.stringify(iData));
-    iDataTemp["actionType"] = "unpost";
-    setIdeaTempData(iDataTemp);
-    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to unpost this Idea?" });
-    setConfirmModalState(true);
-  }
-
-  const postIdea = (iData) => {
-    disableExistModal();
-    let iDataTemp = JSON.parse(JSON.stringify(iData));
-    iDataTemp["actionType"] = "post";
-    setIdeaTempData(iDataTemp);
-    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to post this Idea?" });
-    setConfirmModalState(true);
-  }
-
-  const deleteIdea = (iData) => {
+  const deleteFeeds = (iData) => {
     disableExistModal();
     let iDataTemp = JSON.parse(JSON.stringify(iData));
     iDataTemp["actionType"] = "delete";
-    setIdeaTempData(iDataTemp);
-    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Idea?" });
+    setfeedbackTempData(iDataTemp);
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Feedback?" });
     setConfirmModalState(true);
-  }
+  };
 
-  const viewIdea = (iData) => {
-    disableExistModal();
-    let iDataTemp = JSON.parse(JSON.stringify(iData));
-    iDataTemp["actionType"] = "view";
-    setIdeaTempData(iDataTemp);
-    fetchIdeaDetail(iDataTemp);
-  }
-
-  const editIdea = (iData) => {
-    disableExistModal();
-    let iDataTemp = JSON.parse(JSON.stringify(iData));
-    iDataTemp["actionType"] = "edit";
-    setIdeaTempData(iDataTemp);
-    fetchIdeaDetail(iDataTemp);
-  }
-
-  const fetchIdeaDetail = (ideaData) => {
-    const obj = {
-      url: URL_CONFIG.IDEA_BY_ID + "?id=" + ideaData.id,
-      method: "get"
-    };
-    httpHandler(obj)
-      .then((iData) => {
-        setIdeaTempData(iData.data);
-        if (ideaData.actionType === "view") {
-          setIdeaViewModalState(true);
-        }
-        if (ideaData.actionType === "edit") {
-          setIdeaEditModalState(true);
-        }
-      })
-      .catch((error) => {
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: error?.response?.data?.message,
-        });
-      });
-  }
-
-  const myIdeasTableHeaders = [
+  const myFeedbackTableHeaders = [
     {
       fieldLabel: "Title",
       fieldValue: "title",
@@ -206,70 +125,46 @@ function MyFeedback(props) {
     {
       fieldLabel: "Action",
       fieldValue: "action",
-      component: <MyIdeaActions unPostIdea={unPostIdea} postIdea={postIdea} deleteIdea={deleteIdea} viewIdea={viewIdea} editIdea={editIdea} />,
+      component: <MyFeedActions  deleteFeeds={deleteFeeds} />,
     },
   ];
 
-  const fetchMyIdeasData = (paramData = {}) => {
+  const fetchMyFeedsData = (paramData = {}) => {
     const obj = {
-      url: URL_CONFIG.MY_IDEAS,
+      url: URL_CONFIG.MY_FEEDBACK,
       method: "get",
     };
     if (paramData && Object.keys(paramData).length > 0 && paramData !== "") {
       obj["params"] = paramData;
     }
     httpHandler(obj)
-      .then((myIdeas) => {
-        setMyIdeasList([...myIdeas?.data?.map(v => { return { ...v, name: v?.title } })]);
+      .then((myFeeds) => {
+        setMyfeedbackList([...myFeeds?.data?.map(v => { return { ...v, name: v?.title } })]);
       })
       .catch((error) => {
         console.log("error", error.response);
-        //const errMsg = error.response?.data?.message;
       });
   }
 
   useEffect(() => {
-    fetchMyIdeasData(yearFilterValue);
+    fetchMyFeedsData(yearFilterValue);
   }, []);
 
   const confirmState = (isConfirmed) => {
-    
+
     disableExistModal();
     if (isConfirmed) {
-      let ideaUpdateObj, formData, httpObj;
-      if (ideaTempData.actionType === "unpost" || ideaTempData.actionType === "post") {
-        //console.log("ideaTempData", ideaTempData);
-        formData = new FormData();
-        ideaUpdateObj = {
-          id: ideaTempData.id,
-          title: ideaTempData.title,
-          description: ideaTempData.description,
-          active: ideaTempData.actionType === "post" ? true : (ideaTempData.actionType === "unpost" ? false : false),
-          existIdeaDept: [],
-          dept: [],
-          existIdeaAttach: []
-        }
-        formData.append('ideaRequest', JSON.stringify(ideaUpdateObj)
-          //  new Blob([JSON.stringify(ideaUpdateObj)], { type: 'application/json'})
-        );
+      let httpObj;
+      if (feedbackTempData.actionType === "delete") {
         httpObj = {
-          url: URL_CONFIG.IDEA,
-          method: "put",
-          formData: formData,
-        };
-      }
-      if (ideaTempData.actionType === "delete") {
-        httpObj = {
-          url: URL_CONFIG.IDEA
-            + "?id=" + ideaTempData.id,
-          // payload: { id: ideaTempData.id },
+          url: URL_CONFIG.FEEDBACK_DELETE
+            + "?id=" + feedbackTempData.id,
           method: "delete"
         };
       }
-
       httpHandler(httpObj)
         .then(() => {
-          fetchMyIdeasData(yearFilterValue);
+          fetchMyFeedsData(yearFilterValue);
         })
         .catch((error) => {
           const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
@@ -280,73 +175,18 @@ function MyFeedback(props) {
           });
         });
     } else {
-      setIdeaTempData({});
+      setfeedbackTempData({});
     }
-  }
-
-  const updateCommunicationPost = (updateDatas) => {
-    setCommunicationModalErr("");
-    let formData = new FormData();
-    if (updateDatas.files && updateDatas.files.length > 0) {
-      updateDatas.files.map((item) => {
-        formData.append('file', item);
-        return item;
-      });
-    }
-
-    let existIdeaDeptArr = [];
-    let deptValsArr = [];
-    updateDatas.dept.length > 0 && updateDatas.dept.map((dID) => {
-      if (updateDatas.existPostDept.indexOf(dID) !== -1) {
-        existIdeaDeptArr.push(dID);
-      } else {
-        deptValsArr.push(dID);
-      }
-      return [existIdeaDeptArr, deptValsArr];
-    });
-
-    let ideaUpdateObj = {
-      id: updateDatas.postInfo.id,
-      title: updateDatas.title,
-      description: updateDatas.description,
-      active: true,
-      existIdeaDept: existIdeaDeptArr,
-      dept: deptValsArr,
-      existIdeaAttach: updateDatas.existPostAttach
-    }
-    formData.append('ideaRequest', JSON.stringify(ideaUpdateObj)
-      //  new Blob([JSON.stringify(ideaUpdateObj)], { type: 'application/json' })
-    );
-    const obj = {
-      url: URL_CONFIG.IDEA,
-      method: "put",
-      formData: formData,
-    };
-    httpHandler(obj)
-      .then((response) => {
-        setIdeaEditModalState(false);
-        fetchMyIdeasData(yearFilterValue);
-        setShowModal({
-          ...showModal,
-          type: "success",
-          message: response?.data?.message,
-        });
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setCommunicationModalErr(errMsg);
-      });
   }
 
   const onFilterChange = (filterValue) => {
-    console.log("filterValue", filterValue);
     setYearFilterValue({ filterby: filterValue.value });
-    fetchMyIdeasData({ filterby: filterValue.value });
+    fetchMyFeedsData({ filterby: filterValue.value });
   }
 
   return (
     <React.Fragment>
-      <PageHeader title="My Ideas" navLinksLeft={<Link to="ideabox" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
+      <PageHeader title="My Feedback" navLinksLeft={<Link to="feedback" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
         filter={
           <YearFilter onFilterChange={onFilterChange} />
         }
@@ -358,14 +198,6 @@ function MyFeedback(props) {
           confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"}
           confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
         />
-      }
-
-      {ideaViewModalState &&
-        <FeedbackDetailView ideaTempData={ideaTempData} hideModal={hideModal} usersPics={usersPics} ideaViewModalState={ideaViewModalState} />
-      }
-
-      {ideaEditModalState &&
-        <CreateEditCommunicationModal hideModal={hideModal} deptOptions={deptOptionData} createModalShow={ideaEditModalState} updateCommunicationPost={updateCommunicationPost} communicationModalErr={communicationModalErr} communicationType="idea" communicationData={ideaTempData} />
       }
 
       {showModal.type !== null && showModal.message !== null && (
@@ -398,11 +230,11 @@ function MyFeedback(props) {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {myIdeasList && (
+            {myfeedbackList && (
               <Table
                 component="userManagement"
-                headers={myIdeasTableHeaders}
-                data={myIdeasList}
+                headers={myFeedbackTableHeaders}
+                data={myfeedbackList}
                 tableProps={{
                   classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
                   id: "user_dataTable", "aria-describedby": "user_dataTable_info",
