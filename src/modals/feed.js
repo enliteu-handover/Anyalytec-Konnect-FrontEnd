@@ -195,7 +195,8 @@ const CreateFeedbackModal = (props) => {
         };
         httpHandler(obj).then((response) => {
             seterror(response?.data?.message)
-            fetchAllFeedbacks()
+            fetchAllFeedbacks();
+            clearState();
         }).catch((error) => {
             console.log("add feedback error", error);
         });
@@ -279,6 +280,10 @@ const CreateFeedbackModal = (props) => {
     }, [state]);
 
     React.useEffect(() => {
+        clearState();
+    }, [props]);
+
+    const clearState = () => {
         setState({
             ...state,
             deptValue: null, userValue: null, message: '',
@@ -294,7 +299,7 @@ const CreateFeedbackModal = (props) => {
         });
         setAssignUser(null)
         setAttachementFiles([])
-    }, [props]);
+    }
 
     return (
         <div className="eepModalDiv">
@@ -497,7 +502,8 @@ const CreateFeedbackModal = (props) => {
                                                     ["bold", "italic", "underline", "strike", "blockquote"],
                                                     [{ align: [] }],
                                                     [{ list: "ordered" }, { list: "bullet" }],
-                                                    ["link", "image"
+                                                    ["link",
+                                                        //  "image"
                                                         //  "video"
                                                     ],
                                                     ["emoji"],

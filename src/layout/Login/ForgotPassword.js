@@ -87,6 +87,7 @@ const ForgotPassword = () => {
             <div className="eep-input-group">
               <div
                 className={`${classes.input_group} ${emailInputClass} form-group input-group`}
+                style={{paddingBottom:10}}
               >
                 <input
                   type="text"

@@ -14,7 +14,7 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 function MyFeedback(props) {
-
+  const { fetchAllFeedbacks } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const yrDt = new Date().getFullYear();
@@ -125,7 +125,7 @@ function MyFeedback(props) {
     {
       fieldLabel: "Action",
       fieldValue: "action",
-      component: <MyFeedActions  deleteFeeds={deleteFeeds} />,
+      component: <MyFeedActions deleteFeeds={deleteFeeds} />,
     },
   ];
 
@@ -165,6 +165,7 @@ function MyFeedback(props) {
       httpHandler(httpObj)
         .then(() => {
           fetchMyFeedsData(yearFilterValue);
+          fetchAllFeedbacks()
         })
         .catch((error) => {
           const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";

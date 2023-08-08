@@ -176,8 +176,8 @@ const BulkUploadOrgChart = () => {
     };
 
     useEffect(() => {
-        fetchUserData();
         fetchOrgData();
+        fetchUserData();
     }, []);
 
     const fetchOrgData = async () => {
@@ -284,14 +284,6 @@ const BulkUploadOrgChart = () => {
             <PageHeader title="Org Chart"
                 filter={
                     <div className="d-flex align-items-center align-content-center">
-                        {/* <button type="submit" className="eep-btn eep-btn-success eep-btn-xsml add_newdepartment"
-                            style={{
-                                marginBottom: 14,
-                                marginRight: 10
-                            }}
-                        >
-                            Your  Points : 100
-                        </button> */}
                         {userRolePermission?.adminPanel &&
                             <Link
                                 style={{

@@ -78,7 +78,6 @@ const LoginForm = () => {
       };
       httpHandler(obj)
         .then(async (userData) => {
-          // {"refreshToken":"811c621e-c57f-4a3d-8d48-e7a3da0cafb2","id":1,"username":"Administrator","email":"support@teckonnect.com","fullName":"System Administrator","accessToken":"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODIyMDE4LCJleHAiOjE2ODY4MjM4MTh9.vHeJXqbDVhJfrsatwjJKzERqaVTS9EWXDwry9-J74tKpkezY6MFKXyhzjcCCZ1UgVmqfRwTe6KxCc1VnjWeB0A","tokenType":"Bearer"}
           sessionStorage.userData = JSON.stringify({
             "id": userData.data.data.user?.id,
             "username": userData?.data?.data?.user?.username,
@@ -90,11 +89,11 @@ const LoginForm = () => {
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          await addRoleAndSlack();
+          await idmRolesToUpdateInDb();
           await fetchPermission()?.then(() => {
             if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
               const url = new URL(sessionStorage?.redirect);
-              const router = url.pathname; // This will give you "/app/ecardIndex"
+              const router = url.pathname;
               console.log(router);
               history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
               sessionStorage.removeItem('redirect')
@@ -124,7 +123,7 @@ const LoginForm = () => {
     await httpHandler(obj);
   };
 
-  const addRoleAndSlack = async () => {
+  const idmRolesToUpdateInDb = async () => {
     const roles = await getRoles({});
 
     let payOptionsRole = {

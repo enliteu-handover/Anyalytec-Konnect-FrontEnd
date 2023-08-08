@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import classes from "./LoginForm.module.scss";
 import Button from "../../UI/Button";
+import classes from "./LoginForm.module.scss";
 // import { useDispatch } from "react-redux";
 // import { loginActions } from "../../store/login-slice";
 // import { Link } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 
 const ChangePassword = () => {
   const history = useHistory();
@@ -33,6 +33,9 @@ const ChangePassword = () => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
+    const passwordValid = new RegExp(
+      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/g
+    ).test(passWord);
     setFormIsValid(false);
     if (passWordTouched) {
       if (passWord === "") {
@@ -51,7 +54,12 @@ const ChangePassword = () => {
       setConfirmPasswordErr("Password doesn't matched");
     }
     if (passWord === cPassWord) {
-      if (passWord !== "" && cPassWord !== "") {
+      if (!passwordValid) {
+        checkResponseClassName("response-err");
+        setConfirmPasswordErr("Please enter the strange password, e.g. minimum 8 characters, with at least one uppercase letter and at least one special character.");
+        setDisable(true);
+        setFormIsValid(false);
+      } else if (passWord !== "" && cPassWord !== "") {
         checkResponseClassName("response-succ");
         setConfirmPasswordErr('Password matched');
       }
@@ -85,7 +93,7 @@ const ChangePassword = () => {
   };
 
   const formSubmissionHandler = (event) => {
-    
+
     event.preventDefault();
     const params = new URLSearchParams(window.location.search).get('token');
     let options1 = {
@@ -160,7 +168,7 @@ const ChangePassword = () => {
             <div className="eep-input-group">
               <div
                 className={`${classes.input_group} ${passwordInputClasses} form-group input-group`}
-                style={{ display: "flex" }}
+                style={{ display: "flex", paddingBottom: 10 }}
               >
                 <input
                   type="password"
@@ -172,7 +180,7 @@ const ChangePassword = () => {
                   onBlur={confirmPassWordBlurHandler}
                 />
                 {cPasswordErr && (
-                  <p className={`${responseClassName} response-text`}>{cPasswordErr}</p>
+                  <div style={{ padding: "16px 0px 0px", margin: "auto" }} className={`${responseClassName} response-text`}>{cPasswordErr}</div>
                 )}
               </div>
             </div>

@@ -383,7 +383,7 @@ const Feedback = () => {
             }
           </div>
           <div id="myfeedback" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'myfeedback' && <MyFeedback usersPic={usersPic} deptOptions={deptOptions} />}
+            {activeTab && activeTab.id === 'myfeedback' && <MyFeedback fetchAllFeedbacks={fetchAllFeedbacks} usersPic={usersPic} deptOptions={deptOptions} />}
           </div>
         </div>
       </div>
