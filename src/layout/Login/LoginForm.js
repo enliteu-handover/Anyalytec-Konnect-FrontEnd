@@ -1,13 +1,17 @@
 import { getRoles } from '@crayond_dev/idm-client';
 import React, { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 import Button from "../../UI/Button";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
+import { idmRoleMapping } from '../../idm';
+import { sharedDataActions } from '../../store/shared-data-slice';
 import classes from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [togglePWIcon, setTogglePWIcon] = useState(true);
   const pwBgImage = togglePWIcon ? "/images/pw_hide.svg" : "/images/pw_show.svg";
   const [userName, setUserName] = useState("");
@@ -87,15 +91,17 @@ const LoginForm = () => {
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
           await addRoleAndSlack();
-          if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
-            const url = new URL(sessionStorage?.redirect);
-            const router = url.pathname; // This will give you "/app/ecardIndex"
-            console.log(router);
-            history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
-            sessionStorage.removeItem('redirect')
-          } else {
-            history.push("/app/dashboard");
-          }
+          await fetchPermission()?.then(() => {
+            if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
+              const url = new URL(sessionStorage?.redirect);
+              const router = url.pathname; // This will give you "/app/ecardIndex"
+              console.log(router);
+              history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
+              sessionStorage.removeItem('redirect')
+            } else {
+              history.push("/app/dashboard");
+            }
+          })
         })
         .catch((error) => {
           console.log("formSubmissionHandler error", error.response);
@@ -130,14 +136,38 @@ const LoginForm = () => {
       method: "post",
       payload: payOptionsRole,
     };
-    // const slack = {
-    //   url: URL_CONFIG.UPDATE_SLACK_USERS,
-    //   method: "get",
-    // };
     if (roles?.length > 0) {
-      // await httpHandler(slack)
       await httpHandler(objRole)
     }
+  }
+
+  const fetchPermission = async () => {
+    const obj = {
+      url: URL_CONFIG.USER_PERMISSION,
+      method: "get",
+    };
+    await httpHandler(obj).then(async (response) => {
+      const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
+      dispatch(sharedDataActions.getUserRolePermission({
+        userRolePermission: roleData?.data
+      }));
+
+      let payOptionsRole = {
+        data: roleData?.rolesData,
+        role_id: roleData?.roleId,
+        screen: JSON.stringify(roleData?.data)
+      };
+
+      const objRole = {
+        url: URL_CONFIG.ADDROLE,
+        method: "post",
+        payload: payOptionsRole,
+      };
+
+      await httpHandler(objRole)
+    }).catch((error) => {
+      console.log("fetchPermission error", error);
+    });
   }
 
   const nameInputClasses = nameInputIsInvalid ? `${classes.invalid}` : "";

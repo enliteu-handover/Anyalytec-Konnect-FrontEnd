@@ -12,6 +12,7 @@ import { sharedDataActions } from "./store/shared-data-slice";
 import { URL_CONFIG } from "./constants/rest-config";
 import { httpHandler } from "./http/http-interceptor";
 import "./styles/root/root.scss";
+import { idmRoleMapping } from "./idm";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,9 +31,39 @@ function App() {
   };
 
   useEffect(() => {
+    fetchPermission();
     fetchSvgIcons();
-    firebaseInitialization()
+    firebaseInitialization();
   }, []);
+
+  const fetchPermission = async () => {
+    const obj = {
+      url: URL_CONFIG.USER_PERMISSION,
+      method: "get",
+    };
+    await httpHandler(obj).then(async (response) => {
+      const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
+      dispatch(sharedDataActions.getUserRolePermission({
+        userRolePermission: roleData?.data
+      }));
+
+      let payOptionsRole = {
+        data: roleData?.rolesData,
+        role_id: roleData?.roleId,
+        screen: JSON.stringify(roleData?.data)
+      };
+
+      const objRole = {
+        url: URL_CONFIG.ADDROLE,
+        method: "post",
+        payload: payOptionsRole,
+      };
+
+      await httpHandler(objRole)
+    }).catch((error) => {
+      console.log("fetchPermission error", error);
+    });
+  }
 
   React.useEffect(() => {
     getThemePanel(headerLogo?.color)
@@ -81,13 +112,13 @@ function App() {
               <MainContainer />
             </PrivateRoute>
 
-            <PrivateRoute>
+            {/* <PrivateRoute>
               <RolePermissions />
-            </PrivateRoute>
+            </PrivateRoute> */}
 
-            <PrivateRoute>
+            {/* <PrivateRoute>
               <TourState />
-            </PrivateRoute>
+            </PrivateRoute> */}
             {/* <FirebaseToken /> */}
           </Route>
         </Switch>
