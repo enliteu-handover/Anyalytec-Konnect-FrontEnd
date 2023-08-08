@@ -125,7 +125,7 @@
 
         .slick-prev:before,
         .slick-next:before {
-            color: #000;
+            color: #000 !important;
         }
 
         .parent_slider_img {
@@ -133,6 +133,12 @@
             width: 96% !important;
         }
     }
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: #000 !important;
+    font-size: 23px;
 }
 
 .replay {
@@ -153,6 +159,13 @@
 
     .reply_user_name {
         font-size: 12px;
+    }
+
+    .eep_command_posts {
+        background: #fff;
+        padding: 6px;
+        border-radius: 10px 10px 10px 0px;
+        width: max-content;
     }
 }
 
@@ -192,4 +205,14 @@
     height: 60px;
     margin-top: 10px !important;
     margin-bottom: 0px !important;
+
+    .ideabox_user_name_size {
+        color: #403C47;
+        font-size: 15px;
+    }
+
+    .ideabox_contentt_size {
+        color: #717074;
+        font-weight: 100;
+    }
 }

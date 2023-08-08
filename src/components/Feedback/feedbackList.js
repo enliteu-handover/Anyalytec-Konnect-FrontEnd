@@ -81,7 +81,7 @@ const FeedbackList = (props) => {
                         </div>
                       }
                     </div>
-                    <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{eepFormatDateTime(item.createdAt)}</div>
+                    <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{eepFormatDateTime(item.createdAt, true)}</div>
 
                   </div>
                 </div>

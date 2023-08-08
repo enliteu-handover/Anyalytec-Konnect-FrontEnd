@@ -6,6 +6,7 @@ import ReactTooltip from "react-tooltip";
 import ResponseInfo from "../../UI/ResponseInfo";
 import { eepFormatDateTime } from "../../shared/SharedService";
 import FeedbackDetailViewMore from "./more";
+import moment from 'moment/moment';
 
 
 
@@ -71,7 +72,7 @@ const FeedbackDetailViewInner = (props) => {
     var padding = a + 6;
     return data && data?.children?.map((cmtData, index) => {
       return (
-        <div className="ideaCommentLists ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
+        <div className="ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
           style={{ marginLeft: padding }}
         >
           {/* <div style={{
@@ -85,7 +86,7 @@ const FeedbackDetailViewInner = (props) => {
               <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size" />
               <div className="reply_user_name">
                 <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
-                  &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt)}</span></label>
+                  &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt, true)}</span></label>
               </div>
             </div>
             <p className="eep_command_posts">{cmtData?.message}</p>
@@ -105,7 +106,7 @@ const FeedbackDetailViewInner = (props) => {
             }
             <div className="item_blog_like_a_feedback text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
 
-              <div style={{ height: "30px" }}>{cmtData?.forumCommentLikes && Object.keys(cmtData?.forumCommentLikes)?.map((v, i) => {
+              <div style={{ height: "30px", display: "flex" }}>{cmtData?.forumCommentLikes && Object.keys(cmtData?.forumCommentLikes)?.map((v, i) => {
                 return <>
                   <ReactTooltip
                     effect='solid'
@@ -140,7 +141,7 @@ const FeedbackDetailViewInner = (props) => {
               ●&nbsp;<span
                 className="text-left mb-0 eep_dt replay">{cmtData?.children?.length + (cmtData?.children?.length === 1 ?
                   ' Replay' : ' Replies')}</span>
-              ●&nbsp;<span
+              &nbsp;●&nbsp;<span
                 onClick={() => handleCommand(cmtData)}
                 className="text-left mb-0 eep_dt replay">Replay</span>
             </div>
@@ -171,7 +172,8 @@ const FeedbackDetailViewInner = (props) => {
               </div>
               <div className="ideabox-profile-expand-inner-container header-content-wrapper-two">
                 <div className="header-user-post-date ideabox_contentt_size ideabox-date">
-                  {eepFormatDateTime(ideaDetail.createdAt)}
+                  {moment(ideaDetail.createdAt).format('DD-MM-YYYY hh:mm a')}
+                  {` (${eepFormatDateTime(ideaDetail.createdAt, true)})`}
                 </div>
               </div>
             </div>
@@ -264,7 +266,7 @@ const FeedbackDetailViewInner = (props) => {
                     setIsDetailListMode(!isDetailListMode)
                     handleCommand("replay", !isDetailListMode)
                   }} >{ideaDetail?.children?.length === 0 ? 'No ' : ideaDetail?.children?.length} {
-                      ideaDetail?.children?.length === 1 ? 'Replay' : 'Replies'}</div>
+                      ideaDetail?.children?.length === 1 ? 'Comment' : 'Comments'}</div>
                 </div>
               </div>
 

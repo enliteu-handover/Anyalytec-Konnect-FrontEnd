@@ -10,7 +10,7 @@ import { base64ToFile } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 
 const CreateFeedbackModal = (props) => {
-    const { deptOptions, fetchAllFeedbacks } = props;
+    const { deptOptions, fetchAllFeedbacks, createModalShow } = props;
     Quill.register(
         {
             "formats/emoji": quillEmoji.EmojiBlot,
@@ -277,7 +277,25 @@ const CreateFeedbackModal = (props) => {
             setDisable(true)
         }
     }, [state]);
-    
+
+    React.useEffect(() => {
+        setState({
+            ...state,
+            deptValue: null, userValue: null, message: '',
+            shareTo: '',
+            modalTitle: '',
+            category:
+                { id: 1, name: 'Suggestion' },
+            logo: {
+                icon: "😍",
+                title: 'Happy'
+            },
+            show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+        });
+        setAssignUser(null)
+        setAttachementFiles([])
+    }, [props]);
+
     return (
         <div className="eepModalDiv">
             <div className="modal fade tc_design show" id="CreateFeedbackModal" aria-modal="true" style={{ display: "block" }}>

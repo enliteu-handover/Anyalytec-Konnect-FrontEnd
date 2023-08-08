@@ -327,7 +327,9 @@ const Feedback = () => {
           <div id="feedback" className="tab-pane active h-100">
 
             {createModalShow && <CreateFeedbackModal
-              deptOptions={deptOptions} fetchAllFeedbacks={fetchAllFeedbacks} />}
+              deptOptions={deptOptions}
+              fetchAllFeedbacks={fetchAllFeedbacks}
+              createModalShow={createModalShow} />}
 
             <PageHeader title="Feedback"
               navLinksRight={

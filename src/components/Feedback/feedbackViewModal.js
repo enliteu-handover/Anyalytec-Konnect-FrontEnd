@@ -3,7 +3,7 @@ import FeedbackDetailViewInner from "./feedbackDetailViewInner";
 
 const IdeaViewModal = (props) => {
 
-  const {ideaTempData, usersPics, ideaViewModalState, hideModal} = props;
+  const { ideaTempData, usersPics, ideaViewModalState, hideModal } = props;
 
   //console.log("IdeaViewModal props", props);
 
@@ -11,7 +11,7 @@ const IdeaViewModal = (props) => {
   const [modalManualTrigger, setModalManualTrigger] = useState(false);
 
   useEffect(() => {
-    if(initModalManualTrigger) {
+    if (initModalManualTrigger) {
       setModalManualTrigger("block");
     } else {
       setModalManualTrigger("none");
@@ -25,7 +25,7 @@ const IdeaViewModal = (props) => {
         id="IdeaViewModal"
         aria-modal="true"
         // style={{display: modalManualTrigger ? "block" : "none"}}
-        style={{display:"block"}}
+        style={{ display: "block" }}
       >
         <div
           className="modal-dialog w-75"
