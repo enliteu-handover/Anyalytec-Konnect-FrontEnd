@@ -234,7 +234,6 @@ const Awards = () => {
       }
     }
   };
-
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (

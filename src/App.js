@@ -109,7 +109,7 @@ function App() {
             </PrivateRoute>
 
             <PrivateRoute>
-              <MainContainer />
+              <MainContainer theme={theme?.color} />
             </PrivateRoute>
 
             {/* <PrivateRoute>

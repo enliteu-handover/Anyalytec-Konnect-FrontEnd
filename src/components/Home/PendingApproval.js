@@ -10,12 +10,13 @@ const PendingApproval = (props) => {
     <div className="bg-f5f5f5 br-15 waitingapprovals_section">
       <div className="p-3">
         <h4 className="title_lbl">Approval Requests pending</h4>
-        {dashboardDetails && dashboardDetails.awardApprovals &&
+        {dashboardDetails && dashboardDetails?.awardApprovals &&
           <div className="waitingapprovals_list_div text-left">
             {dashboardDetails.awardApprovals.map((item, index) => {
               return (
                 <div className="col-md-12 px-0 mb-3" key={"waitingapprovals_" + index}>
-                  <Link to={{ pathname: "nominationsapproval", state: { item } }} className="c-2c2c2c a_hover_txt_deco_none d_waitingapprovals_list" title="Create new policies for Employee Onboarding ">
+                  <Link to={{ pathname: "nominationsapproval", state: { awardData: item, isApproval: true } }} className="c-2c2c2c a_hover_txt_deco_none d_waitingapprovals_list"
+                    title={item?.award?.name}>
                     <p className="mb-2 eep_overflow_ellipsis d_waitingapprovals">
                       <img className="d_list_icon" src={process.env.PUBLIC_URL + "/images/icons/static/award.svg"} alt="program-icon" />
                       <span className="pl-1">{item?.award?.name}</span>

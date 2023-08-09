@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { httpHandler } from "../../http/http-interceptor";
+import { sideMenuHidden } from "../../helpers";
 import Communication from "./icon/communication";
 import Dashboard from "./icon/dashboard";
 import Org from "./icon/org";
 import Recognition from "./icon/recognition";
 import Rewards from "./icon/rewards";
-import { sideMenuHidden } from "../../helpers";
-// import classes from "./Sidebar.module.scss";
-const Sidebar = () => {
+
+const Sidebar = (props) => {
   const [sidebarMenu, setSidebarMenu] = useState([]);
   const [sidebarToggled, setSidebarToggled] = useState(false);
-  const [theme, setTheme] = useState({})
-  const headerLogo = useSelector((state) => state.storeState);
+  const [theme, setTheme] = useState(props?.theme)
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const fetchSidebarMenu = () => {
@@ -31,28 +28,9 @@ const Sidebar = () => {
 
   useEffect(() => {
     fetchSidebarMenu();
-    getThemePanel()
   }, [userRolePermission]);
 
   const user_details = sessionStorage.getItem('userData');
-
-  React.useEffect(() => {
-    getThemePanel(headerLogo?.color)
-  }, [headerLogo])
-
-  const getThemePanel = (color) => {
-    const obj = {
-      url: URL_CONFIG.ADD_ADMIN_PANEL,
-      method: "get"
-    };
-
-    httpHandler(obj)
-      .then((reponse) => {
-        setTheme({
-          color: color ?? reponse?.data?.[0]?.color,
-        })
-      })
-  }
 
   const icon = {
     'Dashboard.svg': <Dashboard color={theme?.color === 'color_two' ? "#000" : "#fff"} />,

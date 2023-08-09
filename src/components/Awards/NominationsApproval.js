@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
 import ResponseInfo from "../../UI/ResponseInfo";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import AwardApprovalModal from "../../modals/AwardApprovalModal";
-import { clearModalBackdrop } from "../../shared/SharedService";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import { eepFormatDateTime } from "../../shared/SharedService";
+import { clearModalBackdrop, eepFormatDateTime } from "../../shared/SharedService";
 
 const NominationsApproval = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -38,14 +37,14 @@ const NominationsApproval = () => {
       method: "get"
     };
     httpHandler(obj)
-      .then((response) => { 
+      .then((response) => {
         let userPicTempArry = [];
         response.data.map((item) => {
-          if(item?.imageByte?.image) {
+          if (item?.imageByte?.image) {
             userPicTempArry.push(
               {
-                "id":item.id,
-                "pic":item?.imageByte?.image
+                "id": item.id,
+                "pic": item?.imageByte?.image
               }
             )
           }
@@ -53,13 +52,13 @@ const NominationsApproval = () => {
         setUsersPic(userPicTempArry);
       })
       .catch((error) => {
-        console.log("ALLUSERS API error => ",error);   
+        console.log("ALLUSERS API error => ", error);
       });
   };
 
   useEffect(() => {
     fetchAllUsers();
-  },[]);
+  }, []);
 
   useEffect(() => {
     setAwardDatas(approvalDatas);
@@ -67,14 +66,14 @@ const NominationsApproval = () => {
     let selectedUsersTemp = [];
     approvalDatas && approvalDatas.nominations.length > 0 && approvalDatas.nominations.map((data) => {
       //selectedUsersTemp.push({id:data.id,isSelected:false, isApproved:false});
-      selectedUsersTemp.push({id:data.userId.id, isApproved:false});
+      selectedUsersTemp.push({ id: data.userId.id, isApproved: false });
     });
     setSelectedUsers(selectedUsersTemp);
 
     return () => {
       setSelectedUsers([]);
     }
-  },[approvalDatas, isApprovalState]);
+  }, [approvalDatas, isApprovalState]);
 
   let userPicIndex;
   const getUserPicture = (uID) => {
@@ -86,13 +85,13 @@ const NominationsApproval = () => {
 
   const selectUserHandler = (sData, isChecked) => {
     let selectedUsersTemp = JSON.parse(JSON.stringify(selectedUsers));
-    for(let i=0; i<selectedUsersTemp.length; i++) {
-      if(selectedUsersTemp[i].id === sData.userId.id) {
+    for (let i = 0; i < selectedUsersTemp.length; i++) {
+      if (selectedUsersTemp[i].id === sData.userId.id) {
         //selectedUsersTemp[i].isSelected = true;
         selectedUsersTemp[i].isApproved = isChecked;
-        if(isChecked) {
+        if (isChecked) {
           selectedUsersTemp[i].data = sData;
-        } else{
+        } else {
           delete selectedUsersTemp[i].data;
         }
         break;
@@ -103,7 +102,7 @@ const NominationsApproval = () => {
     var isApprovedData = selectedUsersTemp.filter(obj => {
       return obj.isApproved
     })
-    if(isApprovedData.length > 0) {
+    if (isApprovedData.length > 0) {
       isValid(isApprovedData);
     } else {
       setBtnDisabled(true);
@@ -129,12 +128,12 @@ const NominationsApproval = () => {
   const hashOnChangeHandler = (eve, name) => {
     const { value, checked } = eve.target;
     var hashDataTemp = JSON.parse(JSON.stringify(hashData));
-    if(checked){
-      hashDataTemp.push({id:value,hashName:name})
-    }else{
-      for(let i=0; i<hashDataTemp.length; i++){
-        if(value === hashDataTemp[i].id){
-          hashDataTemp.splice(i,1);
+    if (checked) {
+      hashDataTemp.push({ id: value, hashName: name })
+    } else {
+      for (let i = 0; i < hashDataTemp.length; i++) {
+        if (value === hashDataTemp[i].id) {
+          hashDataTemp.splice(i, 1);
           break;
         }
       }
@@ -143,7 +142,7 @@ const NominationsApproval = () => {
   }
 
   const modalSubmitInfo = (arg) => {
-    if(arg.status) {
+    if (arg.status) {
       clearModalBackdrop();
       setShowApprovalAwardModal(false);
       setShowModal({
@@ -154,17 +153,17 @@ const NominationsApproval = () => {
     }
     setTimeout(() => {
       eepHistory.push('awards', { activeTab: 'ApprovalTab' });
-    },1000);
-  }
+    }, 1000);
+  };
 
-  return(
+  return (
     <React.Fragment>
       <PageHeader title="Award and Approvals" navLinksLeft={
-          <Link className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" to={{ pathname: "/app/awards", state: { activeTab: 'ApprovalTab' } }}
-            dangerouslySetInnerHTML={{
-              __html: svgIcons && svgIcons.lessthan_circle,
-            }}>
-          </Link>}
+        <Link className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" to={{ pathname: "/app/awards", state: { activeTab: 'ApprovalTab' } }}
+          dangerouslySetInnerHTML={{
+            __html: svgIcons && svgIcons.lessthan_circle,
+          }}>
+        </Link>}
       />
 
       {showModal.type !== null && showModal.message !== null && (
@@ -195,24 +194,24 @@ const NominationsApproval = () => {
         ></EEPSubmitModal>
       )}
 
-      {showApprovalAwardModal && <AwardApprovalModal selectedUsers={selectedUsers} usersPic={usersPic} awardDatas={awardDatas} hashData={hashData} modalSubmitInfo={modalSubmitInfo} /> }
+      {showApprovalAwardModal && <AwardApprovalModal selectedUsers={selectedUsers} usersPic={usersPic} awardDatas={awardDatas} hashData={hashData} modalSubmitInfo={modalSubmitInfo} />}
 
       <div className="pt-4">
         <div className="eep-content-start">
 
-          {awardDatas && awardDatas.nominations.length > 0  && (
+          {awardDatas && awardDatas?.nominations?.length > 0 && (
             <React.Fragment>
               <div className="row mx-0">
-                {awardDatas.nominations.map((item, index) => {
-                  return(
-                    <div className="col-md-4 col-lg-4 col-lg-3 col-sm-12 ap_col_div" key={"awardCard_"+index}>
+                {awardDatas?.nominations.map((item, index) => {
+                  return (
+                    <div className="col-md-4 col-lg-4 col-lg-3 col-sm-12 ap_col_div" key={"awardCard_" + index}>
                       <div className="bg-white br-15 ap_col_div_inner shadow h-100">
                         <div className="p-3">
                           <div className="ap_col_inner text-left">
-                            <img 
+                            <img
                               src={getUserPicture(item?.userId?.id)}
-                              className="r_award_img selected" 
-                              alt="User Pic" 
+                              className="r_award_img selected"
+                              alt="User Pic"
                               title={item?.userId?.fullName}
                             />
                             <label className="n_award_add_label font-helvetica-m">{item?.userId?.fullName}</label>
@@ -222,7 +221,7 @@ const NominationsApproval = () => {
                             <p className="ap_award_info ap_udept" title="Department">{awardDatas?.judgeId?.department?.name}</p>
                             <p className="ap_award_info" title="Enlite Points">{awardDatas.award.points}</p>
                             <p className="ap_award_info" title="Nominated By">{awardDatas?.nominatorId?.fullName}</p>
-                            <p className="ap_award_info ap_award_msg" title="Message">{item.message}</p>                   
+                            <p className="ap_award_info ap_award_msg" title="Message">{item.message}</p>
                           </div>
                           <div className="ap_approval_div">
                             <div className="ap_approval_p_div">
@@ -230,7 +229,7 @@ const NominationsApproval = () => {
                             </div>
                             {isApproval && !awardDatas.recognized &&
                               <div className="ap_approval_img_div ap_submition_div">
-                                <div 
+                                <div
                                   className={getIsUserApproved(item?.userId?.id) ? "ap_not_approved_blank" : "ap_not_approved"}
                                   onClick={() => selectUserHandler(item, false)}
                                 >
@@ -242,7 +241,7 @@ const NominationsApproval = () => {
                                   >
                                   </span>
                                 </div>
-                                <div 
+                                <div
                                   className={getIsUserApproved(item?.userId?.id) ? "ap_approved" : "ap_approved_blank"}
                                   onClick={() => selectUserHandler(item, true)}
                                 >
@@ -260,26 +259,26 @@ const NominationsApproval = () => {
                               <div className="ap_approval_img_div ap_submition_div">
 
                                 {item.status !== null && item.status === "rejected" &&
-                                <div className="ap_not_approved">
-                                  <span
-                                    className="radioImg"
-                                    dangerouslySetInnerHTML={{
-                                      __html: svgIcons && svgIcons.reject_icon,
-                                    }}
-                                  >
-                                  </span>
-                                </div>
+                                  <div className="ap_not_approved">
+                                    <span
+                                      className="radioImg"
+                                      dangerouslySetInnerHTML={{
+                                        __html: svgIcons && svgIcons.reject_icon,
+                                      }}
+                                    >
+                                    </span>
+                                  </div>
                                 }
                                 {item.status !== null && item.status === "approved" &&
-                                <div className="ap_approved">
-                                  <span
-                                    className="radioImg"
-                                    dangerouslySetInnerHTML={{
-                                      __html: svgIcons && svgIcons.accept_icon,
-                                    }}
-                                  >
-                                  </span>
-                                </div>
+                                  <div className="ap_approved">
+                                    <span
+                                      className="radioImg"
+                                      dangerouslySetInnerHTML={{
+                                        __html: svgIcons && svgIcons.accept_icon,
+                                      }}
+                                    >
+                                    </span>
+                                  </div>
                                 }
                               </div>
                             }
@@ -313,11 +312,11 @@ const NominationsApproval = () => {
                 })}
               </div>
 
-              {isApproval && !awardDatas.recognized && 
+              {isApproval && !awardDatas.recognized &&
                 <div className="row mt-4 mb-3 mx-0">
                   <div className="col-md-12 text-center ap_award_tags_div">
                     <div className="eep-dropdown-divider"></div>
-                    <div className="btn-group eep_tags_group hashTag eep_scroll_y" style={{maxHeight: "70px"}}>
+                    <div className="btn-group eep_tags_group hashTag eep_scroll_y" style={{ maxHeight: "70px" }}>
                       {awardDatas.award.hashTag &&
                         awardDatas.award.hashTag.map((dataHash, i) => (
                           <div className="eep_tags" key={"hash_" + i}>
@@ -341,8 +340,8 @@ const NominationsApproval = () => {
                     </div>
                   </div>
                   <div className="col-md-12 text-center ap_award_next_div">
-                    <button 
-                      className="eep-btn eep-btn-success" 
+                    <button
+                      className="eep-btn eep-btn-success"
                       disabled={btnDisabled}
                       onClick={clickApprovalAwardModal}
                       data-toggle="modal"
@@ -363,7 +362,7 @@ const NominationsApproval = () => {
               {!isApproval && awardDatas.recognized && (
                 <div className="d-flex justify-content-center my-3">
                   <div className="alert alert-info" role="alert">
-                    Award approved - {eepFormatDateTime(awardDatas.updatedAt)} by {awardDatas.judgeId.fullName +" - "+ awardDatas.judgeId.department.name}
+                    Award approved - {eepFormatDateTime(awardDatas.updatedAt)} by {awardDatas.judgeId.fullName + " - " + awardDatas.judgeId.department.name}
                   </div>
                 </div>
               )}

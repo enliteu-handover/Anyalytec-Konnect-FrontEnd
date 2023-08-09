@@ -187,7 +187,9 @@ function MyFeedback(props) {
 
   return (
     <React.Fragment>
-      <PageHeader title="My Feedback" navLinksLeft={<Link to="feedback" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
+      <PageHeader title="My Feedback" 
+      // navLinksLeft={<Link to="feedback" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}
+      // ></Link>}
         filter={
           <YearFilter onFilterChange={onFilterChange} />
         }

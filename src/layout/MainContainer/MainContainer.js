@@ -62,14 +62,14 @@ import BranchMaster from "../../components/Branch";
 import BulkUploadOrgChart from "../../bulkUpload";
 import Feedback from "../../components/Feedback";
 
-const MainContainer = () => {
+const MainContainer = (props) => {
   const getTabs = useSelector((state) => state.tabs.config);
   const getToggleSidebarState = useSelector((state) => state.toggleState.isToggle);
 
   return (
     <main>
       <div id="wrapper">
-        <Sidebar />
+        <Sidebar theme={props.theme} />
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
             <Header />
