@@ -73,7 +73,7 @@ const FeedbackDetailViewInner = (props) => {
   };
 
   const isIdeaLiked = (uID, ideaLikes) => {
-    
+
     let iLikedIndex = ideaLikes?.filter(x => x?.users?.user_id === uID);
     if (iLikedIndex?.length > 0) {
       return true;
@@ -97,7 +97,8 @@ const FeedbackDetailViewInner = (props) => {
                   &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt, true)}</span></label>
               </div>
             </div>
-            <p className="eep_command_posts">{cmtData?.message}</p>
+            <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
+            {/* {cmtData?.message} */}
             {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
               <div className="eep_command_attachements">
                 {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
@@ -191,6 +192,20 @@ const FeedbackDetailViewInner = (props) => {
     '4': "/images/emoji/happy.svg"
   }
 
+  let carouselData = [];
+  let carouselPdfData = [];
+  const fil = ideaDetail?.feedbackAttachmentFileName?.map(v => {
+    if (!v.docByte?.image?.includes('.pdf')) {
+      return carouselData.push(v)
+    }
+  })
+
+  const fils = ideaDetail?.feedbackAttachmentFileName?.map(v => {
+    if (v.docByte?.image?.includes('.pdf')) {
+      return carouselPdfData.push(v)
+    }
+  })
+
   return (
     <React.Fragment>
       {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
@@ -230,38 +245,63 @@ const FeedbackDetailViewInner = (props) => {
               <p className="ideacontent_content ideabox_contentt_size">
                 <div dangerouslySetInnerHTML={{ __html: ideaDetail?.description }} />
               </p>
-              {ideaDetail?.feedbackAttachmentFileName?.length > 0 &&
+              {carouselData?.length > 0 &&
                 <div className="w-100 bg-f5f5f5 attachment_toggle_feedback eep_scroll_y" style={{ maxHeight: "75px" }}>
                   <div className="attachement-display-flex">
-                    {ideaDetail?.feedbackAttachmentFileName?.slice(0, 3).map((atthData, index) => {
-                      return (
-                        <div className="attachment_parent" key={"attachmentLists_" + index}>
-                          <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                    {carouselData?.slice(0, 3).map((atthData, index) => {
+                      if (!atthData.docByte?.image?.includes('.pdf')) {
+                        return (
+                          <div className="attachment_parent" key={"attachmentLists_" + index}
+                            onClick={() => setState({
+                              ...state, more: carouselData
+                            })}
+                          >
+                            {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}> */}
 
-                            <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
-                              className="feedback-download-profile-img-size rounded-circle" />
+                            {/* <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
+                              className="feedback-download-profile-img-size rounded-circle" /> */}
 
                             <img src={atthData.docByte?.image ? atthData.docByte?.image
                               : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
                               title={atthData.ideaAttachmentsFileName} />
-                          </a>
-                        </div>
-                      )
+                            {/* </a> */}
+                          </div>
+                        )
+                      }
                     })}
-                    {ideaDetail?.feedbackAttachmentFileName?.slice(3, ideaDetail?.feedbackAttachmentFileName?.length)?.length !== 0 && <div className="attachment_parent_feedback_more" key={"attachmentLists_"}>
+                    {carouselData?.slice(3, carouselData?.length)?.length !== 0 && <div className="attachment_parent_feedback_more" key={"attachmentLists_"}>
                       <Link
                         to="#"
                         data-target="#collapseBirthday"
                         data-toggle="modal"
                         style={{ color: "#fff" }}
-                        onClick={() => setState({ ...state, more: ideaDetail?.feedbackAttachmentFileName })}
+                        onClick={() => setState({ ...state, more: carouselData })}
                       >
-                        {'+' + ideaDetail?.feedbackAttachmentFileName?.slice(3, ideaDetail?.feedbackAttachmentFileName?.length)?.length}
+                        {'+' + carouselData?.slice(3, carouselData?.length)?.length}
                       </Link>
                     </div>}
                   </div>
                 </div>
               }
+
+              {carouselPdfData?.length > 0 &&
+                <div className="w-100 bg-f5f5f5 attachment_toggle_feedback eep_scroll_y" style={{ maxHeight: "75px" }}>
+                  <div className="attachement-display-flex">
+                    {carouselPdfData?.slice(0, 3).map((atthData, index) => {
+                      if (atthData.docByte?.image?.includes('.pdf')) {
+                        return (
+                          <div className="attachment_parent" key={"attachmentLists_" + index}>
+                            <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
+                              className="feedback-download-profile-img-size rounded-circle" />
+                            <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                              <div className="to_show_pdf_list"><img src={'/images/pdfIcon.png'} alt="icon" /></div>
+                            </a>
+                          </div>
+                        )
+                      }
+                    })}
+                  </div>
+                </div>}
               <div className="item_blog_like_a_feedback text-left mb-2">
 
                 <div style={{ display: "flex" }}>{ideaDetail?.feedbackLikes && Object.keys(ideaDetail?.feedbackLikes)?.map((v, i) => {
@@ -289,10 +329,7 @@ const FeedbackDetailViewInner = (props) => {
                 <div className='parent'>
                   <div>   <span className={"c1"} onClick={() => setState({ ...state, openicon: !state.openicon })}>
 
-                    {state?.openicon && <EmojiPicker
-                      onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
-                      suggestedEmojisMode={SuggestionMode.RECENT}
-                      skinTonesDisabled />}
+
 
                     <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
                     //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
@@ -312,7 +349,11 @@ const FeedbackDetailViewInner = (props) => {
                       ideaDetail?.children?.length === 1 ? 'Comment' : 'Comments'}</div>
                 </div>
               </div>
-
+              {state?.openicon &&
+                <EmojiPicker
+                  onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
+                  suggestedEmojisMode={SuggestionMode.FREQUENT}
+                />}
               {isDetailListMode && ideaDetail?.children?.length > 0 &&
                 <React.Fragment>
                   {renderChildComponent(ideaDetail, 0)}

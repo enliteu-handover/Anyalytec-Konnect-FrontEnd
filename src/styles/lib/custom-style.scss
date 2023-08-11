@@ -7370,3 +7370,33 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
     border: none !important;
   }
 }
+
+.editor-container-replay {
+  position: relative;
+  height: 100px;
+  margin-bottom: 10px;
+  /* Adjust the height as needed */
+
+  .editor {
+    height: calc(100% - 40px);
+    /* Adjust for toolbar height */
+    border: 1px solid #ccc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .ql-toolbar {
+    z-index: 100;
+    border-top: none !important;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .ql-container {
+    border: none !important;
+  }
+}

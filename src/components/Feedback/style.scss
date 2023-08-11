@@ -57,15 +57,16 @@
         background: #fff;
         padding: 6px;
         border-radius: 4px;
-        position: relative;
-        height: max-content;
+        // position: relative;
+        // height: max-content;
 
         .EmojiPickerReact {
-            height: 300px !important;
-            width: 350px !important;
-            position: absolute;
-            z-index: 100;
-            bottom: 30px;
+            margin-top: 30px;
+            //     height: 300px !important;
+            //     width: 350px !important;
+            position: absolute !important;
+            //     z-index: 10000;
+            //     bottom: 30px;
         }
     }
 
@@ -165,7 +166,7 @@
         background: #fff;
         padding: 6px;
         border-radius: 10px 10px 10px 0px;
-        width: max-content;
+        width: auto;
     }
 }
 
@@ -215,4 +216,24 @@
         color: #717074;
         font-weight: 100;
     }
+}
+
+.EmojiPickerReact {
+    position: absolute !important;
+}
+
+.to_show_pdf_list{
+    width: 70px;
+    border: 1px solid rgba(158, 158, 158, 0.2901960784);
+    border-radius: 8px;
+    height: 32px;
+    display: flex;
+    background: rgba(158, 158, 158, 0.5098039216);
+    margin-left: 4px;
+    margin-top: 2px;
+    margin-right: 8px;
+    img {
+        width: 30%;
+        margin: auto;
+      }
 }

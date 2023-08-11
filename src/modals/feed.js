@@ -79,7 +79,7 @@ const CreateFeedbackModal = (props) => {
     ];
 
     const onSingleRemove = (i) => {
-        
+
         const updatedFiles = attachementFiles.filter((_, index) => index !== i);
         setAttachementFiles([...updatedFiles])
     };
@@ -179,9 +179,24 @@ const CreateFeedbackModal = (props) => {
 
         if (attachementFiles?.length > 0) {
             for (const item of attachementFiles) {
-                const file = base64ToFile(item?.atthmentDataURI?.replace(/^data:image\/\w+;base64,/, ''))
                 const formData = new FormData();
-                formData.append("image", file);
+                let file;
+
+                if (item?.atthmentDataURI?.includes('data:application')) {
+                    const base64Data = (item?.atthmentDataURI).replace(/^data:application\/\w+;base64,/, '');
+
+                    const binaryString = atob(base64Data);
+                    const byteNumbers = new Array(binaryString.length);
+                    for (let i = 0; i < binaryString.length; i++) {
+                        byteNumbers[i] = binaryString.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: 'application/pdf' });
+                    file = new File([blob], 'filename.pdf', { type: 'application/pdf' });
+
+                } else {
+                    file = base64ToFile(item?.atthmentDataURI?.replace(/^data:image\/\w+;base64,/, ''))
+                } formData.append("image", file);
                 const obj = {
                     url: URL_CONFIG.UPLOAD_FILES,
                     method: "post",
@@ -263,7 +278,7 @@ const CreateFeedbackModal = (props) => {
             icon: "/images/emoji/3.svg",
             iconActive: "/images/emoji/3(1).svg",
             title: 'Little Okay'
-        },{
+        }, {
             icon: "/images/emoji/2.svg",
             iconActive: "/images/emoji/2(1).svg",
             title: 'Okay'

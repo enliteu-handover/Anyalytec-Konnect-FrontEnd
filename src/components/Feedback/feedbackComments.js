@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-// import ReactQuill, { Quill } from 'react-quill';
-// import quillEmoji from "react-quill-emoji";
-// import "react-quill-emoji/dist/quill-emoji.css";
-// import "react-quill/dist/quill.snow.css";
+import ReactQuill, { Quill } from 'react-quill';
+import quillEmoji from "react-quill-emoji";
+import "react-quill-emoji/dist/quill-emoji.css";
+import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 
 const FeedbackComments = (props) => {
-  // Quill.register(
-  //   {
-  //     "formats/emoji": quillEmoji.EmojiBlot,
-  //     "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
-  //     "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
-  //     "modules/emoji-shortname": quillEmoji.ShortNameEmoji
-  //   },
-  //   true
-  // );
   const { commentSubmitHandler, childReplay } = props;
+  Quill.register(
+    {
+      "formats/emoji": quillEmoji.EmojiBlot,
+      "modules/emoji-toolbar": quillEmoji.ToolbarEmoji,
+      "modules/emoji-textarea": quillEmoji.TextAreaEmoji,
+      "modules/emoji-shortname": quillEmoji.ShortNameEmoji
+    },
+    true
+  );
 
   const commentMaxLength = 120;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -141,32 +141,37 @@ const FeedbackComments = (props) => {
           {childReplay?.message && <span style={{
             borderBottom: '1px solid #9E9E9E',
             fontStyle: 'italic'
-          }}>Replay To: {childReplay?.message ?? ''}</span>}
+          }}>Replay To: 
+            <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: childReplay?.message }} /></span>}
 
 
-          {/* <ReactQuill
-            modules={{
-              toolbar: {
-                container: [
-                  ["bold"],
-                  ["emoji"],
-                ]
-              },
-              "emoji-toolbar": true,
-              // "emoji-textarea": true,
-              // "emoji-shortname": true
-            }}
-            theme="snow"
-            // className='testedit'
-            placeholder="Add a comment" value={ideaComment} onChange={onchangeText} /> */}
+          <div className="editor-container-replay">
+            <ReactQuill
+              className="editor"
+              modules={{
+                toolbar: {
+                  container: [
+                    ["bold", "italic", "underline", "strike"],
+                    // ["emoji"]
+                  ]
+                },
+                // "emoji-toolbar": true,
+                "emoji-textarea": true,
+                "emoji-shortname": true
+              }}
+              theme="snow"
+              placeholder="Add a comment"
+              value={ideaComment}
+              onChange={(e) => setIdeaComment(e)} />
 
-          <textarea
+          </div>
+          {/* <textarea
             className="form-control ideabox-message-textarea ideabox-message-textarea-f ideabox_contentt_size eep_scroll_y"
             name="comment" id="ideaCommentTextarea"
             maxLength={commentMaxLength} placeholder="Add a comment"
-            value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea>
+            value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea> */}
 
-          <div className="text-right" style={{ color: "#858796", paddingRight: "5px", fontSize: "10px" }}><span>{ideaComment.length}</span>/<span>{commentMaxLength}</span></div>
+          {/* <div className="text-right" style={{ color: "#858796", paddingRight: "5px", fontSize: "10px" }}><span>{ideaComment.length}</span>/<span>{commentMaxLength}</span></div> */}
 
           {cmtErrorAttachements?.errCount?.length > 0 && errorAtthState &&
             <div className="col-md-12" style={{ fontSize: "10px" }}>
