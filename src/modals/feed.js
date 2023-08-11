@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill, { Quill } from 'react-quill';
 import quillEmoji from "react-quill-emoji";
 import "react-quill-emoji/dist/quill-emoji.css";
@@ -10,7 +10,7 @@ import { base64ToFile } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 
 const CreateFeedbackModal = (props) => {
-    const { deptOptions, fetchAllFeedbacks, createModalShow } = props;
+    const { deptOptions, fetchAllFeedbacks, createModalShow, CloseFunction } = props;
     Quill.register(
         {
             "formats/emoji": quillEmoji.EmojiBlot,
@@ -24,16 +24,14 @@ const CreateFeedbackModal = (props) => {
     const [allcategory, setallcategory] = useState([]);
     const [assignUser, setAssignUser] = useState(null);
     const [usersOptions, setUsersOptions] = useState([]);
+    const [isOpen, setIsOpen] = useState(true);
     const [state, setState] = useState({
         deptValue: null, userValue: null, message: '',
         shareTo: '',
         modalTitle: '',
         category:
             { id: 1, name: 'Suggestion' },
-        logo: {
-            icon: "😍",
-            title: 'Happy'
-        },
+        logo: 4,
         show_as: { name: JSON.parse(sessionStorage.userData)?.username }
     });
 
@@ -48,7 +46,7 @@ const CreateFeedbackModal = (props) => {
     const [errorLengthAtthState, setErrorLengthAtthState] = useState(false);
     const [attachementFiles, setAttachementFiles] = useState([]);
 
-    var titleMaxLength = 150;
+    var titleMaxLength = 25;
     const fileTypeAndImgSrcArray = {
         "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
         "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -79,6 +77,13 @@ const CreateFeedbackModal = (props) => {
         "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "image/jpeg", "image/jpg", "image/png", "image/gif", "image/svg+xml",
     ];
+
+    const onSingleRemove = (i) => {
+        
+        const updatedFiles = attachementFiles.filter((_, index) => index !== i);
+        setAttachementFiles([...updatedFiles])
+    };
+
     const onChangeValues = (bool, eve) => {
         let key = bool ? 'deptValue' : 'userValue';
         let keyvalid = bool ? 'userValue' : 'deptValue';
@@ -165,7 +170,8 @@ const CreateFeedbackModal = (props) => {
             depts,
             description: state?.message || null,
             active: true,
-            logo: state?.logo.icon ?? null,
+            // logo: state?.logo.icon ?? null,
+            logo: JSON.stringify(state?.logo),
             attachments: [],
             category_id: state?.category?.id ?? null,
             show_as: state?.show_as?.name ?? null
@@ -241,27 +247,34 @@ const CreateFeedbackModal = (props) => {
     React.useEffect(() => {
         fetchUserData();
     }, []);
-
+    React.useEffect(() => {
+        seterror('');
+    }, [createModalShow]);
     const onChange = (k, v) => {
         setState({ ...state, [k]: v });
     };
 
     const emojiOptions = [
         {
-            icon: "😣",
+            icon: "/images/emoji/1.svg",
+            iconActive: "/images/emoji/1(1).svg",
             title: 'Feel Bad'
         }, {
-            icon: "😑",
+            icon: "/images/emoji/3.svg",
+            iconActive: "/images/emoji/3(1).svg",
             title: 'Little Okay'
-        }, {
-            icon: "🙂",
+        },{
+            icon: "/images/emoji/2.svg",
+            iconActive: "/images/emoji/2(1).svg",
             title: 'Okay'
         }, {
-            icon: "😊",
+            icon: "/images/emoji/4(1).svg",
+            iconActive: "/images/emoji/4.svg",
             title: 'Little Happy'
         }, {
-            icon: "😍",
-            title: 'Happy'
+            icon: "/images/emoji/happy1.svg",
+            iconActive: "/images/emoji/happy.svg",
+            title: 'Happy',
         }
     ];
 
@@ -291,16 +304,27 @@ const CreateFeedbackModal = (props) => {
             modalTitle: '',
             category:
                 { id: 1, name: 'Suggestion' },
-            logo: {
-                icon: "😍",
-                title: 'Happy'
-            },
+            logo: 4,
             show_as: { name: JSON.parse(sessionStorage.userData)?.username }
         });
         setAssignUser(null)
         setAttachementFiles([])
     }
+    const myRef = useRef();
 
+    useEffect(() => {
+        // Attach event listener on mount
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Cleanup the event listener on unmount
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleClickOutside = (e) => {
+        if (!myRef?.current?.contains(e.target)) { setIsOpen(false) }
+    }
     return (
         <div className="eepModalDiv">
             <div className="modal fade tc_design show" id="CreateFeedbackModal" aria-modal="true" style={{ display: "block" }}>
@@ -324,18 +348,19 @@ const CreateFeedbackModal = (props) => {
                                     <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">How do you feel today?</label>
                                 </div>
                                 <div className="col-md-12" style={{ display: "flex" }}>
-                                    {emojiOptions?.map(v => {
+                                    {emojiOptions?.map((v, i) => {
                                         return <div
                                             style={{
-                                                opacity: state?.logo?.title === v?.title ? '1' : '0.4',
+                                                // opacity: state?.logo?.title === v?.title ? '1' : '0.4',
                                                 fontSize: '40px',
                                                 cursor: "pointer",
-                                                textAlign: "center"
+                                                textAlign: "center",
+                                                width: "60px"
                                             }}
-                                            onClick={() => onChange('logo', v)}
+                                            onClick={() => onChange('logo', i)}
                                         >
-                                            {v?.icon}<br />
-                                            <div style={{ fontSize: 12 }}>{state?.logo?.title === v?.title && v?.title}</div>
+                                            {state?.logo === i ? <img src={v?.iconActive} /> : <img src={v?.icon} />} <br />
+                                            {/* <div style={{ fontSize: 12 }}>{state?.logo?.title === v?.title && v?.title}</div> */}
                                         </div>
                                     })}
                                 </div>
@@ -406,8 +431,14 @@ const CreateFeedbackModal = (props) => {
                                     <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
                                         <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">{assignUser?.label}</label>
                                     </div>
-                                    <div className="col-md-12 mb-3">
+                                    <div className="col-md-12 mb-3"
+                                        ref={myRef}
+                                        // onMouseLeave={() => setIsOpen(false)}
+                                        onFocus={() => setIsOpen(true)
+                                        }
+                                    >
                                         <Select
+                                            menuIsOpen={isOpen}
                                             options={[...(assignUser?.value === 'users' ? usersOptions : initDeptOptions)]}
                                             placeholder="Select..."
                                             classNamePrefix="eep_select_common select"
@@ -418,15 +449,43 @@ const CreateFeedbackModal = (props) => {
                                             value={assignUser?.value !== 'users' ? state.deptValue : state.userValue}
                                         />
                                     </div></>}
-                                <div className="col-md-12 mb-3">
+                                <div className="col-md-12 mb-2">
                                     <div className="d-flex justify-content-between">
                                         <label className="font-helvetica-m c-404040 eep_popupLabelMargin eep_required_label">Title</label>
-                                        <label><span>{state?.modalTitle.length}</span>/<span>{titleMaxLength}</span></label>
                                     </div>
-
                                     <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="title" id="title"
                                         rows="2" placeholder="Enter the title..." value={state.modalTitle} maxLength={titleMaxLength}
                                         onChange={(event) => onChange('modalTitle', event.target.value)} />
+
+                                    <div className="d-flex justify-content-end">
+                                        <label><span>{state?.modalTitle.length}</span>/<span>{titleMaxLength}</span></label>
+                                    </div>
+                                </div>
+
+                                <div className={`col-md-12`}>
+                                    <div className="d-flex justify-content-between">
+                                        <label className="font-helvetica-m c-404040 eep_popupLabelMargin eep_required_label">Message</label>
+                                    </div>
+                                    <div className="editor-container">
+                                        <ReactQuill
+                                            className="editor"
+                                            modules={{
+                                                toolbar: {
+                                                    container: [
+                                                        ["bold", "italic", "underline", "strike"],
+                                                        [{ align: [] }],
+                                                        [{ list: "ordered" }, { list: "bullet" }],
+                                                        ["link"],
+                                                        ["emoji"]]
+                                                },
+                                                "emoji-toolbar": true,
+                                                // "emoji-textarea": true,
+                                                // "emoji-shortname": true
+                                            }}
+                                            theme="snow"
+                                            placeholder="Add message" value={state.message} onChange={handleMessage} />
+
+                                    </div>    {/* <textarea rows="4" cols="50" placeholder="Enter the description..." name="description" id="description" className="communication-modal-textarea eep_scroll_y" maxLength={descMaxLength} value={modalDescription} onChange={(event) => setModalDescription(event.target.value)}></textarea> */}
                                 </div>
 
                                 {modalErrorAttachements?.errCount.length > 0 && errorAtthState &&
@@ -437,6 +496,7 @@ const CreateFeedbackModal = (props) => {
                                         </div>
                                     </div>
                                 }
+
                                 {modalErrorAttachements?.errLengthCount.length > 0 && errorLengthAtthState &&
                                     <div className="col-md-12">
                                         <div className="alert alert-danger my-2" role="alert">
@@ -475,11 +535,15 @@ const CreateFeedbackModal = (props) => {
                                                 <img src={process.env.PUBLIC_URL + "/images/icons/special/attachment-add.svg"} className="c1 attachments_adds attachments_add" title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} />
                                                 {attachementFiles?.map((item, index) => {
                                                     return (
-                                                        <div className="attachments_list" key={"attachments_list_" + index}>
-                                                            <div className="attachments_list_a">
-                                                                <a href={item?.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
-                                                                    <img src={item?.atthmentDataURI} className="image-circle c1 ideabox_popup_attachement_dflex_image_f" alt="icon" />
-                                                                </a>
+                                                        <div className="attachments_list" key={"attachments_list_" + index}
+                                                            onClick={() => onSingleRemove(index)}>
+                                                            <div className="attachments_list_a attachments_list_feed">
+                                                                <div className="add-feed-upload_single-dlt">x</div>
+                                                                {item?.atthmentDataURI?.includes('data:application/pdf') ?
+                                                                    <div className="to_show_pdf"><img src={'/images/pdfIcon.png'} alt="icon" /></div>
+                                                                    : <img src={item?.atthmentDataURI}
+                                                                        className="image-circle c1 ideabox_popup_attachement_dflex_image_f"
+                                                                        alt="icon" />}
                                                             </div>
                                                         </div>
                                                     )
@@ -491,37 +555,12 @@ const CreateFeedbackModal = (props) => {
                                     <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
                                     <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
                                 </div>
-                                <div className={`col-md-12`}>
-                                    <div className="d-flex justify-content-between">
-                                        <label className="font-helvetica-m c-404040 eep_popupLabelMargin eep_required_label">Message</label>
-                                    </div>
-                                    <ReactQuill
-                                        modules={{
-                                            toolbar: {
-                                                container: [
-                                                    ["bold", "italic", "underline", "strike", "blockquote"],
-                                                    [{ align: [] }],
-                                                    [{ list: "ordered" }, { list: "bullet" }],
-                                                    ["link",
-                                                        //  "image"
-                                                        //  "video"
-                                                    ],
-                                                    ["emoji"],
-                                                    // ["clean"],
-                                                    // ["code-block"]
-                                                ]
-                                            },
-                                            "emoji-toolbar": true,
-                                            // "emoji-textarea": true,
-                                            // "emoji-shortname": true
-                                        }}
-                                        theme="snow"
-                                        placeholder="Add message" value={state.message} onChange={handleMessage} />
-                                    {/* <textarea rows="4" cols="50" placeholder="Enter the description..." name="description" id="description" className="communication-modal-textarea eep_scroll_y" maxLength={descMaxLength} value={modalDescription} onChange={(event) => setModalDescription(event.target.value)}></textarea> */}
-                                </div>
+
                             </div>
                             <div className="communication_add_action_div d-flex justify-content-center">
-                                <button type="button" className="eep-btn eep-btn-cancel eep-btn-nofocus eep-btn-xsml mr-2" data-dismiss="modal">Cancel</button>
+                                <button type="button" className="eep-btn eep-btn-cancel eep-btn-nofocus eep-btn-xsml mr-2" data-dismiss="modal"
+
+                                    onClick={() => CloseFunction()}>Cancel</button>
                                 <button type="button" className="eep-btn eep-btn-success eep-btn-xsml ml-3" disabled={disbale} onClick={() => CreateFunction()}>Post</button>
                             </div>
                         </div>

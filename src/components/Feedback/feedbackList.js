@@ -42,18 +42,30 @@ const FeedbackList = (props) => {
     dateReceived(isSortState);
   }
 
+  const emojiLog = {
+    '0': "/images/emoji/1(1).svg",
+    '1': "/images/emoji/3(1).svg",
+    '2': "/images/emoji/2(1).svg",
+    '3': "/images/emoji/4.svg",
+    '4': "/images/emoji/happy.svg"
+  }
+
   return (
     <React.Fragment>
       <SortList
         readAllCommunicationsFromList={readAllCommunicationsFromList}
         communicationPostLists={feedbackListsData}
-        dateReceivedOrder={dateReceivedOrder} />
+        dateReceivedOrder={dateReceivedOrder}
+        isFeed={true}
+      />
       <div className="ideashorting_div">
         {ideaLists && ideaLists?.map((item, index) => {
           return (
             <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child ${item.feedBackIsRead ? "ideaMarkedAsRead" : ""} ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
               <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
-                <div className="rounded-circle" style={{ fontSize: 33 }}>{item?.logo}</div>
+                <div className="rounded-circle" style={{ fontSize: 33 }}>
+                  <img src={emojiLog[item?.logo]} />
+                </div>
               </div>
               <div className="ideabox-font-style idea_box_heading ">
                 <div className="ideabox_username_fav_div">
@@ -64,22 +76,22 @@ const FeedbackList = (props) => {
                   <div className="funtional_parts-f">
                     <div className="funtional_parts" id="funtional_parts">
                       <div className="ideabox-star-position ">
-                        {!item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarDefault.svg`} className="ideabox-star-img-size c1" alt="Un Favorite" onClick={() => markImportantIdea(item)} />}
+                        {/* {!item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarDefault.svg`} className="ideabox-star-img-size c1" alt="Un Favorite" onClick={() => markImportantIdea(item)} />} */}
                         {item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarFavourite.svg`} className="ideabox-star-img-size c1" alt="Favorite" onClick={() => markUnimportantIdea(item)} />}
                       </div>
-                      {!item.feedBackIsActive &&
-                        <div className="three_dot px-1">
-                          <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
-                            <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>
-                            <div className="dropdown-menu eep-dropdown-menu eep_custom_dropdown_bg" x-placement="bottom-start">
-                              {!item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => readIdea(item)}>Mark as Read</label>}
-                              {item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => unReadIdea(item)}>Mark as Unread</label>}
-                              {!item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markImportantIdea(item)}>Mark as Important</label>}
-                              {item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markUnimportantIdea(item)}>Mark as Unimportant</label>}
-                            </div>
+                      {/* {!item.feedBackIsActive && */}
+                      <div className="three_dot px-1">
+                        <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
+                          <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>
+                          <div className="dropdown-menu eep-dropdown-menu eep_custom_dropdown_bg" x-placement="bottom-start">
+                            {!item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => readIdea(item)}>Mark as Read</label>}
+                            {item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => unReadIdea(item)}>Mark as Unread</label>}
+                            {!item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markImportantIdea(item)}>Mark as Important</label>}
+                            {item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markUnimportantIdea(item)}>Mark as Unimportant</label>}
                           </div>
                         </div>
-                      }
+                      </div>
+                      {/* } */}
                     </div>
                     <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{eepFormatDateTime(item.createdAt, true)}</div>
 

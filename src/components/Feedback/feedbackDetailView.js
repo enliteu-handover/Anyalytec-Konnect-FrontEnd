@@ -108,6 +108,30 @@ const FeedbackDetailView = (props) => {
       });
   }
 
+  const likeAnFeed = (likeInfo) => {
+    
+    let obj = {
+      url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE_CHILD,
+      payload: {
+        id: likeInfo?.iData?.id, emojiData: likeInfo?.emojiData, dlt_id: likeInfo?.iData?.
+          feedbackLikes?.[0]?.id
+      },
+      method: "post"
+    };
+
+    httpHandler(obj)
+      .then(() => {
+        fetchIdeaDetail();
+      })
+      .catch((error) => {
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: error?.response?.data?.message,
+        });
+      });
+  }
+
   const likeAnIdea = (likeInfo) => {
 
     let obj = {
@@ -202,7 +226,7 @@ const FeedbackDetailView = (props) => {
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
         <React.Fragment>
           <div className="ideabox_mesgbutton_wrapper">
-            <FeedbackDetailViewInner likeAnIdeaChild={likeAnIdeaChild} handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnIdea={likeAnIdea} isDetailView={false} />
+            <FeedbackDetailViewInner likeAnIdeaChild={likeAnIdeaChild} handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnFeed={likeAnFeed} likeAnIdea={likeAnIdea} isDetailView={false} />
             {state?.isComment && <FeedbackComments childReplay={state?.childData} commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
           </div>
         </React.Fragment>

@@ -24,7 +24,9 @@ const Feedback = () => {
   const [createModalShow, setCreateModalShow] = useState(false);
   const [ideaData, setIdeaData] = useState(null);
   const [showModal, setShowModal] = useState({ type: null, message: null });
-
+  const CloseFunction = () => {
+    setCreateModalShow(!createModalShow)
+  }
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -328,6 +330,7 @@ const Feedback = () => {
 
             {createModalShow && <CreateFeedbackModal
               deptOptions={deptOptions}
+              CloseFunction={CloseFunction}
               fetchAllFeedbacks={fetchAllFeedbacks}
               createModalShow={createModalShow} />}
 

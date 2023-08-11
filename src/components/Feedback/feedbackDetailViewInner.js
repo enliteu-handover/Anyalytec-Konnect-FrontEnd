@@ -12,7 +12,7 @@ import moment from 'moment/moment';
 
 const FeedbackDetailViewInner = (props) => {
 
-  const { ideaDetail, usersPic, handleCommand, likeAnIdea, likeAnIdeaChild, isDetailView } = props;
+  const { ideaDetail, usersPic, handleCommand, likeAnIdea, likeAnIdeaChild, likeAnFeed } = props;
 
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const [isDetailListMode, setIsDetailListMode] = useState(false);
@@ -68,6 +68,20 @@ const FeedbackDetailViewInner = (props) => {
     likeAnIdeaChild({ iData: ideaDetail, emojiData })
   }
 
+  const likeAnFeedHandler = (arg) => {
+    likeAnFeed(arg);
+  };
+
+  const isIdeaLiked = (uID, ideaLikes) => {
+    
+    let iLikedIndex = ideaLikes?.filter(x => x?.users?.user_id === uID);
+    if (iLikedIndex?.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const renderChildComponent = (data, a) => {
     var padding = a + 6;
     return data && data?.children?.map((cmtData, index) => {
@@ -75,12 +89,6 @@ const FeedbackDetailViewInner = (props) => {
         <div className="ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
           style={{ marginLeft: padding }}
         >
-          {/* <div style={{
-            width: padding,
-            height: '1px',
-            background: 'grey',
-            marginTop: '12px'
-          }}></div> */}
           <div>
             <div className="box-content mb-1">
               <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size" />
@@ -106,27 +114,27 @@ const FeedbackDetailViewInner = (props) => {
             }
             <div className="item_blog_like_a_feedback text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
 
-              <div style={{ height: "30px", display: "flex" }}>{cmtData?.forumCommentLikes && Object.keys(cmtData?.forumCommentLikes)?.map((v, i) => {
+              {/* <div style={{ height: "30px", display: "flex" }}>{cmtData?.feedbackCommentLikes && Object.keys(cmtData?.feedbackCommentLikes)?.map((v, i) => {
                 return <>
                   <ReactTooltip
                     effect='solid'
                     id={`tooltip${i}${v}`}
-                  >{cmtData?.forumCommentLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
+                  >{cmtData?.feedbackCommentLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
                   <div
                     className="emoji"
                     data-tip data-for={`tooltip${i}${v}`}
                     onClick={(e) => {
                       onClickChildEmoji(
-                        cmtData?.forumCommentLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, cmtData)
+                        cmtData?.feedbackCommentLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, cmtData)
                     }}
                   > <Emoji
                       unified={v}
                       size={16}
-                    />{cmtData?.forumCommentLikes?.[v]?.map(v => v.username)?.length}</div>
+                    />{cmtData?.feedbackCommentLikes?.[v]?.map(v => v.username)?.length}</div>
                 </>
               })}
-              </div>
-              <span className={"c1"} onClick={() => setState({ ...state, childopenicon: cmtData?.id === state?.childopenicon ? null : cmtData?.id })}>
+              </div> */}
+              {/* <span className={"c1"} onClick={() => setState({ ...state, childopenicon: cmtData?.id === state?.childopenicon ? null : cmtData?.id })}>
 
                 {state?.childopenicon === cmtData?.id && <EmojiPicker
                   onEmojiClick={(e) => onClickChildEmoji(e, cmtData)}
@@ -137,11 +145,31 @@ const FeedbackDetailViewInner = (props) => {
                 //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
                 />
                 &nbsp;React
-              </span>&nbsp;
-              ●&nbsp;<span
-                className="text-left mb-0 eep_dt replay">{cmtData?.children?.length + (cmtData?.children?.length === 1 ?
-                  ' Replay' : ' Replies')}</span>
-              &nbsp;●&nbsp;<span
+              </span>&nbsp; */}
+
+              <ReactTooltip
+                effect='solid'
+                id={`tooltip_likes${cmtData?.message}`}
+              >{cmtData?.feedbackCommentLikes?.map(c => c?.users?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
+              </ReactTooltip>
+
+              {!isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
+                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ? cmtData?.feedbackCommentLikes?.length
+                  : ''}  &nbsp;<img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" className="post_heart"
+                    onClick={() => likeAnFeedHandler({ isLike: true, iData: cmtData })} /></div>
+              }
+
+              {isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
+                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
+                  cmtData?.feedbackCommentLikes?.length : ""}&nbsp; <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
+                    onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
+              }&nbsp;
+
+              <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
+                className="text-left mb-0 eep_dt replay">{cmtData?.children?.length +
+                  (cmtData?.children?.length <= 1 ?
+                    ' Response' : ' Responses')}</span>
+              &nbsp;<span style={{ color: "lightgray" }}>●</span>&nbsp;<span
                 onClick={() => handleCommand(cmtData)}
                 className="text-left mb-0 eep_dt replay">Replay</span>
             </div>
@@ -155,15 +183,24 @@ const FeedbackDetailViewInner = (props) => {
     })
   }
 
+  const emojiLog = {
+    '0': "/images/emoji/1(1).svg",
+    '1': "/images/emoji/3(1).svg",
+    '2': "/images/emoji/2(1).svg",
+    '3': "/images/emoji/4.svg",
+    '4': "/images/emoji/happy.svg"
+  }
+
   return (
     <React.Fragment>
       {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
-      {ideaDetail && Object.keys(ideaDetail).length > 0 &&
+      {ideaDetail && Object.keys(ideaDetail)?.length > 0 &&
         <React.Fragment>
           <div className="sticky-top right_profile_div_r right_profile_div_r-feed">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <div className="rounded-circle" style={{ fontSize: 33 }}>{ideaDetail?.logo}</div>
+                <div className="rounded-circle" style={{ fontSize: 33 }}>
+                  <img src={emojiLog[ideaDetail?.logo]} /></div>
                 {/* <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="rounded-circle" /> */}
                 <div className="wrapper-one-content">
                   <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail?.title}</div>
@@ -173,16 +210,22 @@ const FeedbackDetailViewInner = (props) => {
               <div className="ideabox-profile-expand-inner-container header-content-wrapper-two">
                 <div className="header-user-post-date ideabox_contentt_size ideabox-date">
                   {moment(ideaDetail.createdAt).format('DD-MM-YYYY hh:mm a')}
-                  {` (${eepFormatDateTime(ideaDetail.createdAt, true)})`}
+                  {/* {` (${eepFormatDateTime(ideaDetail.createdAt, true)})`} */}
                 </div>
               </div>
             </div>
 
           </div>
 
-          <p className="ideabox-font-style ideacontent_heading_feedback ideabox_contentt_size font-helvetica-m">{ideaDetail?.show_as}</p>
+          <div className="ideabox-font-style ideacontent_heading_feedback ideabox_contentt_size font-helvetica-m" style={{ margin: 0, padding: "10px 10px 0px 50px" }}>
+            {ideaDetail?.show_as}</div>
           <div style={{ display: "flex" }}>
-            <img src={getUserPicture(ideaDetail?.createdBy?.id)} alt="profile" className="feedback-profile-img-size rounded-circle" />
+            <img src={
+              ideaDetail?.show_as === 'Anonymous' ? "/images/icons8-account-50.svg" :
+                getUserPicture(ideaDetail?.createdBy?.id)
+            } alt="profile" className="feedback-profile-img-size rounded-circle"
+              style={{ width: ideaDetail?.show_as === 'Anonymous' && "14px" }}
+            />
             <div className="ideabox_ideacontent msg_content">
               <p className="ideacontent_content ideabox_contentt_size">
                 <div dangerouslySetInnerHTML={{ __html: ideaDetail?.description }} />
