@@ -91,15 +91,15 @@ const ErrorHandling = () => {
 
 const LoaderHandler = (arg) => {
   const element = document.getElementById('loader-container');
-  element.classList.remove('d-none', 'd-block');
+  if (element?.classList) {
+    element.classList.remove('d-none', 'd-block');
 
-  if (arg === 'show') {
-    element.classList.add('d-block');
-  } else {
-    element.classList.add('d-none');
+    if (arg === 'show') {
+      element.classList.add('d-block');
+    } else {
+      element.classList.add('d-none');
+    }
   }
-
-
 }
 
 export { httpHandler, ErrorHandling };

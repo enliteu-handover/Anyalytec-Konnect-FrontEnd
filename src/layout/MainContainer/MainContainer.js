@@ -61,6 +61,8 @@ import Search from "../../components/Search/Search";
 import BranchMaster from "../../components/Branch";
 import BulkUploadOrgChart from "../../bulkUpload";
 import Feedback from "../../components/Feedback";
+import MyLibrary from "../../components/Survey/MyLibrary";
+import SurveyLibrarayAnswer from "../../components/Survey/LibrarySurveyAdd";
 
 const MainContainer = (props) => {
   const getTabs = useSelector((state) => state.tabs.config);
@@ -203,8 +205,14 @@ const MainContainer = (props) => {
                             <Route path="/app/surveyanswer">
                               <SurveyAnswer />
                             </Route>
+                            <Route path="/app/surveylibraray">
+                              <SurveyLibrarayAnswer />
+                            </Route>
                             <Route path="/app/mysurvey">
                               <MySurvey />
+                            </Route>
+                            <Route path="/app/surveylibrary">
+                              <MyLibrary />
                             </Route>
                             <Route path="/app/surveyquestions">
                               <SurveyQuestions />

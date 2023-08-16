@@ -7400,3 +7400,11 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
     border: none !important;
   }
 }
+
+.my_survey_assign_div{
+min-height: 200px;
+display: flex;
+.outter{
+  margin: auto;
+}
+}

@@ -206,6 +206,10 @@ const URL_CONFIG = {
   FEEDBACK_LIKE_DISLIKE_CHILD: "/feedback/feedbacklikechilds",
   MY_FEEDBACK: "/feedback/myfeedback",
   FEEDBACK_DELETE: "/feedback/myfeedback",
+  ALL_SURVEY: "/library/survey",
+  LIBRARY_ADD_SURVEY: "/library/survey/add",
+  GET_LIBRARY_SURVEY: "/surveys/get-library",
+  SHOW_LIBRARY_SURVEY: "/surveys/surveylibraryshow",
 };
 
 export { REST_CONFIG, URL_CONFIG };

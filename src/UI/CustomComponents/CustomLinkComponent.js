@@ -3,32 +3,32 @@ import { Link } from "react-router-dom";
 
 const CustomLinkComponent = (props) => {
 
-	const {cSettings, data} = props;
+  const { cSettings, data, isLibrary } = props;
   //console.log("CustomLinkComponent props", props);
   const [stateObj, setStateObj] = useState({});
 
   useEffect(() => {
     let optionsVal = {};
-    if(cSettings.isRedirect) {
-      if(cSettings.objReference && Object.keys(cSettings.objReference).length > 0) {
-        Object.keys(cSettings.objReference).forEach(function(key) {
-          if(cSettings.objReference[key] === "data") {
+    if (cSettings.isRedirect) {
+      if (cSettings.objReference && Object.keys(cSettings.objReference).length > 0) {
+        Object.keys(cSettings.objReference).forEach(function (key) {
+          if (cSettings.objReference[key] === "data") {
             optionsVal[key] = data;
           } else {
             optionsVal[key] = cSettings.objReference[key];
           }
         });
-        setStateObj(optionsVal);
+        setStateObj(isLibrary ? data : optionsVal);
       }
     }
   }, [cSettings]);
-  
+
   //console.log("setStateObj", stateObj);
 
-	return (
-		<React.Fragment>
+  return (
+    <React.Fragment>
       {cSettings && cSettings.isRedirect &&
-			  <Link 
+        <Link
           to={{
             pathname: cSettings.link,
             state: stateObj,
@@ -45,9 +45,9 @@ const CustomLinkComponent = (props) => {
         </Link>
       }
       {cSettings && !cSettings.isRedirect &&
-			  <Link to="#" className="table-btn">{cSettings.label}</Link>
+        <Link to="#" className="table-btn">{cSettings.label}</Link>
       }
-		</React.Fragment>
-	);
+    </React.Fragment>
+  );
 };
 export default CustomLinkComponent;

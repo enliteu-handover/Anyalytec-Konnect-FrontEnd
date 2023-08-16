@@ -34,13 +34,13 @@ const MySurvey = () => {
 			link: "app/dashboard",
 		},
 		{
-      label: "Communication",
-      link: "app/communication",
-    },
-    {
-      label: "Survey",
-      link: "app/mysurvey",
-    }
+			label: "Communication",
+			link: "app/communication",
+		},
+		{
+			label: "Survey",
+			link: "app/mysurvey",
+		}
 	]
 
 	useEffect(() => {
@@ -60,18 +60,18 @@ const MySurvey = () => {
 
 	const fetchMySurveyDetail = (paramsInfo) => {
 		let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.MY_SURVEY,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.MY_SURVEY,
-        method: "get"
-      };
-    }
+		if (Object.getOwnPropertyNames(paramsInfo)) {
+			obj = {
+				url: URL_CONFIG.MY_SURVEY,
+				method: "get",
+				params: paramsInfo
+			};
+		} else {
+			obj = {
+				url: URL_CONFIG.MY_SURVEY,
+				method: "get"
+			};
+		}
 		httpHandler(obj).then((response) => {
 			//console.log("fetchMySurveyDetail response :", response.data);
 			setMySurveyList(response.data);
@@ -89,25 +89,25 @@ const MySurvey = () => {
 	}, []);
 
 	const getFilterParams = (paramsData) => {
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
-    } else {
-      setFilterParams({});
-    }
-    fetchMySurveyDetail(paramsData);
-  }
+		if (Object.getOwnPropertyNames(filterParams)) {
+			setFilterParams({ ...paramsData });
+		} else {
+			setFilterParams({});
+		}
+		fetchMySurveyDetail(paramsData);
+	}
 
 	const tableSettings = {
 		createdAt: {
 			classnames: "",
 			objReference: "createdAt"
 		},
-    view: {
+		view: {
 			classnames: "",
-      label: "View",
-      isRedirect: true,
-      link: "/app/surveyanswer",
-      objReference: {"surveyData": "data"},
+			label: "View",
+			isRedirect: true,
+			link: "/app/surveyanswer",
+			objReference: { "surveyData": "data" },
 		}
 	};
 
@@ -151,7 +151,10 @@ const MySurvey = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{mySurveyList && (
-									<Table component="MySurvey" headers={surveyTableHeaders} data={mySurveyList}
+									<Table
+										component="MySurvey"
+										headers={surveyTableHeaders}
+										data={mySurveyList}
 										tableProps={{
 											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
 											id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
