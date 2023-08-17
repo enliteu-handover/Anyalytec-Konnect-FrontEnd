@@ -360,7 +360,7 @@ const CreateFeedbackModal = (props) => {
                             <div className="row justify-content-md-center mb-1">
 
                                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
-                                    <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">How do you feel today?</label>
+                                    <label className="font-helvetica-m  mb-0 c-404040">How do you feel today?</label>
                                 </div>
                                 <div className="col-md-12" style={{ display: "flex" }}>
                                     {emojiOptions?.map((v, i) => {
@@ -383,7 +383,7 @@ const CreateFeedbackModal = (props) => {
                                 <br />
 
                                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
-                                    <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">Select your category</label>
+                                    <label className="font-helvetica-m  mb-0 c-404040">Select your category</label>
                                 </div>
 
                                 <div className="col-md-12 mb-3">
@@ -404,7 +404,7 @@ const CreateFeedbackModal = (props) => {
                                 </div>
 
                                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
-                                    <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">Show Me As</label>
+                                    <label className="font-helvetica-m  mb-0 c-404040">Show Me As</label>
                                 </div>
 
                                 <div className="col-md-12 mb-3">
@@ -487,7 +487,7 @@ const CreateFeedbackModal = (props) => {
                                             modules={{
                                                 toolbar: {
                                                     container: [
-                                                        ["bold", "italic", "underline", "strike"],
+                                                        ["bold", "italic", "underline"],
                                                         [{ align: [] }],
                                                         [{ list: "ordered" }, { list: "bullet" }],
                                                         ["link"],
@@ -567,8 +567,8 @@ const CreateFeedbackModal = (props) => {
                                             </React.Fragment>
                                         }
                                     </div>
-                                    <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
-                                    <input type="file" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+                                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+                                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
                                 </div>
 
                             </div>

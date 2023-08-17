@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SortList from "../../UI/SortList";
-import { eepFormatDateTime } from "../../shared/SharedService";
+import { eepFormatDateTime, timeAgo } from "../../shared/SharedService";
 
 const FeedbackList = (props) => {
 
@@ -93,7 +93,7 @@ const FeedbackList = (props) => {
                       </div>
                       {/* } */}
                     </div>
-                    <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{eepFormatDateTime(item.createdAt, true)}</div>
+                    <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{timeAgo(item?.createdAt, true)}</div>
 
                   </div>
                 </div>

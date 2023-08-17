@@ -109,7 +109,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const likeAnFeed = (likeInfo) => {
-    
+
     let obj = {
       url: URL_CONFIG.FEEDBACK_LIKE_DISLIKE_CHILD,
       payload: {
@@ -194,6 +194,11 @@ const FeedbackDetailView = (props) => {
     })
   }
 
+
+  const IsClear = () => {
+    setState({ ...state, isComment: false, isCommentData: null, childData: null });
+  }
+
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
@@ -227,7 +232,9 @@ const FeedbackDetailView = (props) => {
         <React.Fragment>
           <div className="ideabox_mesgbutton_wrapper">
             <FeedbackDetailViewInner likeAnIdeaChild={likeAnIdeaChild} handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnFeed={likeAnFeed} likeAnIdea={likeAnIdea} isDetailView={false} />
-            {state?.isComment && <FeedbackComments childReplay={state?.childData} commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
+            {state?.isComment && <FeedbackComments
+              IsClear={IsClear}
+              childReplay={state?.childData} commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
           </div>
         </React.Fragment>
       }

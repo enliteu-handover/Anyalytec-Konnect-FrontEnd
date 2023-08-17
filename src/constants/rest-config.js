@@ -49,6 +49,7 @@ const URL_CONFIG = {
   GETALLUSERS: "/users",
   // GETALLUSERS: "/users/activeuser",
   GETUSER: "/users/user",
+  GETUSER_PROFILE: "/users/user-profile",
   GET_USERS_BY_DEPARTMENT: "/users/getusersbydepartment",
   IMPORT_USERS: "/excels/import",
   UPDATEUSERSIGNATURE: "/users/signatureuploadurl",

@@ -4,7 +4,7 @@ const FeedbackDetailViewMore = ({ data, onClearMore }) => {
 
     var settings = {
         arrows: true,
-        infinite: false,
+        infinite: true,
         speed: 500,
         slidesToShow: 1,
         dots: false,

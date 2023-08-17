@@ -89,17 +89,18 @@ const LoginForm = () => {
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          await idmRolesToUpdateInDb();
-          await fetchPermission()?.then(() => {
-            if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
-              const url = new URL(sessionStorage?.redirect);
-              const router = url.pathname;
-              console.log(router);
-              history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
-              sessionStorage.removeItem('redirect')
-            } else {
-              history.push("/app/dashboard");
-            }
+          await idmRolesToUpdateInDb()?.then(async () => {
+            await fetchPermission()?.then(() => {
+              if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
+                const url = new URL(sessionStorage?.redirect);
+                const router = url.pathname;
+                console.log(router);
+                history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
+                sessionStorage.removeItem('redirect')
+              } else {
+                history.push("/app/dashboard");
+              }
+            })
           })
         })
         .catch((error) => {

@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 
 const FeedbackComments = (props) => {
-  const { commentSubmitHandler, childReplay } = props;
+  const { commentSubmitHandler, childReplay, IsClear } = props;
   Quill.register(
     {
       "formats/emoji": quillEmoji.EmojiBlot,
@@ -138,20 +138,31 @@ const FeedbackComments = (props) => {
     <div className="ideabox_mesgbutton_container">
       <div className="reply-textarea-inner reply-textarea-inner-f">
         <div className="reply-textarea-div position-relative">
-          {childReplay?.message && <span style={{
-            borderBottom: '1px solid #9E9E9E',
-            fontStyle: 'italic'
-          }}>Replay To: 
-            <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: childReplay?.message }} /></span>}
+          {childReplay?.message &&
+            <span style={{
+              borderBottom: '1px solid #9E9E9E',
+              fontStyle: 'italic'
+            }}>Reply To:
+              <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: childReplay?.message }} /></span>}
 
-
+          <div style={{
+            float: 'right',
+            top: '-25px',
+            position: 'absolute',
+            right: 0,
+            background: '#fff',
+            padding: '4px',
+            borderRadius: '4px',
+            cursor: "pointer",
+            border: "1px solid #878da2"
+          }} onClick={() => IsClear()}>X</div>
           <div className="editor-container-replay">
             <ReactQuill
               className="editor"
               modules={{
                 toolbar: {
                   container: [
-                    ["bold", "italic", "underline", "strike"],
+                    ["bold", "italic", "underline"],
                     // ["emoji"]
                   ]
                 },
@@ -230,8 +241,8 @@ const FeedbackComments = (props) => {
                   onClick={() => addIconClickHandler("new")}
                 ></div>
               }
-              <input type="file" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
-              <input type="file" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+              <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+              <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
             </div>
           </div>
         </div>

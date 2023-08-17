@@ -7344,7 +7344,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 
 .editor-container {
   position: relative;
-  height: 140px;
+  height: 180px;
   margin-bottom: 10px;
   /* Adjust the height as needed */
 
@@ -7386,7 +7386,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   }
 
   .ql-toolbar {
-    z-index: 100;
+    z-index: 10000;
     border-top: none !important;
     position: absolute;
     bottom: 0;

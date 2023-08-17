@@ -90,6 +90,7 @@ const FeedbackDetailViewInner = (props) => {
           style={{ marginLeft: padding }}
         >
           <div>
+            <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
             <div className="box-content mb-1">
               <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size" />
               <div className="reply_user_name">
@@ -97,7 +98,6 @@ const FeedbackDetailViewInner = (props) => {
                   &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt, true)}</span></label>
               </div>
             </div>
-            <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
             {/* {cmtData?.message} */}
             {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
               <div className="eep_command_attachements">
@@ -106,7 +106,7 @@ const FeedbackDetailViewInner = (props) => {
                     <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
                       <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}>
                         <img src={atthData.docByte?.image ? atthData.docByte?.image
-                          : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm" alt="icon" title={atthData?.ideaAttachmentsFileName} />
+                          : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm replayIconSize" alt="icon" title={atthData?.ideaAttachmentsFileName} />
                       </a>
                     </div>
                   )
@@ -167,12 +167,12 @@ const FeedbackDetailViewInner = (props) => {
               }&nbsp;
 
               <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
-                className="text-left mb-0 eep_dt replay">{cmtData?.children?.length +
+                className="text-left mb-0 eep_dt reply">{cmtData?.children?.length +
                   (cmtData?.children?.length <= 1 ?
                     ' Response' : ' Responses')}</span>
               &nbsp;<span style={{ color: "lightgray" }}>●</span>&nbsp;<span
                 onClick={() => handleCommand(cmtData)}
-                className="text-left mb-0 eep_dt replay">Replay</span>
+                className="text-left mb-0 eep_dt replay">Reply</span>
             </div>
 
             {/* <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span> */}
@@ -252,19 +252,27 @@ const FeedbackDetailViewInner = (props) => {
                       if (!atthData.docByte?.image?.includes('.pdf')) {
                         return (
                           <div className="attachment_parent" key={"attachmentLists_" + index}
-                            onClick={() => setState({
-                              ...state, more: carouselData
-                            })}
+                          // onClick={() => setState({
+                          //   ...state, more: carouselData
+                          // })}
                           >
-                            {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}> */}
+                            <Link
+                              to="#"
+                              data-target="#collapseBirthday"
+                              data-toggle="modal"
+                              style={{ color: "#fff" }}
+                              onClick={() => setState({ ...state, more: carouselData })}
+                            >
+                              {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}> */}
 
-                            {/* <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
+                              {/* <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
                               className="feedback-download-profile-img-size rounded-circle" /> */}
 
-                            <img src={atthData.docByte?.image ? atthData.docByte?.image
-                              : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
-                              title={atthData.ideaAttachmentsFileName} />
-                            {/* </a> */}
+                              <img src={atthData.docByte?.image ? atthData.docByte?.image
+                                : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
+                                title={atthData.ideaAttachmentsFileName} />
+                              {/* </a> */}
+                            </Link>
                           </div>
                         )
                       }
@@ -346,7 +354,7 @@ const FeedbackDetailViewInner = (props) => {
                     setIsDetailListMode(!isDetailListMode)
                     handleCommand("replay", !isDetailListMode)
                   }} >{ideaDetail?.children?.length === 0 ? 'No ' : ideaDetail?.children?.length} {
-                      ideaDetail?.children?.length === 1 ? 'Comment' : 'Comments'}</div>
+                      ideaDetail?.children?.length === 1 ? ' Comment' : ' Comments'}</div>
                 </div>
               </div>
               {state?.openicon &&

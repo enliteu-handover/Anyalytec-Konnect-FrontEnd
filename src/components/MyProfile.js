@@ -213,7 +213,7 @@ const MyProfile = () => {
     httpHandler(obj)
       .then((res) => {
         const obj_ = {
-          url: URL_CONFIG.GETUSER,
+          url: URL_CONFIG.GETUSER_PROFILE,
           method: "put",
           payload: {
             profilePic: res?.data?.data?.[0]?.url ?? "",
