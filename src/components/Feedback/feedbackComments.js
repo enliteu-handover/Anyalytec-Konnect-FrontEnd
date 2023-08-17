@@ -27,6 +27,7 @@ const FeedbackComments = (props) => {
   const [attachementFiles, setAttachementFiles] = useState([]);
 
   const addIconClickHandler = (arg) => {
+    debugger
     document.getElementById("cmt_attachmentFileLoaderNew").value = null;
     document.getElementById("cmt_attachmentFileLoaderExist").value = null;
     if (arg === "new") {
@@ -119,23 +120,23 @@ const FeedbackComments = (props) => {
   }
 
   const commentHandler = () => {
-    if (ideaComment.length > 0) {
-      const cmtDatas = {
-        files: cmtAttachements,
-        commentValue: ideaComment
+    if (ideaComment !== "<p><br></p>") {
+      if (ideaComment?.length > 0) {
+        const cmtDatas = {
+          files: cmtAttachements,
+          commentValue: ideaComment
+        }
+        commentSubmitHandler(cmtDatas);
       }
-      commentSubmitHandler(cmtDatas);
     }
   }
-
-  console.log('ideaComment', ideaComment);
 
   const onchangeText = (v) => {
     setIdeaComment(v)
   }
 
   return (
-    <div className="ideabox_mesgbutton_container">
+    <div className="ideabox_mesgbutton_container_reply">
       <div className="reply-textarea-inner reply-textarea-inner-f">
         <div className="reply-textarea-div position-relative">
           {childReplay?.message &&
@@ -163,12 +164,12 @@ const FeedbackComments = (props) => {
                 toolbar: {
                   container: [
                     ["bold", "italic", "underline"],
-                    // ["emoji"]
+                    ["emoji"]
                   ]
                 },
-                // "emoji-toolbar": true,
-                "emoji-textarea": true,
-                "emoji-shortname": true
+                "emoji-toolbar": true,
+                // "emoji-textarea": true,
+                // "emoji-shortname": true
               }}
               theme="snow"
               placeholder="Add a comment"
@@ -206,7 +207,7 @@ const FeedbackComments = (props) => {
             <div className="attahement_on_command d-inline-flex flex-wrap-reverse align-items-center flex-row-reverse">
               <div
                 className={`${ideaComment.length > 0 ? "eep_post_icon c1" : ""}`}
-                onClick={commentHandler}
+                onClick={() => ideaComment && commentHandler()}
               >
                 <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
               </div>

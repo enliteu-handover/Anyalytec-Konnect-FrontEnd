@@ -239,7 +239,7 @@ const FeedbackDetailViewInner = (props) => {
               ideaDetail?.show_as === 'Anonymous' ? "/images/icons8-account-50.svg" :
                 getUserPicture(ideaDetail?.createdBy?.id)
             } alt="profile" className="feedback-profile-img-size rounded-circle"
-              style={{ width: ideaDetail?.show_as === 'Anonymous' && "14px" }}
+              style={{ width: ideaDetail?.show_as === 'Anonymous' ? "14px":"26px" }}
             />
             <div className="ideabox_ideacontent msg_content">
               <p className="ideacontent_content ideabox_contentt_size">

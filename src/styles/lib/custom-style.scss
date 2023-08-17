@@ -7373,7 +7373,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 
 .editor-container-replay {
   position: relative;
-  height: 100px;
+  height: 140px;
   margin-bottom: 10px;
   /* Adjust the height as needed */
 
@@ -7386,7 +7386,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   }
 
   .ql-toolbar {
-    z-index: 10000;
+    z-index: 100;
     border-top: none !important;
     position: absolute;
     bottom: 0;
@@ -7394,6 +7394,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
     right: 0;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    // background: #fff;
   }
 
   .ql-container {
