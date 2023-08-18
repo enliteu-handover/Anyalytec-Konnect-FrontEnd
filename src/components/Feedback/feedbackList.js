@@ -5,7 +5,7 @@ import { timeAgo } from "../../shared/SharedService";
 
 const FeedbackList = (props) => {
 
-  const { feedbackListsData, search, usersPic, onChangeSearch, feedFilter, onChangeValues, viewIdeaData, readIdeaData, markImportant, readAllIdeas, dateReceived } = props;
+  const { feedbackListsData, search, deleteFeedback, usersPic, onChangeSearch, feedFilter, onChangeValues, viewIdeaData, readIdeaData, markImportant, readAllIdeas, dateReceived } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const [ideaLists, setIdeaLists] = useState(feedbackListsData ? feedbackListsData : []);
@@ -50,7 +50,7 @@ const FeedbackList = (props) => {
     '4': "/images/emoji/happy.svg"
   }
 
-return (
+  return (
     <React.Fragment>
       <SortList
         readAllCommunicationsFromList={readAllCommunicationsFromList}
@@ -97,6 +97,9 @@ return (
                             {item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => unReadIdea(item)}>Mark as Unread</label>}
                             {!item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markImportantIdea(item)}>Mark as Important</label>}
                             {item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markUnimportantIdea(item)}>Mark as Unimportant</label>}
+                            {item?.owner && <label className="eep-options-item dropdown-item mb-0 c1"
+                              onClick={() => deleteFeedback(item)}
+                            >Delete</label>}
                           </div>
                         </div>
                       </div>

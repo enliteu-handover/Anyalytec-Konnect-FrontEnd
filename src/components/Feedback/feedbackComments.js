@@ -211,24 +211,24 @@ const FeedbackComments = (props) => {
           }
 
           <div className=" d-inline-flex open_chat">
-            <div
-              className={`${ideaComment.length > 0 ? "eep_post_icon c1" : ""}`}
-              onClick={() => ideaComment && commentHandler()}
-            >
-              <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
-            </div>
-            &nbsp;
+
             {/* {attachementFiles?.length <= 0 && */}
             <div
               id="command_attachement_icon"
               className="c1 command_attachement eep_attachment_icon mr-2"
               dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.attachment_icon_sm }}
-              onClick={() => addIconClickHandler("new")}
+              onClick={() => addIconClickHandler("exist")}
             ></div>
             {/* } */}
-            <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+            <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
             <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
-          </div>
+
+            <div
+              className={`${ideaComment.length > 0 ? "eep_post_icon c1" : ""}`}
+              onClick={() => ideaComment && commentHandler()}
+            >
+              <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
+            </div></div>
 
           {attachementFiles?.length > 0 && <div className="ideabox_mesgbutton text-right">
             <div className="attahement_on_command d-inline-flex flex-wrap-reverse align-items-center flex-row-reverse">
@@ -240,7 +240,7 @@ const FeedbackComments = (props) => {
               }
               {attachementFiles?.length > 0 &&
                 <React.Fragment>
-                  <img src={`${process.env.PUBLIC_URL}/images/icons/special/attachment-add.svg`} className="ideabox-attach-img-size_2 image-circle c1 command_attachement right_side_commandadd_icon mr-2" id="command_attachement_plus" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} />
+                  {/* <img src={`${process.env.PUBLIC_URL}/images/icons/special/attachment-add.svg`} className="ideabox-attach-img-size_2 image-circle c1 command_attachement right_side_commandadd_icon mr-2" id="command_attachement_plus" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} /> */}
                   {attachementFiles?.map((item, index) => {
                     return (
                       <div className="attachments_list mb-0" key={"attachments_list_" + index}>

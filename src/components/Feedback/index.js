@@ -346,6 +346,27 @@ const Feedback = () => {
     });
   };
 
+  const deleteFeedback = (feedbackTempData) => {
+
+    let httpObj = {
+      url: URL_CONFIG.FEEDBACK_DELETE
+        + "?id=" + feedbackTempData.id,
+      method: "delete"
+    };
+    httpHandler(httpObj)
+      .then(() => {
+        fetchAllFeedbacks();
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: errMsg,
+        });
+      });
+  };
+
   return (
     <React.Fragment>
 
@@ -410,6 +431,7 @@ const Feedback = () => {
                       feedFilter={feedFilter}
                       onChangeSearch={onChangeSearch}
                       search={search}
+                      deleteFeedback={deleteFeedback}
                     />
 
                   </div>

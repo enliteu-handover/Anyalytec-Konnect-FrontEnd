@@ -522,17 +522,15 @@ const CreateFeedbackModal = (props) => {
                                     </div>
                                 }
 
-                                {attachementFiles?.length > 0 &&
-                                    <div className="col-md-12">
-                                        <div className="d-flex justify-content-end my-1" onClick={clearAllAtthments}>
-                                            <span className="c1"> Clear all</span>
-                                        </div>
-                                    </div>
-                                }
                                 <div className="col-md-12 my-2">
                                     <div className="d-flex">
-                                        <label className="font-helvetica-m c-404040 eep_popupLabelMargin">Upload</label>
+                                        <label className="font-helvetica-m c-404040 eep_popupLabelMargin">Upload
+                                            {attachementFiles?.length > 0 &&
+                                                <span className="c1" onClick={clearAllAtthments}> - Clear all</span>
+                                            }
+                                        </label>
                                     </div>
+
                                     <div className="attachments_list_whole_div text-left" style={{ display: "flex" }}>
                                         {attachementFiles?.length <= 0 &&
                                             <img

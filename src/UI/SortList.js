@@ -42,24 +42,6 @@ const SortList = (props) => {
           <div className="arrow_div">
             {isFeed ?
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                {
-                  isDateReceived ?
-                    <span className="c1 i_position" onClick={sortDateReceived}>Newest
-                      {!isDateReceived &&
-                        <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
-                      }
-                      {isDateReceived &&
-                        <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
-                      }</span>
-                    : <span className="c1 i_position" onClick={sortDateReceived}>Oldest
-                      {!isDateReceived &&
-                        <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
-                      }
-                      {isDateReceived &&
-                        <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
-                      }</span>
-                }
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Select
                   styles={{ height: "20px", maxHeight: "20px" }}
                   options={initOptions}
@@ -71,7 +53,17 @@ const SortList = (props) => {
                     dateReceivedOrder(false);
                   }}
                   value={feedFilter}
-                />
+                />&nbsp;
+                {
+                  isDateReceived ? <span className="c1 i_position" onClick={sortDateReceived}>Oldest
+                      <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
+                  </span> :
+                    <span className="c1 i_position" onClick={sortDateReceived}>Newest
+                    <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
+                    </span>
+                }
+                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                */}
               </div>
               :
               <span className="c1 i_position">Date Received
