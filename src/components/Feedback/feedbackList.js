@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SortList from "../../UI/SortList";
-import { eepFormatDateTime, timeAgo } from "../../shared/SharedService";
+import { timeAgo } from "../../shared/SharedService";
 
 const FeedbackList = (props) => {
 
-  const { feedbackListsData, usersPic, viewIdeaData, readIdeaData, markImportant, readAllIdeas, dateReceived } = props;
+  const { feedbackListsData, search, usersPic, onChangeSearch, feedFilter, onChangeValues, viewIdeaData, readIdeaData, markImportant, readAllIdeas, dateReceived } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const [ideaLists, setIdeaLists] = useState(feedbackListsData ? feedbackListsData : []);
@@ -50,15 +50,24 @@ const FeedbackList = (props) => {
     '4': "/images/emoji/happy.svg"
   }
 
-  return (
+return (
     <React.Fragment>
       <SortList
         readAllCommunicationsFromList={readAllCommunicationsFromList}
         communicationPostLists={feedbackListsData}
         dateReceivedOrder={dateReceivedOrder}
         isFeed={true}
+        onChangeValues={onChangeValues}
+        feedFilter={feedFilter}
       />
       <div className="ideashorting_div">
+        <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="search" id="search"
+          rows="2" placeholder="Search..."
+          value={search}
+          //  maxLength={titleMaxLength}
+          onChange={(event) => onChangeSearch(event.target.value)}
+        />
+
         {ideaLists && ideaLists?.map((item, index) => {
           return (
             <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child ${item.feedBackIsRead ? "ideaMarkedAsRead" : ""} ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>

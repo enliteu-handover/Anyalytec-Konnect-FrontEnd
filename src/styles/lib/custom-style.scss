@@ -7375,25 +7375,27 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   position: relative;
   height: 140px;
   margin-bottom: 10px;
+  border: none !important;
   /* Adjust the height as needed */
 
   .editor {
     height: calc(100% - 40px);
     /* Adjust for toolbar height */
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
 
   .ql-toolbar {
     z-index: 100;
-    border-top: none !important;
+    // border-top: none !important;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-radius: 10px;
+    // border-bottom-left-radius: 10px;
+    // border-bottom-right-radius: 10px;
     // background: #fff;
   }
 
@@ -7402,10 +7404,19 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   }
 }
 
-.my_survey_assign_div{
-min-height: 200px;
-display: flex;
-.outter{
-  margin: auto;
+.my_survey_assign_div {
+  min-height: 200px;
+  display: flex;
+
+  .outter {
+    margin: auto;
+  }
 }
+
+.open_chat{
+  float: right;
+    margin-top: -47px;
+    position: absolute;
+    right: 12px;
+    z-index: 100;
 }

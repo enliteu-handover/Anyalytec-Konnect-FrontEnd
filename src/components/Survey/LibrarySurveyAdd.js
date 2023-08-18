@@ -305,6 +305,7 @@ const SurveyLibrarayAnswer = () => {
                                     getJsonData={getJsonData}
                                     getSurveyTitle={getSurveyTitle}
                                     initSurveyData={getData}
+                                    isLibrary={true}
                                 />
 
                                 <div className="bg-f5f5f5 eep_s_assignto br-10 mb-3">

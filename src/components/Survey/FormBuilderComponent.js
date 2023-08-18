@@ -8,7 +8,7 @@ require("formBuilder");
 
 const FormBuilderComponent = (props) => {
 
-  const { getJsonData, getSurveyTitle, initSurveyData } = props;
+  const { getJsonData, getSurveyTitle, initSurveyData, isLibrary } = props;
   //console.log("FormBuilderComponent props", props);
   //const [jsonData, setJsonData] = useState({});
   const [surveyTitle, setSurveyTitle] = useState("");
@@ -79,33 +79,34 @@ const FormBuilderComponent = (props) => {
   };
 
   useEffect(() => {
-    
-    if (JSON.stringify(initSurveyData) !== "{}") {
-      if (!initSurveyData?.isQuestionBank) {
-        setSurveyTitle(initSurveyData?.sData?.name);
-        getSurveyTitle(initSurveyData?.sData?.name);
-        let surveyDataTemp = [];
-        let jsonTemp;
-        if (initSurveyData && Object.keys(initSurveyData).length) {
-          if (initSurveyData?.sData?.surveyQuestions && initSurveyData?.sData?.surveyQuestions.length) {
-            initSurveyData?.sData?.surveyQuestions.map((item) => {
-              jsonTemp = JSON.parse(item.parameters);
-              surveyDataTemp.push(jsonTemp);
-              return surveyDataTemp;
-            });
-            options["formData"] = surveyDataTemp;
-            appendFormBuilder(options);
-          }
+    debugger
+    if (!initSurveyData?.isQuestionBank) {
+      setSurveyTitle(initSurveyData?.sData?.name);
+      getSurveyTitle(initSurveyData?.sData?.name);
+      let surveyDataTemp = [];
+      let jsonTemp;
+      if (initSurveyData && Object.keys(initSurveyData).length) {
+        if (initSurveyData?.sData?.surveyQuestions && initSurveyData?.sData?.surveyQuestions.length) {
+          initSurveyData?.sData?.surveyQuestions.map((item) => {
+            jsonTemp = JSON.parse(item.parameters);
+            surveyDataTemp.push(jsonTemp);
+            return surveyDataTemp;
+          });
+          options["formData"] = surveyDataTemp;
+          appendFormBuilder(options);
         }
       }
-      if (initSurveyData?.isQuestionBank) {
-        options["formData"] = initSurveyData?.surveyQuestions;
+    }
+
+    if (initSurveyData?.isQuestionBank) {
+      options["formData"] = initSurveyData?.surveyQuestions;
+      appendFormBuilder(options);
+    } else {
+      if (!isLibrary) {
+        getSurveyTitle(null);
+        delete options.formData;
         appendFormBuilder(options);
       }
-    } else {
-      getSurveyTitle(null);
-      delete options.formData;
-      appendFormBuilder(options);
     }
 
     return () => {

@@ -90,30 +90,32 @@ const FeedbackDetailViewInner = (props) => {
           style={{ marginLeft: padding }}
         >
           <div>
-            <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
             <div className="box-content mb-1">
-              <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size" />
               <div className="reply_user_name">
                 <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
                   &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt, true)}</span></label>
               </div>
             </div>
+            <div style={{ display: 'flex' }}>
+              <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size ideabox-profile-img-size_" />
+              <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
+            </div>
             {/* {cmtData?.message} */}
             {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
-              <div className="eep_command_attachements">
+              <div className="eep_command_attachements eep_command_attachements_">
                 {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
                   return (
                     <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
                       <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}>
                         <img src={atthData.docByte?.image ? atthData.docByte?.image
-                          : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm replayIconSize" alt="icon" title={atthData?.ideaAttachmentsFileName} />
+                          : fileTypeAndImgSrcArray['default']} className="image-circle c1 replayIconSize" alt="icon" title={atthData?.ideaAttachmentsFileName} />
                       </a>
                     </div>
                   )
                 })}
               </div>
             }
-            <div className="item_blog_like_a_feedback text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
+            <div className="item_blog_like_a_feedback item_blog_like_a_feedback_ text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
 
               {/* <div style={{ height: "30px", display: "flex" }}>{cmtData?.feedbackCommentLikes && Object.keys(cmtData?.feedbackCommentLikes)?.map((v, i) => {
                 return <>
@@ -155,14 +157,15 @@ const FeedbackDetailViewInner = (props) => {
               </ReactTooltip>
 
               {!isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
-                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ? cmtData?.feedbackCommentLikes?.length
-                  : ''}  &nbsp;<img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" className="post_heart"
-                    onClick={() => likeAnFeedHandler({ isLike: true, iData: cmtData })} /></div>
+                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>
+                  {cmtData?.feedbackCommentLikes?.length > 0 ? cmtData?.feedbackCommentLikes?.length
+                    : ''}  <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" className="post_heart"
+                      onClick={() => likeAnFeedHandler({ isLike: true, iData: cmtData })} /></div>
               }
 
               {isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
                 <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
-                  cmtData?.feedbackCommentLikes?.length : ""}&nbsp; <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
+                  cmtData?.feedbackCommentLikes?.length : ""} <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
                     onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
               }&nbsp;
 
@@ -239,7 +242,10 @@ const FeedbackDetailViewInner = (props) => {
               ideaDetail?.show_as === 'Anonymous' ? "/images/icons8-account-50.svg" :
                 getUserPicture(ideaDetail?.createdBy?.id)
             } alt="profile" className="feedback-profile-img-size rounded-circle"
-              style={{ width: ideaDetail?.show_as === 'Anonymous' ? "14px":"26px" }}
+              style={{
+                width: ideaDetail?.show_as === 'Anonymous' ? "14px" : "26px",
+                boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1607843137)"
+              }}
             />
             <div className="ideabox_ideacontent msg_content">
               <p className="ideacontent_content ideabox_contentt_size">

@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 
 const FeedbackComments = (props) => {
+  const quillRef = React.createRef();
   const { commentSubmitHandler, childReplay, IsClear } = props;
   Quill.register(
     {
@@ -135,6 +136,11 @@ const FeedbackComments = (props) => {
     setIdeaComment(v)
   }
 
+  React.useEffect(() => {
+    if (quillRef?.current) {
+      quillRef?.current.focus(); // Set focus to the editor
+    }
+  }, [])
   return (
     <div className="ideabox_mesgbutton_container_reply">
       <div className="reply-textarea-inner reply-textarea-inner-f">
@@ -148,9 +154,9 @@ const FeedbackComments = (props) => {
 
           <div style={{
             float: 'right',
-            top: '-25px',
+            // top: '-25px',
             position: 'absolute',
-            right: 0,
+            right: 4,
             background: '#fff',
             padding: '4px',
             borderRadius: '4px',
@@ -160,6 +166,7 @@ const FeedbackComments = (props) => {
           <div className="editor-container-replay">
             <ReactQuill
               className="editor"
+              ref={quillRef}
               modules={{
                 toolbar: {
                   container: [
@@ -203,14 +210,28 @@ const FeedbackComments = (props) => {
             </div>
           }
 
-          <div className="ideabox_mesgbutton text-right">
+          <div className=" d-inline-flex open_chat">
+            <div
+              className={`${ideaComment.length > 0 ? "eep_post_icon c1" : ""}`}
+              onClick={() => ideaComment && commentHandler()}
+            >
+              <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
+            </div>
+            &nbsp;
+            {/* {attachementFiles?.length <= 0 && */}
+            <div
+              id="command_attachement_icon"
+              className="c1 command_attachement eep_attachment_icon mr-2"
+              dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.attachment_icon_sm }}
+              onClick={() => addIconClickHandler("new")}
+            ></div>
+            {/* } */}
+            <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+            <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+          </div>
+
+          {attachementFiles?.length > 0 && <div className="ideabox_mesgbutton text-right">
             <div className="attahement_on_command d-inline-flex flex-wrap-reverse align-items-center flex-row-reverse">
-              <div
-                className={`${ideaComment.length > 0 ? "eep_post_icon c1" : ""}`}
-                onClick={() => ideaComment && commentHandler()}
-              >
-                <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
-              </div>
 
               {attachementFiles?.length > 0 &&
                 <div className="idea_attachement_clear_comments c1 d-flex" style={{ order: "1" }} onClick={clearAllAtthments}>
@@ -225,7 +246,7 @@ const FeedbackComments = (props) => {
                       <div className="attachments_list mb-0" key={"attachments_list_" + index}>
                         <div className="attachments_list_a">
                           <a href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
-                            <img src={item.imgSrcIcon} className="image-circle c1 command-attachement-img-size" alt="icon" />
+                            <img style={{ width: "24px" }} src={item.imgSrcIcon} className="image-circle c1 command-attachement-img-size" alt="icon" />
                           </a>
                         </div>
                       </div>
@@ -234,18 +255,9 @@ const FeedbackComments = (props) => {
                   )}
                 </React.Fragment>
               }
-              {attachementFiles?.length <= 0 &&
-                <div
-                  id="command_attachement_icon"
-                  className="c1 command_attachement eep_attachment_icon mr-2"
-                  dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.attachment_icon_sm }}
-                  onClick={() => addIconClickHandler("new")}
-                ></div>
-              }
-              <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
-              <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+
             </div>
-          </div>
+          </div>}
         </div>
       </div>
     </div>

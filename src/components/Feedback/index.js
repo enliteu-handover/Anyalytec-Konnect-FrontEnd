@@ -7,19 +7,25 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import CreateFeedbackModal from "../../modals/feed";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { TabsActions } from "../../store/tabs-slice";
+// import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+// import { TabsActions } from "../../store/tabs-slice";
 import FeedbackDetailView from "./feedbackDetailView";
 import FeedbackList from "./feedbackList";
-import MyFeedback from "./myFeedback";
+// import MyFeedback from "./myFeedback";
 import "./style.scss";
 
 const Feedback = () => {
+  const yrDt = new Date().getFullYear();
 
   const [allfeedback, setFeedbacks] = useState([]);
-
+  const [allSearchfeedback, setSearchFeedbacks] = useState([]);
+  const [feedFilter, setFeedFilter] = useState({
+    label: "All Post",
+    value: 'allpost'
+  });
 
   const [deptOptions, setDeptOptions] = useState([]);
+  const [search, setsearch] = useState('');
   const [usersPic, setUsersPic] = useState([]);
   const [createModalShow, setCreateModalShow] = useState(false);
   const [ideaData, setIdeaData] = useState(null);
@@ -35,81 +41,81 @@ const Feedback = () => {
     setShowModal({ type: null, message: null });
   };
 
-  const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+  // const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
-  const dispatch = useDispatch();
-  const activeTab = useSelector((state) => state.tabs.activeTab);
-  const location = useLocation();
-  const routerData = location.state;
+  // const dispatch = useDispatch();
+  // const activeTab = useSelector((state) => state.tabs.activeTab);
+  // const location = useLocation();
+  // const routerData = location.state;
 
-  const breadcrumbArr = [
-    {
-      label: "Home",
-      link: "app/dashboard",
-    },
-    {
-      label: "Feedback",
-      link: "",
-    },
-  ];
+  // const breadcrumbArr = [
+  //   {
+  //     label: "Home",
+  //     link: "app/dashboard",
+  //   },
+  //   {
+  //     label: "Feedback",
+  //     link: "",
+  //   },
+  // ];
 
-  useEffect(() => {
-    dispatch(
-      BreadCrumbActions.updateBreadCrumb({
-        breadcrumbArr,
-        title: "Feedback",
-      })
-    );
-    return () => {
-      BreadCrumbActions.updateBreadCrumb({
-        breadcrumbArr: [],
-        title: "",
-      });
-    };
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     BreadCrumbActions.updateBreadCrumb({
+  //       breadcrumbArr,
+  //       title: "Feedback",
+  //     })
+  //   );
+  //   return () => {
+  //     BreadCrumbActions.updateBreadCrumb({
+  //       breadcrumbArr: [],
+  //       title: "",
+  //     });
+  //   };
+  // }, []);
 
-  const tabConfig = [
-    {
-      title: "Feedback",
-      id: "feedback",
-    },
-    {
-      title: "My Feedback",
-      id: "myfeedback",
-    }
-  ];
+  // const tabConfig = [
+  //   {
+  //     title: "Feedback",
+  //     id: "feedback",
+  //   },
+  //   {
+  //     title: "My Feedback",
+  //     id: "myfeedback",
+  //   }
+  // ];
 
-  useEffect(() => {
-    if (routerData) {
-      const activeTabId = routerData.activeTab;
-      tabConfig.map((res) => {
-        if (res.id === activeTabId) {
-          res.active = true
-        }
-      });
+  // useEffect(() => {
+  //   if (routerData) {
+  //     const activeTabId = routerData.activeTab;
+  //     tabConfig.map((res) => {
+  //       if (res.id === activeTabId) {
+  //         res.active = true
+  //       }
+  //     });
 
-      dispatch(
-        TabsActions.updateTabsconfig({
-          config: tabConfig,
-        })
-      );
-      // history.replace({ pathname: history.location.pathname, state: {} });
-    } else {
-      dispatch(
-        TabsActions.updateTabsconfig({
-          config: tabConfig,
-        })
-      );
-    }
+  //     dispatch(
+  //       TabsActions.updateTabsconfig({
+  //         config: tabConfig,
+  //       })
+  //     );
+  //     // history.replace({ pathname: history.location.pathname, state: {} });
+  //   } else {
+  //     dispatch(
+  //       TabsActions.updateTabsconfig({
+  //         config: tabConfig,
+  //       })
+  //     );
+  //   }
 
-    return () => {
-      dispatch(
-        TabsActions.updateTabsconfig({
-          config: [],
-        })
-      );
-    };
-  }, []);
+  //   return () => {
+  //     dispatch(
+  //       TabsActions.updateTabsconfig({
+  //         config: [],
+  //       })
+  //     );
+  //   };
+  // }, []);
 
   const fetchDepartmentData = () => {
     const obj = {
@@ -175,7 +181,7 @@ const Feedback = () => {
     httpHandler(obj)
       .then((all_feed) => {
         setFeedbacks(all_feed?.data?.data);
-
+        setSearchFeedbacks(all_feed?.data?.data);
       })
       .catch((error) => {
         console.log("fetchIdeas error", error);
@@ -295,8 +301,54 @@ const Feedback = () => {
     setFeedbacks(feedBackDataTemp);
   }
 
+  const onChangeValues = (value) => {
+    setFeedFilter(value);
+    if (value?.value === "allpost") {
+      fetchAllFeedbacks()
+    } else {
+      fetchMyFeedsData({ filterby: yrDt })
+    }
+    setIdeaData(null)
+  }
+
+  const fetchMyFeedsData = (paramData = {}) => {
+    const obj = {
+      url: URL_CONFIG.MY_FEEDBACK,
+      method: "get",
+    };
+    if (paramData && Object.keys(paramData).length > 0 && paramData !== "") {
+      obj["params"] = paramData;
+    }
+    httpHandler(obj)
+      .then((myFeeds) => {
+        setFeedbacks(myFeeds?.data);
+        setSearchFeedbacks(myFeeds?.data);
+        // setMyfeedbackList([...myFeeds?.data?.map(v => { return { ...v, name: v?.title } })]);
+      })
+      .catch((error) => {
+        console.log("error", error.response);
+      });
+  }
+
+  const onChangeSearch = (v) => {
+    setsearch(v)
+    const value = (search || v) ?
+      allSearchfeedback?.filter(c => c?.title?.toLowerCase()?.includes(v?.toLowerCase())) : allSearchfeedback;
+    setFeedbacks([...value])
+  };
+
+  const succAllFeedbacks = () => {
+    setCreateModalShow(!createModalShow)
+    setShowModal({
+      ...showModal,
+      type: "success",
+      message: "Feedback created successfully!",
+    });
+  };
+
   return (
     <React.Fragment>
+
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
           data={showModal}
@@ -324,6 +376,7 @@ const Feedback = () => {
           }
         ></EEPSubmitModal>
       )}
+
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100 response-allign-middle">
           <div id="feedback" className="tab-pane active h-100">
@@ -332,27 +385,32 @@ const Feedback = () => {
               deptOptions={deptOptions}
               CloseFunction={CloseFunction}
               fetchAllFeedbacks={fetchAllFeedbacks}
-              createModalShow={createModalShow} />}
+              createModalShow={createModalShow}
+              succAllFeedbacks={succAllFeedbacks}
+            />}
 
             <PageHeader title="Feedback"
               navLinksRight={
                 <Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateFeedbackModal"></Link>
               }
             />
-            {allfeedback && allfeedback?.length > 0 &&
+            {allSearchfeedback && allSearchfeedback?.length > 0 &&
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-4 eep-content-section-data eep_scroll_y pl-0">
-                    {activeTab && activeTab.id === 'feedback' &&
-
-                      <FeedbackList
-                        feedbackListsData={allfeedback}
-                        usersPic={usersPic}
-                        viewIdeaData={viewIdeaData}
-                        readIdeaData={readIdeaData}
-                        markImportant={markImportant}
-                        readAllIdeas={readAllIdeas}
-                        dateReceived={dateReceived} />}
+                    <FeedbackList
+                      feedbackListsData={allfeedback}
+                      usersPic={usersPic}
+                      viewIdeaData={viewIdeaData}
+                      readIdeaData={readIdeaData}
+                      markImportant={markImportant}
+                      readAllIdeas={readAllIdeas}
+                      dateReceived={dateReceived}
+                      onChangeValues={onChangeValues}
+                      feedFilter={feedFilter}
+                      onChangeSearch={onChangeSearch}
+                      search={search}
+                    />
 
                   </div>
                   <div className="col-md-8 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
@@ -385,9 +443,9 @@ const Feedback = () => {
               />
             }
           </div>
-          <div id="myfeedback" className="tab-pane h-100">
+          {/* <div id="myfeedback" className="tab-pane h-100">
             {activeTab && activeTab.id === 'myfeedback' && <MyFeedback fetchAllFeedbacks={fetchAllFeedbacks} usersPic={usersPic} deptOptions={deptOptions} />}
-          </div>
+          </div> */}
         </div>
       </div>
     </React.Fragment>

@@ -194,7 +194,6 @@ const FeedbackDetailView = (props) => {
     })
   }
 
-
   const IsClear = () => {
     setState({ ...state, isComment: false, isCommentData: null, childData: null });
   }

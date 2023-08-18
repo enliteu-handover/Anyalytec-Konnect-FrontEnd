@@ -10,7 +10,7 @@ import { base64ToFile } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 
 const CreateFeedbackModal = (props) => {
-    const { deptOptions, fetchAllFeedbacks, createModalShow, CloseFunction } = props;
+    const { deptOptions, succAllFeedbacks, fetchAllFeedbacks, createModalShow, CloseFunction } = props;
     Quill.register(
         {
             "formats/emoji": quillEmoji.EmojiBlot,
@@ -217,6 +217,7 @@ const CreateFeedbackModal = (props) => {
         httpHandler(obj).then((response) => {
             seterror(response?.data?.message)
             fetchAllFeedbacks();
+            succAllFeedbacks();
             clearState();
         }).catch((error) => {
             console.log("add feedback error", error);

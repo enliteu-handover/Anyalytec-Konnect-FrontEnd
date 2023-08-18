@@ -12,7 +12,7 @@ const Breadcrumb = () => {
           aria-label="breadcrumb"
         >
           <ol className="breadcrumb">
-            {getBreadCrumb.map((val, i) => {
+            {getBreadCrumb?.map((val, i) => {
               const classValue = `breadcrumb-item ${
                 i === getBreadCrumb.length - 1 ? "active" : ""
               }`;
