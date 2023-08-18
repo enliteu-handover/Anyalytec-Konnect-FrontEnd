@@ -239,16 +239,14 @@ const FeedbackDetailViewInner = (props) => {
             {ideaDetail?.show_as}</div>
           <div style={{ display: "flex" }}>
             <span
-              style={{
-                width: ideaDetail?.show_as === 'Anonymous' ? "14px" : "26px",
-                boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1607843137)"
-              }}>
+              className='image_chat'>
               <img src={
                 ideaDetail?.show_as === 'Anonymous' ? "/images/icons8-account-50.svg" :
                   getUserPicture(ideaDetail?.createdBy?.id)
-              } alt="profile" className="feedback-profile-img-size rounded-circle"
+              } alt="profile" className="rounded-circle"
                 style={{
-                  width: "100%",
+                  width: ideaDetail?.show_as !== 'Anonymous' && "100%",
+                  margin: ideaDetail?.show_as === 'Anonymous' && "auto",
                 }}
               />
             </span>
