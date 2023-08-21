@@ -7413,10 +7413,22 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   }
 }
 
-.open_chat{
+.open_chat {
   float: right;
-    margin-top: -46px;
-    position: absolute;
-    right: 20px;
-    z-index: 100;
+  margin-top: -46px;
+  position: absolute;
+  right: 20px;
+  z-index: 100;
+}
+
+.tc_design {
+  .hide {
+    cursor: not-allowed !important;
+    z-index: 1000 !important;
+    position: absolute !important;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+  }
 }

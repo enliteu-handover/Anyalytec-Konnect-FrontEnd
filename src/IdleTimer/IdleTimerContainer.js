@@ -82,7 +82,10 @@ const IdleTimerContainer = () => {
 
         // const newUserData = {...userData, ...response.data}
         const token = JSON.parse(atob(response?.data?.data?.token?.split('.')[1]));
+        const getAndUpdate = sessionStorage.getItem('userData')
+
         const newUserData = JSON.stringify({
+          ...JSON.parse(getAndUpdate),
           "id": token?.id,
           "username": token?.username,
           "email": token?.email_id,

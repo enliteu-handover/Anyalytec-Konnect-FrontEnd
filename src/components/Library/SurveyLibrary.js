@@ -93,7 +93,7 @@ const Survey = () => {
                                 <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-center cert_col_div" key={"certificateLibrary_" + index}>
                                     <div className="mycert_list_div box9">
                                         <div className="my_survey_assign_div">
-                                            <div className="outter">
+                                            <div className="outter library_survey">
                                                 {item?.name}
                                                 {/* <img src={`${process.env.PUBLIC_URL}/images/certificates/${item?.libraryImage}`} className="mycert_img" alt="Performer" title="Performer" /> */}
                                             </div>

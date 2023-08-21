@@ -16,11 +16,11 @@
         "bgClassName": "bg-light-green"
       },
       {
-        "label": "Library Survey",
+        "label": "Engagement Survey",
         "link": "surveylibrary",
         "isCustomComponent": false,
-        "imgSrc": "",
-        "bgClassName": "bg-red-survey"
+        "imgSrc": "engagement.png",
+        "bgClassName": "bg-blue-green"
       },
       {
         "label": "My Surveys",

@@ -181,6 +181,7 @@ const FormBuilderComponent = (props) => {
       <div className="row mb-3">
         <div className="col-lg-12">
           <div id="create_survey" className="tc_design">
+            {isLibrary && <div className="hide"></div>}
             <div id="fb-editor" ref={fb}></div>
           </div>
         </div>

@@ -13,7 +13,7 @@ const Sidebar = (props) => {
   const [sidebarToggled, setSidebarToggled] = useState(false);
   const [theme, setTheme] = useState(props?.theme)
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-
+  console.log('theme', theme);
   const fetchSidebarMenu = () => {
     fetch(`${process.env.PUBLIC_URL}/data/sidebarMenu.json`)
       .then((response) => response.json())
@@ -33,12 +33,12 @@ const Sidebar = (props) => {
   const user_details = sessionStorage.getItem('userData');
 
   const icon = {
-    'Dashboard.svg': <Dashboard color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
-    'Recognition.svg': <Recognition color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
-    'Library.svg': <Recognition color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
-    'Communication.svg': <Communication color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
-    'Rewards.svg': <Rewards color={theme?.color === 'color_two' ? "#000" : "#fff"} />,
-    'download.svg': <Org color={theme?.color === 'color_two' ? "#000" : "#fff"} />
+    'Dashboard.svg': <Dashboard color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
+    'Recognition.svg': <Recognition color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
+    'Library.svg': <Recognition color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
+    'Communication.svg': <Communication color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
+    'Rewards.svg': <Rewards color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
+    'download.svg': <Org color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />
   }
 
   return (
@@ -55,11 +55,17 @@ const Sidebar = (props) => {
           <div
             className={`px-3 pt-0 pb-2 text-white profile-nm text-wrap card-text`}
           >
-            <span className="u_full_name mb-2 mt-1">{user_details ?
-              JSON.parse(user_details)?.fullName : ""}</span>
+            <span className="u_full_name mb-2 mt-1">{(
+              JSON.parse(user_details)?.firstName ?? ""
+            ) + ' ' + (
+                JSON.parse(user_details)?.lastName ?? ""
+              )}</span>
             <span className="u_initials mt-3 d-none">{
-              user_details ?
-                JSON.parse(user_details)?.fullName?.[0]?.toUpperCase() : ""}</span>
+              (
+                JSON.parse(user_details)?.firstName?.[0]?.toUpperCase() ?? ""
+              ) + (
+                JSON.parse(user_details)?.lastName?.[0]?.toUpperCase() ?? ""
+              )}</span>
           </div>
         </li>
         <hr className={`sidebar-divider my-2`} />
@@ -79,11 +85,17 @@ const Sidebar = (props) => {
                   alt={menu.icon}
                   src={`${process.env.PUBLIC_URL}/images/menu/${menu.icon}`}
                 /> */}
-                <div style={{ display: "flex", alignItems: "center" }}><span
-                  style={{ width: "30px" }}>
-                  {icon[menu.icon]}</span>&nbsp;&nbsp;
-                  <span>{menu.label}</span>
-                </div>
+                <span
+                  className="eep-menu-icon-sidebar"
+                >
+                  {icon[menu.icon]}
+                </span>&nbsp;&nbsp;
+
+                {/* <div style={{ display: "flex", alignItems: "center" }}><span
+                  style={{ width: "30px" }}> */}
+                {/* {icon[menu.icon]}&nbsp;&nbsp; */}
+                <span>{menu.label}</span>
+                {/* </div> */}
 
               </Link>
               {menu?.subMenu && (
@@ -93,7 +105,7 @@ const Sidebar = (props) => {
                   data-parent="#accordionSidebar"
                 >
                   <div className="bg-white py-2 collapse-inner rounded">
-                    {menu?.subMenu.map((submenu, index) => {
+                    {menu?.subMenu?.map((submenu, index) => {
                       return (
                         <Link
                           className="collapse-item"

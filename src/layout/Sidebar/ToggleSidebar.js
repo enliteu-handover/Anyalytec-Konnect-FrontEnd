@@ -49,10 +49,15 @@ const ToggleSidebar = (props) => {
       .then((data) => {
         //setInnerSidebarData(data[tType]);
         let dataTemp = data;
-        if (!userRolePermission.pollCreate) {
+        if (!userRolePermission?.pollCreate) {
           dataTemp["polls"]["fields"].splice(1, 1);
         }
-        if (!userRolePermission.surveyCreate) {
+
+        if (!userRolePermission?.adminPanel) {
+          dataTemp["survey"]["fields"].splice(2, 2);
+        }
+
+        if (!userRolePermission?.surveyCreate) {
           dataTemp["survey"]["fields"].splice(1, 1);
         }
         setInnerSidebarData(data[tType]);

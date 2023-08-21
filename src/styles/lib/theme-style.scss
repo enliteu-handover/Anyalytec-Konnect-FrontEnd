@@ -203,7 +203,7 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
 }
 .sidebar .nav-item .collapse .collapse-inner,
 .sidebar .nav-item .collapsing .collapse-inner {
-  background-color: #003b55 !important;
+  // background-color: #003b55 !important;
   padding: 0px !important;
   margin-bottom: 0px !important;
 }
@@ -220,8 +220,8 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
 }
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
-  margin: 0px !important;
-  border-radius: 0px !important;
+  // margin: 0px !important;
+  // border-radius: 0px !important;
 }
 .eep-navbar-nav.sidebar.toggled .nav-item .collapse {
   z-index: 2;
@@ -257,7 +257,7 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
   height: 30px;
   background-position: center;
   position: absolute;
-  background-color: #003b55;
+  // background-color: #003b55;
   border-radius: 3px;
 }
 #accordionSidebar {

@@ -59,6 +59,7 @@ const LoginForm = () => {
   };
 
   const formSubmissionHandler = (event) => {
+    debugger
     event.preventDefault();
     setUserNameTouched(true);
     setPasswordTouched(true);
@@ -142,12 +143,21 @@ const LoginForm = () => {
   }
 
   const fetchPermission = async () => {
+    debugger
     const obj = {
       url: URL_CONFIG.USER_PERMISSION,
       method: "get",
     };
     await httpHandler(obj).then(async (response) => {
       const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
+
+      const getAndUpdate = sessionStorage.getItem('userData')
+      const addFileds = {
+        ...JSON.parse(getAndUpdate),
+        firstName: response?.data?.firstName, 
+        lastName: response?.data?.lastName,
+      }
+      sessionStorage.setItem('userData', JSON.stringify(addFileds))
       dispatch(sharedDataActions.getUserRolePermission({
         userRolePermission: roleData?.data
       }));
