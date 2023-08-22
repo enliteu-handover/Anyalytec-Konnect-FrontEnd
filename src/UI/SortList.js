@@ -36,12 +36,12 @@ const SortList = (props) => {
   ]
 
   return (
-    <div className="row sticky-top bg-white mb-3">
+    <div className="row sticky-top bg-white mb-3" style={{ height: "30px" }}>
       <div className="col-12 bg-white">
         <div className="filter bg-white">
-          <div className="arrow_div">
+          <div className="arrow_div feedback_arrow_div">
             {isFeed ?
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="flex">
                 <Select
                   styles={{ height: "20px", maxHeight: "20px" }}
                   options={initOptions}
@@ -53,17 +53,15 @@ const SortList = (props) => {
                     dateReceivedOrder(false);
                   }}
                   value={feedFilter}
-                />&nbsp;
+                />
                 {
                   isDateReceived ? <span className="c1 i_position" onClick={sortDateReceived}>Oldest
-                      <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
+                    <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i>
                   </span> :
                     <span className="c1 i_position" onClick={sortDateReceived}>Newest
-                    <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
+                      <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i>
                     </span>
                 }
-                {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                */}
               </div>
               :
               <span className="c1 i_position">Date Received
@@ -76,10 +74,10 @@ const SortList = (props) => {
               </span>
             }
           </div>
-          <div className="form-check pr-2" style={{ display: "flex", alignItems: "center" }}>
+          {!isFeed && <div className="form-check pr-2" style={{ display: "flex", alignItems: "center" }}>
             <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
             <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
-          </div>
+          </div>}
         </div>
       </div>
     </div >

@@ -50,27 +50,49 @@ const FeedbackList = (props) => {
     '4': "/images/emoji/happy.svg"
   }
 
+  let checker = arr => arr.every(v => v.ideaIsRead === true);
+  const markAllAsRead = () => {
+
+    var checkBox = document.getElementById("postCheckbox");
+    if (checkBox.checked === true) {
+      if (!checker(feedbackListsData)) {
+        readAllCommunicationsFromList(true);
+      }
+    }
+  }
+
   return (
-    <React.Fragment>
-      <SortList
-        readAllCommunicationsFromList={readAllCommunicationsFromList}
-        communicationPostLists={feedbackListsData}
-        dateReceivedOrder={dateReceivedOrder}
-        isFeed={true}
-        onChangeValues={onChangeValues}
-        feedFilter={feedFilter}
-      />
-      <div className="ideashorting_div">
-        <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="search" id="search"
-          rows="2" placeholder="Search..."
-          value={search}
-          //  maxLength={titleMaxLength}
-          onChange={(event) => onChangeSearch(event.target.value)}
+    <div className="feedback-listview">
+      <div className="fixed-filter-feedback">
+        <SortList
+          readAllCommunicationsFromList={readAllCommunicationsFromList}
+          communicationPostLists={feedbackListsData}
+          dateReceivedOrder={dateReceivedOrder}
+          isFeed={true}
+          onChangeValues={onChangeValues}
+          feedFilter={feedFilter}
         />
+        <div className="feedback-search-value">
+          <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="search" id="search"
+            rows="2" placeholder="Search..."
+            value={search}
+            //  maxLength={titleMaxLength}
+            onChange={(event) => onChangeSearch(event.target.value)}
+          />
+
+          <div className="form-check pr-2" style={{ float: "right", padding: "10px" }}>
+            <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
+            <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
+          </div>
+        </div>
+      </div>
+      <div className="ideashorting_div">
 
         {ideaLists && ideaLists?.map((item, index) => {
           return (
-            <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child ${item.feedBackIsRead ? "ideaMarkedAsRead" : ""} ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
+            <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child 
+            ${item?.feedBackIsRead ? "ideaMarkedAsRead" : ""} 
+            ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
               <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
                 <div className="rounded-circle" style={{ fontSize: 33 }}>
                   <img src={emojiLog[item?.logo]} />
@@ -84,9 +106,9 @@ const FeedbackList = (props) => {
                   </div>
                   <div className="funtional_parts-f">
                     <div className="funtional_parts" id="funtional_parts">
-                      <div className="ideabox-star-position ">
+                      <div className="ideabox-star-position">
                         {/* {!item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarDefault.svg`} className="ideabox-star-img-size c1" alt="Un Favorite" onClick={() => markImportantIdea(item)} />} */}
-                        {item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarFavourite.svg`} className="ideabox-star-img-size c1" alt="Favorite" onClick={() => markUnimportantIdea(item)} />}
+                        {item?.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarFavourite.svg`} className="ideabox-star-img-size c1" alt="Favorite" onClick={() => markUnimportantIdea(item)} />}
                       </div>
                       {/* {!item.feedBackIsActive && */}
                       <div className="three_dot px-1">
@@ -106,7 +128,6 @@ const FeedbackList = (props) => {
                       {/* } */}
                     </div>
                     <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{timeAgo(item?.createdAt, true)}</div>
-
                   </div>
                 </div>
                 {/* <div className="ideabox-font-style ideabox-date clicked_content">{eepFormatDateTime(item.createdAt)}</div> */}
@@ -115,7 +136,7 @@ const FeedbackList = (props) => {
           )
         })}
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

@@ -145,24 +145,14 @@ const FeedbackComments = (props) => {
     <div className="ideabox_mesgbutton_container_reply">
       <div className="reply-textarea-inner reply-textarea-inner-f">
         <div className="reply-textarea-div position-relative">
+        <div className="feed-comment-close" onClick={() => IsClear()}>X</div>
           {childReplay?.message &&
-            <span style={{
-              borderBottom: '1px solid #9E9E9E',
-              fontStyle: 'italic'
-            }}>Reply To:
-              <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: childReplay?.message }} /></span>}
+            <div className="replay-comment">
+              Reply To:
+              <div id='parentElement' className="eep_command_posts" dangerouslySetInnerHTML={{ __html: childReplay?.message }} />
+            </div>}
 
-          <div style={{
-            float: 'right',
-            // top: '-25px',
-            position: 'absolute',
-            right: 4,
-            background: '#fff',
-            padding: '4px',
-            borderRadius: '4px',
-            cursor: "pointer",
-            border: "1px solid #878da2"
-          }} onClick={() => IsClear()}>X</div>
+
           <div className="editor-container-replay">
             <ReactQuill
               className="editor"

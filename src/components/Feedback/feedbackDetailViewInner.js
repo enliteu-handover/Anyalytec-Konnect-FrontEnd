@@ -21,6 +21,7 @@ const FeedbackDetailViewInner = (props) => {
     openicon: false,
     childopenicon: null
   });
+  const [isOpen, setOpen] = useState("");
 
   let userPicIndex;
   const getUserPicture = (uID) => {
@@ -82,12 +83,12 @@ const FeedbackDetailViewInner = (props) => {
     }
   }
 
-  const renderChildComponent = (data, a) => {
+  const renderChildComponentCildren = (data, a, setOpenState) => {
     var padding = a + 6;
     return data && data?.children?.map((cmtData, index) => {
       return (
         <div className="ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
-          style={{ marginLeft: padding }}
+        style={{ marginLeft: padding }}
         >
           <div>
             <div className="box-content mb-1">
@@ -98,7 +99,8 @@ const FeedbackDetailViewInner = (props) => {
             </div>
             <div style={{ display: 'flex' }}>
               <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size ideabox-profile-img-size_" />
-              <div className="eep_command_posts" dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
+              <div className="eep_command_posts"
+                id='parentElement' dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
             </div>
             {/* {cmtData?.message} */}
             {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
@@ -106,10 +108,93 @@ const FeedbackDetailViewInner = (props) => {
                 {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
                   return (
                     <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
-                      <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}>
+
+                      <Link
+                        to="#"
+                        data-target="#collapseBirthday"
+                        data-toggle="modal"
+                        style={{ color: "#fff" }}
+                        onClick={() => setState({ ...state, more: cmtData?.feedbackCommentAttach })}
+                      >  {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}> */}
                         <img src={atthData.docByte?.image ? atthData.docByte?.image
                           : fileTypeAndImgSrcArray['default']} className="image-circle c1 replayIconSize" alt="icon" title={atthData?.ideaAttachmentsFileName} />
-                      </a>
+                        {/* </a> */}
+                      </Link>
+                    </div>
+                  )
+                })}
+              </div>
+            }
+            <div className="item_blog_like_a_feedback item_blog_like_a_feedback_ text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
+
+              <ReactTooltip
+                effect='solid'
+                id={`tooltip_likes${cmtData?.message}`}
+              >{cmtData?.feedbackCommentLikes?.map(c => c?.users?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
+              </ReactTooltip>
+
+              {!isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
+                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>
+                  {cmtData?.feedbackCommentLikes?.length > 0 ? cmtData?.feedbackCommentLikes?.length
+                    : ''}  <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" className="post_heart"
+                      onClick={() => likeAnFeedHandler({ isLike: true, iData: cmtData })} /></div>
+              }
+
+              {isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
+                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
+                  cmtData?.feedbackCommentLikes?.length : ""} <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
+                    onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
+              }&nbsp;
+
+              &nbsp;<span style={{ color: "lightgray" }}>●</span>&nbsp;<span
+                onClick={() => handleCommand(cmtData)}
+                className="text-left mb-0 eep_dt replay">Reply</span>
+            </div>
+
+            {renderChildComponentCildren(cmtData, padding, setOpenState)}
+          </div>
+        </div>
+      )
+    })
+  }
+
+  const renderChildComponent = (data, a, setOpenState) => {
+    var padding = a + 6;
+    return data && data?.children?.map((cmtData, index) => {
+      return (
+        <div className="ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
+        // style={{ marginLeft: padding }}
+        >
+          <div>
+            <div className="box-content mb-1">
+              <div className="reply_user_name">
+                <label className="mb-0">{cmtData?.createdBy?.firstname + " " + cmtData?.createdBy?.lastname}
+                  &nbsp;<span style={{ fontSize: 11, color: "#717074" }}>{eepFormatDateTime(cmtData?.createdAt, true)}</span></label>
+              </div>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size ideabox-profile-img-size_" />
+              <div className="eep_command_posts"
+                id='parentElement' dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
+            </div>
+            {/* {cmtData?.message} */}
+            {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
+              <div className="eep_command_attachements eep_command_attachements_">
+                {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
+                  return (
+                    <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
+
+                      <Link
+                        to="#"
+                        data-target="#collapseBirthday"
+                        data-toggle="modal"
+                        style={{ color: "#fff" }}
+                        onClick={() => setState({ ...state, more: cmtData?.feedbackCommentAttach })}
+                      >  {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}> */}
+                        <img src={atthData.docByte?.image ? atthData.docByte?.image
+                          : fileTypeAndImgSrcArray['default']} className="image-circle c1 replayIconSize" alt="icon" title={atthData?.ideaAttachmentsFileName} />
+                        {/* </a> */}
+                      </Link>
                     </div>
                   )
                 })}
@@ -169,18 +254,23 @@ const FeedbackDetailViewInner = (props) => {
                     onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
               }&nbsp;
 
-              <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
+              {/* <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
                 className="text-left mb-0 eep_dt reply">{cmtData?.children?.length +
                   (cmtData?.children?.length <= 1 ?
-                    ' Response' : ' Responses')}</span>
+                    ' Response' : ' Responses')}</span> */}
               &nbsp;<span style={{ color: "lightgray" }}>●</span>&nbsp;<span
                 onClick={() => handleCommand(cmtData)}
                 className="text-left mb-0 eep_dt replay">Reply</span>
             </div>
 
             {/* <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span> */}
+            {cmtData?.children?.length > 0 && <div className='view-more-line'
+              onClick={() => setOpenState(cmtData?.id == isOpen ? '' : cmtData?.id)}><div></div>
+              {cmtData?.children?.length + `${isOpen === cmtData?.id ? ' Less' : ' More'}` +
+                (cmtData?.children?.length <= 1 ?
+                  ' Response' : ' Responses')} </div>}
 
-            {renderChildComponent(cmtData, padding)}
+            {isOpen === cmtData?.id && renderChildComponentCildren(cmtData, padding, setOpenState)}
           </div>
         </div>
       )
@@ -228,7 +318,6 @@ const FeedbackDetailViewInner = (props) => {
               <div className="ideabox-profile-expand-inner-container header-content-wrapper-two">
                 <div className="header-user-post-date ideabox_contentt_size ideabox-date">
                   {moment(ideaDetail.createdAt).format('DD-MM-YYYY hh:mm a')}
-                  {/* {` (${eepFormatDateTime(ideaDetail.createdAt, true)})`} */}
                 </div>
               </div>
             </div>
@@ -252,7 +341,7 @@ const FeedbackDetailViewInner = (props) => {
             </span>
             <div className="ideabox_ideacontent msg_content">
               <p className="ideacontent_content ideabox_contentt_size">
-                <div dangerouslySetInnerHTML={{ __html: ideaDetail?.description }} />
+                <div id='parentElement' dangerouslySetInnerHTML={{ __html: ideaDetail?.description }} />
               </p>
               {carouselData?.length > 0 &&
                 <div className="w-100 bg-f5f5f5 attachment_toggle_feedback eep_scroll_y" style={{ maxHeight: "75px" }}>
@@ -346,8 +435,6 @@ const FeedbackDetailViewInner = (props) => {
                 <div className='parent'>
                   <div>   <span className={"c1"} onClick={() => setState({ ...state, openicon: !state.openicon })}>
 
-
-
                     <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
                     //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
                     />
@@ -373,7 +460,8 @@ const FeedbackDetailViewInner = (props) => {
                 />}
               {isDetailListMode && ideaDetail?.children?.length > 0 &&
                 <React.Fragment>
-                  {renderChildComponent(ideaDetail, 0)}
+                  {renderChildComponent(ideaDetail, 0, setOpen)}
+                  <br />
                 </React.Fragment>
               }
 

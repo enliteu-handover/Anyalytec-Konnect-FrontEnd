@@ -36,6 +36,7 @@ const FeedbackDetailView = (props) => {
   }
 
   const fetchIdeaDetail = () => {
+    setIdeaDetail(null);
 
     const obj = {
       // url: URL_CONFIG.IDEA_BY_ID + "?id=" + 19,
@@ -227,16 +228,20 @@ const FeedbackDetailView = (props) => {
           }
         ></EEPSubmitModal>
       )}
+
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
         <React.Fragment>
           <div className="ideabox_mesgbutton_wrapper">
             <FeedbackDetailViewInner likeAnIdeaChild={likeAnIdeaChild} handleCommand={handleCommand} ideaDetail={ideaDetail} usersPic={usersPic} likeAnFeed={likeAnFeed} likeAnIdea={likeAnIdea} isDetailView={false} />
+
             {state?.isComment && <FeedbackComments
               IsClear={IsClear}
-              childReplay={state?.childData} commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
+              childReplay={state?.childData}
+              commentSubmitHandler={commentSubmitHandler} isCommentSubmitted={isCommentSubmitted} />}
           </div>
         </React.Fragment>
       }
+
       {ideaDetail && Object.keys(ideaDetail).length <= 0 &&
         <div className="ideabox_mesgbutton_wrapper h-100" style={{ display: "flex" }}>
           <ResponseInfo
