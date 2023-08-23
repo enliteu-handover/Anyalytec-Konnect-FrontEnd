@@ -28,7 +28,7 @@ const FeedbackComments = (props) => {
   const [attachementFiles, setAttachementFiles] = useState([]);
 
   const addIconClickHandler = (arg) => {
-    debugger
+    
     document.getElementById("cmt_attachmentFileLoaderNew").value = null;
     document.getElementById("cmt_attachmentFileLoaderExist").value = null;
     if (arg === "new") {

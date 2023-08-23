@@ -52,11 +52,11 @@ const SurveyLibrarayAnswer = () => {
             link: "app/communication",
         },
         {
-            label: "Library Survey",
-            link: "app/surveylibrary",
+            label: "Engagement Survey",
+            link: "app/librarysurvey",
         },
         {
-            label: "ADD SURVEY",
+            label: "SURVEY",
             link: "#"
         }
     ]

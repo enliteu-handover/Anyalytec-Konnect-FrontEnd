@@ -6,37 +6,43 @@ import "../../styles/lib/eep-search.scss";
 import HeaderSearch from "./HeaderSearch";
 import UserNavItem from "./UserNavItem";
 import Notification from "./Notification";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { httpHandler } from "../../http/http-interceptor";
+// import { URL_CONFIG } from "../../constants/rest-config";
+// import { httpHandler } from "../../http/http-interceptor";
 import SvgComponent from "../../components/svgComponent";
+
 const Header = () => {
   // const pageTitle = useSelector((state) => state.breadcrumb.title);
   const headerLogo = useSelector((state) => state.storeState.logo);
-  const [state, setState] = useState({
-    "headerLogoByte": null
-  });
+  const userDetails = sessionStorage.getItem('userData')
+  const [state, setState] = useState();
 
-  React.useEffect(() => {
-    const obj = {
-      url: URL_CONFIG.ADD_ADMIN_HEADER_LOGO,
-      method: "get"
-    };
-    httpHandler(obj)
-      .then((reponse) => {
-        setState({
-          ...state,
-          "headerLogoByte": reponse?.data?.image ?? ''
-        })
-      })
-  }, [])
+  // React.useEffect(() => {
+  //   const obj = {
+  //     url: URL_CONFIG.ADD_ADMIN_HEADER_LOGO,
+  //     method: "get"
+  //   };
+  //   httpHandler(obj)
+  //     .then((reponse) => {
+  //       setState({
+  //         ...state,
+  //         "HeaderLogo": reponse?.data?.image ?? ''
+  //       })
+  //     })
+  // }, [])
+
+  // React.useEffect(() => {
+  //   setState({
+  //     ...state,
+  //     "HeaderLogo": headerLogo?.HeaderLogo ?? ""
+  //   })
+  // }, [headerLogo])
 
   React.useEffect(() => {
     setState({
-      ...state,
-      "headerLogoByte": headerLogo?.headerLogoByte ?? ""
+      ...state
     })
-  }, [headerLogo])
-
+  }, [])
+  
   return (
     <div>
       {/* <div className="header-toggle-btn"></div> */}
@@ -51,13 +57,12 @@ const Header = () => {
           <i className="fa fa-bars"></i>
         </button>
 
-        {
-          state?.headerLogoByte?.includes('.svg') ?
-            <div style={{ height: "60px" }}> <SvgComponent svgUrl={state?.headerLogoByte} /></div> : <img
-              src={(state?.headerLogoByte) || (process.env.PUBLIC_URL + "/images/logo.svg")}
-              className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
-              alt="logo"
-            />}
+        {state?.HeaderLogo?.includes('.svg') ?
+          <div style={{ height: "60px" }}> <SvgComponent svgUrl={state?.HeaderLogo} /></div> : <img
+            src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
+            className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
+            alt="logo"
+          />}
 
         {/* <div className={`eep-topbar-divider d-none d-sm-block`}></div>
 
@@ -69,7 +74,7 @@ const Header = () => {
         <HeaderSearch />
 
         <button className="eep-btn our_points_in_dashboard">
-          Points : 1000
+          Points : {((JSON.parse(userDetails)?.allPoints) <= 9 && "0") + (JSON.parse(userDetails)?.allPoints ?? 0)}
         </button>
 
         <ul className="navbar-nav">
@@ -113,7 +118,7 @@ const Header = () => {
           <Notification />
 
           {/* Nav Item User */}
-          <UserNavItem />
+          <UserNavItem logo={state?.HeaderLogo} />
         </ul>
       </nav>
     </div>

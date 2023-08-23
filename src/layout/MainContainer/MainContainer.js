@@ -205,13 +205,13 @@ const MainContainer = (props) => {
                             <Route path="/app/surveyanswer">
                               <SurveyAnswer />
                             </Route>
-                            <Route path="/app/surveylibraray">
+                            <Route path="/app/surveylibrary">
                               <SurveyLibrarayAnswer />
                             </Route>
                             <Route path="/app/mysurvey">
                               <MySurvey />
                             </Route>
-                            <Route path="/app/surveylibrary">
+                            <Route path="/app/librarysurvey">
                               <MyLibrary />
                             </Route>
                             <Route path="/app/surveyquestions">

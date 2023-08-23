@@ -9,6 +9,7 @@ import PendingApproval from "./PendingApproval";
 import AchievementBadges from "./AchievementBadges";
 import AchievementAwards from "./AchievementAwards";
 import { eepFormatDateTime } from "../../shared/SharedService";
+import moment from "moment";
 
 const Dashboard = (props) => {
 
@@ -124,7 +125,7 @@ const Dashboard = (props) => {
   //     position: "top"
   //   },
   // ];
-
+  const months = ['months', 'month', 'days', 'day'];
   return (
     <React.Fragment>
       {/* <Tour steps={steps} {...tourProps} /> */}
@@ -149,9 +150,12 @@ const Dashboard = (props) => {
               <div className="d_user_official_details">
                 <div className="col-md-12 c-2c2c2c bb_707070 dash_profile_details">
                   <label className="mb-0">{
-                    dashboardDetails?.experienceType === 'years' ? dashboardDetails?.experience : dashboardDetails?.sMonth} <span className="ml-2">{dashboardDetails?.experienceType}</span>
+                    // (months?.includes(dashboardDetails?.experienceType)
+                    // ) ? dashboardDetails?.sMonth : 
+                    dashboardDetails?.experience}
+                    <span className="ml-2">{dashboardDetails?.experienceType}</span>
                   </label>
-                  <p className="text-right mb-1 d_doj opacity-3"> DOJ: {eepFormatDateTime(dashboardDetails.dateOfJoining)} </p>
+                  <p className="text-right mb-1 d_doj opacity-3"> DOJ: {moment(dashboardDetails?.dateOfJoining).format('DD-MM-YYYY')} </p>
                 </div>
                 <div className="col-md-12 c-2c2c2c px-0">
                   <div className="panel-group" id="d_accordion" role="tablist" aria-multiselectable="true">

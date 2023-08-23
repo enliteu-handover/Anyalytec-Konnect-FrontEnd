@@ -38,8 +38,8 @@ const MyLibrary = () => {
             link: "app/communication",
         },
         {
-            label: "Library Survey",
-            link: "app/surveylibrary",
+            label: "Engagement Survey",
+            link: "app/librarysurvey",
         }
     ]
 
@@ -105,7 +105,7 @@ const MyLibrary = () => {
             classnames: "",
             label: "View",
             isRedirect: true,
-            link: "/app/surveylibraray",
+            link: "/app/surveylibrary",
             objReference: { "surveyData": "data" },
         }
     };
@@ -133,7 +133,7 @@ const MyLibrary = () => {
 
     return (
         <React.Fragment>
-            <PageHeader title="Library Survey"
+            <PageHeader title="Engagement Survey"
                 filter={<TypeBasedFilter config={TYPE_BASED_FILTER}
                     getFilterParams={getFilterParams} />}
             />

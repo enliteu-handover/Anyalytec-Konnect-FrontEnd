@@ -66,7 +66,7 @@ const clearModalBackdrop = () => {
 }
 
 
-const eepFormatDateTime = (date, isShort) => {
+const eepFormatDateTime = (date, isShort = false) => {
     const inComingDate = new Date(date);
     const currentDate = new Date();
 

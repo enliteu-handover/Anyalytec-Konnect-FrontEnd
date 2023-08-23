@@ -36,7 +36,6 @@ const FeedbackDetailView = (props) => {
   }
 
   const fetchIdeaDetail = () => {
-    setIdeaDetail(null);
 
     const obj = {
       // url: URL_CONFIG.IDEA_BY_ID + "?id=" + 19,
@@ -58,6 +57,7 @@ const FeedbackDetailView = (props) => {
 
   useEffect(() => {
     if (initIdeaDetail) {
+      setIdeaDetail(null);
       fetchIdeaDetail();
     }
   }, [initIdeaDetail]);

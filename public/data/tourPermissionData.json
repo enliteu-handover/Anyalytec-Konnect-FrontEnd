@@ -170,5 +170,9 @@
   {
     "label": "HashTag",
     "value": "hashTag"
+  },
+  {
+    "label": "Org Chart",
+    "value": "Org Chart"
   }
 ]

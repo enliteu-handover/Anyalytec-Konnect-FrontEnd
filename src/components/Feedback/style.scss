@@ -33,6 +33,16 @@
 
 .item_blog_like_a_feedback_ {
     margin-left: 30px;
+
+    .heartCount {
+        font-size: 13px;
+    }
+
+    .post_heart {
+        width: 12px;
+        height: 11px;
+        margin-bottom: 2px;
+    }
 }
 
 .item_blog_like_a_feedback {
@@ -155,6 +165,8 @@
 .ideaCommentListsChild-f {
     margin-bottom: 0px;
     display: flex;
+    padding: 10px;
+    padding-bottom: 0px;
     // align-items: center;
 
     .eep_command_attachements_ {
@@ -169,7 +181,7 @@
 
     .ideabox-profile-img-size_ {
         margin-right: 4px;
-        margin-top: 6px;
+        margin-top: -6px;
     }
 
     .reply_user_name {
@@ -182,6 +194,8 @@
         padding: 6px;
         border-radius: 0px 10px 10px 10px;
         width: auto;
+        margin: 0px !important;
+        margin-bottom: 2px !important;
     }
 }
 
@@ -288,9 +302,7 @@
     height: 100vh;
     overflow-x: hidden;
 
-    .fixed-filter-feedback{
-
-    }
+    .fixed-filter-feedback {}
 
     .three_dot {
         .eep_custom_dropdown_bg {
@@ -315,6 +327,11 @@
         .form-check-label {
             opacity: 0.6 !important;
             width: max-content;
+        }
+
+        .form-check-input {
+            margin: auto !important;
+            position: unset;
         }
 
         & input {

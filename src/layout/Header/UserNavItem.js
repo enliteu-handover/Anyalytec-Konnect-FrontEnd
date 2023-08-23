@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LogoutModal from "../../modals/LogoutModal";
 
-const UserNavItem = () => {
+const UserNavItem = ({ logo }) => {
 
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
@@ -22,7 +22,7 @@ const UserNavItem = () => {
         >
           <img
             className={`img-profile rounded-circle`}
-            src={process.env.PUBLIC_URL + `/images/user_profile.png`}
+            src={logo || (process.env.PUBLIC_URL + `/images/user_profile.png`)}
             alt="profile"
           />
         </Link>

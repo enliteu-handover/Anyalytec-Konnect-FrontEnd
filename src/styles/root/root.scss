@@ -1225,6 +1225,25 @@
         border-radius: 10px !important;
     }
 
+    .active-menu {
+        color: var(--eep-header-color) !important;
+        background-color: var(--eep-menu-bg-color) !important;
+        border-radius: 10px !important;
+    }
+
+    .active-parent-menu {
+        background-color: var(--eep-submenu-bg-color) !important;
+        border-radius: 10px !important;
+        margin: 8px 16px 4px !important;
+        padding: 4px 0px !important;
+        width: inherit !important;
+        display: flex !important;
+        align-items: center;
+        // & svg{
+        //     width: 28px;
+        // }
+    }
+
         .nav-link[aria-expanded="true"] {
         background-color: var(--eep-submenu-bg-color) !important;
         margin: 0px 15px !important;

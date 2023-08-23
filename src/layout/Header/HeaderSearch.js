@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const HeaderSearch = () => {
-
+  const history = useHistory();
   const [searchText, setSearchText] = useState("");
 
   const searchTextHandler = (e) => {
     setSearchText(e.target.value)
+  }
+
+  const onKeyPress = (e) => {
+    debugger
+    if (e?.keyCode == 13) {
+      history.push({ pathname: "search", state: { searchData: searchText } })
+    }
   }
 
   return (
@@ -20,6 +28,7 @@ const HeaderSearch = () => {
           aria-describedby="basic-addon2"
           autoComplete="off"
           onChange={(e) => searchTextHandler(e)}
+          onKeyDown={(e) => onKeyPress(e)}
         />
         <div className={`eep_search_icon`}>
           <Link to={{ pathname: "search", state: { searchData: searchText } }}>

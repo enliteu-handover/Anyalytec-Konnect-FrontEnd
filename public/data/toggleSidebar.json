@@ -17,7 +17,7 @@
       },
       {
         "label": "Engagement Survey",
-        "link": "surveylibrary",
+        "link": "librarysurvey",
         "isCustomComponent": false,
         "imgSrc": "engagement.png",
         "bgClassName": "bg-blue-green"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Library Survey",
-        "link": "surveylibrary",
+        "link": "librarysurvey",
         "isCustomComponent": false,
         "imgSrc": "",
         "bgClassName": "bg-red-survey"

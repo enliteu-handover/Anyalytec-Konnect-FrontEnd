@@ -77,9 +77,9 @@ const TourState = () => {
     });
   }
 
-  useEffect(() => {
-    fetchTourState();
-  }, []);
+  // useEffect(() => {
+  //   fetchTourState();
+  // }, []);
 
   return(
     <React.Fragment>

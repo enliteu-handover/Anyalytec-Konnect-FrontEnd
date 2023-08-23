@@ -26,7 +26,7 @@ const MyTask = (props) => {
           )
         })}
         {dashboardDetails && !dashboardDetails.myTasks?.length &&
-          <ResponseInfo title="No award found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="Looks invalid response showing" responseImg="noRecord" responseClass="response-info" />
         }
       </div>
     </div>

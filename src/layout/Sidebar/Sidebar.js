@@ -55,30 +55,36 @@ const Sidebar = (props) => {
           <div
             className={`px-3 pt-0 pb-2 text-white profile-nm text-wrap card-text`}
           >
+
             <span className="u_full_name mb-2 mt-1">{(
               JSON.parse(user_details)?.firstName ?? ""
             ) + ' ' + (
                 JSON.parse(user_details)?.lastName ?? ""
               )}</span>
+
             <span className="u_initials mt-3 d-none">{
               (
                 JSON.parse(user_details)?.firstName?.[0]?.toUpperCase() ?? ""
               ) + (
                 JSON.parse(user_details)?.lastName?.[0]?.toUpperCase() ?? ""
               )}</span>
+
           </div>
         </li>
+
         <hr className={`sidebar-divider my-2`} />
+
         {sidebarMenu?.map((menu, index) => {
           return (
             <li className="nav-item" key={"list" + index}>
               <Link
-                className="nav-link collapsed"
+                className={`nav-link collapsed ${(((`/app/` + menu?.link)
+                  === window.location.pathname) && (!menu?.subMenu)) ? 'active-parent-menu' : ''}`}
                 data-toggle={menu && menu.subMenu ? "collapse" : ""}
                 data-target={
                   menu && menu.subMenu ? `#collapseSection${index}` : ""
                 }
-                to={menu.isDirectLink ? (`/app/` + menu.link) : "#"}
+                to={menu.isDirectLink ? (`/app/` + menu?.link) : "#"}
               >
                 {/* <img
                   className="eep-menu-icon"
@@ -108,7 +114,8 @@ const Sidebar = (props) => {
                     {menu?.subMenu?.map((submenu, index) => {
                       return (
                         <Link
-                          className="collapse-item"
+                          className={`collapse-item ${(`/app/` + submenu?.link)
+                            === window.location.pathname && 'active-menu'}`}
                           key={"submenu" + index}
                           to={`/app/` + submenu.link}
                         >

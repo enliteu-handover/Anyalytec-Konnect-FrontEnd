@@ -80,9 +80,9 @@ const FeedbackList = (props) => {
             onChange={(event) => onChangeSearch(event.target.value)}
           />
 
-          <div className="form-check pr-2" style={{ float: "right", padding: "10px" }}>
+          <div className="form-check" style={{ float: "right", padding: "10px 0px", display: "flex" }}>
+            <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>&nbsp;
             <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
-            <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
           </div>
         </div>
       </div>

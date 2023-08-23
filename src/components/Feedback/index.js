@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
 import ResponseInfo from "../../UI/ResponseInfo";
 import { URL_CONFIG } from "../../constants/rest-config";
@@ -12,6 +12,8 @@ import CreateFeedbackModal from "../../modals/feed";
 import FeedbackDetailView from "./feedbackDetailView";
 import FeedbackList from "./feedbackList";
 // import MyFeedback from "./myFeedback";
+import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
 import "./style.scss";
 
 const Feedback = () => {
@@ -30,6 +32,8 @@ const Feedback = () => {
   const [createModalShow, setCreateModalShow] = useState(false);
   const [ideaData, setIdeaData] = useState(null);
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [filterParams, setFilterParams] = useState({});
+
   const CloseFunction = () => {
     setCreateModalShow(!createModalShow)
   }
@@ -172,12 +176,21 @@ const Feedback = () => {
     setCreateModalShow(true);
   }
 
-  const fetchAllFeedbacks = () => {
+  const fetchAllFeedbacks = (paramsInfo = {}) => {
+    let obj;
+    if (Object.getOwnPropertyNames(paramsInfo)) {
+      obj = {
+        url: URL_CONFIG.GET_ALL_FEEDBACKS,
+        method: "get",
+        params: paramsInfo
+      };
+    } else {
+      obj = {
+        url: URL_CONFIG.IDEA,
+        method: "get"
+      };
+    }
 
-    let obj = {
-      url: URL_CONFIG.GET_ALL_FEEDBACKS,
-      method: "get"
-    };
     httpHandler(obj)
       .then((all_feed) => {
         setFeedbacks(all_feed?.data?.data);
@@ -312,7 +325,7 @@ const Feedback = () => {
   }
 
   const fetchMyFeedsData = (paramData = {}) => {
-    const obj = {
+    var obj = {
       url: URL_CONFIG.MY_FEEDBACK,
       method: "get",
     };
@@ -367,6 +380,19 @@ const Feedback = () => {
       });
   };
 
+  const getFilterParams = (paramsData = {}) => {
+    if (Object?.getOwnPropertyNames(filterParams)) {
+      setFilterParams({ ...paramsData });
+    } else {
+      setFilterParams({});
+    }
+    if (feedFilter?.value === "allpost") {
+      fetchAllFeedbacks(paramsData);
+    } else {
+      fetchMyFeedsData(paramsData)
+    }
+  }
+
   return (
     <React.Fragment>
 
@@ -413,6 +439,9 @@ const Feedback = () => {
             <PageHeader title="Feedback"
               navLinksRight={
                 <Link to="#" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateFeedbackModal"></Link>
+              }
+              filter={
+                <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
               }
             />
             {allSearchfeedback && allSearchfeedback?.length > 0 &&

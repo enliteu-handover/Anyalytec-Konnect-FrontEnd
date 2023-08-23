@@ -87,8 +87,8 @@ const FeedbackDetailViewInner = (props) => {
     var padding = a + 6;
     return data && data?.children?.map((cmtData, index) => {
       return (
-        <div className="ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
-        style={{ marginLeft: padding }}
+        <div className="ideaCommentListsChild ideaCommentListsChild-f" key={"commentList_" + index}
+          style={{ marginLeft: padding }}
         >
           <div>
             <div className="box-content mb-1">
@@ -99,7 +99,8 @@ const FeedbackDetailViewInner = (props) => {
             </div>
             <div style={{ display: 'flex' }}>
               <img src={getUserPicture(cmtData?.createdBy.id)} alt="profile" className="rounded-circle ideabox-profile-img-size ideabox-profile-img-size_" />
-              <div className="eep_command_posts"
+              <div
+                className="eep_command_posts"
                 id='parentElement' dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
             </div>
             {/* {cmtData?.message} */}
@@ -134,21 +135,21 @@ const FeedbackDetailViewInner = (props) => {
               </ReactTooltip>
 
               {!isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
-                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>
+                <div className='heartCount' data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>
                   {cmtData?.feedbackCommentLikes?.length > 0 ? cmtData?.feedbackCommentLikes?.length
                     : ''}  <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" className="post_heart"
                       onClick={() => likeAnFeedHandler({ isLike: true, iData: cmtData })} /></div>
               }
 
               {isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
-                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
+                <div className='heartCount' data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
                   cmtData?.feedbackCommentLikes?.length : ""} <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
                     onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
-              }&nbsp;
-
-              &nbsp;<span style={{ color: "lightgray" }}>●</span>&nbsp;<span
+              }
+              {/* &nbsp;
+              <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
                 onClick={() => handleCommand(cmtData)}
-                className="text-left mb-0 eep_dt replay">Reply</span>
+                className="text-left mb-0 eep_dt replay">Reply</span> */}
             </div>
 
             {renderChildComponentCildren(cmtData, padding, setOpenState)}
@@ -162,7 +163,7 @@ const FeedbackDetailViewInner = (props) => {
     var padding = a + 6;
     return data && data?.children?.map((cmtData, index) => {
       return (
-        <div className="ideaCommentListsChild ideaCommentListsChild-f p-2" key={"commentList_" + index}
+        <div className="ideaCommentListsChild ideaCommentListsChild-f" key={"commentList_" + index}
         // style={{ marginLeft: padding }}
         >
           <div>
@@ -202,39 +203,6 @@ const FeedbackDetailViewInner = (props) => {
             }
             <div className="item_blog_like_a_feedback item_blog_like_a_feedback_ text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
 
-              {/* <div style={{ height: "30px", display: "flex" }}>{cmtData?.feedbackCommentLikes && Object.keys(cmtData?.feedbackCommentLikes)?.map((v, i) => {
-                return <>
-                  <ReactTooltip
-                    effect='solid'
-                    id={`tooltip${i}${v}`}
-                  >{cmtData?.feedbackCommentLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
-                  <div
-                    className="emoji"
-                    data-tip data-for={`tooltip${i}${v}`}
-                    onClick={(e) => {
-                      onClickChildEmoji(
-                        cmtData?.feedbackCommentLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, cmtData)
-                    }}
-                  > <Emoji
-                      unified={v}
-                      size={16}
-                    />{cmtData?.feedbackCommentLikes?.[v]?.map(v => v.username)?.length}</div>
-                </>
-              })}
-              </div> */}
-              {/* <span className={"c1"} onClick={() => setState({ ...state, childopenicon: cmtData?.id === state?.childopenicon ? null : cmtData?.id })}>
-
-                {state?.childopenicon === cmtData?.id && <EmojiPicker
-                  onEmojiClick={(e) => onClickChildEmoji(e, cmtData)}
-                  suggestedEmojisMode={SuggestionMode.RECENT}
-                  skinTonesDisabled />}
-
-                <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
-                //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
-                />
-                &nbsp;React
-              </span>&nbsp; */}
-
               <ReactTooltip
                 effect='solid'
                 id={`tooltip_likes${cmtData?.message}`}
@@ -242,33 +210,28 @@ const FeedbackDetailViewInner = (props) => {
               </ReactTooltip>
 
               {!isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
-                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>
+                <div className='heartCount' data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>
                   {cmtData?.feedbackCommentLikes?.length > 0 ? cmtData?.feedbackCommentLikes?.length
                     : ''}  <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" className="post_heart"
                       onClick={() => likeAnFeedHandler({ isLike: true, iData: cmtData })} /></div>
               }
 
               {isIdeaLiked(loggedUserData.id, cmtData?.feedbackCommentLikes) &&
-                <div data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
+                <div className='heartCount' data-tip data-for={cmtData?.feedbackCommentLikes?.length > 0 && `tooltip_likes${cmtData?.message}`}>{cmtData?.feedbackCommentLikes?.length > 0 ?
                   cmtData?.feedbackCommentLikes?.length : ""} <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
                     onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
-              }&nbsp;
+              }
 
-              {/* <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
-                className="text-left mb-0 eep_dt reply">{cmtData?.children?.length +
-                  (cmtData?.children?.length <= 1 ?
-                    ' Response' : ' Responses')}</span> */}
               &nbsp;<span style={{ color: "lightgray" }}>●</span>&nbsp;<span
                 onClick={() => handleCommand(cmtData)}
                 className="text-left mb-0 eep_dt replay">Reply</span>
             </div>
 
-            {/* <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.view_reply_icon }} className="mr-2"></span> */}
             {cmtData?.children?.length > 0 && <div className='view-more-line'
               onClick={() => setOpenState(cmtData?.id == isOpen ? '' : cmtData?.id)}><div></div>
-              {cmtData?.children?.length + `${isOpen === cmtData?.id ? ' Less' : ' More'}` +
+              {cmtData?.children?.length +
                 (cmtData?.children?.length <= 1 ?
-                  ' Response' : ' Responses')} </div>}
+                  ' Reply' : ' Replies')} </div>}
 
             {isOpen === cmtData?.id && renderChildComponentCildren(cmtData, padding, setOpenState)}
           </div>
