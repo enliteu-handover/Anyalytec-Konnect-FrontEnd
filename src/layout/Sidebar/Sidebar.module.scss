@@ -1,5 +1,6 @@
 @import "../../styles/config.scss";
 @import "../../styles/breakpoint.scss";
+
 // .sidebar {
 //   width: 15.5rem;
 //   min-height: 100vh;
@@ -10,12 +11,15 @@
 #accordionSidebar {
   position: relative;
 }
+
 .eep-navbar-newversion {
   margin-right: 14px;
 }
+
 .menu-bg-theme {
   background: transparent linear-gradient(180deg, #002d40 0%, #00090d 100%);
 }
+
 .profile-greet {
   font-family: "helveticaneuethin" !important;
 }
@@ -23,10 +27,17 @@
 .nav-item {
   .profile-nm {
     text-align: left;
+
     @include hd() {
       font-size: 16px;
       line-height: 22px;
     }
+  }
+}
+
+.toggled {
+  .eep-menu-icon-sidebar {
+      display: block !important;
   }
 }
 

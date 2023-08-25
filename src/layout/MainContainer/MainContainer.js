@@ -76,8 +76,8 @@ const MainContainer = (props) => {
           <div id="content" className="content">
             <Header />
             <Breadcrumb />
-            {getTabs.length !== 0 && <Tab />}
-            <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs.length ? "eep-has-tab-menu" : "" }`}>
+            {getTabs?.length !== 0 && <Tab />}
+            <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs.length ? "eep-has-tab-menu" : ""}`}>
               <div className={`eep-container ${getToggleSidebarState ? "eep-container-with-sidebar" : ""}`}>
                 <div className="container-sm eep-container-sm">
                   <div className="row no-gutters">
@@ -85,16 +85,16 @@ const MainContainer = (props) => {
                       <div className="eep-content-section-div">
                         <div className="eep-content-section eep_scroll_y">
                           <Switch>
-                          <Route path="/app/orgChart">
+                            <Route path="/app/orgChart">
                               <BulkUploadOrgChart />
                             </Route>
-                            <Route path="/app/dashboard" exact>
+                            <Route path="/app/dashboard">
                               <Home />
                             </Route>
                             <Route path="/app/userdashboard">
                               <UserDashboard />
                             </Route>
-                            <Route path="/app/usermanagement" exact>
+                            <Route path="/app/usermanagement">
                               <UserManagement />
                             </Route>
                             <Route path="/app/newUser">
@@ -168,7 +168,7 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/managenominateawardview">
                               <ManageNominateAwardView />
-                            </Route>  
+                            </Route>
                             <Route path="/app/ecardIndex">
                               <ECardIndex />
                             </Route>

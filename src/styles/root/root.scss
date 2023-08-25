@@ -343,7 +343,8 @@
 
         .sidebar.toggled .nav-item .collapse {
             top: 0 !important;
-            left: calc(52px + 1rem / 2) !important;
+            left: calc(40px + 1rem / 2) !important;
+            border-radius: 0.35rem !important;
         }
 
         #accordionSidebar.sidebar.toggled,
@@ -424,16 +425,16 @@
         opacity: 0.8;
     }
 
-    .eep-navbar-div .nav-item a.nav-link:before {
-        content: "";
-        width: 30px;
-        height: 30px;
-        background-position: center;
-        position: absolute;
-        color: var(--eep-header-color);
-        background-color: rgba(var(--eep-submenu-bg-color), 1);
-        border-radius: 3px;
-    }
+    // .eep-navbar-div .nav-item a.nav-link:before {
+    //     content: "";
+    //     width: 30px;
+    //     height: 30px;
+    //     background-position: center;
+    //     position: absolute;
+    //     color: var(--eep-header-color);
+    //     background-color: rgba(var(--eep-submenu-bg-color), 1);
+    //     border-radius: 3px;
+    // }
 
     .eep-navbar-div #sidebarToggle {
         background-color: rgba(255, 255, 255, 0.2);

@@ -177,6 +177,7 @@ const Feedback = () => {
   }
 
   const fetchAllFeedbacks = (paramsInfo = {}) => {
+    debugger
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {

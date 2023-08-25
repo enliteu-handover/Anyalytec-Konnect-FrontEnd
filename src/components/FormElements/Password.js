@@ -74,7 +74,7 @@ const Password = (props) => {
 
       <div className={`col-md-12 form-group text-left ${fieldClasses} ${field.mandatory ? "required" : ""}`} >
         <label className="control-label mr-2">{field.label}</label>
-        <span className="" data-tip="The minimum password length is 8 characters and must contain at least 1 lowercase letter, 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon }}></span>
+        <span className="" data-tip="The minimum password length is 8 characters and must contain 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon }}></span>
         <div className="input-group" id="show_hide_password">
           <input
             className="form-control a_upassword"

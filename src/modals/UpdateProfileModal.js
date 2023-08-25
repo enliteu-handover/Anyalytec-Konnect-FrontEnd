@@ -246,7 +246,7 @@ const UpdateProfileModal = () => {
                         <label className="font-helvetica-m c-404040 control-label eep_popupLabelMargin mr-2" htmlFor="password" >
                           New Password
                         </label>
-                        <span className="" data-tip="The minimum password length is 8 characters and must contain at least 1 lowercase letter, 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon }}></span>
+                        <span className="" data-tip="The minimum password length is 8 characters and must contain 1 capital letter 1 number and 1 special character." dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.info_icon }}></span>
                         <div className="input-group field-wbr" id="show_hide_password">
                           <input className="form-control  pr-password" type={toggleNewPWIcon ? "password" : "text"} id="Newpassword" name="u_upassword" autoComplete="new-password" placeholder="New Password" onChange={newPWDChangeHandler} value={newPassword} maxLength={passMaxLength} />
                           <div className="input-group-addon">

@@ -20,7 +20,9 @@ const Home = () => {
   const location = useLocation();
   const history = useHistory();
   const routerData = location.state;
-  const [filterParams, setFilterParams] = useState({});
+  const [filterParams, setFilterParams] = useState({
+    month: new Date().getMonth() + 1, year: new Date().getFullYear()
+  });
 
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   //console.log("userRolePermission", userRolePermission);

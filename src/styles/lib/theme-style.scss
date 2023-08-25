@@ -251,15 +251,15 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
   text-align: right;
   width: 100%;
 }
-.sidebar-dark .nav-item a.nav-link:before {
-  content: "";
-  width: 30px;
-  height: 30px;
-  background-position: center;
-  position: absolute;
-  // background-color: #003b55;
-  border-radius: 3px;
-}
+// .sidebar-dark .nav-item a.nav-link:before {
+//   content: "";
+//   width: 30px;
+//   height: 30px;
+//   background-position: center;
+//   position: absolute;
+//   // background-color: #003b55;
+//   border-radius: 3px;
+// }
 #accordionSidebar {
   position: relative;
 }
@@ -278,7 +278,7 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle="collapse"] {
   }
   .sidebar.toggled .nav-item .collapse {
     top: 0 !important;
-    left: calc(52px + 1rem / 2) !important;
+    left: calc(40px + 1rem / 2) !important;
   }
   #accordionSidebar.sidebar.toggled,
   #accordionSidebar.sidebar.toggled .nav-item .nav-link {

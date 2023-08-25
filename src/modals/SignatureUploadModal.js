@@ -108,7 +108,7 @@ const SignatureUploadModal = () => {
 
         const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
         const update = {
-          url: URL_CONFIG.UPDATE_USER_SIGNATURE,
+          url: URL_CONFIG.GETUSER_PROFILE,
           method: "put",
           payload: {
             signPic: res?.data?.data?.[0]?.url ?? "",

@@ -13,7 +13,9 @@ const RewardsRecognition = (props) => {
 
   const { allUserDatas } = props;
 
-  const [filterParams, setFilterParams] = useState({});
+  const [filterParams, setFilterParams] = useState({
+    month: new Date().getMonth() + 1, year: new Date().getFullYear()
+  });
   const [rrData, setRRData] = useState({});
   const dispatch = useDispatch();
   const initAllUserDatas = allUserDatas ? allUserDatas : [];

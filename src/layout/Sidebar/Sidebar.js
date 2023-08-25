@@ -95,7 +95,7 @@ const Sidebar = (props) => {
                   className="eep-menu-icon-sidebar"
                 >
                   {icon[menu.icon]}
-                </span>&nbsp;&nbsp;
+                </span>
 
                 {/* <div style={{ display: "flex", alignItems: "center" }}><span
                   style={{ width: "30px" }}> */}
