@@ -11,7 +11,7 @@ const HeaderSearch = () => {
   }
 
   const onKeyPress = (e) => {
-    debugger
+    
     if (e?.keyCode == 13) {
       history.push({ pathname: "search", state: { searchData: searchText } })
     }
