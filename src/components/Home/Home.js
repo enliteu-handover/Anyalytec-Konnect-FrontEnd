@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import Dashboard from "./Dashboard";
-import RewardsRecognition from "./RewardsRecognition";
 import HallOfFame from "./HallOfFame";
-import { httpHandler } from "../../http/http-interceptor";
-import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
-import { sharedDataActions } from "../../store/shared-data-slice";
-import axios from "axios";
+import RewardsRecognition from "./RewardsRecognition";
 
 const Home = () => {
   const [usersPic, setUsersPic] = useState([]);
@@ -210,7 +208,6 @@ const Home = () => {
   // }
 
   useEffect(() => {
-    console.log('1');
     getDashboardDetails();
     fetchAllUsers();
     // fetchIsNotification();

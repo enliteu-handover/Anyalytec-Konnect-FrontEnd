@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Header from "../Header/Header";
@@ -63,14 +63,17 @@ import BulkUploadOrgChart from "../../bulkUpload";
 import Feedback from "../../components/Feedback";
 import MyLibrary from "../../components/Survey/MyLibrary";
 import SurveyLibrarayAnswer from "../../components/Survey/LibrarySurveyAdd";
+import IdleTimerContainer from "../../IdleTimer/IdleTimerContainer";
 
 const MainContainer = (props) => {
+  const [initial, setInitial] = useState(true);
   const getTabs = useSelector((state) => state.tabs.config);
   const getToggleSidebarState = useSelector((state) => state.toggleState.isToggle);
 
   return (
     <main>
       <div id="wrapper">
+      <IdleTimerContainer />
         <Sidebar theme={props.theme} />
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
@@ -89,7 +92,7 @@ const MainContainer = (props) => {
                               <BulkUploadOrgChart />
                             </Route>
                             <Route path="/app/dashboard">
-                              <Home />
+                              <Home initial={initial} setInitial={setInitial} />
                             </Route>
                             <Route path="/app/userdashboard">
                               <UserDashboard />
@@ -270,7 +273,6 @@ const MainContainer = (props) => {
           </div>
         </div>
       </div>
-
     </main>
   );
 };
