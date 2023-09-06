@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "./App.scss";
-import IdleTimerContainer from "./IdleTimer/IdleTimerContainer";
-import RolePermissions from "./components/RolePermissions/RolePermissions";
-import TourState from "./components/Tour/TourState";
+import { URL_CONFIG } from "./constants/rest-config";
+import { httpHandler } from "./http/http-interceptor";
+import { idmRoleMapping } from "./idm";
 import Login from "./layout/Login/Login";
 import MainContainer from "./layout/MainContainer/MainContainer";
 import { firebaseInitialization } from "./notification";
+import PrivateRoute from "./privateRouter";
 import { sharedDataActions } from "./store/shared-data-slice";
-import { URL_CONFIG } from "./constants/rest-config";
-import { httpHandler } from "./http/http-interceptor";
 import "./styles/root/root.scss";
-import { idmRoleMapping } from "./idm";
 
 function App() {
   const dispatch = useDispatch();
@@ -86,17 +84,17 @@ function App() {
   //     }).catch((error) => console.log(error));
   // }
 
-  const PrivateRoute = ({ children }) => {
-    if (!sessionStorage?.userData) {
-      sessionStorage.setItem('redirect', window.location.href)
-    }
-    return sessionStorage?.userData ? children : <Redirect to="/login/signin" />;
-  };
+  // const PrivateRoute = ({ children }) => {
+  //   if (!sessionStorage?.userData) {
+  //     sessionStorage.setItem('redirect', window.location.href)
+  //   }
+  //   return sessionStorage?.userData ? {...children} : <Redirect to="/login/signin" />;
+  // };
 
   return (
     <div class="user-element" data-user={theme?.color ?? "color_one"}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
+        <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
           </div>
@@ -106,24 +104,31 @@ function App() {
           <Route path="/" exact>
             <Redirect to="/login" />
           </Route>
-          <Route path="/app">
+
+          <PrivateRoute
+            path="/app"
+            theme={theme?.color}
+            component={MainContainer}
+          />
+
+          {/* <Route path="/app">
             <PrivateRoute>
               <IdleTimerContainer />
-            </PrivateRoute>
+            </PrivateRoute> */}
 
-            <PrivateRoute>
+          {/* <PrivateRoute>
               <MainContainer theme={theme?.color} />
-            </PrivateRoute>
+            </PrivateRoute> */}
 
-            {/* <PrivateRoute>
+          {/* <PrivateRoute>
               <RolePermissions />
             </PrivateRoute> */}
 
-            {/* <PrivateRoute>
+          {/* <PrivateRoute>
               <TourState />
             </PrivateRoute> */}
-            {/* <FirebaseToken /> */}
-          </Route>
+          {/* <FirebaseToken /> */}
+          {/* </Route> */}
         </Switch>
       </BrowserRouter>
 
