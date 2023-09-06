@@ -120,13 +120,13 @@ const Certificates = () => {
 
   const fetchCurrentUserData = () => {
     const obj = {
-      url: URL_CONFIG.GETUSER,
+      url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
       method: "get",
       params: { id: userSessionData.id },
     };
     httpHandler(obj)
       .then((uData) => {
-        setCurrUserData(uData.data);
+        setCurrUserData(uData?.data?.[0]);
       })
       .catch((error) => {
         const errMsg = error.response?.data?.message;
@@ -136,7 +136,7 @@ const Certificates = () => {
 
   const fetchUserData = () => {
     const obj = {
-      url: URL_CONFIG.GETALLUSERS,
+      url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
       method: "get",
       params: {
         active: true
@@ -216,14 +216,13 @@ const Certificates = () => {
     };
     setPreviewDataUri(obj);
   }
-  // console.log("certificateRecognitionData", certificateRecognitionData);
   return (
     <React.Fragment>
       {myCertificateModalShow && (<CertificatePreviewModal previewDataUri={previewDataUri} />)}
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
           <div id="mycertificate" className="tab-pane h-100 active">
-            <MyCertificate />
+            {activeTab?.id === 'mycertificate' && <MyCertificate />}
           </div>
           <div id="certificate" className="tab-pane h-100">
             {activeTab && activeTab.id === 'certificate' &&

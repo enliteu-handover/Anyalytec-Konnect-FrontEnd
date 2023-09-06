@@ -22,7 +22,7 @@ const Nominations = () => {
 
   const fetchAllUsers = () => {
     const obj = {
-      url: URL_CONFIG.ALLUSERS,
+      url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
       method: "get"
     };
     httpHandler(obj)

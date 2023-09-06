@@ -220,7 +220,7 @@ const Forum = () => {
 
 	const fetchAllUsersPics = () => {
 		const obj = {
-			url: URL_CONFIG.ALLUSERS,
+			url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
 			method: "get"
 		};
 		httpHandler(obj)
@@ -462,7 +462,7 @@ const Forum = () => {
 								<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
 							}
 						/>
-						{forumList.length > 0 &&
+						{forumList?.length > 0 &&
 							<div className="row mx-0 forum_containerr">
 								<div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y">
 									{activeTab && activeTab.id === 'forumpot' && <ForumList forumList={forumList} userImageArr={usersPic} readForum={readForum} unReadForum={unReadForum} unFollowForum={unFollowForum} followForum={followForum} readAll={readAll} dateReceived={dateReceived} />}

@@ -47,41 +47,44 @@ function App() {
         userRolePermission: roleData?.data
       }));
 
-      let payOptionsRole = {
-        data: roleData?.rolesData,
-        role_id: roleData?.roleId,
-        screen: JSON.stringify(roleData?.data)
-      };
+      // let payOptionsRole = {
+      //   data: roleData?.rolesData,
+      //   role_id: roleData?.roleId,
+      //   screen: JSON.stringify(roleData?.data)
+      // };
 
-      const objRole = {
-        url: URL_CONFIG.ADDROLE,
-        method: "post",
-        payload: payOptionsRole,
-      };
+      // const objRole = {
+      //   url: URL_CONFIG.ADDROLE,
+      //   method: "post",
+      //   payload: payOptionsRole,
+      // };
 
-      await httpHandler(objRole)
+      // await httpHandler(objRole)
     }).catch((error) => {
       console.log("fetchPermission error", error);
     });
   }
 
   React.useEffect(() => {
-    getThemePanel(headerLogo?.color)
+    // getThemePanel(headerLogo?.color)
+    setTheme({
+      color: headerLogo?.color ?? JSON.parse(sessionStorage.getItem('userData'))?.theme?.color,
+    })
   }, [headerLogo])
 
-  const getThemePanel = (color) => {
-    const obj = {
-      url: URL_CONFIG.ADD_ADMIN_PANEL,
-      method: "get"
-    };
+  // const getThemePanel = (color) => {
+  //   const obj = {
+  //     url: URL_CONFIG.ADD_ADMIN_PANEL,
+  //     method: "get"
+  //   };
 
-    httpHandler(obj)
-      .then((reponse) => {
-        setTheme({
-          color: color ?? reponse?.data?.[0]?.color,
-        })
-      }).catch((error) => console.log(error));
-  }
+  //   httpHandler(obj)
+  //     .then((reponse) => {
+  //       setTheme({
+  //         color: color ?? reponse?.data?.[0]?.color,
+  //       })
+  //     }).catch((error) => console.log(error));
+  // }
 
   const PrivateRoute = ({ children }) => {
     if (!sessionStorage?.userData) {
@@ -93,7 +96,7 @@ function App() {
   return (
     <div class="user-element" data-user={theme?.color ?? "color_one"}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
+      <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
           </div>

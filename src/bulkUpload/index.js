@@ -115,7 +115,7 @@ const BulkUploadOrgChart = () => {
 
     const userBulkDataTableHeaders = [
         {
-            header: "Username",
+            header: "fullName",
             accessorKey: "reporting",
         }, {
             header: "Reportung To",
@@ -165,7 +165,7 @@ const BulkUploadOrgChart = () => {
                             id: v?.id,
                             value: v?.role?.roleName,
                             profile_pic: v?.imageByte?.image,
-                            label: v?.username
+                            label: v?.fullName
                         }
                     })
                 });
@@ -175,9 +175,13 @@ const BulkUploadOrgChart = () => {
             });
     };
 
+    const getOrg = async () => {
+        await fetchOrgData();
+        await fetchUserData();
+    }
+
     useEffect(() => {
-        fetchOrgData();
-        fetchUserData();
+        getOrg()
     }, []);
 
     const fetchOrgData = async () => {
@@ -227,9 +231,9 @@ const BulkUploadOrgChart = () => {
                     id: JSON.stringify(v?.id),
                     manager: v?.manager,
                     user_id: v?.id,
-                    user_node_id: v?.username ?? '',
+                    user_node_id: v?.fullName ?? '',
                     icon: v?.imageByte?.image ?? '',
-                    title: v?.username ?? '',
+                    title: v?.fullName ?? '',
                     subline: `${(v?.role?.roleName ? v?.role?.roleName + ' ● ' : '') ?? ''}${(v?.designation) ?? ''}`,
                     email: v?.email ? (' ● ' + v?.email) : '',
                     country_name: v?.country?.label ?? '',
@@ -309,7 +313,7 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
-            
+
             {state?.orgChartData?.newUsers &&
                 <div style={{
                     position: 'fixed',
@@ -318,10 +322,10 @@ const BulkUploadOrgChart = () => {
                 }}>No Data!.</div>}
 
             {(!state?.orgChartData?.newUsers) &&
-             state?.chartData?.initialNodes?.length > 0 &&
-             state?.chartData?.initialEdges?.length > 0 &&
-             <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
-        
+                state?.chartData?.initialNodes?.length > 0 &&
+                state?.chartData?.initialEdges?.length > 0 &&
+                <FlowDiagram selectUser={state?.selectUser} chartData={state?.chartData ?? {}} />}
+
         </React.Fragment>
     );
 };

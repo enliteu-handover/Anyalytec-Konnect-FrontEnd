@@ -278,8 +278,8 @@ const CertificateCompose = () => {
 
     /* Signature Field Start */
     // var signURL = currUserInfo.signatureByte !== null ? (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
-    var signURL = currUserInfo.signatureByte !== null ?
-      (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
+    var signURL = currUserInfo?.signatureByte !== null ?
+      (currUserInfo?.signatureByte?.image ? currUserInfo?.signatureByte?.image : "") : "";
     
     if (signURL) {
       let sg_img_coordination_x = parseJsonValue[5]["certsignimgField"][2]["coordinates"][0];

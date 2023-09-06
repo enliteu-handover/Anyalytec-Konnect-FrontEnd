@@ -59,7 +59,7 @@ const LoginForm = () => {
   };
 
   const formSubmissionHandler = (event) => {
-    
+
     event.preventDefault();
     setUserNameTouched(true);
     setPasswordTouched(true);
@@ -143,7 +143,7 @@ const LoginForm = () => {
   }
 
   const fetchPermission = async () => {
-    
+
     const obj = {
       url: URL_CONFIG.USER_PERMISSION,
       method: "get",
@@ -154,10 +154,11 @@ const LoginForm = () => {
       const getAndUpdate = sessionStorage.getItem('userData')
       const addFileds = {
         ...JSON.parse(getAndUpdate),
-        firstName: response?.data?.firstName, 
+        firstName: response?.data?.firstName,
         lastName: response?.data?.lastName,
         allPoints: response?.data?.totalPoints,
         HeaderLogo: response?.data?.HeaderLogo,
+        theme: response?.data?.theme?.[0] ?? {},
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
       dispatch(sharedDataActions.getUserRolePermission({

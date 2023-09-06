@@ -69,7 +69,7 @@ const HallOfFame = (props) => {
       <div className="row mx-0" id="content-start">
 
         {/* <!-- Section 1 START --> */}
-        {hallOfFameDetails.dashboardUsersList && hallOfFameDetails.dashboardUsersList.length > 0 &&
+        {hallOfFameDetails?.dashboardUsersList && hallOfFameDetails?.dashboardUsersList?.length > 0 &&
           <div className="col-md-12 row_col_div mb-3">
             <div className="row custom_table my-3">
               <div className="col col-md-3 text-center div_name"></div>
@@ -77,7 +77,7 @@ const HallOfFame = (props) => {
               <div className="col col-md-2 text-center"><span className="table_heading font-waight-600">Points</span></div>
               <div className="col col-md-5 text-center"><span className="table_heading font-waight-600">Achievements</span></div>
             </div>
-            {hallOfFameDetails.dashboardUsersList && hallOfFameDetails.dashboardUsersList.map((item, index) => {
+            {hallOfFameDetails?.dashboardUsersList && hallOfFameDetails?.dashboardUsersList.map((item, index) => {
               return (
                 <div className="row align-items-center mb-2 bg-f9f9f9 p-1 br-20" key={"HallOfFameRankList_" + index}>
                   <div className="col col-md-3">
@@ -89,7 +89,7 @@ const HallOfFame = (props) => {
                   <div className="col col-md-2 d_leaderboard_lead"><span>{item.rank}</span></div>
                   <div className="col col-md-2 d_leaderboard_points"><span>{item.points}</span></div>
                   <div className="col col-md-5 d_leaderboard_achievements_div">
-                    {item.rewardList.length > 0 && item.rewardList.slice(0, 3).map((item, index) => {
+                    {item.rewardList?.length > 0 && item.rewardList.slice(0, 3).map((item, index) => {
                       return (
                         <div className="d_leaderboard_achievements" key={"HallOfFameRewardList_" + index}>
                           <img src={item?.imageByte?.image} className="d_achievements_icon" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
@@ -97,13 +97,13 @@ const HallOfFame = (props) => {
                         </div>
                       )
                     })}
-                    {item.rewardList && item.rewardList.length > maxLikedCount && (
+                    {item.rewardList && item.rewardList?.length > maxLikedCount && (
                       <React.Fragment>
                         <div className="align-self-baseline">
                           <label className="font-14 mb-0 mx-1"> ...</label>
                           <Link to="#" className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item, true)} >
-                            {/* <span className="font-14"> {item.rewardList.length - maxLikedCount} others </span> */}
-                            <span className={`c-2c2c2c animated_div div_big ${item.rewardList.length < 100 ? "font-14" : "font-12"}`}>{item.rewardList.length < 100 ? (item.rewardList.length - maxLikedCount) : "99+"}</span>
+                            {/* <span className="font-14"> {item.rewardList?.length - maxLikedCount} others </span> */}
+                            <span className={`c-2c2c2c animated_div div_big ${item.rewardList?.length < 100 ? "font-14" : "font-12"}`}>{item.rewardList?.length < 100 ? (item.rewardList?.length - maxLikedCount) : "99+"}</span>
                             <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="30px" height="30px" alt="Detailview Icon" title="Detail view" />
                             {/* DV.svg */}
                           </Link>
@@ -116,7 +116,7 @@ const HallOfFame = (props) => {
             })}
           </div>
         }
-        {hallOfFameDetails.dashboardUsersList && hallOfFameDetails.dashboardUsersList.length <= 0 && (
+        {hallOfFameDetails?.dashboardUsersList && hallOfFameDetails?.dashboardUsersList?.length <= 0 && (
           <div className="col-md-12 response-allign-middle mb-3">
             <div className="border border-1 p-1 br-15">
               <div className="d-block text-center"><h4>Leaderboard</h4></div>
@@ -127,12 +127,12 @@ const HallOfFame = (props) => {
         {/* <!-- Section 1 END --> */}
 
         {/*<!-- Section 2 START --> */} {/* shadow */}
-        {hallOfFameDetails.dashboardECardList.length > 0 &&
+        {hallOfFameDetails?.dashboardECardList?.length > 0 &&
           <div className="col-md-6 row_col_div mb-3">
             <div className="bg-white br-15 h-100 border border-1">
               <div className="p-3">
                 <h4>Appreciations</h4>
-                {hallOfFameDetails.dashboardECardList.map((item, index) => {
+                {hallOfFameDetails?.dashboardECardList.map((item, index) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Appreciations_" + index}>
                       <div className="col-md-2">
@@ -172,7 +172,7 @@ const HallOfFame = (props) => {
 
           </div>
         }
-        {hallOfFameDetails.dashboardECardList && hallOfFameDetails.dashboardECardList.length <= 0 && (
+        {hallOfFameDetails?.dashboardECardList && hallOfFameDetails?.dashboardECardList?.length <= 0 && (
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-start"><h4>Appreciations</h4></div>
@@ -184,7 +184,7 @@ const HallOfFame = (props) => {
         {/*<!-- Section 2 END --> */}
 
         {/*<!-- Section 3 START --> */}
-        {hallOfFameDetails.dashboardCertificateList.length > 0 &&
+        {hallOfFameDetails?.dashboardCertificateList?.length > 0 &&
           <div className="col-md-6 row_col_div mb-3">
             <div className="bg-white br-15 h-100 border border-1">
               <div className="p-3">
@@ -237,7 +237,7 @@ const HallOfFame = (props) => {
             </div>
           </div>
         }
-        {hallOfFameDetails.dashboardCertificateList && hallOfFameDetails.dashboardCertificateList.length <= 0 && (
+        {hallOfFameDetails?.dashboardCertificateList && hallOfFameDetails?.dashboardCertificateList?.length <= 0 && (
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-startr"><h4>Certificates</h4></div>
@@ -248,13 +248,13 @@ const HallOfFame = (props) => {
         {/*<!-- Section 3 END --> */}
 
         {/*<!-- Section 4 START --> */}
-        {hallOfFameDetails.dashboardBadgeList.length > 0 &&
+        {hallOfFameDetails?.dashboardBadgeList?.length > 0 &&
           <div className="col-md-6 row_col_div mb-3">
             <div className="bg-white br-15 h-100 border border-1">
               <div className="p-3">
                 <h4>Badges</h4>
 
-                {hallOfFameDetails.dashboardBadgeList.map((item, index) => {
+                {hallOfFameDetails?.dashboardBadgeList.map((item, index) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Badges_" + index}>
                       <div className="col-md-2">
@@ -292,7 +292,7 @@ const HallOfFame = (props) => {
             </div>
           </div>
         }
-        {hallOfFameDetails.dashboardBadgeList && hallOfFameDetails.dashboardBadgeList.length <= 0 && (
+        {hallOfFameDetails?.dashboardBadgeList && hallOfFameDetails?.dashboardBadgeList?.length <= 0 && (
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-start"><h4>Badges</h4></div>
@@ -303,12 +303,12 @@ const HallOfFame = (props) => {
         {/*<!-- Section 4 END --> */}
 
         {/*<!-- Section 5 START --> */}
-        {hallOfFameDetails.dashboardAwardList.length > 0 &&
+        {hallOfFameDetails?.dashboardAwardList?.length > 0 &&
           <div className="col-md-6 row_col_div mb-3">
             <div className="bg-white br-15 h-100 border border-1">
               <div className="p-3">
                 <h4>Awards</h4>
-                {hallOfFameDetails.dashboardAwardList.map((item, index) => {
+                {hallOfFameDetails?.dashboardAwardList.map((item, index) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Awards_" + index}>
                       <div className="col-md-2">
@@ -346,7 +346,7 @@ const HallOfFame = (props) => {
             </div>
           </div>
         }
-        {hallOfFameDetails.dashboardAwardList && hallOfFameDetails.dashboardAwardList.length <= 0 && (
+        {hallOfFameDetails?.dashboardAwardList && hallOfFameDetails?.dashboardAwardList?.length <= 0 && (
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-start"><h4>Awards</h4></div>
