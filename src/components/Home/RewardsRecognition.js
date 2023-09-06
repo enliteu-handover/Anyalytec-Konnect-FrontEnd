@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+// import { useDispatch } from "react-redux";
+// import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import Highcharts from "highcharts";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER_WITH_BETWEEN_DATES } from "../../constants/ui-config";
-import DashboardCharts from "../Charts/DashboardCharts";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
-import Highcharts, { keys } from "highcharts";
+import { TYPE_BASED_FILTER_WITH_BETWEEN_DATES } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import DashboardCharts from "../Charts/DashboardCharts";
 
 const RewardsRecognition = (props) => {
+  // const dispatch = useDispatch();
 
   const { allUserDatas } = props;
 
@@ -17,7 +18,6 @@ const RewardsRecognition = (props) => {
     month: new Date().getMonth() + 1, year: new Date().getFullYear()
   });
   const [rrData, setRRData] = useState({});
-  const dispatch = useDispatch();
   const initAllUserDatas = allUserDatas ? allUserDatas : [];
   const [loginChart, setLoginChart] = useState({});
   const [recognitionChart, setRecognitionChart] = useState({});
@@ -404,6 +404,7 @@ const RewardsRecognition = (props) => {
   // }, []);
 
   const fetchRewardsRecognition = (paramsInfo) => {
+    debugger
     let obj = {
       url: URL_CONFIG.REWARDS_RECOGNITION,
       method: "get"
@@ -419,6 +420,7 @@ const RewardsRecognition = (props) => {
   }
 
   const getFilterParams = (paramsData) => {
+    debugger
     if (Object.getOwnPropertyNames(filterParams)) {
       setFilterParams({ ...paramsData });
     } else {
@@ -428,11 +430,13 @@ const RewardsRecognition = (props) => {
   }
 
   useEffect(() => {
+    debugger
     fetchRewardsRecognition(filterParams);
   }, []);
 
   useEffect(() => {
-    if (rrData && Object.keys(rrData).length) {
+    debugger
+    if (rrData && Object.keys(rrData)?.length) {
       // Login Chart Start
       let loginChartTemp = defaultChartOptions.login;
       loginChartTemp["yAxis"]["max"] = initAllUserDatas.length;

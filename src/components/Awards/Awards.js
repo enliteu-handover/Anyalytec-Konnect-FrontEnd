@@ -266,7 +266,7 @@ const Awards = () => {
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
           <div id="MyAwardsTab" className="tab-pane active h-100">
-            <MyAwards />
+          {activeTab?.id === 'MyAwardsTab'&& <MyAwards />}
           </div>
           <div id="NominationsTab" className="tab-pane h-100">
             {activeTab && activeTab.id === 'NominationsTab' && <Nominations />}

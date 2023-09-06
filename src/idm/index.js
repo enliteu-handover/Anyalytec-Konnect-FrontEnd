@@ -30,27 +30,27 @@ const getPermission = (GetPermissions, validate) => {
     let array = {};
     const chilMapped = (data, name) => {
         return data?.map(v => {
-            var nm = v?.name
+            let nm = v?.name ?? ''
             if (name?.toLowerCase() === 'awards') {
-                var nm = 'award ' + v?.name
+                nm = 'award ' + v?.name
             } else if (name?.toLowerCase() === 'badges') {
-                var nm = 'badge ' + v?.name
+                nm = 'badge ' + v?.name
             } else if (name?.toLowerCase() === 'certificates') {
-                var nm = 'certificate ' + v?.name
+                nm = 'certificate ' + v?.name
             } else if (name?.toLowerCase() === 'polls') {
-                var nm = 'poll ' + v?.name
+                nm = 'poll ' + v?.name
             } else if (name?.toLowerCase() === 'program') {
-                var nm = 'program ' + v?.name
+                nm = 'program ' + v?.name
             } else if (name?.toLowerCase() === 'e cards') {
-                var nm = 'ecard ' + v?.name
+                nm = 'ecard ' + v?.name
             } else if (name?.toLowerCase() === 'enlite wall') {
-                var nm = 'enlite Wall ' + v?.name
+                nm = 'enlite Wall ' + v?.name
             } else if (name?.toLowerCase() === 'survey') {
-                var nm = 'survey ' + v?.name
+                nm = 'survey ' + v?.name
             } else if (name?.toLowerCase() === 'forum') {
-                var nm = 'forum ' + v?.name
+                nm = 'forum ' + v?.name
             } else if (name?.toLowerCase() === 'ideas') {
-                var nm = 'ideabox ' + v?.name
+                nm = 'ideabox ' + v?.name
             }
             const transformedSentence = transformSentence(nm);
             array[transformedSentence] = validate[v?.id]['read']
@@ -77,10 +77,10 @@ function transformSentence(sentence) {
 export const LoaderHandler = (arg) => {
     const element = document.getElementById('loader-container');
     element.classList.remove('d-none', 'd-block');
-  
+
     if (arg === 'show') {
-      element.classList.add('d-block');
+        element.classList.add('d-block');
     } else {
-      element.classList.add('d-none');
+        element.classList.add('d-none');
     }
-  }
+}

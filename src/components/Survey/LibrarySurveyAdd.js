@@ -139,13 +139,13 @@ const SurveyLibrarayAnswer = () => {
 
     const fetchUserData = () => {
         const obj = {
-            url: URL_CONFIG.GETALLUSERS + "?active=true",
+            url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE + "?active=true",
             method: "get",
         };
         httpHandler(obj).then((userData) => {
             const uOptions = [];
             userData && userData.data.map((res) => {
-                uOptions.push({ label: res.firstname + " - " + res.department.name, value: res.id });
+                uOptions.push({ label: res.fullName + " - " + res.department.name, value: res.id });
                 return res;
             });
             setUsersOptions([...uOptions]);

@@ -49,12 +49,12 @@ const SocialWall = () => {
     };
   }, []);
 
-  const fetchSocialWallUserList = () => {
+  const fetchSocialWallUserList = async () => {
     const obj = {
       url: URL_CONFIG.SOCIALWALL_GET_USERLIST,
       method: "get"
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((response) => {
         setRankingLists(response?.data);
       })
@@ -63,12 +63,12 @@ const SocialWall = () => {
       });
   };
 
-  const fetchAllUsers = () => {
+  const fetchAllUsers = async () => {
     const obj = {
-      url: URL_CONFIG.ALLUSERS,
+      url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
       method: "get"
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((response) => {
         let userPicTempArry = [];
         response?.data?.map((item) => {
@@ -88,12 +88,12 @@ const SocialWall = () => {
       });
   };
 
-  const fetchHashTag = () => {
+  const fetchHashTag = async () => {
     const obj = {
       url: URL_CONFIG.SOCIALWALL_HASTAG_LIST,
       method: "get"
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((response) => {
         setHastagList(response.data);
       })
@@ -102,8 +102,7 @@ const SocialWall = () => {
       });
   };
 
-  const fetchSocialWallList = () => {
-    LoaderHandler('show')
+  const fetchSocialWallList = async () => {
     const obj = {
       url: URL_CONFIG.SOCIALWALL_LIST,
       method: "get",
@@ -114,13 +113,12 @@ const SocialWall = () => {
       }
     };
     //pageSize=2&pageNo=0&sortBy=createdAt&direction=desc
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((response) => {
         const data = response.data;
         data && data.length > 0 && data.map(res => {
           return res.createdAt = eepFormatDateTime(res.createdAt);
         });
-        LoaderHandler('hide')
         setSocialWallList(data);
       })
       .catch((error) => {

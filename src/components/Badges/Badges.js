@@ -16,6 +16,7 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 const Badges = () => {
   const [filterBy, setFilterBy] = useState({ filter: true });
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+  const activeTab = useSelector((state) => state.tabs.activeTab);
   const [bulkUpdateBy, setBulkUpdateBy] = useState({ updateBy: null });
   const [enableBulkState, setEnableBulkState] = useState({ bulkState: false });
   const [selectedRecords, setSelectedRecords] = useState([]);
@@ -233,7 +234,7 @@ const Badges = () => {
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
           <div id="mybadgeTab" className="tab-pane active h-100">
-            <MyBadge />
+          {activeTab?.id === 'mybadgeTab' &&<MyBadge />}
           </div>
           <div id="badgeTab" className="tab-pane h-100">
             {!userRolePermission.badgeCreate && !userRolePermission.badgeModify &&
