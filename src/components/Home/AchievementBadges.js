@@ -26,7 +26,9 @@ const AchievementBadges = (props) => {
           <ResponseInfo title="No badges found" responseImg="noRecord" responseClass="response-info" />
         )}
         <div className="dropdown-divider"></div>
-        <label className="achievements_lbl title_lbl">Awaiting Badges</label>
+        <label className="achievements_lbl title_lbl">
+          {dashboardDetails?.acheivedBadgeList?.length > 0 && dashboardDetails?.awaitingBadgeList?.length === 0 ?
+            "Congrats! you collected all of them" : "Awaiting Badges"}</label>
         {dashboardDetails && dashboardDetails.awaitingBadgeList?.length > 0 &&
           <div className="d-flex flex-wrap justify-content-center achievements_badges_waiting ">
             {dashboardDetails.awaitingBadgeList.map((item, index) => {
@@ -39,7 +41,7 @@ const AchievementBadges = (props) => {
           </div>
         }
         {dashboardDetails && dashboardDetails.awaitingBadgeList?.length <= 0 && (
-          <ResponseInfo title="No wating badges found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No Badges found" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </div>

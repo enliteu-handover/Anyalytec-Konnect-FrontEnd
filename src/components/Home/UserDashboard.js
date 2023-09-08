@@ -264,7 +264,7 @@ const UserDashboard = () => {
                   <div className="d_user_official_details">
                     <div className="col-md-12 c-2c2c2c bb_707070 px-0 mb-3">
                       <label className="mb-0">{
-                      userDetails?.experienceType === 'years' ? userDetails?.experience : userDetails?.sMonth} <span className="ml-2">{userDetails.experienceType}</span>
+                        userDetails?.experienceType === 'years' ? userDetails?.experience : userDetails?.sMonth} <span className="ml-2">{userDetails.experienceType}</span>
                       </label>
                       <p className="text-right mb-1"> DOJ: {eepFormatDateTime(userDetails.dateOfJoining)} </p>
                     </div>
@@ -309,8 +309,8 @@ const UserDashboard = () => {
                       <div className="progress-bar rounded-pill progress-bar-striped rounded-pill progress-bar-striped bg-warning" role="progressbar" aria-valuenow="<?php echo $orginal_op; ?>" aria-valuemin="0" aria-valuemax="100" style={{ width: userDetails.appreciationsPercent + "%" }}>
                       </div>
                     </div>
-                    <h4 className="small font-weight-bold"> Badges <span className="ml-1">{userDetails.badges}</span>
-                      <span className="float-right">You {userDetails.selfBadges}</span>
+                    <h4 className="small font-weight-bold"> Badges <span className="ml-1">{userDetails?.badges}</span>
+                      <span className="float-right">You {userDetails?.selfBadges}</span>
                     </h4>
                     <div className="progress rounded-pill progress-bar-striped progress-bar-animated mb-4">
                       <div className="progress-bar rounded-pill progress-bar-striped bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{ width: userDetails.badgesPercent + "%" }}></div>
@@ -321,8 +321,8 @@ const UserDashboard = () => {
                     <div className="progress rounded-pill progress-bar-striped progress-bar-animated mb-4">
                       <div className="progress-bar rounded-pill progress-bar-striped bg-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style={{ width: userDetails.certificatesPercent + "%" }}></div>
                     </div>
-                    <h4 className="small font-weight-bold"> Awards <span className="ml-1">{userDetails.awards}</span>
-                      <span className="float-right">You {userDetails.selfAwards}</span>
+                    <h4 className="small font-weight-bold"> Awards <span className="ml-1">{userDetails?.awards}</span>
+                      <span className="float-right">You {userDetails?.selfAwards}</span>
                     </h4>
                     <div className="progress rounded-pill progress-bar-striped progress-bar-animated">
                       <div className="progress-bar rounded-pill progress-bar-striped bg-success" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style={{ width: userDetails.awardsPercent + "%" }}></div>
@@ -337,20 +337,20 @@ const UserDashboard = () => {
             <div className="bg-f5f5f5 br-10 achievements_section_div h-100 eep_scroll_y">
               <div className="p-3 text-center">
                 <label className="achievements_lbl">Badges</label>
-                {userDetails.acheivedBadgeList && userDetails.acheivedBadgeList.length &&
+                {userDetails?.acheivedBadgeList && userDetails?.acheivedBadgeList?.length > 0 &&
                   <div className="d-flex flex-wrap justify-content-center achievements_badges">
-                    {userDetails.acheivedBadgeList && userDetails.acheivedBadgeList.map((item, index) => {
+                    {userDetails?.acheivedBadgeList && userDetails?.acheivedBadgeList?.map((item, index) => {
                       return (
                         <div className="col-auto achievements_img_div" key={"user_Achievements_badges_" + index}>
                           <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
-                          <span>{item.acheivedCount > 9 ? item.acheivedCount : "0" + item.acheivedCount}</span>
+                          <span>{item?.acheivedCount > 9 ? item?.acheivedCount : "0" + item?.acheivedCount}</span>
                         </div>
                       )
                     })}
                   </div>
                 }
                 {userDetails.acheivedBadgeList && !userDetails.acheivedBadgeList.length && (
-                  <ResponseInfo title="No badges found" responseImg="noRecord" responseClass="response-info" />
+                  <ResponseInfo title="No Badges found" responseImg="noRecord" responseClass="response-info" />
                 )}
               </div>
             </div>
@@ -360,9 +360,9 @@ const UserDashboard = () => {
             <div className="bg-f5f5f5 br-10 achievements_section_div h-100 eep_scroll_y">
               <div className="p-3 text-center">
                 <label className="achievements_lbl">Awards</label>
-                {userDetails.acheivedAwardList && userDetails.acheivedAwardList.length &&
+                {userDetails?.acheivedAwardList && userDetails?.acheivedAwardList?.length > 0 &&
                   <div className="d-flex flex-wrap justify-content-center achievements_awards">
-                    {userDetails.acheivedAwardList && userDetails.acheivedAwardList.map((item, index) => {
+                    {userDetails?.acheivedAwardList && userDetails?.acheivedAwardList?.map((item, index) => {
                       return (
                         <div className="col-auto achievements_img_div" key={"user_Achievements_awards_" + index}>
                           <img src={item?.imageByte ? item?.imageByte?.image : process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} className="d_achievements_img eep-pulse-direct-animation" alt={item?.imageByte?.name} title={item?.imageByte?.name} />
@@ -373,7 +373,7 @@ const UserDashboard = () => {
                   </div>
                 }
                 {userDetails.acheivedAwardList && !userDetails.acheivedAwardList.length && (
-                  <ResponseInfo title="No badges found" responseImg="noRecord" responseClass="response-info" />
+                  <ResponseInfo title="No Awards found" responseImg="noRecord" responseClass="response-info" />
                 )}
               </div>
             </div>

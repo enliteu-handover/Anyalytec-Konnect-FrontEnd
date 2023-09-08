@@ -214,7 +214,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    debugger
     if (activeTab?.id === "Hall_of_Fame") {
       fetchHallOfFame(filterParams);
     }

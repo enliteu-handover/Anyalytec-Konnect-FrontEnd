@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const BranchMasterActions = (props) => {
 
-  const {data, getDeptData,isDelete} = props;
+  const { data, getDeptData, isDelete, setisOpen } = props;
   //const propVals = props;
   const propVals = JSON.parse(JSON.stringify(data));
 
@@ -19,6 +19,7 @@ const BranchMasterActions = (props) => {
   const editModeModal = () => {
     propVals.deptEditMode = true;
     getDeptData(propVals);
+    setisOpen(true)
     Object.preventExtensions(propVals);
   };
 

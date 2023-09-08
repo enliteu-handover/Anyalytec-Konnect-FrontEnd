@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ApprovalActions = (props) => {
-
   const { data, isApprovalState, isView } = props;
 
   return (
@@ -38,7 +37,7 @@ const ApprovalActions = (props) => {
           </Link>
         }
 
-        {!data.nominated &&
+        {!data?.nominated &&
           <Link
             to={{
               pathname: "awardnominations",

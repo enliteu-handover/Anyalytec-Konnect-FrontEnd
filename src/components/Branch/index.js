@@ -9,16 +9,19 @@ import CreateBranchModal from "../../modals/CreateBranchModal";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import TableComponent from "../../UI/tableComponent";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
 
 const BranchMaster = () => {
     const dispatch = useDispatch();
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+    const [showModal, setShowModal] = useState({ type: null, message: null });
     const [state, setState] = useState({
         data: {},
         offset: 0,
         limit: 1000,
         showTable: { label: "15", value: 15 }
     })
+    const [isOpen, setisOpen] = useState(false)
     const [editData, setEditData] = useState(null)
 
     const isDelete = (argu) => {
@@ -72,13 +75,12 @@ const BranchMaster = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchAllBrachData = (search, limit, offset) => {
-        
+
         const obj = {
             url: URL_CONFIG.GET_ALL_BRANCH + `?offset=${offset ?? state?.offset}` + `&limit=${limit ?? state?.limit}` + `&search=${search ? search : ""}`,
             method: "get",
         };
         httpHandler(obj).then((response) => {
-            
             setState({
                 ...state,
                 // data: { data: response?.data, totalCount: response?.totalCount ?? 0 },
@@ -89,14 +91,57 @@ const BranchMaster = () => {
     }
 
     useEffect(() => {
-        
         fetchAllBrachData()
     }, []);
+
+    const hideModal = () => {
+        let collections = document.getElementsByClassName("modal-backdrop");
+        for (var i = 0; i < collections.length; i++) {
+            collections[i].remove();
+        }
+        setShowModal({ type: null, message: null });
+    };
+
 
     return (
         <React.Fragment>
             <React.Fragment>
-                <CreateBranchModal editData={editData} fetchDeptData={fetchAllBrachData} />
+
+                {showModal.type !== null && showModal.message !== null && (
+                    <EEPSubmitModal
+                        data={showModal}
+                        className={`modal-addmessage`}
+                        hideModal={hideModal}
+                        successFooterData={
+                            <button
+                                type="button"
+                                className="eep-btn eep-btn-xsml eep-btn-success"
+                                data-dismiss="modal"
+                                onClick={hideModal}
+                            >
+                                Ok
+                            </button>
+                        }
+                        errorFooterData={
+                            <button
+                                type="button"
+                                className="eep-btn eep-btn-xsml eep-btn-danger"
+                                data-dismiss="modal"
+                                onClick={hideModal}
+                            >
+                                Close
+                            </button>
+                        }
+                    ></EEPSubmitModal>
+                )}
+
+                {isOpen && <CreateBranchModal
+                    setisOpen={setisOpen}
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    data={state?.data?.data ?? []}
+                    editData={editData} fetchDeptData={fetchAllBrachData} />}
+
                 <PageHeader
                     title="Branch Masters"
                     navLinksRight={
@@ -106,23 +151,30 @@ const BranchMaster = () => {
                             data-target="#CreateBranchModal"
                             to="#"
                             dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
-                            onClick={() => setEditData(null)}
+                            onClick={() => {
+                                setEditData(null)
+                                setisOpen(true)
+                            }}
                         ></Link>
                     }
                 ></PageHeader>
+
                 <div className="eep-user-management eep-content-start" id="content-start">
                     <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
                         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-                            {state?.data?.data?.length > 0 && <TableComponent
-                                data={state?.data?.data ?? []}
-                                columns={userDataTableHeaders}
-                                action={
-                                    <BranchMasterActions isDelete={isDelete} getDeptData={getDeptData} />
-                                }
-                            />}
+                            {state?.data?.data?.length > 0 &&
+                                <TableComponent
+                                    data={state?.data?.data ?? []}
+                                    columns={userDataTableHeaders}
+                                    action={
+                                        <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
+                                    }
+                                />}
                         </div>
                     </div>
-                </div> </React.Fragment>
+                </div>
+            </React.Fragment>
+
             {!state?.data?.data?.length > 0 &&
                 <div className="row eep-content-section-data no-gutters">
                     <ResponseInfo

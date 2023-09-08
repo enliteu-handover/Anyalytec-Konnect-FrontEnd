@@ -22,10 +22,13 @@ const AchievementAwards = (props) => {
           </div>
         }
         {dashboardDetails && dashboardDetails?.acheivedAwardList?.length <= 0 && (
-          <ResponseInfo title="No award found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No Awards found" responseImg="noRecord" responseClass="response-info" />
         )}
         <div className="dropdown-divider"></div>
-        <label className="achievements_lbl title_lbl">Awaiting Awards</label>
+        <label className="achievements_lbl title_lbl">
+          {dashboardDetails?.acheivedAwardList?.length > 0 && dashboardDetails?.awaitingAwardList?.length === 0 ?
+            "Congrats! you collected all of them" : "Awaiting Awards"}
+        </label>
         {dashboardDetails && dashboardDetails?.awaitingAwardList?.length > 0 &&
           <div className="d-flex flex-wrap justify-content-center achievements_awards_waiting">
             {dashboardDetails?.awaitingAwardList.map((item, index) => {

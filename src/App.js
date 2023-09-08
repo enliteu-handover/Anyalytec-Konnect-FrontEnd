@@ -35,6 +35,7 @@ function App() {
   }, []);
 
   const fetchPermission = async () => {
+    if (!sessionStorage.getItem('userData')) { return }
     const obj = {
       url: URL_CONFIG.USER_PERMISSION,
       method: "get",
