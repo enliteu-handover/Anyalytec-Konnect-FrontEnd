@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddLogo from "./AddLogo";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
-import SvgComponent from "../svgComponent";
+import SvgComponent from "../ViwerComponents";
 
 const LogoSettings = (props) => {
 

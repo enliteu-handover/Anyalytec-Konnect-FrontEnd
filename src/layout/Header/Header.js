@@ -6,9 +6,9 @@ import "../../styles/lib/eep-search.scss";
 import HeaderSearch from "./HeaderSearch";
 import UserNavItem from "./UserNavItem";
 import Notification from "./Notification";
+import SvgComponent from "../../components/ViwerComponents";
 // import { URL_CONFIG } from "../../constants/rest-config";
 // import { httpHandler } from "../../http/http-interceptor";
-import SvgComponent from "../../components/svgComponent";
 
 const Header = () => {
   // const pageTitle = useSelector((state) => state.breadcrumb.title);

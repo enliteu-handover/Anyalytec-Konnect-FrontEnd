@@ -7,6 +7,7 @@ import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { TYPE_BASED_FILTER_WITH_BETWEEN_DATES } from "../../constants/ui-config";
 import ResponseInfo from "../../UI/ResponseInfo";
 import RewardInfoModal from "./RewardInfoModal";
+import PdfComponent from "../ViwerComponents/pdf";
 
 const HallOfFame = (props) => {
 
@@ -193,8 +194,10 @@ const HallOfFame = (props) => {
                   return (
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Certificates_" + index}>
                       <div className="col-md-2">
-                        <img src={item?.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
-                      </div>
+                        {item?.imageByte?.includes('.pdf') ?
+                          <PdfComponent pdfUrl={item?.imageByte} /> :
+                          <img src={item?.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
+                        }  </div>
                       <div className="col-md-5 d_leaderboard_align">{item?.name}</div>
                       <div className="col-md-5 text-right">
                         <div className="eep-cardbox-base">
@@ -241,7 +244,7 @@ const HallOfFame = (props) => {
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-startr"><h4>Certificates</h4></div>
-              <ResponseInfo title="No certificate found" responseImg="noRecord" responseClass="response-info" />
+              <ResponseInfo title="No Certificates found" responseImg="noRecord" responseClass="response-info" />
             </div>
           </div>
         )}

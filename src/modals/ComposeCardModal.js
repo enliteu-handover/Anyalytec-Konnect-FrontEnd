@@ -4,6 +4,7 @@ import EcardModalInputs from "../components/E-Cards/EcardModalInputs";
 import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
 import { useSelector } from "react-redux";
+import { base64ToFile } from "../helpers";
 
 const ComposeCardModal = (props) => {
   const { composeCardData, composeCardMessages, composeCardCategory, modalSubmitInfo } = props;
@@ -19,14 +20,14 @@ const ComposeCardModal = (props) => {
   useEffect(() => {
     setSubmitResponseMsg("");
     setSubmitResponseClassName("");
-  },[composeCardData]);
+  }, [composeCardData]);
 
-  const comoseMessageHandler = (e,clkmsg,flag) => {
+  const comoseMessageHandler = (e, clkmsg, flag) => {
     setMsg("");
-    if(flag) {
+    if (flag) {
       var elems = document.querySelectorAll(".ccmesg");
-        [].forEach.call(elems, function(el) {
-            el.classList.remove("selected");
+      [].forEach.call(elems, function (el) {
+        el.classList.remove("selected");
       });
       e.target.className += " selected";
     }
@@ -43,28 +44,53 @@ const ComposeCardModal = (props) => {
 
   useEffect(() => {
     setIsDisabled(true);
-    if(Object.keys(composeInfoData).length > 0 && Object.keys(composeInputData).length > 0) {
-      if(composeCardData.isSlider) {
-        if(composeInfoData.templateId !== null && composeInfoData.templateId !== undefined && composeInputData.to !== null && composeInputData.to !== undefined && composeInputData.message !== "" && composeInputData.message !== undefined) {
+    if (Object.keys(composeInfoData).length > 0 && Object.keys(composeInputData).length > 0) {
+      if (composeCardData.isSlider) {
+        if (composeInfoData.templateId !== null && composeInfoData.templateId !== undefined && composeInputData.to !== null && composeInputData.to !== undefined && composeInputData.message !== "" && composeInputData.message !== undefined) {
           setIsDisabled(false);
         }
       }
-      if(!composeCardData.isSlider){
-        if(composeInfoData.imagebyte.image && composeInputData.to !== null && composeInputData.to !== undefined && composeInputData.message !== "" && composeInputData.message !== undefined) {
+      if (!composeCardData.isSlider) {
+        if (composeInfoData.imagebyte.image && composeInputData.to !== null && composeInputData.to !== undefined && composeInputData.message !== "" && composeInputData.message !== undefined) {
           setIsDisabled(false);
         }
       }
     }
   }, [composeInfoData, composeInputData]);
 
-  const handleECardSubmit = () => {
-    let finalData = {...composeInfoData, ...composeInputData};
+  const handleECardSubmit = async () => {
+    debugger
+    let finalData = { ...composeInfoData, ...composeInputData };
+
+
+    if (finalData?.imagebyte?.image) {
+      const base64Data = (finalData?.imagebyte?.image).replace(/^data:image\/\w+;base64,/, '');
+      const file = base64ToFile(base64Data)
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const obj = {
+        url: URL_CONFIG.UPLOAD_FILES,
+        method: "post",
+        payload: formData,
+      };
+      await httpHandler(obj)
+        .then((res) => {
+          finalData['imageByte'] = res?.data?.data?.[0]?.url ?? ""
+        })
+    }
+
+
+
+
     //let finalData = Object.assign({}, composeInfoData, composeInputData);
-    if(composeCardData.isSlider) {
+    if (composeCardData.isSlider) {
       delete finalData.contentType;
       delete finalData.imagebyte;
+      delete finalData.imageByte;
     }
-    if(!composeCardData.isSlider) {
+    if (!composeCardData.isSlider) {
       delete finalData.templateId;
     }
     const obj = {
@@ -75,16 +101,16 @@ const ComposeCardModal = (props) => {
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;
-        modalSubmitInfo({status:true,message:resMsg});
+        modalSubmitInfo({ status: true, message: resMsg });
       })
       .catch((error) => {
         const errMsg = error?.response?.data?.message;
         setSubmitResponseMsg(errMsg);
         setSubmitResponseClassName("response-err");
-        modalSubmitInfo({status:false,message:""});
+        modalSubmitInfo({ status: false, message: "" });
       });
   }
-  
+
   return (
     <div className="eepModalDiv">
       <div className="modal fade" id="ComposeCardModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,17 +135,17 @@ const ComposeCardModal = (props) => {
                             <button type="button" className="eep-btn eep-btn-cancel" data-dismiss="modal" aria-hidden="true">
                               Cancel
                             </button>
-                            <button type="submit" className="eep-btn eep-btn-success float-right"  disabled={isDisabled ? "disable" : ""} onClick={handleECardSubmit}>
+                            <button type="submit" className="eep-btn eep-btn-success float-right" disabled={isDisabled ? "disable" : ""} onClick={handleECardSubmit}>
                               <span className={`mr-2 ${isDisabled ? "" : "btnIsValid"}`} dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.paper_plane }}></span>
                               Send
                             </button>
                           </div>
                         </div>
-                        {submitResponseMsg && ( 
+                        {submitResponseMsg && (
                           <div className="d-flex justify-content-center align-items-center">
                             <div className="response-div m-0">
                               <p className={`${submitResponseClassName} response-text`}>{submitResponseMsg}</p>
-                            </div> 
+                            </div>
                           </div>
                         )}
                       </div>

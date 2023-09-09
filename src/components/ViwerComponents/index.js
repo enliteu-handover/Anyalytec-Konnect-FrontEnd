@@ -9,10 +9,10 @@ const SvgComponent = ({ svgUrl }) => {
         //     height:"200px"
         // }}
         src={svgUrl}
-    beforeInjection={(svg) => {
-        // svg.setAttribute('width', '120');
-        svg.setAttribute('height', '50');
-    }}
+        beforeInjection={(svg) => {
+            // svg.setAttribute('width', '120');
+            svg.setAttribute('height', '50');
+        }}
     />
 }
 

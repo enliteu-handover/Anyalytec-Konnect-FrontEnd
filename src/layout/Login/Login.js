@@ -5,11 +5,11 @@ import ForgotPassword from "./ForgotPassword";
 import LoginForm from "./LoginForm";
 // import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-import SvgComponent from "../../components/svgComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import "../../styles/lib/bg-animations.scss";
 import "../../styles/lib/login-style.scss";
+import SvgComponent from "../../components/ViwerComponents";
 
 const Login = () => {
   const [state, setState] = useState({
