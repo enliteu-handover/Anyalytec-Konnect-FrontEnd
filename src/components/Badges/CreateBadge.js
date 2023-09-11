@@ -56,6 +56,7 @@ const CreatBadges = () => {
 
 
   useEffect(() => {
+    debugger
     if (libDataVal && Object.keys(libDataVal).length) {
       const regDataTemp = {
         imageByte: null,
@@ -103,12 +104,14 @@ const CreatBadges = () => {
   };
 
   const getImageData = (args) => {
+    debugger
     setBadgeResponseMsg("");
     setBadgeResponseClassName("");
     setRegData({ ...regData, imageByte: args });
   }
 
   const getFormData = (args) => {
+    debugger
     setBadgeResponseMsg("");
     setBadgeResponseClassName("");
     setRegData({ ...regData, ...args });
@@ -117,6 +120,10 @@ const CreatBadges = () => {
   const onSubmitHandler = () => {
     regData['active'] = true;
     regData['libraryBadges'] = libDataVal ? { id: libDataVal.id } : null;
+
+    if (regData?.imageByte?.image) {
+      regData['imageByte'] = regData?.imageByte?.image ?? ''
+    }
     const obj = {
       url: URL_CONFIG.CREATE_BADGE,
       method: "post",
