@@ -3,12 +3,13 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import Heart from "../../UI/CustomComponents/Heart";
 import CommentReply from "./CommentReply";
 import ForumCommentsList from "./ForumCommentsList";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import axios from "axios";
 
 const ForumDetailView = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -224,7 +225,7 @@ const ForumDetailView = () => {
           method: "post"
         }
       } else if (!arg.isEnlite) {
-        followEnliteIndex = arg.cmtData.forumLikes.findIndex(x => x.userId.id === currentUserData.id);
+        followEnliteIndex = arg.cmtData.forumLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
         obj = {
           url: URL_CONFIG.ENLITE_FORUM + "?id=" + arg.cmtData.forumLikes[followEnliteIndex].id,
           method: "delete"
@@ -360,8 +361,8 @@ const ForumDetailView = () => {
 
   let unLikeIndex;
   const commentUnLikeHandler = (cmtData, fData) => {
-    
-    unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId.id === currentUserData.id);
+    debugger
+    unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
     //console.log("unLikeIndex", unLikeIndex);
     const obj = {
       url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
@@ -369,7 +370,10 @@ const ForumDetailView = () => {
       payload: { id: cmtData.forumCommentLikes[unLikeIndex].id },
       method: "delete"
     }
-    httpHandler(obj).then(() => {
+    axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE}`, 
+    { data: { id: cmtData.forumCommentLikes[unLikeIndex].id } })
+    // httpHandler(obj)
+    .then(() => {
       getForumById(fData);
     }).catch((error) => {
       const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -418,7 +422,7 @@ const ForumDetailView = () => {
 
   const checkIsReplyLiked = (rData) => {
     //console.log("checkIsReplyLiked rData", rData);
-    let rLikeIndex = rData.forumCommentLikes.findIndex(x => x.userId.id === currentUserData.id);
+    let rLikeIndex = rData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
     //console.log("rLikeIndex", rLikeIndex);
     if (rLikeIndex === -1) {
       return false;

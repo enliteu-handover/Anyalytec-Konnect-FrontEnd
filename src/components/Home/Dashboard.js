@@ -201,12 +201,12 @@ const Dashboard = (props) => {
                             return (
                               <div className="d_user_report_details" key={"department_user_" + index}>
                                 <img src={item.id ? getUserPicture(item.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt="Elisa Mcgonnigle" title="Elisa Mcgonnigle" />
-                                {userSessionData?.id !== item?.id &&
+                                {userSessionData?.id !== item?.user_id &&
                                   <label className="d_u_name font-helvetica-m my-0">
                                     <Link to={{ pathname: "userdashboard", state: { userData: { userID: item, } } }} className="uNameLink a_hover_txt_deco_none">{item.fullName}</Link>
                                   </label>
                                 }
-                                {userSessionData?.id === item?.id &&
+                                {userSessionData?.id === item?.user_id &&
                                   <span className="d_u_name font-helvetica-m my-0">{item?.fullName}</span>
                                 }
                               </div>

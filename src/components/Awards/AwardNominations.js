@@ -99,7 +99,7 @@ const AwardNominations = () => {
         : {};
         let uDatas = [...uData.data];
         for( var i = 0; i < uDatas.length; i++){ 
-          if ( uDatas[i].id === currentUserData.id) { 
+          if ( uDatas[i].userId === currentUserData.id) { 
             uDatas.splice(i, 1); 
           }
         }

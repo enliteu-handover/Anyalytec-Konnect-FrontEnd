@@ -7,7 +7,7 @@ import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import {formatFilterDate, eepFormatDateTime} from "../../shared/SharedService";
+import { formatFilterDate, eepFormatDateTime } from "../../shared/SharedService";
 
 const PollAnswer = () => {
 
@@ -72,7 +72,7 @@ const PollAnswer = () => {
 	}
 
 	const fetchPollDetail = (pData) => {
-		if(pData) {
+		if (pData) {
 			const obj = {
 				url: URL_CONFIG.POLL_GET_BY_ID,
 				method: "get",
@@ -94,16 +94,16 @@ const PollAnswer = () => {
 
 	useEffect(() => {
 		// console.log("pDataValue & viewTypeValue", pDataValue, viewTypeValue);
-		if(pDataValue) {
-			if(viewTypeValue === "fromPoll") {
+		if (pDataValue) {
+			if (viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
 				fetchPollDetail(pDataValue.polls);
 			} else {
 				fetchPollDetail(pDataValue);
-				if(pDataValue.pollResponse) {
-					let pAnswerIndex = pDataValue.pollResponse.findIndex(x => x.userId.id === currentUserData.id);
+				if (pDataValue.pollResponse) {
+					let pAnswerIndex = pDataValue.pollResponse.findIndex(x => x.userId.userId === currentUserData.id);
 					console.log("pAnswerIndex", pAnswerIndex);
-					if(pAnswerIndex !== -1) {
+					if (pAnswerIndex !== -1) {
 						setSubmitResponseID(pDataValue.pollResponse[pAnswerIndex].id);
 					}
 				}
@@ -119,8 +119,8 @@ const PollAnswer = () => {
 	}, [pDataValue]);
 
 	const submitAnswerHandler = (responseID, pData, ans) => {
-		if(!pData.answeredState) {
-			if(responseID && ans.option) {
+		if (!pData.answeredState) {
+			if (responseID && ans.option) {
 				console.log("submitAnswerHandler ans", responseID, ans);
 				let formData = new FormData();
 				formData.append('id', responseID);
@@ -155,21 +155,22 @@ const PollAnswer = () => {
 	const isResponsible = (pData) => {
 		setIsAnsweredState(false);
 		setIsAnsweredAt(null);
-		if(pData && pData.pollResponse) {
-			let isResponsibleIndex = pData.pollResponse.findIndex(x => x.userId.id === currentUserData.id);
-			if(isResponsibleIndex === -1) {
+		if (pData && pData.pollResponse) {
+			let isResponsibleIndex = pData.pollResponse.findIndex(x => x.userId?.userId === currentUserData.id);
+			if (isResponsibleIndex === -1) {
 				return false;
 			} else {
-				if(pData.pollResponse[isResponsibleIndex].state === "submitted") {
+				if (pData.pollResponse[isResponsibleIndex].state === "submitted") {
 					setIsAnsweredState(true);
-					setIsAnsweredAt(eepFormatDateTime(pData.pollResponse[isResponsibleIndex].choice[0].createdAt));
+					setIsAnsweredAt(pData?.pollResponse[isResponsibleIndex]?.choice[0]?.createdAt ?
+						eepFormatDateTime(pData?.pollResponse[isResponsibleIndex]?.choice[0]?.createdAt ?? null) : null);
 					return false;
-				} 
-				else if(pData.pollResponse[isResponsibleIndex].state === "created") {
+				}
+				else if (pData.pollResponse[isResponsibleIndex].state === "created") {
 					return true;
 				}
 				else {
-					return true;	
+					return true;
 				}
 			}
 		} else {
@@ -178,8 +179,8 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
-		if(pollData) {
-			if(isResponsible(pollData)) {
+		if (pollData) {
+			if (isResponsible(pollData)) {
 				setIsResponsibleState(true);
 				setVotingState(pollData.answeredState);
 			} else {
@@ -194,27 +195,27 @@ const PollAnswer = () => {
 		}
 
 	}, [pollData]);
-	
+
 	const getProgressClassName = (score) => {
-		if(score) {
-			if(score <= 30) {
+		if (score) {
+			if (score <= 30) {
 				return "eep_progress_min";
 			}
-			if(score >= 31 && score <= 70) {
+			if (score >= 31 && score <= 70) {
 				return "eep_progress_avg";
 			}
-			if(score >= 71) {
+			if (score >= 71) {
 				return "eep_progress_max";
 			}
 		}
 	}
 
 	const getSubmittedCount = (submittedData) => {
-		var res = submittedData.reduce(function(obj, v) {
+		var res = submittedData.reduce(function (obj, v) {
 			obj[v.state] = (obj[v.state] || 0) + 1;
 			return obj;
 		}, {});
-		if(res.submitted) {
+		if (res.submitted) {
 			return res.submitted;
 		} else {
 			return 0;
@@ -227,48 +228,48 @@ const PollAnswer = () => {
 		<React.Fragment>
 			<PageHeader title="Polls Answer" />
 			{showModal.type !== null && showModal.message !== null && (
-        <EEPSubmitModal
-          data={showModal}
-          className={`modal-addmessage`}
-          hideModal={hideModal}
-          successFooterData={
-            <button
-              type="button"
-              className="eep-btn eep-btn-xsml eep-btn-success"
-              data-dismiss="modal"
-              onClick={hideModal}
-            >
-              Ok
-            </button>
-          }
-          errorFooterData={
-            <button
-              type="button"
-              className="eep-btn eep-btn-xsml eep-btn-danger"
-              data-dismiss="modal"
-              onClick={hideModal}
-            >
-              Close
-            </button>
-          }
-        ></EEPSubmitModal>
-      )}
+				<EEPSubmitModal
+					data={showModal}
+					className={`modal-addmessage`}
+					hideModal={hideModal}
+					successFooterData={
+						<button
+							type="button"
+							className="eep-btn eep-btn-xsml eep-btn-success"
+							data-dismiss="modal"
+							onClick={hideModal}
+						>
+							Ok
+						</button>
+					}
+					errorFooterData={
+						<button
+							type="button"
+							className="eep-btn eep-btn-xsml eep-btn-danger"
+							data-dismiss="modal"
+							onClick={hideModal}
+						>
+							Close
+						</button>
+					}
+				></EEPSubmitModal>
+			)}
 			<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 				<div className="eep_with_content p-0">
 					<div className="col-md-12">
 						<div className="row">
 							{pDataValue &&
 								<div className="col-md-8">
-									<label className="my-3" style={{fontSize: "24px"}}>{pollData ? pollData?.name : ""}</label>
+									<label className="my-3" style={{ fontSize: "24px" }}>{pollData ? pollData?.name : ""}</label>
 									<div className="poll-area col-md-6">
 										{pollData && JSON.parse(pollData?.options)?.length > 0 && JSON.parse(pollData?.options)?.map((item, index) => {
 											return (
 												<React.Fragment key={"pollanswer_" + index}>
 													<input id={"opt-" + index} type="checkbox" name="polls" />
-													<label 
-														htmlFor={"opt-" + index} 
+													<label
+														htmlFor={"opt-" + index}
 														// className={`${answeredResponse && answeredResponse.choice[0].value === item.option ? "selected" : ""}`} 
-														className={`${pollData.answeredValue === item.option ? "selected" : ""} ${!isResponsibleState ? "selectall" : ""}`} 
+														className={`${pollData.answeredValue === item.option ? "selected" : ""} ${!isResponsibleState ? "selectall" : ""}`}
 														onClick={() => submitAnswerHandler(submitResponseID, pollData, item)}
 													>
 														<div className="row no-gutters">
@@ -278,13 +279,13 @@ const PollAnswer = () => {
 															</div>
 														</div>
 														{votingState &&
-														<div className="eep_progress_div">
-															<div 
-																className={`progress ${pollData.map ? getProgressClassName(pollData.map[item.option]) : ""}`}
-																style={{"--w": `${pollData.map ? pollData.map[item.option] : "0"}`}}
-															></div>
-															<span className="percent">{pollData.map ? pollData.map[item.option] + "%" : ""}</span>
-														</div>
+															<div className="eep_progress_div">
+																<div
+																	className={`progress ${pollData.map ? getProgressClassName(pollData.map[item.option]) : ""}`}
+																	style={{ "--w": `${pollData.map ? pollData.map[item.option] : "0"}` }}
+																></div>
+																<span className="percent">{pollData.map ? pollData.map[item.option] + "%" : ""}</span>
+															</div>
 														}
 													</label>
 												</React.Fragment>
@@ -306,7 +307,7 @@ const PollAnswer = () => {
 									}
 								</div>
 							}
-							{pollData && pollData?.createdBy?.id === currentUserData?.id && 
+							{pollData && pollData?.createdBy?.user_id === currentUserData?.id &&
 								<div className="col-md-4 col-lg-3 col-xs-12 col-sm-12 align-self-start">
 									<div className="col-md-12 bg-f5f5f5 br-10 p-3 mb-3">
 										<label className="mb-0">Type : <span>{pollData.type}</span></label>
@@ -319,15 +320,15 @@ const PollAnswer = () => {
 											<label className="mb-0"><span>{getSubmittedCount(pollData.pollResponse)}/{pollData.pollResponse.length}</span></label>
 										</div>
 										<div className="eep-dropdown-divider"></div>
-										<div className="eep_scroll_y" style={{maxHeight: "245px"}}>
-										{pollData?.pollResponse && pollData?.pollResponse?.length > 0 && pollData?.pollResponse?.sort((a, b) => (a.userId.id > b.userId.id) ? 1 : -1).map((item, index) => {
-											return (
-												<div className={`d-flex ${pollData.pollResponse.length - 1 === index ? "" : "mb-2"}`} key={"responseUser_"+index}>
-													<img src={item.state === "submitted" ? process.env.PUBLIC_URL + "/images/icons/static/res-green.svg" : process.env.PUBLIC_URL + "/images/icons/static/res-red.svg" } alt={item.state} title={item.state} style={{width: "15px"}} />
-													<label className="mb-0 ml-2">{item?.userId?.firstname + " " + item?.userId?.lastname}</label>
-												</div>
-											)
-										})}
+										<div className="eep_scroll_y" style={{ maxHeight: "245px" }}>
+											{pollData?.pollResponse && pollData?.pollResponse?.length > 0 && pollData?.pollResponse?.sort((a, b) => (a.userId.id > b.userId.id) ? 1 : -1).map((item, index) => {
+												return (
+													<div className={`d-flex ${pollData.pollResponse.length - 1 === index ? "" : "mb-2"}`} key={"responseUser_" + index}>
+														<img src={item.state === "submitted" ? process.env.PUBLIC_URL + "/images/icons/static/res-green.svg" : process.env.PUBLIC_URL + "/images/icons/static/res-red.svg"} alt={item.state} title={item.state} style={{ width: "15px" }} />
+														<label className="mb-0 ml-2">{item?.userId?.firstname + " " + item?.userId?.lastname}</label>
+													</div>
+												)
+											})}
 										</div>
 									</div>
 								</div>

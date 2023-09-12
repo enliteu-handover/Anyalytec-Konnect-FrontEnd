@@ -197,7 +197,7 @@ const ECards = () => {
         let uDataTemp = [];
         let uEmailDataTemp = [];
         userData.data.length > 0 && userData.data.map((item) => {
-          if (userSessionData.id !== item.id) {
+          if (userSessionData.id !== item.user_id) {
             uDataTemp.push({ value: item.id, label: item.fullName + " - " + item.department.name });
           }
           return uDataTemp;

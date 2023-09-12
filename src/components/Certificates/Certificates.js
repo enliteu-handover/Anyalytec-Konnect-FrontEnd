@@ -147,7 +147,7 @@ const Certificates = () => {
         let uDataTemp = [];
         let uEmailDataTemp = [];
         userDatas.data.length > 0 && userDatas.data.map((item) => {
-          if (item.id !== userSessionData.id) {
+          if (item.user_id !== userSessionData.id) {
             return uDataTemp.push({ value: item.id, label: item.fullName + " - " + item.department.name });
           }
         });
