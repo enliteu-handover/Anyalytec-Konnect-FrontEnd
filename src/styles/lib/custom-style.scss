@@ -7476,3 +7476,14 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 //     }
 //   }
 // }
+
+.hall_off_cretificate{
+  & canvas{
+    border-radius: 50%;
+    width: 50px !important;
+    height: 50px !important;
+    margin-right: 0.5rem;
+    background-color: #ffffff;
+    padding: 1px;
+}
+}

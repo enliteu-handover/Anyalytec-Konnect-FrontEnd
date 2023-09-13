@@ -7,7 +7,8 @@ import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { TYPE_BASED_FILTER_WITH_BETWEEN_DATES } from "../../constants/ui-config";
 import ResponseInfo from "../../UI/ResponseInfo";
 import RewardInfoModal from "./RewardInfoModal";
-import PdfComponent from "../ViwerComponents/pdf";
+// import PdfComponent from "../ViwerComponents/pdf";
+import PDF from "react-pdf-js";
 
 const HallOfFame = (props) => {
 
@@ -195,7 +196,9 @@ const HallOfFame = (props) => {
                     <div className="row d_leaderboard_list no-gutters" key={"HOF_Certificates_" + index}>
                       <div className="col-md-2">
                         {item?.imageByte?.includes('.pdf') ?
-                          <PdfComponent pdfUrl={item?.imageByte} /> :
+                          <div className="hall_off_cretificate" style={{ margin: "0px", padding: "0px" }}>
+                            <PDF file={item?.imageByte} /></div>
+                          :
                           <img src={item?.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
                         }  </div>
                       <div className="col-md-5 d_leaderboard_align">{item?.name}</div>
