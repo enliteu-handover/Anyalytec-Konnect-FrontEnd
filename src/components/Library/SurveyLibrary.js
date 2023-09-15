@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { useDispatch } from "react-redux";
 import { httpHandler } from "../../http/http-interceptor";
@@ -105,27 +105,27 @@ const Survey = () => {
                                             {!item?.isExist &&
                                                 <ul className="icon">
                                                     <li>
-                                                        <Link
+                                                        <a
                                                             to="#"
                                                             className="p_cert_modal_a fas fa-plus"
                                                             title="Preview this certificate"
                                                             data-toggle="modal"
                                                             data-target="#SurveyRecognitionModal"
                                                             onClick={() => handleCreateSurvey(item)}
-                                                        ></Link>
+                                                        ></a>
                                                     </li>
                                                 </ul>
                                             }
                                             <ul className="icon prev_icon">
                                                 <li>
-                                                    <Link
+                                                    <a
                                                         to="#"
                                                         className="p_cert_modal_a fa fa-eye"
                                                         title="Preview this certificate"
                                                         data-toggle="modal"
-                                                        data-target="#certPreviewModal"
+                                                        data-target="#surveyPreviewModal"
                                                         onClick={() => handleSurveyPreviewModal(item)}
-                                                    ></Link>
+                                                    ></a>
                                                 </li>
                                             </ul>
                                         </div>

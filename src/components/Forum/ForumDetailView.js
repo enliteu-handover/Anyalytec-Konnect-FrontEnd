@@ -361,7 +361,7 @@ const ForumDetailView = () => {
 
   let unLikeIndex;
   const commentUnLikeHandler = (cmtData, fData) => {
-    debugger
+    
     unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
     //console.log("unLikeIndex", unLikeIndex);
     const obj = {

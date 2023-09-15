@@ -59,7 +59,7 @@ const ComposeCardModal = (props) => {
   }, [composeInfoData, composeInputData]);
 
   const handleECardSubmit = async () => {
-    debugger
+    
     let finalData = { ...composeInfoData, ...composeInputData };
 
 

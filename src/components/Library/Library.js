@@ -45,20 +45,20 @@ const Library = () => {
 
 	return (
 		<React.Fragment>
-			{(userRolePermission.awardCreate || userRolePermission.badgeCreate || userRolePermission.certificateCreate) &&
+			{(userRolePermission?.awardCreate || userRolePermission?.badgeCreate || userRolePermission?.certificateCreate) &&
 				<div className="tab-content">
 					<div id="Awards" className="tab-pane active">
 						{/* <AwardLibrary /> */}
-						{activeTab && activeTab.id === 'Awards' && <AwardLibrary />}
+						{activeTab && activeTab?.id === 'Awards' && <AwardLibrary />}
 					</div>
 					<div id="Badges" className="tab-pane">
-						{activeTab && activeTab.id === 'Badges' && <BadgeLibrary />}
+						{activeTab && activeTab?.id === 'Badges' && <BadgeLibrary />}
 					</div>
 					<div id="Certificates" className="tab-pane">
-						{activeTab && activeTab.id === 'Certificates' && <CertificateLibrary />}
+						{activeTab && activeTab?.id === 'Certificates' && <CertificateLibrary />}
 					</div>
 					<div id="Survey" className="tab-pane">
-						{activeTab && activeTab.id === 'Survey' && <Survey />}
+						{activeTab && activeTab?.id === 'Survey' && <Survey />}
 					</div>
 				</div>
 			}

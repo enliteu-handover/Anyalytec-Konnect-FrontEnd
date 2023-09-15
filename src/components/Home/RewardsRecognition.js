@@ -404,7 +404,7 @@ const RewardsRecognition = (props) => {
   // }, []);
 
   const fetchRewardsRecognition = (paramsInfo) => {
-    debugger
+    
     let obj = {
       url: URL_CONFIG.REWARDS_RECOGNITION,
       method: "get"
@@ -420,7 +420,7 @@ const RewardsRecognition = (props) => {
   }
 
   const getFilterParams = (paramsData) => {
-    debugger
+    
     if (Object.getOwnPropertyNames(filterParams)) {
       setFilterParams({ ...paramsData });
     } else {
@@ -430,12 +430,12 @@ const RewardsRecognition = (props) => {
   }
 
   useEffect(() => {
-    debugger
+    
     fetchRewardsRecognition(filterParams);
   }, []);
 
   useEffect(() => {
-    debugger
+    
     if (rrData && Object.keys(rrData)?.length) {
       // Login Chart Start
       let loginChartTemp = defaultChartOptions.login;

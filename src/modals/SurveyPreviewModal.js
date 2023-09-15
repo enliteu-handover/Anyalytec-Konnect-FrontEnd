@@ -28,7 +28,7 @@ const SurveyPreviewModal = (props) => {
   }
   return (
     <div className="eepModalDiv">
-      <div className="modal fade show" id="certPreviewModal">
+      <div className="modal fade show" id="surveyPreviewModal">
         <div className="modal-dialog w-75">
           <div className="modal-content p-4">
             <div className="modal-header p-0 border-bottom-0">

@@ -48,12 +48,12 @@ const Certificates = () => {
 
   useEffect(() => {
     fetchCertificateData();
-  },[]);
+  }, []);
 
   const fetchCertificateData = () => {
     const obj = {
-        url: URL_CONFIG.ALL_CERTIFICATE,
-        method: "get"
+      url: URL_CONFIG.ALL_CERTIFICATE,
+      method: "get"
     };
     httpHandler(obj)
       .then((cData) => {
@@ -77,7 +77,7 @@ const Certificates = () => {
         let dataTemp = JSON.parse(JSON.stringify(data));
         dataTemp.map((item) => {
           const isExist = arg.filter((response) => response === item.certificateTitle);
-          if(isExist.length) {
+          if (isExist.length) {
             item.isExist = true;
           } else {
             item.isExist = false;
@@ -88,7 +88,7 @@ const Certificates = () => {
   }
 
   const handleCertificatePreviewModal = (arg) => {
-    if(arg) {
+    if (arg) {
       setAddCertificateState(false);
       setPreviewState(true);
       let obj = {
@@ -106,19 +106,19 @@ const Certificates = () => {
     setCertData(arg);
   }
 
-  return(
+  return (
     <React.Fragment>
-      
-      {previewState && <CertificatePreviewModal previewDataUri={pdfDataUri} /> }
-      {addCertificateState && <AddCertificateToRecognitionModal certData={certData} fetchCertificateData={fetchCertificateData} /> }
+
+      {previewState && <CertificatePreviewModal previewDataUri={pdfDataUri} />}
+      {addCertificateState && <AddCertificateToRecognitionModal certData={certData} fetchCertificateData={fetchCertificateData} />}
 
       <div className="eep-content-start">
         <div className="eep-content-section p-4 bg-ebeaea brtl-15 brtr-15 eep_scroll_y">
           <div className="row lib_row_div ">
-            
+
             {certificateData.length > 0 && certificateData.map((item, index) => {
               return (
-                <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-center cert_col_div" key={"certificateLibrary_"+index}>
+                <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-center cert_col_div" key={"certificateLibrary_" + index}>
                   <div className="mycert_list_div box9">
                     <div className="mycert_assign_div">
                       <div className="outter">
@@ -127,40 +127,40 @@ const Certificates = () => {
                     </div>
                     <div className="box-content">
                       <h3 className="title">{item?.certificateTitle}</h3>
-                      {item.isExist && <p className="desc_p">Already added for recognition</p> }
-                      {!item.isExist && <p className="desc_p">Add this certificate for recognition</p> }
+                      {item.isExist && <p className="desc_p">Already added for recognition</p>}
+                      {!item.isExist && <p className="desc_p">Add this certificate for recognition</p>}
                       {!item.isExist &&
                         <ul className="icon">
                           <li>
-                            <Link 
-                              to="#" 
-                              className="p_cert_modal_a fas fa-plus" 
+                            <a
+                              to="#"
+                              className="p_cert_modal_a fas fa-plus"
                               title="Preview this certificate"
                               data-toggle="modal"
                               data-target="#certRecognitionModal"
                               onClick={() => handleCreateCertificate(item)}
-                            ></Link>
+                            ></a>
                           </li>
                         </ul>
                       }
-                      <ul className="icon prev_icon">
+                      <ul className="icon prev_icon" style={{ width: "auto" }}>
                         <li>
-                          <Link 
-                            to="#" 
-                            className="p_cert_modal_a fa fa-eye" 
+                          <a
+                            to="#"
+                            className="p_cert_modal_a fa fa-eye"
                             title="Preview this certificate"
                             data-toggle="modal"
                             data-target="#certPreviewModal"
-                            onClick={()=>handleCertificatePreviewModal(item)}
-                          ></Link>
+                            onClick={() => handleCertificatePreviewModal(item)}
+                          ></a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
-                )
-              })}
-            
+              )
+            })}
+
 
           </div>
         </div>

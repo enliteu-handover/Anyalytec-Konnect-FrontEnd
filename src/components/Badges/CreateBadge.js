@@ -56,7 +56,7 @@ const CreatBadges = () => {
 
 
   useEffect(() => {
-    debugger
+    
     if (libDataVal && Object.keys(libDataVal).length) {
       const regDataTemp = {
         imageByte: null,
@@ -104,14 +104,14 @@ const CreatBadges = () => {
   };
 
   const getImageData = (args) => {
-    debugger
+    
     setBadgeResponseMsg("");
     setBadgeResponseClassName("");
     setRegData({ ...regData, imageByte: args });
   }
 
   const getFormData = (args) => {
-    debugger
+    
     setBadgeResponseMsg("");
     setBadgeResponseClassName("");
     setRegData({ ...regData, ...args });
