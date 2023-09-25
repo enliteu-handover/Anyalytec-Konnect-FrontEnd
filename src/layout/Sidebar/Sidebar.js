@@ -17,7 +17,9 @@ const Sidebar = (props) => {
     fetch(`${process.env.PUBLIC_URL}/data/sidebarMenu.json`)
       .then((response) => response.json())
       .then((data) => {
-        setSidebarMenu(sideMenuHidden(data, userRolePermission));
+        setSidebarMenu(data
+          // sideMenuHidden(data, userRolePermission)
+          );
       });
   };
 

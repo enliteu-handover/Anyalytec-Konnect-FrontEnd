@@ -13,7 +13,7 @@ export const base64ToFile = (base64Data) => {
 };
 
 export const sideMenuHidden = (data, userRolePermission) => {
-
+    debugger
     let arr = data ?? [];
 
     if (!userRolePermission?.orgChart) {
@@ -48,8 +48,8 @@ export const sideMenuHidden = (data, userRolePermission) => {
         !userRolePermission?.ideaboxHide) {
         const i = arr?.findIndex(v => v.communication)
         delete arr[i]
-    }; if(!userRolePermission?.awardCreate && !userRolePermission?.certificateCreate &&
-             !userRolePermission?.badgeCreate){
+    }; if (!userRolePermission?.awardCreate && !userRolePermission?.certificateCreate &&
+        !userRolePermission?.badgeCreate) {
         const i = arr?.findIndex(v => v.library)
         delete arr[i]
     }
