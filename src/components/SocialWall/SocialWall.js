@@ -8,7 +8,6 @@ import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SocialWallLeftContent from "./SocialWallLeftContent";
 import SocialWallMiddleContent from "./SocialWallMiddleContent";
 import SocialWallRightContent from "./SocialWallRightContent";
-import { LoaderHandler } from "../../idm";
 
 const SocialWall = () => {
 

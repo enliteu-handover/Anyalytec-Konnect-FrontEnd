@@ -13,7 +13,7 @@ export const base64ToFile = (base64Data) => {
 };
 
 export const sideMenuHidden = (data, userRolePermission) => {
-    debugger
+    
     let arr = data ?? [];
 
     if (!userRolePermission?.orgChart) {

@@ -64,6 +64,7 @@ import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
+import IdmRoleMapping from "../../idm/idm";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);
@@ -88,8 +89,11 @@ const MainContainer = (props) => {
                       <div className="eep-content-section-div">
                         <div className="eep-content-section eep_scroll_y">
                           <Switch>
-                            <Route path="/app/orgChart">
+                          <Route path="/app/orgChart">
                               <BulkUploadOrgChart />
+                            </Route>
+                            <Route path="/app/idm">
+                              <IdmRoleMapping />
                             </Route>
                             <Route path="/app/dashboard">
                               <Home initial={initial} setInitial={setInitial} />

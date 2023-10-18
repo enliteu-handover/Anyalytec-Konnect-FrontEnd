@@ -39,16 +39,16 @@ const AdminPanel = () => {
   return (
     <React.Fragment>
       {userRolePermission.adminPanel &&
-      <React.Fragment>
-        <div className="adminPanel-div p-0 m-0">
-          <div className="row no-gutters">
-            <div className="col-md-12">
-              <h4 className="title_h4 c-2c2c2c">Admin Panel</h4>
+        <React.Fragment>
+          <div className="adminPanel-div p-0 m-0">
+            <div className="row no-gutters">
+              <div className="col-md-12">
+                <h4 className="title_h4 c-2c2c2c">Admin Panel</h4>
+              </div>
             </div>
+            <div className="eep-dropdown-divider"></div>
           </div>
-          <div className="eep-dropdown-divider"></div>
-        </div>
-        <div className="admin_panel_container">
+          <div className="admin_panel_container">
             <Link to="/app/portalsettings">
               <div className="admin_panel_items bg-white">
                 <div className="outter">
@@ -91,7 +91,10 @@ const AdminPanel = () => {
                 <span>User Management</span>
               </div>
             </Link>
-            <Link to="/app/rolemanagement">
+            <Link
+              // to="/app/rolemanagement"
+              to="/app/idm"
+            >
               <div className="admin_panel_items bg-white">
                 <div className="outter">
                   <img

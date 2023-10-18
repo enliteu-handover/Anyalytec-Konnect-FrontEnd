@@ -13,12 +13,17 @@
         "header": "Dashboard",
         "permissions": [
             {
+                "label": "My Dashboard",
+                "value": "myDashboard",
+                "tipvalue": "Enable user to view my dashboard"
+            },
+            {
                 "label": "Employee Engagement Dashboard",
                 "value": "employeeEngagementDashboard",
                 "tipvalue": "Enable user to view Engagement dashboard"
             },
             {
-                "label": "Hall of Fame",
+                "label": "Hall Of Fame",
                 "value": "hallOfFame",
                 "tipvalue": "Enable user to view Hall of Fame dashboard"
             }
@@ -28,7 +33,7 @@
         "header": "E cards",
         "permissions": [
             {
-                "label": "Templates",
+                "label": "Ecard Templates",
                 "value": "ecardTemplates",
                 "tipvalue": "Enable user to add card designs, messages and schedule"
             }
@@ -38,17 +43,17 @@
         "header": "Certificates",
         "permissions": [
             {
-                "label": "Send",
+                "label": "Certificate Send",
                 "value": "certificateSend",
                 "tipvalue": "Enable user to issue certificates"
             },
             {
-                "label": "Create",
+                "label": "Certificate Create",
                 "value": "certificateCreate",
                 "tipvalue": "Enable user to create certificate designs"
             },
             {
-                "label": "Modify",
+                "label": "Certificate Modify",
                 "value": "certificateModify",
                 "tipvalue": "Enable user to modify certificate designs"
             }
@@ -58,17 +63,17 @@
         "header": "Badges",
         "permissions": [
             {
-                "label": "Send",
+                "label": "Badge Send",
                 "value": "badgeSend",
                 "tipvalue": "Enable user to issue badges"
             },
             {
-                "label": "Create",
+                "label": "Badge Create",
                 "value": "badgeCreate",
                 "tipvalue": "Enable user to create badges"
             },
             {
-                "label": "Modify",
+                "label": "Badge Modify",
                 "value": "badgeModify",
                 "tipvalue": "Enable user to modify badges"
             }
@@ -78,22 +83,22 @@
         "header": "Awards",
         "permissions": [
             {
-                "label": "Create",
+                "label": "Award Create",
                 "value": "awardCreate",
                 "tipvalue": "Enable user to create awards"
             },
             {
-                "label": "Modify",
+                "label": "Award Modify",
                 "value": "awardModify",
                 "tipvalue": "Enable user to modify awards"
             },
             {
-                "label": "Categorisation",
+                "label": "Award Categorisation",
                 "value": "awardCategorisation",
                 "tipvalue": "Enable user to categorize awards"
             },
             {
-                "label": "Nominator/ Assignee ",
+                "label": "Award Nominator Assignee ",
                 "value": "awardNominatorAssignee",
                 "tipvalue": "Enable user to nominate employees for awards"
             }
@@ -123,12 +128,12 @@
         "header": "Survey",
         "permissions": [
             {
-                "label": "Create",
+                "label": "Survey Create",
                 "value": "surveyCreate",
                 "tipvalue": "Enable user to create surveys"
             },
             {
-                "label": "Modify",
+                "label": "Survey Modify",
                 "value": "surveyModify",
                 "tipvalue": "Enable user to modify surveys"
             }
@@ -138,7 +143,7 @@
         "header": "Ideas",
         "permissions": [
             {
-                "label": "Hide",
+                "label": "Ideabox Hide",
                 "value": "ideaboxHide",
                 "tipvalue": "Enable user to censure inappropriate posts"
             }
@@ -148,7 +153,12 @@
         "header": "Forum",
         "permissions": [
             {
-                "label": "Hide",
+                "label": "My Forum",
+                "value": "myForums",
+                "tipvalue": "Enable user to censure my forum"
+            },
+            {
+                "label": "Forum Hide",
                 "value": "forumHide",
                 "tipvalue": "Enable user to censure inappropriate posts"
             }
@@ -158,12 +168,12 @@
         "header": "Polls",
         "permissions": [
             {
-                "label": "Create",
+                "label": "Poll Create",
                 "value": "pollCreate",
                 "tipvalue": "Enable user to create polls"
             },
             {
-                "label": "Modify",
+                "label": "Poll Modify",
                 "value": "pollModify",
                 "tipvalue": "Enable user to modify polls"
             }
@@ -176,6 +186,16 @@
                 "label": "Hide",
                 "value": "enliteWallHide",
                 "tipvalue": "Enable user to censure inappropriate posts or comments"
+            }
+        ]
+    },
+    {
+        "header": "Org Chart",
+        "permissions": [
+            {
+                "label": "Org Chart",
+                "value": "orgChart",
+                "tipvalue": "Org Chart"
             }
         ]
     }

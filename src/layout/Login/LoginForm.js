@@ -90,19 +90,19 @@ const LoginForm = () => {
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          await idmRolesToUpdateInDb()?.then(async () => {
-            await fetchPermission()?.then(() => {
-              if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
-                const url = new URL(sessionStorage?.redirect);
-                const router = url.pathname;
-                console.log(router);
-                history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
-                sessionStorage.removeItem('redirect')
-              } else {
-                history.push("/app/dashboard");
-              }
-            })
+          // await idmRolesToUpdateInDb()?.then(async () => {
+          await fetchPermission()?.then(() => {
+            if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
+              const url = new URL(sessionStorage?.redirect);
+              const router = url.pathname;
+              console.log(router);
+              history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
+              sessionStorage.removeItem('redirect')
+            } else {
+              history.push("/app/dashboard");
+            }
           })
+          // })
         })
         .catch((error) => {
           console.log("formSubmissionHandler error", error.response);
@@ -161,83 +161,25 @@ const LoginForm = () => {
         theme: response?.data?.theme?.[0] ?? {},
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
-      dispatch(sharedDataActions.getUserRolePermission({
-        userRolePermission: {
-          "badgeSend": true,
-          "certificateSend": true,
-          "awardNominatorAssignee": true,
-          "awardCategorisation": true,
-          "awardNominatorAssignee": true,
-          "awardModify": true,
-          "pollCreate": true,
-          "adminPanel": true,
-          "surveyCreate": true,
-          "awardCreate": true,
-          "badgeCreate": true,
-          "certificateCreate": true,
-          "surveyCreate": true,
-          "myDashboard": true,
-          "rewardsAndRecognition": true,
-          "employeeEngagementDashboard": true,
-          "ecardTemplates": true,
-          "hallOfFame": true,
-          "ecards": true,
-          "ecardInbox": true,
-          "ecardTemplate": true,
-          "badges": true,
-          "createBadge": true,
-          "myBadges": true,
-          "awards": true,
-          "createAward": true,
-          "myAwards": true,
-          "awardNominatorView": true,
-          "awardNomination": true,
-          "awardMyNominations": true,
-          "awardApproval": true,
-          "awardManage": true,
-          "certificate": true,
-          "myCertificate": true,
-          "libraryBadges": true,
-          "libraryAwards": true,
-          "libraryCertificates": true,
-          "socialWall": true,
-          "ideaBox": true,
-          "createIdeaBox": true,
-          "myIdeas": true,
-          "forum": true,
-          "createforum": true,
-          "myForums": true,
-          "createPoll": true,
-          "activePolls": true,
-          "pollResults": true,
-          "closedPolls": true,
-          "createSurvey": true,
-          "mySurveys": true,
-          "surveyResults": true,
-          "surveyQuestionBank": true,
-          "rewardPoints": true,
-          "portalSettings": true,
-          "departmentMasters": true,
-          "userManagement": true,
-          "roleManagement": true,
-          "hashTag": true
-        }
-        // roleData?.data
+      localStorage.setItem('authToken', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInVzZXJuYW1lIjoiZW5saXRlVSIsImVtYWlsX2lkIjoicHJha2FzaEBjcmF5b25kLmNvIiwiaWF0IjoxNjk3NTIxODQzLCJleHAiOjE2OTc2MDgyNDN9.id0592h8dmdZNflgm77I9aLSSLhwesaLv5bgKww4cuc")
+
+      await dispatch(sharedDataActions.getUserRolePermission({
+        userRolePermission: roleData?.data
       }));
 
-      let payOptionsRole = {
-        data: roleData?.rolesData,
-        role_id: roleData?.roleId,
-        screen: JSON.stringify(roleData?.data)
-      };
+      // let payOptionsRole = {
+      //   data: roleData?.rolesData,
+      //   role_id: roleData?.roleId,
+      //   screen: JSON.stringify(roleData?.data)
+      // };
 
-      const objRole = {
-        url: URL_CONFIG.ADDROLE,
-        method: "post",
-        payload: payOptionsRole,
-      };
+      // const objRole = {
+      //   url: URL_CONFIG.ADDROLE,
+      //   method: "post",
+      //   payload: payOptionsRole,
+      // };
 
-      await httpHandler(objRole)
+      // await httpHandler(objRole)
     }).catch((error) => {
       console.log("fetchPermission error", error);
     });

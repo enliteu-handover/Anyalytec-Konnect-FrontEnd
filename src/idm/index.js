@@ -1,6 +1,6 @@
 import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
 export const idmRoleMapping = async (role, permission = ['update', 'read', 'create', 'delete']) => {
-    debugger
+    
     const roles = await getRoles({});
     const finfRole = roles.find(v => v.id === role)
     const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
@@ -9,7 +9,6 @@ export const idmRoleMapping = async (role, permission = ['update', 'read', 'crea
     if (isIDMInitialized) {
         validate = validateAuthorization(getIds(GetPermissions), permission);
     }
-console.log('getPermission(GetPermissions, validate)',getPermission(GetPermissions, validate));
     return { roleId: finfRole?.id, data: getPermission(GetPermissions, validate), rolesData: roles }
     // return validate;
 }
@@ -28,40 +27,61 @@ const getIds = (GetPermissions) => {
 }
 
 const getPermission = (GetPermissions, validate) => {
-    debugger
+    
     let array = {};
     const chilMapped = (data, name) => {
         return data?.map(v => {
-            let nm = v?.name ?? ''
-            if (name?.toLowerCase() === 'awards') {
-                nm = 'award ' + v?.name
-            } else if (name?.toLowerCase() === 'badges') {
-                nm = 'badge ' + v?.name
-            } else if (name?.toLowerCase() === 'certificates') {
-                nm = 'certificate ' + v?.name
-            } else if (name?.toLowerCase() === 'polls') {
-                nm = 'poll ' + v?.name
-            } else if (name?.toLowerCase() === 'program') {
-                nm = 'program ' + v?.name
-            } else if (name?.toLowerCase() === 'e cards') {
-                nm = 'ecard ' + v?.name
-            } else if (name?.toLowerCase() === 'enlite wall') {
-                nm = 'enlite Wall ' + v?.name
-            } else if (name?.toLowerCase() === 'survey') {
-                nm = 'survey ' + v?.name
-            } else if (name?.toLowerCase() === 'forum') {
-                nm = 'forum ' + v?.name
-            } else if (name?.toLowerCase() === 'ideas') {
-                nm = 'ideabox ' + v?.name
-            }
-            const transformedSentence = transformSentence(nm);
-            array[transformedSentence] = validate[v?.id]['read']
-            chilMapped(v?.child, v?.name)
+            // let nm = v?.name ?? ''
+            // if (name?.toLowerCase() === 'awards') {
+            //     nm = 'award ' + v?.name
+            // } else if (name?.toLowerCase() === 'badges') {
+            //     nm = 'badge ' + v?.name
+            // } else if (name?.toLowerCase() === 'certificates') {
+            //     nm = 'certificate ' + v?.name
+            // } else if (name?.toLowerCase() === 'polls') {
+            //     nm = 'poll ' + v?.name
+            // } else if (name?.toLowerCase() === 'program') {
+            //     nm = 'program ' + v?.name
+            // } else if (name?.toLowerCase() === 'e cards') {
+            //     nm = 'ecard ' + v?.name
+            // } else if (name?.toLowerCase() === 'enlite wall') {
+            //     nm = 'enlite Wall ' + v?.name
+            // } else if (name?.toLowerCase() === 'survey') {
+            //     nm = 'survey ' + v?.name
+            // } else if (name?.toLowerCase() === 'forum') {
+            //     nm = 'forum ' + v?.name
+            // } else if (name?.toLowerCase() === 'ideas') {
+            //     nm = 'ideabox ' + v?.name
+            // }
+            v?.child?.[0]?.child?.map(c => {
+                const transformedSentence = convertToCamelCase(c?.name);
+                //  transformSentence(c?.name);
+                array[transformedSentence] = validate[c?.id]['read']
+                // chilMapped(v?.child, v?.name)
+            })
         })
     }
     chilMapped(GetPermissions ?? [])
     return array;
 };
+
+function convertToCamelCase(inputString) {
+    // Split the input string into words
+    const words = inputString.split(' ');
+
+    // Convert the first word to lowercase
+    words[0] = words[0].toLowerCase();
+
+    // Capitalize the first letter of each subsequent word
+    for (let i = 1; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].slice(1);
+    }
+
+    // Join the words back together
+    const camelCaseString = words.join('');
+
+    return camelCaseString;
+}
 
 function transformSentence(sentence) {
     const words = sentence.split(' ');
