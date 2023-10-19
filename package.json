@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@crayond_dev/idm-client": "^0.5.0",
-    "@crayond_dev/user-management-test": "^0.0.15",
+    "@crayond_dev/user-management-test": "^0.2.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-free": "^5.13.1",
