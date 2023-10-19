@@ -1,31 +1,28 @@
-import React from "react";
 import { UserManagement } from "@crayond_dev/user-management-test";
-import { URL_CONFIG } from "../constants/rest-config";
-import { httpHandler } from "../http/http-interceptor";
+import React from "react";
 import { useSelector } from "react-redux";
 import { idmRoleMapping } from ".";
+import { URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
 
 const IdmRoleMapping = (props) => {
-    const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
     const onStatusChangeCallback = () => { };
     const onDeleteRoleCallback = () => { };
 
     const onEditRoleCallback = (e) => {
-        debugger
         update(e)
     };
 
     const onAddRoleCallback = (e) => {
-        debugger
         update(e)
     };
 
 
     const update = async (data) => {
-        debugger
 
         const roleData = await idmRoleMapping(data?.id);
+
         let payOptionsRole = {
             idm_id: data?.id,
             role_name: data?.name,
