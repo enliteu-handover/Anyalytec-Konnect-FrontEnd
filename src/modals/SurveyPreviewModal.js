@@ -12,10 +12,10 @@ const SurveyPreviewModal = (props) => {
   }, [props.previewData])
 
   const appendFormRender = (fData) => {
-    if(fData) {
+    if (fData) {
       const wrap = $('#surveyAnswer');
       $("#surveyAnswer").html('');
-      if(fData !== undefined && fData.length){
+      if (fData !== undefined && fData.length) {
         wrap.formRender({
           dataType: 'json',
           formData: fData
@@ -35,9 +35,9 @@ const SurveyPreviewModal = (props) => {
               <button type="button" className="close closed" data-dismiss="modal" title="Close"></button>
             </div>
             <div className="modal-body py-0 px-0 eep_scroll_y">
-              <div className="row justify-content-md-center">
-              <div id="surveyAnswer" className="tc_design eep_survey_view eep_survey_answer fb-render">
-                      </div>
+              <div className="row justify-content-md-center" style={{ height: "80vh", overflow: "auto" }}>
+                <div id="surveyAnswer" className="tc_design eep_survey_view eep_survey_answer fb-render">
+                </div>
               </div>
             </div>
           </div>

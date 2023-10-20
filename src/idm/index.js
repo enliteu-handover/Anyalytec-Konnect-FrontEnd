@@ -1,6 +1,6 @@
 import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
+
 export const idmRoleMapping = async (role, permission = ['update', 'read', 'create', 'delete']) => {
-    
     const roles = await getRoles({});
     const finfRole = roles.find(v => v.id === role)
     const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
@@ -10,7 +10,20 @@ export const idmRoleMapping = async (role, permission = ['update', 'read', 'crea
         validate = validateAuthorization(getIds(GetPermissions), permission);
     }
     return { roleId: finfRole?.id, data: getPermission(GetPermissions, validate), rolesData: roles }
-    // return validate;
+}
+
+export const idmRoleMappingRoles = async (role, permission = ['update', 'read', 'create', 'delete']) => {
+    const roles = await getRoles({});
+    const finfRole = roles.find(v => v.id === role)
+    const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
+
+    const GetPermissions = roles?.find(v => v?.id === role)?.role_permission_mappings?.[0]?.permission?.data?.data ?? []
+
+    var validate = null;
+    if (isIDMInitialized) {
+        validate = validateAuthorization(getIds(GetPermissions), permission);
+    }
+    return { roleId: finfRole?.id, data: getPermission(GetPermissions, validate), rolesData: roles }
 }
 
 
@@ -27,7 +40,7 @@ const getIds = (GetPermissions) => {
 }
 
 const getPermission = (GetPermissions, validate) => {
-    
+
     let array = {};
     const chilMapped = (data, name) => {
         return data?.map(v => {

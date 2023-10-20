@@ -1,7 +1,6 @@
 import { UserManagement } from "@crayond_dev/user-management-test";
 import React from "react";
-import { useSelector } from "react-redux";
-import { idmRoleMapping } from ".";
+import { idmRoleMappingRoles } from ".";
 import { URL_CONFIG } from "../constants/rest-config";
 import { httpHandler } from "../http/http-interceptor";
 
@@ -11,18 +10,21 @@ const IdmRoleMapping = (props) => {
     const onDeleteRoleCallback = () => { };
 
     const onEditRoleCallback = (e) => {
-        update(e)
+        setTimeout(async () => {
+            await update(e)
+        }, 1000);
     };
 
     const onAddRoleCallback = (e) => {
-        update(e)
+        setTimeout(async () => {
+            await update(e)
+        }, 1000);
     };
 
 
     const update = async (data) => {
-
-        const roleData = await idmRoleMapping(data?.id);
-
+        debugger
+        const roleData = await idmRoleMappingRoles(data?.id);
         let payOptionsRole = {
             idm_id: data?.id,
             role_name: data?.name,
@@ -34,7 +36,6 @@ const IdmRoleMapping = (props) => {
             method: "post",
             payload: payOptionsRole,
         };
-
         await httpHandler(objRole)
     }
 
@@ -42,10 +43,10 @@ const IdmRoleMapping = (props) => {
         <div className="">
             <UserManagement
                 apiUrl="https://dev-idm-api.crayond.com/api/v1"
-                onStatusChangeCallback={onStatusChangeCallback}
-                onEditRoleCallback={onEditRoleCallback}
-                onDeleteRoleCallback={onDeleteRoleCallback}
-                onAddRoleCallback={onAddRoleCallback}
+                onStatusChangeCallback={(e) => onStatusChangeCallback(e)}
+                onEditRoleCallback={(e) => onEditRoleCallback(e)}
+                onDeleteRoleCallback={(e) => onDeleteRoleCallback(e)}
+                onAddRoleCallback={(e) => onAddRoleCallback(e)}
             />
         </div>
     );
