@@ -42,7 +42,7 @@ const Header = () => {
       ...state
     })
   }, [])
-  
+
   return (
     <div>
       {/* <div className="header-toggle-btn"></div> */}
@@ -118,7 +118,7 @@ const Header = () => {
           <Notification />
 
           {/* Nav Item User */}
-          <UserNavItem logo={state?.HeaderLogo} />
+          <UserNavItem logo={JSON.parse(userDetails)?.userLogo ?? ''} />
         </ul>
       </nav>
     </div>
