@@ -19,7 +19,7 @@ const REST_CONFIG = {
   SENTRY_AUTH_TOKEN: process.env.REACT_APP_SENTRY_AUTH_TOKEN
 };
 
-// QA Instance Apache 9 Demo purpose
+// QA Instance Apache 9 Demo 
 /*
 const REST_CONFIG = {
   BASEURL: "65.1.238.219",
