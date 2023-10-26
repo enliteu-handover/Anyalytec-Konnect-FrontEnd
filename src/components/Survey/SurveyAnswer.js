@@ -19,7 +19,7 @@ const SurveyAnswer = () => {
 
   const [toggleClass, setToggleClass] = useState(true);
   const location = useLocation();
-  const sDataValue = location.state ? location.state?.surveyData : "";
+  const sDataValue = location.state ? location.state?.surveyData : '';
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
@@ -32,8 +32,7 @@ const SurveyAnswer = () => {
   const [surveyData, setSurveyData] = useState({});
   const eepHistory = useHistory();
 
-  //console.log("sDataValue", sDataValue);
-
+  // console.log("sDataValue",  location.state);
   const dispatch = useDispatch();
   const breadcrumbArr = [
     {
@@ -86,8 +85,7 @@ const SurveyAnswer = () => {
   }
 
   const fetchSurveyInfo = (sData) => {
-    
-    if(sData) {
+ if(sData) {
       const obj = {
         url: URL_CONFIG.SHOW_SURVEY,
         method: "get",
@@ -139,11 +137,13 @@ const SurveyAnswer = () => {
     if(sDataValue && Object.keys(sDataValue).length > 0) {
       fetchSurveyInfo(sDataValue);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sDataValue]);
 
   const sideBarClass = (tooglestate) => {
     setToggleClass(tooglestate);
   }
+
 
   const submitAnswerHandler = () => {
     let formData = new FormData();
@@ -161,14 +161,12 @@ const SurveyAnswer = () => {
       } else {
         o[this.name] = this.value || '';
       }
-    });
-    
+    });  
     if(o && Object.keys(o).length > 0) {
       for (const [key, value] of Object.entries(o)) {
         formData.append(key, value);
       }
     }
-
     const obj = {
 			url: URL_CONFIG.SURVEY_SUBMIT,
 			method: "post",
@@ -241,12 +239,12 @@ const SurveyAnswer = () => {
                       </div>
                     </div>
                     
-                    {surveyData.state === "created" &&
+                    { surveyData && surveyData?.state === "created" &&
                       <div className="col-lg-8 text-center mb-3">
-                        <button type="submit" className="eep-btn eep-btn-success" id="answer_survey_submit" onClick={submitAnswerHandler}>Submit</button>
+                        <button type="submit" className="eep-btn eep-btn-success" id="answer_survey_submit"  onClick={submitAnswerHandler}>Submit</button>
                       </div>
                     }
-                    {surveyData.state === "submitted" &&
+                    {surveyData && surveyData?.state === "submitted" &&
                       <div className="col-lg-8 text-center">
                         <div className="alert alert-success" role="alert">
                           Survey answered successfully - {eepFormatDateTime(surveyData.updatedAt)}

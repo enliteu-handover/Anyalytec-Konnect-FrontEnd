@@ -122,13 +122,16 @@ const PollAnswer = () => {
 		if (!pData.answeredState) {
 			if (responseID && ans.option) {
 				console.log("submitAnswerHandler ans", responseID, ans);
-				let formData = new FormData();
-				formData.append('id', responseID);
-				formData.append('value', ans.option);
+				// let formData = new FormData();
+				// formData.append('id', responseID);
+				// formData.append('value', ans.option);
 				const obj = {
 					url: URL_CONFIG.POLL_SUBMIT,
 					method: "post",
-					formData: formData,
+				    payload: {
+						id:responseID,
+						value:ans.option
+					}
 				};
 				console.log("submitAnswerHandler obj", obj);
 				httpHandler(obj).then(() => {
