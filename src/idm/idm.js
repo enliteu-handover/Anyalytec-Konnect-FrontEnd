@@ -23,7 +23,6 @@ const IdmRoleMapping = (props) => {
 
 
     const update = async (data) => {
-        debugger
         const roleData = await idmRoleMappingRoles(data?.id);
         let payOptionsRole = {
             idm_id: data?.id,

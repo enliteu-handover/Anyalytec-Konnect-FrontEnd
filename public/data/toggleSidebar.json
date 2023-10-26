@@ -61,13 +61,7 @@
         "imgSrc": "plus-green.svg",
         "bgClassName": "bg-light-green"
       },
-      {
-        "label": "Library Survey",
-        "link": "librarysurvey",
-        "isCustomComponent": false,
-        "imgSrc": "",
-        "bgClassName": "bg-red-survey"
-      },
+      
       {
         "label": "Active Polls",
         "link": "activepolls",
