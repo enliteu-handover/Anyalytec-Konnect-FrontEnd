@@ -285,21 +285,25 @@ const BulkUploadOrgChart = () => {
                 handleExportDownload={handleExportDownload}
             />
 
-            <PageHeader title="Org Chart"
+            <PageHeader
+                // title="Org Chart"
+                hiddenDivider={true}
                 filter={
                     <div className="d-flex align-items-center align-content-center">
                         {userRolePermission?.adminPanel &&
                             <Link
                                 style={{
                                     marginBottom: 14,
-                                    marginRight: 10
+                                    marginRight: 10,
                                 }}
                                 className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
                                 data-toggle="modal"
                                 data-target="#CreateBulkUploadModal"
                                 to="#"
                                 onClick={openBulk}
-                            > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Bulk Upload</Link>
+                            > <img style={{ width: "18px", marginTop: "-2px" }} src={'/images/Group 106594.svg'} /> <span style={{
+                                fontSize: 11
+                            }}>Bulk Upload</span></Link>
                         }
                         <div className="form-group field-wbr" style={{ width: "280px" }}>
                             <Select

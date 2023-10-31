@@ -36,7 +36,8 @@ const getLayoutedElements = (nodes, edges, direction = "TB") => {
         node.targetPosition = isHorizontal ? "left" : "top";
         node.sourcePosition = isHorizontal ? "right" : "bottom";
         node.position = {
-            x: nodeWithPosition.x - nodeWidth + ((nodeWithPosition.x) / 4),
+            x: nodeWithPosition.x,
+            //  - nodeWidth + ((nodeWithPosition.x) / 4),
             y: nodeWithPosition.y - nodeHeight + nodeWithPosition.y
         };
         return node;

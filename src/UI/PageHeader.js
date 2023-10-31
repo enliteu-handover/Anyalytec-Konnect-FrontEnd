@@ -1,6 +1,6 @@
 import React from "react";
 const PageHeader = (props) => {
-  const { title, navLinksLeft, sucuss, navLinksRight, filter, BulkAction, toggle } = props;
+  const { title, navLinksLeft, sucuss, navLinksRight, filter, BulkAction, toggle, hiddenDivider } = props;
   return (
     <React.Fragment>
       <div className="d-flex p-0 m-0 eep-templates-setting-title">
@@ -22,7 +22,7 @@ const PageHeader = (props) => {
 
         {props.children}
       </div>
-      <div className="eep-dropdown-divider"></div>
+      {!hiddenDivider && <div className="eep-dropdown-divider"></div>}
     </React.Fragment>
   );
 };

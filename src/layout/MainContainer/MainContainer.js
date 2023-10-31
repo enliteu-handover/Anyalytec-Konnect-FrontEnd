@@ -89,7 +89,7 @@ const MainContainer = (props) => {
                       <div className="eep-content-section-div">
                         <div className="eep-content-section eep_scroll_y">
                           <Switch>
-                          <Route path="/app/orgChart">
+                            <Route path="/app/orgChart">
                               <BulkUploadOrgChart />
                             </Route>
                             <Route path="/app/idm">
