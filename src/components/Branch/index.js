@@ -10,6 +10,8 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import TableComponent from "../../UI/tableComponent";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { FILTER_CONFIG } from "../../constants/ui-config";
+import Filter from "../../UI/Filter";
 
 const BranchMaster = () => {
     const dispatch = useDispatch();
@@ -74,12 +76,42 @@ const BranchMaster = () => {
         );
     }, [breadcrumbArr, dispatch]);
 
-    const fetchAllBrachData = (search, limit, offset) => {
+    const fetchAllBrachData = (search, limit, offset, arg = {}) => {
+
 
         const obj = {
-            url: URL_CONFIG.GET_ALL_BRANCH + `?offset=${offset ?? state?.offset}` + `&limit=${limit ?? state?.limit}` + `&search=${search ? search : ""}`,
+            url: URL_CONFIG.GET_ALL_BRANCH,
             method: "get",
         };
+
+        if (
+            arg?.filterValue &&
+            Object.keys(arg.filterValue).length &&
+            arg.filterValue.value !== ""
+        ) {
+            obj["params"] = {
+            ...obj["params"],
+            active: arg.filterValue.value
+            };
+        }
+
+        obj["params"] = {
+            ...obj["params"],
+            offset: state?.offset
+        };
+
+        obj["params"] = {
+            ...obj["params"],
+            limit: state?.limit
+        };
+
+        if (state?.search) {
+            obj["params"] = {
+                ...obj["params"],
+                search: state?.search ?? ''
+            };
+        }
+
         httpHandler(obj).then((response) => {
             setState({
                 ...state,
@@ -102,6 +134,11 @@ const BranchMaster = () => {
         setShowModal({ type: null, message: null });
     };
 
+
+    const filterOnChangeHandler = (arg) => {
+        
+        fetchAllBrachData(false, false, false, { filterValue: arg });
+    };
 
     return (
         <React.Fragment>
@@ -156,6 +193,12 @@ const BranchMaster = () => {
                                 setisOpen(true)
                             }}
                         ></Link>
+                    }
+                    filter={
+                        <Filter
+                            config={FILTER_CONFIG}
+                            onFilterChange={filterOnChangeHandler}
+                        />
                     }
                 ></PageHeader>
 

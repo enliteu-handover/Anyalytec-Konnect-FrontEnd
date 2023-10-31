@@ -25,7 +25,7 @@ const TableComponent = ({ columns = [], data = [], action, searchHidden, actionH
                     density: 'comfortable', showGlobalFilter: searchHidden ? false : true,
                 }}
                 muiSearchTextFieldProps={{
-                    placeholder: 'Search...',
+                    size: 'small',  placeholder: 'Search...',
                     variant: 'outlined',
                 }}
                 renderRowActions={({ row, table }) =>

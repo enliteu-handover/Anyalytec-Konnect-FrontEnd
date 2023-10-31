@@ -5,18 +5,18 @@ const Filter = (props) => {
   const { config, onFilterChange } = props;
   return (
     // <div className="eep-options-div my-auto eep_select_maindiv">
-      <div className="d-inline-block eep_select_div">
-        <Select
-          options={config.dropdownOptions}
-          placeholder=""
-          classNamePrefix="eep_select_common contact_number"
-          className={`form-control py-0 a_designation basic-single ${classes.formControl}`}
-          style={{ height: "auto" }}
-          menuPlacement="bottom"
-          onChange={(event) => onFilterChange(event)}
-          defaultValue={config.defaultValue}
-        />
-      </div>
+    <div className="d-inline-block eep_select_div" style={{ zIndex: 100 }}>
+      <Select
+        options={config.dropdownOptions}
+        placeholder=""
+        classNamePrefix="eep_select_common contact_number"
+        className={`form-control py-0 a_designation basic-single ${classes.formControl}`}
+        style={{ height: "auto" }}
+        menuPlacement="bottom"
+        onChange={(event) => onFilterChange(event)}
+        defaultValue={config.defaultValue}
+      />
+    </div>
     // </div>
   );
 };

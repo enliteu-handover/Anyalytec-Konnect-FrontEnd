@@ -30,18 +30,20 @@ const Header = () => {
   //     })
   // }, [])
 
+  React.useEffect(() => {
+    
+    setState({
+      ...state,
+      "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
+    })
+  }, [JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo])
+
   // React.useEffect(() => {
   //   setState({
   //     ...state,
-  //     "HeaderLogo": headerLogo?.HeaderLogo ?? ""
+  //     "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
   //   })
-  // }, [headerLogo])
-
-  React.useEffect(() => {
-    setState({
-      ...state
-    })
-  }, [])
+  // }, [])
 
   return (
     <div>
@@ -58,7 +60,10 @@ const Header = () => {
         </button>
 
         {state?.HeaderLogo?.includes('.svg') ?
-          <div style={{ height: "60px" }}> <SvgComponent svgUrl={state?.HeaderLogo} /></div> : <img
+          <div style={{ height: "60px" }}> 
+          <SvgComponent svgUrl={state?.HeaderLogo} />
+          </div>
+           : <img
             src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
             className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
             alt="logo"
