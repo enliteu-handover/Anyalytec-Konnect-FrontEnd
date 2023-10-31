@@ -191,9 +191,9 @@ const BulkUploadOrgChart = () => {
         };
         await httpHandler(obj)
             .then(async (exportData) => {
+                state.orgChartData = exportData?.data?.data ?? {}
                 setState({
                     ...state,
-                    orgChartData: exportData?.data?.data ?? {}
                 });
             })
             .catch((error) => {
@@ -317,7 +317,6 @@ const BulkUploadOrgChart = () => {
                     </div>
                 }
             ></PageHeader>
-
             {state?.orgChartData?.newUsers &&
                 <div style={{
                     position: 'fixed',
