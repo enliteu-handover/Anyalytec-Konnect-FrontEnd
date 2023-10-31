@@ -139,7 +139,7 @@ function ListDepartments() {
             />
           }
           <PageHeader
-            title="Departments"
+            title="Departments" 
             navLinksRight={
               <Link
                 className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"

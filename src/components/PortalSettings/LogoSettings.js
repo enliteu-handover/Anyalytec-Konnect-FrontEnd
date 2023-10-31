@@ -57,7 +57,7 @@ const LogoSettings = (props) => {
 
       <div className="row no-gutters mb-3">
         <div className="col-md-12 Logo" style={{ display: props?.state?.loginLogoByte && "flex" }}>
-          
+
           {
             props?.state?.loginLogoByte?.includes('.svg') ?
               <SvgComponent svgUrl={props?.state?.loginLogoByte} /> :

@@ -113,7 +113,7 @@ const AdminPanel = () => {
                 <div className="outter">
                   <img
                     src={
-                      process.env.PUBLIC_URL + "/images/icons/adminpanel/HashTag.svg"
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Hashtag.svg"
                     }
                     className="image-circle"
                     alt="Hashtag Library"
@@ -128,7 +128,7 @@ const AdminPanel = () => {
                 <div className="outter">
                   <img
                     src={
-                      process.env.PUBLIC_URL + "/images/icons/adminpanel/HashTag.svg"
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Hashtag.svg"
                     }
                     className="image-circle"
                     alt="branch Master"

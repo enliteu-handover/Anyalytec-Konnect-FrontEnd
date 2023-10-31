@@ -169,7 +169,7 @@ function App() {
 
           <PrivateRoute
             path="/app"
-            theme={theme?.color}
+            theme={theme?.color ?? 'color_one'}
             component={MainContainer}
           />
 

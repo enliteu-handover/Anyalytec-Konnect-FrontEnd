@@ -28,6 +28,12 @@ const Sidebar = (props) => {
     setSidebarToggled(!sidebarToggled);
   };
 
+  React.useEffect(() => {
+    setTheme({
+      color: JSON.parse(sessionStorage.getItem('userData'))?.theme?.color,
+    })
+  }, [JSON.parse(sessionStorage.getItem('userData'))?.theme?.color])
+
   useEffect(() => {
     fetchSidebarMenu();
   }, [userRolePermission]);

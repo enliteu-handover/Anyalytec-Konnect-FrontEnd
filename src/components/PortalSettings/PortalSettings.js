@@ -70,6 +70,7 @@ const PortalSettings = () => {
   }
 
   const handleSubmitAdminPanel = () => {
+    
     const payload = state;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
@@ -83,6 +84,16 @@ const PortalSettings = () => {
       .then((reponse) => {
         seIsDone(reponse?.data?.message ?? '')
         dispatch(storeStateActions.updateState(state ?? ''))
+        var data = JSON.parse(sessionStorage.getItem('userData'));
+        if (state?.color) {
+          data['theme']['color'] = state.color
+        }
+        if (state?.headerLogoByte) {
+          // data['theme']['loginLogoByte']['image'] = state.loginLogoByte
+          data['HeaderLogo'] = state.headerLogoByte
+        }
+        sessionStorage.setItem('userData', JSON.stringify(data))
+        // window.location.reload()
       })
   };
 

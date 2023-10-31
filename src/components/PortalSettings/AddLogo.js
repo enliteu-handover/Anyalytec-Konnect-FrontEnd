@@ -108,7 +108,7 @@ const AddLogo = (props) => {
             <img id={settings.imgId} src={settings && imageByte.image} width="100%" height="100%" title={settings && imageByte.name} alt="Logo" onClick={() => clearImage(settings.imgId)} />
           </div>
         }
-        <input id={clickId} className="d-none" type="file" onChange={(event) => settings?.isNew ? logoUploadHandlerIsNew(event) : logoUploadHandler(event)} />
+        <input id={clickId} className="d-none" accept=".png, .jpg, .jpeg" type="file" onChange={(event) => settings?.isNew ? logoUploadHandlerIsNew(event) : logoUploadHandler(event)} />
       </div>
     </React.Fragment>
   );
