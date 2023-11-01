@@ -8,7 +8,7 @@ const CheckBoxComponent = (props) => {
   const [bulkCheck, setBulkCheck] = useState(false);
 
   const clickHandler = (evnt, data) => {
-    getCheckedData(evnt.target.checked, data);
+    getCheckedData && getCheckedData(evnt.target.checked, data);
   }
 
   useEffect(() => {
