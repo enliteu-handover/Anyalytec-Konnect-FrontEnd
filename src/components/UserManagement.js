@@ -13,6 +13,8 @@ import { httpHandler } from "../http/http-interceptor";
 import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { getRoles } from '@crayond_dev/idm-client';
+import TableComponent from "../UI/tableComponent";
+import { downloadXlsx } from "../helpers";
 
 const UserManagement = () => {
 
@@ -25,42 +27,42 @@ const UserManagement = () => {
 
   const userDataTableHeaders = [
     {
-      fieldLabel: "USER NAME",
-      fieldValue: "username",
+      header: "USER NAME",
+      accessorKey: "username",
     },
     {
-      fieldLabel: "FIRST NAME",
-      fieldValue: "firstname",
+      header: "FIRST NAME",
+      accessorKey: "firstname",
     },
     {
-      fieldLabel: "LAST NAME",
-      fieldValue: "lastname",
+      header: "LAST NAME",
+      accessorKey: "lastname",
     },
     {
-      fieldLabel: "DEPT",
-      fieldValue: "department.name",
+      header: "DEPT",
+      accessorKey: "department.name",
     },
     {
-      fieldLabel: "DESGN",
-      fieldValue: "designation",
+      header: "DESGN",
+      accessorKey: "designation",
     },
     {
-      fieldLabel: "EMAIL",
-      fieldValue: "email",
+      header: "EMAIL",
+      accessorKey: "email",
     },
     {
-      fieldLabel: "CONTACT",
-      fieldValue: "telephoneNumber",
+      header: "CONTACT",
+      accessorKey: "telephoneNumber",
     },
     {
-      fieldLabel: "ROLE",
-      fieldValue: "role.roleName",
+      header: "ROLE",
+      accessorKey: "role.roleName",
     },
-    {
-      fieldLabel: null,
-      fieldValue: "action",
-      component: <UserManagementActionDropdown />,
-    },
+    // {
+    //   fieldLabel: null,
+    //   fieldValue: "action",
+    //   component: <UserManagementActionDropdown />,
+    // },
   ];
 
   const dispatch = useDispatch();
@@ -247,6 +249,25 @@ const UserManagement = () => {
   };
 
 
+  const handleExportDownload = () => {
+    let xlData = userData?.map(v => {
+      return {
+        id: v?.id,
+        username: v?.username,
+        firstname: v?.firstname,
+        lastname: v?.lastname,
+        departmentId: v?.department?.id,
+        departmentName: v?.department?.name,
+        designation: v?.designation,
+        email: v?.email,
+        contact: v?.telephoneNumber,
+        roleId: v?.role?.id,
+        roleName: v?.role?.roleName,
+      }
+    })
+    downloadXlsx("UserManagements.xlsx", xlData);
+  };
+
   return (
     <React.Fragment>
       {userRolePermission?.adminPanel && <CreateBulkUploadModal
@@ -295,7 +316,7 @@ const UserManagement = () => {
           <div className="eep-user-management eep-content-start" id="content-start">
             <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
               <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-                {userData && (
+                {/* {userData && (
                   <Table
                     component="userManagement"
                     headers={userDataTableHeaders}
@@ -307,7 +328,30 @@ const UserManagement = () => {
                     }}
                     action={null}
                   ></Table>
-                )}
+                )} */}
+
+                <button
+                  className="btn btn-secondary"
+                  aria-controls="user_dataTable"
+                  type="button"
+                  style={{
+                    position: 'absolute',
+                    zIndex: '100'
+                  }}
+                  onClick={() => handleExportDownload()}
+                >
+                  <span>Excel</span>
+                </button>
+
+                {userData?.length > 0 &&
+                  <TableComponent
+                    data={userData ?? []}
+                    columns={userDataTableHeaders}
+                    action={
+                      <UserManagementActionDropdown />
+                    }
+                  />}
+
               </div>
             </div>
           </div>

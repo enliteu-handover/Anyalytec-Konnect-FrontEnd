@@ -1,3 +1,4 @@
+import * as XLSX from 'xlsx';
 export const base64ToFile = (base64Data) => {
 
     const binaryString = atob(base64Data);
@@ -13,7 +14,7 @@ export const base64ToFile = (base64Data) => {
 };
 
 export const sideMenuHidden = (data, userRolePermission) => {
-    
+
     let arr = data ?? [];
 
     if (!userRolePermission?.orgChart) {
@@ -64,4 +65,10 @@ export const sideMenuHidden = (data, userRolePermission) => {
 
     return arr;
 
+};
+export const downloadXlsx = (name, data) => {
+    const worksheet = XLSX.utils.json_to_sheet(data ?? []);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, name);
 };

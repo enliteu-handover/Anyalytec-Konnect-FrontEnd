@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ResponseInfo from "../../UI/ResponseInfo";
-import PageHeader from "../../UI/PageHeader";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import BranchMasterActions from "../../UI/CustomComponents/branchMasterAction";
-import CreateBranchModal from "../../modals/CreateBranchModal";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { httpHandler } from "../../http/http-interceptor";
-import TableComponent from "../../UI/tableComponent";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import { FILTER_CONFIG } from "../../constants/ui-config";
 import Filter from "../../UI/Filter";
+import PageHeader from "../../UI/PageHeader";
+import ResponseInfo from "../../UI/ResponseInfo";
+import TableComponent from "../../UI/tableComponent";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { FILTER_CONFIG } from "../../constants/ui-config";
+import { downloadXlsx } from "../../helpers";
+import { httpHandler } from "../../http/http-interceptor";
+import CreateBranchModal from "../../modals/CreateBranchModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const BranchMaster = () => {
     const dispatch = useDispatch();
@@ -90,8 +91,8 @@ const BranchMaster = () => {
             arg.filterValue.value !== ""
         ) {
             obj["params"] = {
-            ...obj["params"],
-            active: arg.filterValue.value
+                ...obj["params"],
+                active: arg.filterValue.value
             };
         }
 
@@ -136,8 +137,13 @@ const BranchMaster = () => {
 
 
     const filterOnChangeHandler = (arg) => {
-        
+
         fetchAllBrachData(false, false, false, { filterValue: arg });
+    };
+
+    const handleExportDownload = () => {
+        let xlData = state?.data?.data?.map(v => { return { ...v, country: v?.country?.countryName } })
+        downloadXlsx("BranchMasters.xlsx", xlData);
     };
 
     return (
@@ -180,7 +186,7 @@ const BranchMaster = () => {
                     editData={editData} fetchDeptData={fetchAllBrachData} />}
 
                 <PageHeader
-                    title="Branch Masters"
+                    title="Branch Masters "
                     navLinksRight={
                         <Link
                             className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
@@ -205,6 +211,18 @@ const BranchMaster = () => {
                 <div className="eep-user-management eep-content-start" id="content-start">
                     <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
                         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
+                            <button
+                                className="btn btn-secondary"
+                                aria-controls="user_dataTable"
+                                type="button"
+                                style={{
+                                    position: 'absolute',
+                                    zIndex: '100'
+                                }}
+                                onClick={() => handleExportDownload()}
+                            >
+                                <span>Excel</span>
+                            </button>
                             {state?.data?.data?.length > 0 &&
                                 <TableComponent
                                     data={state?.data?.data ?? []}
