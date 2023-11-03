@@ -188,17 +188,16 @@ const BranchMaster = () => {
                 <PageHeader
                     title="Branch Masters "
                     navLinksRight={
-                        <Link
+                        <a
                             className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
                             data-toggle="modal"
                             data-target="#CreateBranchModal"
-                            to="#"
                             dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
                             onClick={() => {
                                 setEditData(null)
                                 setisOpen(true)
                             }}
-                        ></Link>
+                        ></a>
                     }
                     filter={
                         <Filter

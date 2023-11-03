@@ -72,3 +72,16 @@ export const downloadXlsx = (name, data) => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     XLSX.writeFile(workbook, name);
 };
+
+export const pageLoaderHandler = (arg) => {
+    const element = document.getElementById('page-loader-container');
+    if (element?.classList) {
+      element.classList.remove('d-none', 'd-block');
+  
+      if (arg === 'show') {
+        element.classList.add('d-block');
+      } else {
+        element.classList.add('d-none');
+      }
+    }
+  }

@@ -105,7 +105,7 @@ const HashTag = () => {
   };
 
   const addHashTagHandler = () => {
-    
+
     let payOptions = {
       hashtagName: hashTagValue,
       colorCode: colorValue,
@@ -335,6 +335,8 @@ const HashTag = () => {
           </div>
         </React.Fragment>
       }
+
+      {hashTag?.length == 0 && <div style={{ marginLeft: "40%" }}>No Data!.</div>}
       {!userRolePermission.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo

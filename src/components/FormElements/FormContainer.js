@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import Element from "./Element";
 const FormContainer = (props) => {
   const { fields } = props.userData ? props.userData : [];
@@ -9,7 +8,7 @@ const FormContainer = (props) => {
   return (
     <React.Fragment>
       {fields
-        ? fields.map((field, i) => (
+        ? fields?.map((field, i) => (
           <React.Fragment key={i}>
             <Element
               field={field}

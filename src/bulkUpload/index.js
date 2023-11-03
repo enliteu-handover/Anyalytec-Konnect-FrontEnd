@@ -291,19 +291,19 @@ const BulkUploadOrgChart = () => {
                 filter={
                     <div className="d-flex align-items-center align-content-center">
                         {userRolePermission?.adminPanel &&
-                            <Link
+                            <a
                                 style={{
                                     marginBottom: 14,
                                     marginRight: 10,
+                                    color:"#fff"
                                 }}
                                 className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
                                 data-toggle="modal"
                                 data-target="#CreateBulkUploadModal"
-                                to="#"
                                 onClick={openBulk}
                             > <img style={{ width: "18px", marginTop: "-2px" }} src={'/images/Group 106594.svg'} /> <span style={{
                                 fontSize: 11
-                            }}>Bulk Upload</span></Link>
+                            }}>Bulk Upload</span></a>
                         }
                         <div className="form-group field-wbr" style={{ width: "280px" }}>
                             <Select

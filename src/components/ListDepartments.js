@@ -166,13 +166,12 @@ function ListDepartments() {
           <PageHeader
             title="Department Masters"
             navLinksRight={
-              <Link
+              <a
                 className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
                 data-toggle="modal"
                 data-target="#CreateDepartmentModal"
-                to="#"
                 dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
-              ></Link>
+              ></a>
             }
             filter={
               <Filter

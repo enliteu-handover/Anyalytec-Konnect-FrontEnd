@@ -1,27 +1,28 @@
 import React from "react";
-import { useSelector,useDispatch } from "react-redux";
-import {TabsActions} from "../store/tabs-slice";
+import { useSelector, useDispatch } from "react-redux";
+import { TabsActions } from "../store/tabs-slice";
 
 const Tab = (props) => {
+  debugger
   const dispatch = useDispatch();
-  const getTabs = useSelector((state) => state.tabs.config);
+  const getTabs = useSelector((state) => state?.tabs?.config);
 
-  const activeTab = getTabs.filter(res => res.active);
-  
-if(getTabs.length && !activeTab.length){
-  dispatch(TabsActions.tabOnChange({tabInfo:getTabs[0]}))
-}else if(activeTab.length){
-  const elements = document.getElementsByClassName('tab-pane');
-  for(let i=0; i<elements.length; i++){
-    elements[i].classList.remove('active');
+  const activeTab = getTabs?.filter(res => res?.active);
+
+  if (getTabs?.length && !activeTab?.length) {
+    dispatch(TabsActions.tabOnChange({ tabInfo: getTabs?.[0] }))
+  } else if (activeTab?.length) {
+    const elements = document.getElementsByClassName('tab-pane');
+    for (let i = 0; i < elements?.length; i++) {
+      elements[i].classList.remove('active');
+    }
+
+    document.getElementById(activeTab?.[0]?.id)?.classList?.add('active');
+
+    dispatch(TabsActions.tabOnChange({ tabInfo: activeTab[0] }))
   }
-
-  document.getElementById(activeTab?.[0]?.id)?.classList?.add('active');
-
-  dispatch(TabsActions.tabOnChange({tabInfo:activeTab[0]}))
-}
   const tabChangeHandler = (tab) => {
-    dispatch(TabsActions.tabOnChange({tabInfo:tab}))
+    dispatch(TabsActions.tabOnChange({ tabInfo: tab }))
   }
 
   return (
@@ -31,19 +32,19 @@ if(getTabs.length && !activeTab.length){
           className="nav nav-tabs"
           role="tablist"
           style={{ borderBottom: "none" }}
-        > 
-          {getTabs.length &&
-            getTabs.map((tab, index) => (
-              
+        >
+          {getTabs?.length &&
+            getTabs?.map((tab, index) => (
+
               <a
                 data-toggle="tab"
-                href={"#" + tab.id}
+                href={"#" + tab?.id}
                 // className={`btn btn-secondaryy ${index === 0 ? "active" : ""}`}
-                className={`btn btn-secondaryy ${activeTab.length && tab.active ? "active": ''}  ${!activeTab.length && index === 0 ? "active": ""}`}
-                key={'tab_'+index}
-                onClick = {() => tabChangeHandler(tab)}
+                className={`btn btn-secondaryy ${activeTab?.length && tab?.active ? "active" : ''}  ${!activeTab?.length && index === 0 ? "active" : ""}`}
+                key={'tab_' + index}
+                onClick={() => tabChangeHandler(tab)}
               >
-                {tab.title}
+                {tab?.title}
               </a>
             ))}
         </div>

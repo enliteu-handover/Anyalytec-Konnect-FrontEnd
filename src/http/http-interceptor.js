@@ -3,7 +3,6 @@ import { REST_CONFIG } from "../constants/rest-config";
 // import { history } from "../App";
 
 const httpHandler = ({ url, method, payload = {}, params = {}, formData = undefined, isLoader = true, isAuth }) => {
-  //LoaderHandler('show');
   isLoader ? LoaderHandler('show') : LoaderHandler('hide');
 
   // const finalUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}/${REST_CONFIG.RESTAPPNAME}${url}`;

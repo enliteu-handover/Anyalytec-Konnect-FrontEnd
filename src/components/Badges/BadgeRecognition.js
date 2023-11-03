@@ -165,14 +165,13 @@ const BadgeRecognition = (props) => {
                 <p className="desc_p">Peer Recognition</p>
                 <ul className="icon">
                   <li>
-                    <Link
+                    <a
                       className="badge_modal_a fas fa-award"
                       badgename="Explorer"
                       data-toggle="modal"
                       data-target="#badgeRecogniseModal"
-                      to="#"
                       onClick={() => onClickBadgeModalData(data)}
-                    ></Link>
+                    ></a>
                   </li>
                 </ul>
               </div>

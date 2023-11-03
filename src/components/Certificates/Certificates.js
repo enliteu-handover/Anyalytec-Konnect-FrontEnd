@@ -253,7 +253,7 @@ const Certificates = () => {
                             <h3 className="title">{data?.name}</h3>
                             <ul className="icon">
                               <li>
-                                <Link to="#" className="mycert_modal_a fa fa-eye" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal"></Link>
+                                <a className="mycert_modal_a fa fa-eye" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal"></a>
                               </li>
                               <li>
                                 <Link to={{ pathname: "composecertificate", state: { isCustomCertificate: false, certData: data, currUserData: currUserData, userData: userData, eMailData: eMailData, }, }} className="mycert_modal_a fa fa-eyee">

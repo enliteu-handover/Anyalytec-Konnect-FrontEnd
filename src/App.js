@@ -106,52 +106,16 @@ function App() {
           // }
           userRolePermission: roleData?.data
         }));
-
-      // let payOptionsRole = {
-      //   data: roleData?.rolesData,
-      //   role_id: roleData?.roleId,
-      //   screen: JSON.stringify(roleData?.data)
-      // };
-
-      // const objRole = {
-      //   url: URL_CONFIG.ADDROLE,
-      //   method: "post",
-      //   payload: payOptionsRole,
-      // };
-
-      // await httpHandler(objRole)
     }).catch((error) => {
       console.log("fetchPermission error", error);
     });
   }
 
   React.useEffect(() => {
-    // getThemePanel(headerLogo?.color)
     setTheme({
       color: headerLogo?.color ?? JSON.parse(sessionStorage.getItem('userData'))?.theme?.color,
     })
   }, [headerLogo])
-
-  // const getThemePanel = (color) => {
-  //   const obj = {
-  //     url: URL_CONFIG.ADD_ADMIN_PANEL,
-  //     method: "get"
-  //   };
-
-  //   httpHandler(obj)
-  //     .then((reponse) => {
-  //       setTheme({
-  //         color: color ?? reponse?.data?.[0]?.color,
-  //       })
-  //     }).catch((error) => console.log(error));
-  // }
-
-  // const PrivateRoute = ({ children }) => {
-  //   if (!sessionStorage?.userData) {
-  //     sessionStorage.setItem('redirect', window.location.href)
-  //   }
-  //   return sessionStorage?.userData ? {...children} : <Redirect to="/login/signin" />;
-  // };
 
   return (
     <div class="user-element" data-user={theme?.color ?? "color_one"}>
@@ -172,25 +136,6 @@ function App() {
             theme={theme?.color ?? 'color_one'}
             component={MainContainer}
           />
-
-          {/* <Route path="/app">
-            <PrivateRoute>
-              <IdleTimerContainer />
-            </PrivateRoute> */}
-
-          {/* <PrivateRoute>
-              <MainContainer theme={theme?.color} />
-            </PrivateRoute> */}
-
-          {/* <PrivateRoute>
-              <RolePermissions />
-            </PrivateRoute> */}
-
-          {/* <PrivateRoute>
-              <TourState />
-            </PrivateRoute> */}
-          {/* <FirebaseToken /> */}
-          {/* </Route> */}
         </Switch>
       </BrowserRouter>
 

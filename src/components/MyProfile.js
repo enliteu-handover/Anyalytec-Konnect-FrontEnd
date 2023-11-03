@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { httpHandler } from "../http/http-interceptor";
-import { URL_CONFIG } from "../constants/rest-config";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Card from "../UI/Card";
 import PageHeader from "../UI/PageHeader";
+import { URL_CONFIG } from "../constants/rest-config";
+import { base64ToFile, pageLoaderHandler } from "../helpers";
+import { httpHandler } from "../http/http-interceptor";
+import EEPSubmitModal from "../modals/EEPSubmitModal";
+import SignatureUploadModal from "../modals/SignatureUploadModal";
+import UpdateProfileModal from "../modals/UpdateProfileModal";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import FormContainer from "./FormElements/FormContainer";
 import { FormContext } from "./FormElements/FormContext";
-import Card from "../UI/Card";
-import { Link } from "react-router-dom";
-import UpdateProfileModal from "../modals/UpdateProfileModal";
-import SignatureUploadModal from "../modals/SignatureUploadModal";
-import EEPSubmitModal from "../modals/EEPSubmitModal";
-import { base64ToFile } from "../helpers";
 
 const MyProfile = () => {
   const [userMeta, setUserMeta] = useState(null);
@@ -59,7 +59,6 @@ const MyProfile = () => {
     httpHandler(obj)
       .then((uData) => {
         setTimeout(async () => {
-
           if (uData?.data?.country?.id) {
             const obj_ = {
               url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
@@ -71,6 +70,7 @@ const MyProfile = () => {
                 setUserMeta({
                   ...userMeta,
                 })
+                pageLoaderHandler('hide')
               }).catch((error) => console.log(error));
           }
           userDataValueMapping(userMeta, uData.data);
@@ -107,7 +107,7 @@ const MyProfile = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
-    
+
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
         if (fld["type"] === "password") {
@@ -183,6 +183,7 @@ const MyProfile = () => {
   };
 
   useEffect(() => {
+    pageLoaderHandler('show')
     fetchUserMeta();
   }, []);
 
@@ -222,6 +223,13 @@ const MyProfile = () => {
         };
         httpHandler(obj_)
           .then(() => {
+
+            var data = JSON.parse(sessionStorage.getItem('userData'));
+            if (res?.data?.data?.[0]?.url) {
+              data['userLogo'] = res?.data?.data?.[0]?.url ?? ""
+            }
+            sessionStorage.setItem('userData', JSON.stringify(data))
+
             //const respMsg = response?.data?.message;
             setPictureResponse({
               message: 'Picture updated successfully!',
@@ -260,22 +268,26 @@ const MyProfile = () => {
 
   return (
     <React.Fragment>
+      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
+        <div id="loader">
+          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+        </div>
+      </div>
       {showUpdateProfileModal && <UpdateProfileModal />}
       <SignatureUploadModal />
 
       <PageHeader
         title="My Profile"
         navLinksRight={
-          <Link
+          <a
             className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
-            to="#"
             data-toggle="modal"
             data-target="#UpdateProfileModal"
             dangerouslySetInnerHTML={{
               __html: svgIcons && svgIcons.Key_icon,
             }}
             onClick={() => setShowUpdateProfileModal(true)}
-          ></Link>
+          ></a>
         }
       ></PageHeader>
       {showModal.type !== null && showModal.message !== null && (

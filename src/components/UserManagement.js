@@ -298,13 +298,13 @@ const UserManagement = () => {
             }
             filter={
               <>
-                <Link
+                <a
                   className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
                   data-toggle="modal"
                   data-target="#CreateBulkUploadModal"
-                  to="#"
                   onClick={openBulk}
-                > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Add Bulk Users</Link>
+                  style={{ color: "#fff" }}
+                > <img style={{ width: "20px", marginTop: "-4px" }} src={'/images/Group 106594.svg'} /> Add Bulk Users</a>
                 <Filter
                   config={FILTER_CONFIG}
                   onFilterChange={filterOnChangeHandler}

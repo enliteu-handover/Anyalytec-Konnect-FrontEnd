@@ -158,6 +158,7 @@ const LoginForm = () => {
         lastName: response?.data?.lastName,
         allPoints: response?.data?.totalPoints,
         HeaderLogo: response?.data?.HeaderLogo,
+        userLogo: response?.data?.userLogo,
         theme: response?.data?.theme?.[0] ?? {},
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))

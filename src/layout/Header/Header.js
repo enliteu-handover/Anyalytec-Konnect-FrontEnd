@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import classes from "./Header.module.scss";
-import "../../styles/lib/eep-search.scss";
-import HeaderSearch from "./HeaderSearch";
-import UserNavItem from "./UserNavItem";
-import Notification from "./Notification";
 import SvgComponent from "../../components/ViwerComponents";
+import "../../styles/lib/eep-search.scss";
+import classes from "./Header.module.scss";
+import HeaderSearch from "./HeaderSearch";
+import Notification from "./Notification";
+import UserNavItem from "./UserNavItem";
 // import { URL_CONFIG } from "../../constants/rest-config";
 // import { httpHandler } from "../../http/http-interceptor";
 
@@ -31,7 +31,7 @@ const Header = () => {
   // }, [])
 
   React.useEffect(() => {
-    
+
     setState({
       ...state,
       "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
@@ -60,10 +60,10 @@ const Header = () => {
         </button>
 
         {state?.HeaderLogo?.includes('.svg') ?
-          <div style={{ height: "60px" }}> 
-          <SvgComponent svgUrl={state?.HeaderLogo} />
+          <div style={{ height: "60px" }}>
+            <SvgComponent svgUrl={state?.HeaderLogo} />
           </div>
-           : <img
+          : <img
             src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
             className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
             alt="logo"
@@ -123,7 +123,7 @@ const Header = () => {
           <Notification />
 
           {/* Nav Item User */}
-          <UserNavItem logo={JSON.parse(userDetails)?.userLogo ?? ''} />
+          <UserNavItem />
         </ul>
       </nav>
     </div>
