@@ -212,6 +212,8 @@ const URL_CONFIG = {
   LIBRARY_ADD_SURVEY: "/library/survey/add",
   GET_LIBRARY_SURVEY: "/surveys/get-library",
   SHOW_LIBRARY_SURVEY: "/surveys/surveylibraryshow",
+  USER_VALIDATION: "/auth/user_validation",
+
 };
 
 export { REST_CONFIG, URL_CONFIG };

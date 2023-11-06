@@ -58,16 +58,20 @@ const LoginForm = () => {
     setPasswordTouched(true);
   };
 
-  const formSubmissionHandler = (event) => {
-
-    // const validate_login_uder = {
-    //   url: URL_CONFIG.AUTH_LOGIN_URL,
-    //   method: "post"
-    // };
-    // httpHandler(validate_login_uder)
-    //   .then(async (userData) => { })
-
+  const formSubmissionHandler = async (event) => {
+    debugger
     event.preventDefault();
+
+    const validate_login_uder = {
+      url: URL_CONFIG.USER_VALIDATION,
+      method: "get"
+    };
+    const user_validation = await httpHandler(validate_login_uder)
+    if (!user_validation?.data?.is_valid) {
+      const errMsg = "You are not a valid user, please contact the administrator."
+      setLoginError(errMsg);
+      return
+    }
     setUserNameTouched(true);
     setPasswordTouched(true);
 
