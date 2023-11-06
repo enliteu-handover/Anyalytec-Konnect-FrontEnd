@@ -13,6 +13,10 @@ import DeptMasterActions from "../UI/CustomComponents/DeptMasterActions";
 import Filter from "../UI/Filter";
 import DateFormatDisplay from "../UI/CustomComponents/DateFormatDisplay";
 import ResponseInfo from "../UI/ResponseInfo";
+import TableComponent from "../UI/tableComponent";
+import moment from "moment";
+import * as XLSX from 'xlsx';
+import { downloadXlsx } from "../helpers";
 
 function ListDepartments() {
   const [userData, setUserData] = useState([]);
@@ -37,35 +41,35 @@ function ListDepartments() {
 
   const userDataTableHeaders = [
     {
-      fieldLabel: "Department Name",
-      fieldValue: "name",
+      header: "Department Name",
+      accessorKey: "name",
     },
     {
-      fieldLabel: "Created By",
-      fieldValue: "createdBy.username",
+      header: "Created By",
+      accessorKey: "createdBy.username",
     },
     {
-      fieldLabel: "Created On",
-      fieldValue: "createdAt",
-      component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+      header: "Created On",
+      accessorKey: "createdAt",
+      // component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
     },
     {
-      fieldLabel: "Updated By",
-      fieldValue: "updatedBy.username",
+      header: "Updated By",
+      accessorKey: "updatedBy.username",
     },
     {
-      fieldLabel: "Updated On",
-      fieldValue: "updatedAt",
-      component: <DateFormatDisplay cSettings={tableSettings.updatedAt} />,
+      header: "Updated On",
+      accessorKey: "updatedAt",
+      // component: <DateFormatDisplay cSettings={tableSettings.updatedAt} />,
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <DeptMasterActions getDeptData={getDeptData} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   // component: <DeptMasterActions getDeptData={getDeptData} />,
+    // },
   ];
 
-  const fetchDepartmentData = (arg = {}) => {
+  const fetchDepartmentData = async (arg = {}) => {
     const obj = {
       url: URL_CONFIG.ALLDEPARTMENTS,
       method: "get",
@@ -80,9 +84,15 @@ function ListDepartments() {
         active: arg.filterValue.value
       };
     }
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((userData) => {
-        setUserData(userData.data);
+        
+        const getData = userData?.data.map(item => ({
+          ...item,
+          createdAt: moment(item.createdAt).format('MM/DD/YYYY'),
+          updatedAt: moment(item.updatedAt).format('MM/DD/YYYY'),
+        }));
+        setUserData(getData);
       })
       .catch((error) => {
         console.log("ALLDEPARTMENTS", error.response);
@@ -91,6 +101,7 @@ function ListDepartments() {
   };
 
   useEffect(() => {
+    
     const obj = {
       filterValue: { label: "Active", value: true }
     }
@@ -123,8 +134,22 @@ function ListDepartments() {
   }, [breadcrumbArr, dispatch]);
 
   const filterOnChangeHandler = (arg) => {
-    
+
     fetchDepartmentData({ filterValue: arg });
+  };
+
+  const handleExportDownload = () => {
+    let xlData = userData?.map(v => {
+      return {
+        id: v?.id,
+        name: v?.name,
+        createdBy: v?.createdBy?.username,
+        createdOn: v?.createdAt,
+        updatedBy: v?.updatedBy?.username,
+        updatedOn: v?.updatedAt,
+      }
+    })
+    downloadXlsx("DepartmentMasters.xlsx", xlData);
   };
 
   return (
@@ -139,15 +164,14 @@ function ListDepartments() {
             />
           }
           <PageHeader
-            title="Departments" 
+            title="Department Masters"
             navLinksRight={
-              <Link
+              <a
                 className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
                 data-toggle="modal"
                 data-target="#CreateDepartmentModal"
-                to="#"
                 dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}
-              ></Link>
+              ></a>
             }
             filter={
               <Filter
@@ -160,7 +184,7 @@ function ListDepartments() {
           <div className="eep-user-management eep-content-start" id="content-start">
             <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
               <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-                {userData && (
+                {/* {userData && (
                   <Table
                     component="userManagement"
                     headers={userDataTableHeaders}
@@ -173,7 +197,30 @@ function ListDepartments() {
                     }}
                     action={null}
                   ></Table>
-                )}
+                )} */}
+
+                <button
+                  className="btn btn-secondary"
+                  aria-controls="user_dataTable"
+                  type="button"
+                  style={{
+                    position: 'absolute',
+                    zIndex: '100'
+                  }}
+                  onClick={() => handleExportDownload()}
+                >
+                  <span>Excel</span>
+                </button>
+
+                {userData?.length > 0 &&
+                  <TableComponent
+                    data={userData ?? []}
+                    columns={userDataTableHeaders}
+                    action={
+                      <DeptMasterActions getDeptData={getDeptData} />
+                      // <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
+                    }
+                  />}
               </div>
             </div>
           </div>

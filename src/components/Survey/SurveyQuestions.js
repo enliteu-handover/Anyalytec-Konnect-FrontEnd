@@ -68,8 +68,9 @@ const SurveyQuestions = () => {
 	}, []);
 
 	const getCheckedData = (cstate, arg) => {
-		let checkedDataTemp = checkedData;
-		if (cstate) {
+		
+		let checkedDataTemp = JSON.parse(JSON.stringify(checkedData))
+		if (!surveyQuestionsList[cstate]?.action) {
 			checkedDataTemp.push(arg);
 			setCheckedData([...checkedDataTemp]);
 		}
@@ -81,6 +82,10 @@ const SurveyQuestions = () => {
 				}
 			});
 		}
+
+		let values = JSON.parse(JSON.stringify(surveyQuestionsList));
+		values[cstate]['action'] = !values[cstate]['action']
+		setSurveyQuestionsList(values)
 	}
 
 	const CustomComponentSettings = {
@@ -94,7 +99,7 @@ const SurveyQuestions = () => {
 		{
 			fieldLabel: "#",
 			fieldValue: "action",
-			component: <CheckBoxComponent getCheckedData={getCheckedData} />,
+			// component: <CheckBoxComponent getCheckedData={getCheckedData} />,
 		},
 		{
 			fieldLabel: "SURVEY QUESTION",
@@ -116,7 +121,7 @@ const SurveyQuestions = () => {
 	}
 
 	const fetchSurveyQuestionDetail = (paramData = {}) => {
-		
+
 		const obj = {
 			url: URL_CONFIG.SURVEY_QUESTIONBANK,
 			method: "get",
@@ -125,7 +130,8 @@ const SurveyQuestions = () => {
 			obj["params"] = paramData;
 		}
 		httpHandler(obj).then((response) => {
-			setSurveyQuestionsList(response.data);
+			const data = response?.data?.map(v => { return { ...v, action: false } })
+			setSurveyQuestionsList(data);
 		}).catch((error) => {
 			const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
 			setShowModal({
@@ -207,6 +213,8 @@ const SurveyQuestions = () => {
 										component="userManagement"
 										headers={surveyTableHeaders}
 										data={surveyQuestionsList}
+										getCheckedData={getCheckedData}
+										rowClick={true}
 										tableProps={{
 											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
 											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
@@ -218,8 +226,8 @@ const SurveyQuestions = () => {
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />
 					</div>
-					<div className="d-flex justify-content-center mb-3">
-						<button type="button" className="eep-btn eep-btn-success eep-btn-xsml urm_done_btn c1" data-toggle="modal" data-target="#SurveyPreviewQuestionModal" disabled={checkedData.length > 0 ? false : true} onClick={createSurveyHandler} > Create Survey </button>
+					<div className="d-flex justify-content-center mb-3 mt-3">
+						<button type="button" className="eep-btn eep-btn-success eep-btn-xsml urm_done_btn c1" data-toggle="modal" data-target="#SurveyPreviewQuestionModal" disabled={checkedData?.length > 0 ? false : true} onClick={createSurveyHandler} > Create Survey </button>
 					</div>
 				</div>
 			</div>

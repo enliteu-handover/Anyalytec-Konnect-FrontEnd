@@ -1,31 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import LogoutModal from "../../modals/LogoutModal";
 
-const UserNavItem = ({ logo }) => {
+const UserNavItem = () => {
 
-  const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+  const userRolePermission = useSelector((state) => state?.sharedData?.userRolePermission);
+  const [state, setState] = useState();
+
+  React.useEffect(() => {
+    setState({
+      ...state,
+      "logo": JSON.parse(sessionStorage.getItem('userData'))?.userLogo ?? ""
+    })
+  }, [JSON.parse(sessionStorage.getItem('userData'))?.userLogo])
 
   return (
     <React.Fragment>
       <LogoutModal />
       <li className="nav-item dropdown no-arrow mx-1 eep_header_dp nav-link_icons">
-        <Link
-          // className={`nav-link_icons`}
+        <a
+          // className={`nav-button_icons`}
           id="userDropdown"
           role="button"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          to="#"
+        // to="#"
         >
           <img
             className={`img-profile rounded-circle`}
-            src={logo || (process.env.PUBLIC_URL + `/images/user_profile.png`)}
+            src={state?.logo || (process.env.PUBLIC_URL + `/images/user_profile.png`)}
             alt="profile"
           />
-        </Link>
+        </a>
 
         <div
           className="eep-dropdown-menu eep-dropdown-div eep_profile_topbar dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -46,9 +54,9 @@ const UserNavItem = ({ logo }) => {
             Help
           </Link>
 
-          <Link className="dropdown-item" data-toggle="modal" data-target="#logoutModal" to="#">
+          <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal">
             Logout
-          </Link>
+          </a>
         </div>
       </li>
     </React.Fragment>

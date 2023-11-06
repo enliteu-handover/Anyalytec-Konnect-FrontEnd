@@ -161,8 +161,11 @@ const Table = (props) => {
                   className={index % 2 === 0 ? "odd" : "even"}
                   //key={`${index}_row`}
                   key={"row_" + index}
+                  style={{ position: 'relative' }}
+                  onClick={() => props?.rowClick && props?.getCheckedData(index, data)}
                 >
                   {tableHeaders.map((thead, ind) => {
+                    
                     // thead.fieldValue && thead.fieldValue === "action" ? (
                     //   props.component === "userManagement" && (
                     //     <td key={`${ind}_column`}>
@@ -186,6 +189,7 @@ const Table = (props) => {
                             )}
                             {!thead.component && (
                               <React.Fragment>
+                                {thead.fieldLabel === "#" && props?.rowClick && <><input type="checkbox" checked={data?.action} /></>}
                                 {data[thead.fieldValue]}
                               </React.Fragment>
                             )}

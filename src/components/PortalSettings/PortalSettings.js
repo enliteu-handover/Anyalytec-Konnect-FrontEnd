@@ -89,11 +89,9 @@ const PortalSettings = () => {
           data['theme']['color'] = state.color
         }
         if (state?.headerLogoByte) {
-          // data['theme']['loginLogoByte']['image'] = state.loginLogoByte
           data['HeaderLogo'] = state.headerLogoByte
         }
         sessionStorage.setItem('userData', JSON.stringify(data))
-        // window.location.reload()
       })
   };
 

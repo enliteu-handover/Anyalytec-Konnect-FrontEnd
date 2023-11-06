@@ -128,7 +128,7 @@ const AdminPanel = () => {
                 <div className="outter">
                   <img
                     src={
-                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Hashtag.svg"
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
                     }
                     className="image-circle"
                     alt="branch Master"

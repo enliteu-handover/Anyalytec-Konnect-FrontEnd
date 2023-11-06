@@ -24,7 +24,7 @@ const Login = () => {
       .then((reponse) => {
         setState({
           ...state,
-          "logo": reponse?.data?.image ?? ''
+          "logo": reponse?.data?.image ?? (process.env.PUBLIC_URL + "/images/logo.svg")
         })
       }).catch(err => console.log(err)
       )
@@ -53,11 +53,10 @@ const Login = () => {
               <div className={`col-md-6 logo-sec`}>
                 {(state?.logo?.includes('.svg') ?
                   <SvgComponent svgUrl={state?.logo} /> :
-                  <img
+                  state?.logo && <img
                     className="mx-auto d-block"
                     src={
                       (state?.logo)
-                       || (process.env.PUBLIC_URL + "/images/logo.svg")
                     }
                     alt="Logo"
                   />)}

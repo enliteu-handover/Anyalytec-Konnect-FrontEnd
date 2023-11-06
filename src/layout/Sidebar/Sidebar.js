@@ -7,6 +7,7 @@ import Dashboard from "./icon/dashboard";
 import Org from "./icon/org";
 import Recognition from "./icon/recognition";
 import Rewards from "./icon/rewards";
+import Library from "./icon/library";
 
 const Sidebar = (props) => {
   const [sidebarMenu, setSidebarMenu] = useState([]);
@@ -43,7 +44,7 @@ const Sidebar = (props) => {
   const icon = {
     'Dashboard.svg': <Dashboard color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
     'Recognition.svg': <Recognition color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
-    'Library.svg': <Recognition color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
+    'Library.svg': <Library color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
     'Communication.svg': <Communication color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
     'Rewards.svg': <Rewards color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
     'download.svg': <Org color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />
