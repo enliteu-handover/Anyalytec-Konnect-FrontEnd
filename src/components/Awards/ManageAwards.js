@@ -95,17 +95,17 @@ const ManageAwards = () => {
     },
     {
       fieldLabel: "Date",
-      fieldValue: "createdAt",
+      fieldValue: "created_at",
       component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
     },
     {
       fieldLabel: "Last Run",
-      fieldValue: "lastRun",
+      fieldValue: "last_run",
       component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
     },
     {
       fieldLabel: "Next Run",
-      fieldValue: "nextRun",
+      fieldValue: "next_run",
       component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
     },
     {

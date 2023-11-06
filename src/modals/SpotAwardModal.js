@@ -9,6 +9,7 @@ const SpotAwardModal = (props) => {
   const [selectedDept, setSelectedDept] = useState([]);
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
   const [awardResponseClassName, setAwardResponseClassName] = useState("");
+  const [isclear, setisclear] = useState(false);
 
   const getSelectedDeptment = (arg) => {
     const deptArr = [];
@@ -44,6 +45,13 @@ const SpotAwardModal = (props) => {
       });
   }
 
+  React.useEffect(() => {
+    setAwardResponseClassName('')
+    setAwardResponseMsg('')
+    setSelectedDept([])
+    setisclear(!isclear)
+  }, [deptOptions, assignAwardData]);
+
   return (
     <div className="eepModalDiv">
       <div className="modal fade" id="SpotAwardModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,7 +64,7 @@ const SpotAwardModal = (props) => {
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center mb-4">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} />}
-                  <SpotAwardModalInput deptOptions={deptOptions} getSelectedDeptment={getSelectedDeptment} />
+                  <SpotAwardModalInput isclear={isclear} deptOptions={deptOptions} getSelectedDeptment={getSelectedDeptment} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 
-const SpotAwardModalInput = (props) => {  
-  const {deptOptions, getSelectedDeptment} = props; 
+const SpotAwardModalInput = (props) => {
+  const { deptOptions, getSelectedDeptment, isclear } = props;
 
-  const optionsOne = [  
+  const optionsOne = [
     { value: 'Spot', label: 'Spot Award' },
   ];
 
@@ -15,15 +15,19 @@ const SpotAwardModalInput = (props) => {
     getSelectedDeptment(eve);
   };
 
+  React.useEffect(() => {
+    setDeptValue('')
+  }, [isclear]);
+
   return (
     <div className="col-md-8 col-lg-8 col-xs-12 col-sm-12">
       <div className="bg-f5f5f5 br-15 h-100">
         <div className="p-4">
           <div className="r_award_col_div">
             <div className="col-md-12 form-group px-0 eep-recognition-select2-dropdown_div">
-              <label className="font-helvetica-m c-404040">Award Type</label>                
+              <label className="font-helvetica-m c-404040">Award Type</label>
               <Select
-                options= {optionsOne}
+                options={optionsOne}
                 // placeholder=""
                 classNamePrefix="eep_select_common select"
                 className={`form-control a_designation basic-single p-0`}
@@ -45,7 +49,7 @@ const SpotAwardModalInput = (props) => {
                 name="BadgeSelect"
                 id="badgeselect"
                 defaultValue=""
-                onChange={(event) => {event.length && event.find(option => option.value === 'all') ? onDeptChangeHandler(deptOptions) : onDeptChangeHandler(event)}}
+                onChange={(event) => { event.length && event.find(option => option.value === 'all') ? onDeptChangeHandler(deptOptions) : onDeptChangeHandler(event) }}
                 //onChange={(event) => onDeptChangeHandler(event)}
                 disabled=""
                 classNamePrefix="eep_select_common select"
