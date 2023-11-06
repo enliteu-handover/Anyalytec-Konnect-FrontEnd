@@ -160,9 +160,10 @@ const ManageAwards = () => {
         setAwardManage(response?.data?.map(v => {
           return {
             ...v, name: v?.award?.name ?? "",
-            createdAt: v?.created_at,
-            nextRun: v?.next_run,
-            lastRun: v?.last_run
+            // createdAt: v?.created_at,
+            // nextRun: v?.next_run,
+            // lastRun: v?.last_run,
+            // type: v?.entity_type || v?.type || ''
           }
         }));
       })
@@ -177,16 +178,16 @@ const ManageAwards = () => {
   }, []);
 
   const confirmState = (arg) => {
-
+    
     if (arg) {
       //if(deletionData.entityType === "nomi_award") {
       const obj = {
-        url: URL_CONFIG.MANAGE_AWARDS + "?id=" + deletionData.id + "&type=" + deletionData.entityType,
+        url: URL_CONFIG.MANAGE_AWARDS + "?id=" + deletionData.id + "&type=" + (deletionData?.entityType || deletionData?.type),
         method: "delete"
       };
       httpHandler(obj)
         .then(() => {
-          fetchManageAwardData(deletionData.entityType);
+          fetchManageAwardData((deletionData?.entityType || deletionData?.type));
         })
         .catch((error) => {
           setShowModal({

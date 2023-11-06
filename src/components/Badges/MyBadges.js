@@ -67,7 +67,7 @@ const MyBadge = () => {
               <div className="badge_assign_div card front">
                 <div className="outter">
                   <img
-                    src={data.imageByte ? data.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                    src={data?.imageByte?.image ? data.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                     //src={data.imageByte ? `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg` : data.imageByte.image}
                     className="badge_img"
                     alt="Performer"

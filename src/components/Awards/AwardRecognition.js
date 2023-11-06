@@ -72,7 +72,7 @@ const AwardRecognition = () => {
                       >
                         <div className="outter">
                           <img
-                            src={data.imageByte ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                            src={data?.imageByte?.image ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                             className="award_img"
                             alt={data.award.name}
                             title={data.award.name}
@@ -116,7 +116,7 @@ const AwardRecognition = () => {
                         </div>
                         <div className="outter">
                           <img
-                            src={data.imageByte ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                            src={data?.imageByte?.image ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                             className="award_img"
                             alt={data.award.name}
                             title={data.award.name}
@@ -138,7 +138,7 @@ const AwardRecognition = () => {
                       >
                         <div className="outter">
                           <img
-                            src={data.imageByte ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                            src={data?.imageByte?.image ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                             className="award_img"
                             alt={data.award.name}
                             title={data.award.name}

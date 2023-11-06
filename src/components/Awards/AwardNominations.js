@@ -21,7 +21,7 @@ const AwardNominations = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   const dispatch = useDispatch();
-  const [isCommonMsg, setIsCommonMsg] = useState({isChecked: false});
+  const [isCommonMsg, setIsCommonMsg] = useState({ isChecked: false });
   const [commonMsgValue, setCommonMsgValue] = useState("");
   const [confirmSelectedDataVal, setConfirmSelectedDataVal] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -38,12 +38,12 @@ const AwardNominations = () => {
     }
     setShowModal({ type: null, message: null });
   };
-  
+
   useEffect(() => {
-    if(aDataValue) {
+    if (aDataValue) {
       setADataVal(aDataValue);
     }
-  },[aDataValue])
+  }, [aDataValue])
 
   const breadcrumbArr = [
     {
@@ -57,7 +57,7 @@ const AwardNominations = () => {
     {
       label: "Awards",
       link: "app/awards",
-    },,
+    }, ,
     {
       label: "Nominate Award",
       link: "",
@@ -65,16 +65,16 @@ const AwardNominations = () => {
   ];
 
   useEffect(() => {
-    
+
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
         breadcrumbArr,
         title: "Recognition",
       })
     );
-      
+
     getUsersList();
-    
+
     return () => {
       BreadCrumbActions.updateBreadCrumb({
         breadcrumbArr: [],
@@ -84,9 +84,9 @@ const AwardNominations = () => {
   }, []);
 
   const getUsersList = () => {
-    let deptID = aDataVal ? ((aDataVal?.type === "spot_award") ? aDataVal.departmentId?.id : 
-    (aDataVal?.type === "nomi_award" ? aDataVal?.nominatorId?.department?.id : null)) : null;
-    
+    let deptID = aDataVal ? ((aDataVal?.type === "spot_award") ? aDataVal.departmentId?.id :
+      (aDataVal?.type === "nomi_award" ? aDataVal?.nominatorId?.department?.id : null)) : null;
+
     const obj = {
       url: URL_CONFIG.DEPT_USERS,
       method: "get",
@@ -95,18 +95,18 @@ const AwardNominations = () => {
     httpHandler(obj)
       .then((uData) => {
         const currentUserData = sessionStorage.userData
-        ? JSON.parse(sessionStorage.userData)
-        : {};
+          ? JSON.parse(sessionStorage.userData)
+          : {};
         let uDatas = [...uData.data];
-        for( var i = 0; i < uDatas.length; i++){ 
-          if ( uDatas[i].userId === currentUserData.id) { 
-            uDatas.splice(i, 1); 
+        for (var i = 0; i < uDatas.length; i++) {
+          if (uDatas[i].userId === currentUserData.id) {
+            uDatas.splice(i, 1);
           }
         }
         uDatas.map(res => {
-          return res['regSetting'] =  Object.assign({}, {message: '', checkedState: false, hideShowState: false, showMessage: false});
+          return res['regSetting'] = Object.assign({}, { message: '', checkedState: false, hideShowState: false, showMessage: false });
         })
-        dispatch(sharedDataActions.getUsersListForAwardNominators({uDatas:uDatas}));
+        dispatch(sharedDataActions.getUsersListForAwardNominators({ uDatas: uDatas }));
       })
       .catch((error) => {
         console.log("error", error.response);
@@ -114,40 +114,40 @@ const AwardNominations = () => {
   };
 
   const isCommonMessageChecked = (arg) => {
-    const {checked} = arg.target;
-    setIsCommonMsg({isChecked: checked});
-    if(checked) {
+    const { checked } = arg.target;
+    setIsCommonMsg({ isChecked: checked });
+    if (checked) {
       const userList = JSON.parse(JSON.stringify(filteredUsers));
-      for(let i=0; i<userList.length; i++) {
+      for (let i = 0; i < userList.length; i++) {
         userList[i].regSetting.message = "";
       }
-      dispatch(sharedDataActions.getUsersListForAwardNominators({uDatas:userList}));
+      dispatch(sharedDataActions.getUsersListForAwardNominators({ uDatas: userList }));
     }
   }
 
   const getCommonMessageValue = (e) => {
-    e.target.value = e.target.value.substring(0,msgMaxLength);
+    e.target.value = e.target.value.substring(0, msgMaxLength);
     setCommonMsgValue(e.target.value);
     const userList = JSON.parse(JSON.stringify(filteredUsers));
-    for(let i=0; i<userList.length; i++) {
-      if(userList[i].regSetting.checkedState){
+    for (let i = 0; i < userList.length; i++) {
+      if (userList[i].regSetting.checkedState) {
         userList[i].regSetting.message = e.target.value;
       }
     }
-    dispatch(sharedDataActions.getUsersListForAwardNominators({uDatas:userList}));
+    dispatch(sharedDataActions.getUsersListForAwardNominators({ uDatas: userList }));
   }
 
   useEffect(() => {
-    if(!isCommonMsg.isChecked) {
+    if (!isCommonMsg.isChecked) {
       setCommonMsgValue("");
     }
-  },[isCommonMsg])
-  
+  }, [isCommonMsg])
+
   const confirmSelectedData = (arg) => {
-    if(arg.length) {
+    if (arg.length) {
       setBtnDisabled(false);
       setConfirmSelectedDataVal([...arg]);
-    } else{
+    } else {
       setBtnDisabled(true);
     }
   }
@@ -165,7 +165,7 @@ const AwardNominations = () => {
   }
 
   const modalSubmitInfo = (arg) => {
-    if(arg.status) {
+    if (arg.status) {
       clearModalBackdrop();
       setIsAwardRecognizeModal(false);
       setShowModal({
@@ -177,6 +177,11 @@ const AwardNominations = () => {
     setTimeout(() => {
       eepHistory.push('awards', { activeTab: 'NominatorTab' });
     }, 1000);
+  }
+
+  const closeModel = () => {
+    setIsAwardRecognizeModal(false);
+    hideModal()
   }
 
   return (
@@ -226,8 +231,8 @@ const AwardNominations = () => {
               }
             ></EEPSubmitModal>
           )}
-          {isAwardRecognizeModal && 
-            <AwardRecognizeModal aDataVal={aDataVal} confirmSelectedDataVal={confirmSelectedDataVal} showAwardModal={showAwardModal} hashVal={hashData} modalSubmitInfo={modalSubmitInfo} />
+          {isAwardRecognizeModal &&
+            <AwardRecognizeModal setIsAwardRecognizeModal={closeModel} aDataVal={aDataVal} confirmSelectedDataVal={confirmSelectedDataVal} showAwardModal={showAwardModal} hashVal={hashData} modalSubmitInfo={modalSubmitInfo} />
           }
           <div className="row r_award_row_div">
             <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-left">
@@ -241,7 +246,10 @@ const AwardNominations = () => {
                 )}
                 <div className="p-4">
                   <div className="r_award_lcol_div">
-                    <AwardNominationInfo aDataVal={aDataVal} isCommonMessageChecked={isCommonMessageChecked} getCommonMessageValue={getCommonMessageValue} getHashValues={getHashValues} isCommonMsg={isCommonMsg} commonMsgValue={commonMsgValue} />
+                    <AwardNominationInfo aDataVal={aDataVal}
+                      isCommonMessageChecked={isCommonMessageChecked}
+                      getCommonMessageValue={getCommonMessageValue} getHashValues={getHashValues}
+                      isCommonMsg={isCommonMsg} commonMsgValue={commonMsgValue} />
                     <div className="col-md-12 px-0 text-center r_award_next_div">
                       <button
                         type="submit"

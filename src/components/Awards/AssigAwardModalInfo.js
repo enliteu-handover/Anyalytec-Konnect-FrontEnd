@@ -25,7 +25,7 @@ const AssignAwardModalInfo = (props) => {
         <div className="s_award_add_col_inner bg-f5f5f5">
           <div className="s_award_add_col_inner_fromaward mb-3">
             <img
-              src={awardInfo?.data?.imageByte ? awardInfo.data.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+              src={awardInfo?.data?.imageByte?.image ? awardInfo.data.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
               className="r_award_img selected"
               alt="Award Icon"
               title="Award Name"

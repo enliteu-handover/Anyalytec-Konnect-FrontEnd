@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 
 const AwardRecognizeModal = (props) => {
   const { aDataVal, confirmSelectedDataVal, showAwardModal, hashVal, modalSubmitInfo } = props;
+  let history = useHistory();
 
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
   const [awardResponseClassName, setAwardResponseClassName] = useState("");
@@ -121,6 +122,9 @@ const AwardRecognizeModal = (props) => {
         console.log("resMsg", resMsg);
         setAwardResponseMsg(resMsg);
         setAwardResponseClassName("response-succ");
+        history.push('awards', { activeTab: 'NominatorTab' });
+        props?.setIsAwardRecognizeModal && props.setIsAwardRecognizeModal(false)
+        // history.goBack()
       })
       .catch((error) => {
         console.log("errorrrr", error);
@@ -356,8 +360,8 @@ const AwardRecognizeModal = (props) => {
                                       className={`${!finalisedData.paramsList.some(
                                         (uList) => uList.id === data.id
                                       )
-                                          ? "rmvdUser "
-                                          : " "
+                                        ? "rmvdUser "
+                                        : " "
                                         } col-md-6 col-lg-4 col-sm-6 col-xs-6 r_award_users_list_inner`}
                                       key={"r_award_users_list_inner_" + index}
                                     >
@@ -370,7 +374,7 @@ const AwardRecognizeModal = (props) => {
                                         >
                                           <img
                                             src={
-                                              data.imageByte?.image
+                                              data?.imageByte?.image
                                                 ? data.imageByte.image
                                                 : `${process.env.PUBLIC_URL}/images/user_profile.png`
                                             }

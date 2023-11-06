@@ -86,7 +86,7 @@ const Badges = () => {
                         <div className="lib_assign_div">
                           <div className="outter">
                             <img
-                              src={libValue.imageByte.image}
+                              src={libValue?.imageByte?.image}
                               className="lib_img"
                               alt={libValue.imageByte.name}
                               title={libValue.name}

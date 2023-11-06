@@ -3,7 +3,7 @@ import React from "react";
 //import Slider from "react-slick";
 
 const SocialWallRightContent = (props) => {
-
+	debugger
 	const { hastagList } = props;
 	let hastagMaxVal = hastagList?.length ? hastagList[0]?.totalTagCount : 0;
 	let defaultColorCode = "#4e73df";
@@ -65,7 +65,8 @@ const SocialWallRightContent = (props) => {
 	],
   };
 	*/
-
+	debugger
+	const filterHasTags = hastagList
 	return (
 		<React.Fragment>
 			<div className="bg-f7f7f7 br-15 socialTrendingTags">
@@ -74,22 +75,27 @@ const SocialWallRightContent = (props) => {
 				</div>
 				<div className="socialTagsLists">
 					{hastagList?.map((item, index) => {
-						let hastagItemVal = item.totalTagCount;
+						let hastagItemVal = item?.totalTagCount;
 						let percent = (hastagItemVal / hastagMaxVal) * 100;
-						let ColorCode = (item.hashTag.colorCode !== '' && item.hashTag.colorCode !== null) ? item.hashTag.colorCode : defaultColorCode;
-						if (index <= indeMax && item.totalTagCount >= hasMaxCount) {
+						let ColorCode = (item?.colorCode !== '' && item?.colorCode !== null) ? item?.colorCode : defaultColorCode;
+
+						if (index <= indeMax
+							// && item?.totalTagCount >= hasMaxCount
+						) {
 							return (
 								<div className="tt_lists" key={"hastag_" + index}>
-									<p className="tt_nm">#{item.hashTag.hashtagName}</p>
+									<p className="tt_nm">#{item?.hashtagName}</p>
 									<div className="tt_info">
 										<div className="tt_progress progress rounded-pill">
-											<div role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" className="progress-bar rounded-pill progress-bar-striped progress-bar-animated" style={{ backgroundColor: ColorCode, width: percent + "%" }}></div>
+											<div role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" className="progress-bar rounded-pill progress-bar-striped progress-bar-animated"
+												style={{ backgroundColor: ColorCode, width: percent + "%" }}></div>
 										</div>
-										<div className="tt_val">{item.totalTagCount}</div>
+										<div className="tt_val">{item?.totalTagCount}</div>
 									</div>
 								</div>
 							)
 						}
+
 					})}
 				</div>
 			</div>

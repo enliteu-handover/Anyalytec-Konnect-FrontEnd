@@ -170,7 +170,7 @@ const AssignAwards = (props) => {
                   <div className="outter">
                     <img
                       src={
-                        data.imageByte
+                        data.imageByte?.image
                           ? data.imageByte.image
                           : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                       }

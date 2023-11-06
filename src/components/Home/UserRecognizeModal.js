@@ -56,7 +56,7 @@ const UserRecognizeModal = (props) => {
       setRecogDataError(null);
       setUserRecognizationData({});
       if (arg.itemKey.imageByte) {
-        setImgData({ image: arg.itemKey.imageByte.image, name: arg.itemKey.name, id: arg.itemKey.id, points: arg.badge ? arg.itemKey.points : null });
+        setImgData({ image: arg?.itemKey?.imageByte?.image, name: arg.itemKey.name, id: arg.itemKey.id, points: arg.badge ? arg.itemKey.points : null });
       } else {
         setImgData({ image: process.env.PUBLIC_URL + "/images/icons/static/noData.svg", name: "image", id: arg.itemKey.id, points: arg.badge ? arg.itemKey.points : null });
       }

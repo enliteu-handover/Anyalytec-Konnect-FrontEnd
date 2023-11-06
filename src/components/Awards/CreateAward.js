@@ -81,7 +81,7 @@ const CreatAwards = () => {
         }
       } else {
         if (regData.imageByte && Object.keys(regData.imageByte).length) {
-          if (regData.imageByte.image && regData.name !== "" && regData.points >= 0 && regData.points !== "") {
+          if (regData?.imageByte?.image && regData.name !== "" && regData.points >= 0 && regData.points !== "") {
             setDisabled(false);
           } else {
             setDisabled(true);

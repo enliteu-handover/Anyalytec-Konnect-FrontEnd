@@ -60,6 +60,13 @@ const LoginForm = () => {
 
   const formSubmissionHandler = (event) => {
 
+    // const validate_login_uder = {
+    //   url: URL_CONFIG.AUTH_LOGIN_URL,
+    //   method: "post"
+    // };
+    // httpHandler(validate_login_uder)
+    //   .then(async (userData) => { })
+
     event.preventDefault();
     setUserNameTouched(true);
     setPasswordTouched(true);
