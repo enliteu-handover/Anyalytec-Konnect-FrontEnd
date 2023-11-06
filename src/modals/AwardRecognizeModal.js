@@ -181,7 +181,7 @@ const AwardRecognizeModal = (props) => {
                               <div className="r_award_lcol_inner text-left">
                                 <img
                                   src={
-                                    aDataVal?.imageByte
+                                    aDataVal?.imageByte?.image
                                       ? aDataVal?.imageByte?.image
                                       : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                                   }
@@ -370,7 +370,7 @@ const AwardRecognizeModal = (props) => {
                                         >
                                           <img
                                             src={
-                                              data.imageByte != null
+                                              data.imageByte?.image
                                                 ? data.imageByte.image
                                                 : `${process.env.PUBLIC_URL}/images/user_profile.png`
                                             }

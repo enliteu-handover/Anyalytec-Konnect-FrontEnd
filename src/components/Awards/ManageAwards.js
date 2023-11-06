@@ -57,7 +57,7 @@ const ManageAwards = () => {
   }, []);
 
   const triggerModal = (isTrigger) => {
-    
+
     if (isTrigger) {
       if (isTrigger.handleState) {
         setDeletionData(isTrigger.data);
@@ -95,17 +95,17 @@ const ManageAwards = () => {
     },
     {
       fieldLabel: "Date",
-      fieldValue: "created_at",
+      fieldValue: "createdAt",
       component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
     },
     {
       fieldLabel: "Last Run",
-      fieldValue: "last_run",
+      fieldValue: "lastRun",
       component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
     },
     {
       fieldLabel: "Next Run",
-      fieldValue: "next_run",
+      fieldValue: "nextRun",
       component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
     },
     {
@@ -157,7 +157,14 @@ const ManageAwards = () => {
     }
     httpHandler(obj)
       .then((response) => {
-        setAwardManage(response?.data?.map(v => { return { ...v, name: v?.award?.name ?? "" } }));
+        setAwardManage(response?.data?.map(v => {
+          return {
+            ...v, name: v?.award?.name ?? "",
+            createdAt: v?.created_at,
+            nextRun: v?.next_run,
+            lastRun: v?.last_run
+          }
+        }));
       })
       .catch((error) => {
         console.log("error", error);
@@ -170,7 +177,7 @@ const ManageAwards = () => {
   }, []);
 
   const confirmState = (arg) => {
-    
+
     if (arg) {
       //if(deletionData.entityType === "nomi_award") {
       const obj = {
