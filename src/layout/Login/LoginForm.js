@@ -64,7 +64,10 @@ const LoginForm = () => {
 
     const validate_login_uder = {
       url: URL_CONFIG.USER_VALIDATION,
-      method: "get"
+      method: "post",
+      payload: {
+        username: userName
+      }
     };
     const user_validation = await httpHandler(validate_login_uder)
     if (!user_validation?.data?.is_valid) {
