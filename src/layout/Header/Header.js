@@ -11,24 +11,9 @@ import UserNavItem from "./UserNavItem";
 // import { httpHandler } from "../../http/http-interceptor";
 
 const Header = () => {
-  // const pageTitle = useSelector((state) => state.breadcrumb.title);
   const headerLogo = useSelector((state) => state.storeState.logo);
   const userDetails = sessionStorage.getItem('userData')
   const [state, setState] = useState();
-
-  // React.useEffect(() => {
-  //   const obj = {
-  //     url: URL_CONFIG.ADD_ADMIN_HEADER_LOGO,
-  //     method: "get"
-  //   };
-  //   httpHandler(obj)
-  //     .then((reponse) => {
-  //       setState({
-  //         ...state,
-  //         "HeaderLogo": reponse?.data?.image ?? ''
-  //       })
-  //     })
-  // }, [])
 
   React.useEffect(() => {
 
@@ -38,12 +23,6 @@ const Header = () => {
     })
   }, [JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo])
 
-  // React.useEffect(() => {
-  //   setState({
-  //     ...state,
-  //     "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
-  //   })
-  // }, [])
 
   return (
     <div>

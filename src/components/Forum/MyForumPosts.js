@@ -135,7 +135,7 @@ const MyForumPosts = (props) => {
   }
 
   useEffect(() => {
-    fetchMyForumPostsData({filterby: yearFilterValue});
+    fetchMyForumPostsData(yearFilterValue);
   }, []);
 
   const disableExistModal = () => {

@@ -59,7 +59,7 @@ const LoginForm = () => {
   };
 
   const formSubmissionHandler = async (event) => {
-    debugger
+    
     event.preventDefault();
 
     const validate_login_uder = {

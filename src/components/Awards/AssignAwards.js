@@ -30,9 +30,9 @@ const AssignAwards = (props) => {
   };
 
   const awardModifyHandler = (e) => {
-    const {value, checked} = e.target
+    const { value, checked } = e.target
     var selectedCheckTemp = [...checkedBoxes];
-    if(checked) {
+    if (checked) {
       selectedCheckTemp = [...selectedCheckTemp, value];
     } else {
       selectedCheckTemp.splice(checkedBoxes.indexOf(value), 1);
@@ -59,11 +59,11 @@ const AssignAwards = (props) => {
       })
       .catch((error) => {
         console.log("error", error.response?.data?.message);
-        //const errMsg = error.response?.data?.message;
       });
   };
 
   const fetchUserData = () => {
+
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
       method: "get",
@@ -75,17 +75,19 @@ const AssignAwards = (props) => {
       .then((userData) => {
         let optionsTemp = [];
         userData.data.map((uValue) => {
-          optionsTemp.push({ value: uValue.id, label: uValue.fullName });
+          if (uValue?.user_id !== JSON.parse(sessionStorage.getItem('userData'))?.id) {
+            optionsTemp.push({ value: uValue.id, label: uValue.fullName });
+          }
         });
         setUserOptions(optionsTemp);
       })
       .catch((error) => {
         console.log("error", error);
-        //const errMsg = error.response?.data?.message;
       });
   };
 
   useEffect(() => {
+
     fetchDepartmentData();
     fetchUserData();
   }, []);
@@ -103,7 +105,7 @@ const AssignAwards = (props) => {
   }
 
   const modalSubmitInfo = (arg) => {
-    if(arg.status) {
+    if (arg.status) {
       clearModalBackdrop();
       setShowNominateAwardModal(false);
       setShowModal({
@@ -151,9 +153,8 @@ const AssignAwards = (props) => {
         <NominateAwardModal nomiDeptOptions={deptOptions} allUserData={userOptions} assignAwardData={assignAwardData} nominateTypeData={nominateTypeData} modalSubmitInfo={modalSubmitInfo} />
       }
       <div
-        className={`${
-          awardData.length <= 0 ? "h-100 " : "mt-4"
-        } row eep-content-start eep-mybadge-div`}
+        className={`${awardData.length <= 0 ? "h-100 " : "mt-4"
+          } row eep-content-start eep-mybadge-div`}
         id="content-start"
       >
         {awardData &&
@@ -164,7 +165,7 @@ const AssignAwards = (props) => {
               key={"recognition_" + index}
             >
               <div
-                className={bulkUpdateState ? (((bulkUpdateState.bulkState || !filterByVal) ? "badge_modify_a " : "")  + "badge_modal_a box9") : "badge_modal_a box9" }
+                className={bulkUpdateState ? (((bulkUpdateState.bulkState || !filterByVal) ? "badge_modify_a " : "") + "badge_modal_a box9") : "badge_modal_a box9"}
               >
                 <div className="badge_assign_div">
                   <div className="outter">
@@ -187,7 +188,7 @@ const AssignAwards = (props) => {
                             className="form-check-input p_check_all badge-list"
                             type="checkbox"
                             value={data.id}
-                            id={'badges_'+index}
+                            id={'badges_' + index}
                             onClick={awardModifyHandler}
                           />
                         </div>
@@ -226,8 +227,8 @@ const AssignAwards = (props) => {
                     </div>
                   </div>
                   <div className="nominate_nav_div" onClick={() =>
-                      awardModalClickHandler({ data: data, isSpot: false })
-                    }>
+                    awardModalClickHandler({ data: data, isSpot: false })
+                  }>
                     <div className="a_nav_icon nominate_nav_icon"></div>
                     <div className="nominate_nav_button">
                       <button

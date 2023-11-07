@@ -3,7 +3,7 @@ import React from "react";
 //import Slider from "react-slick";
 
 const SocialWallRightContent = (props) => {
-	debugger
+	
 	const { hastagList } = props;
 	let hastagMaxVal = hastagList?.length ? hastagList[0]?.totalTagCount : 0;
 	let defaultColorCode = "#4e73df";
@@ -65,7 +65,7 @@ const SocialWallRightContent = (props) => {
 	],
   };
 	*/
-	debugger
+	
 	const filterHasTags = hastagList
 	return (
 		<React.Fragment>
