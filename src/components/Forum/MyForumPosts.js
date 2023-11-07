@@ -337,7 +337,9 @@ const MyForumPosts = (props) => {
 
   return (
     <React.Fragment>
-      <PageHeader title="My Posts" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
+      <PageHeader title="My Posts" navLinksLeft={
+      <Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" 
+      dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
 				filter={
 					<YearFilter onFilterChange={onFilterChange} />
 				}
