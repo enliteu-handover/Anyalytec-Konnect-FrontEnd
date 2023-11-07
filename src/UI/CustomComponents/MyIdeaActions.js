@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const MyIdeaActions = (props) => {
   //const propVals = props;
   //const propVals = JSON.parse(JSON.stringify(props));
 
-  const {data, unPostIdea, postIdea, deleteIdea, viewIdea, editIdea} = props;
+  const { data, unPostIdea, postIdea, deleteIdea, viewIdea, editIdea } = props;
 
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
@@ -43,45 +42,40 @@ const MyIdeaActions = (props) => {
         ></span>
 
         <div className="eep-dropdown-menu dropdown-menu dropdown-menu-right shadow pt-4 pb-4">
-          <Link
-            to="#"
+          <a
             className="dropdown-item"
             onClick={() => editModeModal(data)}
           >
             Edit
-          </Link>
+          </a>
           {data.active &&
-          <Link
-            to="#"
-            className="dropdown-item"
-            onClick={() => unPostModeModal(data)}
-          >
-            Unpost
-          </Link>
+            <a
+              className="dropdown-item"
+              onClick={() => unPostModeModal(data)}
+            >
+              Unpost
+            </a>
           }
           {!data.active &&
-          <Link
-            to="#"
-            className="dropdown-item"
-            onClick={() => postModeModal(data)}
-          >
-            Post
-          </Link>
+            <a
+              className="dropdown-item"
+              onClick={() => postModeModal(data)}
+            >
+              Post
+            </a>
           }
-          <Link
-            to="#"
+          <a
             className="dropdown-item"
             onClick={() => deleteModeModal(data)}
           >
             Delete
-          </Link>
-          <Link
-            to="#"
+          </a>
+          <a
             className="dropdown-item"
             onClick={() => viewModeModal(data)}
           >
             View
-          </Link>
+          </a>
         </div>
       </div>
 

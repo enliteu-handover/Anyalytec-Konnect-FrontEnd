@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
 import YearFilter from "../../UI/YearFilter";
 import { httpHandler } from "../../http/http-interceptor";
@@ -16,14 +16,14 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 
 const MyForumPosts = (props) => {
 
-  const {usersPic, deptOptions} = props;
+  const { usersPic, deptOptions } = props;
 
   const initUsersPic = usersPic ? usersPic : [];
   const initDeptOptions = deptOptions ? deptOptions : [];
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const yrDt = new Date().getFullYear();
-  const [yearFilterValue, setYearFilterValue] = useState({filterby: yrDt});
+  const [yearFilterValue, setYearFilterValue] = useState({ filterby: yrDt });
   const [myForumPostsLists, setMyForumPostsLists] = useState([]);
   const [usersPics, setUsersPics] = useState([]);
   const [deptOptionData, setDeptOptionData] = useState([]);
@@ -31,7 +31,7 @@ const MyForumPosts = (props) => {
   const [confirmModalState, setConfirmModalState] = useState(false);
   const [forumEditModalState, setForumEditModalState] = useState(false);
   const [communicationModalErr, setCommunicationModalErr] = useState("");
-  const [confirmStateModalObj, setConfirmStateModalObj] = useState({confirmTitle:null, confirmMessage:null});
+  const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
@@ -56,33 +56,33 @@ const MyForumPosts = (props) => {
   }, [initUsersPic, initDeptOptions]);
 
   const IconWithLengthSettings = {
-    comments : {
+    comments: {
       title: "Comments",
       default: "MessageDefault.svg",
       isValue: "Message.svg",
       classnames: "eep-stretch-animation mr-2",
       objReference: "forumComments"
     },
-    likes : {
+    likes: {
       title: "Likes",
       default: "HeartDefault.svg",
       isValue: "Heart.svg",
       classnames: "eep-pulsess-animation mr-2",
       objReference: "forumLikes"
     },
-    followers : {
+    followers: {
       title: "Followers",
       default: "FollowDefault.svg",
       isValue: "Follow.svg",
       classnames: "eep-rotate-animation mr-2",
       objReference: "forumFollowing"
     },
-    createdAt : {
+    createdAt: {
       classnames: "",
       objReference: "createdAt"
     }
   };
-  
+
   const dispatch = useDispatch();
   const breadcrumbArr = [
     {
@@ -90,9 +90,9 @@ const MyForumPosts = (props) => {
       link: "app/dashboard",
     },
     {
-			label: "COMMUNICATIONS",
-			link: "app/communication",
-		},
+      label: "COMMUNICATIONS",
+      link: "app/communication",
+    },
     {
       label: "Forum",
       link: "",
@@ -121,7 +121,7 @@ const MyForumPosts = (props) => {
       url: URL_CONFIG.MY_FORUMS,
       method: "get",
     };
-    if(paramData && Object.keys(paramData).length > 0 && paramData !== "") {
+    if (paramData && Object.keys(paramData).length > 0 && paramData !== "") {
       obj["params"] = paramData;
     }
     httpHandler(obj)
@@ -148,7 +148,7 @@ const MyForumPosts = (props) => {
     let fDataTemp = JSON.parse(JSON.stringify(fData));
     fDataTemp["actionType"] = "unpost";
     setForumTempData(fDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to unpost this Forum?"});
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to unpost this Forum?" });
     setConfirmModalState(true);
   }
 
@@ -157,7 +157,7 @@ const MyForumPosts = (props) => {
     let fDataTemp = JSON.parse(JSON.stringify(fData));
     fDataTemp["actionType"] = "post";
     setForumTempData(fDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to post this Forum?"});
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to post this Forum?" });
     setConfirmModalState(true);
   }
 
@@ -166,7 +166,7 @@ const MyForumPosts = (props) => {
     let fDataTemp = JSON.parse(JSON.stringify(fData));
     fDataTemp["actionType"] = "delete";
     setForumTempData(fDataTemp);
-    setConfirmStateModalObj({confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Forum?"});
+    setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Forum?" });
     setConfirmModalState(true);
   }
 
@@ -184,9 +184,9 @@ const MyForumPosts = (props) => {
       method: "get"
     };
     httpHandler(obj)
-      .then((fData) => { 
+      .then((fData) => {
         setForumTempData(fData.data);
-        if(forumData.actionType === "edit") {
+        if (forumData.actionType === "edit") {
           setForumEditModalState(true);
         }
       })
@@ -200,10 +200,10 @@ const MyForumPosts = (props) => {
   }
 
   const confirmState = (isConfirmed) => {
-    if(isConfirmed) {
+    if (isConfirmed) {
       disableExistModal();
       let forumUpdateObj, formData, httpObj;
-      if(forumTempData.actionType === "unpost" || forumTempData.actionType === "post") {
+      if (forumTempData.actionType === "unpost" || forumTempData.actionType === "post") {
         //console.log("forumTempData", forumTempData);
         formData = new FormData();
         forumUpdateObj = {
@@ -215,31 +215,31 @@ const MyForumPosts = (props) => {
           dept: [],
           existForumAttach: []
         }
-        formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json'}));
+        formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
         httpObj = {
           url: URL_CONFIG.FORUM,
           method: "put",
           formData: formData,
         };
       }
-      if(forumTempData.actionType === "delete") {
+      if (forumTempData.actionType === "delete") {
         httpObj = {
           url: URL_CONFIG.FORUM + "?id=" + forumTempData.id,
           method: "delete"
         };
       }
       httpHandler(httpObj)
-      .then(() => {
-        fetchMyForumPostsData({filterby: yearFilterValue});
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
+        .then(() => {
+          fetchMyForumPostsData(yearFilterValue);
+        })
+        .catch((error) => {
+          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
         });
-      });
     } else {
       setForumTempData({});
     }
@@ -248,7 +248,7 @@ const MyForumPosts = (props) => {
   const updateCommunicationPost = (updateDatas) => {
     setCommunicationModalErr("");
     let formData = new FormData();
-    if(updateDatas.files && updateDatas.files.length > 0) {
+    if (updateDatas.files && updateDatas.files.length > 0) {
       updateDatas.files.map((item) => {
         formData.append('file', item);
         return item;
@@ -258,7 +258,7 @@ const MyForumPosts = (props) => {
     let existForumDeptArr = [];
     let deptValsArr = [];
     updateDatas.dept.length > 0 && updateDatas.dept.map((dID) => {
-      if(updateDatas.existPostDept.indexOf(dID) !== -1) {
+      if (updateDatas.existPostDept.indexOf(dID) !== -1) {
         existForumDeptArr.push(dID);
       } else {
         deptValsArr.push(dID);
@@ -275,26 +275,26 @@ const MyForumPosts = (props) => {
       dept: deptValsArr,
       existForumAttach: updateDatas.existPostAttach
     }
-    formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json'}));
+    formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
     const obj = {
-			url: URL_CONFIG.FORUM,
-			method: "put",
-			formData: formData,
+      url: URL_CONFIG.FORUM,
+      method: "put",
+      formData: formData,
     };
     httpHandler(obj)
-    .then((response) => {
-      setForumEditModalState(false);
-      fetchMyForumPostsData({filterby: yearFilterValue});
-      setShowModal({
-        ...showModal,
-        type: "success",
-        message: response?.data?.message,
+      .then((response) => {
+        setForumEditModalState(false);
+        fetchMyForumPostsData(yearFilterValue);
+        setShowModal({
+          ...showModal,
+          type: "success",
+          message: response?.data?.message,
+        });
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+        setCommunicationModalErr(errMsg);
       });
-    })
-    .catch((error) => {
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-      setCommunicationModalErr(errMsg);
-    });
   }
 
   const myForumsTableHeaders = [
@@ -330,32 +330,31 @@ const MyForumPosts = (props) => {
   ];
 
   const onFilterChange = (filterValue) => {
-    console.log("filterValue", filterValue);
-    setYearFilterValue({filterby: filterValue.value});
-    fetchMyForumPostsData({filterby: filterValue.value});
+    setYearFilterValue({ filterby: filterValue.value });
+    fetchMyForumPostsData({ filterby: filterValue.value });
   }
 
   return (
     <React.Fragment>
       <PageHeader title="My Posts" navLinksLeft={
-      <Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" 
-      dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
-				filter={
-					<YearFilter onFilterChange={onFilterChange} />
-				}
-			/>
-      
-      {confirmModalState && 
-        <ConfirmStateModal 
-          hideModal={hideModal} 
-          confirmState={confirmState} 
-          confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"} 
+        <Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
+          dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>}
+        filter={
+          <YearFilter onFilterChange={onFilterChange} />
+        }
+      />
+
+      {confirmModalState &&
+        <ConfirmStateModal
+          hideModal={hideModal}
+          confirmState={confirmState}
+          confirmTitle={confirmStateModalObj.confirmTitle ? confirmStateModalObj.confirmTitle : "Are you sure?"}
           confirmMessage={confirmStateModalObj.confirmMessage ? confirmStateModalObj.confirmMessage : ""}
         />
       }
 
-      {forumEditModalState && 
-        <CreateEditCommunicationModal hideModal={hideModal} deptOptions={deptOptionData} createModalShow={forumEditModalState} updateCommunicationPost={updateCommunicationPost} communicationModalErr={communicationModalErr} communicationType="forum" communicationData={forumTempData} /> 
+      {forumEditModalState &&
+        <CreateEditCommunicationModal hideModal={hideModal} deptOptions={deptOptionData} createModalShow={forumEditModalState} updateCommunicationPost={updateCommunicationPost} communicationModalErr={communicationModalErr} communicationType="forum" communicationData={forumTempData} />
       }
 
       {showModal.type !== null && showModal.message !== null && (

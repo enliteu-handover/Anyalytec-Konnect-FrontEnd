@@ -14,14 +14,17 @@ const Sidebar = (props) => {
   const [sidebarToggled, setSidebarToggled] = useState(false);
   const [theme, setTheme] = useState(props?.theme)
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+
   const fetchSidebarMenu = () => {
     fetch(`${process.env.PUBLIC_URL}/data/sidebarMenu.json`)
       .then((response) => response.json())
-      .then((data) => {
-        setSidebarMenu(
-          // data
-          sideMenuHidden(data, userRolePermission)
-        );
+      .then(async (data) => {
+
+        if (JSON.stringify(userRolePermission) !== "{}")
+          setSidebarMenu(
+            // data
+            await sideMenuHidden(data, userRolePermission)
+          );
       });
   };
 
