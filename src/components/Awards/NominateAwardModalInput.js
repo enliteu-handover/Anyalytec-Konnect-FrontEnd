@@ -10,7 +10,7 @@ import { formatTime, getMonthNumber } from "../../shared/SharedService";
 
 const NominateAwardModalInput = (props) => {
 
-  const { nomiDeptOptions, allUsers, nominateTypeDatas, getAssignObject, getSelectedMonth } = props;
+  const { nomiDeptOptions, allUsers, judgeUsersData, nominateTypeDatas, getAssignObject, getSelectedMonth } = props;
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -44,9 +44,9 @@ const NominateAwardModalInput = (props) => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   useEffect(() => {
-    
-    setJudgeUsers([...allUsers]);
-  }, [allUsers]);
+
+    setJudgeUsers([...judgeUsersData]);
+  }, [judgeUsersData]);
 
   useEffect(() => {
     setNominateMonth(null);

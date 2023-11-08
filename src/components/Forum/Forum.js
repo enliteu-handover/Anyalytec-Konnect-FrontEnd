@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { TabsActions } from "../../store/tabs-slice";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import ForumList from "./ForumList";
-import ResponseInfo from "../../UI/ResponseInfo";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { TabsActions } from "../../store/tabs-slice";
 import ForumFollowingList from "./ForumFollowingList";
 import ForumHotTopicsList from "./ForumHotTopicsList";
+import ForumList from "./ForumList";
 import MyForumPosts from "./MyForumPosts";
 
 const Forum = () => {
@@ -142,12 +142,14 @@ const Forum = () => {
 	};
 
 	const createCommunicationPost = (arg) => {
-		
+
 		let formData = new FormData();
 		if (arg.files && arg.files.length > 0) {
 			arg.files.map((item) => {
 				const fileType = item?.type;
-				return formData.append('file', new Blob([JSON.stringify(item)], { type: fileType }));
+				return formData.append('file', item
+					// new Blob([JSON.stringify(item)], { type: fileType })
+				);
 			});
 		}
 		let forumRequestObj = {
@@ -273,7 +275,7 @@ const Forum = () => {
 
 
 	const readForum = (arg) => {
-		
+
 		if (arg) {
 			if (!arg.fData.forumIsRead) {
 				const obj = {
@@ -306,9 +308,9 @@ const Forum = () => {
 		}
 	}
 
-	let unReadIndex=0;
+	let unReadIndex = 0;
 	const unReadForum = (forumData) => {
-		
+
 		if (forumData) {
 			// unReadIndex = forumData.forumRead.findIndex(x => x.userId.id === userData.id);
 			const obj = {
@@ -347,9 +349,9 @@ const Forum = () => {
 		}
 	}
 
-	let followIndex=0;
+	let followIndex = 0;
 	const unFollowForum = (followInfo) => {
-		
+
 		if (followInfo) {
 			// followIndex = followInfo?.forumFollowing?.findIndex(x => x?.userId?.id === userData?.id);
 			const obj = {
@@ -388,7 +390,7 @@ const Forum = () => {
 	}
 
 	const followForum = (arg) => {
-		
+
 		const obj = {
 			url: URL_CONFIG.FORUM_FOLLOWING,
 			//  + "?id=" + arg.id,

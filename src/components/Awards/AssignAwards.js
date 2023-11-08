@@ -17,6 +17,7 @@ const AssignAwards = (props) => {
   const [assignAwardData, setAssignAwardData] = useState({});
   const [checkedBoxes, setCheckedBoxes] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [judgeUsers, setJudgeUsers] = useState([]);
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -74,12 +75,18 @@ const AssignAwards = (props) => {
     httpHandler(obj)
       .then((userData) => {
         let optionsTemp = [];
+        let jud = []
         userData.data.map((uValue) => {
           if (uValue?.user_id !== JSON.parse(sessionStorage.getItem('userData'))?.id) {
             optionsTemp.push({ value: uValue.id, label: uValue.fullName });
           }
         });
+
+        userData.data.map((uValue) => {
+          jud.push({ value: uValue.id, label: uValue.fullName });
+        });
         setUserOptions(optionsTemp);
+        setJudgeUsers(jud);
       })
       .catch((error) => {
         console.log("error", error);
@@ -150,7 +157,7 @@ const AssignAwards = (props) => {
         assignAwardData={assignAwardData}
       />
       {showNominateAwardModal &&
-        <NominateAwardModal nomiDeptOptions={deptOptions} allUserData={userOptions} assignAwardData={assignAwardData} nominateTypeData={nominateTypeData} modalSubmitInfo={modalSubmitInfo} />
+        <NominateAwardModal judgeUsers={judgeUsers} nomiDeptOptions={deptOptions} allUserData={userOptions} assignAwardData={assignAwardData} nominateTypeData={nominateTypeData} modalSubmitInfo={modalSubmitInfo} />
       }
       <div
         className={`${awardData.length <= 0 ? "h-100 " : "mt-4"

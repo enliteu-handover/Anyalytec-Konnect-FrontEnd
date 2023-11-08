@@ -6,7 +6,7 @@ import { URL_CONFIG } from "../constants/rest-config";
 
 const NominateAwardModal = (props) => {
 
-  const { nomiDeptOptions, allUserData, assignAwardData, nominateTypeData, modalSubmitInfo } = props;
+  const { nomiDeptOptions, allUserData, judgeUsers, assignAwardData, nominateTypeData, modalSubmitInfo } = props;
 
   const [nominateAwardObj, setNominateAwardObj] = useState({});
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
@@ -93,7 +93,7 @@ const NominateAwardModal = (props) => {
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} selectedMonth={selectedMonth} />}
-                  <NominateAwardModalInput nomiDeptOptions={nomiDeptOptions} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
+                  <NominateAwardModalInput nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">

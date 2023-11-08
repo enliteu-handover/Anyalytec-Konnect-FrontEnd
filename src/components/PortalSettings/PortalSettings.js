@@ -70,7 +70,7 @@ const PortalSettings = () => {
   }
 
   const handleSubmitAdminPanel = () => {
-    
+
     const payload = state;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
@@ -88,9 +88,9 @@ const PortalSettings = () => {
         if (state?.color) {
           data['theme']['color'] = state.color
         }
-        if (state?.headerLogoByte) {
-          data['HeaderLogo'] = state.headerLogoByte
-        }
+        // if (state?.headerLogoByte) {
+        data['HeaderLogo'] = state?.headerLogoByte ?? ''
+        // }
         sessionStorage.setItem('userData', JSON.stringify(data))
       })
   };
