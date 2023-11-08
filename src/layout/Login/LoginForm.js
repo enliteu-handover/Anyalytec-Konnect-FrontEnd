@@ -58,9 +58,23 @@ const LoginForm = () => {
     setPasswordTouched(true);
   };
 
-  const formSubmissionHandler = (event) => {
-
+  const formSubmissionHandler = async (event) => {
+    
     event.preventDefault();
+
+    const validate_login_uder = {
+      url: URL_CONFIG.USER_VALIDATION,
+      method: "post",
+      payload: {
+        username: userName
+      }
+    };
+    const user_validation = await httpHandler(validate_login_uder)
+    if (!user_validation?.data?.is_valid) {
+      const errMsg = "You are not a valid user, please contact the administrator."
+      setLoginError(errMsg);
+      return
+    }
     setUserNameTouched(true);
     setPasswordTouched(true);
 

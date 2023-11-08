@@ -1,8 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 const ManageAwardActions = (props) => {
+  
 
   const { data, triggerModal } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -13,7 +14,9 @@ const ManageAwardActions = (props) => {
   return (
     <div className="actnsDiv manageIcons">
       <Link
-        to={(data?.entityType || props?.data?.type) === "nomi_award" ? { pathname: 'managenominateawardview', state: { awardManageData: data } } : ((data?.entityType || props?.data?.type) === "spot_award") ? { pathname: 'managespotawardview', state: { awardManageData: data } } : "#"}
+        to={(data?.entityType || props?.data?.type) === "nomi_award" ?
+          { pathname: 'managenominateawardview', state: { awardManageData: data } }
+          : ((data?.entityType || props?.data?.type) === "spot_award") ? { pathname: 'managespotawardview', state: { awardManageData: data } } : "#"}
         title="View"
         className="manageViewIcon"
       >
@@ -25,7 +28,8 @@ const ManageAwardActions = (props) => {
         ></span>
         {/* <img src={process.env.PUBLIC_URL + "/images/icons/view.svg"} className="transformScale" alt="View Icon" title="View Details" style={{width:"25px"}} /> */}
       </Link>
-      <Link to="#" title="Delete" className="manageStopIcon ml-2" onClick={() => handleDeletion(data)} data-toggle="modal" data-target="#stopAllotedAwardModal">
+      <a title="Delete" className="manageStopIcon ml-2"
+        onClick={() => handleDeletion(data)} data-toggle="modal" data-target="#stopAllotedAwardModal">
         <span
           dangerouslySetInnerHTML={{
             __html: svgIcons && svgIcons.stop_icon,
@@ -33,7 +37,7 @@ const ManageAwardActions = (props) => {
           className="transformScale"
         ></span>
         {/* <img src={process.env.PUBLIC_URL + "/images/icons/stop.svg"} className="transformScale ml-2" alt="Delete Icon" title="Delete Data" style={{width:"18px"}} /> */}
-      </Link>
+      </a>
     </div>
   )
 }

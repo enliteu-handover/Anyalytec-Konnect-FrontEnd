@@ -72,7 +72,7 @@ const BadgeModalInputs = (props) => {
             <div className="text-center">
               <div className="n_badge_add_col_inner_frombadge position-relative bg-white">
                 <img
-                  src={modalInputData.imageByte ? modalInputData.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                  src={modalInputData?.imageByte?.image ? modalInputData.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                   className="batch_img_modal"
                   alt="Badge Icon"
                   title={modalInputData["name"]}

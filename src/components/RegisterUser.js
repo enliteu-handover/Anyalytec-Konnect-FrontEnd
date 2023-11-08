@@ -113,11 +113,11 @@ const AddUser = () => {
           isValidForm = false;
         }
       }
-      if (fld === 'telephoneNumber') {
-        if (uData[fld]?.length !== 10) {
-          isValidForm = false;
-        }
-      }
+      // if (fld === 'telephoneNumber') {
+      //   if (uData[fld]?.length !== 10) {
+      //     isValidForm = false;
+      //   }
+      // }
     }
 
     if (userFields.length) {

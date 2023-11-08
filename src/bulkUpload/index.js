@@ -240,9 +240,10 @@ const BulkUploadOrgChart = () => {
                     country_logo: v?.country?.flag ?? '',
                     branch: v?.branch?.label ?? '',
                     isloggedUser: v?.user_id === JSON.parse(user_details)?.id,
-                    color: v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
-                    background: v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
+                    color: !v?.active ? '#ff572221' : v?.user_id === JSON.parse(user_details)?.id ? "#607d8b8a" : "",
+                    background: !v?.active ? '#ff572221' : v?.user_id === JSON.parse(user_details)?.id ? "#E2EDF3" : "",
                     children: chartDataChildData(allData, v),
+                    active: v?.active
                 }
             }
         })
@@ -295,7 +296,7 @@ const BulkUploadOrgChart = () => {
                                 style={{
                                     marginBottom: 14,
                                     marginRight: 10,
-                                    color:"#fff"
+                                    color: "#fff"
                                 }}
                                 className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
                                 data-toggle="modal"

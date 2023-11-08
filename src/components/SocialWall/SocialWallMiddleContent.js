@@ -56,7 +56,7 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const unLikeSocialWallHandler = (arg, i) => {
-    
+
     likeSocialWallPostHandle({ isLike: false, data: arg, indx: i });
   };
 
@@ -101,7 +101,7 @@ const SocialWallMiddleContent = (props) => {
   }
 
   const replyStateHandler = (arg) => {
-    
+
     if (arg.topLevelReply) {
       setSocialWallData((prevState) => {
         const socialWallDataTemp = [...prevState];
@@ -142,7 +142,7 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const isEnlited = (arg) => {
-    
+
     const userData = sessionStorage.userData
       ? JSON.parse(sessionStorage.userData)
       : {};
@@ -300,7 +300,7 @@ const SocialWallMiddleContent = (props) => {
                   <div className="sw_msg col-md-8 col-lg-9">
                     <p className="sw_msg_val mb-0">
                       <span className="font-helvetica-m">@{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
-                      <span> {item?.rewardId?.description} </span>
+                      <span style={{ lineHeight: "1.5rem" }}> {item?.rewardId?.description} </span>
                       <span>
                         {hashArr && hashArr?.length > 0 && hashArr.map((item, index) => {
                           return (
@@ -347,7 +347,13 @@ const SocialWallMiddleContent = (props) => {
                           if (index < maxLikedCount) {
                             return (
                               <Link to="#" className="enlited_nms a_hover_txt_deco_none" key={"Likeduse_" + index}>
-                                <span> {like?.userId?.firstname + " " + like?.userId?.lastname} {item?.socialWallLike.length > 1 && index < maxLikedCount ? ", " : ""} </span>
+                                <span> {like?.userId?.firstname + " " + like?.userId?.lastname}
+                                  {item?.socialWallLike.length > 1 &&
+                                    (index < (maxLikedCount - 1)
+                                      &&
+                                      (item?.socialWallLike?.length - 1 !== index)
+                                    ) ? ", " : ""}
+                                </span>
                               </Link>
                             );
                           }

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { TabsActions } from "../store/tabs-slice";
 
 const Tab = (props) => {
-  debugger
+  
   const dispatch = useDispatch();
   const getTabs = useSelector((state) => state?.tabs?.config);
 

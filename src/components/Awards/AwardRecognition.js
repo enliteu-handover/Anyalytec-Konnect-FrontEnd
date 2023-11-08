@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import ResponseInfo from "../../UI/ResponseInfo";
 
 const AwardRecognition = () => {
   const [awardData, setAwardData] = useState([]);
@@ -52,8 +53,8 @@ const AwardRecognition = () => {
     <React.Fragment>
       <div className="row mt-4 eep-content-start">
         {awardData &&
-          awardData.length > 0 &&
-          awardData.map((data, index) => {
+          awardData?.length > 0 &&
+          awardData?.map((data, index) => {
             if (data.type === "spot_award") {
               return (
                 <div className="col-md-4 col-lg-3 col-xs-4 col-sm-6 text-left badge_col_div" key={'AwardRecognition_'+index}>
@@ -71,7 +72,7 @@ const AwardRecognition = () => {
                       >
                         <div className="outter">
                           <img
-                            src={data.imageByte ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                            src={data?.imageByte?.image ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                             className="award_img"
                             alt={data.award.name}
                             title={data.award.name}
@@ -115,7 +116,7 @@ const AwardRecognition = () => {
                         </div>
                         <div className="outter">
                           <img
-                            src={data.imageByte ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                            src={data?.imageByte?.image ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                             className="award_img"
                             alt={data.award.name}
                             title={data.award.name}
@@ -137,7 +138,7 @@ const AwardRecognition = () => {
                       >
                         <div className="outter">
                           <img
-                            src={data.imageByte ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                            src={data?.imageByte?.image ? data?.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                             className="award_img"
                             alt={data.award.name}
                             title={data.award.name}
@@ -203,7 +204,11 @@ const AwardRecognition = () => {
               )
             }
           })}
-      </div>
+           {awardData && awardData.length <= 0 && (
+          <ResponseInfo title="No award nominations yet."
+          messageInfo='Good recognition is the bridge between appreciation and motivation' subMessageInfo='A wise man' responseImg="noRecord" responseClass="response-info" />
+        )}
+      </div> 
     </React.Fragment>
   );
 };

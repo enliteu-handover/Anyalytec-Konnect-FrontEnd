@@ -67,7 +67,7 @@ const Communication = () => {
             <div className="outter">
               <img
                 src={
-                  "/images/icons/communications/Polls.svg"
+                  "/images/icons/communications/polls.svg"
                 }
                 className="image-circle"
                 alt="Polls"
@@ -81,7 +81,7 @@ const Communication = () => {
             <div className="outter">
               <img
                 src={
-                  "/images/icons/communications/IdeaBox.svg"
+                  "/images/icons/communications/ideabox.svg"
                 }
                 className="image-circle"
                 alt="Idea Box"

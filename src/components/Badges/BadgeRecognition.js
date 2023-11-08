@@ -133,7 +133,7 @@ const BadgeRecognition = (props) => {
               <div className="badge_assign_div">
                 <div className="outter">
                   <img
-                    src={data.imageByte ? data.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                    src={data?.imageByte?.image ? data.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
                     className="badge_img"
                     alt={data.imageByte ? data.imageByte.name : "Badge Icon"}
                     title={data.imageByte ? data.imageByte.name : "Badge Icon"}

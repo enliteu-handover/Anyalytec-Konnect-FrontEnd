@@ -146,7 +146,8 @@ const Forum = () => {
 		let formData = new FormData();
 		if (arg.files && arg.files.length > 0) {
 			arg.files.map((item) => {
-				return formData.append('file', new Blob([JSON.stringify(item)], { type: `application/json` }));
+				const fileType = item?.type;
+				return formData.append('file', new Blob([JSON.stringify(item)], { type: fileType }));
 			});
 		}
 		let forumRequestObj = {
@@ -158,7 +159,6 @@ const Forum = () => {
 			existForumAttach: null
 		};
 		formData.append('forumrequest', JSON.stringify(forumRequestObj)
-			// new Blob([JSON.stringify(forumRequestObj)], { type: 'application/json' })
 		);
 		const obj = {
 			url: URL_CONFIG.FORUM,
