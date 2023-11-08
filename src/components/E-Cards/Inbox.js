@@ -51,6 +51,7 @@ const Inbox = () => {
   });
 
   const fetchInboxData = () => {
+    debugger
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     const obj = {
       url: URL_CONFIG.ECARD_INBOX,
@@ -59,6 +60,7 @@ const Inbox = () => {
     };
     httpHandler(obj)
       .then((response) => {
+        debugger
         const groupByCategory = response?.data?.reduce((group, card) => {
           const { type } = card;
           group[type] = group[type] ?? [];
@@ -130,10 +132,10 @@ const Inbox = () => {
         <div className="col-md-12">
           <div id="inbox-accordion">
             <div className="accordion" id="accordionInbox">
-              <InboxCard inboxCardSettings={{ "id": "InboxOne", "dataTarget": "collapseInboxBirthday", "title": "Birthday", "show": "show", "expand": "true", "carousel": "inboxBirthdayCarousel" }} inboxData={inboxData?.birthday} likeECard={likeECard} />
-              <InboxCard inboxCardSettings={{ "id": "InboxTwo", "dataTarget": "collapseInboxWorkAnniversary", "title": "Work Anniversary", "show": "", "expand": "false", "carousel": "inboxWorkAnniversaryCarousel" }} inboxData={inboxData?.anniversary} likeECard={likeECard} />
-              <InboxCard inboxCardSettings={{ "id": "InboxThree", "dataTarget": "collapseInboxAppreciation", "title": "Appreciation", "show": "", "expand": "false", "carousel": "inboxAppreciationCarousel" }} inboxData={inboxData?.appreciation} likeECard={likeECard} />
-              <InboxCard inboxCardSettings={{ "id": "InboxFour", "dataTarget": "collapseInboxSeasonal", "title": "Seasonal Greetings", "show": "", "expand": "false", "carousel": "inboxSeasonalCarousel" }} inboxData={inboxData?.seasonal} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxOne", "dataTarget": "collapseInboxBirthday", "title": "Birthday", "show": "show", "expand": "true", "carousel": "inboxBirthdayCarousel" }} inboxData={inboxData?.birthday || []} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxTwo", "dataTarget": "collapseInboxWorkAnniversary", "title": "Work Anniversary", "show": "", "expand": "false", "carousel": "inboxWorkAnniversaryCarousel" }} inboxData={inboxData?.anniversary || []} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxThree", "dataTarget": "collapseInboxAppreciation", "title": "Appreciation", "show": "", "expand": "false", "carousel": "inboxAppreciationCarousel" }} inboxData={inboxData?.appreciation || []} likeECard={likeECard} />
+              <InboxCard inboxCardSettings={{ "id": "InboxFour", "dataTarget": "collapseInboxSeasonal", "title": "Seasonal Greetings", "show": "", "expand": "false", "carousel": "inboxSeasonalCarousel" }} inboxData={inboxData?.seasonal || []} likeECard={likeECard} />
             </div>
           </div>
         </div>

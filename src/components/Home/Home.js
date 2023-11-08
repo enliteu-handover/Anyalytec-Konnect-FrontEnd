@@ -8,6 +8,7 @@ import { TabsActions } from "../../store/tabs-slice";
 import Dashboard from "./Dashboard";
 import HallOfFame from "./HallOfFame";
 import RewardsRecognition from "./RewardsRecognition";
+import { sharedDataActions } from "../../store/shared-data-slice";
 
 const Home = () => {
   const [usersPic, setUsersPic] = useState([]);
@@ -190,27 +191,27 @@ const Home = () => {
     fetchHallOfFame(paramsData);
   }
 
-  // const fetchIsNotification = () => {
-  //   const obj = {
-  //     url: URL_CONFIG.NOTIFICATIONS_BY_ID,
-  //     method: "get",
-  //     isLoader: true
-  //   };
-  //   httpHandler(obj)
-  //     .then((response) => {
-  //       dispatch(sharedDataActions.getIsNotification({
-  //         isNotification: response?.data
-  //       }))
-  //     })
-  //     .catch((error) => {
-  //       console.log("fetchNotifications API error", error);
-  //     });
-  // }
+  const fetchIsNotification = () => {
+    const obj = {
+      url: URL_CONFIG.NOTIFICATIONS_BY_ID,
+      method: "get",
+      isLoader: true
+    };
+    httpHandler(obj)
+      .then((response) => {
+        dispatch(sharedDataActions.getIsNotification({
+          isNotification: response?.data
+        }))
+      })
+      .catch((error) => {
+        console.log("fetchNotifications API error", error);
+      });
+  }
 
   useEffect(() => {
     getDashboardDetails();
     fetchAllUsers();
-    // fetchIsNotification();
+    fetchIsNotification();
   }, []);
 
   useEffect(() => {
@@ -222,6 +223,7 @@ const Home = () => {
 
   let userPicIndex;
   const getUserPicture = (uID) => {
+    debugger
     userPicIndex = usersPic.findIndex((x) => x.id === uID);
     return userPicIndex !== -1
       ? usersPic[userPicIndex].pic

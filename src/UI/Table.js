@@ -165,7 +165,7 @@ const Table = (props) => {
                   onClick={() => props?.rowClick && props?.getCheckedData(index, data)}
                 >
                   {tableHeaders.map((thead, ind) => {
-                    
+
                     // thead.fieldValue && thead.fieldValue === "action" ? (
                     //   props.component === "userManagement" && (
                     //     <td key={`${ind}_column`}>
