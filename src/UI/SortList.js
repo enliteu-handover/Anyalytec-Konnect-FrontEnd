@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 
 const SortList = (props) => {
-
+ 
   const { readAllCommunicationsFromList, feedFilter, onChangeValues, communicationPostLists, dateReceivedOrder, isFeed } = props;
 
   const [isDateReceived, setIsDateReceived] = useState(false);
@@ -64,7 +64,7 @@ const SortList = (props) => {
                 }
               </div>
               :
-              <span className="c1 i_position">Date Received
+              <span className="c1 i_position" onClick={sortDateReceived}>Date Received
                 {!isDateReceived &&
                   <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
