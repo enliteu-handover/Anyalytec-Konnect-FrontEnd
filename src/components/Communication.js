@@ -95,7 +95,7 @@ const Communication = () => {
             <div className="outter">
               <img
                 src={
-                  "/images/icons/communications/ideabox.svg"
+                  "/images/icons/communications/feed.png"
                 }
                 className="image-circle"
                 alt="Idea Box"

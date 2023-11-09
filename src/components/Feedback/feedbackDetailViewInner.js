@@ -1,12 +1,11 @@
 import EmojiPicker, { Emoji, SuggestionMode } from 'emoji-picker-react';
+import moment from 'moment/moment';
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import ReactTooltip from "react-tooltip";
 import ResponseInfo from "../../UI/ResponseInfo";
 import { eepFormatDateTime } from "../../shared/SharedService";
 import FeedbackDetailViewMore from "./more";
-import moment from 'moment/moment';
 
 
 
@@ -56,7 +55,8 @@ const FeedbackDetailViewInner = (props) => {
   };
 
   const onClearMore = () => {
-    setState({ ...state, more: null })
+    state.more = null
+    setState({ ...state })
   }
 
   const onClickEmoji = (emojiData, ideaDetail) => {
@@ -109,17 +109,15 @@ const FeedbackDetailViewInner = (props) => {
                 {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {
                   return (
                     <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
-
                       <Link
                         to="#"
                         data-target="#collapseBirthday"
                         data-toggle="modal"
                         style={{ color: "#fff" }}
                         onClick={() => setState({ ...state, more: cmtData?.feedbackCommentAttach })}
-                      >  {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData?.ideaAttachmentsFileName}> */}
+                      >
                         <img src={atthData.docByte?.image ? atthData.docByte?.image
                           : fileTypeAndImgSrcArray['default']} className="image-circle c1 replayIconSize" alt="icon" title={atthData?.ideaAttachmentsFileName} />
-                        {/* </a> */}
                       </Link>
                     </div>
                   )
@@ -146,10 +144,6 @@ const FeedbackDetailViewInner = (props) => {
                   cmtData?.feedbackCommentLikes?.length : ""} <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" className="post_heart"
                     onClick={() => likeAnFeedHandler({ isLike: false, iData: cmtData })} /></div>
               }
-              {/* &nbsp;
-              <span style={{ color: "lightgray" }}>●</span>&nbsp;<span
-                onClick={() => handleCommand(cmtData)}
-                className="text-left mb-0 eep_dt replay">Reply</span> */}
             </div>
 
             {renderChildComponentCildren(cmtData, padding, setOpenState)}
@@ -164,7 +158,6 @@ const FeedbackDetailViewInner = (props) => {
     return data && data?.children?.map((cmtData, index) => {
       return (
         <div className="ideaCommentListsChild ideaCommentListsChild-f" key={"commentList_" + index}
-        // style={{ marginLeft: padding }}
         >
           <div>
             <div className="box-content mb-1">
@@ -178,7 +171,6 @@ const FeedbackDetailViewInner = (props) => {
               <div className="eep_command_posts"
                 id='parentElement' dangerouslySetInnerHTML={{ __html: cmtData?.message }} />
             </div>
-            {/* {cmtData?.message} */}
             {cmtData?.feedbackCommentAttach && cmtData?.feedbackCommentAttach.length > 0 &&
               <div className="eep_command_attachements eep_command_attachements_">
                 {cmtData?.feedbackCommentAttach.map((atthData, atthIndex) => {

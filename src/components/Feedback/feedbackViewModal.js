@@ -5,8 +5,6 @@ const IdeaViewModal = (props) => {
 
   const { ideaTempData, usersPics, ideaViewModalState, hideModal } = props;
 
-  //console.log("IdeaViewModal props", props);
-
   const initModalManualTrigger = ideaViewModalState ? true : false;
   const [modalManualTrigger, setModalManualTrigger] = useState(false);
 
@@ -24,7 +22,6 @@ const IdeaViewModal = (props) => {
         className="modal fade show"
         id="IdeaViewModal"
         aria-modal="true"
-        // style={{display: modalManualTrigger ? "block" : "none"}}
         style={{ display: "block" }}
       >
         <div
