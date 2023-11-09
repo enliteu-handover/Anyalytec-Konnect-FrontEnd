@@ -108,7 +108,8 @@
 
 .forum_following_topics_img .forum-eep-img-size,
 .forum_three_dot {
-	margin-left: 10px;
+	right: 30px;
+    position: absolute;
 }
 
 .forum_containerr .forum_profile_content {
@@ -146,8 +147,12 @@
 
 .forum_containerr .forum_responce_container {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+	// flex-direction: row;
+	// justify-content: space-between;
+	.forum_responce_posted_time{
+		right: 26px;
+		position: absolute;
+	}
 }
 
 .forum_containerr .forum-eep-img-size {

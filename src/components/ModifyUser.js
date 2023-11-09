@@ -11,7 +11,7 @@ import { FormContext } from "./FormElements/FormContext";
 import Card from "../UI/Card";
 import EEPSubmitModal from "../modals/EEPSubmitModal";
 import ResponseInfo from "../UI/ResponseInfo";
-import { base64ToFile } from "../helpers";
+import { base64ToFile, pageLoaderHandler } from "../helpers";
 
 const ModifyUser = () => {
   const [userMetaData, setUserMetaData] = useState(null);
@@ -206,6 +206,7 @@ const ModifyUser = () => {
                 setUserMetaData({
                   ...userMeta,
                 })
+                pageLoaderHandler('hide')
               }).catch((error) => console.log(error));
           }
 
@@ -278,6 +279,7 @@ const ModifyUser = () => {
 
   useEffect(() => {
 
+    pageLoaderHandler('show')
     fetchUserMeta();
 
   }, []);
@@ -320,6 +322,11 @@ const ModifyUser = () => {
   }, [breadcrumbArr, dispatch]);
   return (
     <React.Fragment>
+      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
+        <div id="loader">
+          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+        </div>
+      </div>
       {userRolePermission.adminPanel &&
         <React.Fragment>
           {showModal.type !== null && showModal.message !== null && (

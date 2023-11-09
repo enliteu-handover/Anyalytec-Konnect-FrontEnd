@@ -42,7 +42,7 @@ const DeptMasterActions = (props) => {
             className="dropdown-item"
             onClick={editModeModal}
           >
-            Modify Dept
+            Modify
           </Link>
           <div className="dropdown-divider"></div>
           <Link
@@ -52,7 +52,7 @@ const DeptMasterActions = (props) => {
             className="dropdown-item"
             onClick={viewModeModal}
           >
-            View Dept
+            View 
           </Link>
         </div>
       </div>

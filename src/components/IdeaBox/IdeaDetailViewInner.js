@@ -60,6 +60,7 @@ const IdeaDetailViewInner = (props) => {
     "image/svg+xml": process.env.PUBLIC_URL + "/images/icons/special/jpeg.svg",
     "application/octet-stream": process.env.PUBLIC_URL + "/images/icons/special/doc.svg",
     "default": process.env.PUBLIC_URL + "/images/icons/special/default-doc.svg",
+    "image/xlsx": process.env.PUBLIC_URL + "/images/icons/special/icons8-excel-48.png",
   };
 
   const likeAnIdeaHandler = (arg) => {
@@ -103,8 +104,9 @@ const IdeaDetailViewInner = (props) => {
                     return (
                       <div className="attachment_parent" key={"attachmentLists_" + index}>
                         <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
-                          <img src={atthData.docByte?.image ? atthData.docByte?.image
-                            // fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
+                          <img src={
+                            // atthData.docByte?.image ? atthData.docByte?.image
+                            fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
                             : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
                             title={atthData.ideaAttachmentsFileName} />
                         </a>

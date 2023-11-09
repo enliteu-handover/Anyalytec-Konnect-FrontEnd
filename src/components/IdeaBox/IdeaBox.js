@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { TabsActions } from "../../store/tabs-slice";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
+import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import MyIdeas from "./MyIdeas";
-import IdeaList from "./IdeaList";
-import IdeaDetailView from "./IdeaDetailView";
-import ResponseInfo from "../../UI/ResponseInfo";
-import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
+import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { TabsActions } from "../../store/tabs-slice";
+import IdeaDetailView from "./IdeaDetailView";
+import IdeaList from "./IdeaList";
+import MyIdeas from "./MyIdeas";
 
 const IdeaBox = () => {
 

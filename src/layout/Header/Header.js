@@ -43,7 +43,7 @@ const Header = () => {
             <SvgComponent svgUrl={state?.HeaderLogo} />
           </div>
           : <img
-            src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
+            src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/icons/EnliteU Small.png")}
             className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
             alt="logo"
           />}

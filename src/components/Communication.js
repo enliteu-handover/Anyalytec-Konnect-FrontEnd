@@ -40,7 +40,7 @@ const Communication = () => {
           <div className="recognition_items bg-white">
             <div className="outter">
               <img
-                src={"/images/icons/communications/Survey.svg"}
+                src={"/images/icons/communications/survey.svg"}
                 className="image-circle"
                 alt="Survey"
               />
@@ -88,6 +88,20 @@ const Communication = () => {
               />
             </div>
             <span>Idea Box</span>
+          </div>
+        </Link>
+        <Link to={{ pathname: 'ideabox', state: { activeTab: 'ideas' } }}>
+          <div className="recognition_items bg-white">
+            <div className="outter">
+              <img
+                src={
+                  "/images/icons/communications/feed.png"
+                }
+                className="image-circle"
+                alt="Idea Box"
+              />
+            </div>
+            <span>FeedBack</span>
           </div>
         </Link>
       </div>

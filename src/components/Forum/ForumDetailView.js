@@ -63,6 +63,7 @@ const ForumDetailView = () => {
     "image/svg+xml": process.env.PUBLIC_URL + "/images/icons/special/jpeg.svg",
     "application/octet-stream": process.env.PUBLIC_URL + "/images/icons/special/doc.svg",
     "default": process.env.PUBLIC_URL + "/images/icons/special/default-doc.svg",
+    "image/xlsx": process.env.PUBLIC_URL + "/images/icons/special/icons8-excel-48.png",
   };
 
   useEffect(() => {
@@ -484,7 +485,10 @@ const ForumDetailView = () => {
                     return (
                       <div className="attachment_parent" key={"attachmentLists_" + index}>
                         <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
-                          <img src={fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType] : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
+                          <img src={fileTypeAndImgSrcArray[atthData.contentType]
+                             ? fileTypeAndImgSrcArray[atthData.contentType] : 
+                             fileTypeAndImgSrcArray['default']} 
+                             className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
                         </a>
                       </div>
                     )
@@ -593,9 +597,9 @@ const ForumDetailView = () => {
           </div>
         </div>
       }
-      {forumData && Object.keys(forumData).length <= 0 &&
+      {/* {forumData && Object.keys(forumData).length <= 0 &&
         <div className="alert alert-danger" role="alert">Not able to fetch property data. Please try again from beginning.</div>
-      }
+      } */}
     </React.Fragment>
   );
 

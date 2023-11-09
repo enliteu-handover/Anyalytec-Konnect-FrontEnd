@@ -24,10 +24,15 @@ const Login = () => {
       .then((reponse) => {
         setState({
           ...state,
-          "logo": reponse?.data?.image ?? (process.env.PUBLIC_URL + "/images/logo.svg")
+          "logo": reponse?.data?.image || (process.env.PUBLIC_URL + '/images/icons/EnliteU Large.png')
         })
-      }).catch(err => console.log(err)
-      )
+      }).catch(err => {
+        console.log(err)
+        setState({
+          ...state,
+          "logo": (process.env.PUBLIC_URL + '/images/icons/EnliteU Large.png')
+        })
+      })
   }, [])
   return (
     <React.Fragment>
@@ -53,8 +58,10 @@ const Login = () => {
               <div className={`col-md-6 logo-sec`}>
                 {(state?.logo?.includes('.svg') ?
                   <SvgComponent svgUrl={state?.logo} /> :
-                  state?.logo && <img
+                  state?.logo &&
+                  <img
                     className="mx-auto d-block"
+                    style={{ width: "400px !important" }}
                     src={
                       (state?.logo)
                     }

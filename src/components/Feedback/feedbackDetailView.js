@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
+import ResponseInfo from "../../UI/ResponseInfo";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import FeedbackComments from "./feedbackComments";
 import FeedbackDetailViewInner from "./feedbackDetailViewInner";
-import ResponseInfo from "../../UI/ResponseInfo";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
 
 const FeedbackDetailView = (props) => {
 
   const { ideaData, usersPic } = props;
   const [state, setState] = useState({ isComment: false, isCommentData: null, childData: null });
-
 
   const initIdeaDetail = ideaData ? ideaData : null;
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};

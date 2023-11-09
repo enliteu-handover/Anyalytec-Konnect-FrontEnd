@@ -24,8 +24,6 @@ const ForumFollowingList = (props) => {
     eepHistory.push('forumdetailview', { forumData: arg, usersPicData: usersPic });
   }
 
-  //console.log("forumFollowingLists", forumFollowingLists);
-
 	return (
     <React.Fragment>
       {forumFollowingLists && forumFollowingLists.length > 0 && forumFollowingLists.sort((a, b) => (a.id < b.id) ? 1 : -1).map((fData, index) => {

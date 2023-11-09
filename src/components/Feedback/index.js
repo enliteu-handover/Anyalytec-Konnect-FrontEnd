@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import PageHeader from "../../UI/PageHeader";
 import ResponseInfo from "../../UI/ResponseInfo";
 import { URL_CONFIG } from "../../constants/rest-config";
@@ -14,10 +13,12 @@ import FeedbackList from "./feedbackList";
 // import MyFeedback from "./myFeedback";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import "./style.scss";
 
 const Feedback = () => {
   const yrDt = new Date().getFullYear();
+  const dispatch = useDispatch();
 
   const [allfeedback, setFeedbacks] = useState([]);
   const [allSearchfeedback, setSearchFeedbacks] = useState([]);
@@ -45,81 +46,7 @@ const Feedback = () => {
     setShowModal({ type: null, message: null });
   };
 
-  // const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
-  // const dispatch = useDispatch();
-  // const activeTab = useSelector((state) => state.tabs.activeTab);
-  // const location = useLocation();
-  // const routerData = location.state;
-
-  // const breadcrumbArr = [
-  //   {
-  //     label: "Home",
-  //     link: "app/dashboard",
-  //   },
-  //   {
-  //     label: "Feedback",
-  //     link: "",
-  //   },
-  // ];
-
-  // useEffect(() => {
-  //   dispatch(
-  //     BreadCrumbActions.updateBreadCrumb({
-  //       breadcrumbArr,
-  //       title: "Feedback",
-  //     })
-  //   );
-  //   return () => {
-  //     BreadCrumbActions.updateBreadCrumb({
-  //       breadcrumbArr: [],
-  //       title: "",
-  //     });
-  //   };
-  // }, []);
-
-  // const tabConfig = [
-  //   {
-  //     title: "Feedback",
-  //     id: "feedback",
-  //   },
-  //   {
-  //     title: "My Feedback",
-  //     id: "myfeedback",
-  //   }
-  // ];
-
-  // useEffect(() => {
-  //   if (routerData) {
-  //     const activeTabId = routerData.activeTab;
-  //     tabConfig.map((res) => {
-  //       if (res.id === activeTabId) {
-  //         res.active = true
-  //       }
-  //     });
-
-  //     dispatch(
-  //       TabsActions.updateTabsconfig({
-  //         config: tabConfig,
-  //       })
-  //     );
-  //     // history.replace({ pathname: history.location.pathname, state: {} });
-  //   } else {
-  //     dispatch(
-  //       TabsActions.updateTabsconfig({
-  //         config: tabConfig,
-  //       })
-  //     );
-  //   }
-
-  //   return () => {
-  //     dispatch(
-  //       TabsActions.updateTabsconfig({
-  //         config: [],
-  //       })
-  //     );
-  //   };
-  // }, []);
 
   const fetchDepartmentData = () => {
     const obj = {
@@ -176,8 +103,38 @@ const Feedback = () => {
     setCreateModalShow(true);
   }
 
+  const breadcrumbArr = [
+    {
+      label: "Home",
+      link: "app/dashboard",
+    },
+    {
+      label: "COMMUNICATIONS",
+      link: "app/communication",
+    },
+    {
+      label: "FeedBack",
+      link: "",
+    },
+  ];
+
+  useEffect(() => {
+    dispatch(
+      BreadCrumbActions.updateBreadCrumb({
+        breadcrumbArr,
+        title: "FeedBack",
+      })
+    );
+    return () => {
+      BreadCrumbActions.updateBreadCrumb({
+        breadcrumbArr: [],
+        title: "",
+      });
+    };
+  }, []);
+
   const fetchAllFeedbacks = (paramsInfo = {}) => {
-    
+
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -262,7 +219,6 @@ const Feedback = () => {
             type: "danger",
             message: error?.response?.data?.message,
           });
-          //const errMsg = error.response?.data?.message;
         });
     }
   }
@@ -337,7 +293,6 @@ const Feedback = () => {
       .then((myFeeds) => {
         setFeedbacks(myFeeds?.data);
         setSearchFeedbacks(myFeeds?.data);
-        // setMyfeedbackList([...myFeeds?.data?.map(v => { return { ...v, name: v?.title } })]);
       })
       .catch((error) => {
         console.log("error", error.response);
