@@ -182,7 +182,6 @@ const CreatePoll = () => {
 		httpHandler(obj)
 			.then((userData) => {
 				const uOptions = [];
-				console.log("userData", userData.data);
 				userData && userData.data.map((res) => {
 					uOptions.push({label: res.firstname + " - " + res.department.name, value: res.id });
 					return res;

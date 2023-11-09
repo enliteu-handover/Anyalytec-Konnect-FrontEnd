@@ -597,9 +597,9 @@ const ForumDetailView = () => {
           </div>
         </div>
       }
-      {forumData && Object.keys(forumData).length <= 0 &&
+      {/* {forumData && Object.keys(forumData).length <= 0 &&
         <div className="alert alert-danger" role="alert">Not able to fetch property data. Please try again from beginning.</div>
-      }
+      } */}
     </React.Fragment>
   );
 

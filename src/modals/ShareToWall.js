@@ -11,13 +11,14 @@ const ShareToWall = (props) => {
 
   const shareHandlerOnClick = () => {
     const obj = {
-      url: URL_CONFIG.SHARE_WALL + "?id=" + ShareID,
+      url: URL_CONFIG.SHARE_WALL,
+      //  + "?id=" + ShareID,
+      payload: { id: ShareID },
       method: "post",
     };
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;
-        console.log("resMsg", resMsg);
         setShareResponseMsg(resMsg);
         setShareResponseClassName("response-succ");
         fetchMyData();
