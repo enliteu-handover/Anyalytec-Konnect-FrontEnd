@@ -185,8 +185,8 @@ const FeedbackComments = (props) => {
           }
 
           {cmtErrorAttachements?.errLengthCount?.length > 0 && errorLengthAtthState &&
-            <div className="col-md-12" style={{ fontSize: "10px" }}>
-              <div className="alert alert-danger my-1" role="alert">
+            <div className="col-md-12" style={{ fontSize: "10px", padding: 0 }}>
+              <div className="alert alert-danger my-1" role="alert" style={{ width: "80%" }}>
                 <span>{cmtErrorAttachements.errLengthCount.length}</span><span> - File Size exceeds, File Size should be less than 1mb.</span>
                 <button type="button" className="close eep-error-close" style={{ fontSize: "18px" }} onClick={() => setErrorLengthAtthState(false)}><span aria-hidden="true">×</span></button>
               </div>
