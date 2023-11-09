@@ -29,7 +29,7 @@ const ColorSettings = (props) => {
     <React.Fragment>
 
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="heading"><span> Select Theam Color </span></div>
+        <div className="heading"><span> Select Theme Color </span></div>
       </div>
 
       <div className="eep_scroll_y" style={{ height: "85%" }}>
