@@ -4487,7 +4487,8 @@ input#cert-image-upload.hidden {
 }
 
 .eep_sidebar {
-  position: absolute;
+  // position: absolute;
+  position: fixed;
   right: 0;
 }
 
@@ -7092,8 +7093,8 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 }
 
 .theam_container.bg-white.active-setting {
-  background-color: #28a745 !important;
-  color: #ffffff;
+  background-color: #e4e4e4 !important;
+  color: #000000;
 }
 
 /**** Portal settings end ****/
