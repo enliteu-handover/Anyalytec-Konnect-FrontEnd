@@ -58,7 +58,7 @@ const BranchMaster = () => {
             accessorKey: "name",
         },
         {
-            header: "Discription",
+            header: "Description",
             accessorKey: "description",
         },
         // {
