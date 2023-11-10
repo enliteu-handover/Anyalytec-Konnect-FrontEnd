@@ -17,7 +17,7 @@ const IdmRoleMapping = (props) => {
     };
 
     const onAddRoleCallback = (e) => {
-        debugger
+        
         setTimeout(async () => {
             await update(e)
         }, 1000);

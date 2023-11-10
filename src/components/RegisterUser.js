@@ -32,6 +32,7 @@ const AddUser = () => {
   };
 
   const handleSubmit = async (event) => {
+    
     event.preventDefault();
     setFormSubmitted(true);
     if (formIsValid) {

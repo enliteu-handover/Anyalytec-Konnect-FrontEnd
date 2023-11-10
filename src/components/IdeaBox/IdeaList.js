@@ -59,7 +59,7 @@ const IdeaList = (props) => {
           return (
             <div className={`ideabox-profile-container ideashorting_div_child ${item.ideaIsRead ? "ideaMarkedAsRead" : ""} ${item.ideaIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_"+index}>
               <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
-                <img src={getUserPicture(item.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
+                <img src={getUserPicture(item?.createdBy?.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
               </div>
               <div className="ideabox-font-style idea_box_heading ">
                 <div className="ideabox_username_fav_div">

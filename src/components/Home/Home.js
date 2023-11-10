@@ -223,7 +223,7 @@ const Home = () => {
 
   let userPicIndex;
   const getUserPicture = (uID) => {
-    debugger
+    
     userPicIndex = usersPic.findIndex((x) => x.id === uID);
     return userPicIndex !== -1
       ? usersPic[userPicIndex].pic

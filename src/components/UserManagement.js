@@ -15,6 +15,7 @@ import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { getRoles } from '@crayond_dev/idm-client';
 import TableComponent from "../UI/tableComponent";
 import { downloadXlsx } from "../helpers";
+import { idmRoleMappingRoles } from "../idm";
 
 const UserManagement = () => {
 
@@ -187,7 +188,7 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-
+    
     const file = state.uploadData;
     const reader = new FileReader();
 
@@ -199,7 +200,7 @@ const UserManagement = () => {
       const excelJson = JSON.parse(JSON.stringify(json, null, 2));
       const headers = excelJson[0];
       const dataArray = excelJson.slice(1);
-      const roles = await getRoles({});
+      const roles = await getRoles({ apiKey: "ASC4PK0UVE5OOCO8NK" });
 
       const payloadConstruction = dataArray.map((row) => {
         if (row?.length > 0) {
@@ -211,9 +212,16 @@ const UserManagement = () => {
         }
       })?.filter(v => v);
 
-      const payload = await payloadConstruction?.map(v => {
-        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase())?.id
-        v.role = imd_role || ''
+      const payload = await payloadConstruction?.map(async (v) => {
+        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase())
+
+        const roleData = await idmRoleMappingRoles(imd_role?.id);
+        v.role = {
+          idm_id: imd_role?.id,
+          role_name: imd_role?.name,
+          screen: JSON.stringify(roleData?.data)
+        };
+        // v.role = imd_role || ''
         return { ...v }
       })
 

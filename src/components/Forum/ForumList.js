@@ -48,13 +48,13 @@ const ForumList = (props) => {
           return (
             <div className={`eep_communication_container forumj_left_container forumshorting_div_child ${item.forumIsRead ? "eep_communication_container_forum_bg" : "unread_container_bordeer"}`} key={"forumList_" + index}>
               <div className="forum_profile_image forumj_redirect" onClick={() => readHandler({ fData: item, isRedirect: true })}>
-                <img src={getUserPicture(item.createdBy.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size c1" />
+                <img src={getUserPicture(item?.createdBy?.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size c1" />
               </div>
               <div className="forum_profile_content_parent_div">
                 <div className="forum_profile_content_div">
                   <div className="forum_profile_content" onClick={() => readHandler({ fData: item, isRedirect: true })}>
                     <p className="forum_content_title forum_content_title_truncate c1">{item.title}</p>
-                    <p className="forum_user_name c1">{item.createdBy.firstname + " " + item.createdBy.lastname}</p>
+                    <p className="forum_user_name c1">{item?.createdBy?.firstname + " " + item?.createdBy?.lastname}</p>
                   </div>
                   <div className="forum_actions_div d-flex">
                     {item.forumIsfollowing &&

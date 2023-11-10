@@ -261,7 +261,7 @@ const BulkUploadOrgChart = () => {
     };
 
     const handleExportDownload = () => {
-        debugger
+        
         const worksheet = XLSX.utils.json_to_sheet(state?.orgChartData?.data ?? []);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");

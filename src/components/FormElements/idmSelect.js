@@ -24,7 +24,7 @@ const SelectDropdownIdm = (props) => {
     const { handleChange } = useContext(FormContext);
 
     useEffect(() => {
-        debugger
+        
         if (field?.value) {
             setValue({
                 label: field?.value?.label || field?.value?.roleName, value: field?.value?.value || field?.value?.idm_id
@@ -33,20 +33,21 @@ const SelectDropdownIdm = (props) => {
     }, [field?.value]);
 
     const getRolesFun = async () => {
-        const roles = await getRoles({});
+        const roles = await getRoles({ apiKey: "ASC4PK0UVE5OOCO8NK" });
         const data = roles?.map(v => {
             return {
                 label: v?.name,
                 value: v?.id
             }
         })
+        console.log('datadatadatadatadatadata', data);
         if (data?.length > 0) {
             setOptions(data);
         }
     }
 
     const onChangeHandler = (field, event) => {
-        debugger
+        
         const value1 = event ? event : "";
         setValue(value1);
         handleChange(field, value1);
@@ -58,7 +59,7 @@ const SelectDropdownIdm = (props) => {
     };
 
     useEffect(() => {
-        debugger
+        
         getRolesFun();
     }, []);
 

@@ -1,9 +1,10 @@
 import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
 
 export const idmRoleMapping = async (role, permission = ['update', 'read', 'create', 'delete']) => {
-    const roles = await getRoles({});
+    
+    const roles = await getRoles({ apiKey: "ASC4PK0UVE5OOCO8NK" });
     const finfRole = roles.find(v => v.id === role)
-    const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
+    const isIDMInitialized = await initializeIDM({ apiKey: "ASC4PK0UVE5OOCO8NK", roleId: finfRole?.id });
     const GetPermissions = JSON.parse(localStorage.getItem('permissions'));
     var validate = null;
     if (isIDMInitialized) {
@@ -13,9 +14,10 @@ export const idmRoleMapping = async (role, permission = ['update', 'read', 'crea
 }
 
 export const idmRoleMappingRoles = async (role, permission = ['update', 'read', 'create', 'delete']) => {
-    const roles = await getRoles({});
+   
+    const roles = await getRoles({ apiKey: "ASC4PK0UVE5OOCO8NK" });
     const finfRole = roles.find(v => v.id === role)
-    const isIDMInitialized = await initializeIDM({ roleId: finfRole?.id });
+    const isIDMInitialized = await initializeIDM({ apiKey: "ASC4PK0UVE5OOCO8NK", roleId: finfRole?.id });
 
     const GetPermissions = roles?.find(v => v?.id === role)?.role_permission_mappings?.[0]?.permission?.data?.data ?? []
 
