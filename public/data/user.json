@@ -162,7 +162,7 @@
         }
       },
       {
-        "type": "select",
+        "type": "selectidm",
         "label": "User Type",
         "name": "role",
         "mandatory": true,
@@ -172,7 +172,7 @@
           "value": "role.roleName"
         },
         "reloadData": true,
-        "RESTConfig": {
+        "RESTConfig": { 
           "url": "/roles",
           "method": "get",
           "label": "roleName",

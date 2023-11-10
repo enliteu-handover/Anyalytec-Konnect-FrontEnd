@@ -19,9 +19,9 @@ const SelectDropdown = (props) => {
   const [options, setOptions] = useState([]);
 
   const [fieldTouched, setFieldTouched] = useState(false);
-  
+
   useEffect(() => {
-    
+
     setValue(initValue)
   }, [field.value]);
   useEffect(() => {
@@ -87,7 +87,7 @@ const SelectDropdown = (props) => {
   };
 
   const getDropdownOptions = () => {
-    
+
     const obj = {
       url: RESTConfig.url,
       method: RESTConfig.method,
@@ -172,7 +172,6 @@ const SelectDropdown = (props) => {
 
       <label className="control-label">{field.label}</label>
       <div className="input-group">
-        {/* {JSON.stringify(value)} */}
         {options && !defaultValue && (
           <Select
             defaultValue={value}

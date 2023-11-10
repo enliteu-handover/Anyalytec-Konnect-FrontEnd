@@ -1,4 +1,3 @@
-import { getRoles } from '@crayond_dev/idm-client';
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
@@ -59,7 +58,7 @@ const LoginForm = () => {
   };
 
   const formSubmissionHandler = async (event) => {
-    
+
     event.preventDefault();
 
     const validate_login_uder = {
@@ -139,23 +138,6 @@ const LoginForm = () => {
     await httpHandler(obj);
   };
 
-  const idmRolesToUpdateInDb = async () => {
-    const roles = await getRoles({});
-
-    let payOptionsRole = {
-      data: roles
-    };
-
-    const objRole = {
-      url: URL_CONFIG.ADDROLE,
-      method: "post",
-      payload: payOptionsRole,
-    };
-    if (roles?.length > 0) {
-      await httpHandler(objRole)
-    }
-  }
-
   const fetchPermission = async () => {
 
     const obj = {
@@ -176,25 +158,11 @@ const LoginForm = () => {
         theme: response?.data?.theme?.[0] ?? {},
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
-      localStorage.setItem('authToken', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInVzZXJuYW1lIjoiZW5saXRlVSIsImVtYWlsX2lkIjoicHJha2FzaEBjcmF5b25kLmNvIiwiaWF0IjoxNjk3NTIxODQzLCJleHAiOjE2OTc2MDgyNDN9.id0592h8dmdZNflgm77I9aLSSLhwesaLv5bgKww4cuc")
 
       await dispatch(sharedDataActions.getUserRolePermission({
         userRolePermission: roleData?.data
       }));
 
-      // let payOptionsRole = {
-      //   data: roleData?.rolesData,
-      //   role_id: roleData?.roleId,
-      //   screen: JSON.stringify(roleData?.data)
-      // };
-
-      // const objRole = {
-      //   url: URL_CONFIG.ADDROLE,
-      //   method: "post",
-      //   payload: payOptionsRole,
-      // };
-
-      // await httpHandler(objRole)
     }).catch((error) => {
       console.log("fetchPermission error", error);
     });
