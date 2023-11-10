@@ -18,7 +18,7 @@ const IdleTimerContainer = () => {
   });
 
   const config = {
-    timoutTime: 15,
+    timoutTime: 40,
     refreshTime: 13
   }
 
