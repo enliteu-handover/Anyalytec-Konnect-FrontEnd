@@ -44,14 +44,14 @@ const NominatedAwards = (props) => {
 					<div className="nm_rcol_lbl_div text-center">
 						<label className="nm_rcol_lbl font-helvetica-m">
 							Nominated Awards
-							<Link
-								to="#"
+							<a
+								// to="#"
 								className="ml-2 addon_clr"
 								dangerouslySetInnerHTML={{
 									__html: svgIcons && svgIcons.refresh_icon,
 								}}
 								onClick={() => filterByAwardHandler("", false)}
-							></Link>
+							></a>
 						</label>
 					</div>
 					<div className="row">
