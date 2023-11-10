@@ -4,11 +4,11 @@ import { useHistory, useLocation } from "react-router-dom";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { sharedDataActions } from "../../store/shared-data-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import Dashboard from "./Dashboard";
 import HallOfFame from "./HallOfFame";
 import RewardsRecognition from "./RewardsRecognition";
-import { sharedDataActions } from "../../store/shared-data-slice";
 
 const Home = () => {
   const [usersPic, setUsersPic] = useState([]);
@@ -80,36 +80,36 @@ const Home = () => {
       });
     }
 
-    if (userRolePermission.employeeEngagementDashboard || userRolePermission.hallOfFame) {
-      if (routerData?.activeTab) {
-        const activeTabId = routerData.activeTab;
-        tabConfig.map((res) => {
-          if (res.id === activeTabId) {
-            res['active'] = true
-          }
-        });
-        dispatch(
-          TabsActions.updateTabsconfig({
-            config: tabConfig,
-          })
-        );
-        // history.replace({ pathname: history.location.pathname, state: {} });
-      } else {
-        dispatch(
-          TabsActions.updateTabsconfig({
-            config: tabConfig,
-          })
-        );
-      }
-
-      return () => {
-        dispatch(
-          TabsActions.updateTabsconfig({
-            config: [],
-          })
-        );
-      };
+    // if (userRolePermission.employeeEngagementDashboard || userRolePermission.hallOfFame) {
+    if (routerData?.activeTab) {
+      const activeTabId = routerData.activeTab;
+      tabConfig.map((res) => {
+        if (res.id === activeTabId) {
+          res['active'] = true
+        }
+      });
+      dispatch(
+        TabsActions.updateTabsconfig({
+          config: tabConfig,
+        })
+      );
+      // history.replace({ pathname: history.location.pathname, state: {} });
+    } else {
+      dispatch(
+        TabsActions.updateTabsconfig({
+          config: tabConfig,
+        })
+      );
     }
+
+    return () => {
+      dispatch(
+        TabsActions.updateTabsconfig({
+          config: [],
+        })
+      );
+    };
+    // }
 
   }, [userRolePermission]);
 
@@ -223,7 +223,7 @@ const Home = () => {
 
   let userPicIndex;
   const getUserPicture = (uID) => {
-    
+
     userPicIndex = usersPic.findIndex((x) => x.id === uID);
     return userPicIndex !== -1
       ? usersPic[userPicIndex].pic

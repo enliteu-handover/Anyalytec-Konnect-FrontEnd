@@ -113,7 +113,7 @@ const HallOfFame = (props) => {
         {/* <!-- Section 1 END --> */}
 
         {/*<!-- Section 2 START --> */} {/* shadow */}
-        {hallOfFameDetails?.dashboardECardList?.length > 0 &&
+        {/* {hallOfFameDetails?.dashboardECardList?.length > 0 &&
           <div className="col-md-6 row_col_div mb-3">
             <div className="bg-white br-15 h-100 border border-1">
               <div className="p-3">
@@ -157,7 +157,7 @@ const HallOfFame = (props) => {
             </div>
 
           </div>
-        }
+        } */}
         {hallOfFameDetails?.dashboardECardList && hallOfFameDetails?.dashboardECardList?.length <= 0 && (
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">

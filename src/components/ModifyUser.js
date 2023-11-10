@@ -24,7 +24,7 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = async (event) => {
-    
+
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -91,6 +91,9 @@ const ModifyUser = () => {
         for (let fld of userMetaData[fields].fields) {
           if (fld.type === 'password') {
             fld.mandatory = false;
+          }
+          if (fld.name === 'username') {
+            fld.disabled = true;
           }
           if (fld.mandatory) {
             userFields.push(fld.name);
@@ -191,7 +194,7 @@ const ModifyUser = () => {
   };
 
   const fetchCurrentUserData = async (userMeta) => {
-    
+
 
     const obj = {
       url: URL_CONFIG.GETUSER,

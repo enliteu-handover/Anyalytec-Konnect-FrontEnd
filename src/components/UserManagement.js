@@ -188,7 +188,8 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-    
+    debugger
+
     const file = state.uploadData;
     const reader = new FileReader();
 
@@ -212,8 +213,22 @@ const UserManagement = () => {
         }
       })?.filter(v => v);
 
-      const payload = await payloadConstruction?.map(async (v) => {
-        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase())
+      // const payload = await payloadConstruction?.map(async (v) => {
+      //   const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase())
+
+      //   const roleData = await idmRoleMappingRoles(imd_role?.id);
+      //   v.role = {
+      //     idm_id: imd_role?.id,
+      //     role_name: imd_role?.name,
+      //     screen: JSON.stringify(roleData?.data)
+      //   };
+      //   // v.role = imd_role || ''
+      //   return { ...v }
+      // })
+
+      const payload = [];
+      for (const v of payloadConstruction) {
+        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase());
 
         const roleData = await idmRoleMappingRoles(imd_role?.id);
         v.role = {
@@ -221,9 +236,9 @@ const UserManagement = () => {
           role_name: imd_role?.name,
           screen: JSON.stringify(roleData?.data)
         };
-        // v.role = imd_role || ''
-        return { ...v }
-      })
+
+        payload.push({ ...v });
+      }
 
       if (payload?.length > 0) {
         const obj_ = {
@@ -249,7 +264,6 @@ const UserManagement = () => {
   }
 
   const downloadExcel = (failure) => {
-
     const worksheet = XLSX.utils.json_to_sheet(failure);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
