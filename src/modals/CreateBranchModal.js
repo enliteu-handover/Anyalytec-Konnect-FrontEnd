@@ -160,7 +160,7 @@ const CreateBranchModal = (props) => {
                                     <input type="text" className="form-control text-center field-wbr" name="name" placeholder="Enter Branch Name *" autoComplete="off" value={state.name} onChange={(e) => onChange('name', e.target.value)} />
                                 </div>
                                 <div className="form-group">
-                                    <textarea maxLength={80} type="text" className="form-control text-center field-wbr" name="description" placeholder="Add Discription" autoComplete="off" value={state.description} onChange={(e) => onChange('description', e.target.value)} />
+                                    <textarea maxLength={80} type="text" className="form-control text-center field-wbr" name="description" placeholder="Add Description" autoComplete="off" value={state.description} onChange={(e) => onChange('description', e.target.value)} />
                                 </div>
                                 {responseMsg && <p style={{ textTransform: "capitalize" }} className={responseClassName}>{responseMsg}</p>}
                                 <div className="modal-footer justify-content-center p-0">

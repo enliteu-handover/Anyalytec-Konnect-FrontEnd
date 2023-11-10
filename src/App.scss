@@ -193,7 +193,10 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .table-responsive {
-  padding: 0px !important;
+  // padding: 0px !important;
+  .MuiPaper-root{
+    box-shadow:none
+}
 }
 
 .MuiTableCell-head {

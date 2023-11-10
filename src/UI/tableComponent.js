@@ -2,7 +2,26 @@ import React from "react";
 import { MaterialReactTable } from "material-react-table";
 
 const TableComponent = ({ columns = [], data = [], action, searchHidden, actionHidden }) => {
-
+    const styles = {
+        container: {
+          maxHeight: '400px',
+          '&::-webkit-scrollbar': {
+            width: '12px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'transparent', 
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb:horizontal': {
+            backgroundColor: '#858796',
+          },
+          '&::-webkit-scrollbar-track:horizontal': {
+            backgroundColor: '#f8f8f8', 
+          },
+        },
+      };
     return (
         <div>
             <MaterialReactTable
@@ -19,14 +38,19 @@ const TableComponent = ({ columns = [], data = [], action, searchHidden, actionH
                 enableRowActions={actionHidden ? false : true}
                 enableGlobalFilter={searchHidden ? false : true}
                 enableStickyHeader
+                // muiBottomToolbarProps={}
                 enableStickyFooter
-                muiTableContainerProps={{ sx: { maxHeight: '400px' } }}
+                muiTableContainerProps={{ sx:styles.container}}
                 initialState={{
                     density: 'comfortable', showGlobalFilter: searchHidden ? false : true,
                 }}
                 muiSearchTextFieldProps={{
                     size: 'small',  placeholder: 'Search...',
                     variant: 'outlined',
+                    InputProps:{
+                        endAdornment:<img src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`} alt="Search"   />
+                    }
+                    
                 }}
                 renderRowActions={({ row, table }) =>
                     action ? React.cloneElement(action, { data: data?.[row?.index] }) : ''
@@ -36,6 +60,7 @@ const TableComponent = ({ columns = [], data = [], action, searchHidden, actionH
                     // showFirstButton: true,
                     // showLastButton: true,
                 }}
+               
                 icons={{
                     SearchIcon: (props) => <img src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`} alt="Search"  {...props} />,
                 }}
