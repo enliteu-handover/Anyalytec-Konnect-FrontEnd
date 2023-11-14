@@ -30,7 +30,7 @@ const LoginForm = () => {
 
   useEffect(() => {
 
-    const url = 'https://dev-enliteu.crayond.com/oauth2/verify';
+    const url = 'https://dev-enliteu-api.crayond.com/oauth2/verify';
     const data = {
       clientId: '32481a2dc791e9c3ae466d07f2b0affa',
       username: 'crayonapisandboxb2b@woohoo.in',
