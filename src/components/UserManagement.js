@@ -188,7 +188,6 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-    debugger
 
     const file = state.uploadData;
     const reader = new FileReader();

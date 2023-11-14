@@ -44,6 +44,7 @@ const ForumDetailView = () => {
   };
 
   const fileTypeAndImgSrcArray = {
+    "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
     "application/powerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
