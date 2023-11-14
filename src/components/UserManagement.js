@@ -15,7 +15,7 @@ import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { getRoles } from '@crayond_dev/idm-client';
 import TableComponent from "../UI/tableComponent";
 import { downloadXlsx } from "../helpers";
-import { idmRoleMappingRoles } from "../idm";
+import { idmRoleMappingRoles, idmRoleMappingRolesScreenAccess } from "../idm";
 
 const UserManagement = () => {
 
@@ -188,7 +188,6 @@ const UserManagement = () => {
   }
 
   const onSucess = (e) => {
-
     const file = state.uploadData;
     const reader = new FileReader();
 
@@ -229,7 +228,7 @@ const UserManagement = () => {
       for (const v of payloadConstruction) {
         const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase());
 
-        const roleData = await idmRoleMappingRoles(imd_role?.id);
+        const roleData = await idmRoleMappingRolesScreenAccess(imd_role?.role_permission_mappings?.[0]?.permission?.data?.data ?? []);
         v.role = {
           idm_id: imd_role?.id,
           role_name: imd_role?.name,
@@ -263,7 +262,12 @@ const UserManagement = () => {
   }
 
   const downloadExcel = (failure) => {
-    const worksheet = XLSX.utils.json_to_sheet(failure);
+    const worksheet = XLSX.utils.json_to_sheet(failure?.map(v => {
+      return {
+        ...v,
+        role: v?.role?.role_name || v?.role || ""
+      }
+    }));
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     XLSX.writeFile(workbook, "FailureUsers.xlsx");
