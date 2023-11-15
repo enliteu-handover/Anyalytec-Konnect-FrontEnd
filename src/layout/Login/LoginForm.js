@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 import Button from "../../UI/Button";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import { idmRoleMapping } from '../../idm';
 import { sharedDataActions } from '../../store/shared-data-slice';
@@ -30,7 +30,7 @@ const LoginForm = () => {
 
   useEffect(() => {
 
-    axios.get(URL_CONFIG.GIFT_VOUCHER)
+    axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
       .then(response => {
         console.log('Qwik gifts---', response?.data);
       })
