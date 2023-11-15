@@ -46,7 +46,7 @@ const URL_CONFIG = {
   RESETPASSWORD: "/api/auth/resetpassword",
   UPDATEPASSWORD: "/users/updatepassword",
   ALLUSERS: "/users",
-  ALL_USER_DETAILS_FILTER_RESPONSE:"/users/getUserDetails",
+  ALL_USER_DETAILS_FILTER_RESPONSE: "/users/getUserDetails",
   GETALLUSERS: "/users",
   // GETALLUSERS: "/users/activeuser",
   GETUSER: "/users/user",
@@ -214,6 +214,8 @@ const URL_CONFIG = {
   SHOW_LIBRARY_SURVEY: "/surveys/surveylibraryshow",
   USER_VALIDATION: "/auth/user_validation",
 
+
+  GIFT_VOUCHER: "/gifts/oauth2/verify",
 };
 
 export { REST_CONFIG, URL_CONFIG };

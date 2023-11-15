@@ -325,7 +325,7 @@ const UserManagement = () => {
             filter={
               <>
                 <a
-                  className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
+                  className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
                   data-toggle="modal"
                   data-target="#CreateBulkUploadModal"
                   onClick={openBulk}

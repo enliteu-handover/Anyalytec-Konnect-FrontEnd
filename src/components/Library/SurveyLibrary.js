@@ -107,7 +107,7 @@ const Survey = () => {
                                                     <li>
                                                         <a
                                                             to="#"
-                                                            className="p_cert_modal_a fas fa-plus"
+                                                            className="p_cert_modal_a fas fa-plus c1"
                                                             title="Preview this certificate"
                                                             data-toggle="modal"
                                                             data-target="#SurveyRecognitionModal"
@@ -120,7 +120,7 @@ const Survey = () => {
                                                 <li>
                                                     <a
                                                         to="#"
-                                                        className="p_cert_modal_a fa fa-eye"
+                                                        className="p_cert_modal_a fa fa-eye c1"
                                                         title="Preview this certificate"
                                                         data-toggle="modal"
                                                         data-target="#surveyPreviewModal"

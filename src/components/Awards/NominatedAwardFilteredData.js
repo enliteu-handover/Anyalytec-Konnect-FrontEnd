@@ -42,7 +42,7 @@ const NominatedAwardFilteredData = (props) => {
 				<li>
 					<a
 						// to="#"
-						className="c_nm_back">
+						className="c_nm_back c1">
 						<i className="fas fa-chevron-left"></i>
 					</a>
 				</li>

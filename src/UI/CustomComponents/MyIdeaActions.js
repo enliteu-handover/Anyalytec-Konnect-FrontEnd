@@ -43,14 +43,14 @@ const MyIdeaActions = (props) => {
 
         <div className="eep-dropdown-menu dropdown-menu dropdown-menu-right shadow pt-4 pb-4">
           <a
-            className="dropdown-item"
+            className="dropdown-item c1"
             onClick={() => editModeModal(data)}
           >
             Edit
           </a>
           {data.active &&
             <a
-              className="dropdown-item"
+              className="dropdown-item c1"
               onClick={() => unPostModeModal(data)}
             >
               Unpost
@@ -58,20 +58,20 @@ const MyIdeaActions = (props) => {
           }
           {!data.active &&
             <a
-              className="dropdown-item"
+              className="dropdown-item c1"
               onClick={() => postModeModal(data)}
             >
               Post
             </a>
           }
           <a
-            className="dropdown-item"
+            className="dropdown-item c1"
             onClick={() => deleteModeModal(data)}
           >
             Delete
           </a>
           <a
-            className="dropdown-item"
+            className="dropdown-item c1"
             onClick={() => viewModeModal(data)}
           >
             View

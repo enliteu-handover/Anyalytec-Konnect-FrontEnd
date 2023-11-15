@@ -87,7 +87,7 @@ const HallOfFame = (props) => {
                       <React.Fragment>
                         <div className="align-self-baseline">
                           <label className="font-14 mb-0 mx-1"> ...</label>
-                          <a className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item, true)} >
+                          <a className="d-inline-flex animation_parent_div c1" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item, true)} >
                             {/* <span className="font-14"> {item.rewardList?.length - maxLikedCount} others </span> */}
                             <span className={`c-2c2c2c animated_div div_big ${item.rewardList?.length < 100 ? "font-14" : "font-12"}`}>{item.rewardList?.length < 100 ? (item.rewardList?.length - maxLikedCount) : "99+"}</span>
                             <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="30px" height="30px" alt="Detailview Icon" title="Detail view" />
@@ -192,7 +192,7 @@ const HallOfFame = (props) => {
                             {item?.users?.length > 0 && item?.users?.slice(0, 3)?.map((useritem, index) => {
                               return (
                                 <li key={"HOF_Certificates_user_pic" + index}>
-                                  <a>
+                                  <a className="c1">
                                     <img src={getUserPicture(useritem?.id)}
                                       className="img-fluid rounded-circle"
                                       title={useritem.fullName} alt={useritem.fullName} />
@@ -204,7 +204,7 @@ const HallOfFame = (props) => {
                             {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 mx-1"> ... </label>
-                                <a className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
+                                <a className="d-inline-flex animation_parent_div c1" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
                                   <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"} </span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </a>
@@ -257,7 +257,7 @@ const HallOfFame = (props) => {
                             {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
                               return (
                                 <li key={"HOF_Badges_user_pic" + index}>
-                                  <a>
+                                  <a className="c1">
                                     <img src={getUserPicture(useritem.id)} className="img-fluid rounded-circle" title={useritem.fullName} alt={useritem.fullName} />
                                   </a>
                                 </li>
@@ -266,7 +266,7 @@ const HallOfFame = (props) => {
                             {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 mx-1">... </label>
-                                <a className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
+                                <a className="d-inline-flex animation_parent_div c1" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
                                   <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"} </span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </a>
@@ -311,7 +311,7 @@ const HallOfFame = (props) => {
                             {item?.users?.length > 0 && item.users.slice(0, 3).map((useritem, index) => {
                               return (
                                 <li key={"HOF_Awards_user_pic" + index}>
-                                  <a>
+                                  <a className="c1">
                                     <img src={getUserPicture(useritem.id)} className="img-fluid rounded-circle" title={useritem.fullName} alt={useritem.fullName} />
                                   </a>
                                 </li>
@@ -320,7 +320,7 @@ const HallOfFame = (props) => {
                             {item.users && item?.users?.length > maxLikedCount && (
                               <React.Fragment>
                                 <label className="font-14 mb-0 ml-1">... </label>
-                                <a className="d-inline-flex animation_parent_div" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
+                                <a className="d-inline-flex animation_parent_div c1" data-toggle="modal" data-target="#RewardInfoModal" onClick={() => RewardPopupHandler(item)} >
                                   <span className={`c-2c2c2c animated_div div_small ${item?.users?.length < 10 ? "font-14" : "font-12"}`}> {item?.users?.length < 10 ? (item?.users?.length - maxLikedCount) : "9+"}</span>
                                   <img src={process.env.PUBLIC_URL + "/images/icons/static/DetailView.svg"} width="22px" height="22px" alt="Detailview Icon" title="Detail view" />
                                 </a>

@@ -394,7 +394,7 @@ const Feedback = () => {
 
             <PageHeader title="Feedback"
               navLinksRight={
-                <a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateFeedbackModal"></a>
+                <a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} onClick={triggerCreateModal} data-toggle="modal" data-target="#CreateFeedbackModal"></a>
               }
               filter={
                 <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />

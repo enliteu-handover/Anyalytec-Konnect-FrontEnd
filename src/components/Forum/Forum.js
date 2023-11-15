@@ -458,7 +458,7 @@ const Forum = () => {
 						{createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
-								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
+								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
 							}
 							filter={
 								<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
@@ -474,7 +474,7 @@ const Forum = () => {
 										<div className="forum_shortlist_div sticky_position forum_hottopics_wrapper_bg pb-1">
 											<ul className="nav nav-tabs card-header-tabs forum_rightdiv_filter m-0" id="myTab" role="tablist">
 												<li className="nav-item">
-													<a className="nav-link forum_hot active" id="one-tab" data-toggle="tab" href="#HotTopics" role="tab" aria-controls="One" aria-selected="true">
+													<a className="nav-link forum_hot active c1" id="one-tab" data-toggle="tab" href="#HotTopics" role="tab" aria-controls="One" aria-selected="true">
 														<div className="forum_rightnav_action forum_hottopic_img_content d-flex align-items-center c1 forumj_hot_topic forum_bgcolor_selected_tap">
 															<div className="forum-eep-right-tab" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.hottopics_icon }}></div>
 															<div className="hot_topic_btn">Hot Topics</div>
@@ -482,7 +482,7 @@ const Forum = () => {
 													</a>
 												</li>
 												<li className="nav-item">
-													<a className="nav-link forum_follow" id="two-tab" data-toggle="tab" href="#Following" role="tab" aria-controls="Two" aria-selected="false">
+													<a className="nav-link forum_follow c1" id="two-tab" data-toggle="tab" href="#Following" role="tab" aria-controls="Two" aria-selected="false">
 														<div className="forum_rightnav_action forum_following_img_content d-flex align-items-center c1 forumj_following forum_bgcolor_selected_tap">
 															<div className="forum-eep-right-tab" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.following_icon }}></div>
 															<div className="following_topic_btn">Following</div>

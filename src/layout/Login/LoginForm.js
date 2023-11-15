@@ -30,19 +30,7 @@ const LoginForm = () => {
 
   useEffect(() => {
 
-    const url = 'https://dev-enliteu.crayond.com/oauth2/verify';
-    const data = {
-      clientId: '32481a2dc791e9c3ae466d07f2b0affa',
-      username: 'crayonapisandboxb2b@woohoo.in',
-      password: 'crayonapisandboxb2b@123'
-    };
-
-    axios.post(url, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': '*/*'
-      }
-    })
+    axios.get(URL_CONFIG.GIFT_VOUCHER)
       .then(response => {
         console.log('Qwik gifts---', response?.data);
       })

@@ -3210,6 +3210,12 @@ input#cert-image-upload.hidden {
   text-overflow: ellipsis;
 }
 
+.eep_truncate_auto {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .eep_truncate_min {
   max-width: 150px !important;
 }

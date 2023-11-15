@@ -46,7 +46,7 @@ const NominatedAwards = (props) => {
 							Nominated Awards
 							<a
 								// to="#"
-								className="ml-2 addon_clr"
+								className="ml-2 addon_clr c1"
 								dangerouslySetInnerHTML={{
 									__html: svgIcons && svgIcons.refresh_icon,
 								}}

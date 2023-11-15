@@ -81,7 +81,7 @@ const InboxCard = (props) => {
         <div className="card-header p-0" id={inboxCardSettings?.id}>
           <h2 className="mb-0">
             <a
-              className="btn btn-link collapsed"
+              className="btn btn-link collapsed c1"
               type="button"
               data-toggle="collapse"
               data-target={"#" + inboxCardSettings?.dataTarget}

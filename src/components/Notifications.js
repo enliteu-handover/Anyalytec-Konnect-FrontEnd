@@ -301,7 +301,7 @@ const Notifications = () => {
 									<label className="mb-0 mr-2">Options</label>
 									<div className="d-flex align-items-center align-content-center section_two">
 										<div className="text-center">
-											<a href="#" className="p-2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
+											<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
 											<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
 												<Link to="#" className="dropdown-item mark_all_raed c1" onClick={() => readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
 												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link>

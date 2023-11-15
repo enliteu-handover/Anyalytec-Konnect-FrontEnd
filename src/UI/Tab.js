@@ -40,7 +40,7 @@ const Tab = (props) => {
                 data-toggle="tab"
                 href={"#" + tab?.id}
                 // className={`btn btn-secondaryy ${index === 0 ? "active" : ""}`}
-                className={`btn btn-secondaryy ${activeTab?.length && tab?.active ? "active" : ''}  ${!activeTab?.length && index === 0 ? "active" : ""}`}
+                className={`btn btn-secondaryy c1 ${activeTab?.length && tab?.active ? "active" : ''}  ${!activeTab?.length && index === 0 ? "active" : ""}`}
                 key={'tab_' + index}
                 onClick={() => tabChangeHandler(tab)}
               >

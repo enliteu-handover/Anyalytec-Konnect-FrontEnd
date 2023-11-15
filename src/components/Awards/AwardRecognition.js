@@ -8,10 +8,10 @@ const AwardRecognition = () => {
   const [awardData, setAwardData] = useState([]);
 
   const awardClick = (arg, boolState) => {
-    if(arg) {
+    if (arg) {
       const awardDataTemp = JSON.parse(JSON.stringify(awardData));
-      for(let i=0; i<awardDataTemp.length; i++) {
-        if(awardDataTemp[i].id === arg.id) {
+      for (let i = 0; i < awardDataTemp.length; i++) {
+        if (awardDataTemp[i].id === arg.id) {
           awardDataTemp[i].flipState = boolState;
         } else {
           //awardDataTemp[i].flipState = !boolState;
@@ -57,7 +57,7 @@ const AwardRecognition = () => {
           awardData?.map((data, index) => {
             if (data.type === "spot_award") {
               return (
-                <div className="col-md-4 col-lg-3 col-xs-4 col-sm-6 text-left badge_col_div" key={'AwardRecognition_'+index}>
+                <div className="col-md-4 col-lg-3 col-xs-4 col-sm-6 text-left badge_col_div" key={'AwardRecognition_' + index}>
                   <div className="award_nominator_div">
                     <div className="award_src_mini a_spot_mini">
                       <Link
@@ -81,7 +81,7 @@ const AwardRecognition = () => {
                         <div className="p-2">
                           <div className="badge_info_div">
                             <p className="badge_info font-helvetica-m">{data.award.name}</p>
-                            <p className="badge_info empty-content-space eep_truncate">{data?.award?.hashTag?.length > 0 ? getMyHashTag(data.award.hashTag) : "---"}</p>
+                            <p className="badge_info empty-content-space eep_truncate_auto">{data?.award?.hashTag?.length > 0 ? getMyHashTag(data.award.hashTag) : "---"}</p>
                             <p className="badge_info font-helvetica-m">{data.award.points}</p>
                           </div>
                         </div>
@@ -89,7 +89,7 @@ const AwardRecognition = () => {
                           <label className="mb-0">Spot</label>
                         </div>
                       </Link>
-                      
+
                     </div>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ const AwardRecognition = () => {
             }
             if (data.type === "nomi_award") {
               return (
-                <div className="col-md-4 col-lg-3 col-xs-4 col-sm-6 text-left badge_col_div" key={'AwardRecognition_'+index}>
+                <div className="col-md-4 col-lg-3 col-xs-4 col-sm-6 text-left badge_col_div" key={'AwardRecognition_' + index}>
                   <div className="award_nominator_div">
 
                     {!data.flipState &&
@@ -170,29 +170,29 @@ const AwardRecognition = () => {
                           <div className="an_dtls_action_div">
                             <div className="row">
                               {!data.nominated &&
-                              <Link
-                                to={{
-                                  pathname: "awardnominations",
-                                  state: {
-                                    aData: data,
-                                    isSpot: false,
-                                  },
-                                }}
-                                className="eep-btn-sml eep-btn eep-btn-tb a_hover_txt_deco_none m-auto aNomitrBtn"
-                              >
-                                Nominate
-                              </Link>
+                                <Link
+                                  to={{
+                                    pathname: "awardnominations",
+                                    state: {
+                                      aData: data,
+                                      isSpot: false,
+                                    },
+                                  }}
+                                  className="eep-btn-sml eep-btn eep-btn-tb a_hover_txt_deco_none m-auto aNomitrBtn"
+                                >
+                                  Nominate
+                                </Link>
                               }
                               {data.nominated &&
-                              <Link
-                                to={{
-                                  pathname: "nominationsapproval",
-                                  state: { awardData: data, isApproval: false },
-                                }}
-                                className="eep-btn-sml eep-btn eep-btn-tb a_hover_txt_deco_none m-auto aNomitrResult"
-                              >
-                                View Result
-                              </Link>
+                                <Link
+                                  to={{
+                                    pathname: "nominationsapproval",
+                                    state: { awardData: data, isApproval: false },
+                                  }}
+                                  className="eep-btn-sml eep-btn eep-btn-tb a_hover_txt_deco_none m-auto aNomitrResult"
+                                >
+                                  View Result
+                                </Link>
                               }
                             </div>
                           </div>
@@ -204,11 +204,11 @@ const AwardRecognition = () => {
               )
             }
           })}
-           {awardData && awardData.length <= 0 && (
+        {awardData && awardData.length <= 0 && (
           <ResponseInfo title="No award nominations yet."
-          messageInfo='Good recognition is the bridge between appreciation and motivation' subMessageInfo='A wise man' responseImg="noRecord" responseClass="response-info" />
+            messageInfo='Good recognition is the bridge between appreciation and motivation' subMessageInfo='A wise man' responseImg="noRecord" responseClass="response-info" />
         )}
-      </div> 
+      </div>
     </React.Fragment>
   );
 };

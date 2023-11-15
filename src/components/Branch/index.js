@@ -189,7 +189,7 @@ const BranchMaster = () => {
                     title="Branch Masters "
                     navLinksRight={
                         <a
-                            className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
+                            className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1"
                             data-toggle="modal"
                             data-target="#CreateBranchModal"
                             dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }}

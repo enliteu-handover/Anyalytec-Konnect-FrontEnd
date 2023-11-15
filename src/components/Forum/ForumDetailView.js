@@ -485,7 +485,7 @@ const ForumDetailView = () => {
                   {forumData.forumAttachmentFileName.map((atthData, index) => {
                     return (
                       <div className="attachment_parent" key={"attachmentLists_" + index}>
-                        <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                        <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
                           <img src={fileTypeAndImgSrcArray[atthData.contentType]
                              ? fileTypeAndImgSrcArray[atthData.contentType] : 
                              fileTypeAndImgSrcArray['default']} 
