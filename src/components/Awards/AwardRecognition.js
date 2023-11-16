@@ -125,7 +125,7 @@ const AwardRecognition = () => {
                         <div className="p-2">
                           <div className="badge_info_div">
                             <p className="badge_info font-helvetica-m">{data.award.name}</p>
-                            <p className="badge_info empty-content-space eep_truncate">{getMyHashTag(data.award.hashTag)}</p>
+                            <p className="badge_info empty-content-space eep_truncate_auto">{getMyHashTag(data.award.hashTag)}</p>
                             <p className="badge_info font-helvetica-m">{data.award.points}</p>
                           </div>
                         </div>

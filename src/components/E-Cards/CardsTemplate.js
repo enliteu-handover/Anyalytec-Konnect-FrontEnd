@@ -62,6 +62,7 @@ const CardsTemplate = (props) => {
   }, [templateTypes]);
 
   const fetchCardData = () => {
+    
     const obj = {
       url: URL_CONFIG.GET_TEMPLATE_ECARD,
       method: "get",
@@ -88,6 +89,7 @@ const CardsTemplate = (props) => {
   };
 
   const fetchAnniversaryCardData = () => {
+    
     setImageData([]);
     getCardsTemplate([]);
     const obj = {
@@ -116,6 +118,7 @@ const CardsTemplate = (props) => {
   };
 
   const insertCardData = (arg) => {
+    
     const base64Data = (arg?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
     const file = base64ToFile(base64Data);
 
@@ -141,7 +144,14 @@ const CardsTemplate = (props) => {
           } else {
             fetchCardData();
           }
-        })
+        }).catch((error) => {
+          console.log("errorrrr", error);
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: error?.response?.data?.message,
+          });
+        });
     }).catch((error) => {
       console.log("errorrrr", error);
       setShowModal({
@@ -159,6 +169,7 @@ const CardsTemplate = (props) => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
   const TemplateImageChange = (event) => {
+    
     var file = event.target.files[0];
     var fileType = file["type"];
     if (validImageTypes.includes(fileType)) {
