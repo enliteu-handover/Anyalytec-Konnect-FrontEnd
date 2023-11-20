@@ -9,6 +9,7 @@ import { TabsActions } from "../../store/tabs-slice";
 import Dashboard from "./Dashboard";
 import HallOfFame from "./HallOfFame";
 import RewardsRecognition from "./RewardsRecognition";
+import { pageLoaderHandler } from "../../helpers";
 
 const Home = () => {
   const [usersPic, setUsersPic] = useState([]);
@@ -131,6 +132,7 @@ const Home = () => {
   }, []);
 
   const getDashboardDetails = async () => {
+    pageLoaderHandler('show')
     const obj = {
       url: URL_CONFIG.DASHBOARD_INDEX,
       method: "get"
@@ -138,8 +140,10 @@ const Home = () => {
     await httpHandler(obj)
       .then((response) => {
         setDashboardDetails(response?.data);
+        pageLoaderHandler('hide')
       }).catch((error) => {
         console.log("getDashboardDetails error", error);
+        pageLoaderHandler('hide')
       });
   }
 

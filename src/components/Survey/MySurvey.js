@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import PageHeader from "../../UI/PageHeader";
-import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import { useDispatch } from "react-redux";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
+import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import PageHeader from "../../UI/PageHeader";
+import Table from "../../UI/Table";
+import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
 
 const MySurvey = () => {
 
@@ -59,6 +59,7 @@ const MySurvey = () => {
 	}, []);
 
 	const fetchMySurveyDetail = (paramsInfo) => {
+		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -73,14 +74,15 @@ const MySurvey = () => {
 			};
 		}
 		httpHandler(obj).then((response) => {
-			//console.log("fetchMySurveyDetail response :", response.data);
 			setMySurveyList(response.data);
+			pageLoaderHandler('hide')
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
 				type: "danger",
 				message: error?.response?.data?.message,
 			});
+			pageLoaderHandler('hide')
 		});
 	}
 

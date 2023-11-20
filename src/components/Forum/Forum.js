@@ -15,6 +15,7 @@ import ForumFollowingList from "./ForumFollowingList";
 import ForumHotTopicsList from "./ForumHotTopicsList";
 import ForumList from "./ForumList";
 import MyForumPosts from "./MyForumPosts";
+import { pageLoaderHandler } from "../../helpers";
 
 const Forum = () => {
 
@@ -193,6 +194,7 @@ const Forum = () => {
 	}
 
 	const getForumList = (paramsInfo) => {
+		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -213,10 +215,11 @@ const Forum = () => {
 				} else {
 					setForumList([...forumdata.data].reverse());
 				}
+				pageLoaderHandler('hide')
 			})
 			.catch((error) => {
+				pageLoaderHandler('hide')
 				console.log("getForumList error", error);
-				//const errMsg = error.response?.data?.message;
 			});
 	};
 

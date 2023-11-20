@@ -125,6 +125,12 @@ function App() {
             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
           </div>
         </div>
+
+        <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
+          <div id="loader">
+            <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+          </div>
+        </div>
         <Switch>
           <Route path="/login"><Login /></Route>
           <Route path="/" exact>

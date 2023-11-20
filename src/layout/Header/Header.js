@@ -18,7 +18,6 @@ const Header = () => {
   const [state, setState] = useState();
 
   React.useEffect(() => {
-
     setState({
       ...state,
       "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
@@ -62,7 +61,7 @@ const Header = () => {
         {/* Search  */}
         <HeaderSearch />
 
-        <button className="eep-btn our_points_in_dashboard" onClick={() => points()}>
+        <button className="eep-btn our_points_in_dashboard c1" onClick={() => points()}>
           Points : {((JSON.parse(userDetails)?.allPoints) <= 9 && "0") + (JSON.parse(userDetails)?.allPoints ?? 0)}
         </button>
 

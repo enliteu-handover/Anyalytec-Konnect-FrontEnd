@@ -14,6 +14,7 @@ import { TabsActions } from "../../store/tabs-slice";
 import IdeaDetailView from "./IdeaDetailView";
 import IdeaList from "./IdeaList";
 import MyIdeas from "./MyIdeas";
+import { pageLoaderHandler } from "../../helpers";
 
 const IdeaBox = () => {
 
@@ -148,6 +149,7 @@ const IdeaBox = () => {
   }
 
   const fetchIdeas = (isIdeaActive, ideaID = null, paramsInfo = {}) => {
+    pageLoaderHandler('show')
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -178,6 +180,7 @@ const IdeaBox = () => {
           }
           setIdeaData(null);
           setIdeaDataState(false);
+          pageLoaderHandler('hide')
         } else {
           if (ideaListsReverse) {
             markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
@@ -187,8 +190,8 @@ const IdeaBox = () => {
         }
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
-        //const errMsg = error.response?.data?.message;
       });
   }
 

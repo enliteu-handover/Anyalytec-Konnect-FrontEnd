@@ -228,6 +228,7 @@ const ModifyUser = () => {
       .catch((error) => {
         console.log("GETUSER", error.response);
         const errMsg = error.response?.data?.message;
+        pageLoaderHandler('hide')
       });
   };
 

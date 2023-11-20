@@ -15,6 +15,7 @@ import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import "./style.scss";
+import { pageLoaderHandler } from "../../helpers";
 
 const Feedback = () => {
   const yrDt = new Date().getFullYear();
@@ -134,6 +135,7 @@ const Feedback = () => {
   }, []);
 
   const fetchAllFeedbacks = (paramsInfo = {}) => {
+    pageLoaderHandler('show')
 
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
@@ -153,8 +155,10 @@ const Feedback = () => {
       .then((all_feed) => {
         setFeedbacks(all_feed?.data?.data);
         setSearchFeedbacks(all_feed?.data?.data);
+        pageLoaderHandler('hide')
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
       });
   }

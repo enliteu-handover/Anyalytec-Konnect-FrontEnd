@@ -71,7 +71,10 @@ const MyProfile = () => {
                   ...userMeta,
                 })
                 pageLoaderHandler('hide')
-              }).catch((error) => console.log(error));
+              }).catch((error) => {
+                pageLoaderHandler('hide')
+                console.log(error)
+              });
           }
           userDataValueMapping(userMeta, uData.data);
         }, 0);
