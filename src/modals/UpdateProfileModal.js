@@ -214,12 +214,12 @@ const UpdateProfileModal = () => {
             <div className="modal-content">
               <ul className="nav nav-tabs pl-1 pt-1" id="myTab" role="tablist">
                 <li className="nav-item" role="presentation">
-                  <a className="nav-link active font-helvetica-m" id="pwd-tab" data-toggle="tab" href="#pwd" role="tab" aria-controls="pwd" aria-selected="true" style={{ borderTopLeftRadius: "20px", color: "inherit" }}>
+                  <a className="nav-link active font-helvetica-m c1" id="pwd-tab" data-toggle="tab" href="#pwd" role="tab" aria-controls="pwd" aria-selected="true" style={{ borderTopLeftRadius: "20px", color: "inherit" }}>
                     Change Password
                   </a>
                 </li>
                 <li className="nav-item" role="presentation">
-                  <a className="nav-link font-helvetica-m" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="false" style={{ color: "inherit" }}>
+                  <a className="nav-link font-helvetica-m c1" id="phone-tab" data-toggle="tab" href="#phone" role="tab" aria-controls="phone" aria-selected="false" style={{ color: "inherit" }}>
                     Update Contact Number
                   </a>
                 </li>

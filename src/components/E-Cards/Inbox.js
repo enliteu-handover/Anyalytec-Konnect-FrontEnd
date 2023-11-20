@@ -51,7 +51,7 @@ const Inbox = () => {
   });
 
   const fetchInboxData = () => {
-    debugger
+    
     const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
     const obj = {
       url: URL_CONFIG.ECARD_INBOX,
@@ -60,7 +60,7 @@ const Inbox = () => {
     };
     httpHandler(obj)
       .then((response) => {
-        debugger
+        
         const groupByCategory = response?.data?.reduce((group, card) => {
           const { type } = card;
           group[type] = group[type] ?? [];

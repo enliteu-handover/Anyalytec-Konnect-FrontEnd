@@ -44,6 +44,7 @@ const ForumDetailView = () => {
   };
 
   const fileTypeAndImgSrcArray = {
+    "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
     "application/powerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -484,7 +485,7 @@ const ForumDetailView = () => {
                   {forumData.forumAttachmentFileName.map((atthData, index) => {
                     return (
                       <div className="attachment_parent" key={"attachmentLists_" + index}>
-                        <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                        <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
                           <img src={fileTypeAndImgSrcArray[atthData.contentType]
                              ? fileTypeAndImgSrcArray[atthData.contentType] : 
                              fileTypeAndImgSrcArray['default']} 

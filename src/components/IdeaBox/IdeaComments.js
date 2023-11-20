@@ -173,7 +173,7 @@ const IdeaComments = (props) => {
                     return (
                       <div className="attachments_list mb-0" key={"attachments_list_" + index}>
                         <div className="attachments_list_a">
-                          <a href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
+                          <a className="c1" href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
                             <img src={item.imgSrcIcon} className="image-circle c1 command-attachement-img-size" alt="icon" />
                           </a>
                         </div>

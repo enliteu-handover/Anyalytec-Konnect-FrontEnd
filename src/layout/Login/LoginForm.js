@@ -1,13 +1,13 @@
-import { getRoles } from '@crayond_dev/idm-client';
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 import Button from "../../UI/Button";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import { idmRoleMapping } from '../../idm';
 import { sharedDataActions } from '../../store/shared-data-slice';
 import classes from "./LoginForm.module.scss";
+import axios from "axios";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -27,6 +27,18 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState("");
 
   const [formIsValid, setFormIsValid] = useState(false);
+
+  useEffect(() => {
+
+    axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
+      .then(response => {
+        console.log('Qwik gifts---', response?.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+  }, [])
 
   useEffect(() => {
     setFormIsValid(false);
@@ -59,7 +71,7 @@ const LoginForm = () => {
   };
 
   const formSubmissionHandler = async (event) => {
-    
+
     event.preventDefault();
 
     const validate_login_uder = {
@@ -139,23 +151,6 @@ const LoginForm = () => {
     await httpHandler(obj);
   };
 
-  const idmRolesToUpdateInDb = async () => {
-    const roles = await getRoles({});
-
-    let payOptionsRole = {
-      data: roles
-    };
-
-    const objRole = {
-      url: URL_CONFIG.ADDROLE,
-      method: "post",
-      payload: payOptionsRole,
-    };
-    if (roles?.length > 0) {
-      await httpHandler(objRole)
-    }
-  }
-
   const fetchPermission = async () => {
 
     const obj = {
@@ -176,25 +171,10 @@ const LoginForm = () => {
         theme: response?.data?.theme?.[0] ?? {},
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
-      localStorage.setItem('authToken', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInVzZXJuYW1lIjoiZW5saXRlVSIsImVtYWlsX2lkIjoicHJha2FzaEBjcmF5b25kLmNvIiwiaWF0IjoxNjk3NTIxODQzLCJleHAiOjE2OTc2MDgyNDN9.id0592h8dmdZNflgm77I9aLSSLhwesaLv5bgKww4cuc")
-
       await dispatch(sharedDataActions.getUserRolePermission({
         userRolePermission: roleData?.data
       }));
 
-      // let payOptionsRole = {
-      //   data: roleData?.rolesData,
-      //   role_id: roleData?.roleId,
-      //   screen: JSON.stringify(roleData?.data)
-      // };
-
-      // const objRole = {
-      //   url: URL_CONFIG.ADDROLE,
-      //   method: "post",
-      //   payload: payOptionsRole,
-      // };
-
-      // await httpHandler(objRole)
     }).catch((error) => {
       console.log("fetchPermission error", error);
     });

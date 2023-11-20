@@ -295,7 +295,7 @@ const CreateEditCommunicationModal = (props) => {
                           return (
                             <div className="attachments_list" key={"attachments_list_" + index} style={{ width: "50px" }}>
                               <div className="attachments_list_a">
-                                <a href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
+                                <a href={item.atthmentDataURI} className="c1" target="_thapa" download={item.attachmentName} title={item.attachmentName}>
                                   <img src={item.imgSrcIcon} className="image-circle c1 ideabox_popup_attachement_dflex_image" alt="icon" />
                                 </a>
                               </div>
@@ -349,7 +349,7 @@ const CreateEditCommunicationModal = (props) => {
                           return (
                             <div className="attachments_list" key={"attachments_list_" + index}>
                               <div className="attachments_list_a">
-                                <a href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
+                                <a href={item.atthmentDataURI} className="c1" target="_thapa" download={item.attachmentName} title={item.attachmentName}>
                                   <img src={item.imgSrcIcon} className="image-circle c1 ideabox_popup_attachement_dflex_image" alt="icon" />
                                 </a>
                               </div>

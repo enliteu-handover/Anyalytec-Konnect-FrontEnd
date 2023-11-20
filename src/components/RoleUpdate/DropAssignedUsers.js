@@ -50,7 +50,7 @@ const DropAssignedUsers = (props) => {
                 x-placement="bottom-start"
               >
                 <a
-                  className="eep-options-item"
+                  className="eep-options-item c1"
                   onClick={() => deleteUserHandler(userData)}
                 >
                   Remove

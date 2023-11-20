@@ -81,7 +81,7 @@ const Dashboard = (props) => {
                       <div className="panel panel-default bb_707070 dash_profile_details">
                         <div className="panel-heading" role="tab" id="d_headingOne">
                           <h4 className="panel-title mb-0">
-                            <a className="c-2c2c2c a_hover_txt_deco_none" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
+                            <a className="c-2c2c2c a_hover_txt_deco_none c1" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
                               <label className="mb-0 c1 title_lbl">{dashboardDetails.directReports > 9 ? dashboardDetails.directReports : "0" + dashboardDetails.directReports} <span className="ml-2">Direct Report</span>
                               </label>
                               <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
@@ -107,7 +107,7 @@ const Dashboard = (props) => {
                     <div className="panel panel-default dash_profile_details first-step">
                       <div className="panel-heading" role="tab" id="d_headingTwo">
                         <h4 className="panel-title mb-0">
-                          <a className="collapsed c-2c2c2c a_hover_txt_deco_none" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseTwo" aria-expanded="false" aria-controls="d_collapseTwo">
+                          <a className="collapsed c-2c2c2c a_hover_txt_deco_none c1" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseTwo" aria-expanded="false" aria-controls="d_collapseTwo">
                             <label className="mb-0 c1 title_lbl"> {dashboardDetails.teamSize > 9 ? dashboardDetails.teamSize : "0" + dashboardDetails.teamSize} <span className="ml-2"> {dashboardDetails.departmentName} </span></label>
                             <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
                           </a>

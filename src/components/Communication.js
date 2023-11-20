@@ -90,7 +90,7 @@ const Communication = () => {
             <span>Idea Box</span>
           </div>
         </Link>
-        <Link to={{ pathname: 'ideabox', state: { activeTab: 'ideas' } }}>
+        <Link to={{ pathname: 'feedback', state: { activeTab: 'feedback' } }}>
           <div className="recognition_items bg-white">
             <div className="outter">
               <img
@@ -98,7 +98,7 @@ const Communication = () => {
                   "/images/icons/communications/feed.png"
                 }
                 className="image-circle"
-                alt="Idea Box"
+                alt="FeedBack"
               />
             </div>
             <span>FeedBack</span>

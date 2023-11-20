@@ -29,6 +29,7 @@ const FeedbackDetailViewInner = (props) => {
   }
 
   const fileTypeAndImgSrcArray = {
+    "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
     "application/powerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -354,7 +355,7 @@ const FeedbackDetailViewInner = (props) => {
                           <div className="attachment_parent" key={"attachmentLists_" + index}>
                             <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
                               className="feedback-download-profile-img-size rounded-circle" />
-                            <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                            <a className='c1' href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
                               <div className="to_show_pdf_list"><img src={'/images/pdfIcon.png'} alt="icon" /></div>
                             </a>
                           </div>

@@ -117,7 +117,7 @@ const Template = () => {
             <div className="card eep-card eep-cardSlider birthday-template-card">
               <div className="card-header" id="headingOne">
                 <div className="row px-4 pt-3 pb-1 mx-0" data-toggle="collapse" data-target="#collapseBirthdayTemplate" aria-expanded="true" aria-controls="collapseBirthdayTemplate">
-                  <Link to="#" className="col-sm-11 p-0 collapseTemplate">Birthday</Link>
+                  <a className="col-sm-11 p-0 collapseTemplate c1">Birthday</a>
                   <Link to="birthdaytemplatesettings" className="setting_icon ml-auto p-0 pr-1 col-sm-1 text-right" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.pencil }}>
                   </Link>
                 </div>
@@ -153,7 +153,7 @@ const Template = () => {
             <div className="card eep-card eep-cardSlider anniversary-template-card">
               <div className="card-header" id="headingTwo">
                 <div className="row px-4 pt-3 pb-1 mx-0 collapsed" data-toggle="collapse" data-target="#collapseAnniversaryTemplate" aria-expanded="false" aria-controls="collapseAnniversaryTemplate">
-                  <Link to="#" className="col-sm-11 p-0 collapseTemplate" parentclss="birthday-card" collapsetemplateid="collapseBirthdayTemplates">Work Anniversary</Link>
+                  <a className="col-sm-11 p-0 collapseTemplate c1" parentclss="birthday-card" collapsetemplateid="collapseBirthdayTemplates">Work Anniversary</a>
                   <Link to="workanniversarysettings" className="setting_icon ml-auto p-0 pr-1 col-sm-1 text-right" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.pencil }}>
                   </Link>
                 </div>
@@ -189,7 +189,7 @@ const Template = () => {
             <div className="card eep-card eep-cardSlider appreciation-template-card">
               <div className="card-header" id="headingThree">
                 <div className="row px-4 pt-3 pb-1 mx-0 collapsed" data-toggle="collapse" data-target="#collapseAppreciationTemplate" aria-expanded="false" aria-controls="collapseAppreciationTemplate">
-                  <Link to="#" className="col-sm-11 p-0 collapseTemplate">Appreciation</Link>
+                  <a className="col-sm-11 p-0 collapseTemplate c1">Appreciation</a>
                   <Link to="appreciationtemplatesettings" className="setting_icon ml-auto p-0 pr-1 col-sm-1 text-right" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.pencil }}>
                   </Link>
                 </div>
@@ -225,7 +225,7 @@ const Template = () => {
             <div className="card eep-card eep-cardSlider seasonal-template-card">
               <div className="card-header" id="headingFour">
                 <div className="row px-4 pt-3 pb-1 mx-0 collapsed" data-toggle="collapse" data-target="#collapseSeasonTemplate" aria-expanded="false" aria-controls="collapseSeasonTemplate">
-                  <Link to="#" className="col-sm-11 p-0 collapseTemplate">Seasonal Greetings</Link>
+                  <a className="col-sm-11 p-0 collapseTemplate c1">Seasonal Greetings</a>
                   <Link to="seasonaltemplatesettings" className="setting_icon ml-auto p-0 pr-1 col-sm-1 text-right" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.pencil }}>
                   </Link>
                 </div>

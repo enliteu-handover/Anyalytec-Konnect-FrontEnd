@@ -239,10 +239,10 @@ const ManageAwards = () => {
           <div className="col-md-12 mb-4">
             <ul className="nav nav-pills eep-nav-pills justify-content-end" id="pills-tab" role="tablist">
               <li className="nav-item" role="presentation">
-                <a className="nav-link active" id="pills-nomination-schedule-tab" href="#pills-spot" role="tab" data-toggle="pill" aria-controls="pills-nomination-schedule" aria-selected="true" onClick={() => clickHandler("nomi_award")}>Nomination Schedules</a>
+                <a className="nav-link active c1" id="pills-nomination-schedule-tab" href="#pills-spot" role="tab" data-toggle="pill" aria-controls="pills-nomination-schedule" aria-selected="true" onClick={() => clickHandler("nomi_award")}>Nomination Schedules</a>
               </li>
               <li className="nav-item" role="presentation">
-                <a className="nav-link" id="pills-spot-tab" href="#pills-nomination-schedule" role="tab" data-toggle="pill" aria-controls="pills-spot" aria-selected="false" onClick={() => clickHandler("spot_award")}>Spot</a>
+                <a className="nav-link c1" id="pills-spot-tab" href="#pills-nomination-schedule" role="tab" data-toggle="pill" aria-controls="pills-spot" aria-selected="false" onClick={() => clickHandler("spot_award")}>Spot</a>
               </li>
             </ul>
           </div>

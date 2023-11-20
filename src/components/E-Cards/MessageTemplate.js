@@ -234,10 +234,10 @@ const MessageTemplate = (props) => {
               <div className="d-flex justify-content-end">
                 <ul className="nav nav-pills py-2 mb-2 px-0" id="pills-tab" role="tablist">
                   <li className="nav-item">
-                    <a className="nav-link active" id="showallmessage-tab" data-toggle="pill" href="#showallmessage" role="tab" aria-controls="showallmessage" aria-selected="true">All</a>
+                    <a className="nav-link active c1" id="showallmessage-tab" data-toggle="pill" href="#showallmessage" role="tab" aria-controls="showallmessage" aria-selected="true">All</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" id="scheduledmessage-tab" data-toggle="pill" href="#scheduledmessage" role="tab" aria-controls="scheduledmessage" aria-selected="false">Scheduled</a>
+                    <a className="nav-link c1" id="scheduledmessage-tab" data-toggle="pill" href="#scheduledmessage" role="tab" aria-controls="scheduledmessage" aria-selected="false">Scheduled</a>
                   </li>
                 </ul>
               </div>

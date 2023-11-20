@@ -62,6 +62,7 @@ const CardsTemplate = (props) => {
   }, [templateTypes]);
 
   const fetchCardData = () => {
+    
     const obj = {
       url: URL_CONFIG.GET_TEMPLATE_ECARD,
       method: "get",
@@ -88,6 +89,7 @@ const CardsTemplate = (props) => {
   };
 
   const fetchAnniversaryCardData = () => {
+    
     setImageData([]);
     getCardsTemplate([]);
     const obj = {
@@ -116,6 +118,7 @@ const CardsTemplate = (props) => {
   };
 
   const insertCardData = (arg) => {
+    
     const base64Data = (arg?.imageByte?.image).replace(/^data:image\/\w+;base64,/, '');
     const file = base64ToFile(base64Data);
 
@@ -141,7 +144,14 @@ const CardsTemplate = (props) => {
           } else {
             fetchCardData();
           }
-        })
+        }).catch((error) => {
+          console.log("errorrrr", error);
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: error?.response?.data?.message,
+          });
+        });
     }).catch((error) => {
       console.log("errorrrr", error);
       setShowModal({
@@ -159,6 +169,7 @@ const CardsTemplate = (props) => {
 
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
   const TemplateImageChange = (event) => {
+    
     var file = event.target.files[0];
     var fileType = file["type"];
     if (validImageTypes.includes(fileType)) {
@@ -268,10 +279,10 @@ const CardsTemplate = (props) => {
               <div className="d-flex justify-content-end">
                 <ul className="nav nav-pills py-2 mb-2 px-0" id="pills-tab" role="tablist">
                   <li className="nav-item">
-                    <a className="nav-link active" id="showall-tab" data-toggle="pill" href="#showall" role="tab" aria-controls="showall" aria-selected="true">All</a>
+                    <a className="nav-link active c1" id="showall-tab" data-toggle="pill" href="#showall" role="tab" aria-controls="showall" aria-selected="true">All</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" id="scheduled-tab" data-toggle="pill" href="#scheduled" role="tab" aria-controls="scheduled" aria-selected="false">Scheduled</a>
+                    <a className="nav-link c1" id="scheduled-tab" data-toggle="pill" href="#scheduled" role="tab" aria-controls="scheduled" aria-selected="false">Scheduled</a>
                   </li>
                 </ul>
               </div>
