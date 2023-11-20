@@ -62,79 +62,89 @@ const FeedbackList = (props) => {
   }
 
   return (
-    <div className="feedback-listview">
-      <div className="fixed-filter-feedback">
-        <SortList
-          readAllCommunicationsFromList={readAllCommunicationsFromList}
-          communicationPostLists={feedbackListsData}
-          dateReceivedOrder={dateReceivedOrder}
-          isFeed={true}
-          onChangeValues={onChangeValues}
-          feedFilter={feedFilter}
-        />
-        <div className="feedback-search-value">
-          <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="search" id="search"
-            rows="2" placeholder="Search..."
-            value={search}
-            //  maxLength={titleMaxLength}
-            onChange={(event) => onChangeSearch(event.target.value)}
-          />
-
-          <div className="form-check" style={{ float: "right", padding: "10px 0px", display: "flex" }}>
-            <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>&nbsp;
-            <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
-          </div>
-        </div>
-      </div>
-      <div className="ideashorting_div">
-
-        {ideaLists && ideaLists?.map((item, index) => {
-          return (
-            <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child 
-            ${item?.feedBackIsRead ? "ideaMarkedAsRead" : ""} 
-            ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
-              <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
-                <div className="rounded-circle" style={{ fontSize: 33 }}>
-                  <img src={emojiLog[item?.logo]} />
-                </div>
-              </div>
-              <div className="ideabox-font-style idea_box_heading ">
-                <div className="ideabox_username_fav_div">
-                  <div className="ideabox_descriptions_div c1 head" onClick={() => viewIdea(item)}>
-                    <h6 className="ideabox-font-style ideabox_user_name_size">{item?.title}</h6>
-                    <span className="ideabox-font-style ideabox-message-content-heading ideabox_truncate ideabox_contentt_size">{item?.show_as}</span>
-                  </div>
-                  <div className="funtional_parts-f">
-                    <div className="funtional_parts" id="funtional_parts">
-                      <div className="ideabox-star-position">
-                        {/* {!item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarDefault.svg`} className="ideabox-star-img-size c1" alt="Un Favorite" onClick={() => markImportantIdea(item)} />} */}
-                        {item?.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarFavourite.svg`} className="ideabox-star-img-size c1" alt="Favorite" onClick={() => markUnimportantIdea(item)} />}
-                      </div>
-                      {/* {!item.feedBackIsActive && */}
-                      <div className="three_dot px-1">
-                        <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
-                          <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>
-                          <div className="dropdown-menu eep-dropdown-menu eep_custom_dropdown_bg" x-placement="bottom-start">
-                            {!item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => readIdea(item)}>Mark as Read</label>}
-                            {item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => unReadIdea(item)}>Mark as Unread</label>}
-                            {!item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markImportantIdea(item)}>Mark as Important</label>}
-                            {item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markUnimportantIdea(item)}>Mark as Unimportant</label>}
-                            {item?.owner && <label className="eep-options-item dropdown-item mb-0 c1"
-                              onClick={() => deleteFeedback(item)}
-                            >Delete</label>}
-                          </div>
-                        </div>
-                      </div>
-                      {/* } */}
-                    </div>
-                    <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{timeAgo(item?.createdAt, true)}</div>
-                  </div>
-                </div>
-                {/* <div className="ideabox-font-style ideabox-date clicked_content">{eepFormatDateTime(item.createdAt)}</div> */}
+    <div>
+      <SortList
+        readAllCommunicationsFromList={readAllCommunicationsFromList}
+        communicationPostLists={feedbackListsData}
+        dateReceivedOrder={dateReceivedOrder}
+        isFeed={true}
+        onChangeValues={onChangeValues}
+        feedFilter={feedFilter}
+      />
+      <div className="feedback-listview">
+        <div className="fixed-filter-feedback">
+          <div className="feedback-search-value">
+            <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="search" id="search"
+              rows="2" placeholder="Search..."
+              value={search}
+              //  maxLength={titleMaxLength}
+              onChange={(event) => onChangeSearch(event.target.value)}
+            />
+            <div className="form-check"
+              style={{
+                // float: "right",
+                padding: "10px 0px", display: "flex", justifyContent: "end"
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>&nbsp;
+                <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} />
               </div>
             </div>
-          )
-        })}
+          </div>
+        </div>
+        <div className="underline"></div>
+
+        <div className="ideashorting_div">
+
+          {ideaLists && ideaLists?.map((item, index) => {
+            return (
+              <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child 
+            ${item?.feedBackIsRead ? "ideaMarkedAsRead" : ""} 
+            ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
+                <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
+                  <div className="rounded-circle" style={{ fontSize: 33 }}>
+                    <img src={emojiLog[item?.logo]} />
+                  </div>
+                </div>
+                <div className="ideabox-font-style idea_box_heading ">
+                  <div className="ideabox_username_fav_div">
+                    <div className="ideabox_descriptions_div c1 head" onClick={() => viewIdea(item)}>
+                      <h6 className="ideabox-font-style ideabox_user_name_size">{item?.title}</h6>
+                      <span className="ideabox-font-style ideabox-message-content-heading ideabox_truncate ideabox_contentt_size">{item?.show_as}</span>
+                    </div>
+                    <div className="funtional_parts-f">
+                      <div className="funtional_parts" id="funtional_parts">
+                        <div className="ideabox-star-position">
+                          {/* {!item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarDefault.svg`} className="ideabox-star-img-size c1" alt="Un Favorite" onClick={() => markImportantIdea(item)} />} */}
+                          {item?.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarFavourite.svg`} className="ideabox-star-img-size c1" alt="Favorite" onClick={() => markUnimportantIdea(item)} />}
+                        </div>
+                        {/* {!item.feedBackIsActive && */}
+                        <div className="three_dot px-1">
+                          <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
+                            <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>
+                            <div className="dropdown-menu eep-dropdown-menu eep_custom_dropdown_bg" x-placement="bottom-start">
+                              {!item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => readIdea(item)}>Mark as Read</label>}
+                              {item.feedBackIsRead && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => unReadIdea(item)}>Mark as Unread</label>}
+                              {!item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markImportantIdea(item)}>Mark as Important</label>}
+                              {item.feedBackIsImportant && <label className="eep-options-item dropdown-item mb-0 c1" onClick={() => markUnimportantIdea(item)}>Mark as Unimportant</label>}
+                              {item?.owner && <label className="eep-options-item dropdown-item mb-0 c1"
+                                onClick={() => deleteFeedback(item)}
+                              >Delete</label>}
+                            </div>
+                          </div>
+                        </div>
+                        {/* } */}
+                      </div>
+                      <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{timeAgo(item?.createdAt, true)}</div>
+                    </div>
+                  </div>
+                  {/* <div className="ideabox-font-style ideabox-date clicked_content">{eepFormatDateTime(item.createdAt)}</div> */}
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

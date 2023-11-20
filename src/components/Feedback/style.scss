@@ -301,7 +301,11 @@
     padding: 14px 0px;
     height: 100vh;
     overflow-x: hidden;
-
+    .underline {
+        height: 2px !important;
+        background: #EAEAEA !important;
+        width: 100% !important;
+    }
     .fixed-filter-feedback {}
 
     .three_dot {
@@ -321,8 +325,10 @@
     }
 
     .feedback-search-value {
-        padding: 10px;
-        border-top: 2px solid #EAEAEA !important;
+        padding:0px 10px;
+        // border-bottom: 2px solid #EAEAEA !important;
+
+      
 
         .form-check-label {
             opacity: 0.6 !important;
