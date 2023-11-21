@@ -144,7 +144,7 @@ const Search = () => {
                   <div className="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3" key={"searchList" + index}>
                     <Link to={{ pathname: "userdashboard", state: { userData: { userID: item, } } }} className="uNameLink a_hover_txt_deco_none">
                       <div className={`${searchClass.search_content} bg-f5f5f5 br-15 p-3`}>
-                        <img src={getUserPicture(item.id)} className={`${searchClass.eep_img}`} alt="Profile Image" title={item.fullName} />
+                        <img src={getUserPicture(item?.id)} className={`${searchClass.eep_img}`} alt="Profile Image" title={item?.fullName} />
                         <div className={`${searchClass.user_Details}`}>
                           <div className={`${searchClass.user_name}`}>
                             <span>{item.fullName}</span>

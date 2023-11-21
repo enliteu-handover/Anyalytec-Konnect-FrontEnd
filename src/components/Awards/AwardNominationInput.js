@@ -13,36 +13,38 @@ const AwardNominationInput = (props) => {
   useEffect(() => {
     const checkedUsers = filteredUsers.filter(res => res.regSetting.checkedState)
     confirmSelectedData(checkedUsers);
-  },[filteredUsers])
+  }, [filteredUsers])
 
-  const handleOnClick = (e,position, userData, operation) => {
+  const handleOnClick = async (e, position, userData, operation) => {
+    debugger
     let userList = JSON.parse(JSON.stringify(filteredUsers));
     let individualData = JSON.parse(JSON.stringify(userData));
-    if(operation === 'change'){
-        individualData.regSetting.checkedState = !individualData.regSetting.checkedState; 
-        individualData.regSetting.hideShowState = e.target.checked;
-    }else {
+    if (operation === 'change') {
+      individualData.regSetting.checkedState = !individualData.regSetting.checkedState;
+      individualData.regSetting.hideShowState = e.target.checked;
+    } else {
       individualData.regSetting.hideShowState = !individualData.regSetting.hideShowState;
+      individualData.regSetting.checkedState = !individualData.regSetting.checkedState;
     }
-    
-    if(individualData.regSetting.checkedState && isCommonMsg.isChecked){
+
+    if (individualData.regSetting.checkedState && isCommonMsg.isChecked) {
       individualData.regSetting.message = commonMsgValue;
     }
-    if(!individualData.regSetting.checkedState){
+    if (!individualData.regSetting.checkedState) {
       individualData.regSetting.message = '';
     }
     userList[position] = individualData;
-    dispatch(sharedDataActions.getUsersListForAwardNominators({uDatas:userList}));
+    await dispatch(sharedDataActions.getUsersListForAwardNominators({ uDatas: userList }));
 
-};
+  };
 
   const recognizeMessageHandler = (e, position, data) => {
-    e.target.value = e.target.value.substring(0,msgMaxLength);
+    e.target.value = e.target.value.substring(0, msgMaxLength);
     let users = JSON.parse(JSON.stringify(filteredUsers));
     let individualData = JSON.parse(JSON.stringify(data));
     individualData['regSetting']['message'] = e.target.value;
     users[position] = individualData;
-    dispatch(sharedDataActions.getUsersListForAwardNominators({uDatas:users}));
+    dispatch(sharedDataActions.getUsersListForAwardNominators({ uDatas: users }));
   }
 
   return (
@@ -94,97 +96,97 @@ const AwardNominationInput = (props) => {
             {filteredUsers &&
               filteredUsers.length > 0 &&
               filteredUsers.filter(uData => {
-                if (!searchUser){               
-                 return true;
+                if (!searchUser) {
+                  return true;
                 }
                 if (uData.firstname.toLowerCase().includes(searchUser.toLowerCase()) || uData.lastname.toLowerCase().includes(searchUser.toLowerCase())) {
                   return true;
                 }
-             }).map((uData, index) => (
-                  <div
-                    className="col-md-12 form-group text-left my-1 bg-white assign_users_inner"
-                    key={"assignUsers_" + index}
-                  >
-                    {!uData.regSetting.hideShowState && (
+              }).map((uData, index) => (
+                <div
+                  className="col-md-12 form-group text-left my-1 bg-white assign_users_inner"
+                  key={"assignUsers_" + index}
+                >
+                  {!uData.regSetting.hideShowState && (
+                    <div
+                      className="assign_users_inner_one"
+                      id={"uParentID_" + index}
+                    >
+                      <div className="col-sm-11 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          // value={uData.fullName}
+                          checked={uData?.regSetting?.checkedState ?? false}
+                          id={"recognition_" + index}
+                          onChange={(e) => handleOnClick(e, index, uData, 'change')}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor={"recognition_" + index}
+                        >
+                          {uData.fullName}
+                        </label>
+                      </div>
                       <div
-                        className="assign_users_inner_one"
-                        id={"uParentID_" + index}
+                        className="col-sm-1 text-right px-0 eep_message_icon"
+                        dangerouslySetInnerHTML={{
+                          __html: svgIcons && svgIcons.message_icon,
+                        }}
+                        onClick={(e) => handleOnClick(e, index, uData, 'click')}
+                      ></div>
+                    </div>
+                  )}
+                  {uData.regSetting.hideShowState && (
+                    <div
+                      className={
+                        uData.regSetting.checkedState
+                          ? "assign_users_inner_two lbl_checked"
+                          : "assign_users_inner_two"
+                      }
+                      id={"uChildID_" + index}
+                    >
+                      <div
+                        className="col-md-12 px-0 r_a_assign_lbl_div"
+                        onClick={(e) => handleOnClick(e, index, uData, 'click')}
                       >
-                        <div className="col-sm-11 form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            // value={uData.fullName}
-                            checked={uData.regSetting.checkedState}
-                            id={"recognition_" + index}
-                            onChange={(e) => handleOnClick(e,index, uData, 'change')}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={"recognition_" + index}
-                          >
+                        <div className="r_a_assign_lbl_inner">
+                          <label className="r_a_assign_lbl">
                             {uData.fullName}
                           </label>
                         </div>
-                        <div
-                          className="col-sm-1 text-right px-0 eep_message_icon"
-                          dangerouslySetInnerHTML={{
-                            __html: svgIcons && svgIcons.message_icon,
-                          }}
-                          onClick={(e) => handleOnClick(e,index, uData, 'click')}
-                        ></div>
-                      </div>
-                    )}
-                    {uData.regSetting.hideShowState && (
-                      <div
-                        className={
-                          uData.regSetting.checkedState
-                            ? "assign_users_inner_two lbl_checked"
-                            : "assign_users_inner_two"
-                        }
-                        id={"uChildID_" + index}
-                      >
-                        <div
-                          className="col-md-12 px-0 r_a_assign_lbl_div"
-                          onClick={(e) => handleOnClick(e, index, uData, 'click')}
-                        >
-                          <div className="r_a_assign_lbl_inner">
-                            <label className="r_a_assign_lbl">
-                              {uData.fullName}
-                            </label>
-                          </div>
-                          <div className="m_characterLeft_div">
-                            <span className="help-block">
-                              <p
-                                className="m_characterLeft help-block"
-                                id="mCharacterID6"
-                              >
-                                {uData?.regSetting?.message.length}/{msgMaxLength}
-                              </p>
-                            </span>
-                            <img
-                              src={`${process.env.PUBLIC_URL}/images/icons/dropup.svg`}
-                              className="dropup_icon"
-                              alt="dropup"
-                              title="dropup"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-md-12 px-0 r_a_assign_msg_div">
-                          <textarea
-                            className="form-control px-0 r_a_assign_msg eep_scroll_y"
-                            rows="2"
-                            placeholder="Enter Message Here..."
-                            maxLength="120"
-                            value = {uData?.regSetting?.message}
-                            // value={isCommonMsg.isChecked ? commonMsgValue : recognizeMessage[index]}
-                            disabled={isCommonMsg.isChecked}
-                            onChange={(e) => recognizeMessageHandler(e, index, uData)}
-                          ></textarea>
+                        <div className="m_characterLeft_div">
+                          <span className="help-block">
+                            <p
+                              className="m_characterLeft help-block"
+                              id="mCharacterID6"
+                            >
+                              {uData?.regSetting?.message.length}/{msgMaxLength}
+                            </p>
+                          </span>
+                          <img
+                            src={`${process.env.PUBLIC_URL}/images/icons/dropup.svg`}
+                            className="dropup_icon"
+                            alt="dropup"
+                            title="dropup"
+                          />
                         </div>
                       </div>
-                    )}
-                  </div>
+                      <div className="col-md-12 px-0 r_a_assign_msg_div">
+                        <textarea
+                          className="form-control px-0 r_a_assign_msg eep_scroll_y"
+                          rows="2"
+                          placeholder="Enter Message Here..."
+                          maxLength="120"
+                          value={uData?.regSetting?.message}
+                          // value={isCommonMsg.isChecked ? commonMsgValue : recognizeMessage[index]}
+                          disabled={isCommonMsg.isChecked}
+                          onChange={(e) => recognizeMessageHandler(e, index, uData)}
+                        ></textarea>
+                      </div>
+                    </div>
+                  )}
+                </div>
               ))}
           </div>
         </div>

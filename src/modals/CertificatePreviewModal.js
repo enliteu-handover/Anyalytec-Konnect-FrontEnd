@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import PDF from "react-pdf-js";
 
 const CertificatePreviewModal = (props) => {
-  // const { previewDataUri } = props;
   const [previewDataUri, setpreviewDataUri] = useState({})
   useEffect(() => {
-    setpreviewDataUri(props.previewDataUri)
-  }, [props.previewDataUri])
+    setpreviewDataUri(props?.previewDataUri)
+  }, [props?.previewDataUri])
 
   return (
     <div className="eepModalDiv">
@@ -18,7 +17,7 @@ const CertificatePreviewModal = (props) => {
             </div>
             <div className="modal-body py-0 px-0 eep_scroll_y">
               <div className="row justify-content-md-center">
-                {Object.keys(previewDataUri).length && (
+                {Object.keys(previewDataUri)?.length > 0 && (
                   <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                     <div className="thumbnailWrapper" style={{ margin: "0px; padding: 0px", height: "calc(100vh - 125px)", }}>
                       {previewDataUri.isIframe && (
