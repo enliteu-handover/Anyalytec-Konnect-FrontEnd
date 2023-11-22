@@ -416,7 +416,7 @@ const IdeaBox = () => {
   }
 
   const readAllIdeas = (isReadAll) => {
-    
+
     if (isReadAll) {
       const obj = {
         url: URL_CONFIG.IDEA_READ_ALL,
@@ -491,7 +491,6 @@ const IdeaBox = () => {
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
-                    {/* <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} /> */}
                     {activeTab && activeTab.id === 'ideas' && <IdeaList
                       ideaListsData={ideaLists} usersPic={usersPic}
                       viewIdeaData={viewIdeaData} readIdeaData={readIdeaData}

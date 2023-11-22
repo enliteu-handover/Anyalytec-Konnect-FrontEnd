@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 
 const CreateEditCommunicationModal = (props) => {
 
-  //console.log("CreateEditCommunicationModal props", props);
-
   const { deptOptions, hideModal, createModalShow, createCommunicationPost, communicationModalErr, communicationType, communicationData, updateCommunicationPost } = props;
 
   //const initCreateModalShow = createModalShow ? createModalShow : false;
@@ -30,6 +28,7 @@ const CreateEditCommunicationModal = (props) => {
   const [existPostDept, setExistPostDept] = useState([]);
   var titleMaxLength = 150;
   var descMaxLength = 255;
+ 
   const fileTypeAndImgSrcArray = {
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -205,13 +204,6 @@ const CreateEditCommunicationModal = (props) => {
     setModalAttachements([]);
     setModalErrorAttachements({ errCount: [], errLengthCount: [] });
   }
-
-  //console.log("setAttachementFiles ==>", attachementFiles);
-  //console.log("modalDepartment ==>", modalDepartment);
-  //console.log("modalTitle ==>", modalTitle);
-  //console.log("modalDescription ==>", modalDescription);
-  //console.log("setModalAttachements ==>", modalAttachements);
-  //console.log("setExistingAttachementFiles ==>", existingAttachementFiles);
 
   const postCommunicationHandler = () => {
     

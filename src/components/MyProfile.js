@@ -57,27 +57,25 @@ const MyProfile = () => {
       params: { id: userData.id },
     };
     httpHandler(obj)
-      .then((uData) => {
-        setTimeout(async () => {
-          if (uData?.data?.country?.id) {
-            const obj_ = {
-              url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
-              method: "get"
-            };
-            await httpHandler(obj_)
-              .then((user_) => {
-                userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
-                setUserMeta({
-                  ...userMeta,
-                })
-                pageLoaderHandler('hide')
-              }).catch((error) => {
-                pageLoaderHandler('hide')
-                console.log(error)
-              });
-          }
-          userDataValueMapping(userMeta, uData.data);
-        }, 0);
+      .then(async (uData) => {
+        pageLoaderHandler('hide')
+        if (uData?.data?.country?.id) {
+          const obj_ = {
+            url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
+            method: "get"
+          };
+          await httpHandler(obj_)
+            .then((user_) => {
+              userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+              setUserMeta({
+                ...userMeta,
+              })
+            }).catch((error) => {
+              pageLoaderHandler('hide')
+              console.log(error)
+            });
+        }
+        userDataValueMapping(userMeta, uData.data);
         setCurrUserDataNew(uData.data);
       })
       .catch((error) => {
@@ -271,11 +269,7 @@ const MyProfile = () => {
 
   return (
     <React.Fragment>
-      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
-        <div id="loader">
-          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
-        </div>
-      </div>
+
       {showUpdateProfileModal && <UpdateProfileModal />}
       <SignatureUploadModal />
 

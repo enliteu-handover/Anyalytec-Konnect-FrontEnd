@@ -6,8 +6,6 @@ import { eepFormatDateTime } from "../../shared/SharedService";
 const ForumList = (props) => {
   const { forumList, userImageArr, readForum, unReadForum, unFollowForum, followForum, readAll, dateReceived } = props;
 
-  //console.log("forumList, props .. =>", props);
-
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   let userPicIndex;
@@ -42,10 +40,12 @@ const ForumList = (props) => {
 
   return (
     <React.Fragment>
-      <SortList 
-      readAllCommunicationsFromList={readAllList}
+
+      <SortList
+        readAllCommunicationsFromList={readAllList}
         dateReceivedOrder={dateReceivedOrder}
         communicationPostLists={forumList} />
+
       <div className="forumshorting_div forumj_left_container_wrapper pr-1">
         {forumList && forumList.length > 0 && forumList.map((item, index) => {
           return (

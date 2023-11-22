@@ -148,9 +148,7 @@ const Forum = () => {
 		if (arg.files && arg.files.length > 0) {
 			arg.files.map((item) => {
 				const fileType = item?.type;
-				return formData.append('file', item
-					// new Blob([JSON.stringify(item)], { type: fileType })
-				);
+				return formData.append('file', item);
 			});
 		}
 		let forumRequestObj = {
@@ -339,7 +337,6 @@ const Forum = () => {
 					} else {
 						setForumList([...forumListTemp]);
 					}
-					//setForumList(forumListTemp);
 				})
 				.catch((error) => {
 					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -469,10 +466,12 @@ const Forum = () => {
 						/>
 						{forumList?.length > 0 &&
 							<div className="row mx-0 forum_containerr">
-								<div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y">
+								<div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
+									{/* <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y"> */}
 									{activeTab && activeTab.id === 'forumpot' && <ForumList forumList={forumList} userImageArr={usersPic} readForum={readForum} unReadForum={unReadForum} unFollowForum={unFollowForum} followForum={followForum} readAll={readAll} dateReceived={dateReceived} />}
 								</div>
-								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 ">
+								<div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 px-0">
+									{/* <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 "> */}
 									<div className="forum_hottopics_wrapper_bg forum_hottopics_wrapper eep-content-section-data eep_scroll_y">
 										<div className="forum_shortlist_div sticky_position forum_hottopics_wrapper_bg pb-1">
 											<ul className="nav nav-tabs card-header-tabs forum_rightdiv_filter m-0" id="myTab" role="tablist">

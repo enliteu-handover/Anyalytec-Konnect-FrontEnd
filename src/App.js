@@ -49,7 +49,9 @@ function App() {
     fetchPermission();
     fetchSvgIcons();
     firebaseInitialization();
-    fetchIsNotification();
+    if(sessionStorage.getItem('userData')){
+      fetchIsNotification();
+    }
   }, []);
 
   const fetchPermission = async () => {
