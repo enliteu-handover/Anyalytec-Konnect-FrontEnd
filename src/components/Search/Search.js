@@ -120,7 +120,7 @@ const Search = () => {
 
       {searchData &&
         <React.Fragment>
-          <div className="row mb-3">
+          {/* <div className="row mb-3">
             <div className="col-12">
               <div className="d-flex justify-content-center align-items-center bg-f5f5f5 br-25 p-2">
                 <input type="text" name="search"
@@ -134,7 +134,7 @@ const Search = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="row">
             {searchList && searchList?.length > 0 && searchList?.map((item, index) => {

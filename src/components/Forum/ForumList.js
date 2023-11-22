@@ -42,7 +42,10 @@ const ForumList = (props) => {
 
   return (
     <React.Fragment>
-      <SortList readAllCommunicationsFromList={readAllList} dateReceivedOrder={dateReceivedOrder} communicationPostLists={forumList} />
+      <SortList 
+      readAllCommunicationsFromList={readAllList}
+        dateReceivedOrder={dateReceivedOrder}
+        communicationPostLists={forumList} />
       <div className="forumshorting_div forumj_left_container_wrapper pr-1">
         {forumList && forumList.length > 0 && forumList.map((item, index) => {
           return (

@@ -3,16 +3,16 @@ import { useSelector } from "react-redux";
 
 const CommentReply = (props) => {
 
-	const { toggleReplyState, forumData, closeReply, getUserPicture, clickCommentReplySubmitHandler, updateCommentReplyHandler } = props;
+  const { toggleReplyState, forumData, closeReply, getUserPicture, clickCommentReplySubmitHandler, updateCommentReplyHandler } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
-	const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-	const [forumCommentReply, setForumCommentReply] = useState("");
-	const maxTextAreaLength = 255;
+  const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+  const [forumCommentReply, setForumCommentReply] = useState("");
+  const maxTextAreaLength = 255;
 
   useEffect(() => {
     setForumCommentReply("");
-    if(toggleReplyState.isToggle) {
-      if(toggleReplyState.type === "edit") {
+    if (toggleReplyState.isToggle) {
+      if (toggleReplyState.type === "edit") {
         setForumCommentReply(toggleReplyState.cmtData.message);
       }
       setTimeout(() => {
@@ -25,14 +25,17 @@ const CommentReply = (props) => {
     setForumCommentReply(e.target.value);
   }
 
-	return (
-		<div className="forum_reply_message forum_append_class_container">
+  return (
+    <div className="forum_reply_message forum_append_class_container">
       <div className="forum_profile_container" style={{ border: "0px" }}>
         <div className="forum_profile_image">
           <img src={getUserPicture(currentUserData.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
         </div>
         <div className="forum_profile_content">
-          <p className="forum_user_name mb-0">{currentUserData.fullName}</p>
+          <p className="forum_user_name mb-0">{
+            ((currentUserData?.firstName ?? '') + ' ' + (
+              currentUserData?.lastName ?? ''
+            ))}</p>
           <p className="forum_nofpostes mb-0" style={{ fontSize: "12px" }}><i>Reply to - {toggleReplyState.cmtData.message}</i></p>
         </div>
       </div>
@@ -44,7 +47,7 @@ const CommentReply = (props) => {
         <div className="d-flex align-items-center justify-content-between px-3">
           <span id="rchars">{forumCommentReply.length}/{maxTextAreaLength}</span>
           {toggleReplyState.type === "new" &&
-            <div 
+            <div
               className={`${forumCommentReply.length > 0 ? "eep_post_icon c1" : ""}`}
               onClick={() => clickCommentReplySubmitHandler(forumData, toggleReplyState.cmtData, forumCommentReply)}
             >
@@ -52,7 +55,7 @@ const CommentReply = (props) => {
             </div>
           }
           {toggleReplyState.type === "edit" &&
-            <div 
+            <div
               className={`${forumCommentReply.length > 0 ? "eep_post_icon c1" : ""}`}
               onClick={() => updateCommentReplyHandler(forumCommentReply, toggleReplyState.cmtData, forumData)}
             >
@@ -65,7 +68,7 @@ const CommentReply = (props) => {
         <i className="fa fa-times" aria-hidden="true"></i>
       </div>
     </div>
-	)
+  )
 }
 
 export default CommentReply;

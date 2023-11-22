@@ -16,7 +16,7 @@ const AwardNominationInput = (props) => {
   }, [filteredUsers])
 
   const handleOnClick = async (e, position, userData, operation) => {
-    debugger
+    
     let userList = JSON.parse(JSON.stringify(filteredUsers));
     let individualData = JSON.parse(JSON.stringify(userData));
     if (operation === 'change') {

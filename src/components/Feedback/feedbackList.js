@@ -57,6 +57,9 @@ const FeedbackList = (props) => {
     if (checkBox.checked === true) {
       if (!checker(feedbackListsData)) {
         readAllCommunicationsFromList(true);
+        setTimeout(() => {
+          checkBox.checked = false;  
+        }, 100);
       }
     }
   }
@@ -88,7 +91,9 @@ const FeedbackList = (props) => {
             >
               <div style={{ display: "flex" }}>
                 <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>&nbsp;
-                <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} />
+                <input type="checkbox"
+                  className="form-check-input" id="postCheckbox"
+                  onChange={markAllAsRead} />
               </div>
             </div>
           </div>

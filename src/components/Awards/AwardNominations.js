@@ -59,7 +59,7 @@ const AwardNominations = () => {
       link: "app/awards",
     }, ,
     {
-      label: "Nominate Award",
+      label: aDataVal && aDataVal?.type === "spot_award" ? "Spot Award" : "Nominate Award",
       link: "",
     },
   ];

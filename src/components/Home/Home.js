@@ -195,27 +195,27 @@ const Home = () => {
     fetchHallOfFame(paramsData);
   }
 
-  const fetchIsNotification = () => {
-    const obj = {
-      url: URL_CONFIG.NOTIFICATIONS_BY_ID,
-      method: "get",
-      isLoader: true
-    };
-    httpHandler(obj)
-      .then((response) => {
-        dispatch(sharedDataActions.getIsNotification({
-          isNotification: response?.data
-        }))
-      })
-      .catch((error) => {
-        console.log("fetchNotifications API error", error);
-      });
-  }
+  // const fetchIsNotification = () => {
+  //   const obj = {
+  //     url: URL_CONFIG.NOTIFICATIONS_BY_ID,
+  //     method: "get",
+  //     isLoader: true
+  //   };
+  //   httpHandler(obj)
+  //     .then((response) => {
+  //       dispatch(sharedDataActions.getIsNotification({
+  //         isNotification: response?.data
+  //       }))
+  //     })
+  //     .catch((error) => {
+  //       console.log("fetchNotifications API error", error);
+  //     });
+  // }
 
   useEffect(() => {
     getDashboardDetails();
     fetchAllUsers();
-    fetchIsNotification();
+    // fetchIsNotification();
   }, []);
 
   useEffect(() => {

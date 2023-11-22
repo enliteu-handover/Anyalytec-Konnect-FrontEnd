@@ -32,7 +32,11 @@ const CreateFeedbackModal = (props) => {
         category:
             { id: 1, name: 'Suggestion' },
         logo: 4,
-        show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+        show_as: {
+            name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+            ))
+        }
     });
 
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -321,7 +325,11 @@ const CreateFeedbackModal = (props) => {
             category:
                 { id: 1, name: 'Suggestion' },
             logo: 4,
-            show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+            show_as: {
+                name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                    JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+                ))
+            }
         });
         setAssignUser(null)
         setAttachementFiles([])
@@ -408,7 +416,11 @@ const CreateFeedbackModal = (props) => {
                                 </div>
 
                                 <div className="col-md-12 mb-3">
-                                    {[{ name: JSON.parse(sessionStorage.userData)?.username }, { name: "Anonymous" }]?.map(v => {
+                                    {[{
+                                        name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                                            JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+                                        ))
+                                    }, { name: "Anonymous" }]?.map(v => {
                                         return <button
                                             style={{
                                                 background: state?.show_as?.name === v?.name ? '#244AC4' : '#eee',

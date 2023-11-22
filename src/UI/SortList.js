@@ -10,12 +10,15 @@ const SortList = (props) => {
   let checker = arr => arr.every(v => v.ideaIsRead === true);
 
   const markAllAsRead = () => {
-
+    
     var checkBox = document.getElementById("postCheckbox");
     if (checkBox.checked === true) {
-      if (!checker(communicationPostLists)) {
-        readAllCommunicationsFromList(true);
-      }
+      // if (!checker(communicationPostLists)) {
+      readAllCommunicationsFromList(true);
+      setTimeout(() => {
+        checkBox.checked = false;
+      }, 100);
+      // }
     }
   }
 
