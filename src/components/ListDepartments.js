@@ -1,22 +1,18 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
-import PageHeader from "../UI/PageHeader";
-import CreateDepartmentModal from "../modals/CreateDepartmentModal";
-import DeptActionsModal from "../modals/DeptActionsModal";
-import { Link } from "react-router-dom";
-import Table from "../UI/Table";
-import { httpHandler } from "../http/http-interceptor";
-import { URL_CONFIG } from "../constants/rest-config";
-import { FILTER_CONFIG } from "../constants/ui-config";
 import DeptMasterActions from "../UI/CustomComponents/DeptMasterActions";
 import Filter from "../UI/Filter";
-import DateFormatDisplay from "../UI/CustomComponents/DateFormatDisplay";
+import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
-import moment from "moment";
-import * as XLSX from 'xlsx';
+import { URL_CONFIG } from "../constants/rest-config";
+import { FILTER_CONFIG } from "../constants/ui-config";
 import { downloadXlsx } from "../helpers";
+import { httpHandler } from "../http/http-interceptor";
+import CreateDepartmentModal from "../modals/CreateDepartmentModal";
+import DeptActionsModal from "../modals/DeptActionsModal";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
 
 function ListDepartments() {
   const [userData, setUserData] = useState([]);
@@ -62,11 +58,6 @@ function ListDepartments() {
       accessorKey: "updatedAt",
       // component: <DateFormatDisplay cSettings={tableSettings.updatedAt} />,
     },
-    // {
-    //   header: "Action",
-    //   accessorKey: "action",
-    //   // component: <DeptMasterActions getDeptData={getDeptData} />,
-    // },
   ];
 
   const fetchDepartmentData = async (arg = {}) => {
@@ -86,7 +77,7 @@ function ListDepartments() {
     }
     await httpHandler(obj)
       .then((userData) => {
-        
+
         const getData = userData?.data.map(item => ({
           ...item,
           createdAt: moment(item.createdAt).format('MM/DD/YYYY'),
@@ -96,12 +87,11 @@ function ListDepartments() {
       })
       .catch((error) => {
         console.log("ALLDEPARTMENTS", error.response);
-        //const errMsg = error.response?.data?.message;
       });
   };
 
   useEffect(() => {
-    
+
     const obj = {
       filterValue: { label: "Active", value: true }
     }
@@ -184,20 +174,6 @@ function ListDepartments() {
           <div className="eep-user-management eep-content-start" id="content-start">
             <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
               <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-                {/* {userData && (
-                  <Table
-                    component="userManagement"
-                    headers={userDataTableHeaders}
-                    data={userData}
-                    tableProps={{
-                      classes:
-                        "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                      id: "user_dataTable",
-                      "aria-describedby": "user_dataTable_info",
-                    }}
-                    action={null}
-                  ></Table>
-                )} */}
 
                 <button
                   className="btn btn-secondary"
@@ -212,15 +188,13 @@ function ListDepartments() {
                   <span>Excel</span>
                 </button>
 
-                {userData?.length > 0 &&
-                  <TableComponent
-                    data={userData ?? []}
-                    columns={userDataTableHeaders}
-                    action={
-                      <DeptMasterActions getDeptData={getDeptData} />
-                      // <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
-                    }
-                  />}
+                <TableComponent
+                  data={userData ?? []}
+                  columns={userDataTableHeaders}
+                  action={
+                    <DeptMasterActions getDeptData={getDeptData} />
+                  }
+                />
               </div>
             </div>
           </div>

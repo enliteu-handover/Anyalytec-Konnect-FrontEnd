@@ -92,6 +92,7 @@ const ViewUser = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
+    debugger
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
         if (fld["type"] === "password") {
@@ -159,8 +160,12 @@ const ViewUser = () => {
         if (fld["name"] === "branch") {
           fld["label"] = uData?.branch?.label ?? '';
         }
+        if (fld["name"] === "manager") {
+          fld["value"] = uData?.manager?.username ?? '';
+        }
       }
     }
+    console.log('uData====',userMeta);
     setUserMeta((prevState) => {
       return { prevState, ...userMeta };
     });

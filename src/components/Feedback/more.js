@@ -26,8 +26,6 @@ const FeedbackDetailViewMore = ({ data, onClearMore }) => {
                                     <a
                                         className="parent_slider_img c1"
                                         key={"birthdayTemplate_" + index}
-                                        // onClick={() => onClearMore()}
-                                        // data-dismiss="modal" aria-label="Close"
                                     >
                                         <div
                                             style={{ width: "100%", height: "400px" }}

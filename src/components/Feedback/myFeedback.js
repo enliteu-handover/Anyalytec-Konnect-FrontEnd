@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import IconWithLength from "../../UI/CustomComponents/IconWithLength";
 import MyFeedActions from "../../UI/CustomComponents/MyFeedActions";
@@ -187,9 +186,7 @@ function MyFeedback(props) {
 
   return (
     <React.Fragment>
-      <PageHeader title="My Feedback" 
-      // navLinksLeft={<Link to="feedback" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}
-      // ></Link>}
+      <PageHeader title="My Feedback"
         filter={
           <YearFilter onFilterChange={onFilterChange} />
         }

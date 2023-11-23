@@ -60,11 +60,11 @@ import SurveyResponses from "../../components/Survey/SurveyResponses";
 import SurveyResult from "../../components/Survey/SurveyResult";
 import UserManagement from "../../components/UserManagement";
 import ViewUser from "../../components/ViewUser";
+import IdmRoleMapping from "../../idm/idm";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
-import IdmRoleMapping from "../../idm/idm";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);

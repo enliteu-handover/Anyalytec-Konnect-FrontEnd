@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import classes from "./LoginForm.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../../UI/Button";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import classes from "./LoginForm.module.scss";
 
 const ForgotPassword = () => {
   const [responseClassName, checkResponseClassName] = useState("");
@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [disable, setDisable] = useState(false);
-  // const emailIsValid = enteredEmail.trim() !== "";
+
   const IsValidEmail = new RegExp(
     /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g
   ).test(enteredEmail);
@@ -32,7 +32,6 @@ const ForgotPassword = () => {
     setDisable(true);
     if (IsValidEmail) {
       const obj = {
-        // url: `${URL_CONFIG.FORGOTPASSWORD}?email=${enteredEmail}`,
         url: URL_CONFIG.AUTH_FORGOT_PASSWORD_URL,
         method: "post",
         payload: { email_id: enteredEmail },
@@ -40,7 +39,7 @@ const ForgotPassword = () => {
       };
       httpHandler(obj)
         .then(async (response) => {
-          
+
           console.log("response", response);
           setEnteredEmail("");
           const resMsg = response?.data?.message;
@@ -87,7 +86,7 @@ const ForgotPassword = () => {
             <div className="eep-input-group">
               <div
                 className={`${classes.input_group} ${emailInputClass} form-group input-group`}
-                style={{paddingBottom:10}}
+                style={{ paddingBottom: 10 }}
               >
                 <input
                   type="text"

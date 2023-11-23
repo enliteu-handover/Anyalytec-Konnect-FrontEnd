@@ -58,7 +58,7 @@ const FeedbackList = (props) => {
       if (!checker(feedbackListsData)) {
         readAllCommunicationsFromList(true);
         setTimeout(() => {
-          checkBox.checked = false;  
+          checkBox.checked = false;
         }, 100);
       }
     }
@@ -80,12 +80,10 @@ const FeedbackList = (props) => {
             <input className="communication-title border_none eep_scroll_y w-100 feed-title" name="search" id="search"
               rows="2" placeholder="Search..."
               value={search}
-              //  maxLength={titleMaxLength}
               onChange={(event) => onChangeSearch(event.target.value)}
             />
             <div className="form-check"
               style={{
-                // float: "right",
                 padding: "10px 0px", display: "flex", justifyContent: "end"
               }}
             >
@@ -121,10 +119,8 @@ const FeedbackList = (props) => {
                     <div className="funtional_parts-f">
                       <div className="funtional_parts" id="funtional_parts">
                         <div className="ideabox-star-position">
-                          {/* {!item.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarDefault.svg`} className="ideabox-star-img-size c1" alt="Un Favorite" onClick={() => markImportantIdea(item)} />} */}
                           {item?.feedBackIsImportant && <img src={`${process.env.PUBLIC_URL}/images/icons/static/StarFavourite.svg`} className="ideabox-star-img-size c1" alt="Favorite" onClick={() => markUnimportantIdea(item)} />}
                         </div>
-                        {/* {!item.feedBackIsActive && */}
                         <div className="three_dot px-1">
                           <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
                             <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>
@@ -144,7 +140,6 @@ const FeedbackList = (props) => {
                       <div className="ideabox-font-style ideabox-date ideabox-date-f clicked_content">{timeAgo(item?.createdAt, true)}</div>
                     </div>
                   </div>
-                  {/* <div className="ideabox-font-style ideabox-date clicked_content">{eepFormatDateTime(item.createdAt)}</div> */}
                 </div>
               </div>
             )

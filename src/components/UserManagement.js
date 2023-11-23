@@ -369,14 +369,13 @@ const UserManagement = () => {
                   <span>Excel</span>
                 </button>
 
-                {userData?.length > 0 &&
                   <TableComponent
                     data={userData ?? []}
                     columns={userDataTableHeaders}
                     action={
                       <UserManagementActionDropdown />
                     }
-                  />}
+                  />
 
               </div>
             </div>

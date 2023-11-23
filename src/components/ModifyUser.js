@@ -24,7 +24,7 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = async (event) => {
-
+    debugger
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -35,7 +35,7 @@ const ModifyUser = () => {
     delete uData.department.updatedAt;
     delete uData.department.updatedBy;
     uData.manager = {
-      id: uData?.manager ?? uData?.manager?.id?.id
+      id: uData?.manager?.id ?? uData?.manager?.id?.id ?? uData?.manager
     };
     if (uData?.branch) { uData.branch_id = uData?.branch?.id ?? uData?.branch }
     if (uData?.user_id) { uData.id = uData?.user_id }
@@ -58,21 +58,12 @@ const ModifyUser = () => {
       };
       httpHandler(obj)
         .then((response) => {
-          // const obj_ = {
-          //   url: URL_CONFIG.RESETPASSWORD_AUTH,
-          //   method: "post",
-          //   payload: { new_password: uData?.password },
-          //   isAuth: true
-          // };
-          // httpHandler(obj_).then(() => {
           setShowModal({
             ...showModal,
             type: "success",
             message: response?.data?.message,
           })
         })
-
-        // })
         .catch((error) => {
           console.log("GETUSER data", error.response.data);
           setShowModal({
@@ -333,6 +324,7 @@ const ModifyUser = () => {
       })
     );
   }, [breadcrumbArr, dispatch]);
+  console.log('userMetaData', userMetaData);
   return (
     <React.Fragment>
       <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>

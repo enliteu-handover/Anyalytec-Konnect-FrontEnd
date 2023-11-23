@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PageHeader from "../../UI/PageHeader";
 import ResponseInfo from "../../UI/ResponseInfo";
+import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import CreateFeedbackModal from "../../modals/feed";
-// import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-// import { TabsActions } from "../../store/tabs-slice";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import FeedbackDetailView from "./feedbackDetailView";
 import FeedbackList from "./feedbackList";
-// import MyFeedback from "./myFeedback";
-import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import "./style.scss";
-import { pageLoaderHandler } from "../../helpers";
 
 const Feedback = () => {
   const yrDt = new Date().getFullYear();
@@ -454,9 +451,6 @@ const Feedback = () => {
               />
             }
           </div>
-          {/* <div id="myfeedback" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'myfeedback' && <MyFeedback fetchAllFeedbacks={fetchAllFeedbacks} usersPic={usersPic} deptOptions={deptOptions} />}
-          </div> */}
         </div>
       </div>
     </React.Fragment>

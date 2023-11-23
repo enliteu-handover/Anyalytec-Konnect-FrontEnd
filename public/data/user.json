@@ -91,7 +91,28 @@
         },
         "options": [],
         "display": true
-      },  
+      },
+      {
+        "type": "select",
+        "label": "Manager",
+        "name": "manager",
+        "mandatory": true,
+        "disabled": false,
+        "viewMode": {
+          "type": "text",
+          "value": "manager.fullName"
+        },
+        "reloadData": true,
+        "RESTConfig": {
+          "url": "/users/getUserDetails?active=true",
+          "method": "get",
+          "labelFormattingExists": true,
+          "label": "{fullName}",
+          "value": "manager.id"
+        },
+        "options": [],
+        "display": true
+      },
       {
         "type": "email",
         "label": "Email",
@@ -172,7 +193,7 @@
           "value": "role.roleName"
         },
         "reloadData": true,
-        "RESTConfig": { 
+        "RESTConfig": {
           "url": "/roles",
           "method": "get",
           "label": "roleName",

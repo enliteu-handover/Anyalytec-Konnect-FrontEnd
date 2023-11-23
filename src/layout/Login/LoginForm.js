@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
@@ -7,7 +8,6 @@ import { httpHandler } from "../../http/http-interceptor";
 import { idmRoleMapping } from '../../idm';
 import { sharedDataActions } from '../../store/shared-data-slice';
 import classes from "./LoginForm.module.scss";
-import axios from "axios";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -112,11 +112,9 @@ const LoginForm = () => {
             "fullName": userData?.data?.data?.user?.username,
             "tokenType": "Bearer",
             accessToken: userData?.data?.data?.token
-            // accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODI0NTE1LCJleHAiOjE2ODY4MjYzMTV9.J-C3XMTogyhBQR-00LkHhBS20MeoiPNrpsCoaRRN_CCxQkPldYnv9vx7tpS5r3leRROgbg8DUtHTjRay16b04g"
           });
           sessionStorage.loggedInTime = new Date().getTime();
           await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          // await idmRolesToUpdateInDb()?.then(async () => {
           await fetchPermission()?.then(() => {
             if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
               const url = new URL(sessionStorage?.redirect);
@@ -128,11 +126,9 @@ const LoginForm = () => {
               history.push("/app/dashboard");
             }
           })
-          // })
         })
         .catch((error) => {
           console.log("formSubmissionHandler error", error.response);
-          //const errMsg = error.response?.data?.message;
           const errMsg = "Invalid credentials.";
           setLoginError(errMsg);
         });

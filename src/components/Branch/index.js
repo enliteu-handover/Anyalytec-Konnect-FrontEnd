@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import BranchMasterActions from "../../UI/CustomComponents/branchMasterAction";
 import Filter from "../../UI/Filter";
 import PageHeader from "../../UI/PageHeader";
@@ -60,12 +59,7 @@ const BranchMaster = () => {
         {
             header: "Description",
             accessorKey: "description",
-        },
-        // {
-        //     header: "Action",
-        //     accessorKey: "action",
-        //     component: <BranchMasterActions isDelete={isDelete} getDeptData={getDeptData} />,
-        // },
+        }
     ];
 
     useEffect(() => {
@@ -116,11 +110,9 @@ const BranchMaster = () => {
         httpHandler(obj).then((response) => {
             setState({
                 ...state,
-                // data: { data: response?.data, totalCount: response?.totalCount ?? 0 },
                 data: response?.data
             })
         })
-        // setEditData(null)
     }
 
     useEffect(() => {
@@ -222,14 +214,13 @@ const BranchMaster = () => {
                             >
                                 <span>Excel</span>
                             </button>
-                            {state?.data?.data?.length > 0 &&
-                                <TableComponent
-                                    data={state?.data?.data ?? []}
-                                    columns={userDataTableHeaders}
-                                    action={
-                                        <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
-                                    }
-                                />}
+                            <TableComponent
+                                data={state?.data?.data ?? []}
+                                columns={userDataTableHeaders}
+                                action={
+                                    <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
+                                }
+                            />
                         </div>
                     </div>
                 </div>
