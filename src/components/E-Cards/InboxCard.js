@@ -8,14 +8,14 @@ import { formatDate } from "../../shared/SharedService";
 import ResponseInfo from "../../UI/ResponseInfo";
 
 const InboxCard = (props) => {
-  const {inboxCardSettings, inboxData, likeECard} = props;
+  const { inboxCardSettings, inboxData, likeECard } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const eCardMaxList = 3;
   const [eCardDataLimited, setECardDataLimited] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const hideModal = () => {
-  let collections = document.getElementsByClassName("modal-backdrop");
-    for (var i = 0; i < collections.length; i++) {
+    let collections = document.getElementsByClassName("modal-backdrop");
+    for (var i = 0; i < collections?.length; i++) {
       collections[i].remove();
     }
     setShowModal({ type: null, message: null });
@@ -25,19 +25,19 @@ const InboxCard = (props) => {
     likeECard(arg);
   }
 
-  useEffect( ()=> {
+  useEffect(() => {
     setECardDataLimited(inboxData);
-  },[inboxData]);
+  }, [inboxData]);
 
   const readAllECard = () => {
     const obj = {
-      url: URL_CONFIG.READ_ALL_ECARD + "?type=" + inboxData[0].type,
+      url: URL_CONFIG.READ_ALL_ECARD + "?type=" + inboxData?.[0]?.type,
       method: "put",
     };
     httpHandler(obj)
-      .then((response) => {        
+      .then((response) => {
         console.log("InboxCard readAllECard Response", response?.data?.message);
-      })   
+      })
       .catch((error) => {
         console.log("InboxCard readAllECard error", error.response);
         setShowModal({
@@ -48,7 +48,7 @@ const InboxCard = (props) => {
       });
   }
 
-  return(
+  return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
@@ -78,30 +78,29 @@ const InboxCard = (props) => {
         ></EEPSubmitModal>
       )}
       <div className="card">
-        <div className="card-header p-0" id={inboxCardSettings.id}>
+        <div className="card-header p-0" id={inboxCardSettings?.id}>
           <h2 className="mb-0">
-            <Link
-              to="#"
-              className="btn btn-link collapsed"
+            <a
+              className="btn btn-link collapsed c1"
               type="button"
               data-toggle="collapse"
-              data-target={"#"+inboxCardSettings.dataTarget}
-              aria-expanded={inboxCardSettings.expand}
-              aria-controls={inboxCardSettings.dataTarget}
+              data-target={"#" + inboxCardSettings?.dataTarget}
+              aria-expanded={inboxCardSettings?.expand}
+              aria-controls={inboxCardSettings?.dataTarget}
             >
-              {inboxCardSettings.title}
-            </Link>
+              {inboxCardSettings?.title}
+            </a>
           </h2>
         </div>
         <div
-          id={inboxCardSettings.dataTarget}
-          className={`collapse ${inboxCardSettings.show}`}
-          aria-labelledby={inboxCardSettings.id}
+          id={inboxCardSettings?.dataTarget}
+          className={`collapse ${inboxCardSettings?.show}`}
+          aria-labelledby={inboxCardSettings?.id}
           data-parent="#accordionInbox"
         >
           <div className="card-body px-0 pt-0">
             <div
-              id={inboxCardSettings.carousel}
+              id={inboxCardSettings?.carousel}
               className="carousel slide carousel-inbox"
               data-interval="false"
               data-ride="carousel"
@@ -109,19 +108,19 @@ const InboxCard = (props) => {
               <div className="carousel-inner">
                 <div className="carousel-item active">
                   <div className="row pb-4">
-                    {eCardDataLimited && eCardDataLimited.length > 0 && eCardDataLimited.map((item,index) => {
-                      if(index < eCardMaxList) { 
-                        return(
-                          <div className="col-md-4" key={"Ecards_"+index}>
+                    {eCardDataLimited && eCardDataLimited?.length > 0 && eCardDataLimited.map((item, index) => {
+                      if (index < eCardMaxList) {
+                        return (
+                          <div className="col-md-4" key={"Ecards_" + index}>
                             <div className="item-box-blog">
                               <div className="item-box-blog-image">
-                                {item && !item.seen && (
+                                {item && !item?.seen && (
                                   <div className="item-box-blog-new">
                                     <img className="" src={`${process.env.PUBLIC_URL}/images/icons/static/new.svg`} alt="New" />
                                   </div>
                                 )}
-                                <figure>                        
-                                  <img src={item?.imageByte?.image} alt="E-Card" style={{ maxWidth: "100%" }}/>
+                                <figure>
+                                  <img src={item?.imageByte?.image} alt="E-Card" style={{ maxWidth: "100%" }} />
                                 </figure>
                               </div>
                               <div className="item-box-blog-body">
@@ -133,36 +132,36 @@ const InboxCard = (props) => {
                                   </div>
                                   <div className="col-md-2 pl-0 my-auto">
                                     <div className="item-box-blog-like text-center">
-                                      {!item.liked && (
+                                      {!item?.liked && (
                                         <span className="item_blog_like_a c1"
                                           dangerouslySetInnerHTML={{
                                             __html: svgIcons && svgIcons.like_icon,
                                           }}
                                           onClick={() => likeECardHandler(item)}
                                         ></span>
-                                        )}
-                                        {item.liked && (
+                                      )}
+                                      {item?.liked && (
                                         <span className="item_blog_like_a c1"
                                           dangerouslySetInnerHTML={{
                                             __html: svgIcons && svgIcons.liked_icon,
                                           }}
                                           onClick={() => likeECardHandler(item)}
                                         ></span>
-                                        )}
+                                      )}
                                     </div>
                                   </div>
                                 </div>
                                 <div className="row">
                                   <div className="col-md-10">
                                     <div className="item-box-blog-text c-2c2c2c">
-                                      <p>{item.message}</p>
+                                      <p>{item?.message}</p>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="row">
                                   <div className="col-md-12">
                                     <div className="item-box-blog-date text-right c-2c2c2c">
-                                      <p>{formatDate(item.createdAt)}</p>
+                                      <p>{formatDate(item?.createdAt)}</p>
                                     </div>
                                   </div>
                                 </div>
@@ -173,18 +172,18 @@ const InboxCard = (props) => {
                       }
                       return;
                     })}
-                    {!eCardDataLimited &&
+                    {eCardDataLimited?.length <= 0 &&
                       <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
-                    } 
+                    }
                   </div>
                 </div>
               </div>
             </div>
-            {eCardDataLimited && eCardDataLimited.length > 0 &&
+            {eCardDataLimited && eCardDataLimited?.length > 0 &&
               <div className="d-flex justify-content-end mt-4 pr-4">
-                <Link to={{ pathname: "inboxdetailview",state: {eCardData: inboxData, inboxCardSettings :inboxCardSettings}}} 
-                className="eep-btn eep-btn-cancel eep-btn-xsml"
-                onClick={readAllECard}
+                <Link to={{ pathname: "inboxdetailview", state: { eCardData: inboxData, inboxCardSettings: inboxCardSettings } }}
+                  className="eep-btn eep-btn-cancel eep-btn-xsml"
+                  onClick={readAllECard}
                 >
                   View All
                 </Link>

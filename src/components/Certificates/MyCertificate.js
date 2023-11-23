@@ -76,7 +76,7 @@ const MyCertificate = () => {
                 <h3 className="title">{data?.certificate ? data?.certificate?.name : ""}</h3>
                 <ul className="icon">
                   <li>
-                    <a className="mycert_modal_a fa fa-eye" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal"></a>
+                    <a className="mycert_modal_a fa fa-eye c1" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal"></a>
                   </li>
                 </ul>
               </div>

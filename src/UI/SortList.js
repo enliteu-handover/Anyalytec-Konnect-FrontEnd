@@ -10,12 +10,15 @@ const SortList = (props) => {
   let checker = arr => arr.every(v => v.ideaIsRead === true);
 
   const markAllAsRead = () => {
-
+    
     var checkBox = document.getElementById("postCheckbox");
     if (checkBox.checked === true) {
-      if (!checker(communicationPostLists)) {
-        readAllCommunicationsFromList(true);
-      }
+      // if (!checker(communicationPostLists)) {
+      readAllCommunicationsFromList(true);
+      setTimeout(() => {
+        checkBox.checked = false;
+      }, 100);
+      // }
     }
   }
 
@@ -39,9 +42,10 @@ const SortList = (props) => {
     <div className="row sticky-top bg-white mb-3" style={{ height: "30px" }}>
       <div className="col-12 bg-white">
         <div className="filter bg-white">
-          <div className="arrow_div feedback_arrow_div">
+          <div className={`arrow_div feedback_arrow_div`}
+            style={{ width: isFeed ? "100%" : "70%" }}>
             {isFeed ?
-              <div className="flex">
+              <div className="flex" style={{ padding: isFeed ? "0px" : "0px 20px" }}>
                 <Select
                   styles={{ height: "20px", maxHeight: "20px" }}
                   options={initOptions}
@@ -64,7 +68,7 @@ const SortList = (props) => {
                 }
               </div>
               :
-              <span className="c1 i_position">Date Received
+              <span className="c1 i_position" onClick={sortDateReceived}>Date Received
                 {!isDateReceived &&
                   <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
                 }

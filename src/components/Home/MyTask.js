@@ -26,7 +26,7 @@ const MyTask = (props) => {
           )
         })}
         {dashboardDetails && !dashboardDetails.myTasks?.length &&
-          <ResponseInfo title="Looks invalid response showing" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No Tasks for now" responseImg="noRecord" responseClass="response-info" />
         }
       </div>
     </div>

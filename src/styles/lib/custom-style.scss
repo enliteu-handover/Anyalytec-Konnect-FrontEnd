@@ -178,7 +178,7 @@ a:active,
 }
 
 .c1 {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .cursor_default {
@@ -3210,6 +3210,12 @@ input#cert-image-upload.hidden {
   text-overflow: ellipsis;
 }
 
+.eep_truncate_auto {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .eep_truncate_min {
   max-width: 150px !important;
 }
@@ -4487,7 +4493,8 @@ input#cert-image-upload.hidden {
 }
 
 .eep_sidebar {
-  position: absolute;
+  // position: absolute;
+  position: fixed;
   right: 0;
 }
 
@@ -4518,7 +4525,7 @@ input#cert-image-upload.hidden {
 }
 
 .eep_with_sidebar .eep_with_content {
-  padding: 0px 15px;
+  padding: 0px 15px  !important;
   width: calc(100% - 3em);
   transition: all 1s ease-in-out;
   -webkit-transition: all 1s ease-in-out;
@@ -7092,8 +7099,8 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 }
 
 .theam_container.bg-white.active-setting {
-  background-color: #BBDE82 !important;
-  color: #ffffff;
+  background-color: #e4e4e4 !important;
+  color: #000000;
 }
 
 /**** Portal settings end ****/
@@ -7465,11 +7472,12 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
   }
   .active-parent-menu{
     background-color: var(--eep-menu-bg-color) !important;
-    margin: 4px 0px !important;
+    margin: 0px 0px !important;
+    padding: 0.75rem 1rem !important;
   }
   .nav-link[aria-expanded=true]{
     background-color: var(--eep-menu-bg-color) !important;
-    margin: 4px 0px !important;
+    margin: 0px 0px !important;
     border-radius: 10px !important;
     padding: 0.75rem 1rem !important;
     border: none !important;

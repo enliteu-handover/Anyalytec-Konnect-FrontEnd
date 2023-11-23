@@ -14,11 +14,11 @@ import Filter from "../../UI/Filter";
 function AwardApprovalList() {
   const [awardApproval, setAwardApproval] = useState([]);
   const cSettings = {
-		createdAt: {
-			classnames: "",
-			objReference: "createdAt"
-		}
-	};
+    createdAt: {
+      classnames: "",
+      objReference: "createdAt"
+    }
+  };
 
   const awardApprovalTableHeaders = [
     {
@@ -61,7 +61,7 @@ function AwardApprovalList() {
       arg.filterValue.value !== ""
     ) {
       obj["params"] = {
-        rec:arg.filterValue.value
+        rec: arg.filterValue.value
       };
     }
     httpHandler(obj)
@@ -75,14 +75,14 @@ function AwardApprovalList() {
   };
 
   useEffect(() => {
-    const obj = { 
-      filterValue: { label: "Pending", value: false } 
+    const obj = {
+      filterValue: { label: "Pending", value: false }
     }
     fetchAwardApprovalData(obj);
   }, []);
 
   const dispatch = useDispatch();
-  
+
   const breadcrumbArr = [
     {
       label: "Home",

@@ -3,6 +3,7 @@ import React from "react";
 import { idmRoleMappingRoles } from ".";
 import { URL_CONFIG } from "../constants/rest-config";
 import { httpHandler } from "../http/http-interceptor";
+import { getRoles, initializeIDM, validateAuthorization } from '@crayond_dev/idm-client';
 
 const IdmRoleMapping = (props) => {
 
@@ -16,6 +17,7 @@ const IdmRoleMapping = (props) => {
     };
 
     const onAddRoleCallback = (e) => {
+        
         setTimeout(async () => {
             await update(e)
         }, 1000);
@@ -42,10 +44,11 @@ const IdmRoleMapping = (props) => {
         <div className="">
             <UserManagement
                 apiUrl="https://dev-idm-api.crayond.com/api/v1"
-                onStatusChangeCallback={(e) => onStatusChangeCallback(e)}
-                onEditRoleCallback={(e) => onEditRoleCallback(e)}
-                onDeleteRoleCallback={(e) => onDeleteRoleCallback(e)}
-                onAddRoleCallback={(e) => onAddRoleCallback(e)}
+                // onStatusChangeCallback={(e) => onStatusChangeCallback(e)}
+                // onEditRoleCallback={(e) => onEditRoleCallback(e)}
+                // onDeleteRoleCallback={(e) => onDeleteRoleCallback(e)}
+                // onAddRoleCallback={(e) => onAddRoleCallback(e)}
+                apiToken={"ASC4PK0UVE5OOCO8NK"}
             />
         </div>
     );

@@ -261,6 +261,7 @@ const BulkUploadOrgChart = () => {
     };
 
     const handleExportDownload = () => {
+        
         const worksheet = XLSX.utils.json_to_sheet(state?.orgChartData?.data ?? []);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -298,7 +299,7 @@ const BulkUploadOrgChart = () => {
                                     marginRight: 10,
                                     color: "#fff"
                                 }}
-                                className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button"
+                                className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
                                 data-toggle="modal"
                                 data-target="#CreateBulkUploadModal"
                                 onClick={openBulk}

@@ -43,88 +43,6 @@ const Dashboard = (props) => {
       });
     };
   }, []);
-
-  // const tourProps = {
-  //   isOpen: startTour,
-  //   onRequestClose: () => setStartTour(false),
-  //   showNavigation: true,
-  //   showNumber: true,
-  //   showButtons: true,
-  //   showCloseButton: true,
-  //   showNavigationNumber: false,
-  //   disableKeyboardNavigation: true,
-  //   rounded: 5,
-  //   scrollDuration: 1,
-  //   maskSpace: 10,
-  // }
-
-  // const steps = [
-  //   {
-  //     selector: '.first-step',
-  //     content: () => {
-  //       return (
-  //         <div className='tour_content'>
-  //           {/* // "body-scroll-lock": "^4.0.0-beta.0", */}
-  //           <div className='content'>
-  //             <p>The nodeType property returns the node type, as a number, of the specified node.
-  //               If the node is an element node, the nodeType property will return 1.
-  //               If the node is an attribute node, the nodeType property will return 2.
-  //               If the node is a text node, the nodeType property will return 3.
-  //               If the node is a comment node, the nodeType property will return 8.
-  //               This property is read-only.</p>
-  //           </div>
-  //           <div className='btn_content'>
-  //             <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
-  //           </div>
-  //         </div>
-  //       )
-  //     },
-  //     position: "top"
-  //   },
-  //   {
-  //     selector: '.first-step1',
-  //     content: () => {
-  //       return (
-  //         <div className='tour_content'>
-  //           <div className='content'>
-  //             <p>'This is my first Step'</p>
-  //             <p>'This is my first Step'</p>
-  //           </div>
-  //           <div className='btn_content'>
-  //             <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
-  //           </div>
-  //         </div>
-  //       )
-  //     },
-  //     position: "top"
-  //   },
-  //   {
-  //     selector: '.first-step2',
-  //     content: () => {
-  //       return (
-  //         <div className='tour_content'>
-  //           <div className='content pt-3'>
-  //             <p>'This is my first Step'</p>
-  //             <p>'This is my first Step'</p>
-  //           </div>
-  //           <div className='btn_content'>
-  //             <button className='eep-btn eep-btn-success eep-btn-xsml ' onClick={() => setStartTour(false)}> End Tour </button>
-  //           </div>
-  //         </div>
-  //       )
-  //     },
-  //     position: "top"
-  //   },
-  //   {
-  //     selector: '.first-step3',
-  //     content: () => {
-  //       return (
-  //         'This is my first Step'
-  //       )
-  //     },
-  //     position: "top"
-  //   },
-  // ];
   const months = ['months', 'month', 'days', 'day'];
   return (
     <React.Fragment>
@@ -140,10 +58,10 @@ const Dashboard = (props) => {
                   <label className="d_u_name font-helvetica-m my-0">{userSessionData.username}</label>
                   <p className="d_u_dept">{dashboardDetails?.designation} - {dashboardDetails?.departmentName}</p>
                 </div>
-                &nbsp;&nbsp;&nbsp;
+                {/* &nbsp;&nbsp;&nbsp;
                 <Link to={{ pathname: "orgChart" }}>
                   <img width={'30px'} src={process.env.PUBLIC_URL + "/images/download.png"} />
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="bg-f5f5f5 brtl-0 brtr-0 brbr-15 brbl-15 divSetMaxHeight eep_scroll_y" style={{ maxHeight: "516.6px" }}>
@@ -163,7 +81,7 @@ const Dashboard = (props) => {
                       <div className="panel panel-default bb_707070 dash_profile_details">
                         <div className="panel-heading" role="tab" id="d_headingOne">
                           <h4 className="panel-title mb-0">
-                            <a className="c-2c2c2c a_hover_txt_deco_none" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
+                            <a className="c-2c2c2c a_hover_txt_deco_none c1" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
                               <label className="mb-0 c1 title_lbl">{dashboardDetails.directReports > 9 ? dashboardDetails.directReports : "0" + dashboardDetails.directReports} <span className="ml-2">Direct Report</span>
                               </label>
                               <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
@@ -189,7 +107,7 @@ const Dashboard = (props) => {
                     <div className="panel panel-default dash_profile_details first-step">
                       <div className="panel-heading" role="tab" id="d_headingTwo">
                         <h4 className="panel-title mb-0">
-                          <a className="collapsed c-2c2c2c a_hover_txt_deco_none" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseTwo" aria-expanded="false" aria-controls="d_collapseTwo">
+                          <a className="collapsed c-2c2c2c a_hover_txt_deco_none c1" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseTwo" aria-expanded="false" aria-controls="d_collapseTwo">
                             <label className="mb-0 c1 title_lbl"> {dashboardDetails.teamSize > 9 ? dashboardDetails.teamSize : "0" + dashboardDetails.teamSize} <span className="ml-2"> {dashboardDetails.departmentName} </span></label>
                             <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
                           </a>

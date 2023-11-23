@@ -123,6 +123,7 @@ const SocialWall = () => {
         pageLoaderHandler('hide')
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("SOCIALWALL_LIST API error => ", error);
       });
   };

@@ -11,6 +11,7 @@ import ResponseInfo from "../UI/ResponseInfo";
 import { httpHandler } from "../http/http-interceptor";
 import { REST_CONFIG, URL_CONFIG } from "../constants/rest-config";
 import axios from "axios";
+import { sharedDataActions } from "../store/shared-data-slice";
 
 const Notifications = () => {
 
@@ -85,7 +86,7 @@ const Notifications = () => {
 	// }
 
 	const allChecke = (e) => {
-		
+
 		setRenderTable(false);
 		if (e.target.checked) {
 			setTimeout(() => {
@@ -129,7 +130,10 @@ const Notifications = () => {
 		httpHandler(obj)
 			.then((response) => {
 				//console.log(" fetchNotifications API ===>>>", response.data);
-				setNotificationsList(response.data);
+				setNotificationsList(response?.data);
+				dispatch(sharedDataActions.getIsNotification({
+					isNotification: response?.data
+				}))
 			})
 			.catch((error) => {
 				console.log("fetchNotifications API error", error);
@@ -137,7 +141,7 @@ const Notifications = () => {
 	}
 
 	const readUnreadNotifications = (arg, status) => {
-		
+
 		if (arg) {
 			let notificationReadPayload;
 			if (status === "read") {
@@ -169,7 +173,7 @@ const Notifications = () => {
 	}
 
 	const readUnreadAllNotifications = (arg) => {
-		
+
 		if (checkedData.length) {
 			let notificationReadPayload;
 			if (arg === "readAll") {
@@ -202,14 +206,11 @@ const Notifications = () => {
 	}
 
 	const clearNotifications = (arg) => {
-		
+
 		let obj = {};
 		if (arg?.action === "clear") {
 			if (arg.data) {
 				obj = {
-					// url: URL_CONFIG.NOTIFICATIONs_DELETE,
-					//  + "?id=" + arg.data,
-					// method: "delete",
 					id: checkedData
 				};
 			}
@@ -217,16 +218,12 @@ const Notifications = () => {
 		if (arg?.action === "clearAll") {
 			if (checkedData.length) {
 				obj = {
-					// url: URL_CONFIG.NOTIFICATIONs_DELETE,
-					//  + "?id=" + checkedData,
 					id: checkedData
-					// method: "delete",
 				};
 			}
 		}
 		if (obj) {
 			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.NOTIFICATIONs_DELETE}`, { data: { ...obj } })
-				// httpHandler(obj)
 				.then((response) => {
 					fetchNotifications();
 				})
@@ -301,7 +298,7 @@ const Notifications = () => {
 									<label className="mb-0 mr-2">Options</label>
 									<div className="d-flex align-items-center align-content-center section_two">
 										<div className="text-center">
-											<a href="#" className="p-2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
+											<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
 											<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
 												<Link to="#" className="dropdown-item mark_all_raed c1" onClick={() => readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
 												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link>

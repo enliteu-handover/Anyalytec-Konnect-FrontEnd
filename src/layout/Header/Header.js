@@ -7,22 +7,26 @@ import classes from "./Header.module.scss";
 import HeaderSearch from "./HeaderSearch";
 import Notification from "./Notification";
 import UserNavItem from "./UserNavItem";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // import { URL_CONFIG } from "../../constants/rest-config";
 // import { httpHandler } from "../../http/http-interceptor";
 
 const Header = () => {
   const headerLogo = useSelector((state) => state.storeState.logo);
   const userDetails = sessionStorage.getItem('userData')
+  const History = useHistory();
   const [state, setState] = useState();
 
   React.useEffect(() => {
-
     setState({
       ...state,
       "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
     })
   }, [JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo])
 
+  const points = () => {
+    History.push('/app/points')
+  };
 
   return (
     <div>
@@ -43,7 +47,7 @@ const Header = () => {
             <SvgComponent svgUrl={state?.HeaderLogo} />
           </div>
           : <img
-            src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/logo.svg")}
+            src={(state?.HeaderLogo) || (process.env.PUBLIC_URL + "/images/icons/EnliteU Small.png")}
             className={`${classes["eep-logo"]} img-responsive center-block d-block w-100`}
             alt="logo"
           />}
@@ -57,7 +61,7 @@ const Header = () => {
         {/* Search  */}
         <HeaderSearch />
 
-        <button className="eep-btn our_points_in_dashboard">
+        <button className="eep-btn our_points_in_dashboard c1" onClick={() => points()}>
           Points : {((JSON.parse(userDetails)?.allPoints) <= 9 && "0") + (JSON.parse(userDetails)?.allPoints ?? 0)}
         </button>
 

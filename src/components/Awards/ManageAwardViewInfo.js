@@ -2,19 +2,19 @@ import React from "react";
 
 const ManageAwardViewInfo = (props) => {
 
-  const {aDataValue} = props;
+  const { aDataValue } = props;
 
   const getHashTag = (arg) => {
-    if(arg) {
+    if (arg) {
       const arr = [];
       arg.length > 0 && arg?.map((res) => {
-        arr.push(res.hashtagName);
+        if (res?.hashtagName) { arr.push(res.hashtagName); }
       });
-      return arr.join(", ");
+      return arr?.join(", ");
     }
   };
 
-  return(
+  return (
     <React.Fragment>
       <div className="award_modal_left_col_inner award_modal_left_col_flx h-100">
         <div className="n_award_add_col_inner bg-f5f5f5 h-100">
@@ -24,7 +24,7 @@ const ManageAwardViewInfo = (props) => {
                 <img src={aDataValue?.imageByte?.image ? aDataValue.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`} className="r_award_img selected" alt="Award Icon" title={aDataValue?.award?.name} />
                 <label className="n_award_add_label font-helvetica-m n_award_name">{aDataValue?.award?.name}</label>
               </div>
-              {aDataValue?.entityType === "spot_award" && 
+              {aDataValue?.entityType === "spot_award" &&
                 <div className="admin_award_type">
                   <label className="mb-0">Spot</label>
                 </div>
@@ -38,7 +38,7 @@ const ManageAwardViewInfo = (props) => {
                   <label className="n_dtls_lb font-helvetica-m">Points</label>
                   <p className="n_award_points mb-1 text-right">{aDataValue?.award?.points}</p>
                 </div>
-                {aDataValue?.entityType === "nomi_award" &&  false &&
+                {aDataValue?.entityType === "nomi_award" && false &&
                   <div className="s_awardMonths_div">
                     <label className="n_dtls_lb font-helvetica-m">Schedule Month(s)</label>
                     <p className="s_awardMonths mb-1 text-right">--</p>

@@ -166,7 +166,7 @@ const BadgeRecognition = (props) => {
                 <ul className="icon">
                   <li>
                     <a
-                      className="badge_modal_a fas fa-award"
+                      className="badge_modal_a fas fa-award c1"
                       badgename="Explorer"
                       data-toggle="modal"
                       data-target="#badgeRecogniseModal"

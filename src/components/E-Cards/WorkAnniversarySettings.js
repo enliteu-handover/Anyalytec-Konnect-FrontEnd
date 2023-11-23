@@ -64,6 +64,7 @@ const WorkAnniversarySettings = () => {
 
   const [allYears, setAllYears] = useState([]);
   const fetchAllYearsData = () => {
+    
     setIsref(false);
     const obj = {
       url: URL_CONFIG.GET_ANNIVERSARY_YEARS,
@@ -104,6 +105,7 @@ const WorkAnniversarySettings = () => {
   }
 
   const getAnniversaryYearInfo = (arg) => {
+    
     setIsref(false);
     if (arg) {
       let templateTypeTemp = JSON.parse(JSON.stringify(templateType));

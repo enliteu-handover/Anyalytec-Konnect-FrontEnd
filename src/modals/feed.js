@@ -32,7 +32,11 @@ const CreateFeedbackModal = (props) => {
         category:
             { id: 1, name: 'Suggestion' },
         logo: 4,
-        show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+        show_as: {
+            name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+            ))
+        }
     });
 
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -170,7 +174,6 @@ const CreateFeedbackModal = (props) => {
             depts,
             description: state?.message || null,
             active: true,
-            // logo: state?.logo.icon ?? null,
             logo: JSON.stringify(state?.logo),
             attachments: [],
             category_id: state?.category?.id ?? null,
@@ -245,8 +248,9 @@ const CreateFeedbackModal = (props) => {
         httpHandler(obj).then((userData) => {
             const uOptions = [];
             userData && userData.data.map((res) => {
-                uOptions.push({ label: res.firstname + " - " + res.department.name, value: res.id });
-                return res;
+                if (res?.user_id !== JSON.parse(sessionStorage.getItem('userData'))?.id) {
+                    uOptions.push({ label: (res?.firstname + '' + res?.lastname) + " - " + res?.department?.name, value: res?.id });
+                } return res;
             });
             setUsersOptions([...uOptions]);
         }).catch((error) => {
@@ -321,7 +325,11 @@ const CreateFeedbackModal = (props) => {
             category:
                 { id: 1, name: 'Suggestion' },
             logo: 4,
-            show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+            show_as: {
+                name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                    JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+                ))
+            }
         });
         setAssignUser(null)
         setAttachementFiles([])
@@ -376,7 +384,6 @@ const CreateFeedbackModal = (props) => {
                                             onClick={() => onChange('logo', i)}
                                         >
                                             {state?.logo === i ? <img src={v?.iconActive} /> : <img src={v?.icon} />} <br />
-                                            {/* <div style={{ fontSize: 12 }}>{state?.logo?.title === v?.title && v?.title}</div> */}
                                         </div>
                                     })}
                                 </div>
@@ -409,7 +416,11 @@ const CreateFeedbackModal = (props) => {
                                 </div>
 
                                 <div className="col-md-12 mb-3">
-                                    {[{ name: JSON.parse(sessionStorage.userData)?.username }, { name: "Anonymous" }]?.map(v => {
+                                    {[{
+                                        name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                                            JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+                                        ))
+                                    }, { name: "Anonymous" }]?.map(v => {
                                         return <button
                                             style={{
                                                 background: state?.show_as?.name === v?.name ? '#244AC4' : '#eee',

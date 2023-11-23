@@ -21,6 +21,7 @@ const UserNavItem = () => {
       <li className="nav-item dropdown no-arrow mx-1 eep_header_dp nav-link_icons">
         <a
           // className={`nav-button_icons`}
+          className="c1"
           id="userDropdown"
           role="button"
           data-toggle="dropdown"
@@ -54,7 +55,7 @@ const UserNavItem = () => {
             Help
           </Link>
 
-          <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+          <a className="dropdown-item c1" data-toggle="modal" data-target="#logoutModal">
             Logout
           </a>
         </div>

@@ -11,6 +11,7 @@ import EEPSubmitModal from "../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import FormContainer from "./FormElements/FormContainer";
 import { FormContext } from "./FormElements/FormContext";
+import { idmRoleMappingRoles } from "../idm";
 
 const AddUser = () => {
   const dataObj = {};
@@ -30,26 +31,23 @@ const AddUser = () => {
     setShowModal({ type: null, message: null });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    
     event.preventDefault();
     setFormSubmitted(true);
     if (formIsValid) {
-      // const obj_ = {
-      //   url: URL_CONFIG.AUTH_ADD_NEW_USER,
-      //   method: "post",
-      //   payload: {
-      //     "username": uData?.username ?? '',
-      //     "email_id": uData?.email ?? '',
-      //     "mobile_no": uData?.telephoneNumber ?? '',
-      //     "password": uData?.password ?? ''
-      //   },
-      //   isAuth: true
-      // };
-      // httpHandler(obj_)
-      //   .then((user_) => {
       uData["active"] = true;
       uData["user_id"] = 0;
       uData["branch_id"] = uData?.branch;
+
+      if (uData?.role?.value) {
+        const roleData = await idmRoleMappingRoles(uData?.role?.value);
+        uData.role = {
+          idm_id: uData?.role?.value,
+          role_name: uData?.role?.label,
+          screen: JSON.stringify(roleData?.data)
+        };
+      }
       const obj = {
         url: URL_CONFIG.GETUSER,
         method: "post",
@@ -63,7 +61,6 @@ const AddUser = () => {
             message: response?.data?.message,
           });
         })
-        // })
         .catch((error) => {
           console.log("error", error, error.response);
           setShowModal({

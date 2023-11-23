@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { httpHandler } from "../http/http-interceptor";
-import { URL_CONFIG } from "../constants/rest-config";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import Card from "../UI/Card";
 import PageHeader from "../UI/PageHeader";
+import ResponseInfo from "../UI/ResponseInfo";
+import { URL_CONFIG } from "../constants/rest-config";
+import { base64ToFile, pageLoaderHandler } from "../helpers";
+import { httpHandler } from "../http/http-interceptor";
+import { idmRoleMappingRoles } from "../idm";
+import EEPSubmitModal from "../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import FormContainer from "./FormElements/FormContainer";
 import { FormContext } from "./FormElements/FormContext";
-import Card from "../UI/Card";
-import EEPSubmitModal from "../modals/EEPSubmitModal";
-import ResponseInfo from "../UI/ResponseInfo";
-import { base64ToFile } from "../helpers";
 
 const ModifyUser = () => {
   const [userMetaData, setUserMetaData] = useState(null);
@@ -23,7 +23,7 @@ const ModifyUser = () => {
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
 
     event.preventDefault();
     delete uData.createdAt;
@@ -41,6 +41,15 @@ const ModifyUser = () => {
     if (uData?.user_id) { uData.id = uData?.user_id }
     if (uData?.gender) { uData.gender = uData?.gender?.label ?? uData?.gender }
     setFormSubmitted(true);
+
+    if (uData?.role?.value || uData?.role?.idm_id) {
+      const roleData = await idmRoleMappingRoles(uData?.role?.value || uData?.role?.idm_id);
+      uData.role = {
+        idm_id: uData?.role?.idm_id || uData?.role?.value,
+        role_name: uData?.role?.roleName || uData?.role?.label,
+        screen: uData?.role?.screen || JSON.stringify(roleData?.data)
+      };
+    }
     if (formIsValid) {
       const obj = {
         url: URL_CONFIG.GETUSER,
@@ -83,6 +92,9 @@ const ModifyUser = () => {
           if (fld.type === 'password') {
             fld.mandatory = false;
           }
+          if (fld.name === 'username') {
+            fld.disabled = true;
+          }
           if (fld.mandatory) {
             userFields.push(fld.name);
           }
@@ -109,7 +121,6 @@ const ModifyUser = () => {
   }, [uData, formTouched]);
 
   const handleChange = async (field, event) => {
-
     setFormTouched(true);
     if (field?.name === "imageByte") {
       const file = base64ToFile(event?.image?.replace(/^data:image\/\w+;base64,/, ''))
@@ -184,6 +195,7 @@ const ModifyUser = () => {
 
   const fetchCurrentUserData = async (userMeta) => {
 
+
     const obj = {
       url: URL_CONFIG.GETUSER,
       method: "get",
@@ -206,6 +218,7 @@ const ModifyUser = () => {
                 setUserMetaData({
                   ...userMeta,
                 })
+                pageLoaderHandler('hide')
               }).catch((error) => console.log(error));
           }
 
@@ -215,6 +228,7 @@ const ModifyUser = () => {
       .catch((error) => {
         console.log("GETUSER", error.response);
         const errMsg = error.response?.data?.message;
+        pageLoaderHandler('hide')
       });
   };
 
@@ -278,6 +292,7 @@ const ModifyUser = () => {
 
   useEffect(() => {
 
+    pageLoaderHandler('show')
     fetchUserMeta();
 
   }, []);
@@ -320,6 +335,11 @@ const ModifyUser = () => {
   }, [breadcrumbArr, dispatch]);
   return (
     <React.Fragment>
+      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
+        <div id="loader">
+          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+        </div>
+      </div>
       {userRolePermission.adminPanel &&
         <React.Fragment>
           {showModal.type !== null && showModal.message !== null && (

@@ -28,10 +28,30 @@ function App() {
       }).catch((error) => console.log(error));
   };
 
+  const fetchIsNotification = () => {
+    const obj = {
+      url: URL_CONFIG.NOTIFICATIONS_BY_ID,
+      method: "get",
+      isLoader: true
+    };
+    httpHandler(obj)
+      .then((response) => {
+        dispatch(sharedDataActions.getIsNotification({
+          isNotification: response?.data
+        }))
+      })
+      .catch((error) => {
+        console.log("fetchNotifications API error", error);
+      });
+  }
+
   useEffect(() => {
     fetchPermission();
     fetchSvgIcons();
     firebaseInitialization();
+    if(sessionStorage.getItem('userData')){
+      fetchIsNotification();
+    }
   }, []);
 
   const fetchPermission = async () => {
@@ -121,6 +141,12 @@ function App() {
     <div class="user-element" data-user={theme?.color ?? "color_one"}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
+          <div id="loader">
+            <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+          </div>
+        </div>
+
+        <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
           </div>

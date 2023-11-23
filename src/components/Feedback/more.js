@@ -20,19 +20,17 @@ const FeedbackDetailViewMore = ({ data, onClearMore }) => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="card-body-feedback">
-                        {/* <div className="row birthdy_div">
-                            <div className="col-md-12"> */}
-
                         <Slider {...settings}>
                             {data?.map((item, index) => {
                                 return (
-                                    <div
+                                    <a
                                         className="parent_slider_img c1"
                                         key={"birthdayTemplate_" + index}
-                                        onClick={() => onClearMore()}
+                                        // onClick={() => onClearMore()}
+                                        // data-dismiss="modal" aria-label="Close"
                                     >
                                         <div
-                                            style={{ width: "100%", height: "200px" }}
+                                            style={{ width: "100%", height: "400px" }}
                                         >
                                             <img
                                                 src={item?.docByte?.image}
@@ -42,16 +40,14 @@ const FeedbackDetailViewMore = ({ data, onClearMore }) => {
                                                 title={item?.name}
                                                 style={{
                                                     width: "100%", height: "100%",
-                                                    objectFit: "cover"
+                                                    objectFit: "contain"
                                                 }}
                                             />
                                         </div>
-                                    </div>
+                                    </a>
                                 );
                             })}
                         </Slider>
-                        {/* </div>
-                        </div>*/}
                     </div>
                 </div>
             </div>

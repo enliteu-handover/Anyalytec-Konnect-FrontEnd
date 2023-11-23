@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { TabsActions } from "../../store/tabs-slice";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import ForumList from "./ForumList";
-import ResponseInfo from "../../UI/ResponseInfo";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { TabsActions } from "../../store/tabs-slice";
 import ForumFollowingList from "./ForumFollowingList";
 import ForumHotTopicsList from "./ForumHotTopicsList";
+import ForumList from "./ForumList";
 import MyForumPosts from "./MyForumPosts";
+import { pageLoaderHandler } from "../../helpers";
 
 const Forum = () => {
 
@@ -142,12 +143,12 @@ const Forum = () => {
 	};
 
 	const createCommunicationPost = (arg) => {
-		
+
 		let formData = new FormData();
 		if (arg.files && arg.files.length > 0) {
 			arg.files.map((item) => {
 				const fileType = item?.type;
-				return formData.append('file', new Blob([JSON.stringify(item)], { type: fileType }));
+				return formData.append('file', item);
 			});
 		}
 		let forumRequestObj = {
@@ -191,6 +192,7 @@ const Forum = () => {
 	}
 
 	const getForumList = (paramsInfo) => {
+		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -211,10 +213,11 @@ const Forum = () => {
 				} else {
 					setForumList([...forumdata.data].reverse());
 				}
+				pageLoaderHandler('hide')
 			})
 			.catch((error) => {
+				pageLoaderHandler('hide')
 				console.log("getForumList error", error);
-				//const errMsg = error.response?.data?.message;
 			});
 	};
 
@@ -273,7 +276,7 @@ const Forum = () => {
 
 
 	const readForum = (arg) => {
-		
+
 		if (arg) {
 			if (!arg.fData.forumIsRead) {
 				const obj = {
@@ -306,9 +309,9 @@ const Forum = () => {
 		}
 	}
 
-	let unReadIndex=0;
+	let unReadIndex = 0;
 	const unReadForum = (forumData) => {
-		
+
 		if (forumData) {
 			// unReadIndex = forumData.forumRead.findIndex(x => x.userId.id === userData.id);
 			const obj = {
@@ -334,7 +337,6 @@ const Forum = () => {
 					} else {
 						setForumList([...forumListTemp]);
 					}
-					//setForumList(forumListTemp);
 				})
 				.catch((error) => {
 					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -347,9 +349,9 @@ const Forum = () => {
 		}
 	}
 
-	let followIndex=0;
+	let followIndex = 0;
 	const unFollowForum = (followInfo) => {
-		
+
 		if (followInfo) {
 			// followIndex = followInfo?.forumFollowing?.findIndex(x => x?.userId?.id === userData?.id);
 			const obj = {
@@ -388,7 +390,7 @@ const Forum = () => {
 	}
 
 	const followForum = (arg) => {
-		
+
 		const obj = {
 			url: URL_CONFIG.FORUM_FOLLOWING,
 			//  + "?id=" + arg.id,
@@ -456,7 +458,7 @@ const Forum = () => {
 						{createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
-								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
+								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
 							}
 							filter={
 								<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
@@ -464,15 +466,17 @@ const Forum = () => {
 						/>
 						{forumList?.length > 0 &&
 							<div className="row mx-0 forum_containerr">
-								<div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y">
+								<div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
+									{/* <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y"> */}
 									{activeTab && activeTab.id === 'forumpot' && <ForumList forumList={forumList} userImageArr={usersPic} readForum={readForum} unReadForum={unReadForum} unFollowForum={unFollowForum} followForum={followForum} readAll={readAll} dateReceived={dateReceived} />}
 								</div>
-								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 ">
+								<div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 px-0">
+									{/* <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 "> */}
 									<div className="forum_hottopics_wrapper_bg forum_hottopics_wrapper eep-content-section-data eep_scroll_y">
 										<div className="forum_shortlist_div sticky_position forum_hottopics_wrapper_bg pb-1">
 											<ul className="nav nav-tabs card-header-tabs forum_rightdiv_filter m-0" id="myTab" role="tablist">
 												<li className="nav-item">
-													<a className="nav-link forum_hot active" id="one-tab" data-toggle="tab" href="#HotTopics" role="tab" aria-controls="One" aria-selected="true">
+													<a className="nav-link forum_hot active c1" id="one-tab" data-toggle="tab" href="#HotTopics" role="tab" aria-controls="One" aria-selected="true">
 														<div className="forum_rightnav_action forum_hottopic_img_content d-flex align-items-center c1 forumj_hot_topic forum_bgcolor_selected_tap">
 															<div className="forum-eep-right-tab" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.hottopics_icon }}></div>
 															<div className="hot_topic_btn">Hot Topics</div>
@@ -480,7 +484,7 @@ const Forum = () => {
 													</a>
 												</li>
 												<li className="nav-item">
-													<a className="nav-link forum_follow" id="two-tab" data-toggle="tab" href="#Following" role="tab" aria-controls="Two" aria-selected="false">
+													<a className="nav-link forum_follow c1" id="two-tab" data-toggle="tab" href="#Following" role="tab" aria-controls="Two" aria-selected="false">
 														<div className="forum_rightnav_action forum_following_img_content d-flex align-items-center c1 forumj_following forum_bgcolor_selected_tap">
 															<div className="forum-eep-right-tab" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.following_icon }}></div>
 															<div className="following_topic_btn">Following</div>

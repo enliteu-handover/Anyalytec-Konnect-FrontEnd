@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { TabsActions } from "../../store/tabs-slice";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
+import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
 import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import MyIdeas from "./MyIdeas";
-import IdeaList from "./IdeaList";
-import IdeaDetailView from "./IdeaDetailView";
-import ResponseInfo from "../../UI/ResponseInfo";
-import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
+import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { TabsActions } from "../../store/tabs-slice";
+import IdeaDetailView from "./IdeaDetailView";
+import IdeaList from "./IdeaList";
+import MyIdeas from "./MyIdeas";
+import { pageLoaderHandler } from "../../helpers";
 
 const IdeaBox = () => {
 
@@ -148,6 +149,7 @@ const IdeaBox = () => {
   }
 
   const fetchIdeas = (isIdeaActive, ideaID = null, paramsInfo = {}) => {
+    pageLoaderHandler('show')
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -178,6 +180,7 @@ const IdeaBox = () => {
           }
           setIdeaData(null);
           setIdeaDataState(false);
+          pageLoaderHandler('hide')
         } else {
           if (ideaListsReverse) {
             markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
@@ -187,8 +190,8 @@ const IdeaBox = () => {
         }
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
-        //const errMsg = error.response?.data?.message;
       });
   }
 
@@ -488,8 +491,10 @@ const IdeaBox = () => {
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
-                    {/* <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} /> */}
-                    {activeTab && activeTab.id === 'ideas' && <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} />}
+                    {activeTab && activeTab.id === 'ideas' && <IdeaList
+                      ideaListsData={ideaLists} usersPic={usersPic}
+                      viewIdeaData={viewIdeaData} readIdeaData={readIdeaData}
+                      markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} />}
                   </div>
                   <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
                     {ideaDataState && <IdeaDetailView ideaData={ideaData} usersPic={usersPic} />}

@@ -21,7 +21,7 @@ const CreateBulkUploadModal = (props) => {
                                 <div className="d-flex">
                                     <br /> <div className="align-items-start align-content-center bulk_user_upload">
                                         <div className="sample__header_xlsx">Sample File</div>
-                                        <a href={url}>
+                                        <a href={url} className="c1">
                                             <div className="sample_xlsx action-border">
                                                 <div className="download_icon"><img src='/images/icons8-download.svg' /></div>
                                                 <div className="sample_text">
@@ -44,7 +44,7 @@ const CreateBulkUploadModal = (props) => {
                                     </div>
                                 </div>
                                 <br />
-                                {(!isOrg?.newUsers && title) && <span className="org-bulk-upload-download">The existing upload data can be downloaded by<a onClick={() => handleExportDownload()}> clicking here</a></span>}
+                                {(!isOrg?.newUsers && title) && <span className="org-bulk-upload-download">The existing upload data can be downloaded by<a className="c1" onClick={() => handleExportDownload()}> clicking here</a></span>}
                                 <br />  <div className="eep-dropdown-divider"></div>
                                 <div className="modal-footer justify-content-center p-0">
                                     <button className="eep-btn eep-btn-cancel eep-btn-xsml" type="button" data-dismiss="modal">

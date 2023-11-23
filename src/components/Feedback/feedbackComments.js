@@ -28,7 +28,7 @@ const FeedbackComments = (props) => {
   const [attachementFiles, setAttachementFiles] = useState([]);
 
   const addIconClickHandler = (arg) => {
-    
+
     document.getElementById("cmt_attachmentFileLoaderNew").value = null;
     document.getElementById("cmt_attachmentFileLoaderExist").value = null;
     if (arg === "new") {
@@ -145,7 +145,7 @@ const FeedbackComments = (props) => {
     <div className="ideabox_mesgbutton_container_reply">
       <div className="reply-textarea-inner reply-textarea-inner-f">
         <div className="reply-textarea-div position-relative">
-        <div className="feed-comment-close" onClick={() => IsClear()}>X</div>
+          <div className="feed-comment-close" onClick={() => IsClear()}>X</div>
           {childReplay?.message &&
             <div className="replay-comment">
               Reply To:
@@ -174,13 +174,6 @@ const FeedbackComments = (props) => {
               onChange={(e) => setIdeaComment(e)} />
 
           </div>
-          {/* <textarea
-            className="form-control ideabox-message-textarea ideabox-message-textarea-f ideabox_contentt_size eep_scroll_y"
-            name="comment" id="ideaCommentTextarea"
-            maxLength={commentMaxLength} placeholder="Add a comment"
-            value={ideaComment} onChange={(e) => setIdeaComment(e.target.value)}></textarea> */}
-
-          {/* <div className="text-right" style={{ color: "#858796", paddingRight: "5px", fontSize: "10px" }}><span>{ideaComment.length}</span>/<span>{commentMaxLength}</span></div> */}
 
           {cmtErrorAttachements?.errCount?.length > 0 && errorAtthState &&
             <div className="col-md-12" style={{ fontSize: "10px" }}>
@@ -192,8 +185,8 @@ const FeedbackComments = (props) => {
           }
 
           {cmtErrorAttachements?.errLengthCount?.length > 0 && errorLengthAtthState &&
-            <div className="col-md-12" style={{ fontSize: "10px" }}>
-              <div className="alert alert-danger my-1" role="alert">
+            <div className="col-md-12" style={{ fontSize: "10px", padding: 0 }}>
+              <div className="alert alert-danger my-1" role="alert" style={{ width: "80%" }}>
                 <span>{cmtErrorAttachements.errLengthCount.length}</span><span> - File Size exceeds, File Size should be less than 1mb.</span>
                 <button type="button" className="close eep-error-close" style={{ fontSize: "18px" }} onClick={() => setErrorLengthAtthState(false)}><span aria-hidden="true">×</span></button>
               </div>
@@ -202,7 +195,6 @@ const FeedbackComments = (props) => {
 
           <div className=" d-inline-flex open_chat">
 
-            {/* {attachementFiles?.length <= 0 && */}
             <div
               id="command_attachement_icon"
               className="c1 command_attachement eep_attachment_icon mr-2"
@@ -230,12 +222,11 @@ const FeedbackComments = (props) => {
               }
               {attachementFiles?.length > 0 &&
                 <React.Fragment>
-                  {/* <img src={`${process.env.PUBLIC_URL}/images/icons/special/attachment-add.svg`} className="ideabox-attach-img-size_2 image-circle c1 command_attachement right_side_commandadd_icon mr-2" id="command_attachement_plus" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} /> */}
                   {attachementFiles?.map((item, index) => {
                     return (
                       <div className="attachments_list mb-0" key={"attachments_list_" + index}>
                         <div className="attachments_list_a">
-                          <a href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
+                          <a className="c1" href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
                             <img style={{ width: "24px" }} src={item.imgSrcIcon} className="image-circle c1 command-attachement-img-size" alt="icon" />
                           </a>
                         </div>

@@ -28,7 +28,7 @@ const ManageAwardActions = (props) => {
         ></span>
         {/* <img src={process.env.PUBLIC_URL + "/images/icons/view.svg"} className="transformScale" alt="View Icon" title="View Details" style={{width:"25px"}} /> */}
       </Link>
-      <a title="Delete" className="manageStopIcon ml-2"
+      <a title="Delete" className="manageStopIcon ml-2 c1"
         onClick={() => handleDeletion(data)} data-toggle="modal" data-target="#stopAllotedAwardModal">
         <span
           dangerouslySetInnerHTML={{

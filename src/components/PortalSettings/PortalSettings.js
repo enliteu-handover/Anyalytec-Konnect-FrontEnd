@@ -70,7 +70,7 @@ const PortalSettings = () => {
   }
 
   const handleSubmitAdminPanel = () => {
-    
+
     const payload = state;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
@@ -88,9 +88,9 @@ const PortalSettings = () => {
         if (state?.color) {
           data['theme']['color'] = state.color
         }
-        if (state?.headerLogoByte) {
-          data['HeaderLogo'] = state.headerLogoByte
-        }
+        // if (state?.headerLogoByte) {
+        data['HeaderLogo'] = state?.headerLogoByte ?? ''
+        // }
         sessionStorage.setItem('userData', JSON.stringify(data))
       })
   };
@@ -159,7 +159,7 @@ const PortalSettings = () => {
                 {selectSetting.isYear && <FinancialYearSettings state={state} setState={setState} />}
                 {selectSetting.isLanguage && <Language state={state} setState={setState} />}
                 {actionBtn &&
-                  <div className="d-flex justify-content-center position-sticky py-2 bg-f5f5f5" onClick={() => handleSubmitAdminPanel()} style={{ bottom: "0px" }}><button className="eep-btn eep-btn-success">Done</button></div>
+                  <div className="d-flex justify-content-center position-sticky py-2 bg-f5f5f5" onClick={() => handleSubmitAdminPanel()} style={{ bottom: "0px" ,marginTop:'3px !important'}}><button className="eep-btn eep-btn-success">Save</button></div>
                 }
                 {!actionBtn &&
                   <ResponseInfo title="Click settings from left side." responseImg="noRecord" responseClass="response-info" />

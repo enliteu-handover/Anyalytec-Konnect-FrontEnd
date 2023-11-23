@@ -41,6 +41,7 @@ const IdeaDetailViewInner = (props) => {
   }
 
   const fileTypeAndImgSrcArray = {
+    "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
     "application/powerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -60,6 +61,7 @@ const IdeaDetailViewInner = (props) => {
     "image/svg+xml": process.env.PUBLIC_URL + "/images/icons/special/jpeg.svg",
     "application/octet-stream": process.env.PUBLIC_URL + "/images/icons/special/doc.svg",
     "default": process.env.PUBLIC_URL + "/images/icons/special/default-doc.svg",
+    "image/xlsx": process.env.PUBLIC_URL + "/images/icons/special/icons8-excel-48.png",
   };
 
   const likeAnIdeaHandler = (arg) => {
@@ -102,9 +104,10 @@ const IdeaDetailViewInner = (props) => {
                   {ideaDetail.ideaAttachmentFileName.map((atthData, index) => {
                     return (
                       <div className="attachment_parent" key={"attachmentLists_" + index}>
-                        <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
-                          <img src={atthData.docByte?.image ? atthData.docByte?.image
-                            // fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
+                        <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                          <img src={
+                            // atthData.docByte?.image ? atthData.docByte?.image
+                            fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
                             : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
                             title={atthData.ideaAttachmentsFileName} />
                         </a>
@@ -158,7 +161,7 @@ const IdeaDetailViewInner = (props) => {
                           {cmtData.ideaCommentAttach.map((atthData, atthIndex) => {
                             return (
                               <div className="eep_command_attachements_inner_content" key={"cmdAtthList_" + atthIndex}>
-                                <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                                <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
                                   <img src={atthData.docByte?.image ? atthData.docByte?.image
                                     // fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
                                     : fileTypeAndImgSrcArray['default']} className="image-circle c1 attach_img_sm" alt="icon" title={atthData.ideaAttachmentsFileName} />
