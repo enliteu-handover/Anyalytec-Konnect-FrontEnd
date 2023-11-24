@@ -165,7 +165,7 @@ const Search = () => {
             })}
             {searchList && searchList.length <= 0 &&
               <div className="eep-content-section-data d-flex w-100">
-                <ResponseInfo title="No Result Found..." responseImg="noRecord" responseClass="response-info" />
+                <ResponseInfo title="No matching results" responseImg="noRecord" responseClass="response-info" />
               </div>
             }
           </div>
@@ -174,7 +174,7 @@ const Search = () => {
 
       {!searchData &&
         <div className="row eep-content-section-data no-gutters">
-          <ResponseInfo title="No Result Found..." responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No matching results" responseImg="noRecord" responseClass="response-info" />
         </div>
       }
     </React.Fragment>
