@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { useSelector } from "react-redux";
+import NomineesInfo from "../../UI/CustomComponents/NomineesInfo";
 import PageHeader from "../../UI/PageHeader";
 import Table from "../../UI/Table";
-import NomineesInfo from "../../UI/CustomComponents/NomineesInfo";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import NominatedAwards from "./NominatedAwards";
 
 const Nominations = () => {
@@ -66,7 +65,6 @@ const Nominations = () => {
       })
       .catch((error) => {
         console.log("error", error);
-        //const errMsg = error.response?.data?.message;
       });
   };
 

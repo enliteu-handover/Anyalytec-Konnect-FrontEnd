@@ -95,12 +95,12 @@ function AwardNominationList() {
     },
     {
       label: "AWARDS",
-      link: "app/awards",
-    },
-    {
-      label: "Awards and Approvals",
       link: "",
     },
+    // {
+    //   label: "Awards and Approvals",
+    //   link: "",
+    // },
   ];
 
   useEffect(() => {

@@ -1,9 +1,9 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TabsActions } from "../store/tabs-slice";
 
 const Tab = (props) => {
-  
+
   const dispatch = useDispatch();
   const getTabs = useSelector((state) => state?.tabs?.config);
 

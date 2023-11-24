@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { useDispatch, useSelector } from "react-redux";
-import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { FILTER_LIST_CONFIG } from "../../constants/ui-config";
+import { useDispatch } from "react-redux";
 import ApprovalActions from "../../UI/CustomComponents/ApprovalActions";
 import ApprovalStatus from "../../UI/CustomComponents/ApprovalStatus";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import Filter from "../../UI/Filter";
+import PageHeader from "../../UI/PageHeader";
+import Table from "../../UI/Table";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { FILTER_LIST_CONFIG } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 function AwardApprovalList() {
   const [awardApproval, setAwardApproval] = useState([]);
@@ -70,7 +70,6 @@ function AwardApprovalList() {
       })
       .catch((error) => {
         console.log("error", error.response);
-        //const errMsg = error.response?.data?.message;
       });
   };
 
@@ -94,12 +93,12 @@ function AwardApprovalList() {
     },
     {
       label: "AWARDS",
-      link: "app/awards",
-    },
-    {
-      label: "Awards and Approvals",
       link: "",
     },
+    // {
+    //   label: "Awards and Approvals",
+    //   link: "",
+    // },
   ];
 
   useEffect(() => {
