@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { sideMenuHidden } from "../../helpers";
 import Communication from "./icon/communication";
 import Dashboard from "./icon/dashboard";
+import Library from "./icon/library";
 import Org from "./icon/org";
 import Recognition from "./icon/recognition";
 import Rewards from "./icon/rewards";
-import Library from "./icon/library";
 
 const Sidebar = (props) => {
   const [sidebarMenu, setSidebarMenu] = useState([]);
@@ -98,22 +98,12 @@ const Sidebar = (props) => {
                 }
                 to={menu.isDirectLink ? (`/app/` + menu?.link) : "#"}
               >
-                {/* <img
-                  className="eep-menu-icon"
-                  alt={menu.icon}
-                  src={`${process.env.PUBLIC_URL}/images/menu/${menu.icon}`}
-                /> */}
                 <span
                   className="eep-menu-icon-sidebar"
                 >
                   {icon[menu.icon]}
                 </span>
-
-                {/* <div style={{ display: "flex", alignItems: "center" }}><span
-                  style={{ width: "30px" }}> */}
-                {/* {icon[menu.icon]}&nbsp;&nbsp; */}
                 <span>{menu.label}</span>
-                {/* </div> */}
 
               </Link>
               {menu?.subMenu && (

@@ -100,14 +100,14 @@
         "disabled": false,
         "viewMode": {
           "type": "text",
-          "value": "manager.fullName"
+          "value": "manager.username"
         },
         "reloadData": true,
         "RESTConfig": {
           "url": "/users/getUserDetails?active=true",
           "method": "get",
           "labelFormattingExists": true,
-          "label": "{fullName}",
+          "label": "{username}",
           "value": "manager.id"
         },
         "options": [],

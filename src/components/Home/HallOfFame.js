@@ -67,7 +67,9 @@ const HallOfFame = (props) => {
               return (
                 <div className="row align-items-center mb-2 bg-f9f9f9 p-1 br-20" key={"HallOfFameRankList_" + index}>
                   <div className="col col-md-3">
-                    <img src={getUserPicture(item?.userId)} className="profile_pic" alt="Profile Image" title={item.name} />
+                    <img src={item?.imageByte || getUserPicture(item?.userId)
+                      // getUserPicture(item?.userId)
+                    } className="profile_pic" alt="Profile Image" title={item.name} />
                     {/* <Link to="#" className="a_hover_txt_deco_none opacity-5"> */}
                     <label className="profile_nm font-helvetica-m my-0 eep_truncate eep_truncate_min ">{item.name}</label>
                     {/* </Link> */}

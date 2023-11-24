@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { useDispatch } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
-import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
+import { pageLoaderHandler } from "../../helpers";
+import { httpHandler } from "../../http/http-interceptor";
 import AddCertificateToRecognitionModal from "../../modals/AddCertificateToRecognitionModal";
+import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const Certificates = () => {
 
@@ -47,31 +47,33 @@ const Certificates = () => {
   const [certData, setCertData] = useState([]);
 
   useEffect(() => {
+    pageLoaderHandler('show')
     fetchCertificateData();
   }, []);
 
-  const fetchCertificateData = () => {
+  const fetchCertificateData = async () => {
     const obj = {
       url: URL_CONFIG.ALL_CERTIFICATE,
       method: "get"
     };
-    httpHandler(obj)
-      .then((cData) => {
+    await httpHandler(obj)
+      .then(async (cData) => {
         const existingCertDataTemp = [];
         cData.data.map((item) => {
           return existingCertDataTemp.push(item.name);
         });
-        fetchCertificateLibraryData(existingCertDataTemp);
+        await fetchCertificateLibraryData(existingCertDataTemp);
+        pageLoaderHandler('hide')
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("fetchCertificateData error", error.response?.data?.message);
-        //const errMsg = error.response?.data?.message;
       });
   }
 
-  const fetchCertificateLibraryData = (arg) => {
+  const fetchCertificateLibraryData = async (arg) => {
 
-    fetch(`${process.env.PUBLIC_URL}/data/certificateLibrary.json`)
+    await fetch(`${process.env.PUBLIC_URL}/data/certificateLibrary.json`)
       .then((response) => response.json())
       .then((data) => {
         let dataTemp = JSON.parse(JSON.stringify(data));
