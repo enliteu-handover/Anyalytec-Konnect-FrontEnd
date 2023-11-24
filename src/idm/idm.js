@@ -15,7 +15,7 @@ const IdmRoleMapping = (props) => {
             link: "app/adminpanel",
         },
         {
-            label: "Role Master",
+            label: "Role",
             link: "",
         },
     ];
@@ -35,13 +35,11 @@ const IdmRoleMapping = (props) => {
         };
     }, []);
     return (
-        <div className="">
-
-            <UserManagement
-                apiUrl="https://dev-idm-api.crayond.com/api/v1"
-                apiToken={"ASC4PK0UVE5OOCO8NK"}
-            />
-        </div>
+        <UserManagement
+            apiUrl="https://dev-idm-api.crayond.com/api/v1"
+            apiToken={"ASC4PK0UVE5OOCO8NK"}
+            title={"Role Management"}
+        />
     );
 };
 export default IdmRoleMapping; 
