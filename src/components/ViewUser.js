@@ -92,7 +92,6 @@ const ViewUser = () => {
   };
 
   const userDataValueMapping = (userMeta, uData) => {
-    debugger
     for (let fields in userMeta) {
       for (let fld of userMeta[fields].fields) {
         if (fld["type"] === "password") {

@@ -13,6 +13,7 @@ import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import FeedbackDetailView from "./feedbackDetailView";
 import FeedbackList from "./feedbackList";
 import "./style.scss";
+import ConfirmStateModal from "../../modals/ConfirmStateModal";
 
 const Feedback = () => {
   const yrDt = new Date().getFullYear();
@@ -32,6 +33,7 @@ const Feedback = () => {
   const [ideaData, setIdeaData] = useState(null);
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const [filterParams, setFilterParams] = useState({});
+  const [confirmStateModalObj, setConfirmStateModalObj] = useState({ data: null, open: false, confirmTitle: null, confirmMessage: null });
 
   const CloseFunction = () => {
     setCreateModalShow(!createModalShow)
@@ -316,25 +318,34 @@ const Feedback = () => {
     });
   };
 
-  const deleteFeedback = (feedbackTempData) => {
-
-    let httpObj = {
-      url: URL_CONFIG.FEEDBACK_DELETE
-        + "?id=" + feedbackTempData.id,
-      method: "delete"
-    };
-    httpHandler(httpObj)
-      .then(() => {
-        fetchAllFeedbacks();
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
+  const confirmState = (isConfirmed) => {
+    if (isConfirmed) {
+      let httpObj = {
+        url: URL_CONFIG.FEEDBACK_DELETE
+          + "?id=" + confirmStateModalObj?.data?.id,
+        method: "delete"
+      };
+      httpHandler(httpObj)
+        .then(() => {
+          setConfirmStateModalObj({ data: null, open: false, confirmTitle: null, confirmMessage: null })
+          hideModal()
+          fetchAllFeedbacks();
+        })
+        .catch((error) => {
+          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
         });
-      });
+    } else {
+      setConfirmStateModalObj({ data: null, open: false, confirmTitle: null, confirmMessage: null })
+    };
+  }
+
+  const deleteFeedback = (feedbackTempData) => {
+    setConfirmStateModalObj({ data: feedbackTempData, open: true, confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Feedback?" });
   };
 
   const getFilterParams = (paramsData = {}) => {
@@ -352,6 +363,15 @@ const Feedback = () => {
 
   return (
     <React.Fragment>
+
+      {confirmStateModalObj?.open &&
+        <ConfirmStateModal
+          hideModal={hideModal}
+          confirmState={confirmState}
+          confirmTitle={confirmStateModalObj?.confirmTitle ?? "Are you sure?"}
+          confirmMessage={confirmStateModalObj?.confirmMessage ?? ""}
+        />
+      }
 
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal

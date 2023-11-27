@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import classes from "./Table.module.scss";
 import Select from "react-select";
+import classes from "./Table.module.scss";
 
 const Table = (props) => {
   const { isPage, offset = 0, limit = 100, isPrev, isNext, defualtonChange, showTable } = props;
@@ -120,7 +120,9 @@ const Table = (props) => {
                   className="form-control form-control-sm"
                   placeholder="Search..."
                   aria-controls="user_dataTable"
-                  onChange={(e) => props?.isSearch ? props?.isSearch(e) : setSearch(e.target.value)}
+                  onChange={(e) => {
+                    props?.isSearch ? props?.isSearch(e) : setSearch(e.target.value)
+                  }}
                 />
                 <div className="input-group-addon" style={{ right: "0px" }}>
                   <img src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`} alt="Search" />

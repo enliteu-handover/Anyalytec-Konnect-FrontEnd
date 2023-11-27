@@ -56,7 +56,10 @@ const Nominations = () => {
         nominatedLists.data && nominatedLists.data.length && nominatedLists.data.map((lists) => {
           lists?.nominated && lists?.nominations?.length && lists?.nominations.map((users) => {
             users.userId.pic = getUserPicture(picDatas, users.userId.id);
-            return usersInfo.push({ userData: users, listData: lists });
+            return usersInfo.push({
+              userData: users, listData: lists,
+              name: users?.userId?.fullName
+            });
           });
           return awardsInfo.push(lists);
         });
@@ -105,7 +108,6 @@ const Nominations = () => {
       fetchAllUsers();
     }
   }
-
   return (
     <React.Fragment>
       <PageHeader title="Awards and Nominated" />

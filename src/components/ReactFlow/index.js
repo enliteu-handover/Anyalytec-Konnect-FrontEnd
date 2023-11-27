@@ -216,7 +216,7 @@ const LayoutFlow = (props) => {
                 onConnect={ConnectionMode.Loose}
                 defaultViewport={defaultViewport}
             >
-                <Controls />
+                <Controls showInteractive={false} />
             </ReactFlow>
         </React.Fragment>
     );

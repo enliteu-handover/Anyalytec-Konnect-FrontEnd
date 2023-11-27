@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { base64ToFile } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import MyCertificate from "./MyCertificate";
-import { base64ToFile } from "../../helpers";
 
 const Certificates = () => {
   const [certificateRecognitionData, setCertificateRecognitionData] = useState([]);
@@ -85,7 +85,6 @@ const Certificates = () => {
           config: tabConfig,
         })
       );
-      // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -114,7 +113,6 @@ const Certificates = () => {
       })
       .catch((error) => {
         console.log("fetchCertificateData error", error.response?.data?.message);
-        //const errMsg = error.response?.data?.message;
       });
   }
 
@@ -159,7 +157,6 @@ const Certificates = () => {
       })
       .catch((error) => {
         console.log("error", error);
-        //const errMsg = error.response?.data?.message;
       });
   };
 

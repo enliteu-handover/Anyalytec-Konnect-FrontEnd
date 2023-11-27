@@ -1,18 +1,20 @@
+import fontkit from '@pdf-lib/fontkit';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import PageHeader from "../../UI/PageHeader";
 import { Link, useLocation } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib'
-import fontkit from '@pdf-lib/fontkit'
-import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
 import Select from "react-select";
+import ReactTooltip from "react-tooltip";
+import PageHeader from "../../UI/PageHeader";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { useHistory } from 'react-router-dom';
 
 const CertificateCompose = () => {
+  const eepHistory = useHistory();
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const dispatch = useDispatch();
   const [previewDataUri, setPreviewDataUri] = useState({});
@@ -87,7 +89,7 @@ const CertificateCompose = () => {
   const [certificatePreviewModalShow, setCertificatePreviewModalShow] = useState(false);
 
   const previewHandler = () => {
-    
+
     setCertificatePreviewModalShow(true);
     const obj = {
       tnm: toName,
@@ -109,7 +111,7 @@ const CertificateCompose = () => {
   }
 
   const sendCertHandler = () => {
-    
+
     setCertificatePreviewModalShow(false);
     const obj = {
       tnm: toName,
@@ -117,16 +119,16 @@ const CertificateCompose = () => {
       cmsg: message,
       cbtn: 'send'
     }
-    if (!getLocation.state?.isCustomCertificate) {
+    if (!getLocation?.state?.isCustomCertificate) {
       modifyPdf(obj)
     }
-    if (getLocation.state?.isCustomCertificate) {
+    if (getLocation?.state?.isCustomCertificate) {
       handleSendCertificate({ isTemplateCertificate: false, cData: cDataValue, pdfDataUrlVal: null });
     }
   }
 
   async function modifyPdf(obj) {
-    
+
     const defaultParameters = JSON.parse('[{"toField":[{"fontsize":33},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",348]},{"rgbcolor":[111,113,121]}]},{"certNameField":[{"fontsize":24},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",454]},{"rgbcolor":[111,113,121]}]},{"certMsgField":[{"fontsize":20},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":562},{"coordinates":[153,285]},{"rgbcolor":[111,113,121]}]},{"certdateField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[126,113]},{"rgbcolor":[111,113,121]}]},{"certsignField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[556,85]},{"rgbcolor":[111,113,121]}]},{"certsignimgField":[{"imgalign":"center"},{"maxwidth":189},{"coordinates":[556,107]},{"imgsize":[138,36]}]},{"certSource":"certificate-3.pdf"}]');
     const parseJsonValue = Object.keys(cDataValue).length ? JSON.parse(cDataValue.parameters) : defaultParameters;
 
@@ -280,7 +282,7 @@ const CertificateCompose = () => {
     // var signURL = currUserInfo.signatureByte !== null ? (currUserInfo.signatureByte.image ? currUserInfo.signatureByte?.image : "") : "";
     var signURL = currUserInfo?.signatureByte !== null ?
       (currUserInfo?.signatureByte?.image ? currUserInfo?.signatureByte?.image : "") : "";
-    
+
     if (signURL) {
       let sg_img_coordination_x = parseJsonValue[5]["certsignimgField"][2]["coordinates"][0];
       let sg_img_coordination_y = parseJsonValue[5]["certsignimgField"][2]["coordinates"][1];
@@ -392,7 +394,7 @@ const CertificateCompose = () => {
   }
 
   const handleSendCertificate = async (cValue) => {
-    
+
     if (!isSendDisabled) {
 
       let imgUrl = ''
@@ -529,7 +531,10 @@ const CertificateCompose = () => {
               type="button"
               className="eep-btn eep-btn-xsml eep-btn-success"
               data-dismiss="modal"
-              onClick={hideModal}
+              onClick={() => {
+                hideModal()
+                eepHistory.push('certificates', { activeTab: 'certificate' });
+              }}
             >
               Ok
             </button>
@@ -552,7 +557,7 @@ const CertificateCompose = () => {
           <div className="bg-white br-15 h-100">
             <div className="p-3 mt-3 h-100 w-10">
               <div className="certificate_img_div my-auto">
-                <img id="certificateImg" src={`${process.env.PUBLIC_URL}/images/certificates/certificateThumbnail.svg`} className="compose_certificate" alt="Certificate" title={cDataValue.name} />
+                <img id="certificateImg" src={`${process.env.PUBLIC_URL}/images/certificates/certificateThumbnail.svg`} className="compose_certificate" alt="Certificate" title={cDataValue?.name} />
                 <div className="mt-3">
                   <button type="button" className="btn eep-btn-default eep-btn-default-hover certPreviewBtn" id="certPreviewBtn" onClick={previewHandler} data-toggle="modal" data-target="#certPreviewModal">
                     <i className="fa fa-eye mr-2" aria-hidden="true"></i>Preview
@@ -652,7 +657,8 @@ const CertificateCompose = () => {
                       <Link to="certificates" className="c-2c2c2c a_hover_txt_deco_none">Cancel</Link>
                     </div>
                     <div className="col-md-6 text-right">
-                      <button type="button" className="eep-btn eep-btn-success eep-btn-xsml certSubmitBtn" id="certSubmitBtn" disabled={isSendDisabled} onClick={sendCertHandler}>
+                      <button type="button" className="eep-btn eep-btn-success eep-btn-xsml certSubmitBtn" id="certSubmitBtn" disabled={isSendDisabled}
+                        onClick={sendCertHandler}>
                         <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eye }}></span>
                         <span> Send </span>
                       </button>

@@ -24,7 +24,6 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = async (event) => {
-    debugger
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
