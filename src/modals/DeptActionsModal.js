@@ -176,7 +176,7 @@ const DeptActionsModal = (props) => {
                           <div className="d-flex justify-content-between">
                             <div className="d-flex flex-column align-items-start">
                               <label>Status</label>
-                              <p className="font-helvetica-m">{deptMode ? "Active" : "Inactive"}</p>
+                              <p className="font-helvetica-m">{initDeptDatas?.active ? "Active" : "Inactive"}</p>
                             </div>
                             <div className="d-flex flex-column align-items-start">
                               <label>Department ID</label>

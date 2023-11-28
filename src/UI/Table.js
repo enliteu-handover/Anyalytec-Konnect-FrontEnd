@@ -124,7 +124,7 @@ const Table = (props) => {
                     props?.isSearch ? props?.isSearch(e) : setSearch(e.target.value)
                   }}
                 />
-                <div className="input-group-addon" style={{ right: "0px" }}>
+                <div className="input-group-addon" style={{ right: "10px" }}>
                   <img src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`} alt="Search" />
                 </div>
               </div>

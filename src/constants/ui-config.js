@@ -1,5 +1,5 @@
 const FILTER_CONFIG = {
-  defaultValue: { label: "Active", value: true },
+  defaultValue: { label: "All", value: true },
   dropdownOptions: [
     { label: "All", value: "" },
     { label: "Active", value: true },

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ManageAwardViewInfo from "./ManageAwardViewInfo";
 import ResponseInfo from "../../UI/ResponseInfo";
+import moment from "moment";
 
 const ManageNominateAwardView = () => {
 
@@ -63,33 +64,32 @@ const ManageNominateAwardView = () => {
                                 <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group">
                                   <label className="font-helvetica-m c-404040">Start Date</label>
                                   <div className="vInputsDiv border border-1">
-                                    <label className="mb-0">{aDataValue?.date1}</label>
+                                    <label className="mb-0">{moment(aDataValue?.date1).format('YYYY-MM-DD')}</label>
                                   </div>
                                 </div>
                                 <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group">
                                   <label className="font-helvetica-m c-404040">End Date</label>
                                   <div className="vInputsDiv border border-1">
-                                    <label className="mb-0">{aDataValue?.date2}</label>
+                                    <label className="mb-0">{moment(aDataValue?.date2).format('YYYY-MM-DD')}</label>
                                   </div>
                                 </div>
                               </div>
                             }
-                            {aDataValue?.type !== 'Between_Dates' &&
-                              <div className="row n_schedule_div w-100 no-gutters">
-                                <div className="col-md-12 form-group">
-                                  <label className="font-helvetica-m c-404040">Schedule At</label>
-                                  <div className="vInputsDiv border border-1">
-                                    {aDataValue?.month !== 0 &&
-                                      <label className="mb-0">{('0' + aDataValue?.day).slice(-2)
-                                        + (monthArr[aDataValue?.month - 1] ? " - " : '') + (monthArr[aDataValue?.month - 1] ?? '')}</label>
-                                    }
-                                    {aDataValue?.month === 0 &&
-                                      <label className="mb-0">{('0' + aDataValue?.day).slice(-2)}</label>
-                                    }
-                                  </div>
-                                </div>
+                             {aDataValue?.type !== 'Between_Dates' &&      
+                            <div className="row n_schedule_div w-100 no-gutters">                     
+                              <div className="col-md-12 form-group">
+                                <label className="font-helvetica-m c-404040">Schedule At</label>
+                                <div className="vInputsDiv border border-1">
+                                  {aDataValue?.month !== 0 &&
+                                    <label className="mb-0">{('0' + aDataValue?.day).slice(-2) + " - " + monthArr[aDataValue?.month - 1]}</label>
+                                  }
+                                  {aDataValue?.month === 0 &&
+                                    <label className="mb-0">{('0' + aDataValue?.day).slice(-2)}</label>
+                                  }
+                                </div>	
                               </div>
-                            }
+                            </div> 
+                            } 
                             <div className="row a_schedule_div templates_time_div px-0 n_award_inputs_col3 w-100 no-gutters">
                               <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group n_award_inputs_col3_inner eep-timer-parent">
                                 <label className="font-helvetica-m c-404040">Schedule Time</label>
