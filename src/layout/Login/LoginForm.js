@@ -28,17 +28,17 @@ const LoginForm = () => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
-  //     .then(response => {
-  //       console.log('Qwik gifts---', response?.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
+    axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
+      .then(response => {
+        console.log('Qwik gifts---', response?.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
-  // }, [])
+  }, [])
 
   useEffect(() => {
     setFormIsValid(false);
