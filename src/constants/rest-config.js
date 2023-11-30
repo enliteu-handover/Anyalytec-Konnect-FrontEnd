@@ -215,7 +215,7 @@ const URL_CONFIG = {
   USER_VALIDATION: "/auth/user_validation",
 
 
-  GIFT_VOUCHER: "/getRedemption",
+  GIFT_VOUCHER: "/gifts/getRedemption",
 };
 
 export { REST_CONFIG, URL_CONFIG };
