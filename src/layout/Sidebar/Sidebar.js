@@ -4,15 +4,18 @@ import { Link } from "react-router-dom";
 import { sideMenuHidden } from "../../helpers";
 import Communication from "./icon/communication";
 import Dashboard from "./icon/dashboard";
+import DownArrow from "./icon/downArrow";
 import Library from "./icon/library";
 import Org from "./icon/org";
 import Recognition from "./icon/recognition";
 import Rewards from "./icon/rewards";
+import UpArrow from "./icon/upArrrow";
 
 const Sidebar = (props) => {
   const [sidebarMenu, setSidebarMenu] = useState([]);
   const [sidebarToggled, setSidebarToggled] = useState(false);
   const [theme, setTheme] = useState(props?.theme)
+  const [activeMenu, setActiveMenu] = useState(null)
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const fetchSidebarMenu = () => {
@@ -43,14 +46,19 @@ const Sidebar = (props) => {
   }, [userRolePermission]);
 
   const user_details = sessionStorage.getItem('userData');
-
+  const theme_color = (theme?.color || theme) === 'color_two' ? "#000" : "#fff"
   const icon = {
-    'Dashboard.svg': <Dashboard color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
-    'Recognition.svg': <Recognition color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
-    'Library.svg': <Library color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
-    'Communication.svg': <Communication color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
-    'Rewards.svg': <Rewards color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />,
-    'download.svg': <Org color={(theme?.color || theme) === 'color_two' ? "#000" : "#fff"} />
+    'Dashboard.svg': <Dashboard color={theme_color} />,
+    'Recognition.svg': <Recognition color={theme_color} />,
+    'Library.svg': <Library color={theme_color} />,
+    'Communication.svg': <Communication color={theme_color} />,
+    'Rewards.svg': <Rewards color={theme_color} />,
+    'download.svg': <Org color={theme_color} />
+  }
+
+  const handleChangeMenu = (index) => {
+    const value = index === activeMenu ? null : index
+    setActiveMenu(value)
   }
 
   return (
@@ -91,12 +99,14 @@ const Sidebar = (props) => {
             <li className="nav-item" key={"list" + index}>
               <Link
                 className={`nav-link collapsed ${(((`/app/` + menu?.link)
-                  === window.location.pathname) && (!menu?.subMenu)) ? 'active-parent-menu' : ''}`}
+                  === window.location.pathname) &&
+                  (!menu?.subMenu)) ? 'active-parent-menu' : ''}`}
                 data-toggle={menu && menu.subMenu ? "collapse" : ""}
                 data-target={
                   menu && menu.subMenu ? `#collapseSection${index}` : ""
                 }
                 to={menu.isDirectLink ? (`/app/` + menu?.link) : "#"}
+                onClick={() => handleChangeMenu(index)}
               >
                 <span
                   className="eep-menu-icon-sidebar"
@@ -104,6 +114,13 @@ const Sidebar = (props) => {
                   {icon[menu.icon]}
                 </span>
                 <span>{menu.label}</span>
+                {menu?.subMenu?.length > 0 &&
+                  (activeMenu === index ?
+                    <UpArrow color={theme_color}
+                    />
+                    : <DownArrow color={theme_color}
+                    />
+                  )}
 
               </Link>
               {menu?.subMenu && (
