@@ -382,7 +382,7 @@ const UserManagement = () => {
           </div>
         </React.Fragment>
       }
-      {!userRolePermission.adminPanel &&
+      {!userRolePermission?.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo
             title="Oops! Looks illigal way."

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import BranchMasterActions from "../../UI/CustomComponents/branchMasterAction";
 import Filter from "../../UI/Filter";
 import PageHeader from "../../UI/PageHeader";
-import ResponseInfo from "../../UI/ResponseInfo";
 import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { FILTER_CONFIG } from "../../constants/ui-config";
@@ -35,7 +34,7 @@ const BranchMaster = () => {
     const breadcrumbArr = [
         {
             label: "Home",
-            link: "dashboard",
+            link: "app/dashboard",
         },
         {
             label: "Admin Panel",
@@ -226,7 +225,7 @@ const BranchMaster = () => {
                 </div>
             </React.Fragment>
 
-            {!state?.data?.data?.length > 0 &&
+            {/* {!state?.data?.data?.length > 0 &&
                 <div className="row eep-content-section-data no-gutters">
                     <ResponseInfo
                         title="No branch you have!."
@@ -234,7 +233,7 @@ const BranchMaster = () => {
                         responseClass="response-info"
                     />
                 </div>
-            }
+            } */}
         </React.Fragment>
     );
 };

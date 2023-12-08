@@ -144,7 +144,7 @@ function ListDepartments() {
 
   return (
     <React.Fragment>
-      {userRolePermission.adminPanel &&
+      {userRolePermission?.adminPanel &&
         <React.Fragment>
           <CreateDepartmentModal fetchDeptData={fetchDepartmentData} />
           {deptData && Object.keys(deptData).length > 0 &&
@@ -200,7 +200,7 @@ function ListDepartments() {
           </div>
         </React.Fragment>
       }
-      {!userRolePermission.adminPanel &&
+      {!userRolePermission?.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo
             title="Oops! Looks illigal way."
