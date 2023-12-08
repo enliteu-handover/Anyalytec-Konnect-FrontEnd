@@ -113,9 +113,11 @@ const Sidebar = (props) => {
                 >
                   {icon[menu.icon]}
                 </span>
+               
                 <span>{menu.label}</span>
-                {menu?.subMenu?.length > 0 &&
-                  (activeMenu === index ?
+               
+                {!sidebarToggled && menu?.subMenu?.length > 0 &&
+                  (activeMenu !== index ?
                     <UpArrow color={theme_color}
                     />
                     : <DownArrow color={theme_color}
