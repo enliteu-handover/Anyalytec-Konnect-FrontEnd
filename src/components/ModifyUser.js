@@ -193,6 +193,7 @@ const ModifyUser = () => {
     };
     await httpHandler(obj)
       .then((uData) => {
+        pageLoaderHandler('hide')
 
         setTimeout(async () => {
           setUData(uData.data);
@@ -208,7 +209,6 @@ const ModifyUser = () => {
                 setUserMetaData({
                   ...userMeta,
                 })
-                pageLoaderHandler('hide')
               }).catch((error) => console.log(error));
           }
 
@@ -326,11 +326,6 @@ const ModifyUser = () => {
   console.log('userMetaData', userMetaData);
   return (
     <React.Fragment>
-      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
-        <div id="loader">
-          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
-        </div>
-      </div>
       {userRolePermission.adminPanel &&
         <React.Fragment>
           {showModal.type !== null && showModal.message !== null && (
