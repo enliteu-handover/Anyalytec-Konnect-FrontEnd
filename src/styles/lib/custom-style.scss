@@ -7536,16 +7536,6 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   display: none !important;
 }
 
-.sidebaricondown {
-  background: none !important;
-  padding: 0px;
-  margin: 0px;
-  width: 34px !important;
-  border: none;
-  position: absolute !important;
-  right: 0px !important;
-}
-
 .sidebaricondownup {
   background: none !important;
   padding: 0px;
@@ -7554,4 +7544,14 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   border: none;
   position: absolute !important;
   right: 16px !important;
+}
+
+.sidebaricondown {
+  background: none !important;
+  padding: 0px;
+  margin: 0px;
+  width: 34px !important;
+  border: none;
+  position: absolute !important;
+  right: 0px !important;
 }
