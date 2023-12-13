@@ -1,4 +1,9 @@
 import * as XLSX from 'xlsx';
+import { URL_CONFIG } from './constants/rest-config';
+import { httpHandler } from './http/http-interceptor';
+import { idmRoleMapping } from './idm';
+import { sharedDataActions } from './store/shared-data-slice';
+
 export const base64ToFile = (base64Data) => {
 
     const binaryString = atob(base64Data);
@@ -76,12 +81,42 @@ export const downloadXlsx = (name, data) => {
 export const pageLoaderHandler = (arg) => {
     const element = document.getElementById('page-loader-container');
     if (element?.classList) {
-      element.classList.remove('d-none', 'd-block');
-  
-      if (arg === 'show') {
-        element.classList.add('d-block');
-      } else {
-        element.classList.add('d-none');
-      }
+        element.classList.remove('d-none', 'd-block');
+
+        if (arg === 'show') {
+            element.classList.add('d-block');
+        } else {
+            element.classList.add('d-none');
+        }
     }
-  }
+}
+
+
+export const fetchUserPermissions = async (dispatch) => {
+
+    const obj = {
+        url: URL_CONFIG.USER_PERMISSION,
+        method: "get",
+    };
+    await httpHandler(obj).then(async (response) => {
+        const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
+
+        const getAndUpdate = sessionStorage.getItem('userData')
+        const addFileds = {
+            ...JSON.parse(getAndUpdate),
+            firstName: response?.data?.firstName,
+            lastName: response?.data?.lastName,
+            allPoints: response?.data?.totalPoints,
+            HeaderLogo: response?.data?.HeaderLogo,
+            userLogo: response?.data?.userLogo,
+            theme: response?.data?.theme?.[0] ?? {},
+        }
+        sessionStorage.setItem('userData', JSON.stringify(addFileds))
+        await dispatch(sharedDataActions.getUserRolePermission({
+            userRolePermission: roleData?.data
+        }));
+
+    }).catch((error) => {
+        console.log("fetchPermission error", error);
+    });
+}

@@ -216,6 +216,8 @@ const URL_CONFIG = {
 
 
   GIFT_VOUCHER: "/gifts/getRedemption",
+  POST_REDEEM: "/gifts/postRedeem",
+  GET_REDEEM: "/gifts/getRedeemPoints",
 };
 
 export { REST_CONFIG, URL_CONFIG };
