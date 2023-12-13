@@ -24,7 +24,7 @@ const Header = () => {
       "HeaderLogo": JSON.parse(userDetails)?.HeaderLogo ?? "",
       "allPoints": JSON.parse(userDetails)?.allPoints ?? 0
     })
-  }, [JSON.parse(userDetails)?.HeaderLogo, JSON.parse(userDetails)?.allPoints, JSON.parse(userDetails)])
+  }, [JSON.parse(userDetails)?.HeaderLogo, JSON.parse(userDetails)?.allPoints])
 
   const points = () => {
     History.push('/app/points')
