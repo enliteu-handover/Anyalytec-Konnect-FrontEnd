@@ -65,6 +65,7 @@ import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
+import MyProfileCoupon from "../../components/myRedeemption";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);
@@ -265,6 +266,9 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/search">
                               <Search />
+                            </Route>
+                            <Route path="/app/my-redeem">
+                              <MyProfileCoupon />
                             </Route>
                           </Switch>
                         </div>

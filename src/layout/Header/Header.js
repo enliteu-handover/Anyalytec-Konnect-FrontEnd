@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import SvgComponent from "../../components/ViwerComponents";
 import "../../styles/lib/eep-search.scss";
 import classes from "./Header.module.scss";
 import HeaderSearch from "./HeaderSearch";
 import Notification from "./Notification";
 import UserNavItem from "./UserNavItem";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-// import { URL_CONFIG } from "../../constants/rest-config";
-// import { httpHandler } from "../../http/http-interceptor";
 
 const Header = () => {
   const headerLogo = useSelector((state) => state.storeState.logo);
   const userDetails = sessionStorage.getItem('userData')
   const History = useHistory();
-  const [state, setState] = useState();
+  const [state, setState] = useState({
+    allPoints: 0,
+    HeaderLogo: null
+  });
 
   React.useEffect(() => {
     setState({
       ...state,
-      "HeaderLogo": JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo ?? ""
+      "HeaderLogo": JSON.parse(userDetails)?.HeaderLogo ?? "",
+      "allPoints": JSON.parse(userDetails)?.allPoints ?? 0
     })
-  }, [JSON.parse(sessionStorage.getItem('userData'))?.HeaderLogo])
+  }, [JSON.parse(userDetails)?.HeaderLogo, JSON.parse(userDetails)?.allPoints, JSON.parse(userDetails)])
 
   const points = () => {
     History.push('/app/points')
@@ -62,7 +64,7 @@ const Header = () => {
         <HeaderSearch />
 
         <button className="eep-btn our_points_in_dashboard c1" onClick={() => points()}>
-          Points : {((JSON.parse(userDetails)?.allPoints) <= 9 && "0") + (JSON.parse(userDetails)?.allPoints ?? 0)}
+          Points : {((state?.allPoints) <= 9 && "0") + (state?.allPoints ?? 0)}
         </button>
 
         <ul className="navbar-nav">

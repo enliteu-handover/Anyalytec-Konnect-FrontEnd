@@ -22638,6 +22638,7 @@ input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
 }
 .org_user_info .footer {
   display: flex;
+  justify-content: center;
 }
 .org_user_info .footer .f1 {
   color: #818181;
@@ -22859,6 +22860,34 @@ input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
 .iframeWrapper canvas {
   width: 100% !important;
   height: 100% !important;
+}
+
+.sidebar .nav-item .nav-link[data-toggle=collapse]::after {
+  display: none !important;
+}
+
+body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
+  display: none !important;
+}
+
+.sidebaricondownup {
+  background: none !important;
+  padding: 0px;
+  margin: 0px;
+  width: 34px !important;
+  border: none;
+  position: absolute !important;
+  right: 16px !important;
+}
+
+.sidebaricondown {
+  background: none !important;
+  padding: 0px;
+  margin: 0px;
+  width: 34px !important;
+  border: none;
+  position: absolute !important;
+  right: 0px !important;
 }
 
 .eep-progress {
