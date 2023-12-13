@@ -13,7 +13,7 @@ const UserNavItem = () => {
       ...state,
       "logo": JSON.parse(sessionStorage.getItem('userData'))?.userLogo ?? ""
     })
-  }, [JSON.parse(sessionStorage.getItem('userData'))])
+  }, [JSON.parse(sessionStorage.getItem('userData'))?.userLogo])
 
   return (
     <React.Fragment>
