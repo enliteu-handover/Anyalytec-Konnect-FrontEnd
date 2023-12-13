@@ -2,6 +2,8 @@ import React from "react";
 import Table from "../../UI/Table";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import DisplayTypePoints from "../../UI/CustomComponents/DisplayTypePoints";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const PointsTable = (props) => {
 
@@ -42,34 +44,36 @@ const PointsTable = (props) => {
 
   const PointsTableHeaders = [
     {
-      fieldLabel: "Reward",
-      fieldValue: "name",
+      header: "Reward",
+      accessorKey: "name",
       component: "",
     },
     {
-      fieldLabel: "Type",
-      fieldValue: "action",
-      component: <DisplayTypePoints cSettings={CustomComponentSettings.pointType} />,
+      header: "Type",
+      accessorKey: "action",
+      accessorFn: (row) => <DisplayTypePoints cSettings={CustomComponentSettings.pointType} />,
+      // component: ,
     },
     {
-      fieldLabel: "Rewarded By",
-      fieldValue: "createdBy.fullName",
+      header: "Rewarded By",
+      accessorKey: "createdBy.fullName",
       component: "",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "action",
-      component: <DateFormatDisplay cSettings={CustomComponentSettings.date} />,
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => moment(row.createdAt).format('l'),
+      // component: <DateFormatDisplay cSettings={CustomComponentSettings.date} />,
     },
     {
-      fieldLabel: "Src Type",
-      fieldValue: "",
-      component: "",
+      header: "Src Type",
+      accessorKey: "",
+      // component: "",
     },
     {
-      fieldLabel: "Points",
-      fieldValue: "points",
-      component: "",
+      header: "Points",
+      accessorKey: "points",
+      // component: "",
     },
   ];
 
@@ -77,13 +81,18 @@ const PointsTable = (props) => {
     <React.Fragment >
       <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-          <Table component="Points" headers={PointsTableHeaders} data={pointsList.rewards}
+          {/* <Table component="Points" headers={PointsTableHeaders} data={pointsList.rewards}
             tableProps={{
               classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
               id: "user_dataTable", "aria-describedby": "user_dataTable_info",
             }}
             action={null}
-          ></Table>
+          ></Table> */}
+          <TableComponent
+              data={pointsList?.rewards ?? []}
+              columns={PointsTableHeaders}
+              action={null}
+              />
         </div>
       </div>
     </React.Fragment >

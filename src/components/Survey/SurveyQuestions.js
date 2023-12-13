@@ -12,6 +12,8 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import CheckBoxComponent from "../../UI/CustomComponents/CheckBoxComponent";
 import SurveyPreviewQuestionModal from "./SurveyPreviewQuestionModal";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const SurveyQuestions = () => {
 
@@ -70,8 +72,8 @@ const SurveyQuestions = () => {
 	const getCheckedData = (cstate, arg) => {
 		
 		let checkedDataTemp = JSON.parse(JSON.stringify(checkedData))
-		if (!surveyQuestionsList[cstate]?.action) {
-			checkedDataTemp.push(arg);
+		if (!surveyQuestionsList?.[cstate]?.action) {
+			checkedDataTemp?.push(arg);
 			setCheckedData([...checkedDataTemp]);
 		}
 		else {
@@ -84,8 +86,9 @@ const SurveyQuestions = () => {
 		}
 
 		let values = JSON.parse(JSON.stringify(surveyQuestionsList));
-		values[cstate]['action'] = !values[cstate]['action']
-		setSurveyQuestionsList(values)
+		let v = values?.[cstate]?.['action']
+		v    = !values?.[cstate]?.['action'];
+          setSurveyQuestionsList(values);
 	}
 
 	const CustomComponentSettings = {
@@ -97,22 +100,26 @@ const SurveyQuestions = () => {
 
 	const surveyTableHeaders = [
 		{
-			fieldLabel: "#",
-			fieldValue: "action",
+			header: "#",
+			accessorKey: "action",
+            accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} />, 	
+
 			// component: <CheckBoxComponent getCheckedData={getCheckedData} />,
 		},
 		{
-			fieldLabel: "SURVEY QUESTION",
-			fieldValue: "question",
+			header: "SURVEY QUESTION",
+			accessorKey: "question",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={CustomComponentSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+            accessorFn: (row) => moment(row.createdAt).format('l'), 	
+
+			// component: <DateFormatDisplay cSettings={CustomComponentSettings.createdAt} />,
 		},
 		{
-			fieldLabel: "Q Type",
-			fieldValue: "type"
+			header: "Q Type",
+			accessorKey: "type"
 		}
 	];
 
@@ -209,18 +216,23 @@ const SurveyQuestions = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{surveyQuestionsList && (
-									<Table
-										component="userManagement"
-										headers={surveyTableHeaders}
-										data={surveyQuestionsList}
-										getCheckedData={getCheckedData}
-										rowClick={true}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
+									// <Table
+									// 	component="userManagement"
+									// 	headers={surveyTableHeaders}
+									// 	data={surveyQuestionsList}
+									// 	getCheckedData={getCheckedData}
+									// 	rowClick={true}
+									// 	tableProps={{
+									// 		classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
+									// 		id: "user_dataTable", "aria-describedby": "user_dataTable_info",
+									// 	}}
+									// 	action={null}
+									// ></Table>
+									<TableComponent
+									data={surveyQuestionsList ?? []}
+									columns={surveyTableHeaders}
+									action={false}
+								  />
 								)}
 							</div>
 						</div>

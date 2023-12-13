@@ -356,6 +356,7 @@ const UserManagement = () => {
                   ></Table>
                 )} */}
 
+                <div style={{position:'relative'}}>
                 <button
                   className="btn btn-secondary"
                   aria-controls="user_dataTable"
@@ -376,6 +377,7 @@ const UserManagement = () => {
                       <UserManagementActionDropdown />
                     }
                   />
+                </div>
 
               </div>
             </div>

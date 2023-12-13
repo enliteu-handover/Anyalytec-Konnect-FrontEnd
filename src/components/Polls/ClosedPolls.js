@@ -12,6 +12,8 @@ import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { pageLoaderHandler } from "../../helpers";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const ClosedPolls = (props) => {
 
@@ -106,19 +108,20 @@ const ClosedPolls = (props) => {
 
 	const PollsTableHeaders = [
 		{
-			fieldLabel: "POLL TITLE",
-			fieldValue: "polls.name",
+			header: "POLL TITLE",
+			accessorKey: "polls.name",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+			accessorFn: (row) => moment(row.createdAt).format('l'), 
+			// component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
 		},
-		{
-			fieldLabel: "View",
-			fieldValue: "action",
-			component: <CustomLinkComponent cSettings={tableSettings.view} />,
-		}
+		// {
+		// 	fieldLabel: "View",
+		// 	fieldValue: "action",
+		// 	component: <CustomLinkComponent cSettings={tableSettings.view} />,
+		// }
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -153,14 +156,20 @@ const ClosedPolls = (props) => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{myPollsList && (
-									<Table component="MySurvey" headers={PollsTableHeaders} data={myPollsList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-											tableId: "MyPollsId"
-										}}
-										action={null}
-									></Table>
+									// <Table component="MySurvey" headers={PollsTableHeaders} data={myPollsList}
+									// 	tableProps={{
+									// 		classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
+									// 		id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
+									// 		tableId: "MyPollsId"
+									// 	}}
+									// 	action={null}
+									// ></Table>
+
+									<TableComponent
+									data={myPollsList ?? []}
+									columns={PollsTableHeaders}
+									action={<CustomLinkComponent cSettings={tableSettings.view} />}
+								  />
 								)}
 							</div>
 						</div>

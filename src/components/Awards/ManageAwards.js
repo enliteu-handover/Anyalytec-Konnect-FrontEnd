@@ -9,6 +9,8 @@ import ManageAwardActions from "../../UI/CustomComponents/ManageAwardActions"
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import StopAllotedAwardModal from "../../modals/StopAllotedAwardModal";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const ManageAwards = () => {
 
@@ -86,51 +88,57 @@ const ManageAwards = () => {
 
   const manageNominationSchedulesTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Type",
-      fieldValue: "type",
+      header: "Type",
+      accessorKey: "type",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
-      component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => moment(row.createdAt).format('l'),
+
+      // component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
     },
     {
-      fieldLabel: "Last Run",
-      fieldValue: "lastRun",
-      component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
+      header: "Last Run",
+      accessorKey: "lastRun",
+      // component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
+      accessorFn: (row) => moment(row.lastRun).format('l'),
+
     },
     {
-      fieldLabel: "Next Run",
-      fieldValue: "nextRun",
-      component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
+      header: "Next Run",
+      accessorKey: "nextRun",
+      // component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
+      accessorFn: (row) => moment(row.nextRun).format('l'),
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <ManageAwardActions triggerModal={triggerModal} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <ManageAwardActions triggerModal={triggerModal} />,
+    // },
   ];
 
   const manageSpotTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Department",
-      fieldValue: "departmentId.name",
+      header: "Department",
+      accessorKey: "departmentId.name",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
+      header: "Date",
+      accessorKey: "createdAt",
     },
     {
-      fieldLabel: "Actions",
-      fieldValue: "action",
+      header: "Actions",
+      accessorKey: "action",
       component: <ManageAwardActions triggerModal={triggerModal} />,
     },
   ];
@@ -248,7 +256,7 @@ const ManageAwards = () => {
           </div>
           <div className="col-md-12 tab-content" id="pills-tabContent">
             <div className="tab-pane fade show active" id="pills-spot" role="tabpanel" aria-labelledby="pills-spot-tab">
-              <Table
+              {/* <Table
                 component="ManageAwards"
                 headers={manageNominationSchedulesTableHeaders}
                 data={awardManage}
@@ -260,10 +268,15 @@ const ManageAwards = () => {
                 }}
                 action={null}
               >
-              </Table>
+              </Table> */}
+              <TableComponent
+              data={awardManage ?? []}
+              columns={manageNominationSchedulesTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+              />
             </div>
             <div className="tab-pane fade" id="pills-nomination-schedule" role="tabpanel" aria-labelledby="pills-nomination-schedule-tab">
-              <Table
+              {/* <Table
                 component="ManageAwards"
                 headers={manageSpotTableHeaders}
                 data={awardManage}
@@ -275,7 +288,12 @@ const ManageAwards = () => {
                 }}
                 action={null}
               >
-              </Table>
+              </Table> */}
+              <TableComponent
+              data={awardManage ?? []}
+              columns={manageSpotTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+              />
             </div>
           </div>
         </div>
