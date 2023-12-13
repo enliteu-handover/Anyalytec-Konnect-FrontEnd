@@ -67,7 +67,7 @@ function App() {
   }, [headerLogo])
 
   return (
-    <div class="user-element" data-user={theme?.color ?? "color_one"}>
+    <div class="user-element" data-user={theme?.color || "color_one"}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
@@ -88,7 +88,7 @@ function App() {
 
           <PrivateRoute
             path="/app"
-            theme={theme?.color ?? 'color_one'}
+            theme={theme?.color || 'color_one'}
             component={MainContainer}
           />
         </Switch>

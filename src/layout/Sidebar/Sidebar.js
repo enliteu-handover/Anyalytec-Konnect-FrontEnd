@@ -46,7 +46,7 @@ const Sidebar = (props) => {
   }, [userRolePermission]);
 
   const user_details = sessionStorage.getItem('userData');
-  const theme_color = (theme?.color || theme) === 'color_two' ? "#000" : "#fff"
+  const theme_color = (theme?.color || theme || "color_one") === 'color_two' ? "#000" : "#fff"
   const icon = {
     'Dashboard.svg': <Dashboard color={theme_color} />,
     'Recognition.svg': <Recognition color={theme_color} />,
