@@ -176,13 +176,13 @@ const SurveyResult = () => {
 		{
 			header: "Favourites",
 			accessorKey: "action",
-			Cell: ({ renderedCellValue, row }) => (<div><IconWithState cSettings={cSettings.favourites} /></div>)
+			accessorFn: ({ renderedCellValue, row }) => (<div><IconWithState data={row} cSettings={cSettings.favourites} /></div>)
 
 		},
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-            accessorFn: (row) => moment(row.createdAt).format('l'), 
+            accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--', 
 		},
 		{
 			header: "SCORE",
@@ -192,14 +192,9 @@ const SurveyResult = () => {
 			header: "RESPONSE",
 			accessorKey: "action",
 			accessorFn: (row) => <ResponseCustomComponent data={row}  cSettings={cSettings?.response} type="survey" />,
-			// component: <ResponseCustomComponent cSettings={cSettings.response} type="survey" />
-			// Cell: ({ renderedCellValue, row }) => (<ResponseCustomComponent cSettings={cSettings?.response} type="survey" />)
+			
 		},
-		// {
-		// 	header: "Action",
-		// 	accessorKey: "action",
-		// 	component: <SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />,
-		// },
+
 	];
 
 	const sideBarClass = (tooglestate) => {
@@ -412,16 +407,7 @@ const SurveyResult = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{surveyResultList && (
-									// <Table
-									// 	component="userManagement"
-									// 	headers={SurveyResultTableHeaders}
-									// 	data={surveyResultList}
-									// 	tableProps={{
-									// 		classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-									// 		id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-									// 	}}
-									// 	action={null}
-									// ></Table>
+									
 									<TableComponent
 									data={surveyResultList ?? []}
 									columns={SurveyResultTableHeaders}

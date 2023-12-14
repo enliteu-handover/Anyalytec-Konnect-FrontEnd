@@ -2756,6 +2756,10 @@ input#cert-image-upload.hidden {
   height: 100%;
 }
 
+.canva > canvas{
+  width: 100% !important;
+  height: 270px !important;
+}
 .mycert_list_div {
   background-color: #ffffff;
   padding: 0.5rem;
@@ -3242,8 +3246,8 @@ input#cert-image-upload.hidden {
 
 .eep-nav-pills a.nav-link {
   margin: 5px;
-  padding: 8px 35px;
-  font-size: 16px;
+  padding: 8px 18px;
+  font-size: 14px;
   color: #606060;
   transition-duration: 0.4s;
   border-radius: 2rem;
@@ -3260,8 +3264,8 @@ input#cert-image-upload.hidden {
   color: #ffffff;
   border-radius: 2rem;
   margin: 5px;
-  padding: 8px 35px;
-  font-size: 16px;
+  padding: 8px 18px;
+  font-size: 14px;
   transition-duration: 0.4s;
 }
 

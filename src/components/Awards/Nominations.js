@@ -54,7 +54,7 @@ const Nominations = () => {
       .then((nominatedLists) => {
         let usersInfo = [];
         let awardsInfo = [];
-        nominatedLists.data && nominatedLists.data.length && nominatedLists.data.map((lists) => {
+        nominatedLists?.data && nominatedLists?.data.length && nominatedLists?.data.map((lists) => {
           lists?.nominated && lists?.nominations?.length && lists?.nominations.map((users) => {
             users.userId.pic = getUserPicture(picDatas, users.userId.id);
             return usersInfo.push({
@@ -62,7 +62,7 @@ const Nominations = () => {
               name: users?.userId?.fullName
             });
           });
-          return awardsInfo.push(lists);
+          return awardsInfo?.push(lists);
         });
         setAwardList(awardsInfo);
         setNominatedList(usersInfo);
@@ -81,8 +81,7 @@ const Nominations = () => {
     {
       header: "Nominees",
       accessorKey: "action",
-      // component: <NomineesInfo />,
-      accessorFn: (row) => <NomineesInfo />,
+      accessorFn: (row) => <NomineesInfo data={row} />,
 
     },
     {
@@ -111,6 +110,7 @@ const Nominations = () => {
       fetchAllUsers();
     }
   }
+  console.log(nominatedList,'nominatedList')
   return (
     <React.Fragment>
       <PageHeader title="Awards and Nominated" />
@@ -119,17 +119,11 @@ const Nominations = () => {
           <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
             <div id="awardApprovalDatatable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer">
               {nominatedList && (
-                // <Table component="userManagement" headers={nominatedTableHeaders} data={nominatedList}
-                //   tableProps={{
-                //     classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                //     id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-                //   }}
-                //   action={null}
-                // ></Table>
+                
                 <TableComponent
               data={nominatedList ?? []}
               columns={nominatedTableHeaders}
-              action={null}
+              actionHidden={true}
               />
               )}
             </div>

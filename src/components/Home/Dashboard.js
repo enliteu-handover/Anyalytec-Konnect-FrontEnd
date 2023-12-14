@@ -145,7 +145,7 @@ const Dashboard = (props) => {
               <Recognitions dashboardDetails={dashboardDetails} />
             </div>
             <div className="col-sm-12 col-xs-12 col-md-12 col-lg-6">
-              <MyTask dashboardDetails={dashboardDetails} />
+              {/* <MyTask dashboardDetails={dashboardDetails} /> */}
               <PendingApproval dashboardDetails={dashboardDetails} />
             </div>
           </div>

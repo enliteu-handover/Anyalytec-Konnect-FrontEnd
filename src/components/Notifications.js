@@ -12,6 +12,8 @@ import { httpHandler } from "../http/http-interceptor";
 import { REST_CONFIG, URL_CONFIG } from "../constants/rest-config";
 import axios from "axios";
 import { sharedDataActions } from "../store/shared-data-slice";
+import TableComponent from "../UI/tableComponent";
+import moment from "moment";
 
 const Notifications = () => {
 
@@ -247,28 +249,26 @@ const Notifications = () => {
 
 	const notificationTableHeaders = [
 		{
-			fieldLabel: "#",
-			fieldValue: "#",
-			component: <CheckBoxComponent getCheckedData={getCheckedData} bulkCheckState={isChecked} />,
+			header: "#",
+			accessorKey: "#",
+			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} />,
+            size:18
 		},
 		{
-			fieldLabel: "Title",
-			fieldValue: "message",
+			header: "Title",
+			accessorKey: "message",
 		},
 		{
-			fieldLabel: "Src",
-			fieldValue: "type",
+			header: "Src",
+			accessorKey: "type",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={CustomComponentSettings.date} />,
+			header: "Date",
+			accessorKey: "date",
+			size:23,
+			accessorFn: (row) => row.date? moment(row.date).format('l') : '--',
 		},
-		{
-			fieldLabel: "Action",
-			fieldValue: "action",
-			component: <ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />,
-		},
+		
 	];
 
 	// console.log("checkedData In :", checkedData);
@@ -279,9 +279,9 @@ const Notifications = () => {
 			{notificationList.length > 0 &&
 				<React.Fragment >
 					<div className="row no-gutters eep-notification-div">
-						<div className="col-md-12 p-0" id="eep-notification-diiv">
+						<div className="col-md-12 p-0 m-0" id="eep-notification-diiv">
 							<div className="d-flex  align-items-center align-content-center justify-content-between check_options_div">
-								<div className="d-flex align-items-center align-content-center action-border">
+								{/* <div className="d-flex align-items-center align-content-center action-border">
 									<label className="mb-0 mr-2">Bulk Actions</label>
 									<div className={`d-flex align-items-center align-content-center section_one ${isChecked ? "checked" : ""}`}>
 										<div className="checkall">
@@ -293,7 +293,7 @@ const Notifications = () => {
 										<div className={`c1 mark_read_icon_div ${isChecked ? "check_optionsb" : "check_optionsn"}`} title="Mark As Read" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.read, }} onClick={() => readUnreadAllNotifications("readAll")}></div>
 										<div className={`c1 mark_unread_icon_div ${isChecked ? "check_optionsb" : "check_optionsn"}`} title="Mark As Unread" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.un_read, }} onClick={() => readUnreadAllNotifications("unReadAll")}></div>
 									</div>
-								</div>
+								</div> */}
 								<div className="d-flex align-items-center align-content-center action-border">
 									<label className="mb-0 mr-2">Options</label>
 									<div className="d-flex align-items-center align-content-center section_two">
@@ -311,17 +311,16 @@ const Notifications = () => {
 						</div>
 					</div>
 					<div className="eep-user-management eep-content-start" id="content-start">
-						<div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
+						<div className="table-responsive eep_datatable_table_div p-2" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{renderTable &&
-
-									<Table component="userManagement" headers={notificationTableHeaders} data={notificationList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_sm_table dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
+									<TableComponent
+									data={notificationList ?? []}
+									columns={notificationTableHeaders}
+									action={
+										<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
+									}
+								  />
 								}
 							</div>
 						</div>

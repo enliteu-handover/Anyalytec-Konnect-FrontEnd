@@ -83,6 +83,7 @@ const Points = () => {
     fetchPoints();
   }, []);
 
+
   return (
 
     <React.Fragment>

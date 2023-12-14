@@ -9,11 +9,14 @@ const TableComponent = ({
   actionHidden,
   customContainerSx = {},
   enableRowSelection= false,
+  enableRowNumbers=false
 }) => {
   const styles = {
     container: {
       fontFamily: "helveticaneueregular !important",
       maxHeight: "400px",
+       
+      
       "& .MuiTable-root": {
         borderSpacing: "0px 4px",
       },
@@ -26,10 +29,15 @@ const TableComponent = ({
           //   backgroundColor: '#f5f5f5',
           // },
         },
+        '& .MuiTableRow-root:hover td':{
+          backgroundColor: '#f5f5f52b'
+        },
         "& .MuiTableCell-root": {
           fontSize: "14px",
           position: "relative",
-          p: "18px",
+          p: "6px 8px",
+          overflow:'inherit',
+          zIndex:'inherit',
           // ":after": {
           //   borderRight: "0px",
           //   right: 0,
@@ -61,14 +69,18 @@ const TableComponent = ({
       },
 
       "& .MuiTableHead-root": {
+        opacity: 1,
         "& .Mui-TableHeadCell-Content": {
-          height: "0px",
+          height: "12px",
           fontSize: "11px",
           letterSpacing:'2px'
         },
         "& .MuiTableRow-root": {
           boxShadow: "none",
         },
+        '& .MuiTableCell-root':{
+          p:'8px 8px'
+        }
       },
 
       "&::-webkit-scrollbar": {
@@ -92,12 +104,14 @@ const TableComponent = ({
   return (
     <div>
       <MaterialReactTable
+      
         // defaultFilterOpen={true}
         enableColumnActions={false}
         enableColumnFilters={false}
         positionActionsColumn="last"
         columns={columns}
         data={data}
+        enableRowNumbers={enableRowNumbers}
         enableRowSelection={enableRowSelection}
         enableDensityToggle={false}
         enableFullScreenToggle={false}
@@ -108,6 +122,7 @@ const TableComponent = ({
         enableStickyHeader
         // muiBottomToolbarProps={}
         enableStickyFooter
+        
         muiTableContainerProps={{ sx: styles.container, ...customContainerSx }}
         initialState={{
           density: "comfortable",
@@ -117,15 +132,22 @@ const TableComponent = ({
           size: "small",
           placeholder: "Search...",
           variant: "outlined",
+          sx:{ "& .MuiOutlinedInput-input":{
+            padding:'6px 7px',
+            fontSize:'14px',
+            borderRadius:'4px'
+          }},
           InputProps: {
             endAdornment: (
               <img
                 src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`}
                 alt="Search"
+                style={{width:'18px'}}
               />
             ),
           },
         }}
+        
         renderRowActions={({ row, table }) =>
           action ? React.cloneElement(action, { data: data?.[row?.index] }) : ""
         }

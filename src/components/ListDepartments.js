@@ -47,7 +47,8 @@ function ListDepartments() {
     {
       header: "Created On",
       accessorKey: "createdAt",
-      // component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+      accessorFn: (row) =>row?.createdAt ?  moment(row.createdAt).format('l') : '--', 
+
     },
     {
       header: "Updated By",
@@ -56,7 +57,8 @@ function ListDepartments() {
     {
       header: "Updated On",
       accessorKey: "updatedAt",
-      // component: <DateFormatDisplay cSettings={tableSettings.updatedAt} />,
+      accessorFn: (row) =>row?.updatedAt ?  moment(row.updatedAt).format('l') : '--', 
+      
     },
   ];
 

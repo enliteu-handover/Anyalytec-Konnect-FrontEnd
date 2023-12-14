@@ -120,13 +120,9 @@ const MyLibrary = () => {
         {
             header: "Date",
             accessorKey: "createdAt",
-            accessorFn: (row) => moment(row.createdAt).format('l'), 
+            accessorFn: (row) => row?.created_at ? moment(row.createdAt).format('l') : '--', 
         },
-        // {
-        //     fieldLabel: "View",
-        //     fieldValue: "action",
-        //     component: <CustomLinkComponent isLibrary={true} cSettings={tableSettings.view} />,
-        // }
+       
     ];
    
 
@@ -156,17 +152,6 @@ const MyLibrary = () => {
                         <div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
                             <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
                                 {librarySurveyList && (
-                                    // <Table
-                                    //     component="LibrarySurvey"
-                                    //     headers={surveyTableHeaders}
-                                    //     data={librarySurveyList}
-                                    //     tableProps={{
-                                    //         classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                                    //         id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-                                    //         tableId: "LibrarySurveyId"
-                                    //     }}
-                                    //     action={null}
-                                    // ></Table>
                                     <TableComponent
 									data={librarySurveyList ?? []}
 									columns={surveyTableHeaders}

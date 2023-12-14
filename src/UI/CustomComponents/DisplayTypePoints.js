@@ -7,7 +7,7 @@ const DisplayTypePoints = (props) => {
   return (
     <React.Fragment>
       <div>
-        <span>{cSettings.typeArr[cSettings.typeArr.findIndex(x => x.type === data[cSettings.objReference])].textDisplay}</span>
+        <span>{cSettings?.typeArr?.[cSettings?.typeArr.findIndex(x => x.type === data?.[cSettings?.objReference])]?.textDisplay}</span>
       </div>
     </React.Fragment>
   );

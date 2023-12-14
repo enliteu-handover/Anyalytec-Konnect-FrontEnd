@@ -39,20 +39,15 @@ function AwardNominationList() {
     {
       header: "Date",
       accessorKey: "createdAt",
-      accessorFn: (row) => moment(row.createdAt).format('l'),
+      accessorFn: (row) =>row.createdAt? moment(row.createdAt).format('l'):'--',
     },
     {
       header: "Status",
       accessorKey: "action",
-      // component: <NominationStatus />,
-      accessorFn: (row) => <NominationStatus />,
+      accessorFn: (row) => <NominationStatus data={row} />,
 
     },
-    // {
-    //   header: "Action",
-    //   accessorKey: "action",
-    //   component: <ApprovalActions isApprovalState={false} isView={true} />,
-    // },
+   
   ];
 
   const fetchAwardNominationData = (arg = {}) => {
@@ -142,18 +137,8 @@ function AwardNominationList() {
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
             {awardNomination && (
-              // <Table
-              //   component="userManagement"
-              //   headers={awardNominationTableHeaders}
-              //   data={awardNomination}
-              //   tableProps={{
-              //     classes:
-              //       "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-              //     id: "user_dataTable",
-              //     "aria-describedby": "user_dataTable_info",
-              //   }}
-              //   action={null}
-              // ></Table>
+            
+             
               <TableComponent
               data={awardNomination ?? []}
               columns={awardNominationTableHeaders}

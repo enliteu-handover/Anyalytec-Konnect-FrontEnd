@@ -12,6 +12,8 @@ import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomCom
 import PollCustomComponent from "../../UI/CustomComponents/PollCustomComponent";
 import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const PollResults = () => {
 	const dispatch = useDispatch();
@@ -81,28 +83,32 @@ const PollResults = () => {
 
 	const PollResultTableHeaders = [
 		{
-			fieldLabel: "Poll TITLE",
-			fieldValue: "name",
+			header: "Poll TITLE",
+			accessorKey: "name",
 		},
 		{
-			fieldLabel: "END DATE",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={cSettings.endDate} />,
+			header: "END DATE",
+			accessorKey: "endDate",
+			accessorFn: (row) => row.endDate ? moment(row.endDate).format('l'):'--',
+
 		},
 		{
-			fieldLabel: "ANSWERED",
-			fieldValue: "score",
-			component: <PollCustomComponent typee="score" />,
+			header: "ANSWERED",
+			accessorKey: "score",
+			accessorFn: (row) =>  <PollCustomComponent data={row} typee="score" />,
+
 		},
 		{
-			fieldLabel: "COUNT",
-			fieldValue: "response",
-			component: <PollCustomComponent typee="response" />,
+			header: "COUNT",
+			accessorKey: "response",
+			accessorFn: (row) =>  <PollCustomComponent data ={row} typee="response"  />,
+
 		},
 		{
-			fieldLabel: "RESPONSE",
-			fieldValue: "action",
-			component: <ResponseCustomComponent cSettings={cSettings.response} type="polls" />,
+			header: "RESPONSE",
+			accessorKey: "action",
+			accessorFn: (row) =>  <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
+
 		}
 	];
 
@@ -189,16 +195,13 @@ const PollResults = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{pollResultList && (
-									<Table
-										component="userManagement"
-										headers={PollResultTableHeaders}
-										data={pollResultList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
+								
+									<TableComponent
+                                      data={pollResultList ?? []}
+                                      columns={PollResultTableHeaders}
+									actionHidden={true}
+                                     
+                  />
 								)}
 							</div>
 						</div>

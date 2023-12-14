@@ -8,6 +8,7 @@ import moment from "moment";
 const PointsTable = (props) => {
 
   const { pointsList } = props;
+  
 
   const CustomComponentSettings = {
     date: {
@@ -51,29 +52,24 @@ const PointsTable = (props) => {
     {
       header: "Type",
       accessorKey: "action",
-      accessorFn: (row) => <DisplayTypePoints cSettings={CustomComponentSettings.pointType} />,
-      // component: ,
+      accessorFn: (row) => <DisplayTypePoints data={row} cSettings={CustomComponentSettings?.pointType} />,
     },
     {
       header: "Rewarded By",
       accessorKey: "createdBy.fullName",
-      component: "",
     },
     {
       header: "Date",
       accessorKey: "createdAt",
-      accessorFn: (row) => moment(row.createdAt).format('l'),
-      // component: <DateFormatDisplay cSettings={CustomComponentSettings.date} />,
+      accessorFn: (row) => row.createdAt?  moment(row.createdAt).format('l'):'--',
     },
     {
       header: "Src Type",
-      accessorKey: "",
-      // component: "",
+      accessorKey: "Src Type",
     },
     {
       header: "Points",
       accessorKey: "points",
-      // component: "",
     },
   ];
 
@@ -81,18 +77,14 @@ const PointsTable = (props) => {
     <React.Fragment >
       <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-          {/* <Table component="Points" headers={PointsTableHeaders} data={pointsList.rewards}
-            tableProps={{
-              classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-              id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-            }}
-            action={null}
-          ></Table> */}
-          <TableComponent
+         
+          {/* {pointsList?.rewards && */}
+           <TableComponent
               data={pointsList?.rewards ?? []}
               columns={PointsTableHeaders}
-              action={null}
+              actionHidden={true}
               />
+              {/* } */}
         </div>
       </div>
     </React.Fragment >

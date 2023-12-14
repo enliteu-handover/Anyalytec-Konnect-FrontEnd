@@ -102,9 +102,9 @@ const SurveyQuestions = () => {
 		{
 			header: "#",
 			accessorKey: "action",
+			size:18,
             accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} />, 	
 
-			// component: <CheckBoxComponent getCheckedData={getCheckedData} />,
 		},
 		{
 			header: "SURVEY QUESTION",
@@ -113,14 +113,14 @@ const SurveyQuestions = () => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-            accessorFn: (row) => moment(row.createdAt).format('l'), 	
+            accessorFn: (row) =>row.createdAt ?  moment(row.createdAt).format('l'):'--', 	
 
-			// component: <DateFormatDisplay cSettings={CustomComponentSettings.createdAt} />,
 		},
 		{
 			header: "Q Type",
 			accessorKey: "type"
-		}
+		},
+		
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -216,22 +216,11 @@ const SurveyQuestions = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{surveyQuestionsList && (
-									// <Table
-									// 	component="userManagement"
-									// 	headers={surveyTableHeaders}
-									// 	data={surveyQuestionsList}
-									// 	getCheckedData={getCheckedData}
-									// 	rowClick={true}
-									// 	tableProps={{
-									// 		classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-									// 		id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-									// 	}}
-									// 	action={null}
-									// ></Table>
+									
 									<TableComponent
 									data={surveyQuestionsList ?? []}
 									columns={surveyTableHeaders}
-									action={false}
+									actionHidden={true}
 								  />
 								)}
 							</div>
