@@ -215,7 +215,8 @@ const BranchMaster = () => {
                                 style={{
                                     position: 'absolute',
                                     zIndex: '100',
-                                     right:'6px'
+                                    right: '26px',
+                                    margin:' 8px 0px',
 
                                 }}
                                 onClick={() => handleExportDownload()}
