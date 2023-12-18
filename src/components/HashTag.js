@@ -246,7 +246,7 @@ const HashTag = () => {
         .then((response) => {
           // console.log("bulkSubmitHandler response :", response);
           fetchhashTag(filterBy.filter);
-          setEnableBulkState({ bulkState: false });
+        setEnableBulkState({ bulkState: false });
         })
         .catch((error) => {
           const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -254,7 +254,7 @@ const HashTag = () => {
         });
     }
   }
-
+  
   return (
     <React.Fragment>
       {userRolePermission.adminPanel &&

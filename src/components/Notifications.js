@@ -258,16 +258,18 @@ const Notifications = () => {
 			header: "Title",
 			accessorKey: "message",
 		},
-		{
-			header: "Src",
-			accessorKey: "type",
-		},
+		// {
+		// 	header: "Src",
+		// 	accessorKey: "type",
+		// },
 		{
 			header: "Date",
 			accessorKey: "date",
 			size:23,
 			accessorFn: (row) => row.date? moment(row.date).format('l') : '--',
 		},
+		
+		
 		
 	];
 
@@ -280,7 +282,7 @@ const Notifications = () => {
 				<React.Fragment >
 					<div className="row no-gutters eep-notification-div">
 						<div className="col-md-12 p-0 m-0" id="eep-notification-diiv">
-							<div className="d-flex  align-items-center align-content-center justify-content-between check_options_div">
+							<div className="d-flex  align-items-center align-content-center justify-content-end check_options_div ">
 								{/* <div className="d-flex align-items-center align-content-center action-border">
 									<label className="mb-0 mr-2">Bulk Actions</label>
 									<div className={`d-flex align-items-center align-content-center section_one ${isChecked ? "checked" : ""}`}>

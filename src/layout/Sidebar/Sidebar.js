@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +11,9 @@ import Org from "./icon/org";
 import Recognition from "./icon/recognition";
 import Rewards from "./icon/rewards";
 import UpArrow from "./icon/upArrrow";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+
 
 const Sidebar = (props) => {
   const [sidebarMenu, setSidebarMenu] = useState([]);
@@ -56,10 +60,19 @@ const Sidebar = (props) => {
     'download.svg': <Org color={theme_color} />
   }
 
-  const handleChangeMenu = (index) => {
-    const value = index === activeMenu ? null : index
-    setActiveMenu(value)
-  }
+  // const handleChangeMenu = (Element,index) => {
+  //   console.log(Element?.target,'lll');
+  //   const value = index === activeMenu ? null : index
+  //   setActiveMenu(value)
+  // }
+
+  const handleChangeMenu = (element, index) => {
+
+    const newActiveMenu = index === activeMenu ? null : index;
+    setActiveMenu(newActiveMenu);
+  };
+  
+  
 
   return (
     <React.Fragment>
@@ -94,35 +107,43 @@ const Sidebar = (props) => {
 
         <hr className={`sidebar-divider my-2`} />
 
+       
+
         {sidebarMenu?.map((menu, index) => {
           return (
             <li className="nav-item" key={"list" + index}>
               <Link
-                className={`nav-link collapsed ${(((`/app/` + menu?.link)
-                  === window.location.pathname) &&
-                  (!menu?.subMenu)) ? 'active-parent-menu' : ''}`}
-                data-toggle={menu && menu.subMenu ? "collapse" : ""}
+                className={` nav-link collapsed ${(((`/app/` + menu?.link) === window.location.pathname) &&
+                  (!menu?.subMenu)) && activeMenu === index   ? 'active-parent-menu' : ''}`}
+                data-toggle={menu && menu.subMenu  ? "collapse" : ""}
                 data-target={
-                  menu && menu.subMenu ? `#collapseSection${index}` : ""
+                  menu && menu.subMenu  ? `#collapseSection${index}` : ""
                 }
                 to={menu.isDirectLink ? (`/app/` + menu?.link) : "#"}
-                onClick={() => handleChangeMenu(index)}
+                onClick={(e) => handleChangeMenu(e,index)}
               >
                 <span
                   className="eep-menu-icon-sidebar"
                 >
                   {icon[menu.icon]}
                 </span>
-
+       
                 <span>{menu.label}</span>
-
+                
+                <span style={{}}>
                 {!sidebarToggled && menu?.subMenu?.length > 0 ?
                   (activeMenu !== index ?
-                    <UpArrow color={theme_color}
-                    />
-                    : <DownArrow color={theme_color}
-                    />
+                     <FontAwesomeIcon icon={faAngleRight} color={theme_color} className="sidebaricondownup"  />
+                    :
+                    <FontAwesomeIcon icon={faAngleDown} color={theme_color} className="sidebaricondown" />
+
+                    // <UpArrow color={theme_color}
+                    // />
+                    // : <DownArrow color={theme_color}
+                    // />
+                    
                   ) : ''}
+                </span>
 
               </Link>
               {menu?.subMenu && (

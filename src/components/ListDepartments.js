@@ -133,12 +133,12 @@ function ListDepartments() {
   const handleExportDownload = () => {
     let xlData = userData?.map(v => {
       return {
-        id: v?.id,
-        name: v?.name,
-        createdBy: v?.createdBy?.username,
-        createdOn: v?.createdAt,
-        updatedBy: v?.updatedBy?.username,
-        updatedOn: v?.updatedAt,
+        'Id': v?.id,
+        'Name': v?.name,
+        'Created By': v?.createdBy?.username,
+        'Created On': v?.createdAt,
+        'Updated By': v?.updatedBy?.username,
+        'Updated On': v?.updatedAt,
       }
     })
     downloadXlsx("DepartmentMasters.xlsx", xlData);
@@ -183,7 +183,8 @@ function ListDepartments() {
                   type="button"
                   style={{
                     position: 'absolute',
-                    zIndex: '100'
+                    zIndex: '100',
+                    right:'6px'
                   }}
                   onClick={() => handleExportDownload()}
                 >

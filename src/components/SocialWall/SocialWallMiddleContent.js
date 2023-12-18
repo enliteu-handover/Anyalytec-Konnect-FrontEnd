@@ -326,7 +326,9 @@ const SocialWallMiddleContent = (props) => {
                   </div>
                 </div>
                 <div className="sw_comments_div">
-                  {item?.socialWallLike && item?.socialWallLike.length > 0 && (
+                   <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                       {item?.socialWallLike && item?.socialWallLike.length > 0 && (
                     <div className="sw_enlited_lists d-flex flex-wrap align-items-center mb-3">
                       <div className="sw_enlited_pics mr-3">
                         <ul className="mb-0 ml-3 pl-0">
@@ -368,8 +370,28 @@ const SocialWallMiddleContent = (props) => {
                         )}
                       </div>
                     </div>
-                  )}
-
+                       )}
+                    </div>
+                  {/* comments */}
+                   <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"}`}>
+                        {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
+                        {isEnlited(item?.socialWallLike) && (
+                          <div className="enlite_action_icon mr-2 c1" onClick={() => likeSocialWallHandler(item, index)}>
+                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon, }}></span>
+                          </div>
+                        )}
+                        {!isEnlited(item?.socialWallLike) && (
+                          <div className="enlite_action_icon mr-2 c1 fd_enlided_icon" onClick={() => unLikeSocialWallHandler(item, index)}>
+                            {/* fd_enlided_icon */}
+                            {likeStatus?.statee && (item.id === likeStatus.id) && <Heart />}
+                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon, }}></span>
+                          </div>
+                        )}
+                        <div className="enlite_action_icon c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.s_message_icon, }}
+                          onClick={() => commentStateHandler(index)}
+                        ></div>
+                   </div>
+                   </div>
                   <div className="sw_enlite_actions_div">
                     <div className="sw_enlite_actions d-flex flex-wrap justify-content-between align-items-center">
                       {!item?.commentState?.listCommentState && (
@@ -387,24 +409,7 @@ const SocialWallMiddleContent = (props) => {
                         </React.Fragment>
                       )}
 
-                      <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"}`}>
-                        {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
-                        {isEnlited(item?.socialWallLike) && (
-                          <div className="enlite_action_icon mr-2 c1" onClick={() => likeSocialWallHandler(item, index)}>
-                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon, }}></span>
-                          </div>
-                        )}
-                        {!isEnlited(item?.socialWallLike) && (
-                          <div className="enlite_action_icon mr-2 c1 fd_enlided_icon" onClick={() => unLikeSocialWallHandler(item, index)}>
-                            {/* fd_enlided_icon */}
-                            {likeStatus?.statee && (item.id === likeStatus.id) && <Heart />}
-                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon, }}></span>
-                          </div>
-                        )}
-                        <div className="enlite_action_icon c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.s_message_icon, }}
-                          onClick={() => commentStateHandler(index)}
-                        ></div>
-                      </div>
+                    
 
                     </div>
                   </div>

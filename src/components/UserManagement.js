@@ -275,19 +275,19 @@ const UserManagement = () => {
 
 
   const handleExportDownload = () => {
-    let xlData = userData?.map(v => {
+     let xlData = userData?.map(v => {
       return {
-        id: v?.id,
-        username: v?.username,
-        firstname: v?.firstname,
-        lastname: v?.lastname,
-        departmentId: v?.department?.id,
-        departmentName: v?.department?.name,
-        designation: v?.designation,
-        email: v?.email,
-        contact: v?.telephoneNumber,
-        roleId: v?.role?.id,
-        roleName: v?.role?.roleName,
+        Id: v?.id,
+        'User Name': v?.username,
+        'First Name': v?.firstname,
+        'Last Name': v?.lastname,
+        'Department Id': v?.department?.id,
+        'Department Name': v?.department?.name,
+        'Designation': v?.designation,
+        'Email': v?.email,
+        'Contact': v?.telephoneNumber,
+        'Role Id': v?.role?.id,
+        'Role Name': v?.role?.roleName,
       }
     })
     downloadXlsx("UserManagements.xlsx", xlData);
@@ -363,7 +363,8 @@ const UserManagement = () => {
                   type="button"
                   style={{
                     position: 'absolute',
-                    zIndex: '100'
+                    zIndex: '100',
+                    right:'6px'
                   }}
                   onClick={() => handleExportDownload()}
                 >

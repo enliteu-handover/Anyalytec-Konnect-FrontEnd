@@ -97,7 +97,7 @@ const TableComponent = ({
         backgroundColor: "#f8f8f8",
       },
       '&::-webkit-scrollbar-thumb': {
-        background: '#d8d8d8 !important',
+        background: 'transparent !important',
     }
     },
   };
@@ -110,6 +110,7 @@ const TableComponent = ({
         enableColumnFilters={false}
         positionActionsColumn="last"
         columns={columns}
+        positionGlobalFilter='left'
         data={data}
         enableRowNumbers={enableRowNumbers}
         enableRowSelection={enableRowSelection}

@@ -12,7 +12,7 @@ const BulkAction = (props) => {
       display:"flex"
     }),
   }
-
+  
   return (
     <React.Fragment>
       <div
@@ -30,6 +30,7 @@ const BulkAction = (props) => {
           <input 
             type="checkbox" 
             name="bulkUpdt"
+            checked={checkBoxInfo.bulkState}
             onClick={(event) => onClickCheckbox(event)}
           />
         </div>
