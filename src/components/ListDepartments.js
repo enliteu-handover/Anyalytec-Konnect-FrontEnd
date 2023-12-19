@@ -184,7 +184,7 @@ function ListDepartments() {
                   style={{
                     position: 'absolute',
                     zIndex: '100',
-                    right: '26px',
+                    right: '12px',
                     margin:' 8px 0px',
                   }}
                   onClick={() => handleExportDownload()}
