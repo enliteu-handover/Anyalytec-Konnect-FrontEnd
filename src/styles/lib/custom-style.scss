@@ -4359,20 +4359,18 @@ input#cert-image-upload.hidden {
 }
 
 .redeem_icon_div {
-  background-color: #f8f8f8;
-  border: 1px solid #f0efef;
-  border-radius: 50%;
-  height: 75px;
-  width: 75px;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
+  // background-color: #f8f8f8;
+//   border: 1px solid #f0efef;
+// border-radius: 12px;
+width: 100%;
+height: 70%;
+
 }
 
 .redeem_icon {
-  margin: 0 auto;
-  width: 75%;
-  max-height: 50px;
+  margin: 6px auto;
+  width: 100%;
+  height: 80%;
 }
 
 .redeemIcon_label {
@@ -4946,6 +4944,7 @@ tr.question_selected {
 
 .eep-templates-setting-title svg {
   cursor: pointer;
+
 }
 
 .eep-templates-setting-title h3 {
@@ -7568,3 +7567,31 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   right: 0px !important;
   top: 14px;
 }
+.tableinput{
+  max-width: 126px;
+    border: 1px solid rgb(235, 235, 235) !important;
+}
+.tableButton{
+  .table-save{
+    padding: 7px 9px;
+    color: #fff;
+    margin: 0px 4px;
+    border: 1px solid #d4d4d4;
+    border-radius: 13px;
+  }
+  .eep-btn{
+    border-radius: 6px !important;
+    padding: 8px 9px !important;
+    font-size: 12px !important;
+
+ }
+ .eep-btn-success::before{
+        border-radius:6px !important;
+ }
+ .eep-btn-success::after{
+    border-radius:6px !important
+
+ }
+}
+
+

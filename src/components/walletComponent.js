@@ -32,10 +32,14 @@ const WalletComponent = (props) => {
 
     return (
         <React.Fragment>
-            <input value={wallet}
-                onChange={(e) => handleInputChange(e, 'optimal_value')} />
-            <button onClick={handleSave}>Save</button>
+            <div style={{display:'flex',alignItems:'center'}}>
+            <input  value={wallet} type="text" className="tableinput form-control field-input" onChange={(e) => handleInputChange(e, 'optimal_value')} />
+            <div className="tableButton ml-1">
+            <button className="eep-btn eep-btn-success"  onClick={handleSave}>Save</button>
             {err && <label style={{ fontSize: 11, color: "red" }}>{err}</label>}
+            </div>
+            </div>
+           
         </React.Fragment>
     );
 };
