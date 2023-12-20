@@ -1,11 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const AvailPoints = (props) => {
 
   const { pointsList } = props;
-  let avilablePoint = 100;
-  // let avilablePoint = pointsList.availablePercentage;
+  let avilablePoint = pointsList.availablePercentage;
   let redeemPoint = pointsList.redeemPercentage;
   let avilablPercentright = avilablePoint > 0 ? avilablePoint <= 50 ? `rotate(${avilablePoint * 3.6}deg)` : `rotate(180deg)` : "rotate(0deg)";
   let avilablPercentleft = avilablePoint > 0 ? avilablePoint > 50 ? `rotate(${avilablePoint * 1.8}deg)` : "rotate(0deg)" : "rotate(0deg)";
@@ -32,12 +30,12 @@ const AvailPoints = (props) => {
                   <span className="eep-progress-bar eep-border-succ" style={{ transform: avilablPercentright }}></span>
                 </span>
                 <div className="eep-progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                  <div className="h6 font-weight-bold mb-0 displayPercentage_value"> 100 % </div>
+                  <div className="h6 font-weight-bold mb-0 displayPercentage_value"> {pointsList?.availablePercentage} % </div>
                 </div>
               </div>
               <div className="displayPoints_value_div font-helvetica-m">
                 <div className="displayPoints_value_inner">
-                  <span className="displayPoints_value">{pointsList.totalPoints - pointsList.redeemedPoints}</span>
+                  <span className="displayPoints_value">{pointsList.availablePoints}</span>
                 </div>
               </div>
             </div>
@@ -72,9 +70,9 @@ const AvailPoints = (props) => {
             </div>
           </div>
         </div>
-        <div className="redeemPoints_div">
+        {/* <div className="redeemPoints_div">
           <Link to="#" className="eep-btn eep-btn-tb">Redeem Points</Link>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   );

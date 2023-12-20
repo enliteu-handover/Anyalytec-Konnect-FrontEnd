@@ -17,7 +17,7 @@ const WalletComponent = (props) => {
     };
 
     const handleSave = () => {
-        debugger
+        
         if (props.inputkey === 'optimal_value' && parseInt(wallet) > parseInt(props?.state?.points?.allocated_value)) {
             setError('Enter the least allocated value for optimal performance.')
             return

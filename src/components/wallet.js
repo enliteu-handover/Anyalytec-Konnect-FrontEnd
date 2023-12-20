@@ -59,7 +59,7 @@ const Wallet = () => {
     };
 
     const addWalletPoints = async (point, data) => {
-        debugger
+        
 
         const obj = {
             url: URL_CONFIG.ADD_POINTS_CONFIG,
