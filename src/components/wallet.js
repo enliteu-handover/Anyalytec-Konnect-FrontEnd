@@ -15,6 +15,9 @@ const Wallet = () => {
     const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
     const [wallet, setWallet] = useState([]);
+    const [state, setState] = useState({
+        points: {}
+    });
 
     const breadcrumbArr = [
         {
@@ -41,7 +44,7 @@ const Wallet = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchWallet = () => {
-        
+
         const obj = {
             url: URL_CONFIG.GET_POINTS_CONFIG,
             method: "get",
@@ -56,6 +59,8 @@ const Wallet = () => {
     };
 
     const addWalletPoints = async (point, data) => {
+        debugger
+
         const obj = {
             url: URL_CONFIG.ADD_POINTS_CONFIG,
             method: "post",
@@ -65,12 +70,25 @@ const Wallet = () => {
             }
         };
         await httpHandler(obj);
+        await getPointsValue();
         await fetchWallet();
     };
 
     useEffect(() => {
         fetchWallet();
+        getPointsValue()
     }, []);
+
+    const getPointsValue = async () => {
+
+        const obj = {
+            url: URL_CONFIG.GET_POINTS_VALUE,
+            method: "get"
+        };
+        const data = await httpHandler(obj)
+        state['points'] = data?.data?.data ?? {}
+        setState({ ...state });
+    }
 
     const walletTableHeaders = [
         {
@@ -88,11 +106,13 @@ const Wallet = () => {
         {
             header: "Optimal Value",
             accessorKey: "optimal_value",
-            accessorFn: (row) => <WalletComponent inputkey={'optimal_value'} row={row} addWalletPoints={addWalletPoints} />
+            accessorFn: (row) => <WalletComponent state={state} inputkey={'optimal_value'} row={row} addWalletPoints={addWalletPoints} />
         }, {
             header: "Allocated Value",
             accessorKey: "allocated_value",
-            accessorFn: (row) => <WalletComponent inputkey={'allocated_value'} row={row} addWalletPoints={addWalletPoints} />,
+            accessorFn: (row) => <WalletComponent
+                state={state}
+                inputkey={'allocated_value'} row={row} addWalletPoints={addWalletPoints} />,
         }
     ];
 

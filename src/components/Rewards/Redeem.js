@@ -185,7 +185,7 @@ const Redeem = () => {
   };
 
   const getPointsValue = async () => {
-    
+
     const obj = {
       url: URL_CONFIG.GET_POINTS_VALUE,
       method: "get"
@@ -196,7 +196,7 @@ const Redeem = () => {
   }
 
   useEffect(() => {
-    
+
     fetchRedeem();
     getPointsValue()
   }, []);
@@ -215,7 +215,7 @@ const Redeem = () => {
   };
 
   const reedPointsModel = (data) => {
-    
+
     state.model = true
     state.isEdit = data
     setState({ ...state })
@@ -251,7 +251,7 @@ const Redeem = () => {
   };
 
   const handleChange = (value, price) => {
-    
+
     if (!value) {
       state.qty = ''
       setState({ ...state })
@@ -357,9 +357,9 @@ const Redeem = () => {
                         </div> */}
                       </div>
                       <div className="redeemBtn_div text-center">
-                        {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))}
                         {item?.price?.price <=
-                          (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?
+                          (((JSON.parse(userDetails)?.allPoints ?? 0))
+                            * parseInt(state?.points?.value_peer_points)) ?
                           <a
                             style={{
                               marginBottom: 14,
