@@ -3,8 +3,8 @@
 import React from "react";
 
 const RedomModalDetails = (props) => {
-    
-    const user_points = JSON.parse(props?.userDetails)?.allPoints ?? 0;
+
+    const user_points = (((JSON.parse(props?.userDetails)?.allPoints ?? 0)) * parseInt(props?.value_peer_points)) ?? 0;
     const { name, description, images, price } = props?.data;
     return (
         <div className="eepModalDiv">
@@ -26,13 +26,14 @@ const RedomModalDetails = (props) => {
                         <label className="redeemIcon_label font-helvetica-m discription">
                           {description}
                         </label>
-                                {/* <br />
+                                <br />
                                 <label>Min : {price?.min} </label>,
                                 <label>Max : {price?.max}</label>
                                 <br />
                                 <label>Qty : </label>
                                 <input value={props?.qty ?? ''} onChange={(e) => props?.handleChange(e.target.value, price)} />
-                                Min: 1, Max: {parseInt(price?.max) / user_points} */}
+                                {/* Min: 1, Max: {parseInt(price?.max) / user_points} */}
+                                Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}
                                 <a
                                     style={{
                                         width:'100%',

@@ -33,21 +33,21 @@ const categoryCampleJson = [
 
 const productSampleJson = [
   {
-    id: 1,
-    sku: "EGCGBAMZSV001",
-    name: "Amazon Shopping Voucher",
-    description: "Only UPI can be used to buy Amazon Pay E-Gift Card",
-    price: {
-      price: "100",
-      type: "",
-      min: "100",
-      max: "10000",
-      denominations: [],
-      currency: {
-        code: "INR",
-        symbol: "₹",
-        numericCode: "356",
-      },
+    "id": 1,
+    "sku": "EGCGBAMZSV001",
+    "name": "Amazon Shopping Voucher",
+    "description": "Only UPI can be used to buy Amazon Pay E-Gift Card",
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
     },
     kycEnabled: null,
     allowed_fulfillments: [],
@@ -126,6 +126,7 @@ const Redeem = () => {
     model: false,
     isEdit: {},
     qty: 1,
+    points: {}
   });
 
   const dispatch = useDispatch();
@@ -164,11 +165,9 @@ const Redeem = () => {
     // axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
     //   .then(response => {
     //     console.log('Qwik gifts---', response?.data);
-    setState({
-      ...state,
-      data: categoryCampleJson,
-      product: productSampleJson,
-    });
+    state['data'] = categoryCampleJson
+    state['product'] = productSampleJson
+    setState({ ...state })
     // })
     // .catch(error => {
     //   console.error(error);
@@ -191,30 +190,42 @@ const Redeem = () => {
     setShowGiftCardsAll((pre) => !pre);
   };
 
+  const getPointsValue = async () => {
+    
+    const obj = {
+      url: URL_CONFIG.GET_POINTS_VALUE,
+      method: "get"
+    };
+    const data = await httpHandler(obj)
+    state['points'] = data?.data?.data ?? {}
+    setState({ ...state });
+  }
+
   useEffect(() => {
+    
     fetchRedeem();
+    getPointsValue()
   }, []);
 
-  const redeemPonts = (data) => {
-    state.model = true;
-    setState({ ...state });
-    setTimeout(async () => {
-      state.model = false;
-      setState({ ...state });
-      await saveRedeemption(data);
-      dispatch(userProfile.updateState(state ?? ""));
-      let collections = document.getElementsByClassName("modal-backdrop");
-      for (var i = 0; i < collections.length; i++) {
-        collections[i].remove();
-      }
-    }, 2000);
+  const redeemPonts = async (data) => {
+
+    state.model = false
+    setState({ ...state })
+    await saveRedeemption(data);
+    dispatch(userProfile.updateState(state ?? ''))
+    let collections = document.getElementsByClassName("modal-backdrop");
+    for (var i = 0; i < collections.length; i++) {
+      collections[i].remove();
+    }
+
   };
 
   const reedPointsModel = (data) => {
-    state.model = true;
-    state.isEdit = data;
-    setState({ ...state });
-  };
+    
+    state.model = true
+    state.isEdit = data
+    setState({ ...state })
+  }
 
   const saveRedeemption = async (data) => {
     const obj = {
@@ -230,16 +241,12 @@ const Redeem = () => {
     };
     await httpHandler(obj);
     setShowModal({
-      ...showModal,
-      type: "success",
-      message: (
-        <div>
-          Your redeem coupon is attached below and also sent mail!. Please copy
-          it and go to your account, then add it to use.
-          <br />
-          <b>{data?.coupon ?? ""}</b>
+      ...showModal, type: "success", message: <div>
+        Your redeem coupon is attached below and also sent mail!. Please copy it and go to your account, then add it to use.<br />
+        <div class="coupon-container">
+          <div class="coupon-code">{data?.coupon}</div>
         </div>
-      ),
+      </div>
     });
     fetchUserPermissions(dispatch);
     // history.push('/app/my-redeem');
@@ -253,16 +260,18 @@ const Redeem = () => {
   };
 
   const handleChange = (value, price) => {
-    const user_points = JSON.parse(userDetails)?.allPoints ?? 0;
+    
+    if (!value) {
+      state.qty = ''
+      setState({ ...state })
+      return
+    }
+
+    const user_points = (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?? 0;
     const multi = getCurrencyForCounty(
-      JSON.parse(sessionStorage.getItem("userData"))?.countryDetails
-        ?.country_name ?? "",
-      user_points,
-      value
-    );
-    // if (parseInt(price?.min) > multi) {
-    //   return
-    // } else
+      JSON.parse(sessionStorage.getItem('userData'))?.countryDetails?.country_name ?? ''
+      , user_points, parseInt(value))
+
     if (parseInt(price?.max) < multi) {
       return;
     } else {
@@ -308,15 +317,12 @@ const Redeem = () => {
         ></EEPSubmitModal>
       )}
 
-      {/* {state?.model && ( */}
-        <RedomModalDetails
-          qty={state?.qty ?? ""}
-          userDetails={userDetails}
-          data={state?.isEdit}
-          handleChange={handleChange}
-          redeemPonts={redeemPonts}
-        />
-      {/* )} */}
+      {state?.model &&
+        <RedomModalDetails qty={state?.qty ?? ''}
+          userDetails={userDetails} data={state?.isEdit}
+          value_peer_points={parseInt(state?.points?.value_peer_points)}
+          handleChange={handleChange} redeemPonts={redeemPonts} />
+      }
 
       <PageHeader title={`Redeem my enlite points`} />
 
@@ -417,6 +423,23 @@ const Redeem = () => {
                             <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
                           </label>
                         </div> */}
+                      </div>
+                      <div className="redeemBtn_div text-center">
+                        {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))}
+                        {item?.price?.price <=
+                          (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?
+                          <a
+                            style={{
+                              marginBottom: 14,
+                              marginRight: 10,
+                              color: "#fff"
+                            }}
+                            className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
+                            data-toggle="modal"
+                            data-target="#RedomModalDetails"
+                            onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
+                          >More</a> :
+                          <button className="eep-btn eep-btn-tb giftRedeemBtn">More</button>}
                       </div>
                     </div>
                   );

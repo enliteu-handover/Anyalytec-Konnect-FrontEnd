@@ -60,12 +60,14 @@ import SurveyResponses from "../../components/Survey/SurveyResponses";
 import SurveyResult from "../../components/Survey/SurveyResult";
 import UserManagement from "../../components/UserManagement";
 import ViewUser from "../../components/ViewUser";
+import MyProfileCoupon from "../../components/myRedeemption";
+import PointsConfig from "../../components/pointConfig";
 import IdmRoleMapping from "../../idm/idm";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
-import MyProfileCoupon from "../../components/myRedeemption";
+import Wallet from "../../components/wallet";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);
@@ -80,9 +82,9 @@ const MainContainer = (props) => {
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
             <Header />
-              <Breadcrumb />
+            <Breadcrumb />
 
-              {getTabs?.length !== 0 && <Tab />}
+            {getTabs?.length !== 0 && <Tab />}
 
             <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs.length ? "eep-has-tab-menu" : ""}`}>
               <div className={`eep-container ${getToggleSidebarState ? "eep-container-with-sidebar" : ""}`}>
@@ -271,6 +273,14 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/my-redeem">
                               <MyProfileCoupon />
+                            </Route>
+
+                            <Route path="/app/point-config">
+                              <PointsConfig />
+                            </Route>
+
+                            <Route path="/app/wallet">
+                              <Wallet />
                             </Route>
                           </Switch>
                         </div>
