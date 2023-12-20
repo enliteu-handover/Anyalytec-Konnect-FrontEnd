@@ -66,6 +66,7 @@ import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
 import MyProfileCoupon from "../../components/myRedeemption";
+import PointsConfig from "../../components/pointConfig";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);
@@ -269,6 +270,10 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/my-redeem">
                               <MyProfileCoupon />
+                            </Route>
+
+                            <Route path="/app/point-config">
+                              <PointsConfig />
                             </Route>
                           </Switch>
                         </div>

@@ -151,6 +151,36 @@ const AdminPanel = () => {
                 <span>Redeem Points</span>
               </div>
             </Link>
+
+            <Link to="/app/point-config">
+              <div className="admin_panel_items bg-white">
+                <div className="outter">
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
+                    }
+                    className="image-circle"
+                    alt="Point Config"
+                  />
+                </div>
+                <span>Point Config</span>
+              </div>
+            </Link>
+
+            <Link to="/app/my-redeem">
+              <div className="admin_panel_items bg-white">
+                <div className="outter">
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
+                    }
+                    className="image-circle"
+                    alt="Wallet"
+                  />
+                </div>
+                <span>Wallet</span>
+              </div>
+            </Link>
           </div>
         </React.Fragment>
       }

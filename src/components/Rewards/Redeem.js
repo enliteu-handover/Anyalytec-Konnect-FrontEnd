@@ -222,7 +222,9 @@ const Redeem = () => {
     setShowModal({
       ...showModal, type: "success", message: <div>
         Your redeem coupon is attached below and also sent mail!. Please copy it and go to your account, then add it to use.<br />
-        <b>{data?.coupon ?? ''}</b>
+        <div class="coupon-container">
+          <div class="coupon-code">{data?.coupon}</div>
+        </div>
       </div>
     });
     fetchUserPermissions(dispatch)
