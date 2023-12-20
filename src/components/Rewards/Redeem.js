@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import Slider from "react-slick";
 import PageHeader from "../../UI/PageHeader";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { fetchUserPermissions, getCurrencyForCounty } from "../../helpers";
@@ -136,10 +135,10 @@ const Redeem = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    {
-      label: "Rewards",
-      link: "app/points",
-    },
+    // {
+    //   label: "Rewards",
+    //   link: "app/points",
+    // },
     {
       label: "Redeem",
       link: "app/redeem",
@@ -252,13 +251,6 @@ const Redeem = () => {
     // history.push('/app/my-redeem');
   };
 
-  var settings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    slidesToShow: 1,
-  };
-
   const handleChange = (value, price) => {
 
     if (!value) {
@@ -292,6 +284,11 @@ const Redeem = () => {
     window.location.href = "/app/my-redeem";
   };
 
+
+  const filterData = searchUser ?
+    state?.product?.filter((item) => item?.name?.toLowerCase()?.includes(searchUser?.toLowerCase()))
+    : state?.product
+
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
@@ -324,14 +321,14 @@ const Redeem = () => {
           handleChange={handleChange} redeemPonts={redeemPonts} />
       }
 
-      <PageHeader title={`Redeem my enlite points`} />
+      <PageHeader title={`Redeem My Enlite Points`} />
 
-      {/* <Slider {...settings}> */}
       <div className="category">
         {state?.data?.map((item) => {
           return <div className="category_button">{item?.name}</div>;
         })}
       </div>
+
       <div className="search_input input-group custom-search-form bg-edebeb br-5 align-items-center">
         <input
           type="text"
@@ -351,19 +348,14 @@ const Redeem = () => {
           </button>
         </span>
       </div>
-      {/* </Slider> */}
 
       <div className="row eep-content-start no-gutters">
         <div className="col-md-12 redeemCards_topdiv mb-3">
-          {/* <div className="d-flex">
-            <label className="redeemCards_label font-helvetica-m">Gift Cards</label>
-            <label className="mypoints_label font-helvetica-m ml-auto"><span className="small mr-2">Available Points</span>{JSON.parse(userDetails)?.allPoints ?? 0}</label>
-          </div> */}
 
           {!showGiftCardsAll && (
             <div className="redeemCard_div_min">
               <div className="row" style={{ flexWrap: "wrap" }}>
-                {state?.product?.map((item) => {
+                {filterData?.map((item) => {
                   const currentDate = new Date();
                   item?.discounts?.sort((a, b) => b.priority - a.priority);
                   const firstActiveDiscount = item?.discounts.find(
@@ -391,52 +383,30 @@ const Redeem = () => {
                         <label className="redeemIcon_label font-helvetica-m discription">
                           {item?.description}
                         </label>
-                        {/* {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))} */}
-                        {/* <div className="redeemCard_inner2">
-                          <label className="redeemEnlite_value mb-0 d-flex justify-content-center">
-                            <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="enlite_point_icon mr-1" alt="Enlite Point Symbol" title="Enlite Point" />
-                            <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
-                          </label>
-                        </div> */}
-                      <div className="redeemBtn_div text-start">
-                        {item?.price?.price <=
-                          (((JSON.parse(userDetails)?.allPoints ?? 0))
-                            * parseInt(state?.points?.value_peer_points)) ?
-                          <a
-                            style={{
-                              color: "#fff"
-                            }}
-                            className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
-                            data-toggle="modal"
-                            data-target="#RedomModalDetails"
-                            onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
-                          >More</a> :
-                          <button className="eep-btn eep-btn-tb giftRedeemBtn">More</button>}
+                        <div className="redeemBtn_div text-start">
+                          {item?.price?.price <=
+                            (((JSON.parse(userDetails)?.allPoints ?? 0))
+                              * parseInt(state?.points?.value_peer_points)) ?
+                            <a
+                              style={{
+                                color: "#fff"
+                              }}
+                              className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
+                              data-toggle="modal"
+                              data-target="#RedomModalDetails"
+                              onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
+                            >More</a> :
+                            <button className="eep-btn eep-btn-tb giftRedeemBtn">More</button>}
+                        </div>
                       </div>
-                      
-
-                        {/* <div className="redeemCard_inner2">
-                          <label className="redeemEnlite_value mb-0 d-flex justify-content-center">
-                            <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="enlite_point_icon mr-1" alt="Enlite Point Symbol" title="Enlite Point" />
-                            <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
-                          </label>
-                        </div> */}
-                      </div>
-                    
                     </div>
                   );
                 })}
               </div>
             </div>
           )}
-          <div className="d-flex justify-content-end">
-            <span
-              className="c-2c2c2c font-helvetica-r a_hover_txt_deco_none giftCards_all c1"
-              onClick={() => clickHandler()}
-            >
-              {showGiftCardsAll ? "View Less" : "View All"}
-            </span>
-          </div>
+
+          {filterData?.length === 0 && <div style={{ textAlign: "center" }}>No Data!.</div>}
         </div>
       </div>
     </React.Fragment>

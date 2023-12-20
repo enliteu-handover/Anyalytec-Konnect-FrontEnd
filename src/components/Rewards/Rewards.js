@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import { TabsActions } from "../../store/tabs-slice";
 import Points from "./Points";
 import Redeem from "./Redeem";
@@ -22,11 +22,12 @@ const Rewards = () => {
     {
       title: "Redeem",
       id: "redeem",
-    },
-    {
-      title: "Redemptions",
-      id: "redemptions",
     }
+    // ,
+    // {
+    //   title: "Redemptions",
+    //   id: "redemptions",
+    // }
   ];
 
   useEffect(() => {

@@ -21,10 +21,10 @@ const Points = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    {
-      label: "Rewards",
-      link: "app/points",
-    },
+    // {
+    //   label: "Rewards",
+    //   link: "app/points",
+    // },
     {
       label: "Points",
       link: "app/points",
