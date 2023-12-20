@@ -7,7 +7,7 @@ const RedomModalDetails = (props) => {
     const user_points = (((JSON.parse(props?.userDetails)?.allPoints ?? 0)) * parseInt(props?.value_peer_points)) ?? 0;
     const { name, description, images, price } = props?.data;
     return (
-        <div className="eepModalDiv">
+        <div className="eepModalDiv reedem" >
             <div className="modal fade" id="RedomModalDetails" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-confirm modal-addmessage" role="document">
                     <div className="modal-content">
@@ -26,14 +26,18 @@ const RedomModalDetails = (props) => {
                         <label className="redeemIcon_label font-helvetica-m discription">
                           {description}
                         </label>
-                                <br />
-                                <label>Min : {price?.min} </label>,
+                              <div style={{marginBottom:'12px'}}>
+                                 <label>Min : {price?.min} </label>,
                                 <label>Max : {price?.max}</label>
-                                <br />
-                                <label>Qty : </label>
-                                <input value={props?.qty ?? ''} onChange={(e) => props?.handleChange(e.target.value, price)} />
+                              </div>
+                                
+                              <div style={{marginBottom:'12px'}}>
+                                <div style={{fontSize:'14px',marginBottom:'6px',fontWeight:'500'}}>Quantity:</div>
+                                <input type="text" className="form-control field-input" id="" name="" value={props?.qty ?? ''} onChange={(e) => props?.handleChange(e.target.value, price)} style={{}} />
                                 {/* Min: 1, Max: {parseInt(price?.max) / user_points} */}
-                                Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}
+                                 <div style={{fontSize:'14px',marginTop:'6px',fontWeight:'500'}}> Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}</div>
+                                </div>
+
                                 <a
                                     style={{
                                         width:'100%',

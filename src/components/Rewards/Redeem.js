@@ -301,7 +301,7 @@ const Redeem = () => {
           hideModal={hideModal}
           successFooterData={
             <div onClick={openModal}>
-              <button>Ok</button>
+              <button className="eep-btn eep-btn-success">Ok</button>
             </div>
           }
           errorFooterData={
@@ -392,46 +392,11 @@ const Redeem = () => {
                           {item?.description}
                         </label>
                         <div className="redeemBtn_div text-start">
-                          {item?.price?.price <=
-                          (JSON.parse(userDetails)?.allPoints ?? 0) ? (
-                            <a
-                              style={{
-                                color: "#fff",
-                              }}
-                              className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
-                              data-toggle="modal"
-                              data-target="#RedomModalDetails"
-                              onClick={() =>
-                                reedPointsModel({
-                                  ...item,
-                                  coupon: firstActiveDiscount?.coupon?.code,
-                                })
-                              }
-                            >
-                              More
-                            </a>
-                          ) : (
-                            <button className="eep-btn eep-btn-tb giftRedeemBtn">
-                              More
-                            </button>
-                          )}
-                        </div>
-
-                        {/* <div className="redeemCard_inner2">
-                          <label className="redeemEnlite_value mb-0 d-flex justify-content-center">
-                            <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="enlite_point_icon mr-1" alt="Enlite Point Symbol" title="Enlite Point" />
-                            <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
-                          </label>
-                        </div> */}
-                      </div>
-                      <div className="redeemBtn_div text-center">
-                        {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))}
+                        {/* {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))} */}
                         {item?.price?.price <=
                           (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?
                           <a
                             style={{
-                              marginBottom: 14,
-                              marginRight: 10,
                               color: "#fff"
                             }}
                             className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
@@ -441,6 +406,16 @@ const Redeem = () => {
                           >More</a> :
                           <button className="eep-btn eep-btn-tb giftRedeemBtn">More</button>}
                       </div>
+                      
+
+                        {/* <div className="redeemCard_inner2">
+                          <label className="redeemEnlite_value mb-0 d-flex justify-content-center">
+                            <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="enlite_point_icon mr-1" alt="Enlite Point Symbol" title="Enlite Point" />
+                            <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
+                          </label>
+                        </div> */}
+                      </div>
+                    
                     </div>
                   );
                 })}

@@ -18,8 +18,7 @@
     margin-bottom: 22px;
  }
 
- .titlesx{
- }
+
 
 .list-item{
     display: flex; 
@@ -51,17 +50,19 @@
 }
 
 .coupon-code {
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: #0000 0px 2px 10px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: #333;
     background-color: #85879626;
     margin: auto;
     margin-bottom: 15px;
-    padding: 0px 10px;
+    padding: 4px 10px;
     width: max-content;
 }
+
+
 
 .expiration-date {
     font-size: 12px;
@@ -77,16 +78,34 @@
   ::-webkit-scrollbar-track {
     background: #fff;
   }
-  .modalBodyHeight{
-    text-align: start;
-  }
- .modal-confirm{
-width: 500px;
- }
- .eep-btn-success::before{
-    border-radius:0px !important
- }
- .eep-btn-success::after{
-    border-radius:0px !important
 
- }
+  .reedem{
+    .modalBodyHeight{
+        text-align: start;
+      }
+     .modal-confirm{
+        width: 480px;
+        .modal-footer{
+          padding: 0px;
+      }
+     }
+    
+    
+     .modal-content{
+        .eep-btn{
+            border-radius:12px !important;
+         }
+         .eep-btn-success::before{
+                border-radius:12px !important;
+         }
+         .eep-btn-success::after{
+            border-radius:12px !important
+        
+         }
+         .field-input{
+            border: 1px solid #d4d4d4 !important
+         }
+     }
+    
+  }
+  

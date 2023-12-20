@@ -7567,3 +7567,31 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   right: 0px !important;
   top: 14px;
 }
+.tableinput{
+  max-width: 126px;
+    border: 1px solid rgb(235, 235, 235) !important;
+}
+.tableButton{
+  .table-save{
+    padding: 7px 9px;
+    color: #fff;
+    margin: 0px 4px;
+    border: 1px solid #d4d4d4;
+    border-radius: 13px;
+  }
+  .eep-btn{
+    border-radius: 6px !important;
+    padding: 8px 9px !important;
+    font-size: 12px !important;
+
+ }
+ .eep-btn-success::before{
+        border-radius:6px !important;
+ }
+ .eep-btn-success::after{
+    border-radius:6px !important
+
+ }
+}
+
+

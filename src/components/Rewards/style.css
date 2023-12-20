@@ -46,15 +46,15 @@
 }
 
 .coupon-code {
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0) 0px 2px 10px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: #333;
   background-color: rgba(133, 135, 150, 0.1490196078);
   margin: auto;
   margin-bottom: 15px;
-  padding: 0px 10px;
+  padding: 4px 10px;
   width: -moz-max-content;
   width: max-content;
 }
@@ -74,18 +74,24 @@
   background: #fff;
 }
 
-.modalBodyHeight {
+.reedem .modalBodyHeight {
   text-align: start;
 }
-
-.modal-confirm {
-  width: 500px;
+.reedem .modal-confirm {
+  width: 480px;
 }
-
-.eep-btn-success::before {
-  border-radius: 0px !important;
+.reedem .modal-confirm .modal-footer {
+  padding: 0px;
 }
-
-.eep-btn-success::after {
-  border-radius: 0px !important;
+.reedem .modal-content .eep-btn {
+  border-radius: 12px !important;
+}
+.reedem .modal-content .eep-btn-success::before {
+  border-radius: 12px !important;
+}
+.reedem .modal-content .eep-btn-success::after {
+  border-radius: 12px !important;
+}
+.reedem .modal-content .field-input {
+  border: 1px solid #d4d4d4 !important;
 }/*# sourceMappingURL=style.css.map */
