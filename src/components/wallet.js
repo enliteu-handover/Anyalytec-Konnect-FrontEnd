@@ -8,13 +8,13 @@ import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import WalletComponent from "./walletComponent";
 
-const PointsConfig = () => {
+const Wallet = () => {
 
     const dispatch = useDispatch();
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
     const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
-    const [pointsConfig, setPointsConfig] = useState([]);
+    const [wallet, setWallet] = useState([]);
 
     const breadcrumbArr = [
         {
@@ -26,7 +26,7 @@ const PointsConfig = () => {
             link: "app/adminpanel",
         },
         {
-            label: "points Config",
+            label: "Wallet",
             link: "",
         },
     ];
@@ -35,12 +35,12 @@ const PointsConfig = () => {
         dispatch(
             BreadCrumbActions.updateBreadCrumb({
                 breadcrumbArr,
-                title: "pointsConfig",
+                title: "Wallet",
             })
         );
     }, [breadcrumbArr, dispatch]);
 
-    const fetchpointsConfig = () => {
+    const fetchWallet = () => {
         
         const obj = {
             url: URL_CONFIG.GET_POINTS_CONFIG,
@@ -48,36 +48,14 @@ const PointsConfig = () => {
         };
         httpHandler(obj)
             .then((response) => {
-                setPointsConfig(response?.data?.data ?? []);
+                setWallet(response?.data?.data ?? []);
             })
             .catch((error) => {
-                console.log("ACTIVE_pointsConfig", error.response);
+                console.log("ACTIVE_Wallet", error.response);
             });
     };
 
-    useEffect(() => {
-        
-        fetchpointsConfig();
-    }, []);
-
-    const pointsConfigTableHeaders = [
-        {
-            header: "Country",
-            accessorKey: "country_name",
-        },
-        {
-            header: "Currency",
-            accessorKey: "country_symbol",
-        },
-        {
-            header: "View Per Point",
-            accessorKey: "value_peer_points",
-            accessorFn: (row) => <WalletComponent inputkey={'value_peer_points'} row={row} addWalletPoints={addWalletPoints} />
-        }
-    ];
-
     const addWalletPoints = async (point, data) => {
-        
         const obj = {
             url: URL_CONFIG.ADD_POINTS_CONFIG,
             method: "post",
@@ -87,17 +65,45 @@ const PointsConfig = () => {
             }
         };
         await httpHandler(obj);
-        await fetchpointsConfig();
+        await fetchWallet();
     };
+
+    useEffect(() => {
+        fetchWallet();
+    }, []);
+
+    const walletTableHeaders = [
+        {
+            header: "Country",
+            accessorKey: "country_name",
+        },
+        {
+            header: "Branch",
+            accessorKey: "branch_name",
+        },
+        {
+            header: "Available Points",
+            accessorKey: "available_value",
+        },
+        {
+            header: "Optimal Value",
+            accessorKey: "optimal_value",
+            accessorFn: (row) => <WalletComponent inputkey={'optimal_value'} row={row} addWalletPoints={addWalletPoints} />
+        }, {
+            header: "Allocated Value",
+            accessorKey: "allocated_value",
+            accessorFn: (row) => <WalletComponent inputkey={'allocated_value'} row={row} addWalletPoints={addWalletPoints} />,
+        }
+    ];
 
     return (
         <React.Fragment>
             {userRolePermission?.adminPanel &&
                 <React.Fragment>
-                    <PageHeader title="Points Config" />
+                    <PageHeader title="Wallet" />
                     <TableComponent
-                        data={pointsConfig ?? []}
-                        columns={pointsConfigTableHeaders}
+                        data={wallet ?? []}
+                        columns={walletTableHeaders}
                         actionHidden={true}
                     />
                 </React.Fragment>
@@ -116,4 +122,4 @@ const PointsConfig = () => {
         </React.Fragment>
     );
 };
-export default PointsConfig;
+export default Wallet;

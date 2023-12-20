@@ -208,7 +208,7 @@ const Certificates = () => {
   };
 
   const certPreviewModalHandler = (arg) => {
-    debugger
+    
     setMyCertificateModalShow(true);
     let obj = {
       isIframe: false,

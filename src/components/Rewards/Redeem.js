@@ -34,9 +34,9 @@ const productSampleJson = [
     "name": "Amazon Shopping Voucher",
     "description": "Only UPI can be used to buy Amazon Pay E-Gift Card",
     "price": {
-      "price": "100",
+      "price": "10",
       "type": "",
-      "min": "100",
+      "min": "10",
       "max": "10000",
       "denominations": [],
       "currency": {
@@ -118,7 +118,8 @@ const Redeem = () => {
     product: [],
     model: false,
     isEdit: {},
-    qty: 1
+    qty: 1,
+    points: {}
   });
 
   const dispatch = useDispatch();
@@ -158,7 +159,9 @@ const Redeem = () => {
     // axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
     //   .then(response => {
     //     console.log('Qwik gifts---', response?.data);
-    setState({ ...state, data: categoryCampleJson, product: productSampleJson })
+    state['data'] = categoryCampleJson
+    state['product'] = productSampleJson
+    setState({ ...state })
     // })
     // .catch(error => {
     //   console.error(error);
@@ -181,29 +184,38 @@ const Redeem = () => {
     setShowGiftCardsAll((pre) => !pre);
   };
 
+  const getPointsValue = async () => {
+    
+    const obj = {
+      url: URL_CONFIG.GET_POINTS_VALUE,
+      method: "get"
+    };
+    const data = await httpHandler(obj)
+    state['points'] = data?.data?.data ?? {}
+    setState({ ...state });
+  }
+
   useEffect(() => {
+    
     fetchRedeem();
+    getPointsValue()
   }, []);
 
-  const redeemPonts = (data) => {
+  const redeemPonts = async (data) => {
 
-    state.model = true
+    state.model = false
     setState({ ...state })
-    setTimeout(async () => {
-      state.model = false
-      setState({ ...state })
-      await saveRedeemption(data);
-      dispatch(userProfile.updateState(state ?? ''))
-      let collections = document.getElementsByClassName("modal-backdrop");
-      for (var i = 0; i < collections.length; i++) {
-        collections[i].remove();
-      }
-    }, 2000);
+    await saveRedeemption(data);
+    dispatch(userProfile.updateState(state ?? ''))
+    let collections = document.getElementsByClassName("modal-backdrop");
+    for (var i = 0; i < collections.length; i++) {
+      collections[i].remove();
+    }
 
   };
 
   const reedPointsModel = (data) => {
-    debugger
+    
     state.model = true
     state.isEdit = data
     setState({ ...state })
@@ -239,14 +251,18 @@ const Redeem = () => {
   };
 
   const handleChange = (value, price) => {
+    
+    if (!value) {
+      state.qty = ''
+      setState({ ...state })
+      return
+    }
 
-    const user_points = JSON.parse(userDetails)?.allPoints ?? 0;
+    const user_points = (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?? 0;
     const multi = getCurrencyForCounty(
       JSON.parse(sessionStorage.getItem('userData'))?.countryDetails?.country_name ?? ''
-      , user_points, value)
-    // if (parseInt(price?.min) > multi) {
-    //   return
-    // } else 
+      , user_points, parseInt(value))
+
     if (parseInt(price?.max) < multi) {
       return
     } else {
@@ -262,7 +278,6 @@ const Redeem = () => {
     }
     setShowModal({ type: null, message: null });
   };
-
 
   const openModal = () => {
     window.location.href = ('/app/my-redeem');
@@ -290,6 +305,7 @@ const Redeem = () => {
       {state?.model &&
         <RedomModalDetails qty={state?.qty ?? ''}
           userDetails={userDetails} data={state?.isEdit}
+          value_peer_points={parseInt(state?.points?.value_peer_points)}
           handleChange={handleChange} redeemPonts={redeemPonts} />
       }
 
@@ -341,8 +357,9 @@ const Redeem = () => {
                         </div> */}
                       </div>
                       <div className="redeemBtn_div text-center">
-
-                        {item?.price?.price <= (JSON.parse(userDetails)?.allPoints ?? 0) ?
+                        {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))}
+                        {item?.price?.price <=
+                          (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?
                           <a
                             style={{
                               marginBottom: 14,

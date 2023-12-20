@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
+import { Link } from "react-router-dom";
 import ResponseInfo from "../UI/ResponseInfo";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
 
 const AdminPanel = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const AdminPanel = () => {
 
   return (
     <React.Fragment>
-      {userRolePermission.adminPanel &&
+      {userRolePermission?.adminPanel &&
         <React.Fragment>
           <div className="adminPanel-div p-0 m-0">
             <div className="row no-gutters">
@@ -167,7 +167,7 @@ const AdminPanel = () => {
               </div>
             </Link>
 
-            <Link to="/app/my-redeem">
+            <Link to="/app/wallet">
               <div className="admin_panel_items bg-white">
                 <div className="outter">
                   <img
@@ -184,7 +184,7 @@ const AdminPanel = () => {
           </div>
         </React.Fragment>
       }
-      {!userRolePermission.adminPanel &&
+      {!userRolePermission?.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo
             title="Oops! Looks illigal way."
