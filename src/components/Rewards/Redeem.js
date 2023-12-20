@@ -191,7 +191,7 @@ const Redeem = () => {
   };
 
   const getPointsValue = async () => {
-    
+
     const obj = {
       url: URL_CONFIG.GET_POINTS_VALUE,
       method: "get"
@@ -202,7 +202,7 @@ const Redeem = () => {
   }
 
   useEffect(() => {
-    
+
     fetchRedeem();
     getPointsValue()
   }, []);
@@ -221,7 +221,7 @@ const Redeem = () => {
   };
 
   const reedPointsModel = (data) => {
-    
+
     state.model = true
     state.isEdit = data
     setState({ ...state })
@@ -260,7 +260,7 @@ const Redeem = () => {
   };
 
   const handleChange = (value, price) => {
-    
+
     if (!value) {
       state.qty = ''
       setState({ ...state })
@@ -391,10 +391,17 @@ const Redeem = () => {
                         <label className="redeemIcon_label font-helvetica-m discription">
                           {item?.description}
                         </label>
-                        <div className="redeemBtn_div text-start">
                         {/* {JSON.stringify((((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)))} */}
+                        {/* <div className="redeemCard_inner2">
+                          <label className="redeemEnlite_value mb-0 d-flex justify-content-center">
+                            <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="enlite_point_icon mr-1" alt="Enlite Point Symbol" title="Enlite Point" />
+                            <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
+                          </label>
+                        </div> */}
+                      <div className="redeemBtn_div text-start">
                         {item?.price?.price <=
-                          (((JSON.parse(userDetails)?.allPoints ?? 0)) * parseInt(state?.points?.value_peer_points)) ?
+                          (((JSON.parse(userDetails)?.allPoints ?? 0))
+                            * parseInt(state?.points?.value_peer_points)) ?
                           <a
                             style={{
                               color: "#fff"
