@@ -4359,20 +4359,18 @@ input#cert-image-upload.hidden {
 }
 
 .redeem_icon_div {
-  background-color: #f8f8f8;
-  border: 1px solid #f0efef;
-  border-radius: 50%;
-  height: 75px;
-  width: 75px;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
+  // background-color: #f8f8f8;
+//   border: 1px solid #f0efef;
+// border-radius: 12px;
+width: 100%;
+height: 70%;
+
 }
 
 .redeem_icon {
-  margin: 0 auto;
-  width: 75%;
-  max-height: 50px;
+  margin: 6px auto;
+  width: 100%;
+  height: 80%;
 }
 
 .redeemIcon_label {
@@ -4946,6 +4944,7 @@ tr.question_selected {
 
 .eep-templates-setting-title svg {
   cursor: pointer;
+
 }
 
 .eep-templates-setting-title h3 {

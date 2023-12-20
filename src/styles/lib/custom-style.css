@@ -2568,6 +2568,11 @@ input#cert-image-upload.hidden {
   height: 100%;
 }
 
+.canva > canvas {
+  width: 100% !important;
+  height: 270px !important;
+}
+
 .mycert_list_div {
   background-color: #ffffff;
   padding: 0.5rem;
@@ -4129,20 +4134,14 @@ input#cert-image-upload.hidden {
 }
 
 .redeem_icon_div {
-  background-color: #f8f8f8;
-  border: 1px solid #f0efef;
-  border-radius: 50%;
-  height: 75px;
-  width: 75px;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
+  width: 100%;
+  height: 70%;
 }
 
 .redeem_icon {
-  margin: 0 auto;
-  width: 75%;
-  max-height: 50px;
+  margin: 6px auto;
+  width: 100%;
+  height: 80%;
 }
 
 .redeemIcon_label {
@@ -5218,6 +5217,7 @@ button.d_filterby,
 
 .d_filterby_txt {
   margin-right: 10px;
+  font-size: 18px;
 }
 
 svg.caret-circle-down:hover .caret-circle {
@@ -5632,6 +5632,13 @@ table.eep_table_spacer tbody tr td:last-child {
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#eep-notification-diiv .check_options_div {
+  position: absolute;
+  z-index: 999;
+  right: 6px;
+  top: 9px;
 }
 
 .eep-notification-div #eep-notification-diiv {
@@ -7156,6 +7163,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   border: none;
   position: absolute !important;
   right: 16px !important;
+  top: 14px;
 }
 
 .sidebaricondown {
@@ -7166,4 +7174,5 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   border: none;
   position: absolute !important;
   right: 0px !important;
+  top: 14px;
 }/*# sourceMappingURL=custom-style.css.map */

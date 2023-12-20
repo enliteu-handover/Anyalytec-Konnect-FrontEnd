@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 
 const RedomModalDetails = (props) => {
@@ -15,26 +17,27 @@ const RedomModalDetails = (props) => {
                         <div className="modal-body eep_scroll_y p-0">
                             <div className="modalBodyHeight">
 
-                                <img width="80px" src={images
-                                    ?.thumbnail ?? ''} />
-                                <br />
-                                <h5 className="modal-title w-100 text-center mt-3 bulk_exampleModalLabel"
-                                >{name ?? ''}                                </h5>
-
-                                <br />
-                                <p>{description ?? ''}</p>
-                                <br />
+                              <img width="100%" src={images?.thumbnail ?? ''} style={{maxWidth: '466px',    height: '204px',marginBottom:'12px'}}/> 
+                                  
+                             
+                                <label className="redeemIcon_label font-helvetica-m titlesx">
+                          {name}
+                        </label>
+                        <label className="redeemIcon_label font-helvetica-m discription">
+                          {description}
+                        </label>
+                                {/* <br />
                                 <label>Min : {price?.min} </label>,
                                 <label>Max : {price?.max}</label>
                                 <br />
                                 <label>Qty : </label>
                                 <input value={props?.qty ?? ''} onChange={(e) => props?.handleChange(e.target.value, price)} />
-                                Min: 1, Max: {parseInt(price?.max) / user_points}
+                                Min: 1, Max: {parseInt(price?.max) / user_points} */}
                                 <a
                                     style={{
-                                        marginBottom: 14,
-                                        marginRight: 10,
-                                        color: "#fff"
+                                        width:'100%',
+                                        color: "#fff",
+                                        textAlign:'center',
                                     }}
                                     className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
                                     data-toggle="modal"
