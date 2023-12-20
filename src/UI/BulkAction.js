@@ -1,17 +1,27 @@
 import React from "react";
 import Select from "react-select";
 import classes from "../components/FormElements/Element.module.scss";
+import { useState } from "react";
 
 const BulkAction = (props) => {
 
   const { config, onClickCheckbox, onFilterChange, checkBoxInfo, bulkSubmitHandler } = props;
-
+  const [selectedValue, setSelectedValue] = useState(config.defaultValue);
+  const [key, setKey] = useState(0);
   const customStyles = {  
     control: (_, { selectProps: { width }}) => ({
       width: width,
       display:"flex"
     }),
   }
+  const handleGoButtonClick = () => {
+    bulkSubmitHandler();
+    setSelectedValue(config.defaultValue);
+    setKey((prevKey) => prevKey + 1);
+
+  };
+
+  const filteredOptions = checkBoxInfo.bulkState ? config.dropdownOptions : [];
   
   return (
     <React.Fragment>
@@ -35,13 +45,17 @@ const BulkAction = (props) => {
           />
         </div>
         <Select
-          options={config.dropdownOptions}
+          key={key}
+          options={filteredOptions}
           placeholder=""
           classNamePrefix="eep_select_common contact_number"
           className={`form-control p-0 basic-single reloadSelectField  ${classes.formControl}`}
           menuPlacement="bottom"
-          onChange={(event) => onFilterChange(event)}
-          defaultValue={config.defaultValue}
+          onChange={(event) => {
+            onFilterChange(event);
+            setSelectedValue(event);
+          }}
+          defaultValue={selectedValue}
           isDisabled={!checkBoxInfo.bulkState}
           width="120px"
           styles={customStyles}
@@ -63,7 +77,7 @@ const BulkAction = (props) => {
             // className="eep-btn eep-btn-go c1"
             className={`eep-btn eep-btn-go ${!checkBoxInfo.bulkState ? "cursor_default" : ""}`}
             disabled={!checkBoxInfo.bulkState}
-            onClick={bulkSubmitHandler}
+            onClick={handleGoButtonClick}
           >
             Go
           </button>

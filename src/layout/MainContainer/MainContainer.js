@@ -80,16 +80,10 @@ const MainContainer = (props) => {
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
             <Header />
-            <div style={{display:'flex',justifyContent:'space-between', alignItems:'center',paddingTop:"8px"}}>
-              <div>
               <Breadcrumb />
 
-              </div>
-              <div>
               {getTabs?.length !== 0 && <Tab />}
 
-              </div>
-            </div>
             <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs.length ? "eep-has-tab-menu" : ""}`}>
               <div className={`eep-container ${getToggleSidebarState ? "eep-container-with-sidebar" : ""}`}>
                 <div className="container-sm eep-container-sm">
