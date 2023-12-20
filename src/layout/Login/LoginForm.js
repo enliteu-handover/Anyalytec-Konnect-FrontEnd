@@ -165,6 +165,8 @@ const LoginForm = () => {
         HeaderLogo: response?.data?.HeaderLogo,
         userLogo: response?.data?.userLogo,
         theme: response?.data?.theme?.[0] ?? {},
+        orgId: response?.data?.orgId ?? "",
+        countryDetails: response?.data?.countryDetails ?? "",
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
       await dispatch(sharedDataActions.getUserRolePermission({

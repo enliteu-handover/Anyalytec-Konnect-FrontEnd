@@ -110,6 +110,8 @@ export const fetchUserPermissions = async (dispatch) => {
             HeaderLogo: response?.data?.HeaderLogo,
             userLogo: response?.data?.userLogo,
             theme: response?.data?.theme?.[0] ?? {},
+            orgId: response?.data?.orgId ?? "",
+            countryDetails: response?.data?.countryDetails ?? "",
         }
         sessionStorage.setItem('userData', JSON.stringify(addFileds))
         await dispatch(sharedDataActions.getUserRolePermission({
@@ -119,4 +121,13 @@ export const fetchUserPermissions = async (dispatch) => {
     }).catch((error) => {
         console.log("fetchPermission error", error);
     });
+}
+
+export function getCurrencyForCounty(country, user_points, value) {
+    let calculatedValue = 0;
+    if (country === 'India') {
+        return calculatedValue = user_points * value;
+    } else {
+        return calculatedValue;
+    }
 }
