@@ -92,7 +92,6 @@ const AdminPanel = () => {
               </div>
             </Link>
             <Link
-              // to="/app/rolemanagement"
               to="/app/idm"
             >
               <div className="admin_panel_items bg-white">
@@ -131,10 +130,25 @@ const AdminPanel = () => {
                       process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
                     }
                     className="image-circle"
-                    alt="branch Master"
+                    alt="Branch Master"
                   />
                 </div>
-                <span>branch Master</span>
+                <span>Branch Master</span>
+              </div>
+            </Link>
+
+            <Link to="/app/my-redeem">
+              <div className="admin_panel_items bg-white">
+                <div className="outter">
+                  <img
+                    src={
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
+                    }
+                    className="image-circle"
+                    alt="Redeem Points"
+                  />
+                </div>
+                <span>Redeem Points</span>
               </div>
             </Link>
           </div>

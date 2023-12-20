@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Slider from "react-slick";
 import PageHeader from "../../UI/PageHeader";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { fetchUserPermissions, getCurrencyForCounty } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
-import RedomModal from "../../modals/reedom";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import RedomModalDetails from "../../modals/redeemDetails";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { userProfile } from "../../store/user-profile";
 import "./style.css";
-import { fetchUserPermissions } from "../../helpers";
 
 const categoryCampleJson = [
   {
@@ -34,8 +36,8 @@ const productSampleJson = [
     "price": {
       "price": "100",
       "type": "",
-      "min": null,
-      "max": null,
+      "min": "100",
+      "max": "10000",
       "denominations": [],
       "currency": {
         "code": "INR",
@@ -68,7 +70,7 @@ const productSampleJson = [
     "discounts": [
       {
         "startDate": "2023-11-16T18:30:00+0000",
-        "endDate": "2023-12-15T18:29:59+0000",
+        "endDate": "2024-12-15T18:29:59+0000",
         "discount": {
           "type": "by_percent",
           "amount": 3,
@@ -101,18 +103,22 @@ const productSampleJson = [
     "createdAt": "",
     "updatedAt": "",
     "cpg": {}
-  },
+  }
 ];
 
 const Redeem = () => {
 
   const history = useHistory();
   const userDetails = sessionStorage.getItem('userData')
+  const redeemPointsDetails = useSelector((state) => state.storeState.userProfile);
   const [showGiftCardsAll, setShowGiftCardsAll] = useState(false);
+  const [showModal, setShowModal] = useState({ type: null, message: null });
   const [state, setState] = useState({
     data: [],
     product: [],
-    model: false
+    model: false,
+    isEdit: {},
+    qty: 1
   });
 
   const dispatch = useDispatch();
@@ -179,13 +185,15 @@ const Redeem = () => {
     fetchRedeem();
   }, []);
 
-  const reedPoints = (data) => {
+  const redeemPonts = (data) => {
+
     state.model = true
     setState({ ...state })
     setTimeout(async () => {
       state.model = false
       setState({ ...state })
       await saveRedeemption(data);
+      dispatch(userProfile.updateState(state ?? ''))
       let collections = document.getElementsByClassName("modal-backdrop");
       for (var i = 0; i < collections.length; i++) {
         collections[i].remove();
@@ -194,18 +202,31 @@ const Redeem = () => {
 
   };
 
+  const reedPointsModel = (data) => {
+    debugger
+    state.model = true
+    state.isEdit = data
+    setState({ ...state })
+  }
+
   const saveRedeemption = async (data) => {
     const obj = {
       url: URL_CONFIG.POST_REDEEM,
       method: "post",
       payload: {
-        points: data?.price?.price, name: data?.name, image: data?.images?.thumbnail,
+        points: data?.price?.price, name: data?.name, image: data?.images?.thumbnail, coupon: data?.coupon,
         redeem_details: data ?? null
       },
     };
     await httpHandler(obj)
+    setShowModal({
+      ...showModal, type: "success", message: <div>
+        Your redeem coupon is attached below and also sent mail!. Please copy it and go to your account, then add it to use.<br />
+        <b>{data?.coupon ?? ''}</b>
+      </div>
+    });
     fetchUserPermissions(dispatch)
-    history.push('/app/my-redeem');
+    // history.push('/app/my-redeem');
   }
 
   var settings = {
@@ -215,12 +236,59 @@ const Redeem = () => {
     slidesToShow: 1,
   };
 
+  const handleChange = (value, price) => {
+
+    const user_points = JSON.parse(userDetails)?.allPoints ?? 0;
+    const multi = getCurrencyForCounty(
+      JSON.parse(sessionStorage.getItem('userData'))?.countryDetails?.country_name ?? ''
+      , user_points, value)
+    // if (parseInt(price?.min) > multi) {
+    //   return
+    // } else 
+    if (parseInt(price?.max) < multi) {
+      return
+    } else {
+      state.qty = value
+      setState({ ...state })
+    }
+  }
+
+  const hideModal = () => {
+    let collections = document.getElementsByClassName("modal-backdrop");
+    for (var i = 0; i < collections.length; i++) {
+      collections[i].remove();
+    }
+    setShowModal({ type: null, message: null });
+  };
+
+
+  const openModal = () => {
+    window.location.href = ('/app/my-redeem');
+  }
+
   return (
 
     <React.Fragment>
 
+      {showModal.type !== null && showModal.message !== null && (
+        <EEPSubmitModal data={showModal} className={`modal-addmessage`} hideModal={hideModal}
+          successFooterData={
+            <div onClick={openModal}>
+              <button>Ok</button>
+            </div>
+          }
+          errorFooterData={
+            <button type="button" className="eep-btn eep-btn-xsml eep-btn-danger" data-dismiss="modal" onClick={hideModal}>
+              Close
+            </button>
+          }
+        ></EEPSubmitModal>
+      )}
+
       {state?.model &&
-        <RedomModal />
+        <RedomModalDetails qty={state?.qty ?? ''}
+          userDetails={userDetails} data={state?.isEdit}
+          handleChange={handleChange} redeemPonts={redeemPonts} />
       }
 
       <PageHeader title={`Redeem my enlite points`} />
@@ -263,12 +331,12 @@ const Redeem = () => {
                           <label className="redeemIcon_label font-helvetica-m">{item?.name}</label>
                           <label className="redeemIcon_label font-helvetica-m discription">{item?.description}</label>
                         </div>
-                        <div className="redeemCard_inner2">
+                        {/* <div className="redeemCard_inner2">
                           <label className="redeemEnlite_value mb-0 d-flex justify-content-center">
                             <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="enlite_point_icon mr-1" alt="Enlite Point Symbol" title="Enlite Point" />
                             <span className="enlite_val font-helvetica-m">Redeem upto {item?.price?.currency?.symbol} {item?.price?.price}</span>
                           </label>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="redeemBtn_div text-center">
 
@@ -281,10 +349,10 @@ const Redeem = () => {
                             }}
                             className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
                             data-toggle="modal"
-                            data-target="#RedomModal"
-                            onClick={() => reedPoints(item)}
-                          >Redeem</a> :
-                          <button className="eep-btn eep-btn-tb giftRedeemBtn">Redeem</button>}
+                            data-target="#RedomModalDetails"
+                            onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
+                          >More</a> :
+                          <button className="eep-btn eep-btn-tb giftRedeemBtn">More</button>}
                       </div>
                     </div>
                   </div>
