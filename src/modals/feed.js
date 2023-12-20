@@ -569,8 +569,8 @@ const CreateFeedbackModal = (props) => {
                                             </React.Fragment>
                                         }
                                     </div>
-                                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
-                                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+                                    <input type="file" accept="image/jpeg,image/jpg,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+                                    <input type="file" accept="image/jpeg,image/jpg,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
                                 </div>
 
                             </div>

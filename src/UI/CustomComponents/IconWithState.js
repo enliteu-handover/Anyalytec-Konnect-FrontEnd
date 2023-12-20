@@ -10,10 +10,10 @@ const IconWithState = (props) => {
     <React.Fragment>
       <div className="ans-type text-left">
         <img
-            src={data[cSettings.objReference] ? iconPath + cSettings.isValue :  iconPath + cSettings.default}
-            className={cSettings.classnames}
+            src={data?.[cSettings?.objReference] ? iconPath + cSettings?.isValue :  iconPath + cSettings?.default}
+            className={cSettings?.classnames}
             alt="Icon"
-            title={cSettings.title}
+            title={cSettings?.title}
             style={{width:"20px"}}
         />
       </div>

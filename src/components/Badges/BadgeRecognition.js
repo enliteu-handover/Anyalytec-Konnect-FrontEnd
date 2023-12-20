@@ -160,6 +160,11 @@ const BadgeRecognition = (props) => {
                   </div>
                 </div>
               </div>
+              <a  href=""  
+                      onClick={() => onClickBadgeModalData(data)}
+                      data-toggle="modal"
+                      data-target="#badgeRecogniseModal"
+                >
               <div className="box-content">
                 <h3 className="title">{data.name}</h3>
                 <p className="desc_p">Peer Recognition</p>
@@ -175,6 +180,8 @@ const BadgeRecognition = (props) => {
                   </li>
                 </ul>
               </div>
+              </a>
+
             </div>
           </div>            
         ))}

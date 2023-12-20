@@ -6,7 +6,7 @@ const NominationStatus = (props) => {
 
   return (
     <React.Fragment>
-      <div className="ans-type text-center">
+      <div className="ans-type text-end">
         <img
             src={data.nominated ? `${process.env.PUBLIC_URL}/images/icons/approved.svg` : `${process.env.PUBLIC_URL}/images/icons/waiting.svg`}
             className="r_award_img selected"

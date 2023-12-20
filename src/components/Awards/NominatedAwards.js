@@ -66,7 +66,7 @@ const NominatedAwards = (props) => {
 					</div>
 				</div>
 				{showDetails && nominatedAwardData &&
-					<NominatedAwardFilteredData filterData={clickedAwardDetails} closeShowDetails={closeShowDetails} />
+					<NominatedAwardFilteredData filterTable={filterTable}setShowDetails={setShowDetails} filterData={clickedAwardDetails} closeShowDetails={closeShowDetails} />
 				}
 			</div>
 		</div>

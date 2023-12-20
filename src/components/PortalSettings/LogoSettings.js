@@ -16,7 +16,6 @@ const LogoSettings = (props) => {
   }
 
   const checkKey = (objVal, data) => {
-
     const formData = new FormData();
     formData.append("image", data);
     const obj = {

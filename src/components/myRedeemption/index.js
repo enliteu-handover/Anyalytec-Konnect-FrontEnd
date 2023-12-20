@@ -5,6 +5,8 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import "./style.css";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const MyProfileCoupon = (props) => {
 
@@ -46,43 +48,36 @@ const MyProfileCoupon = (props) => {
             })
         })
     }
-
+    const headers = [
+        
+        {
+          header: "Image",
+          accessorKey: "image",
+          // eslint-disable-next-line jsx-a11y/alt-text
+          accessorFn: (row) => <img style={{width:'80px'}} className="icon_image" src={row?.image ?? ''} />,
+        },
+        {
+          header: "Title",
+          accessorKey: "name",
+        },
+        
+        {
+          header: "Points",
+          accessorKey: "points",
+        },
+        {
+          header: "Created",
+          accessorKey: "created_at",
+        accessorFn: (row) => row.created_at? moment(row.created_at).format('l'):'--',
+        },
+      ];
     return (
-        <div className="main">
-            {state?.data?.length > 0 ? <table>
-                <thead>
-                    <tr>
-                        <th>S No</th>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Points</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <br />
-                <tbody>
-                    {state?.data?.map((v, i) => {
-                        return <tr>
-                            <th>{i + 1}</th>
-                            <th><img className="icon_image" src={v?.image ?? ''} /></th>
-                            <th>{v?.name ?? ''}</th>
-                            <th>{v?.points ?? ''}</th>
-                            <th>{v?.created_at ?? ''}</th>
-                        </tr>
-                    })}
-                </tbody>
-            </table> :
-                <ResponseInfo
-                    title="No Record!"
-                    responseImg="noRecord"
-                    responseClass="response-info"
-                    messageInfo="Good communication is the bridge between confusion and clarity"
-                    subMessageInfo="Nat Turner"
-                />
-            }
-
-
-        </div>
+         <TableComponent
+         data={state?.data ?? []}
+         columns={headers}
+         actionHidden={true}
+         enableRowNumbers={true}
+         />
     );
 };
 export default MyProfileCoupon;

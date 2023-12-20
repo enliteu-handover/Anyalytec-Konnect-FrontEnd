@@ -13,6 +13,8 @@ import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationMo
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const MyForumPosts = (props) => {
 
@@ -299,34 +301,42 @@ const MyForumPosts = (props) => {
 
   const myForumsTableHeaders = [
     {
-      fieldLabel: "Title",
-      fieldValue: "title",
+      header: "Title",
+      accessorKey: "title",
     },
     {
-      fieldLabel: "Comments",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      header: "Comments",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+
     },
     {
-      fieldLabel: "Likes",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      header: "Likes",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+
     },
     {
-      fieldLabel: "Followers",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.followers} />,
+      header: "Followers",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.followers} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.followers} />,
+
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "action",
-      component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "action",
+      // component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
+      accessorFn: (row) => moment(row.createdAt).format('l'),
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />,
+    // },
   ];
 
   const onFilterChange = (filterValue) => {
@@ -389,16 +399,21 @@ const MyForumPosts = (props) => {
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
             {myForumPostsLists && (
-              <Table
-                component="userManagement"
-                headers={myForumsTableHeaders}
-                data={myForumPostsLists}
-                tableProps={{
-                  classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              ></Table>
+              // <Table
+              //   component="userManagement"
+              //   headers={myForumsTableHeaders}
+              //   data={myForumPostsLists}
+              //   tableProps={{
+              //     classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
+              //     id: "user_dataTable", "aria-describedby": "user_dataTable_info",
+              //   }}
+              //   action={null}
+              // ></Table>
+              <TableComponent
+              data={myForumPostsLists ?? []}
+              columns={myForumsTableHeaders}
+              action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
+              />
             )}
           </div>
         </div>

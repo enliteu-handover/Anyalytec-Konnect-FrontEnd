@@ -75,14 +75,22 @@ const ECards = () => {
   });
 
   var settings = {
+    // dots: false,
+    // arrows: false,
+    // infinite: false,
+    // // infinite: true,
+    // speed: 500,
+    // slidesToShow: 3.5,
+    // adaptiveHeight: true,
+    // slidesToScroll: 4,
+    // padSlides: false,
     dots: false,
     arrows: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
-    adaptiveHeight: true,
-    slidesToScroll: 3,
-    padSlides: false,
+    slidesToShow: 3.5,
+    slidesToScroll: 4,
+    initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,

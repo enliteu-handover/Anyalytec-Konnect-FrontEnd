@@ -7212,6 +7212,16 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 .shadow {
   box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
 }
+.shadowdrop {
+  box-shadow: 0px 0px 2px 0px #eaeaea !important
+}
+.shadowdrop-sm {
+  box-shadow: 0px 0px 2px 0px #eaeaea !important
+}
+.shadowdrop-lg {
+  box-shadow: 0px 0px 2px 0px #eaeaea !important
+}
+
 
 .shadow-lg {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
@@ -10756,7 +10766,7 @@ body {
 
 .eep-container {
   background-color: #ffffff;
-  border-radius: 25px 0px 0px 0px;
+  border-radius: 25px 25px 0px 0px;
   padding: 15px 15px 0px 15px;
 }
 
@@ -18771,8 +18781,8 @@ input#cert-image-upload.hidden {
 
 .eep-nav-pills a.nav-link {
   margin: 5px;
-  padding: 8px 35px;
-  font-size: 16px;
+  padding: 8px 18px;
+  font-size: 14px;
   color: #606060;
   transition-duration: 0.4s;
   border-radius: 2rem;
@@ -18789,8 +18799,8 @@ input#cert-image-upload.hidden {
   color: #ffffff;
   border-radius: 2rem;
   margin: 5px;
-  padding: 8px 35px;
-  font-size: 16px;
+  padding: 8px 18px;
+  font-size: 14px;
   transition-duration: 0.4s;
 }
 
