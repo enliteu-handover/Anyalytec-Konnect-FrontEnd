@@ -19,6 +19,8 @@ const SurveyResponses = () => {
 	const [surveyResponseDataRaw, setSurveyResponseDataRaw] = useState([]);
 	const location = useLocation();
 	const sDataValue = location.state ? location.state?.surveyData : null;
+	console.log(location.state,'sDataValue')
+
 	const [surveyResponseStateData, setSurveyResponseStateData] = useState(sDataValue);
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });

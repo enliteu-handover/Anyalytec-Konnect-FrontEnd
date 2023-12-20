@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 
 const NominatedAwardFilteredData = (props) => {
 
-	const { filterData, closeShowDetails } = props;
+	const { filterData,filterTable, closeShowDetails,setShowDetails } = props;
 	const initialData = filterData ? filterData : [];
 	const [clickeddAwardData, setclickeddAwardData] = useState(initialData);
 
-	const closeShowAwardDetals = () => {
+	const closeShowAwardDetals = (arg, fetchState) => {
+		if (!fetchState) {
+			filterTable({ isData: false, aValues: [] });
+			setShowDetails(false);
+
+		}
 		closeShowDetails(false);
+
 	}
 
 	const getHashTag = (arg) => {
@@ -38,7 +44,7 @@ const NominatedAwardFilteredData = (props) => {
 				<p className="c_nm_award_cat my-2 text-uppercase">{getHashTag(clickeddAwardData?.award?.hashTag)}</p>
 				<p className="c_nm_award_dept mb-0">{clickeddAwardData?.nominatorId?.department?.name}</p>
 			</div>
-			<ul className="icon" onClick={closeShowAwardDetals}>
+			<ul className="icon" onClick={()=>closeShowAwardDetals("", false)}>
 				<li>
 					<a
 						// to="#"

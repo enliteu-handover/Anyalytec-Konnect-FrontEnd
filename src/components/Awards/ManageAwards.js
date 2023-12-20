@@ -9,6 +9,8 @@ import ManageAwardActions from "../../UI/CustomComponents/ManageAwardActions"
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import StopAllotedAwardModal from "../../modals/StopAllotedAwardModal";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const ManageAwards = () => {
 
@@ -86,53 +88,52 @@ const ManageAwards = () => {
 
   const manageNominationSchedulesTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Type",
-      fieldValue: "type",
+      header: "Type",
+      accessorKey: "type",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
-      component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => row?.createdAt ? moment(row.createdAt).format('l') : '--',
+
     },
     {
-      fieldLabel: "Last Run",
-      fieldValue: "lastRun",
-      component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
+      header: "Last Run",
+      accessorKey: "lastRun",
+      accessorFn: (row) =>row?.lastRun ?  moment(row.lastRun).format('l') : '--',
+
     },
     {
-      fieldLabel: "Next Run",
-      fieldValue: "nextRun",
-      component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
+      header: "Next Run",
+      accessorKey: "nextRun",
+      accessorFn: (row) => row.nextRun ?  moment(row.nextRun).format('l') : '--',
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <ManageAwardActions triggerModal={triggerModal} />,
-    },
+   
   ];
 
   const manageSpotTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Department",
-      fieldValue: "departmentId.name",
+      header: "Department",
+      accessorKey: "departmentId.name",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
+      header: "Date",
+      accessorKey: "createdAt",
     },
-    {
-      fieldLabel: "Actions",
-      fieldValue: "action",
-      component: <ManageAwardActions triggerModal={triggerModal} />,
-    },
+    // {
+    //   header: "Actions",
+    //   accessorKey: "action",
+    //   component: <ManageAwardActions triggerModal={triggerModal} />,
+    // },
   ];
 
   const clickHandler = (arg) => {
@@ -234,9 +235,9 @@ const ManageAwards = () => {
         ></EEPSubmitModal>
       )}
       {deletionState && <StopAllotedAwardModal deleteMessage={{ msg: "Are you sure?", subMsg: "Do you really want to delete this?" }} confirmState={confirmState} />}
-      <div className="py-4">
+      <div className="py-1">
         <div className="row award_manage_div" id="content-start">
-          <div className="col-md-12 mb-4">
+          <div className="col-md-12">
             <ul className="nav nav-pills eep-nav-pills justify-content-end" id="pills-tab" role="tablist">
               <li className="nav-item" role="presentation">
                 <a className="nav-link active c1" id="pills-nomination-schedule-tab" href="#pills-spot" role="tab" data-toggle="pill" aria-controls="pills-nomination-schedule" aria-selected="true" onClick={() => clickHandler("nomi_award")}>Nomination Schedules</a>
@@ -248,22 +249,18 @@ const ManageAwards = () => {
           </div>
           <div className="col-md-12 tab-content" id="pills-tabContent">
             <div className="tab-pane fade show active" id="pills-spot" role="tabpanel" aria-labelledby="pills-spot-tab">
-              <Table
-                component="ManageAwards"
-                headers={manageNominationSchedulesTableHeaders}
-                data={awardManage}
-                tableProps={{
-                  classes:
-                    "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable",
-                  "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              >
-              </Table>
+              
+             <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+
+              <TableComponent
+              data={awardManage ?? []}
+              columns={manageNominationSchedulesTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+              />
+              </div>
             </div>
             <div className="tab-pane fade" id="pills-nomination-schedule" role="tabpanel" aria-labelledby="pills-nomination-schedule-tab">
-              <Table
+              {/* <Table
                 component="ManageAwards"
                 headers={manageSpotTableHeaders}
                 data={awardManage}
@@ -275,7 +272,13 @@ const ManageAwards = () => {
                 }}
                 action={null}
               >
-              </Table>
+              </Table> */}
+              <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}></div>
+              <TableComponent
+              data={awardManage ?? []}
+              columns={manageSpotTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+              />
             </div>
           </div>
         </div>

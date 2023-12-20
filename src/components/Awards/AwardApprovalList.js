@@ -10,6 +10,8 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { FILTER_LIST_CONFIG } from "../../constants/ui-config";
 import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 function AwardApprovalList() {
   const [awardApproval, setAwardApproval] = useState([]);
@@ -22,32 +24,33 @@ function AwardApprovalList() {
 
   const awardApprovalTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Team",
-      fieldValue: "judgeId.department.name",
+      header: "Team",
+      accessorKey: "judgeId.department.name",
     },
     {
-      fieldLabel: "Nominees",
-      fieldValue: "nominations.length",
+      header: "Nominees",
+      accessorKey: "nominations.length",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
-      component: <DateFormatDisplay cSettings={cSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => row.createdAt?moment(row.createdAt).format('l') :'--',
     },
     {
-      fieldLabel: "Status",
-      fieldValue: "updatedAt",
-      component: <ApprovalStatus />,
+      header: "Status",
+      accessorKey: "updatedAt",
+      accessorFn: (row) => <ApprovalStatus data={row} />,
+      // component: <ApprovalStatus />,
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <ApprovalActions isApprovalState={true} isView={false} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <ApprovalActions isApprovalState={true} isView={false} />,
+    // },
   ];
 
   const fetchAwardApprovalData = (arg = {}) => {
@@ -126,23 +129,26 @@ function AwardApprovalList() {
         }
       ></PageHeader>
 
-      <div className="eep-user-management eep-content-start" id="content-start">
+      <div className="eep-user-management eepcontent-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-            {awardApproval && (
-              <Table
-                component="userManagement"
-                headers={awardApprovalTableHeaders}
-                data={awardApproval}
-                tableProps={{
-                  classes:
-                    "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable",
-                  "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              ></Table>
-            )}
+              {/* // <Table
+              //   component="userManagement"
+              //   headers={awardApprovalTableHeaders}
+              //   data={awardApproval}
+              //   tableProps={{
+              //     classes:
+              //       "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
+              //     id: "user_dataTable",
+              //     "aria-describedby": "user_dataTable_info",
+              //   }}
+              //   action={null}
+              // ></Table> */}
+              <TableComponent
+									data={awardApproval ?? []}
+									columns={awardApprovalTableHeaders}
+									action={<ApprovalActions isApprovalState={true} isView={false} />}
+								  />
           </div>
         </div>
       </div>

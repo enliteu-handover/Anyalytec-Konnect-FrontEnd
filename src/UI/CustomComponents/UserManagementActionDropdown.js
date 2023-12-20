@@ -15,7 +15,7 @@ const UserManagementActionDropdown = (props) => {
         }}
       ></span>
 
-      <div className="eep-dropdown-menu dropdown-menu dropdown-menu-right shadow pt-4 pb-4">
+   <div className="eep-dropdown-menu  dropdown-menu dropdown-menu-right shadowdrop pt-4 pb-4"  >
         <Link className="dropdown-item" to={`users/view/${props?.data?.user_id}`}>
           View User
         </Link>

@@ -47,7 +47,8 @@ function ListDepartments() {
     {
       header: "Created On",
       accessorKey: "createdAt",
-      // component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+      accessorFn: (row) =>row?.createdAt ?  moment(row.createdAt).format('l') : '--', 
+
     },
     {
       header: "Updated By",
@@ -56,7 +57,8 @@ function ListDepartments() {
     {
       header: "Updated On",
       accessorKey: "updatedAt",
-      // component: <DateFormatDisplay cSettings={tableSettings.updatedAt} />,
+      accessorFn: (row) =>row?.updatedAt ?  moment(row.updatedAt).format('l') : '--', 
+      
     },
   ];
 
@@ -131,12 +133,12 @@ function ListDepartments() {
   const handleExportDownload = () => {
     let xlData = userData?.map(v => {
       return {
-        id: v?.id,
-        name: v?.name,
-        createdBy: v?.createdBy?.username,
-        createdOn: v?.createdAt,
-        updatedBy: v?.updatedBy?.username,
-        updatedOn: v?.updatedAt,
+        'Id': v?.id,
+        'Name': v?.name,
+        'Created By': v?.createdBy?.username,
+        'Created On': v?.createdAt,
+        'Updated By': v?.updatedBy?.username,
+        'Updated On': v?.updatedAt,
       }
     })
     downloadXlsx("DepartmentMasters.xlsx", xlData);
@@ -181,7 +183,9 @@ function ListDepartments() {
                   type="button"
                   style={{
                     position: 'absolute',
-                    zIndex: '100'
+                    zIndex: '100',
+                    right: '12px',
+                    margin:' 8px 0px',
                   }}
                   onClick={() => handleExportDownload()}
                 >

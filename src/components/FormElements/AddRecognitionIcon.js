@@ -100,6 +100,7 @@ const AddRecognitionIcon = (props) => {
           id="recognition-file-upload"
           className="invisible"
           type="file"
+          accept="image/png, image/jpg, image/jpeg"
           onChange={(event) => onChangeHandler(event)}
         />
       )}

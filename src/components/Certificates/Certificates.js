@@ -9,6 +9,8 @@ import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import MyCertificate from "./MyCertificate";
+import PDF from "react-pdf-js";
+
 
 const Certificates = () => {
   const [certificateRecognitionData, setCertificateRecognitionData] = useState([]);
@@ -206,6 +208,7 @@ const Certificates = () => {
   };
 
   const certPreviewModalHandler = (arg) => {
+    debugger
     setMyCertificateModalShow(true);
     let obj = {
       isIframe: false,
@@ -230,20 +233,24 @@ const Certificates = () => {
                     <div className="n_cert_add_col_inner n_cert_add_col_inner_a" title="Add Certificate">
                       <div className="n_cert_add_col">
                         <div className="outter">
-                          <img src={process.env.PUBLIC_URL + "/images/icons/plus-white.svg"} className="plus_white_img" alt="Plus White" title="Compose Certificate" onClick={() => { document.getElementById("certificatePath").click(); }} />
-                          <input type="file" className="invisible d-none" onChange={(event) => addCertificateHandler(event)} id="certificatePath" />
+                          <img src={process.env.PUBLIC_URL + "/images/icons/plus-white.svg"} className="plus_white_img" alt="Plus White" title="Compose Certificate"  onClick={() => { document.getElementById("certificatePath").click(); }} />
+                          <input type="file" className="invisible d-none" onChange={(event) => addCertificateHandler(event)} id="certificatePath" accept="application/pdf" />
                         </div>
                       </div>
-                      <label className="n_cert_add_label">compose Certificate</label>
+                      <label className="n_cert_add_label">Upload Certificate</label>
                     </div>
                   </div>
                   {certificateRecognitionData && certificateRecognitionData.map((data, index) => {
+                    console.log(data,'data')
                     return (
                       <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-center cert_col_div" key={"certificateRecognition_" + index}>
                         <div className="mycert_list_div mycert_modal_a box9">
                           <div className="mycert_assign_div">
-                            <div className="outter">
-                              <img src={`${process.env.PUBLIC_URL}/images/certificates/certificateThumbnail.svg`} className="mycert_img" alt="Certificate" title={data.pdfByte?.name} />
+                            <div className="outter canva">
+                              {/* <img src={data?.pdfByte?.image} className="mycert_img" alt="Certificate" title={data.pdfByte?.name} /> */}
+                              <PDF
+                              width="20px"
+                            file={data?.pdfByte?.image} />
                             </div>
                           </div>
                           <div className="box-content">

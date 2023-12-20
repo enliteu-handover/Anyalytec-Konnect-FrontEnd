@@ -22,6 +22,7 @@ const Badges = () => {
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const [badgeData, setBadgeData] = useState({});
+
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   const location = useLocation();
   const history = useHistory();
@@ -179,6 +180,7 @@ const Badges = () => {
           });
           fetchBadgeData(filterBy.filter);
           resetCheckBox();
+          setEnableBulkState({ bulkState: false });
         })
         .catch((error) => {
           console.log("error", error.response);

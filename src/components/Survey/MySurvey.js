@@ -12,6 +12,8 @@ import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { pageLoaderHandler } from "../../helpers";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment/moment";
 
 const MySurvey = () => {
 
@@ -115,24 +117,22 @@ const MySurvey = () => {
 
 	const surveyTableHeaders = [
 		{
-			fieldLabel: "SURVEY TITLE",
-			fieldValue: "survey.name",
+			header: "SURVEY TITLE",
+			accessorKey: "survey.name",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+            accessorFn: (row) =>row.createdAt? moment(row.createdAt).format('l'):'--', 	
 		},
-		{
-			fieldLabel: "View",
-			fieldValue: "action",
-			component: <CustomLinkComponent cSettings={tableSettings.view} />,
-		}
+		
 	];
 
 	const sideBarClass = (togglestate) => {
 		setToggleClass(togglestate);
 	}
+
+	console.log(mySurveyList,'mySurveyList')
 
 	return (
 		<React.Fragment>
@@ -153,17 +153,12 @@ const MySurvey = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{mySurveyList && (
-									<Table
-										component="MySurvey"
-										headers={surveyTableHeaders}
-										data={mySurveyList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-											tableId: "MySurveyId"
-										}}
-										action={null}
-									></Table>
+									
+									<TableComponent
+									data={mySurveyList ?? []}
+									columns={surveyTableHeaders}
+									action={<CustomLinkComponent cSettings={tableSettings.view} />}
+								  />
 								)}
 							</div>
 						</div>
