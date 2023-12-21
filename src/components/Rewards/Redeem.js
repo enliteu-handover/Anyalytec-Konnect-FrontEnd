@@ -360,7 +360,6 @@ const Redeem = () => {
                       return startDate <= currentDate && currentDate <= endDate;
                     }
                   );
-
                   return (
                     item?.price?.price <=
                       (((JSON.parse(userDetails)?.allPoints ?? 0))

@@ -7,6 +7,7 @@ import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { TabsActions } from "../store/tabs-slice";
 import WalletComponent from "./walletComponent";
+import WalletRecharge from "./walletRecharge";
 
 const Wallet = () => {
 
@@ -157,7 +158,9 @@ const Wallet = () => {
             }
 
             {activeTab && activeTab?.id === 'rechargeWallet' && userRolePermission?.adminPanel &&
-                <React.Fragment>Recharge Wallet</React.Fragment>
+                <React.Fragment>
+                    <WalletRecharge />
+                </React.Fragment>
             }
             {!userRolePermission?.adminPanel &&
                 <div className="row eep-content-section-data no-gutters">
