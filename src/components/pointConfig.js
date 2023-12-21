@@ -41,14 +41,22 @@ const PointsConfig = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchpointsConfig = () => {
-        
         const obj = {
             url: URL_CONFIG.GET_POINTS_CONFIG,
             method: "get",
         };
         httpHandler(obj)
             .then((response) => {
-                setPointsConfig(response?.data?.data ?? []);
+                let uniqueCountriesMap = new Map();
+                let filteredData = [];
+                response?.data?.data?.forEach(entry => {
+                    const countryId = entry?.country_id;
+                    if (!uniqueCountriesMap.has(countryId)) {
+                        uniqueCountriesMap.set(countryId, true);
+                        filteredData.push(entry);
+                    }
+                });
+                setPointsConfig(filteredData ?? []);
             })
             .catch((error) => {
                 console.log("ACTIVE_pointsConfig", error.response);
@@ -56,7 +64,6 @@ const PointsConfig = () => {
     };
 
     useEffect(() => {
-        
         fetchpointsConfig();
     }, []);
 
@@ -77,7 +84,7 @@ const PointsConfig = () => {
     ];
 
     const addWalletPoints = async (point, data) => {
-        
+
         const obj = {
             url: URL_CONFIG.ADD_POINTS_CONFIG,
             method: "post",
