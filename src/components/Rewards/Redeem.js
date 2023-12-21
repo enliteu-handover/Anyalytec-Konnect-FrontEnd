@@ -135,12 +135,8 @@ const Redeem = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    // {
-    //   label: "Rewards",
-    //   link: "app/points",
-    // },
     {
-      label: "Redeem",
+      label: "Catalog",
       link: "app/redeem",
     },
   ];
@@ -201,7 +197,6 @@ const Redeem = () => {
   }
 
   useEffect(() => {
-
     fetchRedeem();
     getPointsValue()
   }, []);
@@ -248,7 +243,6 @@ const Redeem = () => {
       </div>
     });
     fetchUserPermissions(dispatch);
-    // history.push('/app/my-redeem');
   };
 
   const handleChange = (value, price) => {
@@ -281,7 +275,8 @@ const Redeem = () => {
   };
 
   const openModal = () => {
-    window.location.href = "/app/my-redeem";
+    // window.location.href = "/app/my-redeem";
+    window.location.reload();
   };
 
 
@@ -367,39 +362,53 @@ const Redeem = () => {
                   );
 
                   return (
-                    <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3 list-item">
-                      <div className="list-content">
-                        <div className="redeem_icon_div">
-                          <img
-                            src={item?.images?.thumbnail}
-                            className="redeem_icon"
-                            alt="Google play"
-                            title="Google play"
-                          />
-                        </div>
-                        <label className="redeemIcon_label font-helvetica-m titlesx">
-                          {item?.name}
-                        </label>
-                        <label className="redeemIcon_label font-helvetica-m discription">
-                          {item?.description}
-                        </label>
-                        <div className="redeemBtn_div text-start">
-                          {item?.price?.price <=
-                            (((JSON.parse(userDetails)?.allPoints ?? 0))
-                              * parseInt(state?.points?.value_peer_points)) ?
-                            <a
-                              style={{
-                                color: "#fff"
-                              }}
-                              className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
-                              data-toggle="modal"
-                              data-target="#RedomModalDetails"
-                              onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
-                            >More</a> :
-                            <button className="eep-btn eep-btn-tb giftRedeemBtn">More</button>}
+                    item?.price?.price <=
+                      (((JSON.parse(userDetails)?.allPoints ?? 0))
+                        * parseInt(state?.points?.value_peer_points)) ?
+                      <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3 list-item">
+                        <a
+                          data-toggle="modal"
+                          data-target="#RedomModalDetails"
+                          onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
+                        >     <div className="list-content" style={{ cursor: 'pointer' }}>
+                            <div className="redeem_icon_div">
+                              <img
+                                src={item?.images?.thumbnail}
+                                className="redeem_icon"
+                                alt="Google play"
+                                title="Google play"
+                              />
+                            </div>
+                            <label className="redeemIcon_label font-helvetica-m titlesx">
+                              {item?.name}
+                            </label>
+                            <label className="redeemIcon_label font-helvetica-m discription">
+                              {item?.description}
+                            </label>
+                          </div>
+                        </a>  </div>
+                      :
+                      <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3 list-item">
+                        <div className="list-content" style={{
+                          opacity: '0.6',
+                          background: '#80808052'
+                        }}>
+                          <div className="redeem_icon_div">
+                            <img
+                              src={item?.images?.thumbnail}
+                              className="redeem_icon"
+                              alt="Google play"
+                              title="Google play"
+                            />
+                          </div>
+                          <label className="redeemIcon_label font-helvetica-m titlesx">
+                            {item?.name}
+                          </label>
+                          <label className="redeemIcon_label font-helvetica-m discription">
+                            {item?.description}
+                          </label>
                         </div>
                       </div>
-                    </div>
                   );
                 })}
               </div>

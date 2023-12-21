@@ -7199,4 +7199,10 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 }
 .tableButton .eep-btn-success::after {
   border-radius: 6px !important;
+}
+
+.small-eep-btn {
+  padding: 10px;
+  font-size: 10px;
+  border: none;
 }/*# sourceMappingURL=custom-style.css.map */

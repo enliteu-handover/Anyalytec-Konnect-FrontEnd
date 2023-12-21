@@ -17,7 +17,7 @@ const WalletComponent = (props) => {
     };
 
     const handleSave = () => {
-        
+
         if (props.inputkey === 'optimal_value' && parseInt(wallet) > parseInt(props?.state?.points?.allocated_value)) {
             setError('Enter the least allocated value for optimal performance.')
             return
@@ -32,14 +32,13 @@ const WalletComponent = (props) => {
 
     return (
         <React.Fragment>
-            <div style={{display:'flex',alignItems:'center'}}>
-            <input  value={wallet} type="text" className="tableinput form-control field-input" onChange={(e) => handleInputChange(e, 'optimal_value')} />
-            <div className="tableButton ml-1">
-            <button className="eep-btn eep-btn-success"  onClick={handleSave}>Save</button>
-            {err && <label style={{ fontSize: 11, color: "red" }}>{err}</label>}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <input value={wallet} type="text" className="tableinput form-control field-input" onChange={(e) => handleInputChange(e, 'optimal_value')} />
+                <div className="tableButton ml-1">
+                    <button className="small-eep-btn eep-btn-success" onClick={handleSave}>{parseInt(props?.row?.[props?.inputkey]) > 0 ? 'Save' : 'Update'}</button>
+                    {err && <label style={{ fontSize: 11, color: "red" }}>{err}</label>}
+                </div>
             </div>
-            </div>
-           
         </React.Fragment>
     );
 };

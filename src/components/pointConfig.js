@@ -77,7 +77,7 @@ const PointsConfig = () => {
             accessorKey: "country_symbol",
         },
         {
-            header: "View Per Point",
+            header: "Value Per Point",
             accessorKey: "value_peer_points",
             accessorFn: (row) => <WalletComponent inputkey={'value_peer_points'} row={row} addWalletPoints={addWalletPoints} />
         }

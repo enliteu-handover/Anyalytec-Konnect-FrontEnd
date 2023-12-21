@@ -21,7 +21,7 @@ const MyProfileCoupon = (props) => {
             link: "app/dashboard",
         },
         {
-            label: "redeem",
+            label: "redemptions",
             link: "",
         },
     ];

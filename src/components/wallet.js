@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
 import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
+import { TabsActions } from "../store/tabs-slice";
 import WalletComponent from "./walletComponent";
 
 const Wallet = () => {
@@ -13,6 +13,7 @@ const Wallet = () => {
     const dispatch = useDispatch();
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
     const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+    const activeTab = useSelector((state) => state.tabs.activeTab);
 
     const [wallet, setWallet] = useState([]);
     const [state, setState] = useState({
@@ -29,9 +30,20 @@ const Wallet = () => {
             link: "app/adminpanel",
         },
         {
-            label: "Wallet",
+            label: "Wallet Config",
             link: "",
         },
+    ];
+
+    const tabConfig = [
+        {
+            title: "Wallet Config",
+            id: "wallet",
+        },
+        {
+            title: "Wallet Recharge",
+            id: "rechargeWallet",
+        }
     ];
 
     useEffect(() => {
@@ -59,7 +71,7 @@ const Wallet = () => {
     };
 
     const addWalletPoints = async (point, data) => {
-        
+
 
         const obj = {
             url: URL_CONFIG.ADD_POINTS_CONFIG,
@@ -78,6 +90,21 @@ const Wallet = () => {
         fetchWallet();
         getPointsValue()
     }, []);
+
+    useEffect(() => {
+        dispatch(
+            TabsActions.updateTabsconfig({
+                config: tabConfig,
+            })
+        );
+        return () => {
+            dispatch(
+                TabsActions.updateTabsconfig({
+                    config: [],
+                })
+            );
+        };
+    }, [userRolePermission]);
 
     const getPointsValue = async () => {
 
@@ -102,6 +129,7 @@ const Wallet = () => {
         {
             header: "Available Points",
             accessorKey: "available_value",
+            accessorFn: (row) => <div style={{ color: parseInt(row?.optimal_value) > parseInt(row?.allocated_value) && "red" }}>{row?.available_value ?? '0'}</div>
         },
         {
             header: "Optimal Value",
@@ -118,9 +146,8 @@ const Wallet = () => {
 
     return (
         <React.Fragment>
-            {userRolePermission?.adminPanel &&
+            {activeTab && activeTab?.id === 'wallet' && userRolePermission?.adminPanel &&
                 <React.Fragment>
-                    <PageHeader title="Wallet" />
                     <TableComponent
                         data={wallet ?? []}
                         columns={walletTableHeaders}
@@ -129,6 +156,9 @@ const Wallet = () => {
                 </React.Fragment>
             }
 
+            {activeTab && activeTab?.id === 'rechargeWallet' && userRolePermission?.adminPanel &&
+                <React.Fragment>Recharge Wallet</React.Fragment>
+            }
             {!userRolePermission?.adminPanel &&
                 <div className="row eep-content-section-data no-gutters">
                     <ResponseInfo
