@@ -627,7 +627,8 @@ const Redeem = () => {
                           data-target="#RedomModalDetails"
                           className="list-item"
                           onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
-                        > <div className="list-content" style={{ cursor: 'pointer' }}>
+                        >
+                          <div className="list-content" style={{ cursor: 'pointer' }}>
                             <div className="redeem_icon_div">
                               <div class="ribbon-2">12% OFF</div>
                               <img
@@ -656,19 +657,24 @@ const Redeem = () => {
                           background: '#80808052'
                         }}>
                           <div className="redeem_icon_div">
+                            <div class="ribbon-2">12% OFF</div>
                             <img
                               src={item?.images?.thumbnail}
                               className="redeem_icon"
                               alt="Google play"
                               title="Google play"
+                              width={'100%'}
+                              height={'100%'}
                             />
                           </div>
-                          <label className="redeemIcon_label font-helvetica-m titlesx">
-                            {item?.name}
-                          </label>
-                          <label className="redeemIcon_label font-helvetica-m discription">
-                            {item?.description}
-                          </label>
+                          <div className="content">
+                            <label className="redeemIcon_label font-helvetica-m titlesx">
+                              {item?.name}
+                            </label>
+                            {/* <label className="redeemIcon_label font-helvetica-m discription">
+                                {item?.description}
+                              </label> */}
+                          </div>
                         </div>
                       </div>
                   );
