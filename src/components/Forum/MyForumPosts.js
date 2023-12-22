@@ -217,7 +217,8 @@ const MyForumPosts = (props) => {
           dept: [],
           existForumAttach: []
         }
-        formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
+        formData.append('forumrequest', JSON.stringify(forumUpdateObj))
+        // formData.append('forumrequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
         httpObj = {
           url: URL_CONFIG.FORUM,
           method: "put",
@@ -277,7 +278,8 @@ const MyForumPosts = (props) => {
       dept: deptValsArr,
       existForumAttach: updateDatas.existPostAttach
     }
-    formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
+		formData.append('forumrequest', JSON.stringify(forumUpdateObj))
+    // formData.append('forumrequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
     const obj = {
       url: URL_CONFIG.FORUM,
       method: "put",
@@ -410,9 +412,9 @@ const MyForumPosts = (props) => {
               //   action={null}
               // ></Table>
               <TableComponent
-              data={myForumPostsLists ?? []}
-              columns={myForumsTableHeaders}
-              action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
+                data={myForumPostsLists ?? []}
+                columns={myForumsTableHeaders}
+                action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
               />
             )}
           </div>

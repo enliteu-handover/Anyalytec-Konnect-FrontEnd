@@ -1,3 +1,4 @@
+import { getRoles } from '@crayond_dev/idm-client';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -6,16 +7,14 @@ import UserManagementActionDropdown from "../UI/CustomComponents/UserManagementA
 import Filter from "../UI/Filter";
 import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
-import Table from "../UI/Table";
+import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
 import { FILTER_CONFIG } from "../constants/ui-config";
+import { downloadXlsx } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
+import { idmRoleMappingRolesScreenAccess } from "../idm";
 import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
-import { getRoles } from '@crayond_dev/idm-client';
-import TableComponent from "../UI/tableComponent";
-import { downloadXlsx } from "../helpers";
-import { idmRoleMappingRoles, idmRoleMappingRolesScreenAccess } from "../idm";
 
 const UserManagement = () => {
 
@@ -275,7 +274,7 @@ const UserManagement = () => {
 
 
   const handleExportDownload = () => {
-     let xlData = userData?.map(v => {
+    let xlData = userData?.map(v => {
       return {
         Id: v?.id,
         'User Name': v?.username,
@@ -356,21 +355,21 @@ const UserManagement = () => {
                   ></Table>
                 )} */}
 
-                <div style={{position:'relative'}}>
-                <button
-                  className="btn btn-secondary"
-                  aria-controls="user_dataTable"
-                  type="button"
-                  style={{
-                    position: 'absolute',
-                    zIndex: '100',
-                    right: '12px',
-                    margin:' 8px 0px',
-                  }}
-                  onClick={() => handleExportDownload()}
-                >
-                  <span>Excel</span>
-                </button>
+                <div style={{ position: 'relative' }}>
+                  <button
+                    className="btn btn-secondary"
+                    aria-controls="user_dataTable"
+                    type="button"
+                    style={{
+                      position: 'absolute',
+                      zIndex: '100',
+                      right: '12px',
+                      margin: ' 8px 0px',
+                    }}
+                    onClick={() => handleExportDownload()}
+                  >
+                    <span>Excel</span>
+                  </button>
 
                   <TableComponent
                     data={userData ?? []}

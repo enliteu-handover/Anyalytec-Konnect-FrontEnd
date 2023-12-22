@@ -120,7 +120,7 @@ const PollAnswer = () => {
 
 	const submitAnswerHandler = (responseID, pData, ans) => {
 		if (!pData.answeredState) {
-			if (responseID && ans.option) {
+			if (responseID && ans?.option) {
 				console.log("submitAnswerHandler ans", responseID, ans);
 				// let formData = new FormData();
 				// formData.append('id', responseID);
