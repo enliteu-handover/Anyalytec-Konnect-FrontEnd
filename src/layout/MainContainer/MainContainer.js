@@ -100,12 +100,12 @@ const MainContainer = (props) => {
                             <Route path="/app/idm">
                               <IdmRoleMapping />
                             </Route>
-                            <Route path="/app/dashboard">
+                            {/* <Route path="/app/dashboard">
                               <Home initial={initial} setInitial={setInitial} />
-                            </Route>
-                            <Route path="/app/userdashboard">
+                            </Route> */}
+                            {/* <Route path="/app/userdashboard">
                               <UserDashboard />
-                            </Route>
+                            </Route> */}
                             <Route path="/app/usermanagement">
                               <UserManagement />
                             </Route>
@@ -202,10 +202,10 @@ const MainContainer = (props) => {
                             <Route path="/app/inboxdetailview">
                               <InboxDetailView />
                             </Route>
-                            <Route path="/app/socialwall">
+                            {/* <Route path="/app/socialwall">
                               <SocialWall />
-                            </Route>
-                            <Route path="/app/communication">
+                            </Route> */}
+                            {/* <Route path="/app/communication">
                               <Communication />
                             </Route>
                             <Route path="/app/survey">
@@ -216,17 +216,17 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/surveyanswer">
                               <SurveyAnswer />
-                            </Route>
-                            <Route path="/app/surveylibrary">
+                            </Route> */}
+                            {/* <Route path="/app/surveylibrary">
                               <SurveyLibrarayAnswer />
-                            </Route>
-                            <Route path="/app/mysurvey">
+                            </Route> */}
+                            {/* <Route path="/app/mysurvey">
                               <MySurvey />
-                            </Route>
+                            </Route> */}
                             <Route path="/app/librarysurvey">
                               <MyLibrary />
                             </Route>
-                            <Route path="/app/surveyquestions">
+                            {/* <Route path="/app/surveyquestions">
                               <SurveyQuestions />
                             </Route>
                             <Route path="/app/surveyresponses">
@@ -243,8 +243,8 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/forumdetailview">
                               <ForumDetailView />
-                            </Route>
-                            <Route path="/app/pollanswer">
+                            </Route> */}
+                            {/* <Route path="/app/pollanswer">
                               <PollAnswer />
                             </Route>
                             <Route path="/app/createpoll">
@@ -258,7 +258,7 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/activepolls">
                               <ActivePolls />
-                            </Route>
+                            </Route> */}
                             <Route path="/app/notifications">
                               <Notifications />
                             </Route>
