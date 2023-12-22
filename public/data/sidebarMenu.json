@@ -1,5 +1,12 @@
 [
   {
+    "label": "Dashboard",
+    "link": "dashboard",
+    "icon": "Dashboard.svg",
+    "isDirectLink": true,
+    "dashboard": true
+  },
+  {
     "label": "Recognition",
     "link": "recognition",
     "icon": "Recognition.svg",
@@ -10,6 +17,11 @@
         "label": "Recognize",
         "link": "recognition",
         "icon": ""
+      },
+      {
+        "label": "SocialWall",
+        "link": "socialwall",
+        "icon": ""
       }
     ]
   },
@@ -19,6 +31,45 @@
     "icon": "Library.svg",
     "isDirectLink": true,
     "library": true
+  },
+  {
+    "label": "Communication",
+    "link": "communication",
+    "icon": "Communication.svg",
+    "isDirectLink": false,
+    "communication": true,
+    "subMenu": [
+      {
+        "label": "Survey",
+        "link": "mysurvey",
+        "icon": "",
+        "survey": true
+      },
+      {
+        "label": "Forums",
+        "link": "forum",
+        "icon": "",
+        "forum": true
+      },
+      {
+        "label": "Polls",
+        "link": "closedpolls",
+        "icon": "",
+        "polls": true
+      },
+      {
+        "label": "Idea Box",
+        "link": "ideabox",
+        "icon": "",
+        "ideabox": true
+      },
+      {
+        "label": "Feedback",
+        "link": "feedback",
+        "icon": "",
+        "feedback": true
+      }
+    ]
   },
   {
     "label": "Rewards",
@@ -43,5 +94,12 @@
         "icon": ""
       }
     ]
+  },
+  {
+    "label": "Org Chart",
+    "link": "orgChart",
+    "icon": "download.svg",
+    "isDirectLink": true,
+    "org": true
   }
 ]
