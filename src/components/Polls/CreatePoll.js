@@ -88,7 +88,6 @@ const CreatePoll = () => {
 		
 		if(initPollData) {
 			fetchUserData();
-			console.log("initPollData", initPollData);
 			const {name, type, options, endDate, pollResponse} = initPollData;
 			setPollTitle(name);
 			const ChoiceTypeTemp = ChoiceType.filter(res => res.value === type);
@@ -108,7 +107,6 @@ const CreatePoll = () => {
 			let userOptionsTemp = [];
 			if(pollResponse) {
 				
-				console.log("pollResponse", pollResponse);
 				setAssignUserState(true);
 				setAssignUser({ value: 'Users', label: 'Users' });
 				userOptionsTemp = Array.isArray(pollResponse)&&pollResponse?.map(item => {

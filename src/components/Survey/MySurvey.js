@@ -132,8 +132,6 @@ const MySurvey = () => {
 		setToggleClass(togglestate);
 	}
 
-	console.log(mySurveyList,'mySurveyList')
-
 	return (
 		<React.Fragment>
 			<PageHeader title="My Survey" filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />

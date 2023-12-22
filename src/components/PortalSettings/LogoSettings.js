@@ -36,9 +36,6 @@ const LogoSettings = (props) => {
     //   setUploadImgArry(arry);
     // }
   };
-
-  console.log("uploadImgArry  outside :", uploadImgArry);
-
   return (
     <React.Fragment>
 

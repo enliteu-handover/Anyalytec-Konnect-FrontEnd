@@ -82,16 +82,6 @@
         "label": "Points",
         "link": "points",
         "icon": ""
-      },
-      {
-        "label": "Redeem",
-        "link": "redeem",
-        "icon": ""
-      },
-      {
-        "label": "Redemption",
-        "link": "redemption",
-        "icon": ""
       }
     ]
   },

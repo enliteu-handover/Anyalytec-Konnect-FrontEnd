@@ -15,7 +15,6 @@ const ForumDetailView = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const getLocation = useLocation();
-  //console.log("getLocation", getLocation);
   //const forumDataVal = getLocation.state ? getLocation.state?.forumData : "";
   //const usersPicDataVal = getLocation.state ? getLocation.state?.usersPicData : "";
   const initialVal = getLocation.state ? getLocation.state?.forumData : {};
@@ -265,7 +264,6 @@ const ForumDetailView = () => {
       method: "get"
     }
     httpHandler(obj).then((response) => {
-      //console.log("getforum by id response :", response.data);
       setForumData({ ...response?.data });
       setForumCommentData([...getCustomizedData(response?.data?.forumComments)]);
       setToggleComment(false);
@@ -365,7 +363,6 @@ const ForumDetailView = () => {
   const commentUnLikeHandler = (cmtData, fData) => {
 
     unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
-    //console.log("unLikeIndex", unLikeIndex);
     const obj = {
       url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
       //  + "?id=" + cmtData.forumCommentLikes[unLikeIndex].id,
@@ -423,18 +420,13 @@ const ForumDetailView = () => {
   }
 
   const checkIsReplyLiked = (rData) => {
-    //console.log("checkIsReplyLiked rData", rData);
     let rLikeIndex = rData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
-    //console.log("rLikeIndex", rLikeIndex);
     if (rLikeIndex === -1) {
       return false;
     } else {
       return true;
     }
   }
-
-  //console.log("setForumData:", forumData, forumCommentData);
-
   return (
     <React.Fragment>
       <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />

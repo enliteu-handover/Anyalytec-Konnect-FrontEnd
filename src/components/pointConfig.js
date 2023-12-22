@@ -26,7 +26,7 @@ const PointsConfig = () => {
             link: "app/adminpanel",
         },
         {
-            label: "points Config",
+            label: "points Configuration",
             link: "",
         },
     ];
@@ -101,7 +101,7 @@ const PointsConfig = () => {
         <React.Fragment>
             {userRolePermission?.adminPanel &&
                 <React.Fragment>
-                    <PageHeader title="Points Config" />
+                    <PageHeader title="Points Configuration" />
                     <TableComponent
                         data={pointsConfig ?? []}
                         columns={pointsConfigTableHeaders}

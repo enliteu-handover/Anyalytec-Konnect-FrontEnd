@@ -3,7 +3,6 @@ import React from "react";
 const RewardInfoModal = (props) => {
 
   const { rewardInfoModalData, getUserPicture } = props;
-  //console.log("rewardInfoModalData props :", rewardInfoModalData);
 
   return (
     <div className="eepModalDiv">

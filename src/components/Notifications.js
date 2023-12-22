@@ -162,11 +162,9 @@ const Notifications = () => {
 				method: "put",
 				payload: notificationReadPayload,
 			};
-			// console.log("readNotifications Obj :", obj);
 			httpHandler(obj)
 				.then((response) => {
 					fetchNotifications();
-					// console.log("readUnreadNotifications response", response.data);
 				})
 				.catch((error) => {
 					console.log("fetchNotifications API error", error);
@@ -195,10 +193,8 @@ const Notifications = () => {
 				method: "put",
 				payload: notificationReadPayload,
 			};
-			// console.log("readNotifications Obj :", obj);
 			httpHandler(obj)
 				.then((response) => {
-					// console.log("readUnreadAllNotifications response", response.data);
 					fetchNotifications();
 				})
 				.catch((error) => {
@@ -272,8 +268,6 @@ const Notifications = () => {
 		
 		
 	];
-
-	// console.log("checkedData In :", checkedData);
 
 	return (
 		<React.Fragment >

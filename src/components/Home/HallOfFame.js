@@ -12,8 +12,6 @@ import PDF from "react-pdf-js";
 const HallOfFame = (props) => {
 
   const { hallOfFameDetails, getHallOfFameFilterParams, getUserPicture } = props;
-  //console.log("hallOfFameDetails props", hallOfFameDetails);
-
   const [rewardInfoModalData, setRewardInfoModalData] = useState({ data: [], state: false });
   const maxLikedCount = 3;
 
@@ -34,7 +32,6 @@ const HallOfFame = (props) => {
   ];
 
   const getFilterParams = (paramsData) => {
-    //console.log("getFilterParams paramsData", paramsData);
     if (Object.getOwnPropertyNames(paramsData)) {
       getHallOfFameFilterParams({ ...paramsData });
     } else {

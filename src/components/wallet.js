@@ -31,14 +31,14 @@ const Wallet = () => {
             link: "app/adminpanel",
         },
         {
-            label: "Wallet Config",
+            label: "Wallet Configuration",
             link: "",
         },
     ];
 
     const tabConfig = [
         {
-            title: "Wallet Config",
+            title: "Wallet Configuration",
             id: "wallet",
         },
         {

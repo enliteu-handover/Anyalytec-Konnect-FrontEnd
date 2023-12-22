@@ -16,15 +16,21 @@ const RedomModalDetails = (props) => {
                         </div>
                         <div className="modal-body eep_scroll_y p-0">
                             <div className="modalBodyHeight">
+                                <div className="reedem-details-flex">
+                                    <div>
+                                        <img width="100%" src={images?.thumbnail ?? ''} style={{ width: '200px', height: '200px', marginBottom: '12px' }} />
+                                    </div>
+                                    <div className="details">
+                                        <label className="redeemIcon_label font-helvetica-m titlesx">
+                                            {name}
+                                        </label>
+                                        <label className="redeemIcon_label font-helvetica-m discription">
+                                            {description}
+                                        </label>
+                                    </div>
+                                </div>
 
-                                <img width="100%" src={images?.thumbnail ?? ''} style={{ maxWidth: '466px', height: '140px', marginBottom: '12px' }} />
 
-                                <label className="redeemIcon_label font-helvetica-m titlesx">
-                                    {name}
-                                </label>
-                                <label className="redeemIcon_label font-helvetica-m discription">
-                                    {description}
-                                </label>
 
                                 <div style={{ marginBottom: '12px' }}>
                                     <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Enter Points:</div>

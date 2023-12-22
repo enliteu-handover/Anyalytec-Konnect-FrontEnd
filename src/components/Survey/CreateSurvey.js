@@ -123,7 +123,6 @@ const CreateSurvey = () => {
 	}
 
 	const updateAssignInfo = (sData) => {
-		//console.log("updateAssignInfo sData", sData);
 		if (sData) {
 			let assignData = [];
 			if (sData.deptList && sData.deptList.length > 0) {
@@ -208,7 +207,6 @@ const CreateSurvey = () => {
 	}
 
 	const getJsonData = (arg) => {
-		//console.log("arg", arg)
 		setJsonData(JSON.parse(arg))
 	}
 
@@ -217,7 +215,6 @@ const CreateSurvey = () => {
 	}
 
 	const previewHandler = () => {
-		console.log("preview", jsonData)
 		//const wrap = document.getElementById("prevSurveyModal");
 		const wrap = $('#prevSurveyModal');
 		$("#prevSurveyModal").html('');
@@ -257,10 +254,8 @@ const CreateSurvey = () => {
 			requestData["id"] = initSurveyData?.id ?? initSurveyData?.sData?.id;
 		}
 
-		//console.log("Survey jsonData", jsonData);
 
 		if (jsonData.length > 0) {
-			//console.log("Valid json");
 			const obj = {
 				url: URL_CONFIG.SURVEY,
 				method: isUpdate ? "put" : "post",

@@ -4,6 +4,7 @@ const WalletComponent = (props) => {
 
     const [wallet, setWallet] = useState('');
     const [err, setError] = useState('');
+    const [disable, setDisabled] = useState(true);
 
     useEffect(() => {
 
@@ -12,6 +13,7 @@ const WalletComponent = (props) => {
 
 
     const handleInputChange = (event, key) => {
+        setDisabled(false)
         const { value } = event.target;
         setWallet(value)
     };
@@ -35,7 +37,7 @@ const WalletComponent = (props) => {
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <input value={wallet} type="text" className="tableinput form-control field-input" onChange={(e) => handleInputChange(e, 'optimal_value')} />
                 <div className="tableButton ml-1">
-                    <button className="small-eep-btn eep-btn-success" onClick={handleSave}>
+                    <button disabled={disable} className="small-eep-btn eep-btn-success" onClick={handleSave}>
                         {/* {parseInt(props?.row?.[props?.inputkey]) > 0 ? 'Update' : 'Save'} */}Save
                     </button>
                     {err && <label style={{ fontSize: 11, color: "red" }}>{err}</label>}

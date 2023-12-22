@@ -218,7 +218,6 @@ const SocialWall = () => {
         };
         httpHandler(obj)
           .then((response) => {
-            console.log("commentSocialWallPostHandle response", response.data);
             fetchSocialWallCommentDataBySocialID(arg);
           })
           .catch((error) => {
@@ -242,7 +241,6 @@ const SocialWall = () => {
         };
         httpHandler(obj)
           .then((response) => {
-            console.log("commentSocialWallPostHandle response", response);
             arg.subData.commentState.typeCommentState = false;
             fetchSocialWallCommentDataBySocialID(arg);
           })
@@ -289,7 +287,6 @@ const SocialWall = () => {
             break;
           }
         }
-        console.log("socialWallListTemp", socialWallListTemp);
         setSocialWallList([...socialWallListTemp]);
       })
       .catch((error) => {

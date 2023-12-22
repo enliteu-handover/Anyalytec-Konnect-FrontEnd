@@ -117,7 +117,6 @@ const SurveyLibrarayAnswer = () => {
 
     const updateAssignInfo = (sData) => {
         
-        //console.log("updateAssignInfo sData", sData);
         if (sData) {
             setAssignUser(options[1]);
             setSelectedUsers([]);
@@ -190,7 +189,6 @@ const SurveyLibrarayAnswer = () => {
     }
 
     const getJsonData = (arg) => {
-        //console.log("arg", arg)
         setJsonData(JSON.parse(arg))
     }
 
@@ -219,7 +217,6 @@ const SurveyLibrarayAnswer = () => {
         }
 
         if (jsonData.length > 0) {
-            //console.log("Valid json");
             const obj = {
                 url: URL_CONFIG.SURVEY,
                 method: "post",

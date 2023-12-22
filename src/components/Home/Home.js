@@ -26,9 +26,6 @@ const Home = () => {
   });
 
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-  //console.log("userRolePermission", userRolePermission);
-  // const tourState = useSelector((state) => state.sharedData.tourState);
-  //console.log("tourState", tourState);
 
   const breadcrumbArr = [
     {

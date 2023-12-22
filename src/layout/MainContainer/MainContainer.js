@@ -47,7 +47,6 @@ import PortalSettings from "../../components/PortalSettings/PortalSettings";
 import Recognition from "../../components/Recognition";
 import RegisterUser from "../../components/RegisterUser";
 import Rewards from "../../components/Rewards/Rewards";
-import RoleManagement from "../../components/RoleManagement";
 import Search from "../../components/Search/Search";
 import SocialWall from "../../components/SocialWall/SocialWall";
 import CreateSurvey from "../../components/Survey/CreateSurvey";
@@ -62,12 +61,12 @@ import UserManagement from "../../components/UserManagement";
 import ViewUser from "../../components/ViewUser";
 import MyProfileCoupon from "../../components/myRedeemption";
 import PointsConfig from "../../components/pointConfig";
+import Wallet from "../../components/wallet";
 import IdmRoleMapping from "../../idm/idm";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
-import Wallet from "../../components/wallet";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);
@@ -135,9 +134,6 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/portalsettings">
                               <PortalSettings />
-                            </Route>
-                            <Route path="/app/rolemanagement">
-                              <RoleManagement />
                             </Route>
                             <Route path="/app/hashtag">
                               <HashTag />

@@ -128,7 +128,6 @@ const ActivePolls = () => {
 			method: "get"
 		};
 		httpHandler(obj).then((response) => {
-			//console.log("fetchActivePollData response :", response.data);
 			setActivePollsList(response.data);
 		}).catch((error) => {
 			setShowModal({ ...showModal, type: "danger", message: error?.response?.data?.message, });

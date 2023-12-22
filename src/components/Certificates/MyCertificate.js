@@ -37,7 +37,6 @@ const MyCertificate = () => {
   }, []);
 
   const onFilterChange = (filterValue) => {
-    //console.log("filterValue", filterValue);
     setYearFilterValue({ filterby: filterValue.value });
     fetchMyCertificateData({ filterby: filterValue.value });
   }
@@ -50,8 +49,6 @@ const MyCertificate = () => {
     };
     setPreviewDataUri(obj);
   }
-
-  //console.log("myCertificateData", myCertificateData);
 
   return (
     <React.Fragment>

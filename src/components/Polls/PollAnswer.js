@@ -79,7 +79,6 @@ const PollAnswer = () => {
 				params: { id: pData.id }
 			};
 			httpHandler(obj).then((response) => {
-				// console.log("fetchPollDetail response", response.data);
 				setPollData(response?.data);
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -93,7 +92,6 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
-		// console.log("pDataValue & viewTypeValue", pDataValue, viewTypeValue);
 		if (pDataValue) {
 			if (viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
@@ -102,7 +100,6 @@ const PollAnswer = () => {
 				fetchPollDetail(pDataValue);
 				if (pDataValue.pollResponse) {
 					let pAnswerIndex = pDataValue.pollResponse.findIndex(x => x.userId.userId === currentUserData.id);
-					console.log("pAnswerIndex", pAnswerIndex);
 					if (pAnswerIndex !== -1) {
 						setSubmitResponseID(pDataValue.pollResponse[pAnswerIndex].id);
 					}
@@ -121,10 +118,6 @@ const PollAnswer = () => {
 	const submitAnswerHandler = (responseID, pData, ans) => {
 		if (!pData.answeredState) {
 			if (responseID && ans?.option) {
-				console.log("submitAnswerHandler ans", responseID, ans);
-				// let formData = new FormData();
-				// formData.append('id', responseID);
-				// formData.append('value', ans.option);
 				const obj = {
 					url: URL_CONFIG.POLL_SUBMIT,
 					method: "post",
@@ -133,7 +126,6 @@ const PollAnswer = () => {
 						value:ans.option
 					}
 				};
-				console.log("submitAnswerHandler obj", obj);
 				httpHandler(obj).then(() => {
 					fetchPollDetail(pData);
 					setVotingState(true);
@@ -224,9 +216,6 @@ const PollAnswer = () => {
 			return 0;
 		}
 	}
-
-	// console.log("setPollData", pollData);
-
 	return (
 		<React.Fragment>
 			<PageHeader title="Polls Answer" />

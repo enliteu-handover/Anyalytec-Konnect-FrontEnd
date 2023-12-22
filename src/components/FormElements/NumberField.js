@@ -96,8 +96,6 @@ const TextField = (props) => {
 
   const fieldClasses = inputIsInvalid ? `${"invalid"}` : "";
 
-  //console.log("Number field", value);
-
   return (
     <div
       className={`col-md-12 form-group text-left ${fieldClasses} ${field.mandatory ? "required" : ""

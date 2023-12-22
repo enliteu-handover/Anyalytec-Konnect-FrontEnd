@@ -113,7 +113,6 @@ const AddMoreYearModal = (props) => {
           httpHandler(obj)
             .then((response) => {
               const resMsg = response?.data?.message;
-              console.log("resMsg", resMsg);
               resetForm();
               setSubmitResponseMsg(resMsg);
               setSubmitResponseClassName("response-succ");

@@ -15,18 +15,31 @@ import "./style.css";
 const categoryCampleJson = [
   {
     id: 1,
+    name: "Travel",
+  }, {
+    id: 1,
     name: "Amazon Shopping Voucher",
-    url: "",
-    description:
-      "Amazon Shopping voucher is redeemable across all physical goods purchase on Amazon.in. It's not redeemable on Digital Goods & Amazon Pay Categories. For detailed Terms & Conditions, please visit: https://www.woohoo.in/amazon-shopping-voucher-terms",
-    images: {
-      image:
-        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
-      thumbnail:
-        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
-    },
-    subcategoriesCount: 0,
-    subcategories: [],
+  },
+  {
+    id: 1,
+    name: "Home Furnishings",
+  }, {
+    id: 1,
+    name: "Gaming",
+  },
+  {
+    id: 1,
+    name: "Entertainment",
+  }, {
+    id: 1,
+    name: "Health & Beauty",
+  },
+  {
+    id: 1,
+    name: "Electronics",
+  }, {
+    id: 1,
+    name: "Food & Beverages",
   },
 ];
 
@@ -34,8 +47,8 @@ const productSampleJson = [
   {
     "id": 1,
     "sku": "EGCGBAMZSV001",
-    "name": "Amazon Shopping Voucher",
-    "description": "Only UPI can be used to buy Amazon Pay E-Gift Card",
+    "name": "Apollo Pharmacy E-Gift(Instant Voucher)",
+    "description": "Flat 12% OFF | Applicable on payment via UPI AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
     "price": {
       "price": "10",
       "type": "",
@@ -57,7 +70,7 @@ const productSampleJson = [
     currency: "356",
     images: {
       thumbnail:
-        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_20092022_1_4.png",
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_21_8.png",
       mobile:
         "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
       base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
@@ -78,7 +91,238 @@ const productSampleJson = [
         discount: {
           type: "by_percent",
           amount: 3,
-          desc: "Flat 3% OFF | Applicable on payment via UPI |",
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 2,
+    "sku": "EGCGBAMZSV001",
+    "name": "MakeMyTrip E-Gift (Instant Voucher)",
+    "description": "Flat 5.5% OFF | Applicable on payment via UPI, AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_copy100072234.png",
+      mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 3,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 3,
+    "sku": "EGCGBAMZSV001",
+    "name": "Swiggy Money E-Gift Card(Instant Voucher)",
+    "description": "Flat 3% OFF | Applicable on payment via Debit Card, AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/c/a/card_swiggy.png",
+      mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 3,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 4,
+    "sku": "EGCGBAMZSV001",
+    "name": "AJIO E-Gift(Instant Voucher)",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200ajiob2c.png",
+      mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 3,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
         },
         coupon: {
           code: "ASV3",
@@ -117,7 +361,7 @@ const Redeem = () => {
     (state) => state.storeState.userProfile
   );
   const [showGiftCardsAll, setShowGiftCardsAll] = useState(false);
-  const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [showModal, setShowModal] = useState({ type: null, message: null, isCelebration: true });
   const [searchUser, setSearchUser] = useState("");
   const [state, setState] = useState({
     data: [],
@@ -159,7 +403,6 @@ const Redeem = () => {
   const fetchRedeem = () => {
     // axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
     //   .then(response => {
-    //     console.log('Qwik gifts---', response?.data);
     state['data'] = categoryCampleJson
     state['product'] = productSampleJson
     setState({ ...state })
@@ -237,13 +480,24 @@ const Redeem = () => {
     setShowModal({
       ...showModal, type: "success", message: <div>
         Your redeem coupon is attached below and also sent mail!. Please copy it and go to your account, then add it to use.<br />
-        <div class="coupon-container">
-          <div class="coupon-code">{data?.coupon}</div>
+        <div className="copy-button">
+          <input id="copyvalue" type="text" disabled value="AVO0A090292" />
+          <button onClick={() => copyIt()} className="copybtn">COPY</button>
         </div>
-      </div>
+      </div>,
+      celebrations: { isCelebration: true, celebrationItem: "partypapers.gif" }
     });
     fetchUserPermissions(dispatch);
   };
+
+  const copyIt = () => {
+    let copybtn = document.querySelector(".copybtn");
+    let copyInput = document.querySelector('#copyvalue');
+    copyInput.select();
+    document.execCommand("copy");
+    copybtn.textContent = "COPIED";
+  }
+
 
   const handleChange = (value, price) => {
 
@@ -293,7 +547,7 @@ const Redeem = () => {
           hideModal={hideModal}
           successFooterData={
             <div onClick={openModal}>
-              <button className="eep-btn eep-btn-success">Ok</button>
+              <button className="eep-btn eep-btn-success">Close</button>
             </div>
           }
           errorFooterData={
@@ -319,15 +573,18 @@ const Redeem = () => {
       <PageHeader title={`Redeem My Enlite Points`} />
 
       <div className="category">
-        {state?.data?.map((item) => {
-          return <div className="category_button">{item?.name}</div>;
+        {state?.data?.map((item, i) => {
+          return <div className={`category_button ${i == 0 && 'select'}`}>{item?.name}</div>;
         })}
       </div>
 
-      <div className="search_input input-group custom-search-form bg-edebeb br-5 align-items-center">
+      <div className="search_input input-group custom-search-form" style={{
+        border: '1px solid #d3d3d34f',
+        borderRadius: '4px'
+      }}>
         <input
           type="text"
-          className="form-control search_users_b bg-transparent px-3"
+          className="form-control search_users_b px-3"
           placeholder="search..."
           value={searchUser}
           onChange={(e) => setSearchUser(e.target.value)}
@@ -364,26 +621,32 @@ const Redeem = () => {
                     item?.price?.price <=
                       (((JSON.parse(userDetails)?.allPoints ?? 0))
                         * parseInt(state?.points?.value_peer_points)) ?
-                      <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3 list-item">
+                      <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3">
                         <a
                           data-toggle="modal"
                           data-target="#RedomModalDetails"
+                          className="list-item"
                           onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
-                        >     <div className="list-content" style={{ cursor: 'pointer' }}>
+                        > <div className="list-content" style={{ cursor: 'pointer' }}>
                             <div className="redeem_icon_div">
+                              <div class="ribbon-2">12% OFF</div>
                               <img
                                 src={item?.images?.thumbnail}
                                 className="redeem_icon"
                                 alt="Google play"
                                 title="Google play"
+                                width={'100%'}
+                                height={'100%'}
                               />
                             </div>
-                            <label className="redeemIcon_label font-helvetica-m titlesx">
-                              {item?.name}
-                            </label>
-                            <label className="redeemIcon_label font-helvetica-m discription">
-                              {item?.description}
-                            </label>
+                            <div className="content">
+                              <label className="redeemIcon_label font-helvetica-m titlesx">
+                                {item?.name}
+                              </label>
+                              {/* <label className="redeemIcon_label font-helvetica-m discription">
+                                {item?.description}
+                              </label> */}
+                            </div>
                           </div>
                         </a>  </div>
                       :
@@ -417,7 +680,7 @@ const Redeem = () => {
           {filterData?.length === 0 && <div style={{ textAlign: "center" }}>No Data!.</div>}
         </div>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

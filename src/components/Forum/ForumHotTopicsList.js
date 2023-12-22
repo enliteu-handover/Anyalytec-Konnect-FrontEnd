@@ -4,7 +4,6 @@ import { eepFormatDateTime } from "../../shared/SharedService";
 
 const ForumHotTopicsList = (props) => {
 
-  //console.log("ForumHotTopicsList props ==>", props);
 	const {forumList, usersPic} = props;
 
   const eepHistory = useHistory();
@@ -15,7 +14,6 @@ const ForumHotTopicsList = (props) => {
 
   useEffect(() => {
     if(initForumList && initForumList.length > 0) {
-      //setHotForumList(initForumList);
       let hotForumList = [];
       let ak = 1;
       initForumList && initForumList.length > 0 && initForumList.sort((a, b) => (a.forumComments.length < b.forumComments.length) ? 1 : -1).map((hotData) => {
@@ -38,8 +36,6 @@ const ForumHotTopicsList = (props) => {
   const viewForumDetail = (arg) => {
     eepHistory.push('forumdetailview', { forumData: arg, usersPicData: usersPic });
   }
-
-  //console.log("setHotForumList", hotForumList);
 
 	return (
 		<div className="hot_comments">

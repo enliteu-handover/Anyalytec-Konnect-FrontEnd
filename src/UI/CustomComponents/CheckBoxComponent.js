@@ -5,8 +5,6 @@ const CheckBoxComponent = (props) => {
 
   const { data, getCheckedData, bulkCheckState } = props;
 
-  console.log(data,'data')
-
   const [bulkCheck, setBulkCheck] = useState(false);
 
   const clickHandler = (evnt, data) => {

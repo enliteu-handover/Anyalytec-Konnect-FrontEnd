@@ -11,8 +11,6 @@ const SurveyPreviewQuestionModal = (props) => {
 
   const {confirmCreateSurveyHandler, jsonData} = props;
 
-  console.log("SurveyPreviewQuestionModal props", props);
-
   const previewHandler = () => {
     const wrap = $('#previewSurveyQuestions');
     $("#previewSurveyQuestions").html('');

@@ -24,7 +24,7 @@ const Rewards = () => {
       id: "redeem",
     },
     {
-      title: "redemptions",
+      title: "Redemptions",
       id: "redemptions",
     }
   ];

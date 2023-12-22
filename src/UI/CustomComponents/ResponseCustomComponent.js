@@ -5,7 +5,6 @@ const ResponseCustomComponent = (props) => {
 
 	const { data, cSettings, type } = props;
 	const imgPath = process.env.PUBLIC_URL + "/images/icons/static/";
-console.log( cSettings,'lll')
 	const getIconPath = () => {
 		if(data) {
 			if(data?.[cSettings?.objReference] <= 30) {

@@ -23,8 +23,6 @@ const DashboardCharts = (props) => {
 
   const initChartData = chartData ? chartData : {};
 
-  //console.log("DashboardCharts props", props)
-
   const chartOptions = {
     login: {
       chart: {

@@ -206,7 +206,6 @@ const MyForumPosts = (props) => {
       disableExistModal();
       let forumUpdateObj, formData, httpObj;
       if (forumTempData.actionType === "unpost" || forumTempData.actionType === "post") {
-        //console.log("forumTempData", forumTempData);
         formData = new FormData();
         forumUpdateObj = {
           id: forumTempData.id,

@@ -3,6 +3,7 @@
   margin-bottom: 12px;
   display: -webkit-box;
   padding: 0;
+  margin: 18px 2px 14px;
 }
 .category .category_button {
   padding: 10px;
@@ -12,6 +13,11 @@
   cursor: pointer;
   width: -moz-max-content !important;
   width: max-content !important;
+  margin-right: 10px;
+}
+.category .select {
+  background: #000f3f;
+  color: #fff;
 }
 
 .search_input {
@@ -20,23 +26,55 @@
 }
 
 .list-item {
-  display: flex;
   padding: 0.5em;
   width: 100%;
-  text-align: start;
+}
+.list-item .left {
+  inset: 0 auto auto 0;
+  transform-origin: 100% 0;
+  transform: translate(-29.3%) rotate(-45deg);
+}
+.list-item .right {
+  inset: 0 0 auto auto;
+  transform-origin: 0 0;
+  transform: translate(29.3%) rotate(45deg);
+}
+.list-item .ribbon-2 {
+  --f: 10px;
+  /* control the folded part*/
+  --r: 17px;
+  /* control the ribbon shape */
+  --t: 10px;
+  /* the top offset */
+  position: absolute;
+  inset: var(--t) calc(-1 * var(--f)) auto auto;
+  padding: 0 10px var(--f) calc(10px + var(--r));
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, calc(100% - var(--f)) calc(100% - var(--f)), 0 calc(100% - var(--f)), var(--r) calc(50% - var(--f) / 2));
+          clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, calc(100% - var(--f)) calc(100% - var(--f)), 0 calc(100% - var(--f)), var(--r) calc(50% - var(--f) / 2));
+  background: #79a71e;
+  box-shadow: 0 calc(-1 * var(--f)) 0 inset rgba(0, 0, 0, 0.3333333333);
+  color: #fff;
 }
 .list-item .list-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: #fff;
   padding: 1em;
   width: 100%;
   border-radius: 12px;
+  padding: 0px 4px 0px;
+  min-height: 170px;
+}
+.list-item .list-content .titlesx {
+  font-size: 12px;
+  margin-top: 10px;
 }
 .list-item .list-content .discription {
   flex: 1 0 auto;
   font-size: 12px !important;
   opacity: 0.8;
+  margin-top: 10px;
 }
 
 .coupon-container {
@@ -57,6 +95,26 @@
   padding: 4px 10px;
   width: -moz-max-content;
   width: max-content;
+}
+
+.copy-button {
+  margin: 12px 0 -5px 0;
+  height: 45px;
+  border-radius: 4px;
+  padding: 0 5px;
+  border: 1px solid #e1e1e1;
+}
+.copy-button input {
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+.copy-button button {
+  padding: 5px 20px;
+  background-color: #dc143c;
+  color: #fff;
+  border: 1px solid transparent;
 }
 
 .expiration-date {

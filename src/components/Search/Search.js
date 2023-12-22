@@ -113,8 +113,6 @@ const Search = () => {
     fetchAllUsers();
   }, []);
 
-  //console.log("searchList", searchList);
-
   return (
     <React.Fragment>
 

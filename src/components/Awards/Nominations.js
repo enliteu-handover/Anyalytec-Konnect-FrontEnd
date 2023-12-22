@@ -110,7 +110,6 @@ const Nominations = () => {
       fetchAllUsers();
     }
   }
-  console.log(nominatedList,'nominatedList')
   return (
     <React.Fragment>
       <PageHeader title="Awards and Nominated" />

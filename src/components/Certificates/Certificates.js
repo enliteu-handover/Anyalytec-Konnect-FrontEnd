@@ -241,7 +241,6 @@ const Certificates = () => {
                     </div>
                   </div>
                   {certificateRecognitionData && certificateRecognitionData.map((data, index) => {
-                    console.log(data,'data')
                     return (
                       <div className="col-md-4 col-lg-4 col-xs-12 col-sm-12 text-center cert_col_div" key={"certificateRecognition_" + index}>
                         <div className="mycert_list_div mycert_modal_a box9">

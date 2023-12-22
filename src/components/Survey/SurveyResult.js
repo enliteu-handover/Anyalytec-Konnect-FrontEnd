@@ -106,7 +106,6 @@ const SurveyResult = () => {
 				};
 			}
 			httpHandler(obj).then(() => {
-				console.log("filterParams", filterParams);
 				fetchSurveyResultDetail(filterParams);
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";

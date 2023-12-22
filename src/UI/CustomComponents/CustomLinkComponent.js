@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const CustomLinkComponent = (props) => {
 
   const { cSettings, data, isLibrary } = props;
-  //console.log("CustomLinkComponent props", props);
   const [stateObj, setStateObj] = useState({});
 
   useEffect(() => {
@@ -22,8 +21,6 @@ const CustomLinkComponent = (props) => {
       }
     }
   }, [cSettings]);
-
-  //console.log("setStateObj", stateObj);
 
   return (
     <React.Fragment>

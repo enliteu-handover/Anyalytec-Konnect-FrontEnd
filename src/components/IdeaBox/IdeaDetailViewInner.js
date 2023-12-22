@@ -31,7 +31,7 @@ const IdeaDetailViewInner = (props) => {
 
   let iLikedIndex;
   const isIdeaLiked = (uID, ideaLikes) => {
-    
+
     iLikedIndex = ideaLikes.findIndex(x => x.userId?.user_id === uID);
     if (iLikedIndex !== -1) {
       return { isLiked: true, likedID: ideaLikes[iLikedIndex].id };
@@ -65,13 +65,9 @@ const IdeaDetailViewInner = (props) => {
   };
 
   const likeAnIdeaHandler = (arg) => {
-    
+
     likeAnIdea(arg);
   }
-
-  // console.log("ideaDetail ==>>>", isDetailListMode);
-  // console.log("ideaDetail ==>>>", loggedUserData);
-  // console.log("ideaDetail ==>>>>>>",   isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes));
   return (
     <React.Fragment>
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
@@ -108,7 +104,7 @@ const IdeaDetailViewInner = (props) => {
                           <img src={
                             // atthData.docByte?.image ? atthData.docByte?.image
                             fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
-                            : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
+                              : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
                             title={atthData.ideaAttachmentsFileName} />
                         </a>
                       </div>
