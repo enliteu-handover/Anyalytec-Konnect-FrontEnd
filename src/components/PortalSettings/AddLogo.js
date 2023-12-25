@@ -37,7 +37,6 @@ const AddLogo = (props) => {
           setImageByte(obj);
           setShowAdd(false);
           let tempImgArry = imgArry;
-          console.log("tempImgArry", tempImgArry);
           let imgObj = { id: settings.imgId, imgData: obj };
           if (!tempImgArry.length) {
             tempImgArry.push(imgObj);
@@ -45,7 +44,6 @@ const AddLogo = (props) => {
           }
           else {
             tempImgArry.map((item) => {
-              console.log("RK item:", item);
               settings.checkKey(item, imgObj);
             });
           }

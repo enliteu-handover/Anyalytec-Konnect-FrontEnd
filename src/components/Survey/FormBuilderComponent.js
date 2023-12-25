@@ -9,7 +9,6 @@ require("formBuilder");
 const FormBuilderComponent = (props) => {
 
   const { getJsonData, getSurveyTitle, initSurveyData, isLibrary } = props;
-  //console.log("FormBuilderComponent props", props);
   //const [jsonData, setJsonData] = useState({});
   const [surveyTitle, setSurveyTitle] = useState("");
 

@@ -248,7 +248,6 @@ function MyIdeas(props) {
     if (isConfirmed) {
       let ideaUpdateObj, formData, httpObj;
       if (ideaTempData.actionType === "unpost" || ideaTempData.actionType === "post") {
-        //console.log("ideaTempData", ideaTempData);
         formData = new FormData();
         ideaUpdateObj = {
           id: ideaTempData.id,
@@ -349,7 +348,6 @@ function MyIdeas(props) {
   }
 
   const onFilterChange = (filterValue) => {
-    console.log("filterValue", filterValue);
     setYearFilterValue({ filterby: filterValue.value });
     fetchMyIdeasData({ filterby: filterValue.value });
   }

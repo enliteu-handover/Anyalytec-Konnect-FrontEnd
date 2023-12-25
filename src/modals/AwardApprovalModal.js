@@ -83,7 +83,6 @@ const AwardApprovalModal = (props) => {
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;
-        console.log("resMsg", resMsg);
         setAwardResponseMsg("");
         setAwardResponseClassName("");
         modalSubmitInfo({status:true,message:resMsg});

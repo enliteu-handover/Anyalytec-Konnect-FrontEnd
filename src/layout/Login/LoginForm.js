@@ -119,7 +119,6 @@ const LoginForm = () => {
             if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
               const url = new URL(sessionStorage?.redirect);
               const router = url.pathname;
-              console.log(router);
               history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
               sessionStorage.removeItem('redirect')
             } else {

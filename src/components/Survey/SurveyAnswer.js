@@ -32,7 +32,6 @@ const SurveyAnswer = () => {
   const [surveyData, setSurveyData] = useState({});
   const eepHistory = useHistory();
 
-  // console.log("sDataValue",  location.state);
   const dispatch = useDispatch();
   const breadcrumbArr = [
     {
@@ -185,7 +184,6 @@ const SurveyAnswer = () => {
       }, 2000);
     })
     .catch((error) => {
-      //console.log("submitAnswerHandler Error", error);
       const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
       setShowModal({
         ...showModal,

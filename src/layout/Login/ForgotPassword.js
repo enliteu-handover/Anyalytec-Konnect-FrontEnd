@@ -39,8 +39,6 @@ const ForgotPassword = () => {
       };
       httpHandler(obj)
         .then(async (response) => {
-
-          console.log("response", response);
           setEnteredEmail("");
           const resMsg = response?.data?.message;
           checkResponseClassName("response-succ");

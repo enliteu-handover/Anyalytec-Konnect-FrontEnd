@@ -174,7 +174,6 @@ const SocialWallMiddleContent = (props) => {
 
   const postCommentHandler = (arg, i) => {
     if (arg.commentValue !== "") {
-      console.log("postCommentHandler Arg", arg);
       commentSocialWallPostHandle({
         postSettings: "postComment",
         commentData: arg.commentValue,

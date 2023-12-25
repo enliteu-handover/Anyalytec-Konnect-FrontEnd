@@ -21,10 +21,10 @@ const Points = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    {
-      label: "Rewards",
-      link: "app/points",
-    },
+    // {
+    //   label: "Rewards",
+    //   link: "app/points",
+    // },
     {
       label: "Points",
       link: "app/points",
@@ -87,7 +87,8 @@ const Points = () => {
   return (
 
     <React.Fragment>
-      <PageHeader title={`My Enlite Points : ${pointsList?.totalPoints}`} filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />
+      <PageHeader title={`My Enlite Points : ${pointsList?.totalPoints ?? '00'}`}
+        filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />
       <div className="row eep-content-start">
         <div className="col-md-3 myPointsLeft_div">
           <AvailPoints pointsList={pointsList} />

@@ -139,7 +139,6 @@ const IdeaBox = () => {
   }
 
   const getFilterParams = (paramsData) => {
-    console.log("paramsData", paramsData);
     if (Object.getOwnPropertyNames(filterParams)) {
       setFilterParams({ ...paramsData });
     } else {

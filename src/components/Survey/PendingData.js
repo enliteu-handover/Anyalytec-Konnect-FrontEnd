@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const PendingData = (props) => {
 
   const { pendingDatas, togglePendingComponent, pendingType } = props;
-  // console.log("PendingData props", props);
   const maxListCount = pendingDatas.length >= 5 ? 5 : pendingDatas.length;
 
   return (

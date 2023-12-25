@@ -10,7 +10,6 @@ const DeptActionsModal = (props) => {
 
   //const deptDatas = props.viewDepartment ? props.viewDepartment : {};
   const initDeptDatas = viewDepartment ? viewDepartment : {};
-  //console.log("initDeptDatas", initDeptDatas);
   const options = [
     { value: "true", label: "Active" },
     { value: "false", label: "Inactive" },
@@ -34,7 +33,6 @@ const DeptActionsModal = (props) => {
   }, []);
 
   useEffect(() => {
-    //console.log("initDeptDatas", initDeptDatas);
     setShowSelect(false);
     setResponseMsg("");
     setDeptDatas(initDeptDatas);
@@ -89,7 +87,6 @@ const DeptActionsModal = (props) => {
       method: "put",
       payload: typeof payOptions === 'string' ? JSON.parse(payOptions) : payOptions,
     };
-    //console.log("updateDepartmentHandler obj", obj);
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;

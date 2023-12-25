@@ -127,7 +127,6 @@ const PollResults = () => {
       };
     }
 		httpHandler(obj).then((response) => {
-			//console.log("fetchPollResultDetail response :", response.data);
 			setPollResultList(response.data);
 		}).catch((error) => {
 			let errMsg;

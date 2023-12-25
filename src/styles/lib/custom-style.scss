@@ -2756,10 +2756,11 @@ input#cert-image-upload.hidden {
   height: 100%;
 }
 
-.canva > canvas{
+.canva>canvas {
   width: 100% !important;
   height: 270px !important;
 }
+
 .mycert_list_div {
   background-color: #ffffff;
   padding: 0.5rem;
@@ -4360,22 +4361,28 @@ input#cert-image-upload.hidden {
 
 .redeem_icon_div {
   // background-color: #f8f8f8;
-//   border: 1px solid #f0efef;
-// border-radius: 12px;
-width: 100%;
-height: 70%;
+  //   border: 1px solid #f0efef;
+  // border-radius: 12px;
+  width: 100%;
+  height: 120px;
 
 }
-
+.reedem-details-flex{
+  display: flex;
+  .details{
+    padding: 0px 10px;
+    .titlesx{
+      font-size: 18px;
+    }
+  }
+}
 .redeem_icon {
   margin: 6px auto;
-  width: 100%;
-  height: 80%;
 }
 
 .redeemIcon_label {
-  font-size: 16px;
-  margin-bottom: 1rem;
+  font-size: 12px;
+  line-height: 1.1rem;
 }
 
 .redeemCard_inner2 {
@@ -5880,12 +5887,14 @@ table.eep_table_spacer tbody tr td:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#eep-notification-diiv .check_options_div{
+
+#eep-notification-diiv .check_options_div {
   position: absolute;
   z-index: 999;
   right: 6px;
   top: 9px;
 }
+
 .eep-notification-div #eep-notification-diiv {
   margin-top: 12px;
   margin-bottom: 12px;
@@ -7473,7 +7482,7 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 
 .eep-menu-icon-sidebar {
   margin-right: 10px;
- 
+
 }
 
 .toggled {
@@ -7606,31 +7615,46 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 
 
 
-.tableinput{
+// .tableinput{
+// .sidebaricondown {
+//   background: none !important;
+//   padding: 0px;
+//   margin: 0px;
+//   width: 34px !important;
+//   border: none;
+//   position: absolute !important;
+//   right: 0px !important;
+//   top: 14px;
+// }
+
+.tableinput {
   max-width: 126px;
-    border: 1px solid rgb(235, 235, 235) !important;
+  border: 1px solid rgb(235, 235, 235) !important;
 }
-.tableButton{
-  .table-save{
+
+.tableButton {
+  .table-save {
     padding: 7px 9px;
     color: #fff;
     margin: 0px 4px;
     border: 1px solid #d4d4d4;
     border-radius: 13px;
   }
-  .eep-btn{
+
+  .eep-btn {
     border-radius: 6px !important;
     padding: 8px 9px !important;
     font-size: 12px !important;
 
- }
- .eep-btn-success::before{
-        border-radius:6px !important;
- }
- .eep-btn-success::after{
-    border-radius:6px !important
+  }
 
- }
+  .eep-btn-success::before {
+    border-radius: 6px !important;
+  }
+
+  .eep-btn-success::after {
+    border-radius: 6px !important
+  }
 }
 .tabSwitch{
   position: absolute;
@@ -7664,3 +7688,8 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 }
 
 
+.small-eep-btn {
+  padding: 10px;
+  font-size: 10px;
+  border: none;
+}

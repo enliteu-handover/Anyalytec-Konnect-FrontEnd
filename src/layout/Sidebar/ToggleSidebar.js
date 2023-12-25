@@ -11,8 +11,6 @@ const ToggleSidebar = (props) => {
   const { toggleSidebarType, sideBarClass } = props;
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
-  //console.log("ToggleSidebar props", props);
-
   const [toggleState, setToggleState] = useState(true);
   const [showPendingData, setShowPendingData] = useState(false);
   const [pendingDatas, setPendingDatas] = useState([]);
@@ -79,7 +77,6 @@ const ToggleSidebar = (props) => {
       };
     }
     httpHandler(obj).then((res) => {
-      //console.log("fetchPendingData survey", res.data);
       setPendingDatas([...res.data]);
     }).catch((error) => {
       console.log("fetchPendingData error", error);

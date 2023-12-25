@@ -9,17 +9,14 @@ const ActionCustomComponent = (props) => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const markAsRead = (arg) => {
-    // console.log("markAsRead:", arg);
     readUnreadNotifications(arg, "read");
   }
 
   const markAsUnread = (arg) => {
-    // console.log("markAsUnread:", arg);
     readUnreadNotifications(arg, "unRead");
   }
 
   const clearNotification = (arg) => {
-    // console.log("clearNotification:", arg);
     clearNotifications({ data: arg, action: "clear" });
   }
 

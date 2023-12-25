@@ -66,7 +66,13 @@ const Sidebar = (props) => {
     "Rewards.svg": <Rewards color={theme_color} />,
     "download.svg": <Org color={theme_color} />,
   };
+    
   const activeTab = useSelector((state) => state?.tabs?.activeTab);
+
+  // const handleChangeMenu = (Element,index) => {
+  //   const value = index === activeMenu ? null : index
+  //   setActiveMenu(value)
+  // }
 
   const handleChangeMenu = (element, index) => {
     //check  same id is exsiting

@@ -76,7 +76,6 @@ const InboxDetailView = () => {
     };
     httpHandler(obj)
       .then(() => {
-        //console.log("InboxDetailView likeECard Response", response?.data?.message);
         let eCardDataTemp = JSON.parse(JSON.stringify(eCardData));
         eCardDataTemp.length && eCardDataTemp.map((item) => {
           if(item.id === arg.id) {

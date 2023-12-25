@@ -164,7 +164,6 @@ const ViewUser = () => {
         }
       }
     }
-    console.log('uData====',userMeta);
     setUserMeta((prevState) => {
       return { prevState, ...userMeta };
     });

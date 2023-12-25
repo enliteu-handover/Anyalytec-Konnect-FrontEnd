@@ -7,8 +7,6 @@ const ForumCommentsList = (props) => {
   const { forumData, comments, getUserPicture, deleteCommentHandler, commentUnLikeHandler, commentLikeHandler, toggleReply, editCommentHandler, editCommentReplyHandler, toggleReplyList, checkIsReplyLiked } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-  // console.log("ForumCommentsList props", comments);
-
   return (
     <div className="mt-2">
       {comments && comments.length > 0 && comments.sort((a, b) => (a.id > b.id) ? 1 : -1).map((subItem, subIndex) => {

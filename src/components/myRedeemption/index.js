@@ -21,7 +21,7 @@ const MyProfileCoupon = (props) => {
             link: "app/dashboard",
         },
         {
-            label: "redeem",
+            label: "Redemptions",
             link: "",
         },
     ];
@@ -62,11 +62,11 @@ const MyProfileCoupon = (props) => {
         },
         
         {
-          header: "Points",
+          header: "Redeem Points",
           accessorKey: "points",
         },
         {
-          header: "Created",
+          header: "Redeem On",
           accessorKey: "created_at",
         accessorFn: (row) => row.created_at? moment(row.created_at).format('l'):'--',
         },

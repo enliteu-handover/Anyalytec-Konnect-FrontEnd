@@ -294,15 +294,12 @@ const CertificateCompose = () => {
       // const signExtension = currUserInfo.signatureByte.image.substring("data:image/".length, currUserInfo.signatureByte.image.indexOf(";base64"));
       const signExtension = signURL.split(".")[signURL.split(".").length - 1]
       if (signExtension === 'jpg' || signExtension === 'jpeg') {
-        //signURL = `${process.env.PUBLIC_URL}/images/certificates/signatures/signature_jpeg.jpg`;
         signImageBytes = await fetch(signURL).then((res) => res.arrayBuffer());
         signImage = await pdfDoc.embedJpg(signImageBytes);
         if (signImage.width > sg_img_maxwidth) {
-          // console.log("Ifff");
           let signImage_scale = sg_img_maxwidth / signImage.width;
           signImage_w = signImage.scale(signImage_scale);
         } else {
-          // console.log("Else");
           signImage_w = signImage.width;
           sg_img_coordination_x += sg_img_maxwidth / 2 - signImage_w / 2;
         }

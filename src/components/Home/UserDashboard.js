@@ -212,8 +212,6 @@ const UserDashboard = () => {
     setUserRecognizeModalState(true);
   }
 
-  //console.log("userDetails", userDetails);
-
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (

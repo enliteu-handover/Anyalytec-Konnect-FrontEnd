@@ -137,7 +137,7 @@ const AdminPanel = () => {
               </div>
             </Link>
 
-            <Link to="/app/my-redeem">
+            {/* <Link to="/app/my-redeem">
               <div className="admin_panel_items bg-white">
                 <div className="outter">
                   <img
@@ -150,7 +150,7 @@ const AdminPanel = () => {
                 </div>
                 <span>Redeem Points</span>
               </div>
-            </Link>
+            </Link> */}
 
             <Link to="/app/point-config">
               <div className="admin_panel_items bg-white">

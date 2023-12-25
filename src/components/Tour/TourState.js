@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
@@ -59,15 +59,15 @@ const TourState = () => {
     const obj = {
       url: URL_CONFIG.TOUR,
       method: "get",
-      params: { id: userData.id  }
+      params: { id: userData.id }
     };
     httpHandler(obj).then((response) => {
-      if(response.data) {
+      if (response.data) {
         dispatch(sharedDataActions.getTourState({
           tourState: response?.data
         }))
       }
-      if(!response.data) {
+      if (!response.data) {
         dispatch(sharedDataActions.getTourState({
           tourState: tourDataDefault
         }))
@@ -77,15 +77,11 @@ const TourState = () => {
     });
   }
 
-  // useEffect(() => {
-  //   fetchTourState();
-  // }, []);
-
-  return(
+  return (
     <React.Fragment>
-      
+
     </React.Fragment>
   );
-  
+
 }
 export default TourState;

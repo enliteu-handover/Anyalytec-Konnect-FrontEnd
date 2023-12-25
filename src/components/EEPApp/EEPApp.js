@@ -16,13 +16,13 @@ const EEPApp = () => {
   const [error, setError] = useState("");
   const [excelFile, setExcelFile] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
-	const hideModal = () => {
-		let collections = document.getElementsByClassName("modal-backdrop");
-		for (var i = 0; i < collections.length; i++) {
-			collections[i].remove();
-		}
-		setShowModal({ type: null, message: null });
-	};
+  const hideModal = () => {
+    let collections = document.getElementsByClassName("modal-backdrop");
+    for (var i = 0; i < collections.length; i++) {
+      collections[i].remove();
+    }
+    setShowModal({ type: null, message: null });
+  };
 
   const schema = {
 
@@ -103,7 +103,6 @@ const EEPApp = () => {
       // var tempFileName = file.name;
       // tempFileName = tempFileName.replace(/\s/g, "");
       var reader = new FileReader();
-      //console.log("filefile", event.target.files);
       setExcelFile(event.target.files[0]);
       reader.readAsArrayBuffer(file);
       reader.onload = function () {
@@ -126,11 +125,8 @@ const EEPApp = () => {
   }
 
   const submitHandler = () => {
-    console.log("excelFile", excelFile);
-    if(excelFile) {
-      console.log("iffffff excelFile", excelFile);
+    if (excelFile) {
       let formData = new FormData();
-      //formData.append('file', new Blob([JSON.stringify(excelFile)], { type: `application/json` }));
       formData.append('file', excelFile);
       const obj = {
         url: URL_CONFIG.IMPORT_USERS,
@@ -138,45 +134,23 @@ const EEPApp = () => {
         formData: formData,
       };
 
-      /*
-      httpHandler(obj).then((response) => {
-        setShowModal({
-          ...showModal,
-          type: "success",
-          message: response?.data?.message,
-        });
-        //setExcelData(null);
-        //setFileData(null);
-        //setExcelFile([]);
-      }).catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
-        });
-      });
-      */
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
 
-    const config = {     
-      headers: { 'content-type': 'multipart/form-data' }
-    }
-    
-    const finalAPIUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}/${REST_CONFIG.RESTAPPNAME}${URL_CONFIG.IMPORT_USERS}`;
-    axios.post(finalAPIUrl, formData, config)
+      const finalAPIUrl = `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}:${REST_CONFIG.PORT}/${REST_CONFIG.RESTAPPNAME}${URL_CONFIG.IMPORT_USERS}`;
+      axios.post(finalAPIUrl, formData, config)
         .then(response => {
-            //console.log(response);
-            setShowModal({
-              ...showModal,
-              type: "success",
-              message: response?.data?.message,
-            });
-            setFileData(null);
-            setExcelData(null);
-            setExcelFile([]);
+          setShowModal({
+            ...showModal,
+            type: "success",
+            message: response?.data?.message,
+          });
+          setFileData(null);
+          setExcelData(null);
+          setExcelFile([]);
         })
         .catch(error => {
-          //console.log(error);
           const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
           setShowModal({
             ...showModal,

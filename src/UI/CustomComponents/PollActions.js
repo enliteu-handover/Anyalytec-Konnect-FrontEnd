@@ -5,7 +5,6 @@ import { Link} from "react-router-dom";
 const PollActions = (props) => {
 
   const {data, deletePoll} = props;
-	//console.log("PollActions props", props);
 	const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
 	const deletePollHandler = () => {

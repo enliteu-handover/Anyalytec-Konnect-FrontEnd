@@ -323,7 +323,6 @@ const ModifyUser = () => {
       })
     );
   }, [breadcrumbArr, dispatch]);
-  console.log('userMetaData', userMetaData);
   return (
     <React.Fragment>
       {userRolePermission.adminPanel &&
