@@ -245,6 +245,7 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle=collapse] {
   padding: 0px !important;
   margin-bottom: 0px !important;
   width: 192px;
+  width: 100%;
 }
 
 .sidebar .nav-item .collapse-item {
@@ -438,7 +439,6 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle=collapse] {
 .sidebar .nav-item .collapse,
 .sidebar .nav-item .collapsing {
   margin: 0px !important;
-  margin: 0px 1px 10px 15px !important;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   overflow: hidden;
@@ -465,7 +465,8 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle=collapse] {
     line-height: initial;
   }
   .sidebar .nav-item a.nav-link {
-    padding: 0.7rem 0.7rem 0.7rem 1rem;
+    padding: 6px 7px !important;
+    width: 200px;
   }
 }
 body {
@@ -1167,12 +1168,19 @@ a.eep-btn:hover {
 
 .nav-link[aria-expanded=true] {
   background-color: var(--eep-submenu-bg-color) !important;
-  margin: 0px 15px !important;
-  width: 192px !important;
+  /* margin: 0px 15px !important; */
+  width: 100% !important;
+  padding: 8px 4px !important;
+  border-radius: 8px;
+}
+
+.borderSide[aria-expanded=true] {
   border-bottom: 2px solid rgba(158, 158, 158, 0.431372549);
-  padding: 0.7rem 0.7rem 0.7rem 0rem !important;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.borderNone {
+  border: none;
 }
 
 #userDropdown {

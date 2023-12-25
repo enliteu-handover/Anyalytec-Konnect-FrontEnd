@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -10,6 +11,8 @@ import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
 import MyCertificate from "./MyCertificate";
 import PDF from "react-pdf-js";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const Certificates = () => {
@@ -29,6 +32,7 @@ const Certificates = () => {
   const history = useHistory();
   let routerData = location.state || { activeTab: "certificate" };
 
+  console.log(userRolePermission,'userRolePermission')
   const breadcrumbArr = [
     {
       label: "Home",
@@ -44,6 +48,7 @@ const Certificates = () => {
     },
   ];
 
+
   useEffect(() => {
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
@@ -58,23 +63,20 @@ const Certificates = () => {
       });
     };
   }, []);
+  const tabConfig = [
+    {
+      title: "Certificates",
+      id: "certificate",
+    },
+    {
+      title: "My Certificates",
+      id: "mycertificate",
+    }
+  ];
 
   useEffect(() => {
-    let tabConfig = [];
-    if (userRolePermission.certificateSend) {
-      tabConfig = [
-        {
-          title: "Certificates",
-          id: "certificate",
-        },
-        {
-          title: "My Certificates",
-          id: "mycertificate",
-        }
-      ];
-    }
-
-    if (routerData?.activeTab) {
+   
+    if (routerData) {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
         if (res.id === activeTabId) {
@@ -221,10 +223,8 @@ const Certificates = () => {
       {myCertificateModalShow && (<CertificatePreviewModal previewDataUri={previewDataUri} />)}
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
-          <div id="mycertificate" className="tab-pane h-100 active">
-            {activeTab?.id === 'mycertificate' && <MyCertificate />}
-          </div>
-          <div id="certificate" className="tab-pane h-100">
+          
+          <div id="certificate" className="tab-pane h-100 active">
             {activeTab && activeTab.id === 'certificate' &&
               <React.Fragment>
                 <PageHeader title="Certificates"></PageHeader>
@@ -257,7 +257,12 @@ const Certificates = () => {
                             <h3 className="title">{data?.name}</h3>
                             <ul className="icon">
                               <li>
-                                <a className="mycert_modal_a fa fa-eye c1" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal"></a>
+                                <a className="mycert_modal_a c1" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal">
+                                <FontAwesomeIcon
+                                    icon={faEye}
+                                      />
+
+                                </a>
                               </li>
                               <li>
                                 <Link to={{ pathname: "composecertificate", state: { isCustomCertificate: false, certData: data, currUserData: currUserData, userData: userData, eMailData: eMailData, }, }} className="mycert_modal_a fa fa-eyee">
@@ -273,6 +278,9 @@ const Certificates = () => {
                 </div>
               </React.Fragment>
             }
+          </div>
+          <div id="mycertificate" className="tab-pane h-100 ">
+            {activeTab?.id === 'mycertificate' && <MyCertificate />}
           </div>
         </div>
       </div>

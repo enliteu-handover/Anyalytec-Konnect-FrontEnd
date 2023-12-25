@@ -363,8 +363,8 @@ const UserManagement = () => {
                   type="button"
                   style={{
                     position: 'absolute',
-                    zIndex: '100',
-                    right: '12px',
+                    zIndex: '9',
+                    right: '18px',
                     margin:' 8px 0px',
                   }}
                   onClick={() => handleExportDownload()}

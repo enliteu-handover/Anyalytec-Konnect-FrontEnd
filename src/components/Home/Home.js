@@ -131,22 +131,40 @@ const Home = () => {
     };
   }, []);
 
+  // const getDashboardDetails = async () => {
+  //   pageLoaderHandler('show')
+  //   const obj = {
+  //     url: URL_CONFIG.DASHBOARD_INDEX,
+  //     method: "get"
+  //   }
+  //   await httpHandler(obj)
+  //     .then((response) => {
+  //       setDashboardDetails(response?.data);
+  //       pageLoaderHandler('hide')
+  //     }).catch((error) => {
+  //       console.log("getDashboardDetails error", error);
+  //       pageLoaderHandler('hide')
+  //     });
+  // }
   const getDashboardDetails = async () => {
-    pageLoaderHandler('show')
-    const obj = {
-      url: URL_CONFIG.DASHBOARD_INDEX,
-      method: "get"
+    try {
+      pageLoaderHandler('show');
+      
+      const obj = {
+        url: URL_CONFIG.DASHBOARD_INDEX,
+        method: "get"
+      };
+  
+      const response = await httpHandler(obj);
+      setDashboardDetails(response?.data);
+      
+      pageLoaderHandler('hide');
+    } catch (error) {
+      console.log("getDashboardDetails error", error);
+      pageLoaderHandler('hide');
     }
-    await httpHandler(obj)
-      .then((response) => {
-        setDashboardDetails(response?.data);
-        pageLoaderHandler('hide')
-      }).catch((error) => {
-        console.log("getDashboardDetails error", error);
-        pageLoaderHandler('hide')
-      });
   }
-
+  
   const fetchAllUsers = () => {
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,

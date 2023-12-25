@@ -174,7 +174,7 @@ function ListDepartments() {
           ></PageHeader>
 
           <div className="eep-user-management eep-content-start" id="content-start">
-            <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
+            <div className="table-responsive eep_datatable_table_div p-2 mt-0" style={{ visibility: "visible" }}>
               <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
                 <button
@@ -183,8 +183,8 @@ function ListDepartments() {
                   type="button"
                   style={{
                     position: 'absolute',
-                    zIndex: '100',
-                    right: '12px',
+                    zIndex: '9',
+                    right: '18px',
                     margin:' 8px 0px',
                   }}
                   onClick={() => handleExportDownload()}

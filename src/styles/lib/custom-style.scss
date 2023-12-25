@@ -7545,28 +7545,67 @@ input.eep_toggle_input:checked+.eep_toggle_slider.slider:before {
 body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   display: none !important;
 }
+// .open{
+//   -webkit-transition: all 0.4s ease;
+//   -o-transition: all 0.4s ease;
+//   transition: all 0.4s ease;
 
-.sidebaricondownup {
-  background: none !important;
-  padding: 0px;
-  margin: 0px;
-  width: 34px !important;
-  border: none;
-  position: absolute !important;
-  right: 16px !important;
-  top: 14px;
-}
+// }
 
-.sidebaricondown {
-  background: none !important;
-  padding: 0px;
-  margin: 0px;
-  width: 34px !important;
-  border: none;
-  position: absolute !important;
-  right: 0px !important;
-  top: 14px;
-}
+
+// .side{
+  
+//   .sideIconMenu{
+ 
+  .sidebaricondownupTrnsform{
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    background: none !important;
+    padding: 0px;
+    margin: 0px;
+    width: 34px !important;
+    border: none;
+    position: absolute !important;
+    right: 0px;
+    left: auto;
+    top: 12px;
+
+  }
+    .sidebaricondownup {
+      background: none !important;
+      padding: 0px;
+      margin: 0px;
+      width: 34px !important;
+      border: none;
+      position: absolute !important;
+      right: 0px;
+      left: auto;
+      top: 12px;
+  
+    }
+  //   .sidebaricondownup:before {
+  //     content: "\f078";
+  // }
+    
+    .sidebaricondown {
+      background: none !important;
+      padding: 0px;
+      margin: 0px;
+      width: 34px !important;
+      border: none;
+      position: absolute !important;
+      right: 0px !important;
+      left: auto;
+      top: 14px;
+    }
+//   }
+// }
+
+
+
+
 .tableinput{
   max-width: 126px;
     border: 1px solid rgb(235, 235, 235) !important;
@@ -7592,6 +7631,36 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
     border-radius:6px !important
 
  }
+}
+.tabSwitch{
+  position: absolute;
+  z-index: 99;
+  right: 0px;
+  top: 12px;
+  .tabButton{
+    margin: 5px;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: #606060;
+    transition-duration: 0.4s;
+    border-radius: 2rem;
+    border: 1px solid #dbdbdb;
+   
+  }
+  .tabButton:hover{
+    color: #ffffff;
+    background-color: #002f47;
+   }
+  .tabButtonActive{
+    background: #9dc7b2;
+    color: #ffffff;
+    border-radius: 2rem;
+    margin: 5px;
+    padding: 8px 18px;
+    font-size: 14px;
+    transition-duration: 0.4s;
+    border: 1px solid #dbdbdb;
+  }
 }
 
 

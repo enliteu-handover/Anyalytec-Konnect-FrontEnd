@@ -96,7 +96,7 @@ const FeedbackList = (props) => {
             </div>
           </div>
         </div>
-        <div className="underline"></div>
+        {/* <div className="underline"></div> */}
 
         <div className="ideashorting_div">
 

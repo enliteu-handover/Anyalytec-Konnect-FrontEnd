@@ -276,6 +276,7 @@
         padding: 0px !important;
         margin-bottom: 0px !important;
         width: 192px;
+        width: 100%
     }
 
     .sidebar .nav-item .collapse-item {
@@ -334,6 +335,9 @@
 
     .navbar-nav.sidebar .nav-item {
         font-family: "helveticaneuelight";
+       
+    } 
+    .navbar-nav .nav-list{
     }
 
     @media (min-width: 768px) {
@@ -491,7 +495,7 @@
     .sidebar .nav-item .collapse,
     .sidebar .nav-item .collapsing {
         margin: 0px !important;
-        margin: 0px 1px 10px 15px !important;
+        // margin: 0px 1px 10px 15px !important;
         border-bottom-left-radius: 6px;
         border-bottom-right-radius: 6px;
         overflow: hidden;
@@ -522,7 +526,9 @@
         }
 
         .sidebar .nav-item a.nav-link {
-            padding: 0.7rem 0.7rem 0.7rem 1rem;
+            padding: 6px 7px !important;
+             width: 200px;
+          
         }
     }
 
@@ -1250,14 +1256,30 @@
     }
 
         .nav-link[aria-expanded="true"] {
+        // background-color: var(--eep-submenu-bg-color) !important;
+        // margin: 0px 15px !important;
+        // width: 192px !important;
+        // border-bottom: 2px solid #9e9e9e6e;
+        // // padding: 0.7rem 0.7rem 0.7rem 0rem !important;
+        // padding: 12px 12px;
+        // border-top-left-radius: 6px;
+        // border-top-right-radius: 6px;
         background-color: var(--eep-submenu-bg-color) !important;
-        margin: 0px 15px !important;
-        width: 192px !important;
-        border-bottom: 2px solid #9e9e9e6e;
-        padding: 0.7rem 0.7rem 0.7rem 0rem !important;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
+        /* margin: 0px 15px !important; */
+         width: 100% !important;
+        // border-bottom: 2px solid rgba(158, 158, 158, 0.431372549);
+        padding: 8px 4px !important;
+       border-radius: 8px;
     }
+
+    .borderSide[aria-expanded="true"] {
+      border-bottom: 2px solid #9e9e9e6e;
+      border-radius: 8px 8px 0px 0px;
+      }
+      
+      .borderNone {
+        border: none;
+      }
 
     #userDropdown {
         background-color: var(--eep-body-bg-color) !important;

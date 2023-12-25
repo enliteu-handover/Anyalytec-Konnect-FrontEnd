@@ -8,6 +8,8 @@ import { sharedDataActions } from "../../store/shared-data-slice";
 import { useDispatch } from "react-redux";
 import { clearModalBackdrop } from "../../shared/SharedService";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAward } from "@fortawesome/free-solid-svg-icons";
 
 const BadgeRecognition = (props) => {
 
@@ -171,12 +173,14 @@ const BadgeRecognition = (props) => {
                 <ul className="icon">
                   <li>
                     <a
-                      className="badge_modal_a fas fa-award c1"
+                      className="badge_modal_a c1"
                       badgename="Explorer"
                       data-toggle="modal"
                       data-target="#badgeRecogniseModal"
                       onClick={() => onClickBadgeModalData(data)}
-                    ></a>
+                    >
+                      <FontAwesomeIcon icon={faAward} />
+                    </a>
                   </li>
                 </ul>
               </div>

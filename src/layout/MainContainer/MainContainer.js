@@ -86,7 +86,7 @@ const MainContainer = (props) => {
 
             {getTabs?.length !== 0 && <Tab />}
 
-            <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs.length ? "eep-has-tab-menu" : ""}`}>
+            <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs?.length ? "eep-has-tab-menu" : ""}`}>
               <div className={`eep-container ${getToggleSidebarState ? "eep-container-with-sidebar" : ""}`}>
                 <div className="container-sm eep-container-sm">
                   <div className="row no-gutters">

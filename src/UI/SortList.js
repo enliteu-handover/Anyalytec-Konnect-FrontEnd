@@ -1,3 +1,5 @@
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import Select from "react-select";
 
@@ -60,20 +62,36 @@ const SortList = (props) => {
                 />
                 {
                   isDateReceived ? <span className="c1 i_position" onClick={sortDateReceived}>Oldest
-                    <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i>
+                   <FontAwesomeIcon
+                            icon={faAngleUp}
+                            style={{ fontSize: "15px", margin: '-2px 4px'  }}
+                          />
+                    {/* <i className="fa fa-angle-up arrow_postion" ></i> */}
                   </span> :
                     <span className="c1 i_position" onClick={sortDateReceived}>Newest
-                      <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i>
+                    <FontAwesomeIcon
+                            icon={faAngleDown}
+                            style={{ fontSize: "15px", margin: '-2px 4px'  }}
+                          />
+                      {/* <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i> */}
                     </span>
                 }
               </div>
               :
               <span className="c1 i_position" onClick={sortDateReceived}>Date Received
                 {!isDateReceived &&
-                  <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
+                 <FontAwesomeIcon
+                 icon={faAngleUp}
+                 style={{ fontSize: "15px", margin: '-2px 4px' }}
+               />
+                  // <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
                 {isDateReceived &&
-                  <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
+                  <FontAwesomeIcon
+                  icon={faAngleDown}
+                  style={{ fontSize: "15px", margin: '-2px 4px' }}
+                />
+                  // <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
               </span>
             }
