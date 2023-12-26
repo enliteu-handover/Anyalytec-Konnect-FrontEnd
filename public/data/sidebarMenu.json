@@ -175,29 +175,22 @@
   },
   {
     "label": "Rewards",
-    "link": "rewards",
+    "link": "points",
     "icon": "Rewards.svg",
-    "isDirectLink": false,
+    "isDirectLink": true,
     "rewards": true,
-    "subMenu": [
+    "tabs":[
       {
-        "label": "Points",
-        "link": "points",
-        "icon": "",
-        "tabs":[
-          {
-            "title": "Points",
-            "id": "points"
-          },
-          {
-            "title": "Redeem",
-            "id": "redeem"
-          },
-          {
-            "title": "Redemptions",
-            "id": "redemptions"
-          }
-        ]
+        "title": "Points",
+        "id": "points"
+      },
+      {
+        "title": "Redeem",
+        "id": "redeem"
+      },
+      {
+        "title": "Redemptions",
+        "id": "redemptions"
       }
     ]
   },

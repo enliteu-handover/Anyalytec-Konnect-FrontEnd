@@ -1,14 +1,12 @@
+import moment from "moment";
 import React from "react";
-import Table from "../../UI/Table";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import DisplayTypePoints from "../../UI/CustomComponents/DisplayTypePoints";
 import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
 
 const PointsTable = (props) => {
 
   const { pointsList } = props;
-  
+
 
   const CustomComponentSettings = {
     date: {
@@ -61,12 +59,12 @@ const PointsTable = (props) => {
     {
       header: "Date",
       accessorKey: "createdAt",
-      accessorFn: (row) => row.createdAt?  moment(row.createdAt).format('l'):'--',
+      accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
     },
-    {
-      header: "Src Type",
-      accessorKey: "Src Type",
-    },
+    // {
+    //   header: "Src Type",
+    //   accessorKey: "Src Type",
+    // },
     {
       header: "Points",
       accessorKey: "points",
@@ -77,14 +75,14 @@ const PointsTable = (props) => {
     <React.Fragment >
       <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-         
+
           {/* {pointsList?.rewards && */}
-           <TableComponent
-              data={pointsList?.rewards ?? []}
-              columns={PointsTableHeaders}
-              actionHidden={true}
-              />
-              {/* } */}
+          <TableComponent
+            data={pointsList?.rewards ?? []}
+            columns={PointsTableHeaders}
+            actionHidden={true}
+          />
+          {/* } */}
         </div>
       </div>
     </React.Fragment >

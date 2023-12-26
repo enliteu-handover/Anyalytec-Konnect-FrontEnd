@@ -140,4 +140,26 @@
 }
 .reedem .modal-content .field-input {
   border: 1px solid #d4d4d4 !important;
+}
+
+.field-input-outline {
+  border-bottom: 1px solid #d4d4d4 !important;
+  border-radius: unset;
+}
+
+.min-max {
+  font-size: 10px;
+  margin-top: 6px;
+  float: right;
+}
+
+.details-titlesx {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.details-img {
+  width: 240px;
+  height: 160px;
+  margin-bottom: 12px;
 }/*# sourceMappingURL=style.css.map */

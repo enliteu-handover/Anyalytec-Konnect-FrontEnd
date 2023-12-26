@@ -16,31 +16,36 @@ const RedomModalDetails = (props) => {
                         </div>
                         <div className="modal-body eep_scroll_y p-0">
                             <div className="modalBodyHeight">
+                                <label className="redeemIcon_label font-helvetica-m details-titlesx">
+                                    {name}
+                                </label>
                                 <div className="reedem-details-flex">
                                     <div>
-                                        <img width="100%" src={images?.thumbnail ?? ''} style={{ width: '200px', height: '200px', marginBottom: '12px' }} />
+                                        <img width="100%" src={images?.thumbnail ?? ''} className="details-img" />
                                     </div>
                                     <div className="details">
-                                        <label className="redeemIcon_label font-helvetica-m titlesx">
-                                            {name}
-                                        </label>
-                                        <label className="redeemIcon_label font-helvetica-m discription">
-                                            {description}
-                                        </label>
+
+                                        <div style={{ marginTop: '6px' }}>
+                                            <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Enter Points:</div>
+                                            <input placeholder="Points" type="text" className="form-control field-input-outline"
+                                                value={props?.qty ?? ''}
+
+                                            //  onChange={(e) => props?.handleChange(e.target.value, price)} style={{}}
+                                            />
+                                            <div className="min-max"> Min: {price?.min}, Max: {price?.max}</div><br />
+                                            <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Quantity:</div>
+                                            <input placeholder="Quantity" type="text" className="form-control field-input-outline"
+                                            //  value={props?.qty ?? ''}
+                                            // onChange={(e) => props?.handleChange(e.target.value, price)}
+                                            />
+                                            <div className="min-max"> Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}</div>
+                                        </div>
                                     </div>
                                 </div>
-
-
-
-                                <div style={{ marginBottom: '12px' }}>
-                                    <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Enter Points:</div>
-                                    <input type="text" className="form-control field-input" id="" name="" value={props?.qty ?? ''}
-                                    //  onChange={(e) => props?.handleChange(e.target.value, price)} style={{}}
-                                    />
-                                    <div style={{ fontSize: '14px', marginTop: '6px', fontWeight: '500' }}> Min: {price?.min}, Max: {price?.max}</div><br />
-                                    <input type="text" className="form-control field-input" id="" name="" value={props?.qty ?? ''} onChange={(e) => props?.handleChange(e.target.value, price)} style={{}} />
-                                    <div style={{ fontSize: '14px', marginTop: '6px', fontWeight: '500' }}> Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}</div>
-                                </div>
+                                <div style={{ fontSize: '14px', marginBottom: '10px', fontWeight: '500' }}>Description:</div>
+                                <label className="redeemIcon_label discription">
+                                    {description}
+                                </label>
 
                                 <a
                                     style={{ width: '100%', color: "#fff", textAlign: 'center' }}
