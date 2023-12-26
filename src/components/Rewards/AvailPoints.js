@@ -39,9 +39,8 @@ const AvailPoints = (props) => {
                 strokeWidth={5}
                 styles={buildStyles({
                   strokeLinecap: 'butt',
-                  textSize: "14px",
-                  textColor: avilablePoint >= 50 ? '#1cc88a' : 'red',
-                  pathColor: avilablePoint >= 50 ? '#1cc88a' : 'red',
+                  textColor: avilablePoint >= 50 ? '#9dc7b2' : "#e74a3b",
+                  pathColor: avilablePoint >= 50 ? '#9dc7b2' : "#e74a3b",
                 })}
               />
               <div className="displayPoints_value_div font-helvetica-m">
@@ -77,10 +76,9 @@ const AvailPoints = (props) => {
                 text={`${redeemPoint}%`}
                 strokeWidth={5}
                 styles={buildStyles({
-                  textSize: "14px",
                   strokeLinecap: 'butt',
-                  textColor: redeemPoint >= 50 ? '#1cc88a' : 'red',
-                  pathColor: redeemPoint >= 50 ? '#1cc88a' : 'red',
+                  textColor: redeemPoint >= 50 ? '#9dc7b2' : "#e74a3b",
+                  pathColor: redeemPoint >= 50 ? '#9dc7b2' : "#e74a3b",
                 })} />
               <div className="displayPoints_value_div font-helvetica-m">
                 <div className="displayPoints_value_inner">
