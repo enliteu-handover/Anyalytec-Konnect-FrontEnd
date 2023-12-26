@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import { sharedDataActions } from "../../store/shared-data-slice";
 
 const TourState = () => {

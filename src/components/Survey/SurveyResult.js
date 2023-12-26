@@ -1,23 +1,21 @@
+import $ from "jquery";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import IconWithState from "../../UI/CustomComponents/IconWithState";
+import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomComponent";
+import SurveyResultCustomComponent from "../../UI/CustomComponents/SurveyResultCustomComponent";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import IconWithState from "../../UI/CustomComponents/IconWithState";
-import SurveyResultCustomComponent from "../../UI/CustomComponents/SurveyResultCustomComponent";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import ConfirmStateModal from "../../modals/ConfirmStateModal";
-import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomComponent";
-import SurveyPreviewModal from "./SurveyPreviewModal";
-import $ from "jquery";
 import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import SurveyPreviewModal from "./SurveyPreviewModal";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -181,7 +179,7 @@ const SurveyResult = () => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-            accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--', 
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
 		{
 			header: "SCORE",
@@ -190,8 +188,8 @@ const SurveyResult = () => {
 		{
 			header: "RESPONSE",
 			accessorKey: "action",
-			accessorFn: (row) => <ResponseCustomComponent data={row}  cSettings={cSettings?.response} type="survey" />,
-			
+			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings?.response} type="survey" />,
+
 		},
 
 	];
@@ -406,12 +404,12 @@ const SurveyResult = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{surveyResultList && (
-									
+
 									<TableComponent
-									data={surveyResultList ?? []}
-									columns={SurveyResultTableHeaders}
-									action={<SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />}
-								  />
+										data={surveyResultList ?? []}
+										columns={SurveyResultTableHeaders}
+										action={<SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />}
+									/>
 								)}
 							</div>
 						</div>
