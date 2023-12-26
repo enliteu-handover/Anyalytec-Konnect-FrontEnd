@@ -18,7 +18,7 @@ const TableComponent = ({
        
       
       "& .MuiTable-root": {
-        borderSpacing: "0px 4px",
+        borderSpacing: "0px 8px",
       },
       "& .MuiTableBody-root": {
         "& .MuiTableRow-root": {
@@ -65,7 +65,7 @@ const TableComponent = ({
         },
       },
       "& .MuiTableFooter-root": {
-        outline: "none",
+        outline: "none !important",
       },
 
       "& .MuiTableHead-root": {

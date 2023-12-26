@@ -235,10 +235,10 @@ const Badges = () => {
 
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
-          <div id="mybadgeTab" className="tab-pane active h-100">
+          <div id="mybadgeTab" className="tab-pane  h-100">
           {activeTab?.id === 'mybadgeTab' &&<MyBadge />}
           </div>
-          <div id="badgeTab" className="tab-pane h-100">
+          <div id="badgeTab" className="tab-pane active h-100">
             {!userRolePermission.badgeCreate && !userRolePermission.badgeModify &&
               <PageHeader
                 title="Badges and Recognition"

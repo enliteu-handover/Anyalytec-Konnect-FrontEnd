@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import EmojiPicker, { Emoji, SuggestionMode } from 'emoji-picker-react';
 import moment from 'moment/moment';
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import ReactTooltip from "react-tooltip";
 import ResponseInfo from "../../UI/ResponseInfo";
@@ -12,9 +13,9 @@ import FeedbackDetailViewMore from "./more";
 const FeedbackDetailViewInner = (props) => {
 
   const { ideaDetail, usersPic, handleCommand, likeAnIdea, likeAnIdeaChild, likeAnFeed } = props;
-
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const [isDetailListMode, setIsDetailListMode] = useState(false);
+  const emojiIdRef = useRef(null);
   const [state, setState] = useState({
     more: null,
     openicon: false,
@@ -254,12 +255,31 @@ const FeedbackDetailViewInner = (props) => {
       return carouselPdfData.push(v)
     }
   })
+ 
+  const onEmojiClose=()=>{
+    if(state?.openicon === true){
+      setState({ ...state, openicon: false })
+    }
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (emojiIdRef.current && !emojiIdRef.current.contains(event.target)) {
+        onEmojiClose();
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [onEmojiClose]);
 
   return (
     <React.Fragment>
       {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
       {ideaDetail && Object.keys(ideaDetail)?.length > 0 &&
         <React.Fragment>
+          <div onClick={onEmojiClose}>
           <div className="sticky-top right_profile_div_r right_profile_div_r-feed">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
@@ -283,7 +303,7 @@ const FeedbackDetailViewInner = (props) => {
             {ideaDetail?.show_as}
           </div>
 
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex" }} onClick={onEmojiClose}>
             <span
               className='image_chat'>
               <img src={
@@ -406,21 +426,24 @@ const FeedbackDetailViewInner = (props) => {
                       ideaDetail?.children?.length === 1 ? ' Comment' : ' Comments'}</div>
                 </div>
               </div>
+              <div style={{width:'100%',maxWidth:'500px'}} onClick={onEmojiClose} id='emojiId' ref={emojiIdRef}>
 
               {state?.openicon &&
-                <EmojiPicker
+                  <EmojiPicker
                   onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
                   suggestedEmojisMode={SuggestionMode.FREQUENT}
-                />}
-
+                  
+                />
+                  }
+              </div>
               {isDetailListMode && ideaDetail?.children?.length > 0 &&
                 <React.Fragment>
                   {renderChildComponent(ideaDetail, 0, setOpen)}
                   <br />
                 </React.Fragment>
               }
-
             </div>
+          </div>
           </div>
         </React.Fragment>
       }

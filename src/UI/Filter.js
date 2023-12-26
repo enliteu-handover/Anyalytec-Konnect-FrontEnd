@@ -11,7 +11,7 @@ const Filter = (props) => {
         placeholder=""
         classNamePrefix="eep_select_common contact_number"
         className={`form-control py-0 a_designation basic-single ${classes.formControl}`}
-        style={{ height: "auto" }}
+        style={{ height: "auto",zIndex:101 }}
         menuPlacement="bottom"
         onChange={(event) => onFilterChange(event)}
         defaultValue={config.defaultValue}

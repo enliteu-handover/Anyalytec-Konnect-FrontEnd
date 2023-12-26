@@ -116,7 +116,7 @@ const IdeaDetailViewInner = (props) => {
           </div>
 
           <div className="ideabox_ideacontent">
-            <p className="ideabox-font-style ideacontent_heading ideabox_contentt_size font-helvetica-m">{ideaDetail.title}</p>
+            <p className="ideabox-font-style ideacontent_heading ideabox_contentt_size font-helvetica-m" style={{fontWeight:'500'}}>{ideaDetail.title}</p>
             <p className="ideacontent_content ideabox_contentt_size">{ideaDetail.description}</p>
 
             <div className="item_blog_like_a text-right mb-2">

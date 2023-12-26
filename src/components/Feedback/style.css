@@ -248,7 +248,6 @@
 }
 
 .feedback-listview {
-  border: 2px solid #EAEAEA;
   border-radius: 8px;
   padding: 14px 0px;
   height: 100vh;
@@ -290,8 +289,8 @@
   background-color: white;
   align-items: center;
   border: none;
-  border-radius: unset;
-  border-bottom: 3px solid #EAEAEA !important;
+  border-radius: 12px;
+  border-bottom: 0px solid #EAEAEA !important;
   opacity: 1;
 }
 .feedback-listview .ideashorting_div_child .funtional_parts {
@@ -352,4 +351,8 @@
   font-style: italic;
   background-color: #fff;
   padding: 10px;
+}
+
+.nh {
+  min-height: 100%;
 }/*# sourceMappingURL=style.css.map */

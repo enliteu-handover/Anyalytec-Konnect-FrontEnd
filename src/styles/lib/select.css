@@ -73,6 +73,10 @@
   overflow-y: scroll !important;
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
+  z-index: 99;
+  background-color: #ffffff !important;
+  border: 1px solid #dddddd !important;
+  border-radius: 6px;
 }
 
 .eep_select_common.select__option--is-focused:not(.select__option--is-selected),
@@ -87,6 +91,7 @@
   background-color: #f4f4f4 !important;
   color: #858796 !important;
   border-radius: 7px;
+  margin: 4px 0px;
 }
 
 .eep_select_common.select__menu-list::-webkit-scrollbar,

@@ -240,11 +240,11 @@
     width: 100%;
     border-radius: 10px;
     margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
+    // margin-top: 1.5rem;
 }
 
 .ideaaboxContainer .ideabox-profile-container:first-child {
-    margin-bottom: 0;
+    margin-bottom: 1.5rem !important;
     margin-top: 0;
 }
 
@@ -511,7 +511,7 @@
 
 @media screen and (max-width:1440px) {
     .ideaaboxContainer .ideabox_truncate {
-        max-width: 490px;
+        max-width: 360px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
