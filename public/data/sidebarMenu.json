@@ -198,16 +198,6 @@
             "id": "redemptions"
           }
         ]
-      },
-      {
-        "label": "Redeem",
-        "link": "redeem",
-        "icon": ""
-      },
-      {
-        "label": "Redemption",
-        "link": "redemption",
-        "icon": ""
       }
     ]
   },

@@ -4148,10 +4148,6 @@ input#cert-image-upload.hidden {
   font-size: 18px;
 }
 
-.redeem_icon {
-  margin: 6px auto;
-}
-
 .redeemIcon_label {
   font-size: 12px;
   line-height: 1.1rem;
@@ -7258,4 +7254,8 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   padding: 10px;
   font-size: 10px;
   border: none;
+}
+
+.error-validation-input {
+  border: 1px solid red !important;
 }/*# sourceMappingURL=custom-style.css.map */

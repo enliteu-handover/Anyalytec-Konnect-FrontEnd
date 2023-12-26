@@ -16,38 +16,55 @@ const categoryCampleJson = [
   {
     id: 1,
     name: "Travel",
+    brand_logo: {
+      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
   }, {
-    id: 1,
+    id: 2,
     name: "Amazon Shopping Voucher",
+    brand_logo: {
+      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/232_logo.png"
+    },
   },
   {
-    id: 1,
+    id: 3,
     name: "Home Furnishings",
+    brand_logo: {
+      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/68x68-logoclp.jpg"
+    },
   }, {
-    id: 1,
+    id: 4,
     name: "Gaming",
+    brand_logo: {
+      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
   },
   {
-    id: 1,
+    id: 5,
     name: "Entertainment",
+    brand_logo: {
+      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
   }, {
-    id: 1,
+    id: 6,
     name: "Health & Beauty",
-  },
-  {
-    id: 1,
-    name: "Electronics",
-  }, {
-    id: 1,
-    name: "Food & Beverages",
-  },
+    brand_logo: {
+      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  }
 ];
 
 const productSampleJson = [
   {
     "id": 1,
     "sku": "EGCGBAMZSV001",
-    "name": "Apollo Pharmacy E-Gift(Instant Voucher)",
+    "name": "Lifestyle E-Gift (Instant Voucher)",
     "description": "Flat 12% OFF | Applicable on payment via UPI AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
     "price": {
       "price": "10",
@@ -68,9 +85,13 @@ const productSampleJson = [
     type: "DIGITAL",
     schedulingEnabled: false,
     currency: "356",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
     images: {
       thumbnail:
-        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_21_8.png",
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/l/s/ls_312x200_2_2_100056416.png",
       mobile:
         "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
       base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
@@ -124,8 +145,12 @@ const productSampleJson = [
   {
     "id": 2,
     "sku": "EGCGBAMZSV001",
-    "name": "MakeMyTrip E-Gift (Instant Voucher)",
+    "name": "MakeMyTrip E-Gift",
     "description": "Flat 5.5% OFF | Applicable on payment via UPI, AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/232_logo.png",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/232_logo.png"
+    },
     "price": {
       "price": "10",
       "type": "",
@@ -201,8 +226,12 @@ const productSampleJson = [
   {
     "id": 3,
     "sku": "EGCGBAMZSV001",
-    "name": "Swiggy Money E-Gift Card(Instant Voucher)",
+    "name": "Swiggy Money E-Gift Card",
     "description": "Flat 3% OFF | Applicable on payment via Debit Card, AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/68x68-logoclp.jpg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/68x68-logoclp.jpg"
+    },
     "price": {
       "price": "10",
       "type": "",
@@ -280,6 +309,10 @@ const productSampleJson = [
     "sku": "EGCGBAMZSV001",
     "name": "AJIO E-Gift(Instant Voucher)",
     "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
     "price": {
       "price": "10",
       "type": "",
@@ -369,7 +402,8 @@ const Redeem = () => {
     model: false,
     isEdit: {},
     qty: 1,
-    points: {}
+    points: {},
+    isSelect: null
   });
 
   const dispatch = useDispatch();
@@ -482,7 +516,9 @@ const Redeem = () => {
         Your redeem coupon is attached below and also sent mail!. Please copy it and go to your account, then add it to use.<br />
         <div className="copy-button">
           <input id="copyvalue" type="text" disabled value="AVO0A090292" />
-          <button onClick={() => copyIt()} className="copybtn">COPY</button>
+          <button onClick={() => copyIt()} className="copybtn">
+            <img width={"18px"} src="../images/icons8-duplicate.svg" />
+          </button>
         </div>
       </div>,
       celebrations: { isCelebration: true, celebrationItem: "partypapers.gif" }
@@ -491,11 +527,9 @@ const Redeem = () => {
   };
 
   const copyIt = () => {
-    let copybtn = document.querySelector(".copybtn");
     let copyInput = document.querySelector('#copyvalue');
     copyInput.select();
     document.execCommand("copy");
-    copybtn.textContent = "COPIED";
   }
 
 
@@ -533,6 +567,10 @@ const Redeem = () => {
     window.location.reload();
   };
 
+  const selectCtegorys = (item) => {
+    state.isSelect = item;
+    setState({ ...state })
+  }
 
   const filterData = searchUser ?
     state?.product?.filter((item) => item?.name?.toLowerCase()?.includes(searchUser?.toLowerCase()))
@@ -574,7 +612,10 @@ const Redeem = () => {
 
       <div className="category">
         {state?.data?.map((item, i) => {
-          return <div className={`category_button ${i == 0 && 'select'}`}>{item?.name}</div>;
+          return <div className={`category_button ${(state.isSelect?.id ? state.isSelect?.id === item?.id : i == 1) && 'select'}`} onClick={() => selectCtegorys(item)}>
+            <img width={"14px"} height={"14px"} src={item?.brand_logo?.small} />&nbsp;
+            <span>{item?.name}</span>
+          </div>;
         })}
       </div>
 
@@ -621,16 +662,15 @@ const Redeem = () => {
                     item?.price?.price <=
                       (((JSON.parse(userDetails)?.allPoints ?? 0))
                         * parseInt(state?.points?.value_peer_points)) ?
-                      <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3">
+                      <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3" style={{ cursor: 'pointer' }}>
                         <a
                           data-toggle="modal"
                           data-target="#RedomModalDetails"
                           className="list-item"
                           onClick={() => reedPointsModel({ ...item, coupon: firstActiveDiscount?.coupon?.code })}
                         >
-                          <div className="list-content" style={{ cursor: 'pointer' }}>
+                          <div className="list-content">
                             <div className="redeem_icon_div">
-                              <div class="ribbon-2">12% OFF</div>
                               <img
                                 src={item?.images?.thumbnail}
                                 className="redeem_icon"
@@ -649,7 +689,8 @@ const Redeem = () => {
                               </label> */}
                             </div>
                           </div>
-                        </a>  </div>
+                        </a>
+                      </div>
                       :
                       <div className="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3 list-item">
                         <div className="list-content" style={{
@@ -657,7 +698,6 @@ const Redeem = () => {
                           background: '#80808052'
                         }}>
                           <div className="redeem_icon_div">
-                            <div class="ribbon-2">12% OFF</div>
                             <img
                               src={item?.images?.thumbnail}
                               className="redeem_icon"
