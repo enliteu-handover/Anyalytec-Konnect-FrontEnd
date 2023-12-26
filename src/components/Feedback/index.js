@@ -424,7 +424,7 @@ const Feedback = () => {
             {allSearchfeedback && allSearchfeedback?.length > 0 &&
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
-                  <div className="col-md-4 eep-content-section-data eep_scroll_y pl-0">
+                  <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
                     <FeedbackList
                       feedbackListsData={allfeedback}
                       usersPic={usersPic}
@@ -441,7 +441,7 @@ const Feedback = () => {
                     />
 
                   </div>
-                  <div className="col-md-8 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
+                  <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
                     {ideaData &&
 
                       <FeedbackDetailView
