@@ -4364,7 +4364,7 @@ input#cert-image-upload.hidden {
   //   border: 1px solid #f0efef;
   // border-radius: 12px;
   width: 100%;
-  height: 120px;
+  height: 140px;
   position: relative;
 
   .discount_off {
@@ -4394,6 +4394,7 @@ input#cert-image-upload.hidden {
 
 .redeem_icon {
   // margin: 6px auto;
+  object-fit: none;
 }
 
 .redeemIcon_label {
@@ -7720,4 +7721,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 
 .error-validation-input {
   border: 1px solid red !important;
+}
+.CircularProgressbar {
+  height: 88px !important;
 }

@@ -4135,7 +4135,7 @@ input#cert-image-upload.hidden {
 
 .redeem_icon_div {
   width: 100%;
-  height: 120px;
+  height: 140px;
   position: relative;
 }
 .redeem_icon_div .discount_off {
@@ -4158,6 +4158,11 @@ input#cert-image-upload.hidden {
 }
 .reedem-details-flex .details .titlesx {
   font-size: 18px;
+}
+
+.redeem_icon {
+  -o-object-fit: none;
+     object-fit: none;
 }
 
 .redeemIcon_label {
@@ -7270,4 +7275,8 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 
 .error-validation-input {
   border: 1px solid red !important;
+}
+
+.CircularProgressbar {
+  height: 88px !important;
 }/*# sourceMappingURL=custom-style.css.map */

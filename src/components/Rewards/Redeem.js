@@ -15,32 +15,32 @@ import "./style.css";
 const categoryCampleJson = [
   {
     id: 1,
-    name: "Travel",
+    name: "Amazon Shopping Voucher",
     brand_logo: {
-      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG",
+      "small": "../images/category/icons8-amazon.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   }, {
     id: 2,
-    name: "Amazon Shopping Voucher",
+    name: "Home Furnishings",
     brand_logo: {
-      "small": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADsUlEQVRYhbWWT2gcVRzHP8/sBsSkpkLUpdlQRAgptexuqrR6EcxqDipWacCLB4PJwUNpwEUwiAgt4sE/NHdLwIM1NFvw4CUU04JJs7HSRDYbD1VCNiRBiTtJDmnh62F3pjOZyc40ab/wmHlvfu/9vu/7+/3eG6hBUpOkjyXN6+HhlqRBSY/ihqQOSX8+RMdBRNoBjKQm4CbwLBFhWRYLCwtO3xhDIpEgkUhEXQJgFjiOpE+j0h7L59WdzSoWjzutwfXenc1qLJ+/HyXOoAjSVyoVdWezHmf1Wi6Xi0qgQBSr07293l3HYqFkIiqxFUogn88HOkhlMjrd2+sLid1eyWajEFAogQ/6+0MlzuVygSSi4JGwVDXG+MaGhoY8/b6+PgROux8YSaFz3GVnjCGTyfhs4o2Nnr6Au9vboQRiUVg2NzfT1dXl9JeXlymXy/w6OQnAxMRE1akUqNi+CdhOv7t4kR9HR5mbnfV8E2AIDlcooiTKWD6vtmQyMNHqlWMUhObAzMwMJ06edHZpPwEGz54l2d7Okc5OXuvp8akSJQdCFUil076ddWezWlpa8tjtVYG6BEqlUuDChULBY1cul30haXgQ50Bxft6R0y2tuyIAisWi825cz+Xl5dAI1CWwuLjoWdR+tyzLY/fDpUuB829MT4cSqBuC8fFx5/LZ7SgeGRnx2dhhSGcyqlQqdUNQl4A7tjtLL5VOqy2Z3LUM7fELw8N7JyD5r+LdWiqT8Y21JZMqlUr7I2D/jPh2WJO8oRYSy7KcW9FWKMx5JAI2iQvDww6RhlhMqUxG/QMDvpI8d/68+gcGZFmu2G8sSavT0soNadubE96T8I9v4bEkHH47PHujYKsMUx/Cav5eLR/7Bo6ccUy8ZXioB37rh6unYK2wfwKNB+DoJ/D6ErxTgaZO3w+Dl0BLB7xxG7b/hfHnq0T+ugx3NvZGYHUK5s7BT4dgswwbRWh90WNiJN0FGjyjdyy4+Rnc/gpUu4CS70PLMXjypSrReDO+OeslWJ+D1WuwcgW2/6meXCcuQ/wAzH0Or/7invWfkXQLeC5wB2sFmHwPNov3jsOdd6dxje38HXjqLUh/AY93wNp0lURLh9viupH0EfBlIAEbf4/B/Newfo2ge1ly+TbAM4Nw+F1oPV53WWDASGoEpoBUmDVbZVibgs1FWLlac2ggfrAanoNHofUFf3iCcR14ubYDPS3pSpQz4QHhe0lP2II5kHQKeBPoYre82Dt+B2aAUWPMz/bg/5AZ2OKL1i4FAAAAAElFTkSuQmCC",
+      "small": "../images/category/icons8-home.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/232_logo.png"
     },
   },
   {
     id: 3,
-    name: "Home Furnishings",
+    name: "Travel",
     brand_logo: {
-      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/327_logo_image.jpg",
+      "small": "../images/category/icons8-plane-50.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/68x68-logoclp.jpg"
     },
   },
   {
     id: 8,
-    name: "beauty",
+    name: "Gaming",
     brand_logo: {
-      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/TheManCompany_68x68.jpg",
+      "small": "../images/category/icons8-game.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   },
@@ -48,21 +48,28 @@ const categoryCampleJson = [
     id: 5,
     name: "Entertainment",
     brand_logo: {
-      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/APV68x68_blue.png",
+      "small": "../images/category/entertainment.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   }, {
     id: 6,
     name: "Health & Beauty",
     brand_logo: {
-      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/23_logo.png",
+      "small": "../images/category/health.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   }, {
     id: 7,
-    name: "jewellery",
+    name: "Electronics",
     brand_logo: {
-      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/68x68_gold.jpg",
+      "small": "../images/category/electronics.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  }, {
+    id: 8,
+    name: "Food & Beverages",
+    brand_logo: {
+      "small": "../images/category/rice-bowl.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   },
@@ -119,7 +126,7 @@ const productSampleJson = [
         endDate: "2024-12-15T18:29:59+0000",
         discount: {
           type: "by_percent",
-          amount: 3,
+          amount: 6,
           desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
         },
         coupon: {
@@ -200,7 +207,7 @@ const productSampleJson = [
         endDate: "2024-12-15T18:29:59+0000",
         discount: {
           type: "by_percent",
-          amount: 3,
+          amount: 4,
           desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
         },
         coupon: {
@@ -281,7 +288,7 @@ const productSampleJson = [
         endDate: "2024-12-15T18:29:59+0000",
         discount: {
           type: "by_percent",
-          amount: 3,
+          amount: 8,
           desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
         },
         coupon: {
@@ -315,7 +322,7 @@ const productSampleJson = [
   {
     "id": 4,
     "sku": "EGCGBAMZSV001",
-    "name": "AJIO E-Gift(Instant Voucher)",
+    "name": "AJIO E-Gift",
     "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
     brand_logo: {
       "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
@@ -343,6 +350,485 @@ const productSampleJson = [
     images: {
       thumbnail:
         "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200ajiob2c.png",
+      mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 12,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 5,
+    "sku": "EGCGBAMZSV001",
+    "name": "Croma E-Gift",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_flipkart.png"
+      , mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  }, {
+    "id": 6,
+    "sku": "EGCGBAMZSV001",
+    "name": "Kalyan Gold Jewellery E-Gift",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/k/a/kalyangoldjew.png"
+      , mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 7,
+    "sku": "EGCGBAMZSV001",
+    "name": "Tanishq Jewellery E-Gift",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/j/e/jewellery.png"
+      , mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 10,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 8,
+    "sku": "EGCGBAMZSV001",
+    "name": "Max Fashion E-Gift",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/i/m/image002.png",
+      mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 1,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 9,
+    "sku": "EGCGBAMZSV001",
+    "name": "PVR Cinemas E-Gift",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_21_7.png",
+      mobile:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
+      base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+      small:
+        "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
+    },
+    tnc: {},
+    categories: [1],
+    themes: [],
+    handlingCharges: null,
+    reloadCardNumber: false,
+    expiry: null,
+    formatExpiry: null,
+    discounts: [
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2024-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 6,
+          desc: "Flat 8% OFF | Applicable on payment via Credit Card, Debit Card, UPI, Net Banking & Amazon Pay Wallet | USE CODE: DM8",
+        },
+        coupon: {
+          code: "ASV3",
+        },
+        priority: 1,
+      },
+      {
+        startDate: "2023-11-16T18:30:00+0000",
+        endDate: "2023-12-15T18:29:59+0000",
+        discount: {
+          type: "by_percent",
+          amount: 2,
+          desc: "Flat 2% Off | Applicable on payment via UPI, Debit Card, Credit Card & Net Banking ",
+        },
+        coupon: {
+          code: "ASV2",
+        },
+        priority: 2,
+      },
+    ],
+    relatedProducts: [],
+    storeLocatorUrl: null,
+    brandName: null,
+    etaMessage: "",
+    payout: {},
+    createdAt: "",
+    updatedAt: "",
+    cpg: {},
+  },
+  {
+    "id": 10,
+    "sku": "EGCGBAMZSV001",
+    "name": "MakeMyTrip Hotel E-Gift",
+    "description": "Flat 5% off. Applicable on payment via UPI. AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
+    brand_logo: {
+      "small": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
+    },
+    "price": {
+      "price": "10",
+      "type": "",
+      "min": "10",
+      "max": "10000",
+      "denominations": [],
+      "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "numericCode": "356"
+      }
+    },
+    kycEnabled: null,
+    allowed_fulfillments: [],
+    additionalForm: null,
+    metaInformation: {},
+    type: "DIGITAL",
+    schedulingEnabled: false,
+    currency: "356",
+    images: {
+      thumbnail: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/3/1/312x200_copy100072234_4.png",
       mobile:
         "https://d1o7uku192uawx.cloudfront.net/mobile/media/cardimage/amazon_312x200_21092022_3110.png",
       base: "https://d1o7uku192uawx.cloudfront.net/mobile/media/catalog/product/a/m/amazon_312x200_21092022_2.png",
@@ -392,7 +878,7 @@ const productSampleJson = [
     createdAt: "",
     updatedAt: "",
     cpg: {},
-  },
+  }
 ];
 
 const Redeem = () => {
@@ -616,11 +1102,13 @@ const Redeem = () => {
           handleChange={handleChange} redeemPonts={redeemPonts} />
       }
 
-      <PageHeader title={`Redeem My Enlite Points`} />
+      <PageHeader title={`Catalog`} />
 
       <div className="category">
         {state?.data?.map((item, i) => {
-          return <div className={`category_button ${(state.isSelect?.id ? state.isSelect?.id === item?.id : i == 1) && 'select'}`} onClick={() => selectCtegorys(item)}>
+          return <div className={`category_button ${i === 2
+            // (state.isSelect?.id ? state.isSelect?.id === item?.id : i == 1)
+            && 'select'}`} onClick={() => selectCtegorys(item)}>
             <img width={"14px"} height={"14px"} src={item?.brand_logo?.small} />&nbsp;
             <span>{item?.name}</span>
           </div>;
@@ -651,7 +1139,7 @@ const Redeem = () => {
       </div>
 
       <div className="row eep-content-start no-gutters">
-        <div className="col-md-12 redeemCards_topdiv mb-3">
+        <div className="col-md-12 mb-3">
 
           {!showGiftCardsAll && (
             <div className="redeemCard_div_min">
@@ -687,7 +1175,7 @@ const Redeem = () => {
                                 width={'100%'}
                                 height={'100%'}
                               />
-                              <span className="discount_off">12% OFF</span>
+                              <span className="discount_off">{firstActiveDiscount?.discount?.amount ?? 0}% OFF</span>
                             </div>
                             <div className="content">
                               <label className="redeemIcon_label font-helvetica-m titlesx">
