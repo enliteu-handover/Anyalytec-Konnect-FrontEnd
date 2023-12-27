@@ -23,14 +23,14 @@ const TableComponent = ({
       "& .MuiTableBody-root": {
         "& .MuiTableRow-root": {
           boxShadow: "none",
-          backgroundColor: "#fafafa",
+          backgroundColor: "#f9f9f9",
 
           // '&:nth-child(even)': {
           //   backgroundColor: '#f5f5f5',
           // },
         },
         '& .MuiTableRow-root:hover td':{
-          backgroundColor: '#fafafa'
+          backgroundColor: '#f9f9f9'
         },
         "& .MuiTableCell-root": {
           fontSize: "14px",

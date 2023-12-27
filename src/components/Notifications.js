@@ -250,17 +250,17 @@ const Notifications = () => {
 	};
 
 	const notificationTableHeaders = [
-		{
-			header: "",
-			accessorKey: "#",
-			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} totalCheckBoxSx={{display:'flex',alignItems:'center'}} />,
-			size: 1,
+		// {
+		// 	header: "",
+		// 	accessorKey: "#",
+		// 	accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} totalCheckBoxSx={{display:'flex',alignItems:'center'}} />,
+		// 	size: 1,
 			
-		},
+		// },
 		{
 			header: "Title",
 			accessorKey: "message",
-			size: 500,
+			size: 400,
 		},
 		// {
 		// 	header: "Src",
@@ -270,7 +270,7 @@ const Notifications = () => {
 			header: "Date",
 			accessorKey: "date",
 			accessorFn: (row) => row.date? moment(row.date).format('l') : '--',
-			size: 250,
+			size: 300,
 		},
 
 
@@ -304,8 +304,8 @@ const Notifications = () => {
 										<div className="text-center">
 											<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
 											<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
-												<Link to="#" className={`dropdown-item mark_all_raed c1`}  onClick={() =>  readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
-												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link>
+												{/* <Link to="#" className={`dropdown-item mark_all_raed c1`}  onClick={() =>  readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
+												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link> */}
 												<Link to="#" className="dropdown-item clearr c1" onClick={() => clearNotifications({ data: false, action: "clearAll" })}>Clear All</Link>
 											</div>
 										</div>
@@ -325,7 +325,7 @@ const Notifications = () => {
 											<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
 										}
 									/>
-								}
+								 }
 							</div>
 						</div>
 					</div>

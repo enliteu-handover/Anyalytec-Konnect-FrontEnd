@@ -283,11 +283,11 @@ const FeedbackDetailViewInner = (props) => {
           <div className="sticky-top  bg-efefef right_profile_div_r right_profile_div_r-feed">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <div className="rounded-circle" style={{ fontSize: 33 }}>
+                <div className="rounded-circle" style={{ fontSize: 33 ,marginRight:'6px'}}>
                   <img src={emojiLog[ideaDetail?.logo]} /></div>
                 {/* <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="rounded-circle" /> */}
-                <div className="wrapper-one-content">
-                  <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail?.title}</div>
+                <div className="wrapper-one-content ">
+                  <div className="ideabox-font-style pb-1 header-user-name font-helvetica-m">{ideaDetail?.title}</div>
                   <div className="header-user-destination ideabox_contentt_size">{ideaDetail?.category}</div>
                 </div>
               </div>

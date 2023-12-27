@@ -105,9 +105,7 @@ const FeedbackList = (props) => {
 
           {ideaLists && ideaLists?.map((item, index) => {
             return (
-              <div className={`ideabox-profile-container ideabox-profile-container-f ideashorting_div_child align-items-start 
-            ${item?.feedBackIsRead ? "ideaMarkedAsRead" : ""} 
-            ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index} onClick={() => viewIdea(item)} style={{cursor:'pointer'}}>
+              <div className={`ideabox-profile-container  ideashorting_div_child align-items-start ${item?.feedBackIsRead ? "ideaMarkedAsRead" : ""} ${item.feedBackIsActive ? "idebox-active-navigation" : ""}`} key={"ideabox_" + index}>
                 <div className="ideabox-profile-image c1" onClick={() => viewIdea(item)}>
                   <div className=" rounded-circle" style={{ fontSize: 33 }}>
                     <img src={emojiLog[item?.logo]} />
@@ -115,9 +113,10 @@ const FeedbackList = (props) => {
                 </div>
                 <div className="ideabox-font-style idea_box_heading ">
                   <div className="ideabox_username_fav_div">
-                    <div className="ideabox_descriptions_div c1 head" onClick={() => viewIdea(item)}>
-                      <h6 className="ideabox-font-style ideabox_user_name_size">{item?.title}</h6>
-                      <span className="ideabox-font-style ideabox-message-content-heading ideabox_truncate ideabox_contentt_size">{item?.show_as}</span>
+                    <div className="ideabox_descriptions_div c1 " onClick={() => viewIdea(item)}>
+                      <h5 className="ideabox-font-style ideabox_user_name_size">{item?.show_as}</h5>
+                      <p className="ideabox-font-style ideabox-message-content-heading ideabox_truncate ideabox_contentt_size" style={{fontWeight:'500'}}>{item?.title}</p>
+                    
                     </div>
                     <div className="funtional_parts-f">
                       <div className="funtional_parts" id="funtional_parts">
@@ -143,7 +142,6 @@ const FeedbackList = (props) => {
                     </div>
                   </div>
                   <div className="ideabox-font-style ideabox-date  clicked_content">{timeAgo(item?.createdAt, true)}</div>
-
                 </div>
               </div>
             )
