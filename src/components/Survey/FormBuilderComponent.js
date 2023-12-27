@@ -77,7 +77,7 @@ const FormBuilderComponent = (props) => {
   };
 
   useEffect(() => {
-    debugger
+    // debugger
     if (!initSurveyData?.isQuestionBank) {
       setSurveyTitle(initSurveyData?.sData?.name);
       getSurveyTitle(initSurveyData?.sData?.name);

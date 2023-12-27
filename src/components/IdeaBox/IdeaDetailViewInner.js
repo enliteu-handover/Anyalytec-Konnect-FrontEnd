@@ -75,9 +75,9 @@ const IdeaDetailViewInner = (props) => {
           <div className="ideabox-border bg-efefef sticky-top right_profile_div_r">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
-                <div className="wrapper-one-content">
-                  <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail.createdBy?.firstname + " " + ideaDetail.createdBy?.lastname}</div>
+                <img style={{marginRight:'6px'}} src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
+                <div className="wrapper-one-content ">
+                  <div className="ideabox-font-style pb-1 header-user-name font-helvetica-m">{ideaDetail.createdBy?.firstname + " " + ideaDetail.createdBy?.lastname}</div>
                   <div className="header-user-destination ideabox_contentt_size">{ideaDetail.createdBy?.designation}</div>
                 </div>
               </div>
