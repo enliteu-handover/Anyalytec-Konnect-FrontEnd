@@ -13,9 +13,8 @@ const Breadcrumb = () => {
         >
           <ol className="breadcrumb">
             {getBreadCrumb?.map((val, i) => {
-              const classValue = `breadcrumb-item ${
-                i === getBreadCrumb.length - 1 ? "active" : ""
-              }`;
+              const classValue = `breadcrumb-item ${i === getBreadCrumb.length - 1 ? "active" : ""
+                }`;
               return (
                 <li className={classValue} key={`list_${i}`}>
                   {i !== getBreadCrumb.length - 1 && (

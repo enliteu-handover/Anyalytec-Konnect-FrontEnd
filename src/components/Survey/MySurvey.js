@@ -1,19 +1,17 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { pageLoaderHandler } from "../../helpers";
-import TableComponent from "../../UI/tableComponent";
-import moment from "moment/moment";
 
 const MySurvey = () => {
 
@@ -123,9 +121,9 @@ const MySurvey = () => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-            accessorFn: (row) =>row.createdAt? moment(row.createdAt).format('l'):'--', 	
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
-		
+
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -151,12 +149,12 @@ const MySurvey = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{mySurveyList && (
-									
+
 									<TableComponent
-									data={mySurveyList ?? []}
-									columns={surveyTableHeaders}
-									action={<CustomLinkComponent cSettings={tableSettings.view} />}
-								  />
+										data={mySurveyList ?? []}
+										columns={surveyTableHeaders}
+										action={<CustomLinkComponent cSettings={tableSettings.view} />}
+									/>
 								)}
 							</div>
 						</div>

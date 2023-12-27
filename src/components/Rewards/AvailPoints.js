@@ -1,10 +1,11 @@
 import React from "react";
-
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 const AvailPoints = (props) => {
 
   const { pointsList } = props;
-  let avilablePoint = pointsList.availablePercentage;
-  let redeemPoint = pointsList.redeemPercentage;
+  let avilablePoint = pointsList?.availablePercentage ?? 0;
+  let redeemPoint = pointsList?.redeemPercentage ?? 0;
   let avilablPercentright = avilablePoint > 0 ? avilablePoint <= 50 ? `rotate(${avilablePoint * 3.6}deg)` : `rotate(180deg)` : "rotate(0deg)";
   let avilablPercentleft = avilablePoint > 0 ? avilablePoint > 50 ? `rotate(${avilablePoint * 1.8}deg)` : "rotate(0deg)" : "rotate(0deg)";
   let redeemPercentright = redeemPoint > 0 ? redeemPoint <= 50 ? `rotate(${redeemPoint * 3.6}deg)` : `rotate(180deg)` : "";
@@ -22,7 +23,7 @@ const AvailPoints = (props) => {
               </div>
             </div>
             <div className="displayPoints_content">
-              <div className="eep-progress">
+              {/* <div className="eep-progress">
                 <span className="eep-progress-left">
                   <span className="eep-progress-bar eep-border-succ" style={{ transform: avilablPercentleft }}></span>
                 </span>
@@ -32,7 +33,16 @@ const AvailPoints = (props) => {
                 <div className="eep-progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
                   <div className="h6 font-weight-bold mb-0 displayPercentage_value"> {pointsList?.availablePercentage} % </div>
                 </div>
-              </div>
+              </div> */}
+              <CircularProgressbar value={avilablePoint}
+                text={`${avilablePoint}%`}
+                strokeWidth={5}
+                styles={buildStyles({
+                  strokeLinecap: 'butt',
+                  textColor: avilablePoint >= 50 ? '#9dc7b2' : "#e74a3b",
+                  pathColor: avilablePoint >= 50 ? '#9dc7b2' : "#e74a3b",
+                })}
+              />
               <div className="displayPoints_value_div font-helvetica-m">
                 <div className="displayPoints_value_inner">
                   <span className="displayPoints_value">{pointsList.availablePoints}</span>
@@ -50,7 +60,7 @@ const AvailPoints = (props) => {
               </div>
             </div>
             <div className="displayPoints_content">
-              <div className="eep-progress">
+              {/* <div className="eep-progress">
                 <span className="eep-progress-left">
                   <span className="eep-progress-bar eep-border-warn" style={{ transform: redeemPercentleft }}></span>
                 </span>
@@ -61,7 +71,15 @@ const AvailPoints = (props) => {
                   <div className="h6 font-weight-bold mb-0 displayPercentage_value"> {pointsList.redeemPercentage} %
                   </div>
                 </div>
-              </div>
+              </div> */}
+              <CircularProgressbar value={redeemPoint}
+                text={`${redeemPoint}%`}
+                strokeWidth={5}
+                styles={buildStyles({
+                  strokeLinecap: 'butt',
+                  textColor: redeemPoint >= 50 ? '#9dc7b2' : "#e74a3b",
+                  pathColor: redeemPoint >= 50 ? '#9dc7b2' : "#e74a3b",
+                })} />
               <div className="displayPoints_value_div font-helvetica-m">
                 <div className="displayPoints_value_inner">
                   <span className="displayPoints_value"> {pointsList.redeemedPoints} </span>

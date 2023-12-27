@@ -9,10 +9,12 @@
     padding: 10px;
     border-radius: 7px;
     background: #f3f3f3;
-    margin: 0px 4px px 0px;
+    margin: 0px 4px 0px 0px;
     cursor: pointer;
     width: max-content !important;
     margin-right: 10px;
+    display: flex;
+    align-items: center;
   }
 
   .select {
@@ -44,40 +46,22 @@
     transform: translate(29.3%) rotate(45deg);
   }
 
-  .ribbon-2 {
-    --f: 10px;
-    /* control the folded part*/
-    --r: 17px;
-    /* control the ribbon shape */
-    --t: 10px;
-    /* the top offset */
-
-    position: absolute;
-    inset: var(--t) calc(-1*var(--f)) auto auto;
-    padding: 0 10px var(--f) calc(10px + var(--r));
-    clip-path:
-      polygon(0 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%,
-        calc(100% - var(--f)) calc(100% - var(--f)), 0 calc(100% - var(--f)),
-        var(--r) calc(50% - var(--f)/2));
-    background: #79a71e;
-    box-shadow: 0 calc(-1*var(--f)) 0 inset #0005;
-    color: #fff;
-  }
 
   .list-content {
     position: relative;
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    padding: 1em;
     width: 100%;
     border-radius: 12px;
-    padding: 0px 4px 0px;
-    min-height: 170px;
-
+    // padding: 0px 4px 0px;
+    // min-height: 170px;
+    overflow: hidden;
+    border: 1px solid #E6E6E6;
     .titlesx {
-      font-size: 12px;
+      font-size: 14px;
       margin-top: 10px;
+      padding: 0px 10px;
     }
 
     .content {}
@@ -120,6 +104,9 @@
   border-radius: 4px;
   padding: 0 5px;
   border: 1px solid #e1e1e1;
+  display: flex;
+  align-items: center;
+  justify-content: end;
 
   & input {
     height: 100%;
@@ -130,7 +117,7 @@
 
   & button {
     padding: 5px 20px;
-    background-color: #dc143c;
+    background-color: #fff;
     color: #fff;
     border: 1px solid transparent;
   }
@@ -184,4 +171,26 @@
     }
   }
 
+}
+
+.field-input-outline {
+  border-bottom: 1px solid #d4d4d4 !important;
+  border-radius: unset;
+}
+
+.min-max {
+  font-size: 10px;
+  margin-top: 6px;
+  float: right
+}
+
+.details-titlesx {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.details-img {
+  width: 240px;
+  height: 160px;
+  margin-bottom: 12px
 }

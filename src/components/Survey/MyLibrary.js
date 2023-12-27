@@ -1,19 +1,16 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { useDispatch } from "react-redux";
+import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
 import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const MyLibrary = () => {
 
@@ -120,11 +117,11 @@ const MyLibrary = () => {
         {
             header: "Date",
             accessorKey: "createdAt",
-            accessorFn: (row) => row?.created_at ? moment(row.createdAt).format('l') : '--', 
+            accessorFn: (row) => row?.created_at ? moment(row.createdAt).format('l') : '--',
         },
-       
+
     ];
-   
+
 
     const sideBarClass = (togglestate) => {
         setToggleClass(togglestate);
@@ -153,10 +150,10 @@ const MyLibrary = () => {
                             <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
                                 {librarySurveyList && (
                                     <TableComponent
-									data={librarySurveyList ?? []}
-									columns={surveyTableHeaders}
-									action={<CustomLinkComponent isLibrary={true} cSettings={tableSettings.view} />}
-								  />
+                                        data={librarySurveyList ?? []}
+                                        columns={surveyTableHeaders}
+                                        action={<CustomLinkComponent isLibrary={true} cSettings={tableSettings.view} />}
+                                    />
                                 )}
                             </div>
                         </div>

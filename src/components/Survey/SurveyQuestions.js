@@ -1,19 +1,17 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import CheckBoxComponent from "../../UI/CustomComponents/CheckBoxComponent";
 import PageHeader from "../../UI/PageHeader";
 import YearFilter from "../../UI/YearFilter";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import CheckBoxComponent from "../../UI/CustomComponents/CheckBoxComponent";
-import SurveyPreviewQuestionModal from "./SurveyPreviewQuestionModal";
 import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import SurveyPreviewQuestionModal from "./SurveyPreviewQuestionModal";
 
 const SurveyQuestions = () => {
 
@@ -70,7 +68,7 @@ const SurveyQuestions = () => {
 	}, []);
 
 	const getCheckedData = (cstate, arg) => {
-		
+
 		let checkedDataTemp = JSON.parse(JSON.stringify(checkedData))
 		if (!surveyQuestionsList?.[cstate]?.action) {
 			checkedDataTemp?.push(arg);
@@ -87,8 +85,8 @@ const SurveyQuestions = () => {
 
 		let values = JSON.parse(JSON.stringify(surveyQuestionsList));
 		let v = values?.[cstate]?.['action']
-		v    = !values?.[cstate]?.['action'];
-          setSurveyQuestionsList(values);
+		v = !values?.[cstate]?.['action'];
+		setSurveyQuestionsList(values);
 	}
 
 	const CustomComponentSettings = {
@@ -102,8 +100,8 @@ const SurveyQuestions = () => {
 		{
 			header: "#",
 			accessorKey: "action",
-			size:18,
-            accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} />, 	
+			size: 18,
+			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} />,
 
 		},
 		{
@@ -113,14 +111,14 @@ const SurveyQuestions = () => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-            accessorFn: (row) =>row.createdAt ?  moment(row.createdAt).format('l'):'--', 	
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 
 		},
 		{
 			header: "Q Type",
 			accessorKey: "type"
 		},
-		
+
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -216,12 +214,12 @@ const SurveyQuestions = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{surveyQuestionsList && (
-									
+
 									<TableComponent
-									data={surveyQuestionsList ?? []}
-									columns={surveyTableHeaders}
-									actionHidden={true}
-								  />
+										data={surveyQuestionsList ?? []}
+										columns={surveyTableHeaders}
+										actionHidden={true}
+									/>
 								)}
 							</div>
 						</div>

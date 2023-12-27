@@ -427,7 +427,7 @@ const CreateSurvey = () => {
 										<button type="submit" className="eep-btn eep-btn-success" id="surveySubmit" disabled={btnDisabled} onClick={() => publishSurvey(false)}>Publish</button>
 									}
 									<div className="s_preview_div ml-4 text-center c1" id="s_preview_div">
-										<button type="button" data-toggle="modal" data-target="#surveyPreviewModal" className="eep-btn eep-btn-cancel eep-btn-xsml mr-2" onClick={previewHandler}>Preview</button>
+										<button type="button" data-toggle="modal" data-target="#surveyPreviewModal" id="surveySubmitPreview" className="eep-btn eep-btn-cancel eep-btn-xsml mr-2" onClick={previewHandler}>Preview</button>
 									</div>
 								</div>
 

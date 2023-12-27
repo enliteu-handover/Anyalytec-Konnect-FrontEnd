@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { BreadCrumbActions } from "../store/breadcrumb-slice";
-import PageHeader from "../UI/PageHeader";
-import Table from "../UI/Table";
-import CheckBoxComponent from "../UI/CustomComponents/CheckBoxComponent";
-import DateFormatDisplay from "../UI/CustomComponents/DateFormatDisplay";
-import ActionCustomComponent from "../UI/CustomComponents/ActionCustomComponent";
-import ResponseInfo from "../UI/ResponseInfo";
-import { httpHandler } from "../http/http-interceptor";
-import { REST_CONFIG, URL_CONFIG } from "../constants/rest-config";
 import axios from "axios";
-import { sharedDataActions } from "../store/shared-data-slice";
-import TableComponent from "../UI/tableComponent";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import ActionCustomComponent from "../UI/CustomComponents/ActionCustomComponent";
+import CheckBoxComponent from "../UI/CustomComponents/CheckBoxComponent";
+import PageHeader from "../UI/PageHeader";
+import ResponseInfo from "../UI/ResponseInfo";
+import TableComponent from "../UI/tableComponent";
+import { REST_CONFIG, URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
+import { BreadCrumbActions } from "../store/breadcrumb-slice";
+import { sharedDataActions } from "../store/shared-data-slice";
 
 const Notifications = () => {
 
@@ -257,6 +255,7 @@ const Notifications = () => {
 			accessorKey: "#",
 			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} totalCheckBoxSx={{display:'flex',alignItems:'center'}} />,
 			size: 1,
+			
 		},
 		{
 			header: "Title",
@@ -273,9 +272,9 @@ const Notifications = () => {
 			accessorFn: (row) => row.date? moment(row.date).format('l') : '--',
 			size: 250,
 		},
-		
-		
-		
+
+
+
 	];
 
 	return (
@@ -320,12 +319,12 @@ const Notifications = () => {
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 								{renderTable &&
 									<TableComponent
-									data={notificationList ?? []}
-									columns={notificationTableHeaders}
-									action={
-										<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
-									}
-								  />
+										data={notificationList ?? []}
+										columns={notificationTableHeaders}
+										action={
+											<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
+										}
+									/>
 								}
 							</div>
 						</div>

@@ -1,6 +1,5 @@
-import React, { useEffect, createRef } from "react";
 import $ from "jquery";
-import { useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -78,7 +77,7 @@ const FormBuilderComponent = (props) => {
   };
 
   useEffect(() => {
-    
+    debugger
     if (!initSurveyData?.isQuestionBank) {
       setSurveyTitle(initSurveyData?.sData?.name);
       getSurveyTitle(initSurveyData?.sData?.name);
@@ -118,7 +117,12 @@ const FormBuilderComponent = (props) => {
     $(fb.current).html("");
     const formBuilder = $(fb.current).formBuilder(opts);
 
-    document.getElementById('surveySubmit').addEventListener('click', function () {
+    document?.getElementById?.('surveySubmit')?.addEventListener('click', function () {
+      var json_data = formBuilder.actions.getData('json', true);
+      getJsonData(json_data);
+      //setJsonData({...json_data});
+    });
+    document?.getElementById?.('surveySubmitPreview')?.addEventListener('click', function () {
       var json_data = formBuilder.actions.getData('json', true);
       getJsonData(json_data);
       //setJsonData({...json_data});
