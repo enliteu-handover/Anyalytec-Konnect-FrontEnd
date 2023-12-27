@@ -88,7 +88,6 @@ const Notifications = () => {
 	// }
 
 	const allChecke = (e) => {
-
 		setRenderTable(false);
 		if (e.target.checked) {
 			setTimeout(() => {
@@ -173,8 +172,17 @@ const Notifications = () => {
 	}
 
 	const readUnreadAllNotifications = (arg) => {
-
-		if (checkedData.length) {
+		if(arg){
+		    setRenderTable(false);
+			setTimeout(() => {
+				setIsChecked(current => !current);
+				setRenderTable(true);
+			}, 1);
+			const notificationListTemp = JSON.parse(JSON.stringify(notificationList));
+			var result = notificationListTemp.map(item => (item.id));
+			setCheckedData([...result]);
+		}
+		// if (checkedData.length) {
 			let notificationReadPayload;
 			if (arg === "readAll") {
 				notificationReadPayload = {
@@ -200,7 +208,7 @@ const Notifications = () => {
 				.catch((error) => {
 					console.log("fetchNotifications API error", error);
 				});
-		}
+		// }
 	}
 
 	const clearNotifications = (arg) => {
@@ -245,14 +253,15 @@ const Notifications = () => {
 
 	const notificationTableHeaders = [
 		{
-			header: "#",
+			header: "",
 			accessorKey: "#",
-			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} />,
-            size:18
+			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} totalCheckBoxSx={{display:'flex',alignItems:'center'}} />,
+			size: 1,
 		},
 		{
 			header: "Title",
 			accessorKey: "message",
+			size: 500,
 		},
 		// {
 		// 	header: "Src",
@@ -261,8 +270,8 @@ const Notifications = () => {
 		{
 			header: "Date",
 			accessorKey: "date",
-			size:23,
 			accessorFn: (row) => row.date? moment(row.date).format('l') : '--',
+			size: 250,
 		},
 		
 		
@@ -296,7 +305,7 @@ const Notifications = () => {
 										<div className="text-center">
 											<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
 											<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
-												<Link to="#" className="dropdown-item mark_all_raed c1" onClick={() => readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
+												<Link to="#" className={`dropdown-item mark_all_raed c1`}  onClick={() =>  readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
 												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link>
 												<Link to="#" className="dropdown-item clearr c1" onClick={() => clearNotifications({ data: false, action: "clearAll" })}>Clear All</Link>
 											</div>

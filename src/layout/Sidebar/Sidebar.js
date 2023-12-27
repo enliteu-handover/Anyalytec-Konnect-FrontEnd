@@ -150,7 +150,7 @@ const Sidebar = (props) => {
               <div
                 className="nav-item"
                 key={"list" + index}
-                style={{ padding: "6px 12px"}}
+                style={{ padding: sidebarToggled ? '6px 0px':"6px 12px"}}
               >
                 <Link
                   className={` nav-link collapsed ${menu?.subMenu?.length>0 ? 'borderSide' : 'borderNone' } `}
@@ -170,7 +170,7 @@ const Sidebar = (props) => {
                     </div>
 
                     <div className="sideIconMenu">
-                      {menu?.subMenu?.length > 0 && (
+                      {menu?.subMenu?.length > 0 && !sidebarToggled && (
                       
                           <FontAwesomeIcon
                             icon={faAngleRight}
@@ -189,7 +189,7 @@ const Sidebar = (props) => {
                   data-parent="#accordionSidebar"
 
                 >
-                  <div className="bg-white py-2 collapse-inner rounded">
+                  <div className="bg-white py-2 collapse-inner rounded" >
                     {menu?.subMenu?.map((submenu, index) => {
                       
                       return (
