@@ -1024,7 +1024,7 @@ const Redeem = () => {
       </div>,
       celebrations: { isCelebration: true, celebrationItem: "partypapers.gif" }
     });
-    fetchUserPermissions(dispatch);
+    await fetchUserPermissions(dispatch);
   };
 
   const copyIt = () => {
@@ -1032,7 +1032,6 @@ const Redeem = () => {
     copyInput.select();
     document.execCommand("copy");
   }
-
 
   const handleChange = (value, price) => {
 
@@ -1065,7 +1064,16 @@ const Redeem = () => {
 
   const openModal = () => {
     // window.location.href = "/app/my-redeem";
-    window.location.reload();
+    // const getAndUpdate = sessionStorage.getItem('userData')
+    // const addFileds = {
+    //   ...JSON.parse(getAndUpdate),
+    //   allPoints: response?.data?.totalPoints,
+    // }
+    // sessionStorage.setItem('userData', JSON.stringify(addFileds))
+    // window.location.reload();
+    // history.push('points', { activeTab: 'ApprovalTab' });
+    hideModal()
+    history.push('points')
   };
 
   const selectCtegorys = (item) => {

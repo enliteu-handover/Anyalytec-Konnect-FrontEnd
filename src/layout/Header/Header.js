@@ -13,7 +13,7 @@ import UserNavItem from "./UserNavItem";
 const Header = () => {
   const dispatch = useDispatch();
   const headerLogo = useSelector((state) => state.storeState.logo);
-  const userDetails = sessionStorage.getItem('userData')
+  var userDetails = sessionStorage.getItem('userData')
   const History = useHistory();
   const [state, setState] = useState({
     allPoints: 0,

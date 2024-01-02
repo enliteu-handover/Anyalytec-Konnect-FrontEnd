@@ -28,14 +28,16 @@ const RedomModalDetails = (props) => {
                                         <div style={{ marginTop: '6px' }}>
                                             <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Enter Points:</div>
                                             <input placeholder="Points" type="text" className="form-control field-input-outline"
-                                                value={props?.qty ?? ''}
+                                                // value={props?.qty ?? ''}
+                                                defaultValue={10}
 
                                             //  onChange={(e) => props?.handleChange(e.target.value, price)} style={{}}
                                             />
                                             <div className="min-max"> Min: {price?.min}, Max: {price?.max}</div><br />
                                             <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Quantity:</div>
                                             <input placeholder="Quantity" type="text" className="form-control field-input-outline"
-                                            //  value={props?.qty ?? ''}
+                                                //  value={props?.qty ?? ''}
+                                                defaultValue={1}
                                             // onChange={(e) => props?.handleChange(e.target.value, price)}
                                             />
                                             <div className="min-max"> Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}</div>
