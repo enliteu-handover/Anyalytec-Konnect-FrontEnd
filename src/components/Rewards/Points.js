@@ -87,7 +87,7 @@ const Points = () => {
   return (
 
     <React.Fragment>
-      <PageHeader title={`My Enlite Points : ${pointsList?.totalPoints ?? '00'}`}
+      <PageHeader title={`Total Earned Points : ${pointsList?.totalPoints ?? '00'}`}
         filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />
       <div className="row eep-content-start">
         <div className="col-md-3 myPointsLeft_div">

@@ -403,14 +403,12 @@ const SurveyResult = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar vertical-scroll-snap no-gutters ${toggleClass ? "side_open" : ""}`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{surveyResultList && (
 
 									<TableComponent
 										data={surveyResultList ?? []}
 										columns={SurveyResultTableHeaders}
 										action={<SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />}
 									/>
-								)}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

@@ -1,5 +1,4 @@
 import React from "react";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 const AvailPoints = (props) => {
 
@@ -18,9 +17,9 @@ const AvailPoints = (props) => {
           <div className="displayPoints_div">
             <div className="displayPoints_head">
               <label className="displayPoints_label displayPoints_label mb-0">AVAILABLE POINTS</label>
-              <div className="displayPoints_img_div">
+              {/* <div className="displayPoints_img_div">
                 <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="displayPoints_img" alt="Points" title="Available Points" />
-              </div>
+              </div> */}
             </div>
             <div className="displayPoints_content">
               {/* <div className="eep-progress">
@@ -34,7 +33,8 @@ const AvailPoints = (props) => {
                   <div className="h6 font-weight-bold mb-0 displayPercentage_value"> {pointsList?.availablePercentage} % </div>
                 </div>
               </div> */}
-              <CircularProgressbar value={avilablePoint}
+              <b style={{ fontSize: 50, margin: "auto" }}>{pointsList?.availablePoints}</b>
+              {/* <CircularProgressbar value={avilablePoint}
                 text={`${avilablePoint}%`}
                 strokeWidth={5}
                 styles={buildStyles({
@@ -47,7 +47,7 @@ const AvailPoints = (props) => {
                 <div className="displayPoints_value_inner">
                   <span className="displayPoints_value">{pointsList.availablePoints}</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -55,9 +55,9 @@ const AvailPoints = (props) => {
           <div className="displayPoints_div">
             <div className="displayPoints_head">
               <label className="displayPoints_label displayPoints_label mb-0">Points redeemed</label>
-              <div className="displayPoints_img_div">
+              {/* <div className="displayPoints_img_div">
                 <img src={process.env.PUBLIC_URL + "/images/icons/enlite-point-symbol.svg"} className="displayPoints_img" alt="Points" title="Points redeemed" />
-              </div>
+              </div> */}
             </div>
             <div className="displayPoints_content">
               {/* <div className="eep-progress">
@@ -72,7 +72,8 @@ const AvailPoints = (props) => {
                   </div>
                 </div>
               </div> */}
-              <CircularProgressbar value={redeemPoint}
+              <b style={{ fontSize: 50, margin: "auto" }}>{pointsList?.redeemedPoints}</b>
+              {/* <CircularProgressbar value={redeemPoint}
                 text={`${redeemPoint}%`}
                 strokeWidth={5}
                 styles={buildStyles({
@@ -84,7 +85,7 @@ const AvailPoints = (props) => {
                 <div className="displayPoints_value_inner">
                   <span className="displayPoints_value"> {pointsList.redeemedPoints} </span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

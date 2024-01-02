@@ -1,20 +1,18 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import PageHeader from "../../UI/PageHeader";
-import YearFilter from "../../UI/YearFilter";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import Table from "../../UI/Table";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import IconWithLength from "../../UI/CustomComponents/IconWithLength";
 import MyForumsActions from "../../UI/CustomComponents/MyForumsActions";
-import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import ConfirmStateModal from "../../modals/ConfirmStateModal";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import PageHeader from "../../UI/PageHeader";
+import YearFilter from "../../UI/YearFilter";
 import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const MyForumPosts = (props) => {
 
@@ -277,7 +275,7 @@ const MyForumPosts = (props) => {
       dept: deptValsArr,
       existForumAttach: updateDatas.existPostAttach
     }
-		formData.append('forumrequest', JSON.stringify(forumUpdateObj))
+    formData.append('forumrequest', JSON.stringify(forumUpdateObj))
     // formData.append('forumrequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
     const obj = {
       url: URL_CONFIG.FORUM,
@@ -399,23 +397,12 @@ const MyForumPosts = (props) => {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {myForumPostsLists && (
-              // <Table
-              //   component="userManagement"
-              //   headers={myForumsTableHeaders}
-              //   data={myForumPostsLists}
-              //   tableProps={{
-              //     classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-              //     id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-              //   }}
-              //   action={null}
-              // ></Table>
-              <TableComponent
-                data={myForumPostsLists ?? []}
-                columns={myForumsTableHeaders}
-                action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
-              />
-            )}
+
+            <TableComponent
+              data={myForumPostsLists ?? []}
+              columns={myForumsTableHeaders}
+              action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
+            />
           </div>
         </div>
       </div>

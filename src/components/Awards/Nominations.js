@@ -117,14 +117,14 @@ const Nominations = () => {
         <div className="col-md-7 col-lg-7 col-xl-8 col-sm-12 nm_lcol_div">
           <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
             <div id="awardApprovalDatatable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer">
-              {nominatedList && (
-                
-                <TableComponent
-              data={nominatedList ?? []}
-              columns={nominatedTableHeaders}
-              actionHidden={true}
+              {/* {nominatedList && ( */}
+
+              <TableComponent
+                data={nominatedList ?? []}
+                columns={nominatedTableHeaders}
+                actionHidden={true}
               />
-              )}
+              {/* )} */}
             </div>
           </div>
         </div>

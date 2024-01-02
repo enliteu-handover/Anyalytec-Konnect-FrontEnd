@@ -17,11 +17,11 @@ function AwardNominationList() {
   const [awardNomination, setAwardNomination] = useState([]);
 
   const cSettings = {
-		createdAt: {
-			classnames: "",
-			objReference: "createdAt"
-		}
-	};
+    createdAt: {
+      classnames: "",
+      objReference: "createdAt"
+    }
+  };
 
   const awardNominationTableHeaders = [
     {
@@ -39,7 +39,7 @@ function AwardNominationList() {
     {
       header: "Date",
       accessorKey: "createdAt",
-      accessorFn: (row) =>row.createdAt? moment(row.createdAt).format('l'):'--',
+      accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
     },
     {
       header: "Status",
@@ -47,7 +47,7 @@ function AwardNominationList() {
       accessorFn: (row) => <NominationStatus data={row} />,
 
     },
-   
+
   ];
 
   const fetchAwardNominationData = (arg = {}) => {
@@ -61,7 +61,7 @@ function AwardNominationList() {
       arg.filterValue.value !== ""
     ) {
       obj["params"] = {
-        rec:arg.filterValue.value
+        rec: arg.filterValue.value
       };
     }
     httpHandler(obj)
@@ -75,14 +75,14 @@ function AwardNominationList() {
   };
 
   useEffect(() => {
-    const obj = { 
-      filterValue: { label: "Pending", value: false } 
+    const obj = {
+      filterValue: { label: "Pending", value: false }
     }
     fetchAwardNominationData(obj);
   }, []);
 
   const dispatch = useDispatch();
-  
+
   const breadcrumbArr = [
     {
       label: "Home",
@@ -136,15 +136,15 @@ function AwardNominationList() {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {awardNomination && (
-            
-             
-              <TableComponent
+            {/* {awardNomination && ( */}
+
+
+            <TableComponent
               data={awardNomination ?? []}
               columns={awardNominationTableHeaders}
               action={<ApprovalActions isApprovalState={false} isView={true} />}
-              />
-            )}
+            />
+            {/* )} */}
           </div>
         </div>
       </div>

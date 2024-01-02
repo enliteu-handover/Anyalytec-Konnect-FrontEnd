@@ -106,19 +106,19 @@ const ActivePolls = () => {
 		{
 			header: "DATE",
 			accessorKey: "endDate",
-			accessorFn: (row) =>row.endDate?  moment(row.endDate).format('l'):'--',
+			accessorFn: (row) => row.endDate ? moment(row.endDate).format('l') : '--',
 
 		},
 		{
 			header: "SCORE",
 			accessorKey: "action",
-			accessorFn: (row) =>  <PollCustomComponent data={row} typee="score" />,
+			accessorFn: (row) => <PollCustomComponent data={row} typee="score" />,
 
 		},
 		{
 			header: "RESPONSE",
 			accessorKey: "action",
-			accessorFn: (row) =>  <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
+			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
 		},
 	];
 
@@ -139,20 +139,20 @@ const ActivePolls = () => {
 	}, []);
 
 	const confirmState = (isConfirmed) => {
-		
+
 		if (isConfirmed) {
 			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.POLL}`, { data: { id: pollTempData.id } })
-			.then(() => {
-				disableExistModal();
-				fetchActivePollData();
-			}).catch((error) => {
-				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-				setShowModal({
-					...showModal,
-					type: "danger",
-					message: errMsg,
+				.then(() => {
+					disableExistModal();
+					fetchActivePollData();
+				}).catch((error) => {
+					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+					setShowModal({
+						...showModal,
+						type: "danger",
+						message: errMsg,
+					});
 				});
-			});
 			// 	let httpObj = {
 			// 		url: URL_CONFIG.POLL + "?id=" + pollTempData.id,
 			// 		method: "delete"
@@ -199,16 +199,14 @@ const ActivePolls = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{activePollsList && (
-								
-									<TableComponent
-                                      data={activePollsList ?? []}
-                                      columns={ActivePollsTableHeaders}
-                                      action={
+
+								<TableComponent
+									data={activePollsList ?? []}
+									columns={ActivePollsTableHeaders}
+									action={
 										<PollActions deletePoll={deletePoll} />
-                                           }
-                  />
-								)}
+									}
+								/>
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

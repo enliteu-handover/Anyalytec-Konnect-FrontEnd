@@ -24,10 +24,10 @@ const SocialWall = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    {
-      label: "RECOGNITION",
-      link: "app/recognition",
-    },
+    // {
+    //   label: "RECOGNITION",
+    //   link: "app/recognition",
+    // },
     {
       label: "SOCIALWALL",
       link: "app/socialwall",

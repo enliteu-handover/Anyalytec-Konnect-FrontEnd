@@ -154,15 +154,12 @@ const ClosedPolls = (props) => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{myPollsList && (
-									
 
 									<TableComponent
 									data={myPollsList ?? []}
 									columns={PollsTableHeaders}
 									actionHidden={true}
 								  />
-								)}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

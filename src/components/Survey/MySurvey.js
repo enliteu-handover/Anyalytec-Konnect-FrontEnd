@@ -148,14 +148,12 @@ const MySurvey = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{mySurveyList && (
 
-									<TableComponent
-										data={mySurveyList ?? []}
-										columns={surveyTableHeaders}
-										action={<CustomLinkComponent cSettings={tableSettings.view} />}
-									/>
-								)}
+								<TableComponent
+									data={mySurveyList ?? []}
+									columns={surveyTableHeaders}
+									action={<CustomLinkComponent cSettings={tableSettings.view} />}
+								/>
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

@@ -89,49 +89,49 @@ const PollResults = () => {
 		{
 			header: "END DATE",
 			accessorKey: "endDate",
-			accessorFn: (row) => row.endDate ? moment(row.endDate).format('l'):'--',
+			accessorFn: (row) => row.endDate ? moment(row.endDate).format('l') : '--',
 
 		},
 		{
 			header: "ANSWERED",
 			accessorKey: "score",
-			accessorFn: (row) =>  <PollCustomComponent data={row} typee="score" />,
+			accessorFn: (row) => <PollCustomComponent data={row} typee="score" />,
 
 		},
 		{
 			header: "COUNT",
 			accessorKey: "response",
-			accessorFn: (row) =>  <PollCustomComponent data ={row} typee="response"  />,
+			accessorFn: (row) => <PollCustomComponent data={row} typee="response" />,
 
 		},
 		{
 			header: "RESPONSE",
 			accessorKey: "action",
-			accessorFn: (row) =>  <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
+			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
 
 		}
 	];
 
 	const fetchPollResultDetail = (paramsInfo) => {
 		let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.POLL,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.POLL,
-        method: "get"
-      };
-    }
+		if (Object.getOwnPropertyNames(paramsInfo)) {
+			obj = {
+				url: URL_CONFIG.POLL,
+				method: "get",
+				params: paramsInfo
+			};
+		} else {
+			obj = {
+				url: URL_CONFIG.POLL,
+				method: "get"
+			};
+		}
 		httpHandler(obj).then((response) => {
 			setPollResultList(response.data);
 		}).catch((error) => {
 			let errMsg;
-			if(error.response) {
-				if(error.response.status === 500) {
+			if (error.response) {
+				if (error.response.status === 500) {
 					errMsg = error.response?.data?.details !== undefined && error.response?.data?.details[0] ? error.response?.data?.details[0] : "Something went wrong contact administarator";
 				} else {
 					errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -150,13 +150,13 @@ const PollResults = () => {
 	}, []);
 
 	const getFilterParams = (paramsData) => {
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
-    } else {
-      setFilterParams({});
-    }
-    fetchPollResultDetail(paramsData);
-  }
+		if (Object.getOwnPropertyNames(filterParams)) {
+			setFilterParams({ ...paramsData });
+		} else {
+			setFilterParams({});
+		}
+		fetchPollResultDetail(paramsData);
+	}
 
 	return (
 		<React.Fragment>
@@ -193,15 +193,12 @@ const PollResults = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{pollResultList && (
-								
-									<TableComponent
-                                      data={pollResultList ?? []}
-                                      columns={PollResultTableHeaders}
+								<TableComponent
+									data={pollResultList ?? []}
+									columns={PollResultTableHeaders}
 									actionHidden={true}
-                                     
-                  />
-								)}
+
+								/>
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

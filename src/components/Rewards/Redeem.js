@@ -14,6 +14,13 @@ import "./style.css";
 
 const categoryCampleJson = [
   {
+    id: 0,
+    name: "All",
+    brand_logo: {
+      "small": "../images/category/icons8-amazon.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  }, {
     id: 1,
     name: "Amazon Shopping Voucher",
     brand_logo: {
@@ -1106,11 +1113,11 @@ const Redeem = () => {
 
       <div className="category">
         {state?.data?.map((item, i) => {
-          return <div className={`category_button ${i === 2
+          return <div className={`category_button ${i === 0
             // (state.isSelect?.id ? state.isSelect?.id === item?.id : i == 1)
             && 'select'}`} onClick={() => selectCtegorys(item)}>
-            <img width={"14px"} height={"14px"} src={item?.brand_logo?.small} />&nbsp;
-            <span>{item?.name}</span>
+            {i !== 0 && <img width={"14px"} height={"14px"} src={item?.brand_logo?.small} />}
+            <span>&nbsp;{item?.name}&nbsp;</span>
           </div>;
         })}
       </div>
@@ -1140,7 +1147,6 @@ const Redeem = () => {
 
       <div className="row eep-content-start no-gutters">
         <div className="col-md-12 mb-3">
-
           {!showGiftCardsAll && (
             <div className="redeemCard_div_min">
               <div className="row" style={{ flexWrap: "wrap" }}>

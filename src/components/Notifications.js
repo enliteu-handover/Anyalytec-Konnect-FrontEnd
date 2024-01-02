@@ -307,7 +307,7 @@ const Notifications = () => {
 					<div className="eep-user-management eep-content-start" id="content-start">
 						<div className="table-responsive eep_datatable_table_div p-2" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{renderTable &&
+								{/* {renderTable && */}
 									<TableComponent
 										data={notificationList ?? []}
 										columns={notificationTableHeaders}
@@ -315,7 +315,7 @@ const Notifications = () => {
 											<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
 										}
 									/>
-								}
+								{/* } */}
 							</div>
 						</div>
 					</div>

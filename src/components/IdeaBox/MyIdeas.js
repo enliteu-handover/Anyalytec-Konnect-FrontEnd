@@ -243,7 +243,7 @@ function MyIdeas(props) {
   }, []);
 
   const confirmState = (isConfirmed) => {
-    
+
     disableExistModal();
     if (isConfirmed) {
       let ideaUpdateObj, formData, httpObj;
@@ -406,23 +406,12 @@ function MyIdeas(props) {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {myIdeasList && (
-              // <Table
-              //   component="userManagement"
-              //   headers={myIdeasTableHeaders}
-              //   data={myIdeasList}
-              //   tableProps={{
-              //     classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-              //     id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-              //   }}
-              //   action={null}
-              // ></Table>
-              <TableComponent
+
+            <TableComponent
               data={myIdeasList ?? []}
               columns={myIdeasTableHeaders}
               action={<MyIdeaActions unPostIdea={unPostIdea} postIdea={postIdea} deleteIdea={deleteIdea} viewIdea={viewIdea} editIdea={editIdea} />}
-              />
-            )}
+            />
           </div>
         </div>
       </div>

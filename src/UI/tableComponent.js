@@ -13,6 +13,7 @@ const TableComponent = ({
 }) => {
   const styles = {
     container: {
+      minHeight: '300px',
       fontFamily: "helveticaneueregular !important",
       maxHeight: "400px",
        
@@ -104,7 +105,7 @@ const TableComponent = ({
   return (
     <div>
       <MaterialReactTable
-      
+      paginationDisplayMode="pages"
         // defaultFilterOpen={true}
         enableColumnActions={false}
         enableColumnFilters={false}
@@ -176,12 +177,14 @@ const TableComponent = ({
         // }}
 
         muiTableHeadCellProps={{
-          sx: {
+          // align: 'center',
+           sx: {
             border: "0px",
             boxShadow: "none",
           },
         }}
         muiTableBodyCellProps={{
+          // align: 'center', 
           sx: {
             border: "0px",
             // borderRight:'1.5px solid #cccccc',

@@ -6299,6 +6299,10 @@ table.eep_table_spacer tbody tr td:last-child {
   color: #1076b4;
 }
 
+.socialWall .sw_from_time {
+  margin-top: 6px;
+}
+
 .sw_from_time_val {
   color: #a0a0a0;
 }
@@ -7722,6 +7726,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 .error-validation-input {
   border: 1px solid red !important;
 }
+
 .CircularProgressbar {
   height: 88px !important;
 }
