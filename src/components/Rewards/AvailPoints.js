@@ -33,7 +33,7 @@ const AvailPoints = (props) => {
                   <div className="h6 font-weight-bold mb-0 displayPercentage_value"> {pointsList?.availablePercentage} % </div>
                 </div>
               </div> */}
-              <b style={{ fontSize: 50, margin: "auto" }}>{pointsList?.availablePoints}</b>
+              <b style={{ fontSize: 40, margin: "auto" }}>{pointsList?.availablePoints}</b>
               {/* <CircularProgressbar value={avilablePoint}
                 text={`${avilablePoint}%`}
                 strokeWidth={5}
@@ -72,7 +72,7 @@ const AvailPoints = (props) => {
                   </div>
                 </div>
               </div> */}
-              <b style={{ fontSize: 50, margin: "auto" }}>{pointsList?.redeemedPoints}</b>
+              <b style={{ fontSize: 40, margin: "auto" }}>{pointsList?.redeemedPoints}</b>
               {/* <CircularProgressbar value={redeemPoint}
                 text={`${redeemPoint}%`}
                 strokeWidth={5}

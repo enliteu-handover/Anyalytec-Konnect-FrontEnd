@@ -34,14 +34,6 @@ const Header = () => {
       {
         "title": "Points",
         "id": "points"
-      },
-      {
-        "title": "Redeem",
-        "id": "redeem"
-      },
-      {
-        "title": "Redemptions",
-        "id": "redemptions"
       }
     ]
     if (tabs) {

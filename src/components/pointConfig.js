@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
@@ -113,7 +112,7 @@ const PointsConfig = () => {
         <React.Fragment>
             {userRolePermission?.adminPanel &&
                 <React.Fragment>
-                    <PageHeader title="Points Configuration" />
+                    {/* <PageHeader title="Points Configuration" /> */}
                     <button
                         className="btn btn-secondary"
                         aria-controls="user_dataTable"

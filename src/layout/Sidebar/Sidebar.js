@@ -74,6 +74,8 @@ const Sidebar = (props) => {
   // }
 
   const handleChangeMenu = (element, index) => {
+    debugger
+
     //check  same id is exsiting
     const checkCurrentElement = element?.tabs?.filter((val) => val?.id === activeTab?.id)
     if (element?.subMenu?.tabs) {

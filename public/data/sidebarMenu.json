@@ -5,18 +5,11 @@
     "icon": "Dashboard.svg",
     "isDirectLink": true,
     "dashboard": true,
-    "tabs":[{
-      "title": "My Dashboard",
-      "id": "My_Dashboard"
-    },{
-      "title": "Rewards & Recognition",
-      "id": "Rewards_Recognition"
-    },
-    {
-      "title": "Hall of Fame",
-        "id": "Hall_of_Fame"
-    }
-    
+    "tabs": [
+      {
+        "title": "My Dashboard",
+        "id": "My_Dashboard"
+      }
     ]
   },
   {
@@ -30,69 +23,52 @@
         "label": "Recognize",
         "link": "recognition",
         "icon": "",
-        "sub":[{
-        "label": "Ecards",
-        "link": "ecardIndex",
-        "icon": "",
-        "tabs":[ { "title": "Templates", "id": "TemplatesTab" },
-        {
-          "title": "Cards",
-          "id": "CardsTab"
-        },
-        {
-          "title": "Inbox",
-          "id": "InboxTab"
-        }]
-        },
-        {
-          "label": "Certificates",
-          "link": "certificates",
-          "icon": "",
-          "tabs":[
+        "sub": [
           {
-            "title": "Certificates",
-            "id": "certificate"
+            "label": "Ecards",
+            "link": "ecardIndex",
+            "icon": "",
+            "tabs": [
+              {
+                "title": "Templates",
+                "id": "TemplatesTab"
+              }
+            ]
           },
           {
-            "title": "My Certificates",
-            "id": "mycertificate",
-            "active":"true"
-          }]
+            "label": "Certificates",
+            "link": "certificates",
+            "icon": "",
+            "tabs": [
+              {
+                "title": "Certificates",
+                "id": "certificate"
+              }
+            ]
           },
           {
             "label": "Badges",
             "link": "badges",
             "icon": "",
-            "tabs":[
+            "tabs": [
               {
                 "title": "Badges",
                 "id": "badgeTab"
-              },
-              {
-                "title": "My Badges",
-                "id": "mybadgeTab"
-              }]
-            },
-            {
-              "label": "Awards",
-              "link": "awards",
-              "icon": "",
-              "tabs":[
-                {
-                  "title":  "My Awards",
-                  "id": "MyAwardsTab"
-                },{
-                  "title":"Nominations",
-                  "id":"NominationsTab"
-                },
-                { "title": "Nominator View", "id": "NominatorTab" },
-                { "title": "My Nominations", "id": "MyNominationsTab" },
-                { "title": "Approval", "id": "ApprovalTab" },
-                { "title": "Awards", "id": "awardTab" },
-                { "title": "Manage", "id": "ManageTab" }
-               ]
               }
-      ]
+            ]
+          },
+          {
+            "label": "Awards",
+            "link": "awards",
+            "icon": "",
+            "tabs": [
+              {
+                "title": "My Awards",
+                "id": "MyAwardsTab"
+              }
+            ]
+          }
+        ]
       },
       {
         "label": "SocialWall",
@@ -107,11 +83,11 @@
     "icon": "Library.svg",
     "isDirectLink": true,
     "library": true,
-    "tabs":[
-      { "title": "Awards", "id": "Awards" },
-      { "title": "Badges", "id": "Badges" },
-      { "title": "Certificates", "id": "Certificates" },
-      { "title": "Survey", "id": "Survey" }
+    "tabs": [
+      {
+        "title": "Awards",
+        "id": "Awards"
+      }
     ]
   },
   {
@@ -132,14 +108,10 @@
         "link": "forum",
         "icon": "",
         "forum": true,
-        "tabs":[
+        "tabs": [
           {
             "title": "Forum Pot",
             "id": "forumpot"
-          },
-          {
-            "title": "My Posts",
-            "id": "myforums"
           }
         ]
       },
@@ -154,14 +126,10 @@
         "link": "ideabox",
         "icon": "",
         "ideabox": true,
-        "tabs":[
+        "tabs": [
           {
             "title": "Ideas",
             "id": "ideas"
-          },
-          {
-            "title": "My Ideas",
-            "id": "myideas"
           }
         ]
       },
@@ -179,18 +147,10 @@
     "icon": "Rewards.svg",
     "isDirectLink": true,
     "rewards": true,
-    "tabs":[
+    "tabs": [
       {
         "title": "Points",
         "id": "points"
-      },
-      {
-        "title": "Redeem",
-        "id": "redeem"
-      },
-      {
-        "title": "Redemptions",
-        "id": "redemptions"
       }
     ]
   },
