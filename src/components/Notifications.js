@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ActionCustomComponent from "../UI/CustomComponents/ActionCustomComponent";
-import CheckBoxComponent from "../UI/CustomComponents/CheckBoxComponent";
 import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
@@ -86,7 +85,6 @@ const Notifications = () => {
 	// }
 
 	const allChecke = (e) => {
-
 		setRenderTable(false);
 		if (e.target.checked) {
 			setTimeout(() => {
@@ -171,34 +169,43 @@ const Notifications = () => {
 	}
 
 	const readUnreadAllNotifications = (arg) => {
-
-		if (checkedData.length) {
-			let notificationReadPayload;
-			if (arg === "readAll") {
-				notificationReadPayload = {
-					id: checkedData,
-					seen: true
-				}
-			}
-			if (arg === "unReadAll") {
-				notificationReadPayload = {
-					id: checkedData,
-					seen: false
-				}
-			}
-			const obj = {
-				url: URL_CONFIG.NOTIFICATIONs_READ,
-				method: "put",
-				payload: notificationReadPayload,
-			};
-			httpHandler(obj)
-				.then((response) => {
-					fetchNotifications();
-				})
-				.catch((error) => {
-					console.log("fetchNotifications API error", error);
-				});
+		if (arg) {
+			setRenderTable(false);
+			setTimeout(() => {
+				setIsChecked(current => !current);
+				setRenderTable(true);
+			}, 1);
+			const notificationListTemp = JSON.parse(JSON.stringify(notificationList));
+			var result = notificationListTemp.map(item => (item.id));
+			setCheckedData([...result]);
 		}
+		// if (checkedData.length) {
+		let notificationReadPayload;
+		if (arg === "readAll") {
+			notificationReadPayload = {
+				id: checkedData,
+				seen: true
+			}
+		}
+		if (arg === "unReadAll") {
+			notificationReadPayload = {
+				id: checkedData,
+				seen: false
+			}
+		}
+		const obj = {
+			url: URL_CONFIG.NOTIFICATIONs_READ,
+			method: "put",
+			payload: notificationReadPayload,
+		};
+		httpHandler(obj)
+			.then((response) => {
+				fetchNotifications();
+			})
+			.catch((error) => {
+				console.log("fetchNotifications API error", error);
+			});
+		// }
 	}
 
 	const clearNotifications = (arg) => {
@@ -242,15 +249,17 @@ const Notifications = () => {
 	};
 
 	const notificationTableHeaders = [
-		{
-			header: "#",
-			accessorKey: "#",
-			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} />,
-			size: 18
-		},
+		// {
+		// 	header: "",
+		// 	accessorKey: "#",
+		// 	accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} bulkCheckState={isChecked} totalCheckBoxSx={{display:'flex',alignItems:'center'}} />,
+		// 	size: 1,
+
+		// },
 		{
 			header: "Title",
 			accessorKey: "message",
+			size: 400,
 		},
 		// {
 		// 	header: "Src",
@@ -259,8 +268,8 @@ const Notifications = () => {
 		{
 			header: "Date",
 			accessorKey: "date",
-			size: 23,
 			accessorFn: (row) => row.date ? moment(row.date).format('l') : '--',
+			size: 300,
 		},
 
 
@@ -270,12 +279,11 @@ const Notifications = () => {
 	return (
 		<React.Fragment >
 			<PageHeader title="Notifications" />
-			{notificationList.length > 0 &&
-				<React.Fragment >
-					<div className="row no-gutters eep-notification-div">
-						<div className="col-md-12 p-0 m-0" id="eep-notification-diiv">
-							<div className="d-flex  align-items-center align-content-center justify-content-end check_options_div ">
-								{/* <div className="d-flex align-items-center align-content-center action-border">
+			<React.Fragment >
+				<div className="row no-gutters eep-notification-div">
+					<div className="col-md-12 p-0 m-0" id="eep-notification-diiv">
+						<div className="d-flex  align-items-center align-content-center justify-content-end check_options_div ">
+							{/* <div className="d-flex align-items-center align-content-center action-border">
 									<label className="mb-0 mr-2">Bulk Actions</label>
 									<div className={`d-flex align-items-center align-content-center section_one ${isChecked ? "checked" : ""}`}>
 										<div className="checkall">
@@ -288,46 +296,45 @@ const Notifications = () => {
 										<div className={`c1 mark_unread_icon_div ${isChecked ? "check_optionsb" : "check_optionsn"}`} title="Mark As Unread" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.un_read, }} onClick={() => readUnreadAllNotifications("unReadAll")}></div>
 									</div>
 								</div> */}
-								<div className="d-flex align-items-center align-content-center action-border">
-									<label className="mb-0 mr-2">Options</label>
-									<div className="d-flex align-items-center align-content-center section_two">
-										<div className="text-center">
-											<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
-											<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
-												<Link to="#" className="dropdown-item mark_all_raed c1" onClick={() => readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
-												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link>
-												<Link to="#" className="dropdown-item clearr c1" onClick={() => clearNotifications({ data: false, action: "clearAll" })}>Clear All</Link>
-											</div>
+							<div className="d-flex align-items-center align-content-center action-border">
+								<label className="mb-0 mr-2">Options</label>
+								<div className="d-flex align-items-center align-content-center section_two">
+									<div className="text-center">
+										<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
+										<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
+											{/* <Link to="#" className={`dropdown-item mark_all_raed c1`}  onClick={() =>  readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
+												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link> */}
+											<Link to="#" className="dropdown-item clearr c1" onClick={() => clearNotifications({ data: false, action: "clearAll" })}>Clear All</Link>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className="eep-user-management eep-content-start" id="content-start">
-						<div className="table-responsive eep_datatable_table_div p-2" style={{ visibility: "visible" }}>
-							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{/* {renderTable && */}
-									<TableComponent
-										data={notificationList ?? []}
-										columns={notificationTableHeaders}
-										action={
-											<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
-										}
-									/>
-								{/* } */}
-							</div>
+				</div>
+				<div className="eep-user-management eep-content-start" id="content-start">
+					<div className="table-responsive eep_datatable_table_div p-2" style={{ visibility: "visible" }}>
+						<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
+							{/* {renderTable && */}
+							<TableComponent
+								data={notificationList ?? []}
+								columns={notificationTableHeaders}
+								action={
+									<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
+								}
+							/>
+							{/* } */}
 						</div>
 					</div>
-				</React.Fragment >
-			}
-			{notificationList.length <= 0 &&
+				</div>
+			</React.Fragment >
+			{/* {notificationList.length <= 0 &&
 				<div className=" row eep-content-section-data no-gutters response-allign-middle">
 					<div className="col-md-12">
 						<ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
 					</div>
 				</div>
-			}
+			} */}
 		</React.Fragment >
 	);
 }

@@ -280,14 +280,14 @@ const FeedbackDetailViewInner = (props) => {
       {ideaDetail && Object.keys(ideaDetail)?.length > 0 &&
         <React.Fragment>
           <div onClick={onEmojiClose}>
-          <div className="sticky-top right_profile_div_r right_profile_div_r-feed">
+          <div className="sticky-top  bg-efefef right_profile_div_r right_profile_div_r-feed">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <div className="rounded-circle" style={{ fontSize: 33 }}>
+                <div className="rounded-circle" style={{ fontSize: 33 ,marginRight:'6px'}}>
                   <img src={emojiLog[ideaDetail?.logo]} /></div>
                 {/* <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="rounded-circle" /> */}
-                <div className="wrapper-one-content">
-                  <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail?.title}</div>
+                <div className="wrapper-one-content ">
+                  <div className="ideabox-font-style pb-1 header-user-name font-helvetica-m">{ideaDetail?.title}</div>
                   <div className="header-user-destination ideabox_contentt_size">{ideaDetail?.category}</div>
                 </div>
               </div>
@@ -299,11 +299,11 @@ const FeedbackDetailViewInner = (props) => {
             </div>
           </div>
 
-          <div className="ideabox-font-style ideacontent_heading_feedback ideabox_contentt_size font-helvetica-m" style={{ margin: 0, padding: "10px 10px 0px 50px" }}>
-            {ideaDetail?.show_as}
-          </div>
-
+         
           <div style={{ display: "flex" }} onClick={onEmojiClose}>
+            
+            <div style={{width:'100%'}}>
+            <div style={{display:'flex',justifyContent:'start',alignItems:'center'}}>
             <span
               className='image_chat'>
               <img src={
@@ -316,7 +316,12 @@ const FeedbackDetailViewInner = (props) => {
                 }}
               />
             </span>
-            <div className="ideabox_ideacontent msg_content">
+               <div className="ideabox-font-style ideacontent_heading_feedback ideabox_contentt_size font-helvetica-m" style={{ margin: 0, padding: "10px 10px 0px 10px" }}>
+               {ideaDetail?.show_as}
+              </div>
+            </div>
+
+            <div className="ideabox_ideacontent msg_content" style={{width:'unset'}}>
               <p className="ideacontent_content ideabox_contentt_size">
                 <div id='parentElement' dangerouslySetInnerHTML={{ __html: ideaDetail?.description }} />
               </p>
@@ -443,6 +448,7 @@ const FeedbackDetailViewInner = (props) => {
                 </React.Fragment>
               }
             </div>
+              </div>
           </div>
           </div>
         </React.Fragment>

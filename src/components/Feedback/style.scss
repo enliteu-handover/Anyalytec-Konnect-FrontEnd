@@ -239,10 +239,10 @@
     margin-bottom: 0px !important;
     margin-top: 0px !important;
 
-    .ideabox_user_name_size {
-        color: #403C47;
-        font-size: 15px;
-    }
+    // .ideabox_user_name_size {
+    //     color: #403C47;
+    //     font-size: 15px;
+    // }
 
     .ideabox_contentt_size {
         color: #717074;
@@ -352,12 +352,12 @@
 
 
     .ideashorting_div_child {
-        background-color: #ffff;
-        align-items: center;
-        border: none;
-        border-radius: 12px;
-        border-bottom: 0px solid #EAEAEA !important;
-        opacity: 1;
+        // background-color: #ffff;
+        // align-items: center;
+        // border: none;
+        // border-radius: 12px;
+        // border-bottom: 0px solid #EAEAEA !important;
+        // opacity: 1;
 
         .funtional_parts {
             display: flex;
@@ -365,11 +365,14 @@
         }
     }
 
-    .ideaMarkedAsRead {
-        background-color: #F9f9f9 !important;
-        // opacity: 0.9;
-    }
-}
+    // .ideaMarkedAsRead {
+    //     background-color: #F9f9f9;
+    //     // opacity: 0.9;
+    //     .idebox-active-navigation{
+    //         background-color: #f1f1f1;
+    //     }
+    // }
+}     
 
 .feedback_arrow_div {
     width: 60%;

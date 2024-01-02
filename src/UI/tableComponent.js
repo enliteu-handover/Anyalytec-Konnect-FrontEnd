@@ -19,19 +19,19 @@ const TableComponent = ({
        
       
       "& .MuiTable-root": {
-        borderSpacing: "0px 8px",
+        borderSpacing: "0px 10px",
       },
       "& .MuiTableBody-root": {
         "& .MuiTableRow-root": {
           boxShadow: "none",
-          backgroundColor: "#f5f5f52b",
+          backgroundColor: "#f9f9f9",
 
           // '&:nth-child(even)': {
           //   backgroundColor: '#f5f5f5',
           // },
         },
         '& .MuiTableRow-root:hover td':{
-          backgroundColor: '#f5f5f52b'
+          backgroundColor: '#f9f9f9'
         },
         "& .MuiTableCell-root": {
           fontSize: "14px",
@@ -118,12 +118,16 @@ const TableComponent = ({
         enableDensityToggle={false}
         enableFullScreenToggle={false}
         enableHiding={false}
+        // enablePagination={false}
+      
+        positionPagination='bottom'
         enableSortingRemoval={false}
         enableRowActions={actionHidden ? false : true}
         enableGlobalFilter={searchHidden ? false : true}
         enableStickyHeader
         // muiBottomToolbarProps={}
         enableStickyFooter
+     
         
         muiTableContainerProps={{ sx: styles.container, ...customContainerSx }}
         initialState={{
@@ -155,8 +159,8 @@ const TableComponent = ({
         }
         muiTablePaginationProps={{
           rowsPerPageOptions: [5, 10, 50, 100],
-          // showFirstButton: true,
-          // showLastButton: true,
+          showFirstButton: false,
+          showLastButton: false,
         }}
         icons={{
           SearchIcon: (props) => (
