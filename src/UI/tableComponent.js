@@ -1,5 +1,5 @@
-import React from "react";
 import { MaterialReactTable } from "material-react-table";
+import React from "react";
 
 const TableComponent = ({
   columns = [],
@@ -8,16 +8,16 @@ const TableComponent = ({
   searchHidden,
   actionHidden,
   customContainerSx = {},
-  enableRowSelection= false,
-  enableRowNumbers=false
+  enableRowSelection = false,
+  enableRowNumbers = false
 }) => {
   const styles = {
     container: {
       minHeight: '300px',
       fontFamily: "helveticaneueregular !important",
       maxHeight: "400px",
-       
-      
+
+
       "& .MuiTable-root": {
         borderSpacing: "0px 10px",
       },
@@ -30,15 +30,15 @@ const TableComponent = ({
           //   backgroundColor: '#f5f5f5',
           // },
         },
-        '& .MuiTableRow-root:hover td':{
+        '& .MuiTableRow-root:hover td': {
           backgroundColor: '#f9f9f9'
         },
         "& .MuiTableCell-root": {
           fontSize: "14px",
           position: "relative",
           p: "6px 8px",
-          overflow:'inherit',
-          zIndex:'inherit',
+          overflow: 'inherit',
+          zIndex: 'inherit',
           // ":after": {
           //   borderRight: "0px",
           //   right: 0,
@@ -74,20 +74,20 @@ const TableComponent = ({
         "& .Mui-TableHeadCell-Content": {
           height: "12px",
           fontSize: "11px",
-          letterSpacing:'2px'
+          letterSpacing: '2px'
         },
         "& .MuiTableRow-root": {
           boxShadow: "none",
         },
-        '& .MuiTableCell-root':{
-          p:'8px 8px'
+        '& .MuiTableCell-root': {
+          p: '8px 8px'
         }
       },
 
       "&::-webkit-scrollbar": {
         width: "12px",
       },
-      
+
       "&::-webkit-scrollbar-track": {
         backgroundColor: "transparent",
       },
@@ -99,13 +99,13 @@ const TableComponent = ({
       },
       '&::-webkit-scrollbar-thumb': {
         background: 'transparent !important',
-    }
+      }
     },
   };
   return (
     <div>
       <MaterialReactTable
-      paginationDisplayMode="pages"
+        paginationDisplayMode="pages"
         // defaultFilterOpen={true}
         enableColumnActions={false}
         enableColumnFilters={false}
@@ -119,7 +119,7 @@ const TableComponent = ({
         enableFullScreenToggle={false}
         enableHiding={false}
         // enablePagination={false}
-      
+
         positionPagination='bottom'
         enableSortingRemoval={false}
         enableRowActions={actionHidden ? false : true}
@@ -127,8 +127,8 @@ const TableComponent = ({
         enableStickyHeader
         // muiBottomToolbarProps={}
         enableStickyFooter
-     
-        
+
+
         muiTableContainerProps={{ sx: styles.container, ...customContainerSx }}
         initialState={{
           density: "comfortable",
@@ -138,22 +138,24 @@ const TableComponent = ({
           size: "small",
           placeholder: "Search...",
           variant: "outlined",
-          sx:{ "& .MuiOutlinedInput-input":{
-            padding:'6px 7px',
-            fontSize:'14px',
-            borderRadius:'4px'
-          }},
+          sx: {
+            "& .MuiOutlinedInput-input": {
+              padding: '6px 7px',
+              fontSize: '14px',
+              borderRadius: '4px'
+            }
+          },
           InputProps: {
             endAdornment: (
               <img
                 src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`}
                 alt="Search"
-                style={{width:'18px'}}
+                style={{ width: '18px' }}
               />
             ),
           },
         }}
-        
+
         renderRowActions={({ row, table }) =>
           action ? React.cloneElement(action, { data: data?.[row?.index] }) : ""
         }
@@ -182,7 +184,7 @@ const TableComponent = ({
 
         muiTableHeadCellProps={{
           // align: 'center',
-           sx: {
+          sx: {
             border: "0px",
             boxShadow: "none",
           },

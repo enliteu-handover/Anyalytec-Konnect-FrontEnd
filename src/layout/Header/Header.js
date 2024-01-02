@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import SvgComponent from "../../components/ViwerComponents";
+import { TabsActions } from "../../store/tabs-slice";
 import "../../styles/lib/eep-search.scss";
 import classes from "./Header.module.scss";
 import HeaderSearch from "./HeaderSearch";
@@ -10,6 +11,7 @@ import Notification from "./Notification";
 import UserNavItem from "./UserNavItem";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const headerLogo = useSelector((state) => state.storeState.logo);
   const userDetails = sessionStorage.getItem('userData')
   const History = useHistory();
@@ -27,6 +29,30 @@ const Header = () => {
   }, [JSON.parse(userDetails)?.HeaderLogo, JSON.parse(userDetails)?.allPoints])
 
   const points = () => {
+
+    const tabs = [
+      {
+        "title": "Points",
+        "id": "points"
+      },
+      {
+        "title": "Redeem",
+        "id": "redeem"
+      },
+      {
+        "title": "Redemptions",
+        "id": "redemptions"
+      }
+    ]
+    if (tabs) {
+      dispatch(
+        TabsActions.tabOnChange({ tabInfo: tabs?.[0] })
+      );
+      dispatch(
+        TabsActions.updateTabsconfig({ config: tabs?.[0] })
+      )
+    }
+
     History.push('/app/points')
   };
 

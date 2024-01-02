@@ -4,6 +4,7 @@ import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
+import { downloadXlsx } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import WalletComponent from "./walletComponent";
@@ -97,11 +98,37 @@ const PointsConfig = () => {
         await fetchpointsConfig();
     };
 
+    const handleExportDownload = () => {
+        let xlData = pointsConfig?.map(v => {
+            return {
+                Country: v?.country_name,
+                Currency: v?.country_symbol,
+                ['Value Per Point']: v?.value_peer_points,
+            }
+        })
+        downloadXlsx("PointsConfig.xlsx", xlData);
+    };
+
     return (
         <React.Fragment>
             {userRolePermission?.adminPanel &&
                 <React.Fragment>
                     <PageHeader title="Points Configuration" />
+                    <button
+                        className="btn btn-secondary"
+                        aria-controls="user_dataTable"
+                        type="button"
+                        style={{
+                            position: 'absolute',
+                            zIndex: '9',
+                            right: '18px',
+                            margin: ' 8px 0px',
+
+                        }}
+                        onClick={() => handleExportDownload()}
+                    >
+                        <span>Excel</span>
+                    </button>
                     <TableComponent
                         data={pointsConfig ?? []}
                         columns={pointsConfigTableHeaders}

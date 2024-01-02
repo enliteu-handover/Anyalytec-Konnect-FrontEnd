@@ -45,7 +45,10 @@ const WalletComponent = (props) => {
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <input value={wallet} type="text" className={`tableinput form-control field-input ${err && "error-validation-input"}`} onChange={(e) => handleInputChange(e, 'optimal_value')} />
                 <div className="tableButton ml-1">
-                    <button disabled={disable} className="small-eep-btn eep-btn-success" onClick={handleSave}>
+                    <button disabled={disable}
+                        style={{ borderRadius: 6 }}
+                        className="small-eep-btn eep-btn-success"
+                        onClick={handleSave}>
                         {/* {parseInt(props?.row?.[props?.inputkey]) > 0 ? 'Update' : 'Save'} */}Save
                     </button>
                     {/* {err && <label style={{ fontSize: 11, color: "red" }}>{err}</label>} */}

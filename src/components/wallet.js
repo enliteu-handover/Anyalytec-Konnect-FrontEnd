@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
+import { downloadXlsx } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { TabsActions } from "../store/tabs-slice";
@@ -145,10 +146,38 @@ const Wallet = () => {
         }
     ];
 
+    const handleExportDownload = () => {
+        let xlData = wallet?.map(v => {
+            return {
+                Country: v?.country_name,
+                Branch: v?.branch_name,
+                ['Available Points']: v?.available_value,
+                ['Optimal Value']: v?.optimal_value,
+                ['Allocated Value']: v?.allocated_value,
+            }
+        })
+        downloadXlsx("Wallet.xlsx", xlData);
+    };
+
     return (
         <React.Fragment>
             {activeTab && activeTab?.id === 'wallet' && userRolePermission?.adminPanel &&
                 <React.Fragment>
+                    <button
+                        className="btn btn-secondary"
+                        aria-controls="user_dataTable"
+                        type="button"
+                        style={{
+                            position: 'absolute',
+                            zIndex: '9',
+                            right: '18px',
+                            margin: ' 8px 0px',
+
+                        }}
+                        onClick={() => handleExportDownload()}
+                    >
+                        <span>Excel</span>
+                    </button>
                     <TableComponent
                         data={wallet ?? []}
                         columns={walletTableHeaders}

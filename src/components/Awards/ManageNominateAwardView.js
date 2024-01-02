@@ -4,17 +4,32 @@ import { useSelector } from "react-redux";
 import ManageAwardViewInfo from "./ManageAwardViewInfo";
 import ResponseInfo from "../../UI/ResponseInfo";
 import moment from "moment";
+import PageHeader from "../../UI/PageHeader";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 const ManageNominateAwardView = () => {
 
   const getLocation = useLocation();
   const aDataValue = getLocation.state ? getLocation.state?.awardManageData : {};
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+  const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const monthArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
     <React.Fragment>
+      <PageHeader
+        hiddenDivider={true}
+        navLinksLeft={
+          <Link
+            className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg"
+            to={{ pathname: "/app/awards", state: { activeTab: 'ManageTab' } }}
+            dangerouslySetInnerHTML={{
+              __html: svgIcons && svgIcons.lessthan_circle,
+            }}
+          ></Link>
+        }
+      />
       {userRolePermission?.awardCategorisation &&
         <div className="pt-4">
           <div className="row justify-content-md-center eep-content-start" id="content-start">
@@ -45,13 +60,13 @@ const ManageNominateAwardView = () => {
                           <div className="col-md-12 form-group eep-recognition-select2-dropdown_div">
                             <label className="font-helvetica-m c-404040">Nominator</label>
                             <div className="vInputsDiv">
-                              <label className="mb-0">{aDataValue?.nominator?.fullName??''}</label>
+                              <label className="mb-0">{aDataValue?.nominator?.fullName ?? ''}</label>
                             </div>
                           </div>
                           <div className="col-md-12 form-group eep-recognition-select2-dropdown_div">
                             <label className="font-helvetica-m c-404040">Judge</label>
                             <div className="vInputsDiv">
-                              <label className="mb-0">{aDataValue?.judge?.fullName??''}</label>
+                              <label className="mb-0">{aDataValue?.judge?.fullName ?? ''}</label>
                             </div>
                           </div>
                         </div>
@@ -75,21 +90,21 @@ const ManageNominateAwardView = () => {
                                 </div>
                               </div>
                             }
-                             {aDataValue?.type !== 'Between_Dates' &&      
-                            <div className="row n_schedule_div w-100 no-gutters">                     
-                              <div className="col-md-12 form-group">
-                                <label className="font-helvetica-m c-404040">Schedule At</label>
-                                <div className="vInputsDiv border border-1">
-                                  {aDataValue?.month !== 0 &&
-                                    <label className="mb-0">{('0' + aDataValue?.day).slice(-2) + " - " + monthArr[aDataValue?.month - 1]}</label>
-                                  }
-                                  {aDataValue?.month === 0 &&
-                                    <label className="mb-0">{('0' + aDataValue?.day).slice(-2)}</label>
-                                  }
-                                </div>	
+                            {aDataValue?.type !== 'Between_Dates' &&
+                              <div className="row n_schedule_div w-100 no-gutters">
+                                <div className="col-md-12 form-group">
+                                  <label className="font-helvetica-m c-404040">Schedule At</label>
+                                  <div className="vInputsDiv border border-1">
+                                    {aDataValue?.month !== 0 &&
+                                      <label className="mb-0">{('0' + aDataValue?.day).slice(-2) + " - " + monthArr[aDataValue?.month - 1]}</label>
+                                    }
+                                    {aDataValue?.month === 0 &&
+                                      <label className="mb-0">{('0' + aDataValue?.day).slice(-2)}</label>
+                                    }
+                                  </div>
+                                </div>
                               </div>
-                            </div> 
-                            } 
+                            }
                             <div className="row a_schedule_div templates_time_div px-0 n_award_inputs_col3 w-100 no-gutters">
                               <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group n_award_inputs_col3_inner eep-timer-parent">
                                 <label className="font-helvetica-m c-404040">Schedule Time</label>

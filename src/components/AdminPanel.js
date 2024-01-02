@@ -157,7 +157,7 @@ const AdminPanel = () => {
                 <div className="outter">
                   <img
                     src={
-                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/icons8-coins-64.png"
                     }
                     className="image-circle"
                     alt="Point Config"
@@ -172,7 +172,7 @@ const AdminPanel = () => {
                 <div className="outter">
                   <img
                     src={
-                      process.env.PUBLIC_URL + "/images/icons/adminpanel/Branch.svg"
+                      process.env.PUBLIC_URL + "/images/icons/adminpanel/icons8-wallet-50.png"
                     }
                     className="image-circle"
                     alt="Wallet"

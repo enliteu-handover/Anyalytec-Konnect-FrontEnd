@@ -133,14 +133,15 @@ const BranchMaster = () => {
     };
 
     const handleExportDownload = () => {
-        let xlData = state?.data?.data?.map(v => { 
-            return { 
-            Id:v?.id,
-            Name:v?.name,
-            Active:v?.active,
-            Description:v?.description,
-            Country: v?.country?.countryName 
-            } })
+        let xlData = state?.data?.data?.map(v => {
+            return {
+                Id: v?.id,
+                Name: v?.name,
+                Active: v?.active,
+                Description: v?.description,
+                Country: v?.country?.countryName
+            }
+        })
         downloadXlsx("BranchMasters.xlsx", xlData);
     };
 
@@ -214,9 +215,9 @@ const BranchMaster = () => {
                                 type="button"
                                 style={{
                                     position: 'absolute',
-                                    zIndex: '9',
+                                     zIndex: '9',
                                     right: '18px',
-                                    margin:' 8px 0px',
+                                    margin: ' 8px 0px',
 
                                 }}
                                 onClick={() => handleExportDownload()}
