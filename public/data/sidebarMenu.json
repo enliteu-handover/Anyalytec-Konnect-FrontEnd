@@ -9,6 +9,14 @@
       {
         "title": "My Dashboard",
         "id": "My_Dashboard"
+      },
+      {
+        "title": "Rewards & Recognition",
+        "id": "Rewards_Recognition"
+      },
+      {
+        "title": "Hall of Fame",
+        "id": "Hall_of_Fame"
       }
     ]
   },
@@ -32,6 +40,14 @@
               {
                 "title": "Templates",
                 "id": "TemplatesTab"
+              },
+              {
+                "title": "Cards",
+                "id": "CardsTab"
+              },
+              {
+                "title": "Inbox",
+                "id": "InboxTab"
               }
             ]
           },
@@ -43,6 +59,11 @@
               {
                 "title": "Certificates",
                 "id": "certificate"
+              },
+              {
+                "title": "My Certificates",
+                "id": "mycertificate",
+                "active": "true"
               }
             ]
           },
@@ -54,6 +75,10 @@
               {
                 "title": "Badges",
                 "id": "badgeTab"
+              },
+              {
+                "title": "My Badges",
+                "id": "mybadgeTab"
               }
             ]
           },
@@ -65,6 +90,30 @@
               {
                 "title": "My Awards",
                 "id": "MyAwardsTab"
+              },
+              {
+                "title": "Nominations",
+                "id": "NominationsTab"
+              },
+              {
+                "title": "Nominator View",
+                "id": "NominatorTab"
+              },
+              {
+                "title": "My Nominations",
+                "id": "MyNominationsTab"
+              },
+              {
+                "title": "Approval",
+                "id": "ApprovalTab"
+              },
+              {
+                "title": "Awards",
+                "id": "awardTab"
+              },
+              {
+                "title": "Manage",
+                "id": "ManageTab"
               }
             ]
           }
@@ -87,6 +136,18 @@
       {
         "title": "Awards",
         "id": "Awards"
+      },
+      {
+        "title": "Badges",
+        "id": "Badges"
+      },
+      {
+        "title": "Certificates",
+        "id": "Certificates"
+      },
+      {
+        "title": "Survey",
+        "id": "Survey"
       }
     ]
   },
@@ -112,6 +173,10 @@
           {
             "title": "Forum Pot",
             "id": "forumpot"
+          },
+          {
+            "title": "My Posts",
+            "id": "myforums"
           }
         ]
       },
@@ -130,6 +195,10 @@
           {
             "title": "Ideas",
             "id": "ideas"
+          },
+          {
+            "title": "My Ideas",
+            "id": "myideas"
           }
         ]
       },
@@ -151,6 +220,14 @@
       {
         "title": "Points",
         "id": "points"
+      },
+      {
+        "title": "Redeem",
+        "id": "redeem"
+      },
+      {
+        "title": "Redemptions",
+        "id": "redemptions"
       }
     ]
   },

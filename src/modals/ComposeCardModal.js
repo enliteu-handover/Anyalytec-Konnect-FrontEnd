@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import EcardModalInfo from "../components/E-Cards/EcardModalInfo";
 import EcardModalInputs from "../components/E-Cards/EcardModalInputs";
-import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
-import { useSelector } from "react-redux";
 import { base64ToFile } from "../helpers";
+import { httpHandler } from "../http/http-interceptor";
 
 const ComposeCardModal = (props) => {
   const { composeCardData, composeCardMessages, composeCardCategory, modalSubmitInfo } = props;
@@ -59,7 +59,7 @@ const ComposeCardModal = (props) => {
   }, [composeInfoData, composeInputData]);
 
   const handleECardSubmit = async () => {
-    
+    debugger
     let finalData = { ...composeInfoData, ...composeInputData };
 
 
@@ -93,6 +93,7 @@ const ComposeCardModal = (props) => {
     if (!composeCardData.isSlider) {
       delete finalData.templateId;
     }
+    delete finalData?.imagebyte;
     const obj = {
       url: URL_CONFIG.SEND_ECARD,
       method: "post",

@@ -47,7 +47,7 @@ function ListDepartments() {
     {
       header: "Created On",
       accessorKey: "createdAt",
-      accessorFn: (row) =>row?.createdAt ?  moment(row.createdAt).format('l') : '--', 
+      accessorFn: (row) => row?.createdAt ? moment(row.createdAt).format('l') : '--',
 
     },
     {
@@ -57,8 +57,8 @@ function ListDepartments() {
     {
       header: "Updated On",
       accessorKey: "updatedAt",
-      accessorFn: (row) =>row?.updatedAt ?  moment(row.updatedAt).format('l') : '--', 
-      
+      accessorFn: (row) => row?.updatedAt ? moment(row.updatedAt).format('l') : '--',
+
     },
   ];
 
@@ -185,7 +185,7 @@ function ListDepartments() {
                     position: 'absolute',
                     zIndex: '9',
                     right: '18px',
-                    margin:' 8px 0px',
+                    margin: ' 8px 0px',
                   }}
                   onClick={() => handleExportDownload()}
                 >

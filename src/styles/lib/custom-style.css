@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**** Common Class ****/
 :root {
   --footer-height: 200px;
@@ -7190,7 +7191,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   position: absolute !important;
   right: 0px;
   left: auto;
-  top: 12px;
+  top: 9px;
 }
 
 .sidebaricondownup {
@@ -7202,7 +7203,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   position: absolute !important;
   right: 0px;
   left: auto;
-  top: 12px;
+  top: 9px;
 }
 
 .sidebaricondown {
@@ -7283,4 +7284,78 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 
 .CircularProgressbar {
   height: 88px !important;
+}
+
+.custom-paginations {
+  width: 100%;
+  margin-top: -38px;
+  z-index: 1000;
+  position: sticky;
+  /* styles.css */
+  /* Style the dropdown options */
+}
+.custom-paginations .materialUiSelect {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 6px 6px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+.custom-paginations .materialUiSelect .option {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer !important; /* Change cursor to pointer on hover */
+}
+.custom-paginations .materialUiSelect:hover,
+.custom-paginations .materialUiSelect:focus {
+  border-radius: #1976d2;
+}
+.custom-paginations .materialUiSelect:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.custom-paginations .materialUiSelect::after {
+  content: "▼"; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.custom-paginations .materialUiSelect:focus::after {
+  color: #1976d2;
+}
+.custom-paginations .materialUiSelect option {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+.custom-paginations .left {
+  display: flex;
+  align-items: center;
+}
+.custom-paginations .left .label {
+  margin-right: 10px;
+}
+.custom-paginations .right {
+  align-items: center;
+  display: flex;
+  justify-content: end;
+}
+.custom-paginations .right .prev {
+  font-size: 23px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  margin: 0px 10px;
+}
+.custom-paginations .right .next {
+  font-size: 23px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
 }/*# sourceMappingURL=custom-style.css.map */

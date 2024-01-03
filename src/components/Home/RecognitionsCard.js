@@ -7,7 +7,7 @@ const RecognitionsDisplayCard = (props) => {
             <div className="p-3">
                 <h4 className="title_lbl">Recognitions</h4>
                 <div className="row dashboard_recog_div">
-                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 appriciationdv c1 eep-scale-animation eep-shake">
+                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 appriciationdv eep-scale-animation eep-shake">
                         <div className="bg-white br-10 p-3 h-100 appriciationdv_inner ">
                             <div className="d_recog_head">
                                 <div className="d_recog_icon_div eep-shake-animation">
@@ -20,7 +20,7 @@ const RecognitionsDisplayCard = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 pointsdv c1 eep-scale-animation eep-shake" id="panel1">
+                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 pointsdv eep-scale-animation eep-shake" id="panel1">
                         <div className="bg-white br-10 p-3 h-100 appriciationdv_inner">
                             <div className="d_recog_head">
                                 <div className="d_recog_icon_div eep-shake-animation">
@@ -33,7 +33,7 @@ const RecognitionsDisplayCard = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 certificatesdv c1 eep-scale-animation eep-shake">
+                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 certificatesdv eep-scale-animation eep-shake">
                         <div className="bg-white br-10 p-3 h-100 appriciationdv_inner">
                             <div className="d_recog_head">
                                 <div className="d_recog_icon_div eep-shake-animation">
@@ -46,7 +46,7 @@ const RecognitionsDisplayCard = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 awardsdv c1 eep-scale-animation eep-shake">
+                    <div className="col-sm-6 col-xs-6 col-md-6 mb-3 awardsdv eep-scale-animation eep-shake">
                         <div className="bg-white br-10 p-3 h-100 appriciationdv_inner">
                             <div className="d_recog_head">
                                 <div className="d_recog_icon_div eep-shake-animation">
@@ -59,7 +59,7 @@ const RecognitionsDisplayCard = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-xs-6 col-md-6 badgesdv c1 eep-scale-animation eep-shake">
+                    <div className="col-sm-6 col-xs-6 col-md-6 badgesdv eep-scale-animation eep-shake">
                         <div className="bg-white br-10 p-3 h-100 appriciationdv_inner">
                             <div className="d_recog_head">
                                 <div className="d_recog_icon_div eep-shake-animation">

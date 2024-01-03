@@ -81,7 +81,7 @@ const MainContainer = (props) => {
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
             <Header />
-            <Breadcrumb />
+            <Breadcrumb isTrue={getTabs?.length > 0} />
 
             {getTabs?.length !== 0 && <Tab />}
 

@@ -8,7 +8,7 @@ import Template from "./Template"
 import Inbox from "./Inbox";
 
 const ECardIndex = () => {
-
+  debugger
   const dispatch = useDispatch();
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
@@ -59,6 +59,7 @@ const ECardIndex = () => {
   ];
 
   useEffect(() => {
+    debugger
     if (userRolePermission.ecardTemplates) {
       tabConfig.push({ title: "Templates", id: "TemplatesTab" })
     }
@@ -74,6 +75,7 @@ const ECardIndex = () => {
           config: tabConfig,
         })
       );
+
       // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(

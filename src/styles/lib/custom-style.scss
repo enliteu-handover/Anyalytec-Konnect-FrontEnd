@@ -7730,3 +7730,86 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 .CircularProgressbar {
   height: 88px !important;
 }
+
+.custom-paginations {
+  width: 100%;
+  margin-top: -38px;
+  z-index: 1000;
+  position: sticky;
+/* styles.css */
+.materialUiSelect {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 6px 6px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  .option {
+    background-color: #fff;
+    color: #000;
+    cursor: pointer !important; /* Change cursor to pointer on hover */
+  }
+}
+
+.materialUiSelect:hover,
+.materialUiSelect:focus {
+  border-radius: #1976d2;
+}
+
+.materialUiSelect:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.materialUiSelect::after {
+  content: '\25BC'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.materialUiSelect:focus::after {
+  color: #1976d2;
+}
+
+/* Style the dropdown options */
+.materialUiSelect option {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+
+  .left {
+    display: flex;
+    align-items: center;
+
+    .label {
+      margin-right: 10px;
+    }
+  }
+
+  .right {
+
+    align-items: center;
+    display: flex;
+    justify-content: end;
+
+    .prev {
+      font-size: 23px;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+      margin: 0px 10px;
+    }
+
+    .next {
+      font-size: 23px;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+    }
+  }
+}

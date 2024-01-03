@@ -41,7 +41,16 @@ const Header = () => {
         TabsActions.tabOnChange({ tabInfo: tabs?.[0] })
       );
       dispatch(
-        TabsActions.updateTabsconfig({ config: tabs?.[0] })
+        TabsActions.updateTabsconfig({
+          config: tabs?.map((res, i) => {
+            if (i == 0) {
+              return {
+                ...res,
+                active: true
+              }
+            }
+          })
+        })
       )
     }
 

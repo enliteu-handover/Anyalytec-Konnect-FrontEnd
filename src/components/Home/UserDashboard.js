@@ -174,6 +174,7 @@ const UserDashboard = () => {
   }, []);
 
   const userRecognition = (arg) => {
+    debugger
     let argTemp = JSON.parse(JSON.stringify(arg));
     let obj;
     if (arg.isBadge) {

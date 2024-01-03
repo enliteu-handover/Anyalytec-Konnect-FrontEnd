@@ -7,8 +7,9 @@ const Tab = (props) => {
 
   const dispatch = useDispatch();
   const getTabs = useSelector((state) => state?.tabs?.config);
+  console.log('getTabs:', getTabs)
 
-  // const activeTab = getTabs?.filter(res => res?.active);
+  const activeTab = Array.isArray(getTabs) ? getTabs?.filter(res => res?.active) : [];
 
   // useEffect(()=>{
   //   if (getTabs?.length && !activeTab?.length) {
@@ -18,18 +19,34 @@ const Tab = (props) => {
   //     for (let i = 0; i < elements?.length; i++) {
   //       elements[i].classList.remove('active');
   //     }
-  
+
   //     document.getElementById(activeTab?.[0]?.id)?.classList?.add('active');
-  
+
   //     dispatch(TabsActions.tabOnChange({ tabInfo: activeTab[0] }))
   //   }
   // },[])
 
-  useEffect(()=>{ 
-    dispatch(TabsActions.tabOnChange({ tabInfo: getTabs?.[0] }))
+  useEffect(() => {
+    debugger
+    // dispatch(TabsActions.tabOnChange({ tabInfo: getTabs?.[0] }))
 
-  },[dispatch,getTabs])
- 
+
+    if (getTabs?.length && !activeTab?.length) {
+      dispatch(TabsActions.tabOnChange({ tabInfo: getTabs?.[0] }))
+    }
+    else if (activeTab?.length) {
+      const elements = document.getElementsByClassName('tab-pane');
+      for (let i = 0; i < elements?.length; i++) {
+        elements[i].classList.remove('active');
+      }
+
+      document.getElementById(activeTab?.[0]?.id)?.classList?.add('active');
+
+      dispatch(TabsActions.tabOnChange({ tabInfo: activeTab[0] }))
+    }
+
+  }, [dispatch, getTabs])
+
   const tabChangeHandler = (tab) => {
     dispatch(TabsActions.tabOnChange({ tabInfo: tab }))
   }
@@ -48,8 +65,8 @@ const Tab = (props) => {
               <a
                 data-toggle="tab"
                 href={"#" + tab?.id}
-                className={`btn btn-secondaryy ${index === 0 ? "active" : ""}`}
-                // className={`btn btn-secondaryy c1 ${activeTab?.length && tab?.active ? "active" : ''}  ${!activeTab?.length && index === 0 ? "active" : ""}`}
+                // className={`btn btn-secondaryy ${index === 0 ? "active" : ""}`}
+                className={`btn btn-secondaryy c1 ${activeTab?.length && tab?.active ? "active" : ''}  ${!activeTab?.length && index === 0 ? "active" : ""}`}
                 key={'tab_' + index}
                 onClick={() => tabChangeHandler(tab)}
               >

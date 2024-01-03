@@ -1,5 +1,5 @@
 import { MaterialReactTable } from "material-react-table";
-import React from "react";
+import React, { useState } from "react";
 
 const TableComponent = ({
   columns = [],
@@ -15,9 +15,6 @@ const TableComponent = ({
     container: {
       minHeight: '300px',
       fontFamily: "helveticaneueregular !important",
-      maxHeight: "400px",
-
-
       "& .MuiTable-root": {
         borderSpacing: "0px 10px",
       },
@@ -67,6 +64,7 @@ const TableComponent = ({
       },
       "& .MuiTableFooter-root": {
         outline: "none !important",
+        display: "none !important",
       },
 
       "& .MuiTableHead-root": {
@@ -102,33 +100,48 @@ const TableComponent = ({
       }
     },
   };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setitemsPerPage] = useState(5);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const visibleData = data.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleChangeRows = (e) => {
+    setitemsPerPage(Number(e.target.value))
+    setCurrentPage(1)
+  }
   return (
     <div>
+
       <MaterialReactTable
-        paginationDisplayMode="pages"
-        // defaultFilterOpen={true}
+        // enablePagination={false}
+        showPagination={false}
+        enablePagination={false}
         enableColumnActions={false}
         enableColumnFilters={false}
         positionActionsColumn="last"
         columns={columns}
         positionGlobalFilter='left'
-        data={data}
+        data={visibleData}
         enableRowNumbers={enableRowNumbers}
         enableRowSelection={enableRowSelection}
         enableDensityToggle={false}
         enableFullScreenToggle={false}
         enableHiding={false}
-        // enablePagination={false}
-
         positionPagination='bottom'
         enableSortingRemoval={false}
         enableRowActions={actionHidden ? false : true}
         enableGlobalFilter={searchHidden ? false : true}
         enableStickyHeader
-        // muiBottomToolbarProps={}
-        enableStickyFooter
-
-
         muiTableContainerProps={{ sx: styles.container, ...customContainerSx }}
         initialState={{
           density: "comfortable",
@@ -155,15 +168,14 @@ const TableComponent = ({
             ),
           },
         }}
-
         renderRowActions={({ row, table }) =>
           action ? React.cloneElement(action, { data: data?.[row?.index] }) : ""
         }
-        muiTablePaginationProps={{
-          rowsPerPageOptions: [5, 10, 50, 100],
-          showFirstButton: false,
-          showLastButton: false,
-        }}
+        // muiTablePaginationProps={{
+        //   rowsPerPageOptions: [5, 10, 50, (data?.length > 100 ? data?.length : 100)],
+        //   showFirstButton: false,
+        //   showLastButton: false,
+        // }}
         icons={{
           SearchIcon: (props) => (
             <img
@@ -199,6 +211,31 @@ const TableComponent = ({
           },
         }}
       />
+
+      {data?.length > 0 && <div className="row custom-paginations">
+        <div className="col-sm-12 col-md-6 left">
+          <span className="label">Rows per page : </span>
+          <select
+            className="materialUiSelect" value={itemsPerPage} onChange={(e) => handleChangeRows(e)}>
+            {[5, 10, 50, (data?.length > 100 ? data?.length : 100)].map((pageSize) => (
+              <option className="option" key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-sm-12 col-md-6 text-right right">
+
+          <span>{`${currentPage}-${Math.ceil(data?.length / itemsPerPage)} of ${data?.length}`}</span>
+          <button onClick={handlePrevPage} disabled={currentPage === 1} className="prev">
+            {'﹤'}
+          </button>
+          <button onClick={handleNextPage} disabled={startIndex + itemsPerPage >= data?.length} className="next">
+            {'﹥'}
+          </button>
+        </div>
+      </div>}
+
     </div>
   );
 };

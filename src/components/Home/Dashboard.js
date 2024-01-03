@@ -1,16 +1,14 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 // import Tour from 'reactour';
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import Recognitions from "./Recognitions";
-import MyTask from "./MyTask";
-import PendingApproval from "./PendingApproval";
-import AchievementBadges from "./AchievementBadges";
-import AchievementAwards from "./AchievementAwards";
-import { eepFormatDateTime } from "../../shared/SharedService";
 import moment from "moment";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import AchievementAwards from "./AchievementAwards";
+import AchievementBadges from "./AchievementBadges";
+import PendingApproval from "./PendingApproval";
+import Recognitions from "./Recognitions";
 
 const Dashboard = (props) => {
 
@@ -53,7 +51,7 @@ const Dashboard = (props) => {
         <div className="col-sm-12 col-xs-12 col-md-6 col-lg-3 position_sticky eep-content-section eep-content-section-max">
           <div className="bg-f5f5f5 br-15 h-100 divFullHeight">
             <div className="bg-f0efef brtl-15 brtr-15 brbr-0 brbl-0 divMinusHeight">
-             <div className="d_user_basic_details p-3">
+              <div className="d_user_basic_details p-3">
                 <img src={userSessionData.id ? getUserPicture(userSessionData.id) : process.env.PUBLIC_URL + "/images/user_profile.png"} className="d_u_pic" alt="Profile Image" title={userSessionData.username} />
                 <div className="d_u_details">
                   <label className="d_u_name font-helvetica-m my-0">{userSessionData.username}</label>
