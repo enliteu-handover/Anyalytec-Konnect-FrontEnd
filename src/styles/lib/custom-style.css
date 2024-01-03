@@ -7310,7 +7310,8 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 .custom-paginations .materialUiSelect .option {
   background-color: #fff;
   color: #000;
-  cursor: pointer !important; /* Change cursor to pointer on hover */
+  cursor: pointer !important;
+  /* Change cursor to pointer on hover */
 }
 .custom-paginations .materialUiSelect:hover,
 .custom-paginations .materialUiSelect:focus {
@@ -7321,7 +7322,8 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   opacity: 0.7;
 }
 .custom-paginations .materialUiSelect::after {
-  content: "▼"; /* Unicode character for down arrow */
+  content: "▼";
+  /* Unicode character for down arrow */
   position: absolute;
   top: 50%;
   right: 12px;
@@ -7358,4 +7360,14 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   font-size: 23px;
   border: 1px solid lightgray;
   border-radius: 4px;
+}
+
+th,
+td:first-child {
+  padding-left: 20px !important;
+  /* Adjust the padding value as needed */
+}
+
+.category::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar for webkit browsers */
 }/*# sourceMappingURL=custom-style.css.map */

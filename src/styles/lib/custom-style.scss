@@ -7736,53 +7736,57 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   margin-top: -38px;
   z-index: 1000;
   position: sticky;
-/* styles.css */
-.materialUiSelect {
-  appearance: none;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  padding: 6px 6px 6px;
-  font-size: 16px;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-  .option {
+
+  /* styles.css */
+  .materialUiSelect {
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 6px 6px 6px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+
+    .option {
+      background-color: #fff;
+      color: #000;
+      cursor: pointer !important;
+      /* Change cursor to pointer on hover */
+    }
+  }
+
+  .materialUiSelect:hover,
+  .materialUiSelect:focus {
+    border-radius: #1976d2;
+  }
+
+  .materialUiSelect:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .materialUiSelect::after {
+    content: '\25BC';
+    /* Unicode character for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .materialUiSelect:focus::after {
+    color: #1976d2;
+  }
+
+  /* Style the dropdown options */
+  .materialUiSelect option {
     background-color: #fff;
     color: #000;
-    cursor: pointer !important; /* Change cursor to pointer on hover */
+    cursor: pointer;
   }
-}
-
-.materialUiSelect:hover,
-.materialUiSelect:focus {
-  border-radius: #1976d2;
-}
-
-.materialUiSelect:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.materialUiSelect::after {
-  content: '\25BC'; /* Unicode character for down arrow */
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.materialUiSelect:focus::after {
-  color: #1976d2;
-}
-
-/* Style the dropdown options */
-.materialUiSelect option {
-  background-color: #fff;
-  color: #000;
-  cursor: pointer;
-}
 
   .left {
     display: flex;
@@ -7812,4 +7816,13 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
       border-radius: 4px;
     }
   }
+}
+
+th,
+td:first-child {
+  padding-left: 20px !important;
+  /* Adjust the padding value as needed */
+}
+.category::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar for webkit browsers */
 }

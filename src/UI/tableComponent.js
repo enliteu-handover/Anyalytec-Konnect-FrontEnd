@@ -36,6 +36,7 @@ const TableComponent = ({
           p: "6px 8px",
           overflow: 'inherit',
           zIndex: 'inherit',
+          height:"40px",
           // ":after": {
           //   borderRight: "0px",
           //   right: 0,
