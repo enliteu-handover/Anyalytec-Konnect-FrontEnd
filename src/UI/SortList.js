@@ -5,10 +5,10 @@ import Select from "react-select";
 
 const SortList = (props) => {
 
-  const { readAllCommunicationsFromList,arrowSx={},totalSx={},styleSx={} ,DateSort=false,feedFilter, onChangeValues, communicationPostLists, dateReceivedOrder, isFeed } = props;
+  const { isForum, readAllCommunicationsFromList, arrowSx = {}, totalSx = {}, styleSx = {}, DateSort = false, feedFilter, onChangeValues, communicationPostLists, dateReceivedOrder, isFeed } = props;
 
   const [isDateReceived, setIsDateReceived] = useState(false);
-  const [check,setCheck]=useState(false)
+  const [check, setCheck] = useState(false)
   let checker = arr => arr.every(v => v.ideaIsRead === true);
 
   const markAllAsRead = () => {
@@ -21,7 +21,7 @@ const SortList = (props) => {
         checkBox.checked = false;
       }, 100);
       // }
-    }else{
+    } else {
       setCheck(false)
     }
   }
@@ -47,9 +47,9 @@ const SortList = (props) => {
       <div className="col-12 bg-white">
         <div className="filter bg-white">
           <div className={`arrow_div feedback_arrow_div`}
-            style={{ width: isFeed ? "100%" : "70%" ,...arrowSx }}>
+            style={{ width: isFeed ? "100%" : "70%", ...arrowSx }}>
             {isFeed ?
-              <div className="flex" style={{ padding: isFeed ? "0px" : "0px 20px",...totalSx}}>
+              <div className="flex" style={{ padding: isFeed ? "0px" : "0px 20px", ...totalSx }}>
                 <Select
                   styles={{ height: "20px", maxHeight: "20px" }}
                   options={initOptions}
@@ -64,46 +64,46 @@ const SortList = (props) => {
                 />
                 {
                   isDateReceived ? <span className="c1 i_position" style={styleSx} onClick={sortDateReceived}>Oldest
-                   <FontAwesomeIcon
-                            icon={faAngleUp}
-                            style={{ fontSize: "15px", margin: '-2px 4px'  }}
-                          />
+                    <FontAwesomeIcon
+                      icon={faAngleUp}
+                      style={{ fontSize: "15px", margin: '-2px 4px' }}
+                    />
                     {/* <i className="fa fa-angle-up arrow_postion" ></i> */}
                   </span> :
                     <span className="c1 i_position" style={styleSx} onClick={sortDateReceived}>Newest
-                    <FontAwesomeIcon
-                            icon={faAngleDown}
-                            style={{ fontSize: "15px", margin: '-2px 4px'  }}
-                          />
+                      <FontAwesomeIcon
+                        icon={faAngleDown}
+                        style={{ fontSize: "15px", margin: '-2px 4px' }}
+                      />
                       {/* <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i> */}
                     </span>
                 }
               </div>
               :
-              <span className="c1 i_position" onClick={sortDateReceived}>Date Received
+              <span className="c1 i_position" onClick={sortDateReceived}>{isForum ? (!isDateReceived ? "Newest" : "Oldest") : "Date Received"}
                 {!isDateReceived &&
-                 <FontAwesomeIcon
-                 icon={faAngleUp}
-                 style={{ fontSize: "15px", margin: '-2px 4px' }}
-               />
+                  <FontAwesomeIcon
+                    icon={faAngleUp}
+                    style={{ fontSize: "15px", margin: '-2px 4px' }}
+                  />
                   // <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
                 {isDateReceived &&
                   <FontAwesomeIcon
-                  icon={faAngleDown}
-                  style={{ fontSize: "15px", margin: '-2px 4px' }}
-                />
+                    icon={faAngleDown}
+                    style={{ fontSize: "15px", margin: '-2px 4px' }}
+                  />
                   // <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
               </span>
             }
           </div>
           {!isFeed && <div className="form-check pr-2" style={{ display: "flex", alignItems: "center" }}>
-            <input type="checkbox" className="form-check-input"  checked={check} id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
+            <input type="checkbox" className="form-check-input" checked={check} id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
             <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
           </div>}
-          {DateSort && <div className="form-check pr-2" style={{ display: "flex", alignItems: "center" ,width:'100%',maxWidth:'138px'}}>
-            <input type="checkbox"  className="form-check-input" checked={check} id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
+          {DateSort && <div className="form-check pr-2" style={{ display: "flex", alignItems: "center", width: '100%', maxWidth: '138px' }}>
+            <input type="checkbox" className="form-check-input" checked={check} id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
             <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
           </div>}
         </div>

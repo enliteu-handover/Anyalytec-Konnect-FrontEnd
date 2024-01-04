@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import DatePicker from "react-datepicker";
-import ReactTooltip from "react-tooltip";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
+import { Link } from "react-router-dom";
+import Select from "react-select";
+import ReactTooltip from "react-tooltip";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import { formatTime, getMonthNumber } from "../../shared/SharedService";
 
 const NominateAwardModalInput = (props) => {
@@ -25,7 +25,7 @@ const NominateAwardModalInput = (props) => {
   const [nominateImmediate, setNominateImmediate] = useState(false);
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const [monthOptions, setMonthOptions] = useState([]);
-  const [selectedDate, setSelectedDate] = useState({ value: 1, label: 1 });
+  const [selectedDate, setSelectedDate] = useState(null);
   const [nomiDapartment, setNomiDapartment] = useState({});
   const [nominatorValue, setNominatorValue] = useState({});
   const [judgeValue, setJudgeValue] = useState({});
@@ -77,7 +77,7 @@ const NominateAwardModalInput = (props) => {
         selectedMonthArr.push({
           month: months[initVal],
           year: selectedYear,
-          date: selectedDate.value,
+          date: selectedDate?.value,
           index: initVal
         });
 
@@ -94,7 +94,7 @@ const NominateAwardModalInput = (props) => {
             selectedMonthArr.push({
               month: months[initVal],
               year: selectedYear,
-              date: selectedDate.value,
+              date: selectedDate?.value,
               index: initVal
             });
           }
@@ -102,8 +102,8 @@ const NominateAwardModalInput = (props) => {
 
         for (let i = 0; i < selectedMonthArr.length; i++) {
           const daysInMonth = new Date(selectedMonthArr[i]['year'], selectedMonthArr[i]['index'] + 1, 0).getDate();
-          if ((Number(selectedDate.value) <= daysInMonth)) {
-            selectedMonthArr[i].date = selectedDate.value;
+          if ((Number(selectedDate?.value) <= daysInMonth)) {
+            selectedMonthArr[i].date = selectedDate?.value;
           } else {
             selectedMonthArr[i].date = daysInMonth;
           }
@@ -156,6 +156,8 @@ const NominateAwardModalInput = (props) => {
 
         });
     }
+    // let assignObjectTemp = JSON.parse(JSON.stringify(assignObject));
+    // getAssignObject(assignObjectTemp);
   };
 
   const changeNominatorHandler = (event) => {
@@ -252,9 +254,13 @@ const NominateAwardModalInput = (props) => {
     setScheduleTime(null);
     setStartDate(null);
     setEndDate(null);
+    setNomiDapartment({});
+    setNominatorValue({});
+    setJudgeValue({});
+    setSelectedDate(null);
     getSelectedMonth([]);
 
-    setSelectedDate({ value: 1, label: 1 })
+    // setSelectedDate({ value: 1, label: 1 })
     setMonthOptions([{ value: 1, label: 1 }]);
     setAssignObject(asgnObj);
     getAssignObject(asgnObj);
@@ -524,7 +530,7 @@ const NominateAwardModalInput = (props) => {
                               className={`form-control a_designation basic-single p-0 b-dbdbdb border_input`}
                               value={selectedDate}
                               onChange={(event) => dateOnChange(event)}
-                              defaultValue={selectedDate}
+                              // defaultValue={selectedDate}
                               maxMenuHeight={150}
                             />
                           </div>

@@ -59,7 +59,7 @@ const ComposeCardModal = (props) => {
   }, [composeInfoData, composeInputData]);
 
   const handleECardSubmit = async () => {
-    debugger
+    
     let finalData = { ...composeInfoData, ...composeInputData };
 
 
@@ -78,38 +78,43 @@ const ComposeCardModal = (props) => {
       await httpHandler(obj)
         .then((res) => {
           finalData['imageByte'] = res?.data?.data?.[0]?.url ?? ""
+        }).catch((c) => {
+          setSubmitResponseMsg("Request Entity Too Large");
+          setSubmitResponseClassName("response-err");
+          modalSubmitInfo({ status: false, message: "" });
+          return
         })
     }
 
+    if (finalData?.templateId || finalData['imageByte']) {
 
-
-
-    //let finalData = Object.assign({}, composeInfoData, composeInputData);
-    if (composeCardData.isSlider) {
-      delete finalData.contentType;
-      delete finalData.imagebyte;
-      delete finalData.imageByte;
+      //let finalData = Object.assign({}, composeInfoData, composeInputData);
+      if (composeCardData.isSlider) {
+        delete finalData.contentType;
+        delete finalData.imagebyte;
+        delete finalData.imageByte;
+      }
+      if (!composeCardData.isSlider) {
+        delete finalData.templateId;
+      }
+      delete finalData?.imagebyte;
+      const obj = {
+        url: URL_CONFIG.SEND_ECARD,
+        method: "post",
+        payload: finalData,
+      };
+      httpHandler(obj)
+        .then((response) => {
+          const resMsg = response?.data?.message;
+          modalSubmitInfo({ status: true, message: resMsg });
+        })
+        .catch((error) => {
+          const errMsg = error?.response?.data?.message;
+          setSubmitResponseMsg(errMsg);
+          setSubmitResponseClassName("response-err");
+          modalSubmitInfo({ status: false, message: "" });
+        });
     }
-    if (!composeCardData.isSlider) {
-      delete finalData.templateId;
-    }
-    delete finalData?.imagebyte;
-    const obj = {
-      url: URL_CONFIG.SEND_ECARD,
-      method: "post",
-      payload: finalData,
-    };
-    httpHandler(obj)
-      .then((response) => {
-        const resMsg = response?.data?.message;
-        modalSubmitInfo({ status: true, message: resMsg });
-      })
-      .catch((error) => {
-        const errMsg = error?.response?.data?.message;
-        setSubmitResponseMsg(errMsg);
-        setSubmitResponseClassName("response-err");
-        modalSubmitInfo({ status: false, message: "" });
-      });
   }
 
   return (

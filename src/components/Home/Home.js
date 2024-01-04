@@ -67,7 +67,7 @@ const Home = () => {
 
     if (userRolePermission.employeeEngagementDashboard) {
       tabConfig.push({
-        title: "Rewards & Recognition",
+        title: "Organization Stats",
         id: "Rewards_Recognition",
       });
     }

@@ -544,7 +544,7 @@ const RewardsRecognition = (props) => {
 
   return (
     <React.Fragment>
-      <PageHeader title="Rewards & Recognition" filter={<TypeBasedFilter config={TYPE_BASED_FILTER_WITH_BETWEEN_DATES} getFilterParams={getFilterParams} />} />
+      <PageHeader title="Organization Stats" filter={<TypeBasedFilter config={TYPE_BASED_FILTER_WITH_BETWEEN_DATES} getFilterParams={getFilterParams} />} />
       <div className="py-4">
         <div className="row m-0" id="content-start">
           <div className="col-md-12">

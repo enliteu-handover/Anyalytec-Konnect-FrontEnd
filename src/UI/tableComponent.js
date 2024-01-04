@@ -13,7 +13,7 @@ const TableComponent = ({
 }) => {
   const styles = {
     container: {
-      minHeight: '300px',
+      minHeight: '420px',
       fontFamily: "helveticaneueregular !important",
       "& .MuiTable-root": {
         borderSpacing: "0px 10px",

@@ -213,6 +213,7 @@ const URL_CONFIG = {
   GET_LIBRARY_SURVEY: "/surveys/get-library",
   SHOW_LIBRARY_SURVEY: "/surveys/surveylibraryshow",
   USER_VALIDATION: "/auth/user_validation",
+  USER_CONTACT_UPDATE: "/users/user-contact",
 
 
   GIFT_VOUCHER: "/gifts/getRedemption",

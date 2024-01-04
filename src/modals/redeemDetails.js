@@ -20,11 +20,8 @@ const RedomModalDetails = (props) => {
                                     {name}
                                 </label>
                                 <div className="reedem-details-flex">
-                                    <div>
-                                        <img width="100%" src={images?.thumbnail ?? ''} className="details-img" />
-                                    </div>
-                                    <div className="details">
-
+                                    <img width="100%" src={images?.thumbnail ?? ''} className="details-img" />
+                                    {/* <div className="details">
                                         <div style={{ marginTop: '6px' }}>
                                             <div style={{ fontSize: '14px', marginBottom: '6px', fontWeight: '500' }}>Enter Points:</div>
                                             <input placeholder="Points" type="text" className="form-control field-input-outline"
@@ -42,15 +39,32 @@ const RedomModalDetails = (props) => {
                                             />
                                             <div className="min-max"> Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}</div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                <div style={{ fontSize: '14px', marginBottom: '10px', fontWeight: '500' }}>Description:</div>
+                                <div style={{ fontSize: '13px', marginBottom: '10px' }}>Description:</div>
                                 <label className="redeemIcon_label discription">
                                     {description}
                                 </label>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div style={{ fontSize: '13px' }}>Enter Points:</div>
+                                        <input placeholder="Points" type="text" className="form-control field-input-outline"
+                                            defaultValue={10}
+                                        />
+                                        <div className="min-max"> Min: {price?.min}, Max: {price?.max}</div>
+                                    </div>
 
+                                    <div className="col-md-6">
+                                        <div style={{ fontSize: '13px' }}>Quantity:</div>
+                                        <input placeholder="Quantity" type="text" className="form-control field-input-outline"
+                                            defaultValue={1}
+                                        />
+                                        <div className="min-max"> Min: 1, Max: {Math.round(parseInt(price?.max) / user_points)}</div>
+
+                                    </div>
+                                </div>
                                 <a
-                                    style={{ width: '100%', color: "#fff", textAlign: 'center' }}
+                                    style={{ width: '100%', color: "#fff", textAlign: 'center', marginTop: "20px" }}
                                     className="eep-btn eep-btn-success eep-btn-xsml add_bulk_upload_button c1"
                                     data-toggle="modal"
                                     data-target="#RedomModal"

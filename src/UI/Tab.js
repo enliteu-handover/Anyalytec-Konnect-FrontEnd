@@ -27,7 +27,7 @@ const Tab = (props) => {
   // },[])
 
   useEffect(() => {
-    debugger
+
     // dispatch(TabsActions.tabOnChange({ tabInfo: getTabs?.[0] }))
 
 
@@ -62,16 +62,18 @@ const Tab = (props) => {
           {getTabs?.length &&
             getTabs?.map((tab, index) => (
 
-              <a
+              <div
                 data-toggle="tab"
                 href={"#" + tab?.id}
                 // className={`btn btn-secondaryy ${index === 0 ? "active" : ""}`}
-                className={`btn btn-secondaryy c1 ${activeTab?.length && tab?.active ? "active" : ''}  ${!activeTab?.length && index === 0 ? "active" : ""}`}
+                className={`btn btn-secondaryy-color c1 ${activeTab?.length && tab?.active ? "active" : ''}
+                  ${!activeTab?.length && index === 0 ? "active" : ""}`}
                 key={'tab_' + index}
                 onClick={() => tabChangeHandler(tab)}
+                // style={{ padding: !activeTab?.length && "0.3rem 30px !important" }}
               >
                 {tab?.title}
-              </a>
+              </div>
             ))}
         </div>
       </div>

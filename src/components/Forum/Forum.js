@@ -6,6 +6,7 @@ import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
@@ -15,7 +16,6 @@ import ForumFollowingList from "./ForumFollowingList";
 import ForumHotTopicsList from "./ForumHotTopicsList";
 import ForumList from "./ForumList";
 import MyForumPosts from "./MyForumPosts";
-import { pageLoaderHandler } from "../../helpers";
 
 const Forum = () => {
 
@@ -192,6 +192,7 @@ const Forum = () => {
 	}
 
 	const getForumList = (paramsInfo) => {
+		
 		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
@@ -208,10 +209,11 @@ const Forum = () => {
 		}
 		httpHandler(obj)
 			.then((forumdata) => {
+				forumdata?.data?.sort((a, b) => a.id - b.id);
 				if (listReverse) {
-					setForumList([...forumdata.data]);
+					setForumList([...forumdata?.data]);
 				} else {
-					setForumList([...forumdata.data].reverse());
+					setForumList([...forumdata?.data].reverse());
 				}
 				pageLoaderHandler('hide')
 			})
@@ -268,11 +270,12 @@ const Forum = () => {
 	}, []);
 
 	useEffect(() => {
+		
 		if (activeTab?.id === "forumpot") {
 			getForumList(filterParams);
 			getForumFollowingList();
 		}
-	}, [activeTab]);
+	}, []);
 
 
 	const readForum = (arg) => {
@@ -431,8 +434,9 @@ const Forum = () => {
 	}
 
 	const dateReceived = (isSort) => {
+		
 		setListReverse(isSort);
-		if (isSort) {
+		if (!isSort) {
 			setForumList([...forumList].reverse());
 		}
 	}

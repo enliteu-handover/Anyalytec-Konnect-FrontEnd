@@ -307,8 +307,8 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle=collapse] {
     font-size: 14px;
   }
   .sidebar.toggled .nav-item .collapse {
-    top: 0 !important;
-    left: calc(40px + 0.5rem) !important;
+    top: 11px !important;
+    left: calc(53px + 0.5rem) !important;
     border-radius: 0.35rem !important;
   }
   #accordionSidebar.sidebar.toggled,
@@ -718,10 +718,30 @@ a.eep-btn:hover {
   align-items: center;
 }
 
+.btn-secondaryy-color {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  padding: 0.3rem 12px !important;
+  font-size: 14px;
+  border: none;
+  border-radius: 16px 16px 0px 0px !important;
+  overflow: hidden !important;
+  cursor: pointer;
+}
+
+.btn-secondaryy-color.active {
+  background-color: var(--eep-tap-bg-color) !important;
+  color: var(--eep-header-color);
+  border-color: transparent !important;
+  border-radius: 16px 16px 0px 0px !important;
+  padding: 0.3rem 12px !important;
+  overflow: hidden !important;
+}
+
 .btn-secondaryy {
   background-color: #e6e6e6 !important;
   border-color: transparent !important;
-  padding: 4px 12px !important;
+  padding: 4px 12px;
 }
 
 .btn-secondaryy:not(:disabled):not(.disabled).active:focus,
@@ -1117,6 +1137,15 @@ a.eep-btn:hover {
   background-color: #9dc7b2 !important;
   border-radius: 5px;
   color: #ffffff;
+}
+
+.backgroundActive {
+  background-color: #f8f8f8;
+  border-radius: 5px;
+}
+
+.backgroundUnactive {
+  background-color: #fff;
 }
 
 .sr_container_height {

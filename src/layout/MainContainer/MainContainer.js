@@ -80,7 +80,7 @@ const MainContainer = (props) => {
         <Sidebar theme={props.theme} />
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
-            <Header />
+            <Header /><br />
             <Breadcrumb isTrue={getTabs?.length > 0} />
 
             {getTabs?.length !== 0 && <Tab />}

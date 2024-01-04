@@ -1,16 +1,14 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import ManageAwardActions from "../../UI/CustomComponents/ManageAwardActions";
 import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
-import ManageAwardActions from "../../UI/CustomComponents/ManageAwardActions"
+import TableComponent from "../../UI/tableComponent";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import StopAllotedAwardModal from "../../modals/StopAllotedAwardModal";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const ManageAwards = () => {
 
@@ -107,14 +105,14 @@ const ManageAwards = () => {
       header: "Last Run",
       accessorKey: "lastRun",
       // component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
-      accessorFn: (row) =>row?.lastRun ?  moment(row.lastRun).format('l') : '--',
+      accessorFn: (row) => row?.lastRun ? moment(row.lastRun).format('l') : '--',
 
     },
     {
       header: "Next Run",
       accessorKey: "nextRun",
       // component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
-      accessorFn: (row) => row.nextRun ?  moment(row.nextRun).format('l') : '--',
+      accessorFn: (row) => row.nextRun ? moment(row.nextRun).format('l') : '--',
 
     },
     // {
@@ -190,7 +188,7 @@ const ManageAwards = () => {
   }, []);
 
   const confirmState = (arg) => {
-    
+
     if (arg) {
       //if(deletionData.entityType === "nomi_award") {
       const obj = {
@@ -246,40 +244,39 @@ const ManageAwards = () => {
         ></EEPSubmitModal>
       )}
       {deletionState && <StopAllotedAwardModal deleteMessage={{ msg: "Are you sure?", subMsg: "Do you really want to delete this?" }} confirmState={confirmState} />}
-      <div className="py-1" style={{position:'relative'}}>
-      <div className="tabSwitch">
-      <button
-        onClick={() => clickHandler("nomi_award")}
-        className={tab === "nomi_award" ? "tabButtonActive" : "tabButton"}
-      >
-        Nomination Schedules
-      </button>
-      <button
-        onClick={() => clickHandler("spot_award")}
-        className={tab === "spot_award" ? "tabButtonActive" : "tabButton"}
-      >
-        Spot
-      </button>
-     </div>
+      <div className="py-1" style={{ position: 'relative' }}>
+        <div className="tabSwitch">
+          <button
+            onClick={() => clickHandler("nomi_award")}
+            className={tab === "nomi_award" ? "tabButtonActive" : "tabButton"}
+          >
+            Nomination Schedules
+          </button>
+          <button
+            onClick={() => clickHandler("spot_award")}
+            className={tab === "spot_award" ? "tabButtonActive" : "tabButton"}
+          >
+            Spot
+          </button>
+        </div>
 
-      <div className="award_manage_div">
-     { tab === "nomi_award" && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
-
-              <TableComponent
+        <div className="award_manage_div">
+          {tab === "nomi_award" && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+            <TableComponent
               data={awardManage ?? []}
               columns={manageNominationSchedulesTableHeaders}
               action={<ManageAwardActions triggerModal={triggerModal} />}
-              />
-              </div>}
+            />
+          </div>}
 
-               { tab === "spot_award" && <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
-              <TableComponent
+          {tab === "spot_award" && <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
+            <TableComponent
               data={awardManage ?? []}
               columns={manageSpotTableHeaders}
               action={<ManageAwardActions triggerModal={triggerModal} />}
-              />
-              </div>}
-      </div>
+            />
+          </div>}
+        </div>
 
         {/* <div className="row award_manage_div" id="content-start">
           <div className="col-md-12">

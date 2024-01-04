@@ -7823,6 +7823,24 @@ td:first-child {
   padding-left: 20px !important;
   /* Adjust the padding value as needed */
 }
-.category::-webkit-scrollbar {
-  display: none; /* Hide the scrollbar for webkit browsers */
+
+::-webkit-scrollbar {
+  display: none;
+  /* Hide the scrollbar for webkit browsers */
+}
+
+.ecard_sliders {
+  display: flex;
+  overflow: auto;
+
+  .parent_slider_img {
+    img {
+      width: 240px !important;
+    }
+  }
+}
+
+.ecard_sliders::-webkit-scrollbar {
+  display: none;
+  /* Hide the scrollbar for webkit browsers */
 }

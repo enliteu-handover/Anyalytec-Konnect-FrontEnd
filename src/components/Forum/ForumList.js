@@ -44,6 +44,7 @@ const ForumList = (props) => {
       <SortList
         readAllCommunicationsFromList={readAllList}
         dateReceivedOrder={dateReceivedOrder}
+        isForum={true}
         communicationPostLists={forumList} />
 
       <div className="forumshorting_div forumj_left_container_wrapper pr-1">

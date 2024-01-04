@@ -62,7 +62,7 @@ const UserDashboard = () => {
   }, []);
 
   const userDashboardDetails = (arg) => {
-    debugger
+    
     if (arg) {
       const obj = {
         url: URL_CONFIG.USER_DASHBOARD,
@@ -80,7 +80,7 @@ const UserDashboard = () => {
   }
 
   useEffect(() => {
-    debugger
+    
     if (userId) {
       setRecUserData(userId.userID);
       userDashboardDetails(userId.userID);
@@ -174,7 +174,7 @@ const UserDashboard = () => {
   }, []);
 
   const userRecognition = (arg) => {
-    debugger
+    
     let argTemp = JSON.parse(JSON.stringify(arg));
     let obj;
     if (arg.isBadge) {

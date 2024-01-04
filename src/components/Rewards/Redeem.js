@@ -22,13 +22,6 @@ const categoryCampleJson = [
     },
   }, {
     id: 1,
-    name: "Amazon Shopping Voucher",
-    brand_logo: {
-      "small": "../images/category/icons8-amazon.svg",
-      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
-    },
-  }, {
-    id: 2,
     name: "Home Furnishings",
     brand_logo: {
       "small": "../images/category/icons8-home.svg",
@@ -36,7 +29,7 @@ const categoryCampleJson = [
     },
   },
   {
-    id: 3,
+    id: 2,
     name: "Travel",
     brand_logo: {
       "small": "../images/category/icons8-plane-50.svg",
@@ -44,7 +37,7 @@ const categoryCampleJson = [
     },
   },
   {
-    id: 8,
+    id: 3,
     name: "Gaming",
     brand_logo: {
       "small": "../images/category/icons8-game.svg",
@@ -52,34 +45,74 @@ const categoryCampleJson = [
     },
   },
   {
-    id: 5,
+    id: 4,
     name: "Entertainment",
     brand_logo: {
       "small": "../images/category/entertainment.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   }, {
-    id: 6,
+    id: 5,
     name: "Health & Beauty",
     brand_logo: {
       "small": "../images/category/health.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   }, {
-    id: 7,
+    id: 6,
     name: "Electronics",
     brand_logo: {
       "small": "../images/category/electronics.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   }, {
-    id: 8,
+    id: 7,
     name: "Food & Beverages",
     brand_logo: {
       "small": "../images/category/rice-bowl.svg",
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
     },
   },
+  {
+    id: 8,
+    name: "Book",
+    brand_logo: {
+      "small": "../images/category/icons8-book.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  },
+  {
+    id: 9,
+    name: "Apparel",
+    brand_logo: {
+      "small": "../images/category/icons8-apparel.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  },
+  {
+    id: 10,
+    name: "Kitchen",
+    brand_logo: {
+      "small": "../images/category/icons8-kitchen.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  },
+  {
+    id: 11,
+    name: "Sports",
+    brand_logo: {
+      "small": "../images/category/icons8-stretching.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  },
+  {
+    id: 12,
+    name: "Pets",
+    brand_logo: {
+      "small": "../images/category/icons8-pets.svg",
+      "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/266_logo.JPG"
+    },
+  }
 ];
 
 const productSampleJson = [
@@ -1121,8 +1154,9 @@ const Redeem = () => {
 
       <div className="category">
         {state?.data?.map((item, i) => {
-          return <div className={`category_button ${i === 0
-            // (state.isSelect?.id ? state.isSelect?.id === item?.id : i == 1)
+          return <div className={`category_button ${
+            // i === 0
+            (state.isSelect?.id ? state.isSelect?.id === item?.id : i == 0)
             && 'select'}`} onClick={() => selectCtegorys(item)}>
             {i !== 0 && <img width={"14px"} height={"14px"} src={item?.brand_logo?.small} />}
             <span>&nbsp;{item?.name}&nbsp;</span>
