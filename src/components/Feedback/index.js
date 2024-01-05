@@ -152,8 +152,9 @@ const Feedback = () => {
 
     httpHandler(obj)
       .then((all_feed) => {
-        setFeedbacks(all_feed?.data?.data);
-        setSearchFeedbacks(all_feed?.data?.data);
+        const data = all_feed?.data?.data?.sort((a, b) => a.id - b.id)?.reverse();
+        setFeedbacks(data);
+        setSearchFeedbacks(data);
         pageLoaderHandler('hide')
       })
       .catch((error) => {

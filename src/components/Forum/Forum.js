@@ -209,11 +209,13 @@ const Forum = () => {
 		}
 		httpHandler(obj)
 			.then((forumdata) => {
-				forumdata?.data?.sort((a, b) => a.id - b.id);
+				const data = forumdata?.data?.sort((a, b) => a.id - b.id);
 				if (listReverse) {
-					setForumList([...forumdata?.data]);
+					let List = data
+					setForumList(List);
 				} else {
-					setForumList([...forumdata?.data].reverse());
+					let List = data.reverse()
+					setForumList(List);
 				}
 				pageLoaderHandler('hide')
 			})
