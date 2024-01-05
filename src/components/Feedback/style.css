@@ -195,10 +195,6 @@
   margin-bottom: 0px !important;
   margin-top: 0px !important;
 }
-.ideabox-profile-container-f .ideabox_user_name_size {
-  color: #403C47;
-  font-size: 15px;
-}
 .ideabox-profile-container-f .ideabox_contentt_size {
   color: #717074;
   font-weight: 100;
@@ -285,20 +281,9 @@
   background: #fff;
   border: 2px solid #EAEAEA !important;
 }
-.feedback-listview .ideashorting_div_child {
-  background-color: white;
-  align-items: center;
-  border: none;
-  border-radius: 12px;
-  border-bottom: 0px solid #EAEAEA !important;
-  opacity: 1;
-}
 .feedback-listview .ideashorting_div_child .funtional_parts {
   display: flex;
   justify-content: end;
-}
-.feedback-listview .ideaMarkedAsRead {
-  background-color: #F9f9f9 !important;
 }
 
 .feedback_arrow_div {

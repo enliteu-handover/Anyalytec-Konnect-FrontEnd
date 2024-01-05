@@ -34,7 +34,6 @@ const Awards = () => {
   const history = useHistory();
   const routerData = location.state || { activeTab: (window.location.hash.substring(1)?.split('?')?.[0]) || 'awardTab' };
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-
   const breadcrumbArr = [
     {
       label: "Home",

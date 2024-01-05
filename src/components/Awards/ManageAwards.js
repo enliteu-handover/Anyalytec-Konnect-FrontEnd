@@ -269,7 +269,7 @@ const ManageAwards = () => {
             />
           </div>}
 
-          {tab === "spot_award" && <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
+          {tab === "spot_award" && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
             <TableComponent
               data={awardManage ?? []}
               columns={manageSpotTableHeaders}

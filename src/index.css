@@ -10987,10 +10987,16 @@ a.eep-btn:hover {
   align-items: center;
 }
 
+.btn-secondaryy-color {
+  background-color: #e6e6e6 !important;
+  border-color: transparent !important;
+  padding: 0.3rem 30px !important;
+}
+
 .btn-secondaryy {
   background-color: #e6e6e6 !important;
   border-color: transparent !important;
-  padding: 4px 12px !important;
+  padding: 4px 12px;
 }
 
 .btn-secondaryy:not(:disabled):not(.disabled).active:focus,
@@ -19861,11 +19867,23 @@ input#cert-image-upload.hidden {
 
 .redeem_icon_div {
   width: 100%;
-  height: 120px;
+  height: 140px;
+  position: relative;
+}
+.redeem_icon_div .discount_off {
+  background: #151419;
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  padding: 2px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 11px;
 }
 
 .reedem-details-flex {
   display: flex;
+  justify-content: space-between;
 }
 .reedem-details-flex .details {
   padding: 0px 10px;
@@ -19875,7 +19893,8 @@ input#cert-image-upload.hidden {
 }
 
 .redeem_icon {
-  margin: 6px auto;
+  -o-object-fit: none;
+     object-fit: none;
 }
 
 .redeemIcon_label {
@@ -21760,6 +21779,10 @@ table.eep_table_spacer tbody tr td:last-child {
   color: #1076b4;
 }
 
+.socialWall .sw_from_time {
+  margin-top: 6px;
+}
+
 .sw_from_time_val {
   color: #a0a0a0;
 }
@@ -22899,7 +22922,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   position: absolute !important;
   right: 0px;
   left: auto;
-  top: 12px;
+  top: 9px;
 }
 
 .sidebaricondownup {
@@ -22911,7 +22934,7 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   position: absolute !important;
   right: 0px;
   left: auto;
-  top: 12px;
+  top: 9px;
 }
 
 .sidebaricondown {
@@ -22988,6 +23011,110 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
 
 .error-validation-input {
   border: 1px solid red !important;
+}
+
+.CircularProgressbar {
+  height: 88px !important;
+}
+
+.custom-paginations {
+  width: 100%;
+  margin-top: -38px;
+  z-index: 1000;
+  position: sticky;
+  /* styles.css */
+  /* Style the dropdown options */
+}
+.custom-paginations .materialUiSelect {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 6px 6px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+.custom-paginations .materialUiSelect .option {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer !important;
+  /* Change cursor to pointer on hover */
+}
+.custom-paginations .materialUiSelect:hover,
+.custom-paginations .materialUiSelect:focus {
+  border-radius: #1976d2;
+}
+.custom-paginations .materialUiSelect:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.custom-paginations .materialUiSelect::after {
+  content: "▼";
+  /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.custom-paginations .materialUiSelect:focus::after {
+  color: #1976d2;
+}
+.custom-paginations .materialUiSelect option {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+.custom-paginations .left {
+  display: flex;
+  align-items: center;
+}
+.custom-paginations .left .label {
+  margin-right: 10px;
+}
+.custom-paginations .right {
+  align-items: center;
+  display: flex;
+  justify-content: end;
+}
+.custom-paginations .right .prev {
+  font-size: 23px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  margin: 0px 10px;
+}
+.custom-paginations .right .next {
+  font-size: 23px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+
+th,
+td:first-child {
+  padding-left: 20px !important;
+  /* Adjust the padding value as needed */
+}
+
+::-webkit-scrollbar {
+  display: none;
+  /* Hide the scrollbar for webkit browsers */
+}
+
+.ecard_sliders {
+  display: flex;
+  overflow: auto;
+}
+.ecard_sliders .parent_slider_img img {
+  width: 240px !important;
+}
+
+.ecard_sliders::-webkit-scrollbar {
+  display: none;
+  /* Hide the scrollbar for webkit browsers */
 }
 
 .eep-progress {

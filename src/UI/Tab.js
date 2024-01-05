@@ -7,7 +7,6 @@ const Tab = (props) => {
 
   const dispatch = useDispatch();
   const getTabs = useSelector((state) => state?.tabs?.config);
-  console.log('getTabs:', getTabs)
 
   const activeTab = Array.isArray(getTabs) ? getTabs?.filter(res => res?.active) : [];
 
