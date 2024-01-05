@@ -228,7 +228,7 @@ const TableComponent = ({
         </div>
         <div className="col-sm-12 col-md-6 text-right right">
 
-          <span>{`${startIndex + 1}-${(startIndex + itemsPerPage)} of ${data?.length}`}</span>
+          <span>{`${startIndex + 1}-${data?.length <= (startIndex + itemsPerPage) ? data?.length : (startIndex + itemsPerPage)} of ${data?.length}`}</span>
           {/* <span>{`${currentPage}-${Math.ceil(data?.length / itemsPerPage)} of ${data?.length}`}</span> */}
           <button onClick={handlePrevPage} disabled={currentPage === 1} className="prev">
             {'﹤'}
