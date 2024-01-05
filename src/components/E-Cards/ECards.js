@@ -290,7 +290,7 @@ const ECards = () => {
             >
               <div className="card-body">
                 <div className="row birthdy_div">
-                  <div className="col-md-9">
+                  <div className="col-md-9" style={{ paddingRight: "6px" }}>
                     {cardTemplates && cardTemplates.birthday && cardTemplates.birthday.length > 0 && (
                       // <Slider {...settings}>
                       <div className="ecard_sliders">
@@ -328,7 +328,7 @@ const ECards = () => {
                       <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
                     )}
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-md-3" style={{ padding: "0px" }}>
                     {addECardState && addECardState.birthday && (
                       <React.Fragment>
                         <AddEcard getImageData={getImageData} eCardCategory="birthday" />

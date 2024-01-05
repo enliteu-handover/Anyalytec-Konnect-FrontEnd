@@ -275,7 +275,7 @@ const Forum = () => {
 			getForumList(filterParams);
 			getForumFollowingList();
 		}
-	}, []);
+	}, [activeTab]);
 
 
 	const readForum = (arg) => {

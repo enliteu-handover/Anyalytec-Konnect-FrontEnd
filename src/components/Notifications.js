@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ActionCustomComponent from "../UI/CustomComponents/ActionCustomComponent";
 import PageHeader from "../UI/PageHeader";
-import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { REST_CONFIG, URL_CONFIG } from "../constants/rest-config";
 import { httpHandler } from "../http/http-interceptor";
@@ -296,19 +295,21 @@ const Notifications = () => {
 										<div className={`c1 mark_unread_icon_div ${isChecked ? "check_optionsb" : "check_optionsn"}`} title="Mark As Unread" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.un_read, }} onClick={() => readUnreadAllNotifications("unReadAll")}></div>
 									</div>
 								</div> */}
-							<div className="d-flex align-items-center align-content-center action-border">
-								<label className="mb-0 mr-2">Options</label>
-								<div className="d-flex align-items-center align-content-center section_two">
-									<div className="text-center">
-										<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
-										<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
-											{/* <Link to="#" className={`dropdown-item mark_all_raed c1`}  onClick={() =>  readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
+							<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<div className="d-flex align-items-center align-content-center action-border">
+									<label className="mb-0 mr-2 c1" style={{ color: "#000000de" }}>Options</label>
+									<div className="d-flex align-items-center align-content-center section_two">
+										<div className="text-center">
+											<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.colon, }}></a>
+											<div className="eep-dropdown-menu dropdown-menu dropdown-menu-left shadow pt-4 pb-4">
+												{/* <Link to="#" className={`dropdown-item mark_all_raed c1`}  onClick={() =>  readUnreadAllNotifications("readAll")} >Mark All As Read</Link>
 												<Link to="#" className="dropdown-item mark_all_unraed c1" onClick={() => readUnreadAllNotifications("unReadAll")} >Mark All As Unread</Link> */}
-											<Link to="#" className="dropdown-item clearr c1" onClick={() => clearNotifications({ data: false, action: "clearAll" })}>Clear All</Link>
+												<Link to="#" className="dropdown-item clearr c1" onClick={() => clearNotifications({ data: false, action: "clearAll" })}>Clear All</Link>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</a>
 						</div>
 					</div>
 				</div>

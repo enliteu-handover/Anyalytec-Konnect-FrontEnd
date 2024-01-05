@@ -48,10 +48,10 @@ const ChangePassword = () => {
       checkResponseClassName("response-err");
       setConfirmPasswordErr("Password doesn't matched");
     }
-    if (passWord === cPassWord) {
+    if (passWord && passWord === cPassWord && cPassWord) {
       if (!passwordValid) {
         checkResponseClassName("response-err");
-        setConfirmPasswordErr("Please enter the strange password, e.g. minimum 8 characters, with at least one uppercase letter and at least one special character.");
+        setConfirmPasswordErr("Please enter a strong password, e.g. minimum 8 characters, with at least one uppercase letter and at least one special character.");
         setDisable(true);
         setFormIsValid(false);
       } else if (passWord !== "" && cPassWord !== "") {

@@ -94,9 +94,9 @@ const ForgotPassword = () => {
                   placeholder="email@domain.com"
                   onChange={emailChangeHandler}
                   onBlur={emailBlurHandler}
-                />
+                /><br />
                 {emailInputIsInvalid && (
-                  <p className="error-text">Please enter valid email</p>
+                  <p className="error-text" style={{ marginBottom: 4 }}>Please enter valid email</p>
                 )}
                 {responseMsg && <p className={`${responseClassName} mb-0 mt-3 w-100 text-center response-text`}>{responseMsg}</p>}
               </div>

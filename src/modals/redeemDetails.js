@@ -41,13 +41,13 @@ const RedomModalDetails = (props) => {
                                         </div>
                                     </div> */}
                                 </div>
-                                <div style={{ fontSize: '13px', marginBottom: '10px' }}>Description:</div>
-                                <label className="redeemIcon_label discription">
+                                <div style={{ fontSize: '13px', marginBottom: '10px', color: "#000" }}>Description:</div>
+                                <label className="redeemIcon_label discription" style={{ opacity: 0.7 }}>
                                     {description}
                                 </label>
                                 <div className="row">
                                     <div className="col-md-6">
-                                        <div style={{ fontSize: '13px' }}>Enter Points:</div>
+                                        <div style={{ fontSize: '13px', color: "#000" }}>Enter Points:</div>
                                         <input placeholder="Points" type="text" className="form-control field-input-outline"
                                             defaultValue={10}
                                         />
@@ -55,7 +55,7 @@ const RedomModalDetails = (props) => {
                                     </div>
 
                                     <div className="col-md-6">
-                                        <div style={{ fontSize: '13px' }}>Quantity:</div>
+                                        <div style={{ fontSize: '13px', color: "#000" }}>Quantity:</div>
                                         <input placeholder="Quantity" type="text" className="form-control field-input-outline"
                                             defaultValue={1}
                                         />

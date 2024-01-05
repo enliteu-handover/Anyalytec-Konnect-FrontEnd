@@ -28,18 +28,6 @@ const LoginForm = () => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
-  // useEffect(() => {
-
-  //   axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
-  //     .then(response => {
-  //       console.log('Qwik gifts---', response?.data);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-
-  // }, [])
-
   useEffect(() => {
     setFormIsValid(false);
 
@@ -81,12 +69,7 @@ const LoginForm = () => {
         username: userName
       }
     };
-    const user_validation = await httpHandler(validate_login_uder)
-    if (!user_validation?.data?.is_valid) {
-      const errMsg = "You are not a valid user, please contact the administrator."
-      setLoginError(errMsg);
-      return
-    }
+
     setUserNameTouched(true);
     setPasswordTouched(true);
 
@@ -96,6 +79,12 @@ const LoginForm = () => {
     };
 
     if (formIsValid) {
+      const user_validation = await httpHandler(validate_login_uder)
+      if (!user_validation?.data?.is_valid) {
+        const errMsg = "You are not a valid user, please contact the administrator."
+        setLoginError(errMsg);
+        return
+      }
       const obj = {
         url: URL_CONFIG.AUTH_LOGIN_URL,
         method: "post",
@@ -114,7 +103,7 @@ const LoginForm = () => {
             accessToken: userData?.data?.data?.token
           });
           sessionStorage.loggedInTime = new Date().getTime();
-          await updateToLoginUserTokenHandler(userData?.data?.data?.token)
+          updateToLoginUserTokenHandler(userData?.data?.data?.token)
           await fetchPermission()?.then(() => {
             if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
               const url = new URL(sessionStorage?.redirect);
@@ -168,7 +157,7 @@ const LoginForm = () => {
         countryDetails: response?.data?.countryDetails ?? "",
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
-      await dispatch(sharedDataActions.getUserRolePermission({
+      dispatch(sharedDataActions.getUserRolePermission({
         userRolePermission: roleData?.data
       }));
 
@@ -232,11 +221,11 @@ const LoginForm = () => {
                     onClick={passwordToggleHandler}
                   ></div>
                 </div>
-                {passWordInputIsInvalid && (
-                  <p className="error-text">Please enter password</p>
-                )}
-                {loginError && <p className="error-text">{loginError}</p>}
               </div>
+              {passWordInputIsInvalid && (
+                <p className="error-text" style={{ bottom: "5px" }}>Please enter password</p>
+              )}
+              {loginError && <p className="error-text">{loginError}</p>}
             </div>
           </div>
           <div className={classes.btnSubmit_div}>
