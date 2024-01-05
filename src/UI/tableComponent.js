@@ -14,6 +14,7 @@ const TableComponent = ({
   const styles = {
     container: {
       minHeight: '420px',
+      maxHeight: '420px',
       fontFamily: "helveticaneueregular !important",
       "& .MuiTable-root": {
         borderSpacing: "0px 10px",
@@ -36,7 +37,7 @@ const TableComponent = ({
           p: "6px 8px",
           overflow: 'inherit',
           zIndex: 'inherit',
-          height:"40px",
+          height: "40px",
           // ":after": {
           //   borderRight: "0px",
           //   right: 0,
@@ -227,7 +228,8 @@ const TableComponent = ({
         </div>
         <div className="col-sm-12 col-md-6 text-right right">
 
-          <span>{`${currentPage}-${Math.ceil(data?.length / itemsPerPage)} of ${data?.length}`}</span>
+          <span>{`${startIndex + 1}-${(startIndex + itemsPerPage)} of ${data?.length}`}</span>
+          {/* <span>{`${currentPage}-${Math.ceil(data?.length / itemsPerPage)} of ${data?.length}`}</span> */}
           <button onClick={handlePrevPage} disabled={currentPage === 1} className="prev">
             {'﹤'}
           </button>

@@ -192,7 +192,7 @@ const Forum = () => {
 	}
 
 	const getForumList = (paramsInfo) => {
-		
+
 		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
@@ -270,7 +270,7 @@ const Forum = () => {
 	}, []);
 
 	useEffect(() => {
-		
+
 		if (activeTab?.id === "forumpot") {
 			getForumList(filterParams);
 			getForumFollowingList();
@@ -434,7 +434,7 @@ const Forum = () => {
 	}
 
 	const dateReceived = (isSort) => {
-		
+
 		setListReverse(isSort);
 		if (!isSort) {
 			setForumList([...forumList].reverse());
@@ -459,7 +459,10 @@ const Forum = () => {
 								}
 							></EEPSubmitModal>
 						)}
-						{createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
+						{createModalShow && <CreateEditCommunicationModal
+							deptOptions={departments} createModalShow={createModalShow}
+							createCommunicationPost={createCommunicationPost}
+							communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
 								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
