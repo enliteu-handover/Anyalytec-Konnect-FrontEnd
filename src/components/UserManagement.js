@@ -152,7 +152,7 @@ const UserManagement = () => {
       accessorKey: "country",
     }, {
       header: "Branch",
-      accessorKey: "mobile_number",
+      accessorKey: "branch",
     }, {
       header: "Status",
       accessorKey: "status",
