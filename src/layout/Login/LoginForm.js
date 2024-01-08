@@ -111,7 +111,8 @@ const LoginForm = () => {
               history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
               sessionStorage.removeItem('redirect')
             } else {
-              history.push("/app/dashboard");
+              // history.push("/app/dashboard");
+              window.location.pathname = '/app/dashboard'
             }
           })
         })
