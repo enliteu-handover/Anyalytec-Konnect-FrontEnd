@@ -40,7 +40,7 @@ const TableComponent = ({
           zIndex: 'inherit',
           height: "40px",
           border: "0px",
-          boxShadow:'none',
+          boxShadow: 'none',
           //     // borderRight:'1.5px solid #cccccc',
           // ":after": {
           //   borderRight: "0px",
@@ -107,37 +107,37 @@ const TableComponent = ({
     },
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setitemsPerPage] = useState(5);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setitemsPerPage] = useState(5);
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+  // const handleNextPage = () => {
+  //   setCurrentPage((prevPage) => prevPage + 1);
+  // };
 
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  // const handlePrevPage = () => {
+  //   setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  // };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleData = data.slice(startIndex, startIndex + itemsPerPage);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const visibleData = data.slice(startIndex, startIndex + itemsPerPage);
 
-  const handleChangeRows = (e) => {
-    setitemsPerPage(Number(e.target.value))
-    setCurrentPage(1)
-  }
+  // const handleChangeRows = (e) => {
+  //   setitemsPerPage(Number(e.target.value))
+  //   setCurrentPage(1)
+  // }
   return (
     <div>
 
       <MaterialReactTable
         // enablePagination={false}
-        showPagination={false}
-        enablePagination={false}
+        // showPagination={false}
+        // enablePagination={false}
         enableColumnActions={false}
         enableColumnFilters={false}
         positionActionsColumn="last"
         columns={columns}
         positionGlobalFilter='left'
-        data={visibleData}
+        data={data}
         enableRowNumbers={enableRowNumbers}
         enableRowSelection={enableRowSelection}
         enableDensityToggle={false}
@@ -181,11 +181,11 @@ const TableComponent = ({
         renderRowActions={({ row, table }) =>
           action ? React.cloneElement(action, { data: data?.[row?.index] }) : ""
         }
-        // muiTablePaginationProps={{
-        //   rowsPerPageOptions: [5, 10, 50, (data?.length > 100 ? data?.length : 100)],
-        //   showFirstButton: false,
-        //   showLastButton: false,
-        // }}
+        muiTablePaginationProps={{
+          rowsPerPageOptions: [5, 10, 50, (data?.length > 100 ? data?.length : 100)],
+          showFirstButton: false,
+          showLastButton: false,
+        }}
         icons={{
           SearchIcon: (props) => (
             <img
@@ -223,7 +223,7 @@ const TableComponent = ({
 
       />
 
-      {data?.length > 0 && <div className="row custom-paginations">
+      {/* {data?.length > 0 && <div className="row custom-paginations">
         <div className="col-sm-12 col-md-6 left">
           <span className="label">Rows per page : </span>
           <select
@@ -238,7 +238,6 @@ const TableComponent = ({
         <div className="col-sm-12 col-md-6 text-right right">
 
           <span>{`${startIndex + 1}-${data?.length <= (startIndex + itemsPerPage) ? data?.length : (startIndex + itemsPerPage)} of ${data?.length}`}</span>
-          {/* <span>{`${currentPage}-${Math.ceil(data?.length / itemsPerPage)} of ${data?.length}`}</span> */}
           <button onClick={handlePrevPage} disabled={currentPage === 1} className="prev">
             {'﹤'}
           </button>
@@ -246,7 +245,7 @@ const TableComponent = ({
             {'﹥'}
           </button>
         </div>
-      </div>}
+      </div>} */}
 
     </div>
   );
