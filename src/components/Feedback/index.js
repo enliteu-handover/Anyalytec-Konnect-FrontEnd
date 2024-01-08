@@ -152,7 +152,7 @@ const Feedback = () => {
 
     httpHandler(obj)
       .then((all_feed) => {
-        const data = all_feed?.data?.data?.sort((a, b) => a.id - b.id)?.reverse();
+        const data = all_feed?.data?.data
         setFeedbacks(data);
         setSearchFeedbacks(data);
         pageLoaderHandler('hide')

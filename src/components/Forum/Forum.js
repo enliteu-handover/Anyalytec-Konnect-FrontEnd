@@ -209,7 +209,7 @@ const Forum = () => {
 		}
 		httpHandler(obj)
 			.then((forumdata) => {
-				const data = forumdata?.data?.sort((a, b) => a.id - b.id);
+				const data = forumdata?.data
 				if (listReverse) {
 					let List = data
 					setForumList(List);
