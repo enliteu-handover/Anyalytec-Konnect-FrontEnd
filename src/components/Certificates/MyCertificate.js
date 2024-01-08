@@ -81,7 +81,7 @@ const MyCertificate = () => {
           </div>
         ))}
         {myCertificateData && myCertificateData.length <= 0 && (
-          <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No certificate found" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </React.Fragment>

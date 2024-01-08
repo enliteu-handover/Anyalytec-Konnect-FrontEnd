@@ -190,7 +190,7 @@ const BadgeRecognition = (props) => {
           </div>            
         ))}
       {badgeData && badgeData.length <= 0 && (
-        <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+        <ResponseInfo title="Add badges to get started!" responseImg="noRecord" responseClass="response-info" />
       )}
       </div>
     </React.Fragment>

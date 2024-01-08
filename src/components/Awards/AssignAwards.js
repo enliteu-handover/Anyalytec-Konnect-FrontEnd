@@ -255,7 +255,7 @@ const AssignAwards = (props) => {
           ))}
         {awardData && awardData.length <= 0 && (
           <ResponseInfo
-            title="No record found."
+            title="Add awards to get started!"
             responseImg="noRecord"
             responseClass="response-info"
           />

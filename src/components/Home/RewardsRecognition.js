@@ -722,7 +722,7 @@ const RewardsRecognition = (props) => {
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
-                          <p className="eep_blank_quote">No record found</p>
+                          <p className="eep_blank_quote">No badges found</p>
                         </div>
                       </div>
                     }
@@ -740,7 +740,7 @@ const RewardsRecognition = (props) => {
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
-                          <p className="eep_blank_quote">No record found</p>
+                          <p className="eep_blank_quote">No awards found</p>
                         </div>
                       </div>
                     }

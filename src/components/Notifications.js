@@ -295,7 +295,6 @@ const Notifications = () => {
 										<div className={`c1 mark_unread_icon_div ${isChecked ? "check_optionsb" : "check_optionsn"}`} title="Mark As Unread" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.un_read, }} onClick={() => readUnreadAllNotifications("unReadAll")}></div>
 									</div>
 								</div> */}
-							<a href="#" className="p-2 c1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<div className="d-flex align-items-center align-content-center action-border">
 									<label className="mb-0 mr-2 c1" style={{ color: "#000000de" }}>Options</label>
 									<div className="d-flex align-items-center align-content-center section_two">
@@ -309,7 +308,6 @@ const Notifications = () => {
 										</div>
 									</div>
 								</div>
-							</a>
 						</div>
 					</div>
 				</div>

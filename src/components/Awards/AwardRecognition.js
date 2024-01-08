@@ -205,7 +205,7 @@ const AwardRecognition = () => {
             }
           })}
         {awardData && awardData.length <= 0 && (
-          <ResponseInfo title="No award nominations yet."
+          <ResponseInfo title="No nominations yet"
             messageInfo='Good recognition is the bridge between appreciation and motivation' subMessageInfo='A wise man' responseImg="noRecord" responseClass="response-info" />
         )}
       </div>

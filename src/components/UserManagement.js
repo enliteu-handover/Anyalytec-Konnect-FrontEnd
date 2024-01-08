@@ -1,4 +1,5 @@
 import { getRoles } from '@crayond_dev/idm-client';
+import moment from 'moment';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -277,16 +278,21 @@ const UserManagement = () => {
     let xlData = userData?.map(v => {
       return {
         Id: v?.id,
-        'User Name': v?.username,
-        'First Name': v?.firstname,
-        'Last Name': v?.lastname,
-        'Department Id': v?.department?.id,
+        'User Name': v?.username ?? '',
+        'First Name': v?.firstname ?? '',
+        'Last Name': v?.lastname ?? '',
+        'Gender': v?.gender?.label ?? '',
+        'Designation': v?.designation ?? '',
         'Department Name': v?.department?.name,
-        'Designation': v?.designation,
-        'Email': v?.email,
-        'Contact': v?.telephoneNumber,
-        'Role Id': v?.role?.id,
-        'Role Name': v?.role?.roleName,
+        'Manager Name': v?.managerName ?? '',
+        // 'Manager Name': v?.department?.name,
+        'Email Id': v?.email ?? '',
+        'Contact Number': v?.telephoneNumber ?? '',
+        'Date Of Birth': v?.dateOfBirth ? moment(v?.dateOfBirth).format('DD/MM/YYYY') : '',
+        'Date Of Join': v?.dateOfJoining ? moment(v?.dateOfJoining).format('DD/MM/YYYY') : '',
+        'Role Name': v?.role?.roleName ?? '',
+        "Country Name": (v?.country?.label ?? ''),
+        "Branch Name": v?.branch?.label ?? ''
       }
     })
     downloadXlsx("UserManagements.xlsx", xlData);
@@ -374,6 +380,7 @@ const UserManagement = () => {
                   <TableComponent
                     data={userData ?? []}
                     columns={userDataTableHeaders}
+                    // actionFixed={fal}
                     action={
                       <UserManagementActionDropdown />
                     }

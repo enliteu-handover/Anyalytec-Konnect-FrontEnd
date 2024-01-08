@@ -32,7 +32,7 @@ const Certificates = () => {
   const history = useHistory();
   let routerData = location.state || { activeTab: "certificate" };
 
-  console.log(userRolePermission,'userRolePermission')
+  console.log(userRolePermission, 'userRolePermission')
   const breadcrumbArr = [
     {
       label: "Home",
@@ -75,7 +75,7 @@ const Certificates = () => {
   ];
 
   useEffect(() => {
-   
+
     if (routerData) {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
@@ -210,7 +210,7 @@ const Certificates = () => {
   };
 
   const certPreviewModalHandler = (arg) => {
-    
+
     setMyCertificateModalShow(true);
     let obj = {
       isIframe: false,
@@ -223,7 +223,7 @@ const Certificates = () => {
       {myCertificateModalShow && (<CertificatePreviewModal previewDataUri={previewDataUri} />)}
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
-          
+
           <div id="certificate" className="tab-pane h-100 active">
             {activeTab && activeTab.id === 'certificate' &&
               <React.Fragment>
@@ -233,7 +233,7 @@ const Certificates = () => {
                     <div className="n_cert_add_col_inner n_cert_add_col_inner_a" title="Add Certificate">
                       <div className="n_cert_add_col">
                         <div className="outter">
-                          <img src={process.env.PUBLIC_URL + "/images/icons/plus-white.svg"} className="plus_white_img" alt="Plus White" title="Compose Certificate"  onClick={() => { document.getElementById("certificatePath").click(); }} />
+                          <img src={process.env.PUBLIC_URL + "/images/icons/plus-white.svg"} className="plus_white_img" alt="Plus White" title="Compose Certificate" onClick={() => { document.getElementById("certificatePath").click(); }} />
                           <input type="file" className="invisible d-none" onChange={(event) => addCertificateHandler(event)} id="certificatePath" accept="application/pdf" />
                         </div>
                       </div>
@@ -248,8 +248,8 @@ const Certificates = () => {
                             <div className="outter canva">
                               {/* <img src={data?.pdfByte?.image} className="mycert_img" alt="Certificate" title={data.pdfByte?.name} /> */}
                               <PDF
-                              width="20px"
-                            file={data?.pdfByte?.image} />
+                                width="20px"
+                                file={data?.pdfByte?.image} />
                             </div>
                           </div>
                           <div className="box-content">
@@ -257,9 +257,9 @@ const Certificates = () => {
                             <ul className="icon">
                               <li>
                                 <a className="mycert_modal_a c1" onClick={() => certPreviewModalHandler(data)} data-toggle="modal" data-target="#certPreviewModal">
-                                <FontAwesomeIcon
+                                  <FontAwesomeIcon
                                     icon={faEye}
-                                      />
+                                  />
 
                                 </a>
                               </li>

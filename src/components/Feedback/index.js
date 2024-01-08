@@ -464,11 +464,11 @@ const Feedback = () => {
             }
             {allfeedback && allfeedback?.length <= 0 &&
               <ResponseInfo
-                title="Nothing to show yet."
+                title="Nothing to show yet"
                 responseImg="noIdeaShare"
                 responseClass="response-info"
-                messageInfo="Nothing is really ours until we share it"
-                subMessageInfo="C. S. Lewis"
+                messageInfo="In the dance of progress, feedback is the music that guides every step of an organization's journey. Write one!"
+                // subMessageInfo="C. S. Lewis"
               />
             }
           </div>

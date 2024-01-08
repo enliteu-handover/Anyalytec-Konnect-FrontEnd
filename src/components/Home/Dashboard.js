@@ -9,6 +9,7 @@ import AchievementAwards from "./AchievementAwards";
 import AchievementBadges from "./AchievementBadges";
 import PendingApproval from "./PendingApproval";
 import Recognitions from "./Recognitions";
+import Upcomings from "./upcoming";
 
 const Dashboard = (props) => {
 
@@ -144,8 +145,31 @@ const Dashboard = (props) => {
               <Recognitions dashboardDetails={dashboardDetails} />
             </div>
             <div className="col-sm-12 col-xs-12 col-md-12 col-lg-6">
-              {/* <MyTask dashboardDetails={dashboardDetails} /> */}
               <PendingApproval dashboardDetails={dashboardDetails} />
+              <Upcomings dashboardDetails={{
+                upcomings: [
+                  {
+                    id: 1,
+                    message: "Anniversary - Prakash",
+                    date: "Today"
+                  },
+                  {
+                    id: 2,
+                    message: "Anniversary - Sam",
+                    date: "Today"
+                  },
+                  {
+                    id: 3,
+                    message: "Birthday - Arun",
+                    date: "Tomorrow"
+                  },
+                  {
+                    id: 4,
+                    message: "Birthday - Ram",
+                    date: "Tomorrow"
+                  }
+                ]
+              }} />
             </div>
           </div>
           <div className="row">

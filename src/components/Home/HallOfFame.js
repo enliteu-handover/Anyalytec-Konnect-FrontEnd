@@ -230,7 +230,7 @@ const HallOfFame = (props) => {
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-startr"><h4>Certificates</h4></div>
-              <ResponseInfo title="No Certificates found" responseImg="noRecord" responseClass="response-info" />
+              <ResponseInfo title="No certificates found" responseImg="noRecord" responseClass="response-info" />
             </div>
           </div>
         )}

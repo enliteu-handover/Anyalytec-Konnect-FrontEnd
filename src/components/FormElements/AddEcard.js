@@ -90,8 +90,12 @@ const AddEcard = (props) => {
               title="Add Image"
               onClick={() => { addIconClickHandler() }}
             />
-            Max Upload 1Mb
+
           </div>
+          <div style={{
+            marginTop: '-28px',
+            color: '#212529a6'
+          }}> (Max 1Mb)</div>
         </div>
       </div>
       <input

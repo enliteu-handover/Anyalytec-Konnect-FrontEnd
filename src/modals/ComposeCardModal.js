@@ -79,7 +79,7 @@ const ComposeCardModal = (props) => {
         .then((res) => {
           finalData['imageByte'] = res?.data?.data?.[0]?.url ?? ""
         }).catch((c) => {
-          setSubmitResponseMsg("Uploaded file is too large!.");
+          setSubmitResponseMsg("Please upload file less than 1 MB");
           setSubmitResponseClassName("response-err");
           modalSubmitInfo({ status: false, message: "" });
           return

@@ -119,7 +119,7 @@ const MyBadge = () => {
           </div>
         ))}
         {myAwardData && myAwardData.length <= 0 && (
-          <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="Yet to earn awards" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </React.Fragment>

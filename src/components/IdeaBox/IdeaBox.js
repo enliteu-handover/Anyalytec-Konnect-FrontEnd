@@ -511,7 +511,7 @@ const IdeaBox = () => {
             }
             {ideaLists && ideaLists?.length <= 0 &&
               <ResponseInfo
-                title="Nothing to show yet."
+                title="Nothing to show yet"
                 responseImg="noIdeaShare"
                 responseClass="response-info"
                 messageInfo="Nothing is really ours until we share it"

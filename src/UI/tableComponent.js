@@ -9,7 +9,8 @@ const TableComponent = ({
   actionHidden,
   customContainerSx = {},
   enableRowSelection = false,
-  enableRowNumbers = false
+  enableRowNumbers = false,
+  actionFixed = false
 }) => {
   const styles = {
     container: {
@@ -33,11 +34,14 @@ const TableComponent = ({
         },
         "& .MuiTableCell-root": {
           fontSize: "14px",
-          position: "relative",
+          // position: "relative",
           p: "6px 8px",
           overflow: 'inherit',
           zIndex: 'inherit',
           height: "40px",
+          border: "0px",
+          boxShadow:'none',
+          //     // borderRight:'1.5px solid #cccccc',
           // ":after": {
           //   borderRight: "0px",
           //   right: 0,
@@ -139,15 +143,19 @@ const TableComponent = ({
         enableDensityToggle={false}
         enableFullScreenToggle={false}
         enableHiding={false}
-        positionPagination='bottom'
+        // positionPagination='bottom'
         enableSortingRemoval={false}
         enableRowActions={actionHidden ? false : true}
         enableGlobalFilter={searchHidden ? false : true}
         enableStickyHeader
         muiTableContainerProps={{ sx: styles.container, ...customContainerSx }}
+        enableColumnPinning={true}
         initialState={{
           density: "comfortable",
           showGlobalFilter: searchHidden ? false : true,
+          columnPinning: {
+            right: actionFixed ? ['mrt-row-actions'] : [],
+          }
         }}
         muiSearchTextFieldProps={{
           size: "small",
@@ -203,15 +211,16 @@ const TableComponent = ({
             boxShadow: "none",
           },
         }}
-        muiTableBodyCellProps={{
-          // align: 'center', 
-          sx: {
-            border: "0px",
-            // borderRight:'1.5px solid #cccccc',
-            p: 1,
-            position: "relative",
-          },
-        }}
+      // muiTableBodyCellProps={{
+      //   // align: 'center', 
+      //   sx: {
+      //     border: "0px",
+      //     // borderRight:'1.5px solid #cccccc',
+      //     p: 1,
+      //     position: "relative",
+      //   },
+      // }}
+
       />
 
       {data?.length > 0 && <div className="row custom-paginations">

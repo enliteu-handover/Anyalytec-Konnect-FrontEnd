@@ -353,7 +353,7 @@ const UserDashboard = () => {
                   </div>
                 }
                 {userDetails.acheivedBadgeList && !userDetails.acheivedBadgeList.length && (
-                  <ResponseInfo title="No Badges found" responseImg="noRecord" responseClass="response-info" />
+                  <ResponseInfo title="Yet to earn Badges" responseImg="noRecord" responseClass="response-info" />
                 )}
               </div>
             </div>
@@ -376,7 +376,7 @@ const UserDashboard = () => {
                   </div>
                 }
                 {userDetails.acheivedAwardList && !userDetails.acheivedAwardList.length && (
-                  <ResponseInfo title="No Awards found" responseImg="noRecord" responseClass="response-info" />
+                  <ResponseInfo title="Yet to earn Awards" responseImg="noRecord" responseClass="response-info" />
                 )}
               </div>
             </div>
