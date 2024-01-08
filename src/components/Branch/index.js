@@ -207,7 +207,7 @@ const BranchMaster = () => {
                 ></PageHeader>
 
                 <div className="eep-user-management eep-content-start" id="content-start">
-                    <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
+                    <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible" }}>
                         <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
                             <button
                                 className="btn btn-secondary"
