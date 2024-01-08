@@ -101,6 +101,9 @@ const Forum = () => {
 			);
 		}
 
+		getForumList(filterParams);
+		getForumFollowingList();
+
 		return () => {
 			dispatch(
 				TabsActions.updateTabsconfig({
@@ -271,13 +274,13 @@ const Forum = () => {
 		fetchAllUsersPics();
 	}, []);
 
-	useEffect(() => {
+	// useEffect(() => {
 
-		if (activeTab?.id === "forumpot") {
-			getForumList(filterParams);
-			getForumFollowingList();
-		}
-	}, [activeTab]);
+	// 	if (activeTab?.id === "forumpot") {
+	// 		getForumList(filterParams);
+	// 		getForumFollowingList();
+	// 	}
+	// }, [activeTab]);
 
 
 	const readForum = (arg) => {

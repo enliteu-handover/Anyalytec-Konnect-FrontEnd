@@ -109,6 +109,7 @@ const IdeaBox = () => {
       );
     }
 
+    fetchIdeas(false);
     return () => {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -225,11 +226,11 @@ const IdeaBox = () => {
     fetchAllUsers();
   }, []);
 
-  useEffect(() => {
-    if (activeTab?.id === "ideas") {
-      fetchIdeas(false);
-    }
-  }, [activeTab]);
+  // useEffect(() => {
+  //   if (activeTab?.id === "ideas") {
+  //     fetchIdeas(false);
+  //   }
+  // }, [activeTab]);
 
   const markIdeaAsActiveState = (loopData, ideaIDData) => {
     let ideaDataTemp = JSON.parse(JSON.stringify(loopData));
