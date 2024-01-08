@@ -1,3 +1,4 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -194,7 +195,7 @@ const Forum = () => {
 		getForumList(paramsData);
 	}
 
-	const getForumList = (paramsInfo) => {
+	const getForumList = async (paramsInfo) => {
 
 		pageLoaderHandler('show')
 		let obj;
@@ -210,15 +211,12 @@ const Forum = () => {
 				method: "get"
 			};
 		}
-		httpHandler(obj)
+		await httpHandler(obj)
 			.then((forumdata) => {
-				const data = forumdata?.data
 				if (listReverse) {
-					let List = data
-					setForumList(List);
+					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())]);
 				} else {
-					let List = data.reverse()
-					setForumList(List);
+					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
 				}
 				pageLoaderHandler('hide')
 			})

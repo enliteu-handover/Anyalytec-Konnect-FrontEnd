@@ -14,6 +14,7 @@ import FeedbackDetailView from "./feedbackDetailView";
 import FeedbackList from "./feedbackList";
 import "./style.scss";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import moment from "moment/moment";
 
 const Feedback = () => {
   const yrDt = new Date().getFullYear();
@@ -152,7 +153,8 @@ const Feedback = () => {
 
     httpHandler(obj)
       .then((all_feed) => {
-        const data = all_feed?.data?.data
+        const data = all_feed?.data?.data?.sort((a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf())
+        console.log('data:', data)
         setFeedbacks(data);
         setSearchFeedbacks(data);
         pageLoaderHandler('hide')

@@ -80,15 +80,18 @@ const SortList = (props) => {
                 }
               </div>
               :
-              <span className="c1 i_position" onClick={sortDateReceived}>{isForum ? (!isDateReceived ? "Newest" : "Oldest") : "Date Received"}
-                {!isDateReceived &&
+              <span className="c1 i_position" onClick={sortDateReceived}>
+                {/* {isForum ? (!isDateReceived ? "Newest" : "Oldest") : "Date Received"} */}
+                {!isDateReceived ? "Newest" : "Oldest"}
+                {
+                isDateReceived &&
                   <FontAwesomeIcon
                     icon={faAngleUp}
                     style={{ fontSize: "15px", margin: '-2px 4px' }}
                   />
                   // <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
-                {isDateReceived &&
+                {!isDateReceived &&
                   <FontAwesomeIcon
                     icon={faAngleDown}
                     style={{ fontSize: "15px", margin: '-2px 4px' }}

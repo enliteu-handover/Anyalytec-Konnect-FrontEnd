@@ -15,6 +15,7 @@ import IdeaDetailView from "./IdeaDetailView";
 import IdeaList from "./IdeaList";
 import MyIdeas from "./MyIdeas";
 import { pageLoaderHandler } from "../../helpers";
+import moment from "moment/moment";
 
 const IdeaBox = () => {
 
@@ -148,7 +149,7 @@ const IdeaBox = () => {
     fetchIdeas(false, null, paramsData);
   }
 
-  const fetchIdeas = (isIdeaActive, ideaID = null, paramsInfo = {}) => {
+  const fetchIdeas = async (isIdeaActive, ideaID = null, paramsInfo = {}) => {
     pageLoaderHandler('show')
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
@@ -169,14 +170,14 @@ const IdeaBox = () => {
       method: "get"
     };
     */
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((ideaData) => {
         if (!isIdeaActive) {
           //setIdeaLists(ideaData.data);
           if (ideaListsReverse) {
-            setIdeaLists([...ideaData.data].reverse());
+            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())].reverse());
           } else {
-            setIdeaLists(ideaData.data);
+            setIdeaLists(ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf()));
           }
           setIdeaData(null);
           setIdeaDataState(false);
