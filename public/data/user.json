@@ -96,7 +96,7 @@
         "type": "select",
         "label": "Manager",
         "name": "manager",
-        "mandatory": true,
+        "mandatory": false,
         "disabled": false,
         "viewMode": {
           "type": "text",

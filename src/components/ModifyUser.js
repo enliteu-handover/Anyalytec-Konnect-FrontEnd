@@ -33,9 +33,11 @@ const ModifyUser = () => {
     delete uData.updatedBy;
     delete uData.department.updatedAt;
     delete uData.department.updatedBy;
-    uData.manager = {
-      id: uData?.manager?.id ?? uData?.manager?.id?.id ?? uData?.manager
-    };
+    if (uData?.manager) {
+      uData.manager = {
+        id: uData?.manager?.id ?? uData?.manager?.id?.id ?? uData?.manager
+      };
+    }
     if (uData?.branch) { uData.branch_id = uData?.branch?.id ?? uData?.branch }
     if (uData?.user_id) { uData.id = uData?.user_id }
     if (uData?.gender) { uData.gender = uData?.gender?.label ?? uData?.gender }
