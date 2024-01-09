@@ -82,20 +82,16 @@ const AddEcard = (props) => {
       )}
       <div className="n_card_add_col_inner" title="Add Template">
         <div className="add_temp_img n_card_add_col p-3">
-          <div className="outter" style={{ justifyContent: 'center' }}>
+          <div className="outter">
             <img
               src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`}
               className="plus_white_img"
               alt="Plus White"
               title="Add Image"
-              onClick={() => { addIconClickHandler() }}
+              onClick={()=>{addIconClickHandler()}}
             />
-
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Max 1Mb)
           </div>
-          <div style={{
-            marginTop: '-28px',
-            color: '#212529a6'
-          }}> (Max 1Mb)</div>
         </div>
       </div>
       <input
