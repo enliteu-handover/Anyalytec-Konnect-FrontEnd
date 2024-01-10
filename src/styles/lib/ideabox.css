@@ -228,7 +228,7 @@
 }
 
 .ideaaboxContainer .ideabox-profile-container {
-  border: 1px solid #DBDBDB;
+  border: 1px solid #F4F4F4;
   display: flex;
   position: relative;
   flex-direction: row;
@@ -261,10 +261,6 @@
   height: 50px;
   background-color: #ffffff;
   padding: 1px;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
-  -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
-  -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
-  -khtml-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
 }
 
 .ideaaboxContainer .idea_box_heading {

@@ -230,7 +230,7 @@
 }
 
 .ideaaboxContainer .ideabox-profile-container {
-    border: 1px solid #DBDBDB;
+    border: 1px solid #F4F4F4;
     display: flex;
     position: relative;
     flex-direction: row;
@@ -264,10 +264,10 @@
     height: 50px;
     background-color: #ffffff;
     padding: 1px;
-    box-shadow: 0px 3px 6px #00000029;
-    -moz-box-shadow: 0px 3px 6px #00000029;
-    -webkit-box-shadow: 0px 3px 6px #00000029;
-    -khtml-box-shadow: 0px 3px 6px #00000029;
+    // box-shadow: 0px 3px 6px #00000029;
+    // -moz-box-shadow: 0px 3px 6px #00000029;
+    // -webkit-box-shadow: 0px 3px 6px #00000029;
+    // -khtml-box-shadow: 0px 3px 6px #00000029;
 }
 
 .ideaaboxContainer .idea_box_heading {

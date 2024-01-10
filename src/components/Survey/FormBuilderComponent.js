@@ -176,7 +176,7 @@ const FormBuilderComponent = (props) => {
             <span className="login_error un_error text-danger ereorMsg ng-binding" style={{ display: "inline" }}></span>
           </div>
           {/* <textarea className="survey-title border_none eep_scroll_y px-0" name="survey-title" rows="1" placeholder="Untitled Title" onChange={(evt) => getSurveyTitle(evt.target.value)}></textarea> */}
-          <textarea className="survey-title border_none eep_scroll_y px-0" name="survey-title" rows="1" placeholder="Untitled Title" value={surveyTitle} onChange={(evt) => titleChangeHandler(evt)}></textarea>
+          <textarea style={{ padding: 6, border: "none" }} className="survey-title border_none eep_scroll_y" name="survey-title" rows="1" placeholder="Untitled Title" value={surveyTitle} onChange={(evt) => titleChangeHandler(evt)}></textarea>
         </div>
       </div>
 

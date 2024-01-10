@@ -273,7 +273,7 @@ const SocialWallMiddleContent = (props) => {
                   <div className="sw_from">
                     <div className="sw_from_data">
                       <Link to="#" className="a_hover_txt_deco_none">
-                        <span className="sw_to_val sw_head_nms">{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? item.rewardId.userId?.firstname + item.rewardId.userId?.lastname : ""} </span>
+                        <span className="sw_to_val sw_head_nms">{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? (item?.rewardId?.userId?.firstname ?? '') + ' ' + (item?.rewardId?.userId?.lastname ?? ""):""} </span>
                       </Link>
                       <span className="sw_head_con">was enlited by </span>
                       <Link to="#" className="a_hover_txt_deco_none">
@@ -325,72 +325,72 @@ const SocialWallMiddleContent = (props) => {
                   </div>
                 </div>
                 <div className="sw_comments_div">
-                   <div className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex justify-content-between align-items-center">
                     <div>
-                       {item?.socialWallLike && item?.socialWallLike.length > 0 && (
-                    <div className="sw_enlited_lists d-flex flex-wrap align-items-center mb-3">
-                      <div className="sw_enlited_pics mr-3">
-                        <ul className="mb-0 ml-3 pl-0">
-                          {item?.socialWallLike && item?.socialWallLike?.length > 0 && item?.socialWallLike.map((item, index) => {
-                            if (index < maxLikedCount) {
-                              return (
-                                <li key={"LikedPic_" + index}>
-                                  <img src={getUserPicture(item?.userId?.id)} className="img-fluid sr_rank_pic" alt="User" title={item?.userId?.firstname + " " + item?.userId?.lastname} />
-                                </li>
-                              );
-                            }
-                          })}
-                        </ul>
-                      </div>
-                      <div className="sw_enlited_nm">
-                        <span className="enlited_lbl">Liked By </span>
-                        {item?.socialWallLike && item?.socialWallLike?.length > 0 && item?.socialWallLike.map((like, index) => {
-                          if (index < maxLikedCount) {
-                            return (
-                              <Link to="#" className="enlited_nms a_hover_txt_deco_none" key={"Likeduse_" + index}>
-                                <span> {like?.userId?.firstname + " " + like?.userId?.lastname}
-                                  {item?.socialWallLike.length > 1 &&
-                                    (index < (maxLikedCount - 1)
-                                      &&
-                                      (item?.socialWallLike?.length - 1 !== index)
-                                    ) ? ", " : ""}
-                                </span>
-                              </Link>
-                            );
-                          }
-                        })}
-                        {item?.socialWallLike && item?.socialWallLike?.length > maxLikedCount && (
-                          <React.Fragment>
-                            <span> and </span>
-                            <Link to="#" data-toggle="modal" data-target="#LikedInfoModal" onClick={() => likedModalHandler(item?.socialWallLike)}>
-                              <span> {item?.socialWallLike?.length - maxLikedCount} others </span>
-                            </Link>
-                          </React.Fragment>
-                        )}
-                      </div>
-                    </div>
-                       )}
-                    </div>
-                  {/* comments */}
-                   <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"}`}>
-                        {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
-                        {isEnlited(item?.socialWallLike) && (
-                          <div className="enlite_action_icon mr-2 c1" onClick={() => likeSocialWallHandler(item, index)}>
-                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon, }}></span>
+                      {item?.socialWallLike && item?.socialWallLike.length > 0 && (
+                        <div className="sw_enlited_lists d-flex flex-wrap align-items-center mb-3">
+                          <div className="sw_enlited_pics mr-3">
+                            <ul className="mb-0 ml-3 pl-0">
+                              {item?.socialWallLike && item?.socialWallLike?.length > 0 && item?.socialWallLike.map((item, index) => {
+                                if (index < maxLikedCount) {
+                                  return (
+                                    <li key={"LikedPic_" + index}>
+                                      <img src={getUserPicture(item?.userId?.id)} className="img-fluid sr_rank_pic" alt="User" title={item?.userId?.firstname + " " + item?.userId?.lastname} />
+                                    </li>
+                                  );
+                                }
+                              })}
+                            </ul>
                           </div>
-                        )}
-                        {!isEnlited(item?.socialWallLike) && (
-                          <div className="enlite_action_icon mr-2 c1 fd_enlided_icon" onClick={() => unLikeSocialWallHandler(item, index)}>
-                            {/* fd_enlided_icon */}
-                            {likeStatus?.statee && (item.id === likeStatus.id) && <Heart />}
-                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon, }}></span>
+                          <div className="sw_enlited_nm">
+                            <span className="enlited_lbl">Liked By </span>
+                            {item?.socialWallLike && item?.socialWallLike?.length > 0 && item?.socialWallLike.map((like, index) => {
+                              if (index < maxLikedCount) {
+                                return (
+                                  <Link to="#" className="enlited_nms a_hover_txt_deco_none" key={"Likeduse_" + index}>
+                                    <span> {like?.userId?.firstname + " " + like?.userId?.lastname}
+                                      {item?.socialWallLike.length > 1 &&
+                                        (index < (maxLikedCount - 1)
+                                          &&
+                                          (item?.socialWallLike?.length - 1 !== index)
+                                        ) ? ", " : ""}
+                                    </span>
+                                  </Link>
+                                );
+                              }
+                            })}
+                            {item?.socialWallLike && item?.socialWallLike?.length > maxLikedCount && (
+                              <React.Fragment>
+                                <span> and </span>
+                                <Link to="#" data-toggle="modal" data-target="#LikedInfoModal" onClick={() => likedModalHandler(item?.socialWallLike)}>
+                                  <span> {item?.socialWallLike?.length - maxLikedCount} others </span>
+                                </Link>
+                              </React.Fragment>
+                            )}
                           </div>
-                        )}
-                        <div className="enlite_action_icon c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.s_message_icon, }}
-                          onClick={() => commentStateHandler(index)}
-                        ></div>
-                   </div>
-                   </div>
+                        </div>
+                      )}
+                    </div>
+                    {/* comments */}
+                    <div className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"}`}>
+                      {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
+                      {isEnlited(item?.socialWallLike) && (
+                        <div className="enlite_action_icon mr-2 c1" onClick={() => likeSocialWallHandler(item, index)}>
+                          <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon, }}></span>
+                        </div>
+                      )}
+                      {!isEnlited(item?.socialWallLike) && (
+                        <div className="enlite_action_icon mr-2 c1 fd_enlided_icon" onClick={() => unLikeSocialWallHandler(item, index)}>
+                          {/* fd_enlided_icon */}
+                          {likeStatus?.statee && (item.id === likeStatus.id) && <Heart />}
+                          <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon, }}></span>
+                        </div>
+                      )}
+                      <div className="enlite_action_icon c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.s_message_icon, }}
+                        onClick={() => commentStateHandler(index)}
+                      ></div>
+                    </div>
+                  </div>
                   <div className="sw_enlite_actions_div">
                     <div className="sw_enlite_actions d-flex flex-wrap justify-content-between align-items-center">
                       {!item?.commentState?.listCommentState && (
@@ -408,7 +408,7 @@ const SocialWallMiddleContent = (props) => {
                         </React.Fragment>
                       )}
 
-                    
+
 
                     </div>
                   </div>
