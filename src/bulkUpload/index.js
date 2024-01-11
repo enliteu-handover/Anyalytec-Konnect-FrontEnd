@@ -116,10 +116,10 @@ const BulkUploadOrgChart = () => {
     const userBulkDataTableHeaders = [
         {
             header: "fullName",
-            accessorKey: "reporting",
+            accessorKey: "Username",
         }, {
             header: "Reportung To",
-            accessorKey: "reportingTo",
+            accessorKey: "ReportingTo",
         }, {
             header: "Status",
             accessorKey: "status",
@@ -261,7 +261,7 @@ const BulkUploadOrgChart = () => {
     };
 
     const handleExportDownload = () => {
-        
+
         const worksheet = XLSX.utils.json_to_sheet(state?.orgChartData?.data ?? []);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");

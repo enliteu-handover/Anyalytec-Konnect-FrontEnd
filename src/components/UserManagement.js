@@ -121,38 +121,37 @@ const UserManagement = () => {
   const userBulkDataTableHeaders = [
     {
       header: "Username",
-      accessorKey: "username",
+      accessorKey: "Username",
     }, {
       header: "First Name",
-      accessorKey: "firstname",
+      accessorKey: "Firstname",
     }, {
       header: "Last Name",
-      accessorKey: "lastname",
+      accessorKey: "Lastname",
     }, {
       header: "Email",
-      accessorKey: "email",
+      accessorKey: "Email",
     }, {
       header: "DOJ",
-      accessorKey: "doj",
+      accessorKey: "DOJ",
     }, {
       header: "DOB",
-      accessorKey: "dob",
-    },
-    {
+      accessorKey: "DOB",
+    }, {
       header: "Designation",
       accessorKey: "roleName",
     }, {
       header: "Contact",
-      accessorKey: "mobile_number",
+      accessorKey: "ContactNumber",
     }, {
       header: "To",
       accessorKey: "manager",
     }, {
       header: "Country",
-      accessorKey: "country",
+      accessorKey: "Country",
     }, {
       header: "Branch",
-      accessorKey: "branch",
+      accessorKey: "Branch",
     }, {
       header: "Status",
       accessorKey: "status",
@@ -226,7 +225,16 @@ const UserManagement = () => {
 
       const payload = [];
       for (const v of payloadConstruction) {
-        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase());
+
+        if (v?.['DOB(dd/mm/yyyy)']) {
+          v.DOB = v?.['DOB(dd/mm/yyyy)'] ?? null
+          delete v?.['DOB(dd/mm/yyyy)']
+        }
+        if (v?.['DOJ(dd/mm/yyyy)']) {
+          v.DOJ = v?.['DOJ(dd/mm/yyyy)'] ?? null
+          delete v?.['DOJ(dd/mm/yyyy)']
+        }
+        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.Role?.toLowerCase());
 
         const roleData = await idmRoleMappingRolesScreenAccess(imd_role?.role_permission_mappings?.[0]?.permission?.data?.data ?? []);
         v.role = {
