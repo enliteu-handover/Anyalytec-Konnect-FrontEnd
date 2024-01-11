@@ -139,7 +139,7 @@ const UserManagement = () => {
       accessorKey: "DOB",
     }, {
       header: "Designation",
-      accessorKey: "roleName",
+      accessorKey: "Designation",
     }, {
       header: "Contact",
       accessorKey: "ContactNumber",
