@@ -143,10 +143,12 @@ const UserManagement = () => {
     }, {
       header: "Contact",
       accessorKey: "ContactNumber",
-    }, {
-      header: "To",
-      accessorKey: "manager",
-    }, {
+    },
+     {
+      header: "Department",
+      accessorKey: "Department",
+    },
+     {
       header: "Country",
       accessorKey: "Country",
     }, {
