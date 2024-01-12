@@ -279,7 +279,7 @@ const BulkUploadOrgChart = () => {
                 // isUpload={false}
                 isUpload={isUpload}
                 downloadExcel={downloadExcel}
-                url={'https://objectstore.e2enetworks.net/enliteu/Org%20Upload.xlsx'}
+                url={'https://enliteu.objectstore.e2enetworks.net/Org%20upload.xlsx'}
                 isOrg={state?.orgChartData}
                 onSucess={onSucess}
                 fileName={state?.uploadData?.name ?? ''}
