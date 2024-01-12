@@ -6,7 +6,7 @@ import { URL_CONFIG } from "../constants/rest-config";
 
 const NominateAwardModal = (props) => {
 
-  const { nomiDeptOptions, allUserData, judgeUsers, assignAwardData, nominateTypeData, modalSubmitInfo } = props;
+  const { nomiDeptOptions, hideModal, allUserData, judgeUsers, assignAwardData, nominateTypeData, modalSubmitInfo } = props;
 
   const [nominateAwardObj, setNominateAwardObj] = useState({});
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
@@ -87,7 +87,7 @@ const NominateAwardModal = (props) => {
         <div className="modal-dialog w-75" role="document">
           <div className="modal-content">
             <div className="modal-header p-1 border-0 flex-column">
-              <button className="close closed" type="button" data-dismiss="modal" aria-label="Close"></button>
+              <button onClick={() => hideModal()} className="close closed" type="button" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body eep_scroll_y">
               <div className="modalBodyHeight">

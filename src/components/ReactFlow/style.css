@@ -99,3 +99,7 @@
     background: transparent;
     border: none;
 }
+
+.react-flow__attribution{
+    visibility: hidden !important;
+}

@@ -213,9 +213,15 @@ const URL_CONFIG = {
   GET_LIBRARY_SURVEY: "/surveys/get-library",
   SHOW_LIBRARY_SURVEY: "/surveys/surveylibraryshow",
   USER_VALIDATION: "/auth/user_validation",
+  USER_CONTACT_UPDATE: "/users/user-contact",
 
 
-  GIFT_VOUCHER: "/gifts/oauth2/verify",
+  GIFT_VOUCHER: "/gifts/getRedemption",
+  POST_REDEEM: "/gifts/postRedeem",
+  GET_REDEEM: "/gifts/getRedeemPoints",
+  GET_POINTS_CONFIG: "/gifts/getPointsConfig",
+  ADD_POINTS_CONFIG: "/gifts/updatePoints",
+  GET_POINTS_VALUE: "/gifts/getPointsValue",
 };
 
 export { REST_CONFIG, URL_CONFIG };

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const CheckBoxComponent = (props) => {
 
-  const { data, getCheckedData, bulkCheckState } = props;
+  const { data, getCheckedData, bulkCheckState ,totalCheckBoxSx={}} = props;
 
   const [bulkCheck, setBulkCheck] = useState(false);
 
@@ -21,7 +21,7 @@ const CheckBoxComponent = (props) => {
 
   return (
     <React.Fragment>
-      <div className="chek_box">
+      <div className="chek_box" style={{...totalCheckBoxSx}}>
         {!bulkCheck &&
           <input type="checkbox" className="field-wbr" name="hastagName" autoComplete="off" onChange={(e) => clickHandler(e, data)} />
         }

@@ -31,7 +31,7 @@ const IdeaDetailViewInner = (props) => {
 
   let iLikedIndex;
   const isIdeaLiked = (uID, ideaLikes) => {
-    
+
     iLikedIndex = ideaLikes.findIndex(x => x.userId?.user_id === uID);
     if (iLikedIndex !== -1) {
       return { isLiked: true, likedID: ideaLikes[iLikedIndex].id };
@@ -65,13 +65,9 @@ const IdeaDetailViewInner = (props) => {
   };
 
   const likeAnIdeaHandler = (arg) => {
-    
+
     likeAnIdea(arg);
   }
-
-  // console.log("ideaDetail ==>>>", isDetailListMode);
-  // console.log("ideaDetail ==>>>", loggedUserData);
-  // console.log("ideaDetail ==>>>>>>",   isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes));
   return (
     <React.Fragment>
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
@@ -79,9 +75,9 @@ const IdeaDetailViewInner = (props) => {
           <div className="ideabox-border bg-efefef sticky-top right_profile_div_r">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
-                <div className="wrapper-one-content">
-                  <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail.createdBy?.firstname + " " + ideaDetail.createdBy?.lastname}</div>
+                <img style={{marginRight:'6px'}} src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="ideabox-profile-img-size rounded-circle" />
+                <div className="wrapper-one-content ">
+                  <div className="ideabox-font-style pb-1 header-user-name font-helvetica-m">{ideaDetail.createdBy?.firstname + " " + ideaDetail.createdBy?.lastname}</div>
                   <div className="header-user-destination ideabox_contentt_size">{ideaDetail.createdBy?.designation}</div>
                 </div>
               </div>
@@ -108,7 +104,7 @@ const IdeaDetailViewInner = (props) => {
                           <img src={
                             // atthData.docByte?.image ? atthData.docByte?.image
                             fileTypeAndImgSrcArray[atthData.contentType] ? fileTypeAndImgSrcArray[atthData.contentType]
-                            : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
+                              : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
                             title={atthData.ideaAttachmentsFileName} />
                         </a>
                       </div>
@@ -120,7 +116,7 @@ const IdeaDetailViewInner = (props) => {
           </div>
 
           <div className="ideabox_ideacontent">
-            <p className="ideabox-font-style ideacontent_heading ideabox_contentt_size font-helvetica-m">{ideaDetail.title}</p>
+            <p className="ideabox-font-style ideacontent_heading ideabox_contentt_size font-helvetica-m" style={{fontWeight:'500'}}>{ideaDetail.title}</p>
             <p className="ideacontent_content ideabox_contentt_size">{ideaDetail.description}</p>
 
             <div className="item_blog_like_a text-right mb-2">

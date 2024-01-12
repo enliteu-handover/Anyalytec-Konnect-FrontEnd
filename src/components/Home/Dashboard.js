@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 // import Tour from 'reactour';
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import Recognitions from "./Recognitions";
-import MyTask from "./MyTask";
-import PendingApproval from "./PendingApproval";
-import AchievementBadges from "./AchievementBadges";
-import AchievementAwards from "./AchievementAwards";
-import { eepFormatDateTime } from "../../shared/SharedService";
 import moment from "moment";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import AchievementAwards from "./AchievementAwards";
+import AchievementBadges from "./AchievementBadges";
+import PendingApproval from "./PendingApproval";
+import Recognitions from "./Recognitions";
+import Upcomings from "./upcoming";
 
 const Dashboard = (props) => {
 
@@ -82,7 +82,7 @@ const Dashboard = (props) => {
                         <div className="panel-heading" role="tab" id="d_headingOne">
                           <h4 className="panel-title mb-0">
                             <a className="c-2c2c2c a_hover_txt_deco_none c1" role="button" data-toggle="collapse" data-parent="#d_accordion" href="#d_collapseOne" aria-expanded="false" aria-controls="d_collapseOne">
-                              <label className="mb-0 c1 title_lbl">{dashboardDetails.directReports > 9 ? dashboardDetails.directReports : "0" + dashboardDetails.directReports} <span className="ml-2">Direct Report</span>
+                              <label className="mb-0 c1 title_lbl">{dashboardDetails.directReports > 9 ? dashboardDetails.directReports : "0" + dashboardDetails.directReports} <span className="ml-2">My Team</span>
                               </label>
                               <img src={process.env.PUBLIC_URL + "/images/icons/static/Down-Arrow.svg"} className="rotate-icon" alt="arrow-icon" style={{ width: "15px" }} />
                             </a>
@@ -145,8 +145,31 @@ const Dashboard = (props) => {
               <Recognitions dashboardDetails={dashboardDetails} />
             </div>
             <div className="col-sm-12 col-xs-12 col-md-12 col-lg-6">
-              <MyTask dashboardDetails={dashboardDetails} />
               <PendingApproval dashboardDetails={dashboardDetails} />
+              <Upcomings dashboardDetails={{
+                upcomings: [
+                  {
+                    id: 1,
+                    message: "Anniversary - Prakash",
+                    date: "Today"
+                  },
+                  {
+                    id: 2,
+                    message: "Anniversary - Sam",
+                    date: "Today"
+                  },
+                  {
+                    id: 3,
+                    message: "Birthday - Arun",
+                    date: "Tomorrow"
+                  },
+                  {
+                    id: 4,
+                    message: "Birthday - Ram",
+                    date: "Tomorrow"
+                  }
+                ]
+              }} />
             </div>
           </div>
           <div className="row">

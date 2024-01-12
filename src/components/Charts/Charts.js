@@ -14,8 +14,6 @@ const Charts = (props) => {
     })
   },[chartType.value])
 
-  //console.log("Charts props", props);
-
   const chartOptions = {
     pie: {
       chart: {

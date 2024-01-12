@@ -9,9 +9,6 @@ import { URL_CONFIG } from "../constants/rest-config";
 const BadgeModal = (props) => {
 
   const {modalData, deptOptions, showBadgeModal, badgeModalSubmitInfo} = props;
-
-  //console.log("BadgeModal props", props);
-
   const [wallStatus, setWallStatus] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [uids, setUids] = useState([]);

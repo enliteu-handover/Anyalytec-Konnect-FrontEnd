@@ -146,12 +146,12 @@ const FeedbackComments = (props) => {
       <div className="reply-textarea-inner reply-textarea-inner-f">
         <div className="reply-textarea-div position-relative">
           <div className="feed-comment-close" onClick={() => IsClear()}>X</div>
+
           {childReplay?.message &&
             <div className="replay-comment">
               Reply To:
               <div id='parentElement' className="eep_command_posts" dangerouslySetInnerHTML={{ __html: childReplay?.message }} />
             </div>}
-
 
           <div className="editor-container-replay">
             <ReactQuill
@@ -202,8 +202,8 @@ const FeedbackComments = (props) => {
               onClick={() => addIconClickHandler("exist")}
             ></div>
             {/* } */}
-            <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
-            <input type="file" accept="image/png, image/gif, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+            <input type="file" accept="image/png, image/jpg, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+            <input type="file" accept="image/png, image/jpg, image/jpeg" className="d-none attachmentFileLoaders text-right" id="cmt_attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
 
             <div
               className={`${ideaComment.length > 0 ? "eep_post_icon c1" : ""}`}

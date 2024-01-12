@@ -90,6 +90,7 @@ const AddEcard = (props) => {
               title="Add Image"
               onClick={()=>{addIconClickHandler()}}
             />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Max 1Mb)
           </div>
         </div>
       </div>
@@ -97,6 +98,7 @@ const AddEcard = (props) => {
         id="imgFileLoader"
         className="invisible"
         type="file"
+        accept="image/png, image/jpg, image/jpeg"
         onChange={(event) => onChangeHandler(event)}
       />
     </React.Fragment>

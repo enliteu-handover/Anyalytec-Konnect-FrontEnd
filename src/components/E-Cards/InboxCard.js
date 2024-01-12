@@ -173,7 +173,7 @@ const InboxCard = (props) => {
                       return;
                     })}
                     {eCardDataLimited?.length <= 0 &&
-                      <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+                      <ResponseInfo title="No card found" responseImg="noRecord" responseClass="response-info" />
                     }
                   </div>
                 </div>

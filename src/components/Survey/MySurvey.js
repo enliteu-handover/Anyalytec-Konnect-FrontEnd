@@ -1,17 +1,17 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { useDispatch } from "react-redux";
+import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const MySurvey = () => {
 
@@ -59,6 +59,7 @@ const MySurvey = () => {
 	}, []);
 
 	const fetchMySurveyDetail = (paramsInfo) => {
+		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -73,14 +74,15 @@ const MySurvey = () => {
 			};
 		}
 		httpHandler(obj).then((response) => {
-			//console.log("fetchMySurveyDetail response :", response.data);
 			setMySurveyList(response.data);
+			pageLoaderHandler('hide')
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
 				type: "danger",
 				message: error?.response?.data?.message,
 			});
+			pageLoaderHandler('hide')
 		});
 	}
 
@@ -113,19 +115,15 @@ const MySurvey = () => {
 
 	const surveyTableHeaders = [
 		{
-			fieldLabel: "SURVEY TITLE",
-			fieldValue: "survey.name",
+			header: "SURVEY TITLE",
+			accessorKey: "survey.name",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
-		{
-			fieldLabel: "View",
-			fieldValue: "action",
-			component: <CustomLinkComponent cSettings={tableSettings.view} />,
-		}
+
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -150,19 +148,12 @@ const MySurvey = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{mySurveyList && (
-									<Table
-										component="MySurvey"
-										headers={surveyTableHeaders}
-										data={mySurveyList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-											tableId: "MySurveyId"
-										}}
-										action={null}
-									></Table>
-								)}
+
+								<TableComponent
+									data={mySurveyList ?? []}
+									columns={surveyTableHeaders}
+									action={<CustomLinkComponent cSettings={tableSettings.view} />}
+								/>
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

@@ -1,18 +1,18 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import PageHeader from "../../UI/PageHeader";
-import YearFilter from "../../UI/YearFilter";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import Table from "../../UI/Table";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import IconWithLength from "../../UI/CustomComponents/IconWithLength";
 import MyForumsActions from "../../UI/CustomComponents/MyForumsActions";
-import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import PageHeader from "../../UI/PageHeader";
+import YearFilter from "../../UI/YearFilter";
+import TableComponent from "../../UI/tableComponent";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 
 const MyForumPosts = (props) => {
 
@@ -204,7 +204,6 @@ const MyForumPosts = (props) => {
       disableExistModal();
       let forumUpdateObj, formData, httpObj;
       if (forumTempData.actionType === "unpost" || forumTempData.actionType === "post") {
-        //console.log("forumTempData", forumTempData);
         formData = new FormData();
         forumUpdateObj = {
           id: forumTempData.id,
@@ -215,7 +214,8 @@ const MyForumPosts = (props) => {
           dept: [],
           existForumAttach: []
         }
-        formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
+        formData.append('forumrequest', JSON.stringify(forumUpdateObj))
+        // formData.append('forumrequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
         httpObj = {
           url: URL_CONFIG.FORUM,
           method: "put",
@@ -275,7 +275,8 @@ const MyForumPosts = (props) => {
       dept: deptValsArr,
       existForumAttach: updateDatas.existPostAttach
     }
-    formData.append('forumRequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
+    formData.append('forumrequest', JSON.stringify(forumUpdateObj))
+    // formData.append('forumrequest', new Blob([JSON.stringify(forumUpdateObj)], { type: 'application/json' }));
     const obj = {
       url: URL_CONFIG.FORUM,
       method: "put",
@@ -299,34 +300,42 @@ const MyForumPosts = (props) => {
 
   const myForumsTableHeaders = [
     {
-      fieldLabel: "Title",
-      fieldValue: "title",
+      header: "Title",
+      accessorKey: "title",
     },
     {
-      fieldLabel: "Comments",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      header: "Comments",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+
     },
     {
-      fieldLabel: "Likes",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      header: "Likes",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+
     },
     {
-      fieldLabel: "Followers",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.followers} />,
+      header: "Followers",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.followers} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.followers} />,
+
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "action",
-      component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "action",
+      // component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
+      accessorFn: (row) => moment(row.createdAt).format('l'),
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />,
+    // },
   ];
 
   const onFilterChange = (filterValue) => {
@@ -388,18 +397,12 @@ const MyForumPosts = (props) => {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {myForumPostsLists && (
-              <Table
-                component="userManagement"
-                headers={myForumsTableHeaders}
-                data={myForumPostsLists}
-                tableProps={{
-                  classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              ></Table>
-            )}
+
+            <TableComponent
+              data={myForumPostsLists ?? []}
+              columns={myForumsTableHeaders}
+              action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
+            />
           </div>
         </div>
       </div>

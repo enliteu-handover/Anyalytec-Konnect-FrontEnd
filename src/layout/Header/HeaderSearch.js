@@ -23,7 +23,7 @@ const HeaderSearch = () => {
         <input type="text" id="navsearch"
           name="navsearch"
           className={`eep_search_input`}
-          placeholder="Search..."
+          placeholder="Search Users..."
           aria-label="Search"
           aria-describedby="basic-addon2"
           autoComplete="off"

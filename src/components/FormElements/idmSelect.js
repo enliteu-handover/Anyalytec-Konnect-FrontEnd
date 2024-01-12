@@ -40,7 +40,6 @@ const SelectDropdownIdm = (props) => {
                 value: v?.id
             }
         })
-        console.log('datadatadatadatadatadata', data);
         if (data?.length > 0) {
             setOptions(data);
         }

@@ -15,7 +15,7 @@ const EEPSubmitModal = ({
   const [audio] = useState(new Audio(url));
 
   useEffect(() => {
-    if (celebrations && celebrations.isCelebration) {
+    if (celebrations && celebrations?.isCelebration) {
       setShowCelebration(true);
       audio.play();
       setTimeout(() => {

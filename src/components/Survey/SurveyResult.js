@@ -1,21 +1,21 @@
+import $ from "jquery";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import IconWithState from "../../UI/CustomComponents/IconWithState";
+import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomComponent";
+import SurveyResultCustomComponent from "../../UI/CustomComponents/SurveyResultCustomComponent";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import IconWithState from "../../UI/CustomComponents/IconWithState";
-import SurveyResultCustomComponent from "../../UI/CustomComponents/SurveyResultCustomComponent";
-import { httpHandler } from "../../http/http-interceptor";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
-import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomComponent";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SurveyPreviewModal from "./SurveyPreviewModal";
-import $ from "jquery";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -104,7 +104,6 @@ const SurveyResult = () => {
 				};
 			}
 			httpHandler(obj).then(() => {
-				console.log("filterParams", filterParams);
 				fetchSurveyResultDetail(filterParams);
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -168,33 +167,31 @@ const SurveyResult = () => {
 
 	const SurveyResultTableHeaders = [
 		{
-			fieldLabel: "SURVEY TITLE",
-			fieldValue: "name",
+			header: "SURVEY TITLE",
+			accessorKey: "name",
 		},
 		{
-			fieldLabel: "Favourites",
-			fieldValue: "action",
-			component: <IconWithState cSettings={cSettings.favourites} />,
+			header: "Favourites",
+			accessorKey: "action",
+			accessorFn: ({ renderedCellValue, row }) => (<div><IconWithState data={row} cSettings={cSettings.favourites} /></div>)
+
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={cSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
 		{
-			fieldLabel: "SCORE",
-			fieldValue: "score",
+			header: "SCORE",
+			accessorKey: "score",
 		},
 		{
-			fieldLabel: "RESPONSE",
-			fieldValue: "action",
-			component: <ResponseCustomComponent cSettings={cSettings.response} type="survey" />
+			header: "RESPONSE",
+			accessorKey: "action",
+			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings?.response} type="survey" />,
+
 		},
-		{
-			fieldLabel: "Action",
-			fieldValue: "action",
-			component: <SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />,
-		},
+
 	];
 
 	const sideBarClass = (tooglestate) => {
@@ -406,18 +403,12 @@ const SurveyResult = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar vertical-scroll-snap no-gutters ${toggleClass ? "side_open" : ""}`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{surveyResultList && (
-									<Table
-										component="userManagement"
-										headers={SurveyResultTableHeaders}
-										data={surveyResultList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
-								)}
+
+									<TableComponent
+										data={surveyResultList ?? []}
+										columns={SurveyResultTableHeaders}
+										action={<SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />}
+									/>
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

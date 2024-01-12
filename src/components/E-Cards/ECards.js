@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import Slider from "react-slick";
-import ComposeCardModal from "../../modals/ComposeCardModal";
-import AddEcard from "../FormElements/AddEcard";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
 import ResponseInfo from "../../UI/ResponseInfo";
-import { clearModalBackdrop } from "../../shared/SharedService";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ComposeCardModal from "../../modals/ComposeCardModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { clearModalBackdrop } from "../../shared/SharedService";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import AddEcard from "../FormElements/AddEcard";
 import ImagePreloader from "./ImagePreloader";
 
 const ECards = () => {
@@ -75,40 +74,22 @@ const ECards = () => {
   });
 
   var settings = {
+    // dots: false,
+    // arrows: false,
+    // infinite: false,
+    // // infinite: true,
+    // speed: 500,
+    // slidesToShow: 3.5,
+    // adaptiveHeight: true,
+    // slidesToScroll: 4,
+    // padSlides: false,
     dots: false,
     arrows: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    adaptiveHeight: true,
-    slidesToScroll: 3,
-    padSlides: false,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+    slidesToShow: 3.5,
+    slidesToScroll: 4,
+    initialSlide: 0,
   };
 
   const selectImageHandler = (e, carddataa, cat, item) => {
@@ -309,32 +290,36 @@ const ECards = () => {
             >
               <div className="card-body">
                 <div className="row birthdy_div">
-                  <div className="col-md-9">
+                  <div className="col-md-9" style={{ paddingRight: "6px" }}>
                     {cardTemplates && cardTemplates.birthday && cardTemplates.birthday.length > 0 && (
-                      <Slider {...settings}>
-                        {cardTemplates.birthday.map((item, index) => {
-                          return (
-                            <div
-                              className="parent_slider_img c1"
-                              key={"birthdayTemplate_" + index}
-                              data-toggle="modal"
-                              data-target="#ComposeCardModal"
-                              onClick={(e) =>
-                                selectImageHandler(e, cardTemplates.birthday, 'birthday', item)
-                              }
-                            >
-                              <img
-                                src={item?.imageByte?.image}
-                                className="slider_image"
-                                id={index}
-                                alt="E-Card"
-                                title={item.name}
-                                style={{ height: "180px" }}
-                              />
-                            </div>
-                          );
-                        })}
-                      </Slider>
+                      // <Slider {...settings}>
+                      <div className="ecard_sliders">
+                        {
+                          cardTemplates?.birthday.map((item, index) => {
+                            return (
+                              <div
+                                className="parent_slider_img c1"
+                                key={"birthdayTemplate_" + index}
+                                data-toggle="modal"
+                                data-target="#ComposeCardModal"
+                                onClick={(e) =>
+                                  selectImageHandler(e, cardTemplates.birthday, 'birthday', item)
+                                }
+                              >
+                                <img
+                                  src={item?.imageByte?.image}
+                                  className="slider_image"
+                                  id={index}
+                                  alt="E-Card"
+                                  title={item.name}
+                                  style={{ height: "180px" }}
+                                />
+                              </div>
+                            );
+                          })
+                        }
+                      </div>
+                      // </Slider>
                     )}
                     {isLoading && cardTemplates && !cardTemplates.birthday && (
                       <ImagePreloader />
@@ -343,7 +328,7 @@ const ECards = () => {
                       <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
                     )}
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-md-3" style={{ padding: "0px" }}>
                     {addECardState && addECardState.birthday && (
                       <React.Fragment>
                         <AddEcard getImageData={getImageData} eCardCategory="birthday" />
@@ -380,7 +365,8 @@ const ECards = () => {
                 <div className="row annivdy_div">
                   <div className="col-md-9">
                     {cardTemplates && cardTemplates.anniversary && cardTemplates.anniversary.length > 0 && (
-                      <Slider {...settings}>
+                      // <Slider {...settings}>
+                      <div className="ecard_sliders">
                         {cardTemplates.anniversary.map((item, index) => {
                           return (
                             <div
@@ -403,7 +389,8 @@ const ECards = () => {
                             </div>
                           );
                         })}
-                      </Slider>
+                      </div>
+                      // {/* </Slider> */}
                     )}
                     {isLoading && cardTemplates && !cardTemplates.anniversary && (
                       <ImagePreloader />
@@ -450,7 +437,8 @@ const ECards = () => {
                 <div className="row appreciation_div" style={{}}>
                   <div className="col-md-9">
                     {cardTemplates && cardTemplates.appreciation && cardTemplates.appreciation.length > 0 && (
-                      <Slider {...settings}>
+                      // <Slider {...settings}>
+                      <div className="ecard_sliders">
                         {cardTemplates.appreciation.map((item, index) => {
                           return (
                             <div
@@ -473,7 +461,8 @@ const ECards = () => {
                             </div>
                           );
                         })}
-                      </Slider>
+                      </div>
+                      // </Slider>
                     )}
                     {isLoading && cardTemplates && !cardTemplates.appreciation && (
                       <ImagePreloader />
@@ -519,7 +508,8 @@ const ECards = () => {
                 <div className="row seasonal_div">
                   <div className="col-md-9">
                     {cardTemplates && cardTemplates.seasonal && cardTemplates.seasonal.length > 0 && (
-                      <Slider {...settings}>
+                      // <Slider {...settings}>
+                      <div className="ecard_sliders">
                         {cardTemplates.seasonal.map((item, index) => {
                           return (
                             <div
@@ -542,7 +532,8 @@ const ECards = () => {
                             </div>
                           );
                         })}
-                      </Slider>
+                      </div>
+                      // {/* </Slider> */}
                     )}
                     {isLoading && cardTemplates && !cardTemplates.appreciation && (
                       <ImagePreloader />

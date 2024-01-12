@@ -40,11 +40,9 @@ const IdeaDetailView = (props) => {
     };
     httpHandler(obj)
       .then((iData) => {
-        //console.log("readAllIdeas API response => ",iData);
         setIdeaDetail(iData.data);
       })
       .catch((error) => {
-        //console.log("readAllIdeas API error => ",error);
         setShowModal({
           ...showModal,
           type: "danger",
@@ -123,7 +121,6 @@ const IdeaDetailView = (props) => {
 
     httpHandler(obj)
       .then(() => {
-        //console.log("likeAnIdea API response => ",response);
         if (likeInfo.isLike) {
           fetchIdeaDetail();
         }

@@ -320,7 +320,7 @@ const CardsTemplate = (props) => {
                           </div>
                         </div>
                       </div>
-                      <input type="file" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange} />
+                      <input type="file" accept="image/png, image/jpg, image/jpeg" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange} />
                     </div>
                   </div>
                 </div>
@@ -384,7 +384,7 @@ const CardsTemplate = (props) => {
                     </div>
                   </div>
                 </div>
-                <input type="file" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange} />
+                <input type="file" accept="image/png, image/jpg, image/jpeg" className="d-none imgFileLoader" id="imgFileLoader" name="files" title="Load File" onChange={TemplateImageChange} />
               </div>
             </div>
           </React.Fragment>

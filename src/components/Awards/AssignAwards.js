@@ -24,6 +24,7 @@ const AssignAwards = (props) => {
       collections[i].remove();
     }
     setShowModal({ type: null, message: null });
+    setShowNominateAwardModal(false);
   };
 
   const awardModalClickHandler = (arg) => {
@@ -157,7 +158,7 @@ const AssignAwards = (props) => {
         assignAwardData={assignAwardData}
       />
       {showNominateAwardModal &&
-        <NominateAwardModal judgeUsers={judgeUsers} nomiDeptOptions={deptOptions} allUserData={userOptions} assignAwardData={assignAwardData} nominateTypeData={nominateTypeData} modalSubmitInfo={modalSubmitInfo} />
+        <NominateAwardModal hideModal={hideModal} judgeUsers={judgeUsers} nomiDeptOptions={deptOptions} allUserData={userOptions} assignAwardData={assignAwardData} nominateTypeData={nominateTypeData} modalSubmitInfo={modalSubmitInfo} />
       }
       <div
         className={`${awardData.length <= 0 ? "h-100 " : "mt-4"
@@ -254,7 +255,7 @@ const AssignAwards = (props) => {
           ))}
         {awardData && awardData.length <= 0 && (
           <ResponseInfo
-            title="No record found."
+            title="Add awards to get started!"
             responseImg="noRecord"
             responseClass="response-info"
           />

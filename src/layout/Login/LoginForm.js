@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
@@ -7,7 +8,6 @@ import { httpHandler } from "../../http/http-interceptor";
 import { idmRoleMapping } from '../../idm';
 import { sharedDataActions } from '../../store/shared-data-slice';
 import classes from "./LoginForm.module.scss";
-import axios from "axios";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -27,18 +27,6 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState("");
 
   const [formIsValid, setFormIsValid] = useState(false);
-
-  useEffect(() => {
-
-    axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
-      .then(response => {
-        console.log('Qwik gifts---', response?.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-  }, [])
 
   useEffect(() => {
     setFormIsValid(false);
@@ -81,12 +69,7 @@ const LoginForm = () => {
         username: userName
       }
     };
-    const user_validation = await httpHandler(validate_login_uder)
-    if (!user_validation?.data?.is_valid) {
-      const errMsg = "You are not a valid user, please contact the administrator."
-      setLoginError(errMsg);
-      return
-    }
+
     setUserNameTouched(true);
     setPasswordTouched(true);
 
@@ -96,6 +79,12 @@ const LoginForm = () => {
     };
 
     if (formIsValid) {
+      const user_validation = await httpHandler(validate_login_uder)
+      if (!user_validation?.data?.is_valid) {
+        const errMsg = "You are not a valid user, please contact the administrator."
+        setLoginError(errMsg);
+        return
+      }
       const obj = {
         url: URL_CONFIG.AUTH_LOGIN_URL,
         method: "post",
@@ -112,27 +101,23 @@ const LoginForm = () => {
             "fullName": userData?.data?.data?.user?.username,
             "tokenType": "Bearer",
             accessToken: userData?.data?.data?.token
-            // accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODI0NTE1LCJleHAiOjE2ODY4MjYzMTV9.J-C3XMTogyhBQR-00LkHhBS20MeoiPNrpsCoaRRN_CCxQkPldYnv9vx7tpS5r3leRROgbg8DUtHTjRay16b04g"
           });
           sessionStorage.loggedInTime = new Date().getTime();
-          await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          // await idmRolesToUpdateInDb()?.then(async () => {
+          updateToLoginUserTokenHandler(userData?.data?.data?.token)
           await fetchPermission()?.then(() => {
             if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
               const url = new URL(sessionStorage?.redirect);
               const router = url.pathname;
-              console.log(router);
               history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
               sessionStorage.removeItem('redirect')
             } else {
-              history.push("/app/dashboard");
+              // history.push("/app/dashboard");
+              window.location.pathname = '/app/dashboard'
             }
           })
-          // })
         })
         .catch((error) => {
           console.log("formSubmissionHandler error", error.response);
-          //const errMsg = error.response?.data?.message;
           const errMsg = "Invalid credentials.";
           setLoginError(errMsg);
         });
@@ -169,9 +154,11 @@ const LoginForm = () => {
         HeaderLogo: response?.data?.HeaderLogo,
         userLogo: response?.data?.userLogo,
         theme: response?.data?.theme?.[0] ?? {},
+        orgId: response?.data?.orgId ?? "",
+        countryDetails: response?.data?.countryDetails ?? "",
       }
       sessionStorage.setItem('userData', JSON.stringify(addFileds))
-      await dispatch(sharedDataActions.getUserRolePermission({
+      dispatch(sharedDataActions.getUserRolePermission({
         userRolePermission: roleData?.data
       }));
 
@@ -235,11 +222,11 @@ const LoginForm = () => {
                     onClick={passwordToggleHandler}
                   ></div>
                 </div>
-                {passWordInputIsInvalid && (
-                  <p className="error-text">Please enter password</p>
-                )}
-                {loginError && <p className="error-text">{loginError}</p>}
               </div>
+              {passWordInputIsInvalid && (
+                <p className="error-text" style={{ bottom: "5px" }}>Please enter password</p>
+              )}
+              {loginError && <p className="error-text">{loginError}</p>}
             </div>
           </div>
           <div className={classes.btnSubmit_div}>

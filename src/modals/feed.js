@@ -32,7 +32,11 @@ const CreateFeedbackModal = (props) => {
         category:
             { id: 1, name: 'Suggestion' },
         logo: 4,
-        show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+        show_as: {
+            name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+            ))
+        }
     });
 
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -251,7 +255,6 @@ const CreateFeedbackModal = (props) => {
             setUsersOptions([...uOptions]);
         }).catch((error) => {
             console.log("fetchUserData error", error);
-            //const errMsg = error.response?.data?.message;
         });
 
     };
@@ -321,7 +324,11 @@ const CreateFeedbackModal = (props) => {
             category:
                 { id: 1, name: 'Suggestion' },
             logo: 4,
-            show_as: { name: JSON.parse(sessionStorage.userData)?.username }
+            show_as: {
+                name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                    JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+                ))
+            }
         });
         setAssignUser(null)
         setAttachementFiles([])
@@ -408,7 +415,11 @@ const CreateFeedbackModal = (props) => {
                                 </div>
 
                                 <div className="col-md-12 mb-3">
-                                    {[{ name: JSON.parse(sessionStorage.userData)?.username }, { name: "Anonymous" }]?.map(v => {
+                                    {[{
+                                        name: ((JSON.parse(sessionStorage?.userData)?.firstName ?? '') + ' ' + (
+                                            JSON.parse(sessionStorage?.userData)?.lastName ?? ''
+                                        ))
+                                    }, { name: "Anonymous" }]?.map(v => {
                                         return <button
                                             style={{
                                                 background: state?.show_as?.name === v?.name ? '#244AC4' : '#eee',
@@ -448,7 +459,6 @@ const CreateFeedbackModal = (props) => {
                                     </div>
                                     <div className="col-md-12 mb-3"
                                         ref={myRef}
-                                        // onMouseLeave={() => setIsOpen(false)}
                                         onFocus={() => setIsOpen(true)
                                         }
                                     >
@@ -500,7 +510,7 @@ const CreateFeedbackModal = (props) => {
                                             theme="snow"
                                             placeholder="Add message" value={state.message} onChange={handleMessage} />
 
-                                    </div>    {/* <textarea rows="4" cols="50" placeholder="Enter the description..." name="description" id="description" className="communication-modal-textarea eep_scroll_y" maxLength={descMaxLength} value={modalDescription} onChange={(event) => setModalDescription(event.target.value)}></textarea> */}
+                                    </div>
                                 </div>
 
                                 {modalErrorAttachements?.errCount.length > 0 && errorAtthState &&
@@ -536,12 +546,6 @@ const CreateFeedbackModal = (props) => {
                                                 onClick={() => addIconClickHandler("new")}
                                                 src={process.env.PUBLIC_URL + "/images/icons/special/attachment-add.svg"} className="c1 attachments_adds attachments_add" title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip" alt="attachment-add-icon"
                                             />
-                                            //     <div
-                                            //     className="attachments_adds i_pin_icon eep_attachment_icon c1"
-                                            //     dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.attachment_icon }}
-                                            //     title="jpge, png, gif, jpg, svg, pdf, ppt, excel, word, zip"
-                                            //     onClick={() => addIconClickHandler("new")}
-                                            // ></div>
                                         }
                                         {attachementFiles?.length > 0 &&
                                             <React.Fragment>
@@ -565,8 +569,8 @@ const CreateFeedbackModal = (props) => {
                                             </React.Fragment>
                                         }
                                     </div>
-                                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
-                                    <input type="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
+                                    <input type="file" accept="image/jpeg,image/jpg,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderNew" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "new")} />
+                                    <input type="file" accept="image/jpeg,image/jpg,image/png,application/pdf,image/x-eps" className="d-none attachmentFileLoaders text-right" id="attachmentFileLoaderExist" name="file-input" multiple="multiple" title="Load File" onChange={(event) => onChangeHandler(event, "exist")} />
                                 </div>
 
                             </div>

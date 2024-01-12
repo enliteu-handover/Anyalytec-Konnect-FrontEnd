@@ -6,6 +6,7 @@ import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
 import SurveyPreviewModal from "../../modals/SurveyPreviewModal";
 import AddSurveyToRecognitionModal from "../../modals/AddSurveyToModal";
+import ResponseInfo from "../../UI/ResponseInfo";
 
 const Survey = () => {
 
@@ -85,7 +86,7 @@ const Survey = () => {
             {addCertificateState && <AddSurveyToRecognitionModal surveyAllData={surveyAllData} fetchSurveyData={fetchSurveyData} />}
 
             <div className="eep-content-start">
-                <div className="eep-content-section p-4 bg-ebeaea brtl-15 brtr-15 eep_scroll_y">
+                {surveyData?.length > 0 && <div className="eep-content-section p-4 bg-ebeaea brtl-15 brtr-15 eep_scroll_y">
                     <div className="row lib_row_div ">
 
                         {surveyData?.length > 0 && surveyData.map((item, index) => {
@@ -134,9 +135,13 @@ const Survey = () => {
                             )
                         })}
 
-
                     </div>
-                </div>
+                </div>}
+                {surveyData && surveyData.length <= 0 &&
+                    <div className="eep-content-section-data d-flex w-100">
+                        <ResponseInfo title="No matching results" responseImg="noRecord" responseClass="response-info" />
+                    </div>
+                }
             </div>
         </React.Fragment>
     )

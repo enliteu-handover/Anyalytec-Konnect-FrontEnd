@@ -22,7 +22,7 @@ const AchievementAwards = (props) => {
           </div>
         }
         {dashboardDetails && dashboardDetails?.acheivedAwardList?.length <= 0 && (
-          <ResponseInfo title="No Awards found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="Yet to earn Awards!" responseImg="noRecord" responseClass="response-info" />
         )}
         <div className="dropdown-divider"></div>
         <label className="achievements_lbl title_lbl">
@@ -41,7 +41,7 @@ const AchievementAwards = (props) => {
           </div>
         }
         {dashboardDetails && dashboardDetails?.awaitingAwardList?.length <= 0 && (
-          <ResponseInfo title="No wating award found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No Awaiting Awards" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </div>

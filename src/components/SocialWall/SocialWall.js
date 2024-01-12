@@ -24,10 +24,10 @@ const SocialWall = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    {
-      label: "RECOGNITION",
-      link: "app/recognition",
-    },
+    // {
+    //   label: "RECOGNITION",
+    //   link: "app/recognition",
+    // },
     {
       label: "SOCIALWALL",
       link: "app/socialwall",
@@ -123,6 +123,7 @@ const SocialWall = () => {
         pageLoaderHandler('hide')
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("SOCIALWALL_LIST API error => ", error);
       });
   };
@@ -217,7 +218,6 @@ const SocialWall = () => {
         };
         httpHandler(obj)
           .then((response) => {
-            console.log("commentSocialWallPostHandle response", response.data);
             fetchSocialWallCommentDataBySocialID(arg);
           })
           .catch((error) => {
@@ -241,7 +241,6 @@ const SocialWall = () => {
         };
         httpHandler(obj)
           .then((response) => {
-            console.log("commentSocialWallPostHandle response", response);
             arg.subData.commentState.typeCommentState = false;
             fetchSocialWallCommentDataBySocialID(arg);
           })
@@ -288,7 +287,6 @@ const SocialWall = () => {
             break;
           }
         }
-        console.log("socialWallListTemp", socialWallListTemp);
         setSocialWallList([...socialWallListTemp]);
       })
       .catch((error) => {

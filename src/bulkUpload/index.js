@@ -116,10 +116,10 @@ const BulkUploadOrgChart = () => {
     const userBulkDataTableHeaders = [
         {
             header: "fullName",
-            accessorKey: "reporting",
+            accessorKey: "Username",
         }, {
             header: "Reportung To",
-            accessorKey: "reportingTo",
+            accessorKey: "ReportingTo",
         }, {
             header: "Status",
             accessorKey: "status",
@@ -261,7 +261,7 @@ const BulkUploadOrgChart = () => {
     };
 
     const handleExportDownload = () => {
-        
+
         const worksheet = XLSX.utils.json_to_sheet(state?.orgChartData?.data ?? []);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
@@ -279,7 +279,7 @@ const BulkUploadOrgChart = () => {
                 // isUpload={false}
                 isUpload={isUpload}
                 downloadExcel={downloadExcel}
-                url={'https://objectstore.e2enetworks.net/enliteu/Org%20Upload.xlsx'}
+                url={'https://enliteu.objectstore.e2enetworks.net/Org%20upload.xlsx'}
                 isOrg={state?.orgChartData}
                 onSucess={onSucess}
                 fileName={state?.uploadData?.name ?? ''}
@@ -324,7 +324,7 @@ const BulkUploadOrgChart = () => {
                     position: 'fixed',
                     top: '50%',
                     right: '46%',
-                }}>No Data!.</div>}
+                }}>Start building</div>}
 
             {(!state?.orgChartData?.newUsers) &&
                 state?.chartData?.initialNodes?.length > 0 &&

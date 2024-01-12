@@ -12,8 +12,6 @@ import PDF from "react-pdf-js";
 const HallOfFame = (props) => {
 
   const { hallOfFameDetails, getHallOfFameFilterParams, getUserPicture } = props;
-  //console.log("hallOfFameDetails props", hallOfFameDetails);
-
   const [rewardInfoModalData, setRewardInfoModalData] = useState({ data: [], state: false });
   const maxLikedCount = 3;
 
@@ -34,7 +32,6 @@ const HallOfFame = (props) => {
   ];
 
   const getFilterParams = (paramsData) => {
-    //console.log("getFilterParams paramsData", paramsData);
     if (Object.getOwnPropertyNames(paramsData)) {
       getHallOfFameFilterParams({ ...paramsData });
     } else {
@@ -67,7 +64,9 @@ const HallOfFame = (props) => {
               return (
                 <div className="row align-items-center mb-2 bg-f9f9f9 p-1 br-20" key={"HallOfFameRankList_" + index}>
                   <div className="col col-md-3">
-                    <img src={getUserPicture(item?.userId)} className="profile_pic" alt="Profile Image" title={item.name} />
+                    <img src={item?.imageByte || getUserPicture(item?.userId)
+                      // getUserPicture(item?.userId)
+                    } className="profile_pic" alt="Profile Image" title={item.name} />
                     {/* <Link to="#" className="a_hover_txt_deco_none opacity-5"> */}
                     <label className="profile_nm font-helvetica-m my-0 eep_truncate eep_truncate_min ">{item.name}</label>
                     {/* </Link> */}
@@ -231,7 +230,7 @@ const HallOfFame = (props) => {
           <div className="col-md-6 response-allign-middle mb-3">
             <div className="border border-1 p-3 br-15 h-100">
               <div className="d-block text-startr"><h4>Certificates</h4></div>
-              <ResponseInfo title="No Certificates found" responseImg="noRecord" responseClass="response-info" />
+              <ResponseInfo title="No certificates found" responseImg="noRecord" responseClass="response-info" />
             </div>
           </div>
         )}

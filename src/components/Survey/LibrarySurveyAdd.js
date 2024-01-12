@@ -1,15 +1,15 @@
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import Select from "react-select";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import FormBuilderComponent from "./FormBuilderComponent";
 import SurveyPreviewModal from "./SurveyPreviewModal";
-import $ from "jquery";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -77,7 +77,7 @@ const SurveyLibrarayAnswer = () => {
     }, []);
 
     useEffect(() => {
-        
+
         fetchSurveyData();
     }, []);
 
@@ -97,16 +97,16 @@ const SurveyLibrarayAnswer = () => {
     }
 
     const fetchSurveyData = () => {
-        
+
         if (initSurveyData) {
             const obj = {
                 url: URL_CONFIG.SHOW_LIBRARY_SURVEY,
                 method: "get",
                 params: { id: initSurveyData?.id },
-                isLoader:false
+                isLoader: false
             };
             httpHandler(obj).then((sData) => {
-                
+
                 updateAssignInfo(sData?.data);
             }).catch((error) => {
                 console.log("fetchSurveyData error", error);
@@ -116,8 +116,7 @@ const SurveyLibrarayAnswer = () => {
     }
 
     const updateAssignInfo = (sData) => {
-        
-        //console.log("updateAssignInfo sData", sData);
+
         if (sData) {
             setAssignUser(options[1]);
             setSelectedUsers([]);
@@ -190,7 +189,6 @@ const SurveyLibrarayAnswer = () => {
     }
 
     const getJsonData = (arg) => {
-        //console.log("arg", arg)
         setJsonData(JSON.parse(arg))
     }
 
@@ -219,7 +217,6 @@ const SurveyLibrarayAnswer = () => {
         }
 
         if (jsonData.length > 0) {
-            //console.log("Valid json");
             const obj = {
                 url: URL_CONFIG.SURVEY,
                 method: "post",
@@ -383,7 +380,7 @@ const SurveyLibrarayAnswer = () => {
 
                                 <div className="d-flex justify-content-center s_create_action mb-3">
                                     <button type="submit" className="eep-btn eep-btn-success" id="surveySubmit"
-                                    disabled={btnDisabled}
+                                        disabled={btnDisabled}
                                         onClick={() => publishSurvey()}>Publish</button>
                                 </div>
 

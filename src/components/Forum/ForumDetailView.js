@@ -15,7 +15,6 @@ const ForumDetailView = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const getLocation = useLocation();
-  //console.log("getLocation", getLocation);
   //const forumDataVal = getLocation.state ? getLocation.state?.forumData : "";
   //const usersPicDataVal = getLocation.state ? getLocation.state?.usersPicData : "";
   const initialVal = getLocation.state ? getLocation.state?.forumData : {};
@@ -159,7 +158,7 @@ const ForumDetailView = () => {
   }
 
   const clickCommentReplySubmitHandler = (fData, parentData, replyCommentVal) => {
-    
+
     if (replyCommentVal.length > 0 && fData) {
       const payOptions = {
         message: replyCommentVal,
@@ -215,7 +214,7 @@ const ForumDetailView = () => {
 
   let followEnliteIndex;
   const forumCommentsEnlite = (arg) => {
-    
+
     setHeartAnimateState(false);
     if (arg) {
       let obj;
@@ -234,7 +233,7 @@ const ForumDetailView = () => {
         }
       }
       httpHandler(obj).then((response) => {
-        
+
         if (arg?.isEnlite) {
           setHeartAnimateState(true);
         }
@@ -247,7 +246,7 @@ const ForumDetailView = () => {
         // }
         getForumById(arg?.cmtData);
       }).catch((error) => {
-        
+
         const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
         setShowModal({
           ...showModal,
@@ -259,13 +258,12 @@ const ForumDetailView = () => {
   }
 
   const getForumById = (arg) => {
-    
+
     const obj = {
       url: URL_CONFIG.FORUM_BY_ID + "?id=" + arg.id,
       method: "get"
     }
     httpHandler(obj).then((response) => {
-      //console.log("getforum by id response :", response.data);
       setForumData({ ...response?.data });
       setForumCommentData([...getCustomizedData(response?.data?.forumComments)]);
       setToggleComment(false);
@@ -307,13 +305,13 @@ const ForumDetailView = () => {
   }
 
   const toggleReply = (arg, tType) => {
-    
+
     setToggleComment(false);
     setToggleReplyState({ isToggle: true, cmtData: arg, type: tType });
   }
 
   const editCommentReplyHandler = (cmtData) => {
-    
+
     toggleReply(cmtData, "edit");
   }
 
@@ -342,7 +340,7 @@ const ForumDetailView = () => {
   }
 
   const commentLikeHandler = (cmtData, fData) => {
-		
+
     const obj = {
       url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
       //  + "?id=" + cmtData.id,
@@ -363,28 +361,27 @@ const ForumDetailView = () => {
 
   let unLikeIndex;
   const commentUnLikeHandler = (cmtData, fData) => {
-    
+
     unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
-    //console.log("unLikeIndex", unLikeIndex);
     const obj = {
       url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
       //  + "?id=" + cmtData.forumCommentLikes[unLikeIndex].id,
       payload: { id: cmtData.forumCommentLikes[unLikeIndex].id },
       method: "delete"
     }
-    axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE}`, 
-    { data: { id: cmtData.forumCommentLikes[unLikeIndex].id } })
-    // httpHandler(obj)
-    .then(() => {
-      getForumById(fData);
-    }).catch((error) => {
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-      setShowModal({
-        ...showModal,
-        type: "danger",
-        message: errMsg,
+    axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE}`,
+      { data: { id: cmtData.forumCommentLikes[unLikeIndex].id } })
+      // httpHandler(obj)
+      .then(() => {
+        getForumById(fData);
+      }).catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: errMsg,
+        });
       });
-    });
   }
 
   const deleteCommentHandler = (cmdData, fData) => {
@@ -423,18 +420,13 @@ const ForumDetailView = () => {
   }
 
   const checkIsReplyLiked = (rData) => {
-    //console.log("checkIsReplyLiked rData", rData);
     let rLikeIndex = rData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
-    //console.log("rLikeIndex", rLikeIndex);
     if (rLikeIndex === -1) {
       return false;
     } else {
       return true;
     }
   }
-
-  //console.log("setForumData:", forumData, forumCommentData);
-
   return (
     <React.Fragment>
       <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />
@@ -487,9 +479,9 @@ const ForumDetailView = () => {
                       <div className="attachment_parent" key={"attachmentLists_" + index}>
                         <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
                           <img src={fileTypeAndImgSrcArray[atthData.contentType]
-                             ? fileTypeAndImgSrcArray[atthData.contentType] : 
-                             fileTypeAndImgSrcArray['default']} 
-                             className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
+                            ? fileTypeAndImgSrcArray[atthData.contentType] :
+                            fileTypeAndImgSrcArray['default']}
+                            className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
                         </a>
                       </div>
                     )
@@ -540,7 +532,8 @@ const ForumDetailView = () => {
                     <img src={getUserPicture(currentUserData.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
                   </div>
                   <div className="forum_profile_content">
-                    <label className="forum_user_name mb-0">{currentUserData.fullName}</label>
+                    <label className="forum_user_name mb-0">{((currentUserData?.firstName ?? '') + ' ' +
+                      currentUserData?.lastName ?? '')}</label>
                     <label className="forum_nofpostes d-flex align-items-center mb-0" style={{ fontSize: "12px" }}>
                       <div className="d-flex cursor_help mb-0" title={forumData.title}><i className="eep_truncate eep_truncate_max">Comment to - <span>{forumData.title}</span></i></div>
                     </label>

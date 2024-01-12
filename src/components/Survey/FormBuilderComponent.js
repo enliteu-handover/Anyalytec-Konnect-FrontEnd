@@ -1,6 +1,5 @@
-import React, { useEffect, createRef } from "react";
 import $ from "jquery";
-import { useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -9,7 +8,6 @@ require("formBuilder");
 const FormBuilderComponent = (props) => {
 
   const { getJsonData, getSurveyTitle, initSurveyData, isLibrary } = props;
-  //console.log("FormBuilderComponent props", props);
   //const [jsonData, setJsonData] = useState({});
   const [surveyTitle, setSurveyTitle] = useState("");
 
@@ -79,7 +77,6 @@ const FormBuilderComponent = (props) => {
   };
 
   useEffect(() => {
-    
     if (!initSurveyData?.isQuestionBank) {
       setSurveyTitle(initSurveyData?.sData?.name);
       getSurveyTitle(initSurveyData?.sData?.name);
@@ -119,7 +116,12 @@ const FormBuilderComponent = (props) => {
     $(fb.current).html("");
     const formBuilder = $(fb.current).formBuilder(opts);
 
-    document.getElementById('surveySubmit').addEventListener('click', function () {
+    document?.getElementById?.('surveySubmit')?.addEventListener('click', function () {
+      var json_data = formBuilder.actions.getData('json', true);
+      getJsonData(json_data);
+      //setJsonData({...json_data});
+    });
+    document?.getElementById?.('surveySubmitPreview')?.addEventListener('click', function () {
       var json_data = formBuilder.actions.getData('json', true);
       getJsonData(json_data);
       //setJsonData({...json_data});
@@ -174,7 +176,7 @@ const FormBuilderComponent = (props) => {
             <span className="login_error un_error text-danger ereorMsg ng-binding" style={{ display: "inline" }}></span>
           </div>
           {/* <textarea className="survey-title border_none eep_scroll_y px-0" name="survey-title" rows="1" placeholder="Untitled Title" onChange={(evt) => getSurveyTitle(evt.target.value)}></textarea> */}
-          <textarea className="survey-title border_none eep_scroll_y px-0" name="survey-title" rows="1" placeholder="Untitled Title" value={surveyTitle} onChange={(evt) => titleChangeHandler(evt)}></textarea>
+          <textarea style={{ padding: 6, border: "none" }} className="survey-title border_none eep_scroll_y" name="survey-title" rows="1" placeholder="Untitled Title" value={surveyTitle} onChange={(evt) => titleChangeHandler(evt)}></textarea>
         </div>
       </div>
 

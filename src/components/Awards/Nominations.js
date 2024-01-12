@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
+import { useSelector } from "react-redux";
+import NomineesInfo from "../../UI/CustomComponents/NomineesInfo";
 import PageHeader from "../../UI/PageHeader";
 import Table from "../../UI/Table";
-import NomineesInfo from "../../UI/CustomComponents/NomineesInfo";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import NominatedAwards from "./NominatedAwards";
+import TableComponent from "../../UI/tableComponent";
 
 const Nominations = () => {
 
@@ -54,19 +54,21 @@ const Nominations = () => {
       .then((nominatedLists) => {
         let usersInfo = [];
         let awardsInfo = [];
-        nominatedLists.data && nominatedLists.data.length && nominatedLists.data.map((lists) => {
+        nominatedLists?.data && nominatedLists?.data.length && nominatedLists?.data.map((lists) => {
           lists?.nominated && lists?.nominations?.length && lists?.nominations.map((users) => {
             users.userId.pic = getUserPicture(picDatas, users.userId.id);
-            return usersInfo.push({ userData: users, listData: lists });
+            return usersInfo.push({
+              userData: users, listData: lists,
+              name: users?.userId?.fullName
+            });
           });
-          return awardsInfo.push(lists);
+          return awardsInfo?.push(lists);
         });
         setAwardList(awardsInfo);
         setNominatedList(usersInfo);
       })
       .catch((error) => {
         console.log("error", error);
-        //const errMsg = error.response?.data?.message;
       });
   };
 
@@ -77,21 +79,22 @@ const Nominations = () => {
 
   const nominatedTableHeaders = [
     {
-      fieldLabel: "Nominees",
-      fieldValue: "action",
-      component: <NomineesInfo />,
+      header: "Nominees",
+      accessorKey: "action",
+      accessorFn: (row) => <NomineesInfo data={row} />,
+
     },
     {
-      fieldLabel: "Team",
-      fieldValue: "listData.nominatorId.department.name",
+      header: "Team",
+      accessorKey: "listData.nominatorId.department.name",
     },
     {
-      fieldLabel: "Award",
-      fieldValue: "listData.award.name",
+      header: "Award",
+      accessorKey: "listData.award.name",
     },
     {
-      fieldLabel: "Won",
-      fieldValue: "listData.award.points",
+      header: "Won",
+      accessorKey: "listData.award.points",
     },
   ];
 
@@ -107,7 +110,6 @@ const Nominations = () => {
       fetchAllUsers();
     }
   }
-
   return (
     <React.Fragment>
       <PageHeader title="Awards and Nominated" />
@@ -115,15 +117,14 @@ const Nominations = () => {
         <div className="col-md-7 col-lg-7 col-xl-8 col-sm-12 nm_lcol_div">
           <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
             <div id="awardApprovalDatatable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer">
-              {nominatedList && (
-                <Table component="userManagement" headers={nominatedTableHeaders} data={nominatedList}
-                  tableProps={{
-                    classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                    id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-                  }}
-                  action={null}
-                ></Table>
-              )}
+              {/* {nominatedList && ( */}
+
+              <TableComponent
+                data={nominatedList ?? []}
+                columns={nominatedTableHeaders}
+                actionHidden={true}
+              />
+              {/* )} */}
             </div>
           </div>
         </div>

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import BulkAction from "../../UI/BulkAction";
+import Filter from "../../UI/Filter";
+import PageHeader from "../../UI/PageHeader";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { BULK_ACTION, HIDE_SHOW_FILTER_CONFIG } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import { TabsActions } from "../../store/tabs-slice";
-import { HIDE_SHOW_FILTER_CONFIG, BULK_ACTION } from "../../constants/ui-config";
-import PageHeader from "../../UI/PageHeader";
-import Filter from "../../UI/Filter";
 import AssignAwards from "./AssignAwards";
-import AwardRecognition from "./AwardRecognition";
-import AwardNominationList from "./AwardNominationList";
-import Nominations from "./Nominations";
 import AwardApprovalList from "./AwardApprovalList";
-import MyAwards from "./MyAwards";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import BulkAction from "../../UI/BulkAction";
+import AwardNominationList from "./AwardNominationList";
+import AwardRecognition from "./AwardRecognition";
 import ManageAwards from "./ManageAwards";
+import MyAwards from "./MyAwards";
+import Nominations from "./Nominations";
 
 const Awards = () => {
   const [filterBy, setFilterBy] = useState({ filter: true });
@@ -34,7 +34,6 @@ const Awards = () => {
   const history = useHistory();
   const routerData = location.state || { activeTab: (window.location.hash.substring(1)?.split('?')?.[0]) || 'awardTab' };
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-
   const breadcrumbArr = [
     {
       label: "Home",
@@ -108,7 +107,6 @@ const Awards = () => {
           config: tabConfig,
         })
       );
-      // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -154,7 +152,6 @@ const Awards = () => {
       })
       .catch((error) => {
         console.log("error", error.response?.data?.message);
-        //const errMsg = error.response?.data?.message;
       });
   };
 
@@ -198,7 +195,6 @@ const Awards = () => {
     if (selectedRecords.length > 0 && bulkUpdateBy.updateBy !== null) {
       const obj = {
         url: URL_CONFIG.AWARD_BULK_UPDATE,
-        // + "?award=" + selectedRecords + "&active=" + bulkUpdateBy.updateBy,
         method: "put",
         payload: {
           award: selectedRecords, active: bulkUpdateBy.updateBy
@@ -213,6 +209,7 @@ const Awards = () => {
           });
           fetchAwardData(filterBy.filter);
           resetCheckBox();
+          setEnableBulkState({ bulkState: false });
         })
         .catch((error) => {
           console.log("error", error.response);

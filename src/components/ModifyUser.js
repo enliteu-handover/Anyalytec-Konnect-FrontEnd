@@ -24,7 +24,6 @@ const ModifyUser = () => {
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
     delete uData.createdAt;
     delete uData.createdBy;
@@ -34,9 +33,11 @@ const ModifyUser = () => {
     delete uData.updatedBy;
     delete uData.department.updatedAt;
     delete uData.department.updatedBy;
-    uData.manager = {
-      id: uData?.manager ?? uData?.manager?.id?.id
-    };
+    if (uData?.manager) {
+      uData.manager = {
+        id: uData?.manager?.id ?? uData?.manager?.id?.id ?? uData?.manager
+      };
+    }
     if (uData?.branch) { uData.branch_id = uData?.branch?.id ?? uData?.branch }
     if (uData?.user_id) { uData.id = uData?.user_id }
     if (uData?.gender) { uData.gender = uData?.gender?.label ?? uData?.gender }
@@ -58,21 +59,12 @@ const ModifyUser = () => {
       };
       httpHandler(obj)
         .then((response) => {
-          // const obj_ = {
-          //   url: URL_CONFIG.RESETPASSWORD_AUTH,
-          //   method: "post",
-          //   payload: { new_password: uData?.password },
-          //   isAuth: true
-          // };
-          // httpHandler(obj_).then(() => {
           setShowModal({
             ...showModal,
             type: "success",
             message: response?.data?.message,
           })
         })
-
-        // })
         .catch((error) => {
           console.log("GETUSER data", error.response.data);
           setShowModal({
@@ -203,6 +195,7 @@ const ModifyUser = () => {
     };
     await httpHandler(obj)
       .then((uData) => {
+        pageLoaderHandler('hide')
 
         setTimeout(async () => {
           setUData(uData.data);
@@ -218,7 +211,6 @@ const ModifyUser = () => {
                 setUserMetaData({
                   ...userMeta,
                 })
-                pageLoaderHandler('hide')
               }).catch((error) => console.log(error));
           }
 
@@ -228,6 +220,7 @@ const ModifyUser = () => {
       .catch((error) => {
         console.log("GETUSER", error.response);
         const errMsg = error.response?.data?.message;
+        pageLoaderHandler('hide')
       });
   };
 
@@ -334,11 +327,6 @@ const ModifyUser = () => {
   }, [breadcrumbArr, dispatch]);
   return (
     <React.Fragment>
-      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
-        <div id="loader">
-          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
-        </div>
-      </div>
       {userRolePermission.adminPanel &&
         <React.Fragment>
           {showModal.type !== null && showModal.message !== null && (

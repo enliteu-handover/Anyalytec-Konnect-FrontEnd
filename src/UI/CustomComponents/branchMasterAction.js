@@ -35,7 +35,7 @@ const BranchMasterActions = (props) => {
           }}
         ></span>
 
-        <div className="eep-dropdown-menu dropdown-menu dropdown-menu-right shadow pt-4 pb-4">
+        <div className="eep-dropdown-menu dropdown-menu dropdown-menu-right shadowdrop pt-4 pb-4">
           <Link
             to="#"
             data-toggle="modal"

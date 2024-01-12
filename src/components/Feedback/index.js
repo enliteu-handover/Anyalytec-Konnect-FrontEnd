@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PageHeader from "../../UI/PageHeader";
 import ResponseInfo from "../../UI/ResponseInfo";
+import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import CreateFeedbackModal from "../../modals/feed";
-// import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-// import { TabsActions } from "../../store/tabs-slice";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import FeedbackDetailView from "./feedbackDetailView";
 import FeedbackList from "./feedbackList";
-// import MyFeedback from "./myFeedback";
-import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import "./style.scss";
+import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import moment from "moment/moment";
 
 const Feedback = () => {
   const yrDt = new Date().getFullYear();
@@ -34,6 +34,7 @@ const Feedback = () => {
   const [ideaData, setIdeaData] = useState(null);
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const [filterParams, setFilterParams] = useState({});
+  const [confirmStateModalObj, setConfirmStateModalObj] = useState({ data: null, open: false, confirmTitle: null, confirmMessage: null });
 
   const CloseFunction = () => {
     setCreateModalShow(!createModalShow)
@@ -134,6 +135,7 @@ const Feedback = () => {
   }, []);
 
   const fetchAllFeedbacks = (paramsInfo = {}) => {
+    pageLoaderHandler('show')
 
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
@@ -151,10 +153,14 @@ const Feedback = () => {
 
     httpHandler(obj)
       .then((all_feed) => {
-        setFeedbacks(all_feed?.data?.data);
-        setSearchFeedbacks(all_feed?.data?.data);
+        const data = all_feed?.data?.data?.sort((a, b) => moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf())
+        console.log('data:', data)
+        setFeedbacks(data);
+        setSearchFeedbacks(data);
+        pageLoaderHandler('hide')
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
       });
   }
@@ -315,25 +321,34 @@ const Feedback = () => {
     });
   };
 
-  const deleteFeedback = (feedbackTempData) => {
-
-    let httpObj = {
-      url: URL_CONFIG.FEEDBACK_DELETE
-        + "?id=" + feedbackTempData.id,
-      method: "delete"
-    };
-    httpHandler(httpObj)
-      .then(() => {
-        fetchAllFeedbacks();
-      })
-      .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-        setShowModal({
-          ...showModal,
-          type: "danger",
-          message: errMsg,
+  const confirmState = (isConfirmed) => {
+    if (isConfirmed) {
+      let httpObj = {
+        url: URL_CONFIG.FEEDBACK_DELETE
+          + "?id=" + confirmStateModalObj?.data?.id,
+        method: "delete"
+      };
+      httpHandler(httpObj)
+        .then(() => {
+          setConfirmStateModalObj({ data: null, open: false, confirmTitle: null, confirmMessage: null })
+          hideModal()
+          fetchAllFeedbacks();
+        })
+        .catch((error) => {
+          const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
         });
-      });
+    } else {
+      setConfirmStateModalObj({ data: null, open: false, confirmTitle: null, confirmMessage: null })
+    };
+  }
+
+  const deleteFeedback = (feedbackTempData) => {
+    setConfirmStateModalObj({ data: feedbackTempData, open: true, confirmTitle: "Are you sure?", confirmMessage: "Do you really want to delete this Feedback?" });
   };
 
   const getFilterParams = (paramsData = {}) => {
@@ -351,6 +366,15 @@ const Feedback = () => {
 
   return (
     <React.Fragment>
+
+      {confirmStateModalObj?.open &&
+        <ConfirmStateModal
+          hideModal={hideModal}
+          confirmState={confirmState}
+          confirmTitle={confirmStateModalObj?.confirmTitle ?? "Are you sure?"}
+          confirmMessage={confirmStateModalObj?.confirmMessage ?? ""}
+        />
+      }
 
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
@@ -403,7 +427,7 @@ const Feedback = () => {
             {allSearchfeedback && allSearchfeedback?.length > 0 &&
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
-                  <div className="col-md-4 eep-content-section-data eep_scroll_y pl-0">
+                  <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
                     <FeedbackList
                       feedbackListsData={allfeedback}
                       usersPic={usersPic}
@@ -420,7 +444,7 @@ const Feedback = () => {
                     />
 
                   </div>
-                  <div className="col-md-8 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
+                  <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
                     {ideaData &&
 
                       <FeedbackDetailView
@@ -442,17 +466,14 @@ const Feedback = () => {
             }
             {allfeedback && allfeedback?.length <= 0 &&
               <ResponseInfo
-                title="Nothing to show yet."
+                title="Nothing to show yet"
                 responseImg="noIdeaShare"
                 responseClass="response-info"
-                messageInfo="Nothing is really ours until we share it"
-                subMessageInfo="C. S. Lewis"
+                messageInfo="In the dance of progress, feedback is the music that guides every step of an organization's journey. Write one!"
+                // subMessageInfo="C. S. Lewis"
               />
             }
           </div>
-          {/* <div id="myfeedback" className="tab-pane h-100">
-            {activeTab && activeTab.id === 'myfeedback' && <MyFeedback fetchAllFeedbacks={fetchAllFeedbacks} usersPic={usersPic} deptOptions={deptOptions} />}
-          </div> */}
         </div>
       </div>
     </React.Fragment>

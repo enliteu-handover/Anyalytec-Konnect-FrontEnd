@@ -9,6 +9,7 @@ import { TabsActions } from "../../store/tabs-slice";
 import Dashboard from "./Dashboard";
 import HallOfFame from "./HallOfFame";
 import RewardsRecognition from "./RewardsRecognition";
+import { pageLoaderHandler } from "../../helpers";
 
 const Home = () => {
   const [usersPic, setUsersPic] = useState([]);
@@ -25,9 +26,6 @@ const Home = () => {
   });
 
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-  //console.log("userRolePermission", userRolePermission);
-  // const tourState = useSelector((state) => state.sharedData.tourState);
-  //console.log("tourState", tourState);
 
   const breadcrumbArr = [
     {
@@ -69,7 +67,7 @@ const Home = () => {
 
     if (userRolePermission.employeeEngagementDashboard) {
       tabConfig.push({
-        title: "Rewards & Recognition",
+        title: "Organization Stats",
         id: "Rewards_Recognition",
       });
     }
@@ -130,19 +128,40 @@ const Home = () => {
     };
   }, []);
 
+  // const getDashboardDetails = async () => {
+  //   pageLoaderHandler('show')
+  //   const obj = {
+  //     url: URL_CONFIG.DASHBOARD_INDEX,
+  //     method: "get"
+  //   }
+  //   await httpHandler(obj)
+  //     .then((response) => {
+  //       setDashboardDetails(response?.data);
+  //       pageLoaderHandler('hide')
+  //     }).catch((error) => {
+  //       console.log("getDashboardDetails error", error);
+  //       pageLoaderHandler('hide')
+  //     });
+  // }
   const getDashboardDetails = async () => {
-    const obj = {
-      url: URL_CONFIG.DASHBOARD_INDEX,
-      method: "get"
+    try {
+      pageLoaderHandler('show');
+      
+      const obj = {
+        url: URL_CONFIG.DASHBOARD_INDEX,
+        method: "get"
+      };
+  
+      const response = await httpHandler(obj);
+      setDashboardDetails(response?.data);
+      
+      pageLoaderHandler('hide');
+    } catch (error) {
+      console.log("getDashboardDetails error", error);
+      pageLoaderHandler('hide');
     }
-    await httpHandler(obj)
-      .then((response) => {
-        setDashboardDetails(response?.data);
-      }).catch((error) => {
-        console.log("getDashboardDetails error", error);
-      });
   }
-
+  
   const fetchAllUsers = () => {
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
@@ -191,27 +210,27 @@ const Home = () => {
     fetchHallOfFame(paramsData);
   }
 
-  const fetchIsNotification = () => {
-    const obj = {
-      url: URL_CONFIG.NOTIFICATIONS_BY_ID,
-      method: "get",
-      isLoader: true
-    };
-    httpHandler(obj)
-      .then((response) => {
-        dispatch(sharedDataActions.getIsNotification({
-          isNotification: response?.data
-        }))
-      })
-      .catch((error) => {
-        console.log("fetchNotifications API error", error);
-      });
-  }
+  // const fetchIsNotification = () => {
+  //   const obj = {
+  //     url: URL_CONFIG.NOTIFICATIONS_BY_ID,
+  //     method: "get",
+  //     isLoader: true
+  //   };
+  //   httpHandler(obj)
+  //     .then((response) => {
+  //       dispatch(sharedDataActions.getIsNotification({
+  //         isNotification: response?.data
+  //       }))
+  //     })
+  //     .catch((error) => {
+  //       console.log("fetchNotifications API error", error);
+  //     });
+  // }
 
   useEffect(() => {
     getDashboardDetails();
     fetchAllUsers();
-    fetchIsNotification();
+    // fetchIsNotification();
   }, []);
 
   useEffect(() => {

@@ -14,6 +14,8 @@ import { TabsActions } from "../../store/tabs-slice";
 import IdeaDetailView from "./IdeaDetailView";
 import IdeaList from "./IdeaList";
 import MyIdeas from "./MyIdeas";
+import { pageLoaderHandler } from "../../helpers";
+import moment from "moment/moment";
 
 const IdeaBox = () => {
 
@@ -108,6 +110,7 @@ const IdeaBox = () => {
       );
     }
 
+    fetchIdeas(false);
     return () => {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -138,7 +141,6 @@ const IdeaBox = () => {
   }
 
   const getFilterParams = (paramsData) => {
-    console.log("paramsData", paramsData);
     if (Object.getOwnPropertyNames(filterParams)) {
       setFilterParams({ ...paramsData });
     } else {
@@ -147,7 +149,8 @@ const IdeaBox = () => {
     fetchIdeas(false, null, paramsData);
   }
 
-  const fetchIdeas = (isIdeaActive, ideaID = null, paramsInfo = {}) => {
+  const fetchIdeas = async (isIdeaActive, ideaID = null, paramsInfo = {}) => {
+    pageLoaderHandler('show')
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -167,17 +170,18 @@ const IdeaBox = () => {
       method: "get"
     };
     */
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((ideaData) => {
         if (!isIdeaActive) {
           //setIdeaLists(ideaData.data);
           if (ideaListsReverse) {
-            setIdeaLists([...ideaData.data].reverse());
+            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())].reverse());
           } else {
-            setIdeaLists(ideaData.data);
+            setIdeaLists(ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf()));
           }
           setIdeaData(null);
           setIdeaDataState(false);
+          pageLoaderHandler('hide')
         } else {
           if (ideaListsReverse) {
             markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
@@ -187,8 +191,8 @@ const IdeaBox = () => {
         }
       })
       .catch((error) => {
+        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
-        //const errMsg = error.response?.data?.message;
       });
   }
 
@@ -223,11 +227,11 @@ const IdeaBox = () => {
     fetchAllUsers();
   }, []);
 
-  useEffect(() => {
-    if (activeTab?.id === "ideas") {
-      fetchIdeas(false);
-    }
-  }, [activeTab]);
+  // useEffect(() => {
+  //   if (activeTab?.id === "ideas") {
+  //     fetchIdeas(false);
+  //   }
+  // }, [activeTab]);
 
   const markIdeaAsActiveState = (loopData, ideaIDData) => {
     let ideaDataTemp = JSON.parse(JSON.stringify(loopData));
@@ -488,8 +492,10 @@ const IdeaBox = () => {
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
-                    {/* <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} /> */}
-                    {activeTab && activeTab.id === 'ideas' && <IdeaList ideaListsData={ideaLists} usersPic={usersPic} viewIdeaData={viewIdeaData} readIdeaData={readIdeaData} markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} />}
+                    {activeTab && activeTab.id === 'ideas' && <IdeaList
+                      ideaListsData={ideaLists} usersPic={usersPic}
+                      viewIdeaData={viewIdeaData} readIdeaData={readIdeaData}
+                      markImportant={markImportant} readAllIdeas={readAllIdeas} dateReceived={dateReceived} />}
                   </div>
                   <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
                     {ideaDataState && <IdeaDetailView ideaData={ideaData} usersPic={usersPic} />}
@@ -507,7 +513,7 @@ const IdeaBox = () => {
             }
             {ideaLists && ideaLists?.length <= 0 &&
               <ResponseInfo
-                title="Nothing to show yet."
+                title="Nothing to show yet"
                 responseImg="noIdeaShare"
                 responseClass="response-info"
                 messageInfo="Nothing is really ours until we share it"

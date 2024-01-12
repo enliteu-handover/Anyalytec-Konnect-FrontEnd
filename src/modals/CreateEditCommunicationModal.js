@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 
 const CreateEditCommunicationModal = (props) => {
 
-  //console.log("CreateEditCommunicationModal props", props);
-
   const { deptOptions, hideModal, createModalShow, createCommunicationPost, communicationModalErr, communicationType, communicationData, updateCommunicationPost } = props;
 
   //const initCreateModalShow = createModalShow ? createModalShow : false;
@@ -30,6 +28,7 @@ const CreateEditCommunicationModal = (props) => {
   const [existPostDept, setExistPostDept] = useState([]);
   var titleMaxLength = 150;
   var descMaxLength = 255;
+ 
   const fileTypeAndImgSrcArray = {
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -206,13 +205,6 @@ const CreateEditCommunicationModal = (props) => {
     setModalErrorAttachements({ errCount: [], errLengthCount: [] });
   }
 
-  //console.log("setAttachementFiles ==>", attachementFiles);
-  //console.log("modalDepartment ==>", modalDepartment);
-  //console.log("modalTitle ==>", modalTitle);
-  //console.log("modalDescription ==>", modalDescription);
-  //console.log("setModalAttachements ==>", modalAttachements);
-  //console.log("setExistingAttachementFiles ==>", existingAttachementFiles);
-
   const postCommunicationHandler = () => {
     
     const modalDatas = {
@@ -249,7 +241,12 @@ const CreateEditCommunicationModal = (props) => {
             <div className="modal-body py-0 px-0 eep_scroll_y">
               <div className="row justify-content-md-center mb-1">
                 <div className="col-md-12 text-center mb-1">
-                  <img src={communicationType && communicationType === 'idea' ? `${process.env.PUBLIC_URL}/images/icons/static/Ideabox-Add.svg` : (communicationType === 'forum' ? `${process.env.PUBLIC_URL}/images/icons/static/forum-Add.svg` : `${process.env.PUBLIC_URL}/images/icons/static/noData.svg`)} alt="Communication Icon" />
+                  <img src={communicationType && 
+                  communicationType === 'idea' ? 
+                  `${process.env.PUBLIC_URL}/images/icons/static/Ideabox-Add.svg` :
+                   (communicationType === 'forum' ?
+                   `${process.env.PUBLIC_URL}/images/icons/static/forum-Add.svg` :
+                    `${process.env.PUBLIC_URL}/images/icons/static/noData.svg`)} alt="Communication Icon" />
                 </div>
                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
                   <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">Post to</label>

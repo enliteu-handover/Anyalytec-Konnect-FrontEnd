@@ -6,6 +6,7 @@ import tabsSlice from "./tabs-slice";
 import errorHanldingSlice from "./error-handling";
 import toggleSidebarStateSlice from "./toggle-sidebar-state";
 import stateSlice from "./state";
+import userProfile from "./user-profile";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     tabs: tabsSlice.reducer,
     errorHandling: errorHanldingSlice.reducer,
     toggleState: toggleSidebarStateSlice.reducer,
-    storeState: stateSlice.reducer
+    storeState: stateSlice.reducer,
+    userProfile: userProfile.reducer
   },
 });
 

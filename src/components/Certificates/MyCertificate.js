@@ -37,7 +37,6 @@ const MyCertificate = () => {
   }, []);
 
   const onFilterChange = (filterValue) => {
-    //console.log("filterValue", filterValue);
     setYearFilterValue({ filterby: filterValue.value });
     fetchMyCertificateData({ filterby: filterValue.value });
   }
@@ -50,8 +49,6 @@ const MyCertificate = () => {
     };
     setPreviewDataUri(obj);
   }
-
-  //console.log("myCertificateData", myCertificateData);
 
   return (
     <React.Fragment>
@@ -84,7 +81,7 @@ const MyCertificate = () => {
           </div>
         ))}
         {myCertificateData && myCertificateData.length <= 0 && (
-          <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No certificate found" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </React.Fragment>

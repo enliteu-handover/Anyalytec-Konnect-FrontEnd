@@ -1,3 +1,4 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -6,6 +7,7 @@ import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
@@ -100,6 +102,9 @@ const Forum = () => {
 			);
 		}
 
+		getForumList(filterParams);
+		getForumFollowingList();
+
 		return () => {
 			dispatch(
 				TabsActions.updateTabsconfig({
@@ -147,9 +152,7 @@ const Forum = () => {
 		if (arg.files && arg.files.length > 0) {
 			arg.files.map((item) => {
 				const fileType = item?.type;
-				return formData.append('file', item
-					// new Blob([JSON.stringify(item)], { type: fileType })
-				);
+				return formData.append('file', item);
 			});
 		}
 		let forumRequestObj = {
@@ -192,7 +195,9 @@ const Forum = () => {
 		getForumList(paramsData);
 	}
 
-	const getForumList = (paramsInfo) => {
+	const getForumList = async (paramsInfo) => {
+
+		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -206,17 +211,18 @@ const Forum = () => {
 				method: "get"
 			};
 		}
-		httpHandler(obj)
+		await httpHandler(obj)
 			.then((forumdata) => {
 				if (listReverse) {
-					setForumList([...forumdata.data]);
+					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())]);
 				} else {
-					setForumList([...forumdata.data].reverse());
+					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
 				}
+				pageLoaderHandler('hide')
 			})
 			.catch((error) => {
+				pageLoaderHandler('hide')
 				console.log("getForumList error", error);
-				//const errMsg = error.response?.data?.message;
 			});
 	};
 
@@ -266,12 +272,13 @@ const Forum = () => {
 		fetchAllUsersPics();
 	}, []);
 
-	useEffect(() => {
-		if (activeTab?.id === "forumpot") {
-			getForumList(filterParams);
-			getForumFollowingList();
-		}
-	}, [activeTab]);
+	// useEffect(() => {
+
+	// 	if (activeTab?.id === "forumpot") {
+	// 		getForumList(filterParams);
+	// 		getForumFollowingList();
+	// 	}
+	// }, [activeTab]);
 
 
 	const readForum = (arg) => {
@@ -336,7 +343,6 @@ const Forum = () => {
 					} else {
 						setForumList([...forumListTemp]);
 					}
-					//setForumList(forumListTemp);
 				})
 				.catch((error) => {
 					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -431,8 +437,9 @@ const Forum = () => {
 	}
 
 	const dateReceived = (isSort) => {
+
 		setListReverse(isSort);
-		if (isSort) {
+		if (!isSort) {
 			setForumList([...forumList].reverse());
 		}
 	}
@@ -455,7 +462,10 @@ const Forum = () => {
 								}
 							></EEPSubmitModal>
 						)}
-						{createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
+						{createModalShow && <CreateEditCommunicationModal
+							deptOptions={departments} createModalShow={createModalShow}
+							createCommunicationPost={createCommunicationPost}
+							communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
 								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
@@ -466,10 +476,12 @@ const Forum = () => {
 						/>
 						{forumList?.length > 0 &&
 							<div className="row mx-0 forum_containerr">
-								<div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y">
+								<div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
+									{/* <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y"> */}
 									{activeTab && activeTab.id === 'forumpot' && <ForumList forumList={forumList} userImageArr={usersPic} readForum={readForum} unReadForum={unReadForum} unFollowForum={unFollowForum} followForum={followForum} readAll={readAll} dateReceived={dateReceived} />}
 								</div>
-								<div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 ">
+								<div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 px-0">
+									{/* <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 px-0 "> */}
 									<div className="forum_hottopics_wrapper_bg forum_hottopics_wrapper eep-content-section-data eep_scroll_y">
 										<div className="forum_shortlist_div sticky_position forum_hottopics_wrapper_bg pb-1">
 											<ul className="nav nav-tabs card-header-tabs forum_rightdiv_filter m-0" id="myTab" role="tablist">

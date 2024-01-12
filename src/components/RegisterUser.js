@@ -7,11 +7,11 @@ import ResponseInfo from "../UI/ResponseInfo";
 import { URL_CONFIG } from "../constants/rest-config";
 import { base64ToFile } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
+import { idmRoleMappingRoles } from "../idm";
 import EEPSubmitModal from "../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import FormContainer from "./FormElements/FormContainer";
 import { FormContext } from "./FormElements/FormContext";
-import { idmRoleMappingRoles } from "../idm";
 
 const AddUser = () => {
   const dataObj = {};
@@ -32,7 +32,7 @@ const AddUser = () => {
   };
 
   const handleSubmit = async (event) => {
-    
+
     event.preventDefault();
     setFormSubmitted(true);
     if (formIsValid) {
@@ -47,6 +47,9 @@ const AddUser = () => {
           role_name: uData?.role?.label,
           screen: JSON.stringify(roleData?.data)
         };
+      }
+      if (JSON.parse(sessionStorage.getItem('userData'))?.orgId) {
+        uData["orgId"] = JSON.parse(sessionStorage.getItem('userData'))?.orgId;
       }
       const obj = {
         url: URL_CONFIG.GETUSER,

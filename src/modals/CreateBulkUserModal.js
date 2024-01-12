@@ -57,18 +57,21 @@ const CreateBulkUploadModal = (props) => {
                                     </button>
                                 </div>
                             </div>}
+
                             {!isUpload && <div className="modalBodyHeight">
-                                {data?.length > 0 && <>
-                                    <TableComponent
-                                        data={data ?? []}
-                                        actionHidden={true}
-                                        searchHidden={true}
-                                        columns={userBulkDataTableHeaders ?? []}
-                                    /><br />
-                                    {failureData?.length > 0 && < button onClick={() => downloadExcel(title ? data : failureData)} className="eep-btn eep-btn-success"
-                                    >
-                                        {'Download Failure & Modify'}
-                                    </button>} </>}
+
+                                <TableComponent
+                                    data={data ?? []}
+                                    actionHidden={true}
+                                    searchHidden={true}
+                                    columns={userBulkDataTableHeaders ?? []}
+                                /><br />
+
+                                {failureData?.length > 0 && < button onClick={() => downloadExcel(title ? data : failureData)} className="eep-btn eep-btn-success"
+                                >
+                                    {'Download Failure & Modify'}
+                                </button>}
+
                             </div>}
                         </div>
                     </div>

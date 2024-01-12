@@ -47,7 +47,6 @@ import PortalSettings from "../../components/PortalSettings/PortalSettings";
 import Recognition from "../../components/Recognition";
 import RegisterUser from "../../components/RegisterUser";
 import Rewards from "../../components/Rewards/Rewards";
-import RoleManagement from "../../components/RoleManagement";
 import Search from "../../components/Search/Search";
 import SocialWall from "../../components/SocialWall/SocialWall";
 import CreateSurvey from "../../components/Survey/CreateSurvey";
@@ -60,11 +59,14 @@ import SurveyResponses from "../../components/Survey/SurveyResponses";
 import SurveyResult from "../../components/Survey/SurveyResult";
 import UserManagement from "../../components/UserManagement";
 import ViewUser from "../../components/ViewUser";
+import MyProfileCoupon from "../../components/myRedeemption";
+import PointsConfig from "../../components/pointConfig";
+import Wallet from "../../components/wallet";
+import IdmRoleMapping from "../../idm/idm";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import Header from "../Header/Header";
 import Help from "../Header/Help";
 import Sidebar from "../Sidebar/Sidebar";
-import IdmRoleMapping from "../../idm/idm";
 
 const MainContainer = (props) => {
   const [initial, setInitial] = useState(true);
@@ -78,10 +80,12 @@ const MainContainer = (props) => {
         <Sidebar theme={props.theme} />
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content" className="content">
-            <Header />
-            <Breadcrumb />
+            <Header /><br />
+            <Breadcrumb isTrue={getTabs?.length > 0} />
+
             {getTabs?.length !== 0 && <Tab />}
-            <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs.length ? "eep-has-tab-menu" : ""}`}>
+
+            <div className={`container-fluid eep-container-fluid eep-has-title-content px-0 eep_scroll_y ${getTabs?.length ? "eep-has-tab-menu" : ""}`}>
               <div className={`eep-container ${getToggleSidebarState ? "eep-container-with-sidebar" : ""}`}>
                 <div className="container-sm eep-container-sm">
                   <div className="row no-gutters">
@@ -130,9 +134,6 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/portalsettings">
                               <PortalSettings />
-                            </Route>
-                            <Route path="/app/rolemanagement">
-                              <RoleManagement />
                             </Route>
                             <Route path="/app/hashtag">
                               <HashTag />
@@ -265,6 +266,17 @@ const MainContainer = (props) => {
                             </Route>
                             <Route path="/app/search">
                               <Search />
+                            </Route>
+                            <Route path="/app/my-redeem">
+                              <MyProfileCoupon />
+                            </Route>
+
+                            <Route path="/app/point-config">
+                              <PointsConfig />
+                            </Route>
+
+                            <Route path="/app/wallet">
+                              <Wallet />
                             </Route>
                           </Switch>
                         </div>

@@ -404,7 +404,7 @@ const RewardsRecognition = (props) => {
   // }, []);
 
   const fetchRewardsRecognition = (paramsInfo) => {
-    
+
     let obj = {
       url: URL_CONFIG.REWARDS_RECOGNITION,
       method: "get"
@@ -420,7 +420,7 @@ const RewardsRecognition = (props) => {
   }
 
   const getFilterParams = (paramsData) => {
-    
+
     if (Object.getOwnPropertyNames(filterParams)) {
       setFilterParams({ ...paramsData });
     } else {
@@ -430,12 +430,12 @@ const RewardsRecognition = (props) => {
   }
 
   useEffect(() => {
-    
+
     fetchRewardsRecognition(filterParams);
   }, []);
 
   useEffect(() => {
-    
+
     if (rrData && Object.keys(rrData)?.length) {
       // Login Chart Start
       let loginChartTemp = defaultChartOptions.login;
@@ -472,10 +472,10 @@ const RewardsRecognition = (props) => {
       ecardsTemp["series"] = [{
         name: 'E-Cards',
         data: [
-          ['Birthday', rrData.birthdayECardsCount],
-          ['Anniversary', rrData.anniversaryECardsCount],
-          ['Appreciation', rrData.appreciationECardsCount],
-          ['Seasonal', rrData.seasonalECardsCount]
+          rrData?.birthdayECardsCount ? ['Birthday', rrData?.birthdayECardsCount] : [],
+          rrData?.anniversaryECardsCount ? ['Anniversary', rrData?.anniversaryECardsCount] : [],
+          rrData?.appreciationECardsCount ? ['Appreciation', rrData?.appreciationECardsCount] : [],
+          rrData?.seasonalECardsCount ? ['Seasonal', rrData?.seasonalECardsCount] : []
         ]
       }];
       //setEcardChart({...ecardsTemp});
@@ -544,7 +544,7 @@ const RewardsRecognition = (props) => {
 
   return (
     <React.Fragment>
-      <PageHeader title="Rewards & Recognition" filter={<TypeBasedFilter config={TYPE_BASED_FILTER_WITH_BETWEEN_DATES} getFilterParams={getFilterParams} />} />
+      <PageHeader title="Organization Stats" filter={<TypeBasedFilter config={TYPE_BASED_FILTER_WITH_BETWEEN_DATES} getFilterParams={getFilterParams} />} />
       <div className="py-4">
         <div className="row m-0" id="content-start">
           <div className="col-md-12">
@@ -647,7 +647,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="login" chartData={loginChart} />
                     }
                     {Object.keys(loginChart).length <= 0 &&
-                      <div className="parent_div">
+                      <div className="parent_div" style={{ marginTop: "24vh" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -665,7 +665,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="recognition" chartData={recognitionChart} />
                     }
                     {Object.keys(recognitionChart).length <= 0 &&
-                      <div className="parent_div">
+                      <div className="parent_div" style={{ marginTop: "24vh" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -683,7 +683,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="ecards" chartData={ecardChart} />
                     }
                     {Object.keys(ecardChart).length <= 0 &&
-                      <div className="parent_div">
+                      <div className="parent_div" style={{ marginTop: "24vh" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -701,7 +701,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="certificate" chartData={certificateChart} />
                     }
                     {Object.keys(certificateChart).length <= 0 &&
-                      <div className="parent_div">
+                      <div className="parent_div" style={{ marginTop: "24vh" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -722,7 +722,7 @@ const RewardsRecognition = (props) => {
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
-                          <p className="eep_blank_quote">No record found</p>
+                          <p className="eep_blank_quote">No badges found</p>
                         </div>
                       </div>
                     }
@@ -740,7 +740,7 @@ const RewardsRecognition = (props) => {
                       <div className="parent_div">
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
-                          <p className="eep_blank_quote">No record found</p>
+                          <p className="eep_blank_quote">No awards found</p>
                         </div>
                       </div>
                     }

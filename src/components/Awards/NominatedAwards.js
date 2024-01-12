@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NominatedAwardFilteredData from "./NominatedAwardFilteredData";
 
@@ -58,7 +57,8 @@ const NominatedAwards = (props) => {
 						{nominatedAwardData && nominatedAwardData.map((item, index) => {
 							return (
 								<div className="col-md-4 col-lg-4 col-xl-4 col-sm-4 nm_award_div text-center" key={"NominatedAward_" + index} onClick={() => filterByAwardHandler(item, true)}>
-									<img src={item?.imageByte?.image} className="nm_award_img eep_r_icons_bg" alt="Award Icon" title={item?.imageByte?.name} />
+									<img src={item?.imageByte?.image} className="nm_award_img eep_r_icons_bg" alt="Award Icon"
+									/>
 									<label className="nm_award_lbl">{item?.award?.name}</label>
 								</div>
 							)
@@ -66,7 +66,7 @@ const NominatedAwards = (props) => {
 					</div>
 				</div>
 				{showDetails && nominatedAwardData &&
-					<NominatedAwardFilteredData filterData={clickedAwardDetails} closeShowDetails={closeShowDetails} />
+					<NominatedAwardFilteredData filterTable={filterTable}setShowDetails={setShowDetails} filterData={clickedAwardDetails} closeShowDetails={closeShowDetails} />
 				}
 			</div>
 		</div>

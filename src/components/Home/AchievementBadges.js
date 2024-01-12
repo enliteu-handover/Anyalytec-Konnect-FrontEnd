@@ -23,7 +23,7 @@ const AchievementBadges = (props) => {
           </div>
         }
         {dashboardDetails && dashboardDetails.acheivedBadgeList?.length <= 0 && (
-          <ResponseInfo title="No badges found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="Yet to earn Badges!" responseImg="noRecord" responseClass="response-info" />
         )}
         <div className="dropdown-divider"></div>
         <label className="achievements_lbl title_lbl">
@@ -41,7 +41,7 @@ const AchievementBadges = (props) => {
           </div>
         }
         {dashboardDetails && dashboardDetails.awaitingBadgeList?.length <= 0 && (
-          <ResponseInfo title="No Badges found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No Awaiting Badges" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </div>

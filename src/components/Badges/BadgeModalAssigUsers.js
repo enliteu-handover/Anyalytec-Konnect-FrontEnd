@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import ResponseInfo from "../../UI/ResponseInfo";
-import {useSelector, useDispatch} from 'react-redux';
 import { sharedDataActions } from '../../store/shared-data-slice';
 
 const BadgeModalAssigUsers = (props) => {
@@ -15,46 +15,50 @@ const BadgeModalAssigUsers = (props) => {
   useEffect(() => {
 
     let sUsers = [...selectedUserId];
-    for(let i=0; i<sUsers.length; i++){
+    for (let i = 0; i < sUsers.length; i++) {
       let exists = filteredUsers.filter(res => Number(res.id) === sUsers[i]);
-      if(!exists.length){
-        sUsers.splice(i,1)
-      }      
+      if (!exists.length) {
+        sUsers.splice(i, 1)
+      }
     }
     setSelectedUsersId(sUsers);
     const selectedUsersOnInit = [];
-    {sUsers.length > 0 && sUsers.map((uid) => {
-      return selectedUsersOnInit.push({id: uid});
-    })}
+    {
+      sUsers.length > 0 && sUsers.map((uid) => {
+        return selectedUsersOnInit.push({ id: uid });
+      })
+    }
     getFilteredUsers(selectedUsersOnInit);
-   
-  },[filteredUsers])
+
+  }, [filteredUsers])
 
   const checkBoxOnChangeHandler = (e) => {
     const { value, checked } = e.target;
     var selectedUserIdTemp = [...selectedUserId];
-    if(checked) {
+    if (checked) {
       selectedUserIdTemp = [...selectedUserIdTemp, value];
-      dispatch(sharedDataActions.updateBadgeSelectedUsers({checked, value}))
+      dispatch(sharedDataActions.updateBadgeSelectedUsers({ checked, value }))
     } else {
       selectedUserIdTemp.splice(selectedUserId.indexOf(value), 1);
-      dispatch(sharedDataActions.updateBadgeSelectedUsers({checked, value}))
+      dispatch(sharedDataActions.updateBadgeSelectedUsers({ checked, value }))
     }
     setSelectedUsersId(selectedUserIdTemp);
-    {selectedUserIdTemp.length > 0 && selectedUserIdTemp.map((uid) => {
-      return selectedUsers.push({id: uid});
-    })}
+    {
+      selectedUserIdTemp.length > 0 && selectedUserIdTemp.map((uid) => {
+        return selectedUsers.push({ id: uid });
+      })
+    }
     getFilteredUsers(selectedUsers);
   }
 
   const allUsersClickHandher = (e) => {
     const { value, checked } = e.target;
     var selectedUserIdTemp = [];
-    if(checked) {
+    if (checked) {
       dispatch(sharedDataActions.badgeAllUsersUpdate([]))
       filteredUsers.map(res => {
-        selectedUserIdTemp.push({id:res.id});
-        dispatch(sharedDataActions.updateBadgeSelectedUsers({checked, value: res.id}));
+        selectedUserIdTemp.push({ id: res.id });
+        dispatch(sharedDataActions.updateBadgeSelectedUsers({ checked, value: res.id }));
       })
     } else {
       dispatch(sharedDataActions.badgeAllUsersUpdate([]))
@@ -63,15 +67,15 @@ const BadgeModalAssigUsers = (props) => {
     setSelectedUsersId([...selectedUserIdTemp]);
     getFilteredUsers(selectedUserIdTemp);
 
-    var ele=document.getElementsByName('userIds');  
-    for(var i=0; i<ele.length; i++){  
-        if(ele[i].type ==='checkbox')  
-            if(checked){
-              ele[i].checked=true;  
-            }else{
-              ele[i].checked=false;  
-            }
-    }  
+    var ele = document.getElementsByName('userIds');
+    for (var i = 0; i < ele.length; i++) {
+      if (ele[i].type === 'checkbox')
+        if (checked) {
+          ele[i].checked = true;
+        } else {
+          ele[i].checked = false;
+        }
+    }
   }
 
   return (
@@ -85,17 +89,17 @@ const BadgeModalAssigUsers = (props) => {
                   <label className="font-helvetica-m c-404040 mb-1">
                     Assign Users
                     {badgeSeledtedUsers.length > 0 && (
-                    <span
-                      className="ml-1 pl-1 c-9d9d9d assign_users_count"
-                    >
-                      {badgeSeledtedUsers.length}
-                    </span>
+                      <span
+                        className="ml-1 pl-1 c-9d9d9d assign_users_count"
+                      >
+                        {badgeSeledtedUsers.length}
+                      </span>
                     )}
                   </label>
                   <div className="eep-options-div ml-auto my-auto">
-                    <div 
+                    <div
                       className="form-check"
-                      style={{lineHeight:"24px"}}
+                      style={{ display: "flex", alignItems: "center", height: "32px" }}
                     >
                       <input
                         className="form-check-input p_check_all"
@@ -103,13 +107,14 @@ const BadgeModalAssigUsers = (props) => {
                         value=""
                         id="flexCheckChecked"
                         onClick={allUsersClickHandher}
+                        style={{ marginTop: 1 }}
                       />
-                      <label
+                      <div
                         className="form-check-label c-404040"
                         htmlFor="flexCheckChecked"
                       >
                         All
-                      </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -120,7 +125,7 @@ const BadgeModalAssigUsers = (props) => {
                       className="form-control search_users_b bg-transparent px-3"
                       name="search_users_b"
                       value={searchUser}
-                      onChange={e => setSearchUser(e.target.value)} 
+                      onChange={e => setSearchUser(e.target.value)}
                     />
                     <span className="input-group-btn">
                       <button className="btn btn-default" type="button">
@@ -137,65 +142,65 @@ const BadgeModalAssigUsers = (props) => {
               </div>
               <div className="row mx-0 add_participants_div assign_users_div">
                 {filteredUsers.filter(uData => {
-                   if (!searchUser){
-                    
+                  if (!searchUser) {
+
                     setTimeout(() => {
                       const userCheckBox = document.getElementsByClassName('assign-users-list');
-                      for(let i=0; i<userCheckBox.length; i++)
-                      {
-                        if(userCheckBox[i]){
+                      for (let i = 0; i < userCheckBox.length; i++) {
+                        if (userCheckBox[i]) {
                           userCheckBox[i]['checked'] = false
                         }
-                        
+
                       }
                       badgeSeledtedUsers.map(res => {
-                        if(document.getElementById('flexCheckDefault_'+res)){
-                          document.getElementById('flexCheckDefault_'+res).checked = true;
+                        if (document.getElementById('flexCheckDefault_' + res)) {
+                          document.getElementById('flexCheckDefault_' + res).checked = true;
                         }
-                        
+
                       });
-                    },0)
-                    
+                    }, 0)
+
                     return true;
-                   }
-                   if (uData.firstname.toLowerCase().includes(searchUser.toLowerCase()) || uData.lastname.toLowerCase().includes(searchUser.toLowerCase())) {
-                   
+                  }
+                  if (uData.firstname.toLowerCase().includes(searchUser.toLowerCase()) || uData.lastname.toLowerCase().includes(searchUser.toLowerCase())) {
+
                     const userCheckBox = document.getElementsByClassName('assign-users-list');
-                    for(let i=0; i<userCheckBox.length; i++)
-                    {
-                      if(userCheckBox[i]){
+                    for (let i = 0; i < userCheckBox.length; i++) {
+                      if (userCheckBox[i]) {
                         userCheckBox[i]['checked'] = false
                       }
                     }
                     badgeSeledtedUsers.map(res => {
-                      if(document.getElementById('flexCheckDefault_'+res)){
-                        document.getElementById('flexCheckDefault_'+res).checked = true;
+                      if (document.getElementById('flexCheckDefault_' + res)) {
+                        document.getElementById('flexCheckDefault_' + res).checked = true;
                       }
                     });
 
-                     return true;
-                   }
+                    return true;
+                  }
                 }).map((uData, key) => {
                   return (
-                    <div className="col-md-12 form-group text-left my-1 bg-white" key={"usersList_"+key}>
-                      <div 
+                    <div className="col-md-12 form-group text-left my-1 bg-white" key={"usersList_" + key}>
+                      <div
                         className="form-check"
-                        style={{lineHeight:"24px"}}
+                        style={{ display: "flex", alignItems: "center", height: "32px" }}
                       >
                         <input
                           className="form-check-input useridclass invalid-input assign-users-list"
                           type="checkbox"
-                          value={uData.id}
-                          id={"flexCheckDefault_" + uData.id}
+                          value={uData?.id}
+                          id={"flexCheckDefault_" + uData?.id}
                           name="userIds"
                           onClick={checkBoxOnChangeHandler}
+                          style={{ marginTop: 1 }}
                         />
                         <label
                           className="form-check-label"
                           // htmlFor={"flexCheckDefault" + key}
-                          htmlFor={"flexCheckDefault_" + uData.id}
+                          htmlFor={"flexCheckDefault_" + uData?.id}
+                          style={{ marginBottom: 2 }}
                         >
-                          {uData.firstname + " " + uData.lastname}
+                          {uData?.firstname + " " + uData?.lastname}
                         </label>
                       </div>
                     </div>

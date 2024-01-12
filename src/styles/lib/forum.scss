@@ -90,7 +90,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-	justify-content: space-around;
+	justify-content: space-between;
 	width: 100%;
 }
 
@@ -123,7 +123,7 @@
 	margin-bottom: 5px;
 	font-weight: bold;
 	color: #2C2C2C;
-	width: 550px;
+	width: 400px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -134,7 +134,7 @@
 	margin-bottom: 5px;
 	font-weight: bold;
 	color: #2C2C2C;
-	width: 350px;
+	width: 300px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -174,7 +174,7 @@
 
 @media screen and (max-width:1440px) {
 	.forum_containerr .forumj_left_container_wrapper .forum_content_title {
-		max-width: 600px;
+		max-width: 300px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

@@ -1,21 +1,28 @@
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import Select from "react-select";
 
 const SortList = (props) => {
- 
-  const { readAllCommunicationsFromList, feedFilter, onChangeValues, communicationPostLists, dateReceivedOrder, isFeed } = props;
+
+  const { isForum, readAllCommunicationsFromList, arrowSx = {}, totalSx = {}, styleSx = {}, DateSort = false, feedFilter, onChangeValues, communicationPostLists, dateReceivedOrder, isFeed } = props;
 
   const [isDateReceived, setIsDateReceived] = useState(false);
-
+  const [check, setCheck] = useState(false)
   let checker = arr => arr.every(v => v.ideaIsRead === true);
 
   const markAllAsRead = () => {
-
     var checkBox = document.getElementById("postCheckbox");
     if (checkBox.checked === true) {
-      if (!checker(communicationPostLists)) {
-        readAllCommunicationsFromList(true);
-      }
+      // if (!checker(communicationPostLists)) {
+      readAllCommunicationsFromList(true);
+      setCheck(true)
+      setTimeout(() => {
+        checkBox.checked = false;
+      }, 100);
+      // }
+    } else {
+      setCheck(false)
     }
   }
 
@@ -39,9 +46,10 @@ const SortList = (props) => {
     <div className="row sticky-top bg-white mb-3" style={{ height: "30px" }}>
       <div className="col-12 bg-white">
         <div className="filter bg-white">
-          <div className="arrow_div feedback_arrow_div">
+          <div className={`arrow_div feedback_arrow_div`}
+            style={{ width: isFeed ? "100%" : "70%", ...arrowSx }}>
             {isFeed ?
-              <div className="flex">
+              <div className="flex" style={{ padding: isFeed ? "0px" : "0px 20px", ...totalSx }}>
                 <Select
                   styles={{ height: "20px", maxHeight: "20px" }}
                   options={initOptions}
@@ -55,27 +63,50 @@ const SortList = (props) => {
                   value={feedFilter}
                 />
                 {
-                  isDateReceived ? <span className="c1 i_position" onClick={sortDateReceived}>Oldest
-                    <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i>
+                  isDateReceived ? <span className="c1 i_position" style={styleSx} onClick={sortDateReceived}>Oldest
+                    <FontAwesomeIcon
+                      icon={faAngleUp}
+                      style={{ fontSize: "15px", margin: '-2px 4px' }}
+                    />
+                    {/* <i className="fa fa-angle-up arrow_postion" ></i> */}
                   </span> :
-                    <span className="c1 i_position" onClick={sortDateReceived}>Newest
-                      <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i>
+                    <span className="c1 i_position" style={styleSx} onClick={sortDateReceived}>Newest
+                      <FontAwesomeIcon
+                        icon={faAngleDown}
+                        style={{ fontSize: "15px", margin: '-2px 4px' }}
+                      />
+                      {/* <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px", marginTop: 1.5 }}></i> */}
                     </span>
                 }
               </div>
               :
-              <span className="c1 i_position" onClick={sortDateReceived}>Date Received
-                {!isDateReceived &&
-                  <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
+              <span className="c1 i_position" onClick={sortDateReceived}>
+                {/* {isForum ? (!isDateReceived ? "Newest" : "Oldest") : "Date Received"} */}
+                {!isDateReceived ? "Newest" : "Oldest"}
+                {
+                isDateReceived &&
+                  <FontAwesomeIcon
+                    icon={faAngleUp}
+                    style={{ fontSize: "15px", margin: '-2px 4px' }}
+                  />
+                  // <i className="fa fa-angle-up arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
-                {isDateReceived &&
-                  <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
+                {!isDateReceived &&
+                  <FontAwesomeIcon
+                    icon={faAngleDown}
+                    style={{ fontSize: "15px", margin: '-2px 4px' }}
+                  />
+                  // <i className="fa fa-angle-down arrow_postion" style={{ fontSize: "15px" }}></i>
                 }
               </span>
             }
           </div>
           {!isFeed && <div className="form-check pr-2" style={{ display: "flex", alignItems: "center" }}>
-            <input type="checkbox" className="form-check-input" id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
+            <input type="checkbox" className="form-check-input" checked={check} id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
+            <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
+          </div>}
+          {DateSort && <div className="form-check pr-2" style={{ display: "flex", alignItems: "center", width: '100%', maxWidth: '138px' }}>
+            <input type="checkbox" className="form-check-input" checked={check} id="postCheckbox" onChange={markAllAsRead} style={{ marginTop: "1px" }} />
             <label className="form-check-label" htmlFor="postCheckbox"> Mark all as read </label>
           </div>}
         </div>

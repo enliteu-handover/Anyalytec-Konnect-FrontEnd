@@ -6,8 +6,6 @@ import { eepFormatDateTime } from "../../shared/SharedService";
 const ForumList = (props) => {
   const { forumList, userImageArr, readForum, unReadForum, unFollowForum, followForum, readAll, dateReceived } = props;
 
-  //console.log("forumList, props .. =>", props);
-
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   let userPicIndex;
@@ -42,7 +40,13 @@ const ForumList = (props) => {
 
   return (
     <React.Fragment>
-      <SortList readAllCommunicationsFromList={readAllList} dateReceivedOrder={dateReceivedOrder} communicationPostLists={forumList} />
+
+      <SortList
+        readAllCommunicationsFromList={readAllList}
+        dateReceivedOrder={dateReceivedOrder}
+        isForum={true}
+        communicationPostLists={forumList} />
+
       <div className="forumshorting_div forumj_left_container_wrapper pr-1">
         {forumList && forumList.length > 0 && forumList.map((item, index) => {
           return (
@@ -52,16 +56,20 @@ const ForumList = (props) => {
               </div>
               <div className="forum_profile_content_parent_div">
                 <div className="forum_profile_content_div">
-                  <div className="forum_profile_content" onClick={() => readHandler({ fData: item, isRedirect: true })}>
+                  <div 
+                  // className="forum_profile_content"
+                   onClick={() => readHandler({ fData: item, isRedirect: true })}>
                     <p className="forum_content_title forum_content_title_truncate c1">{item.title}</p>
                     <p className="forum_user_name c1">{item?.createdBy?.firstname + " " + item?.createdBy?.lastname}</p>
                   </div>
                   <div className="forum_actions_div d-flex">
                     {item.forumIsfollowing &&
-                      <div className="forum_following_topics_img forumj_follow_img eep_forum_follow c1">
+                      <div 
+                      // className="forum_following_topics_img forumj_follow_img eep_forum_follow c1"
+                      >
                         <img src={`${process.env.PUBLIC_URL}/images/icons/static/Follow.svg`} className="forum-eep-img-size" alt="Follow" title="Follow" />
                       </div>
-                    }
+                    }&nbsp;&nbsp;
                     <div className="forum_three_dot">
                       <div className="dropdown c-c1c1c1 c1 eep_custom_dropdown">
                         <span className="eep_kebab_btn" data-toggle="dropdown" aria-expanded="false" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.eep_kebab }}></span>

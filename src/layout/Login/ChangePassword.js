@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Button from "../../UI/Button";
-import classes from "./LoginForm.module.scss";
-// import { useDispatch } from "react-redux";
-// import { loginActions } from "../../store/login-slice";
-// import { Link } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
+import Button from "../../UI/Button";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
+import classes from "./LoginForm.module.scss";
 
 const ChangePassword = () => {
   const history = useHistory();
@@ -15,8 +12,6 @@ const ChangePassword = () => {
     ? "/images/pw_hide.svg"
     : "/images/pw_show.svg";
 
-  // const authResult = new URLSearchParams(window.location.search);
-  // const tokenValue = authResult.get('token');
 
   const [disable, setDisable] = useState(true);
   const [passWord, setPassword] = useState("");
@@ -53,10 +48,10 @@ const ChangePassword = () => {
       checkResponseClassName("response-err");
       setConfirmPasswordErr("Password doesn't matched");
     }
-    if (passWord === cPassWord) {
+    if (passWord && passWord === cPassWord && cPassWord) {
       if (!passwordValid) {
         checkResponseClassName("response-err");
-        setConfirmPasswordErr("Please enter the strange password, e.g. minimum 8 characters, with at least one uppercase letter and at least one special character.");
+        setConfirmPasswordErr("Please enter a strong password, e.g. minimum 8 characters, with at least one uppercase letter and at least one special character.");
         setDisable(true);
         setFormIsValid(false);
       } else if (passWord !== "" && cPassWord !== "") {
@@ -97,11 +92,7 @@ const ChangePassword = () => {
     event.preventDefault();
     const params = new URLSearchParams(window.location.search).get('token');
     let options1 = {
-      // token: tokenValue,
       tokenValue: params,
-      // newPassword: passWord,
-      // confirmPassword: cPassWord
-      // old_password: passWord,
       new_password: passWord,
     };
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import AvailPoints from "./AvailPoints";
 import PointsTable from "./PointsTable";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
 
 const Points = () => {
 
@@ -21,10 +21,10 @@ const Points = () => {
       label: "Home",
       link: "app/dashboard",
     },
-    {
-      label: "Rewards",
-      link: "app/points",
-    },
+    // {
+    //   label: "Rewards",
+    //   link: "app/points",
+    // },
     {
       label: "Points",
       link: "app/points",
@@ -83,10 +83,12 @@ const Points = () => {
     fetchPoints();
   }, []);
 
+
   return (
 
     <React.Fragment>
-      <PageHeader title={`My Enlite Points : ${pointsList?.totalPoints}`} filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />
+      <PageHeader title={`Total Earned Points : ${pointsList?.totalPoints ?? '00'}`}
+        filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />
       <div className="row eep-content-start">
         <div className="col-md-3 myPointsLeft_div">
           <AvailPoints pointsList={pointsList} />

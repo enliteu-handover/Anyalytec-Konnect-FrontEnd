@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import PageHeader from "../../UI/PageHeader";
-import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
+import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import PageHeader from "../../UI/PageHeader";
+import Table from "../../UI/Table";
+import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
 
 const ClosedPolls = (props) => {
 
@@ -58,28 +61,30 @@ const ClosedPolls = (props) => {
 	}, []);
 
 	const fetchMyPollsDetail = (paramsInfo) => {
+		pageLoaderHandler('show')
 		let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.CLOSED_POLLS,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.CLOSED_POLLS,
-        method: "get"
-      };
-    }
+		if (Object.getOwnPropertyNames(paramsInfo)) {
+			obj = {
+				url: URL_CONFIG.CLOSED_POLLS,
+				method: "get",
+				params: paramsInfo
+			};
+		} else {
+			obj = {
+				url: URL_CONFIG.CLOSED_POLLS,
+				method: "get"
+			};
+		}
 		httpHandler(obj).then((response) => {
-			//console.log("fetchMyPollsDetail response :", response.data);
 			setMyPollsList(response.data);
+			pageLoaderHandler('hide')
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
 				type: "danger",
 				message: error?.response?.data?.message,
 			});
+			pageLoaderHandler('hide')
 		});
 	}
 
@@ -97,24 +102,24 @@ const ClosedPolls = (props) => {
 			label: "View",
 			isRedirect: true,
 			link: "/app/pollanswer",
-			objReference: {"pollData": "data", "viewType" : "fromPoll"},
+			objReference: { "pollData": "data", "viewType": "fromPoll" },
 		}
 	};
 
 	const PollsTableHeaders = [
 		{
-			fieldLabel: "POLL TITLE",
-			fieldValue: "polls.name",
+			header: "POLL TITLE",
+			accessorKey: "polls.name",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+			accessorFn: (row) => row.createdAt ?  moment(row.createdAt).format('l'):'--', 
 		},
 		{
-			fieldLabel: "View",
-			fieldValue: "action",
-			component: <CustomLinkComponent cSettings={tableSettings.view} />,
+			header: "View",
+			accessorKey: "action",
+			accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
 		}
 	];
 
@@ -123,13 +128,13 @@ const ClosedPolls = (props) => {
 	}
 
 	const getFilterParams = (paramsData) => {
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
-    } else {
-      setFilterParams({});
-    }
-    fetchMyPollsDetail(paramsData);
-  }
+		if (Object.getOwnPropertyNames(filterParams)) {
+			setFilterParams({ ...paramsData });
+		} else {
+			setFilterParams({});
+		}
+		fetchMyPollsDetail(paramsData);
+	}
 
 	return (
 		<React.Fragment>
@@ -149,16 +154,12 @@ const ClosedPolls = (props) => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{myPollsList && (
-									<Table component="MySurvey" headers={PollsTableHeaders} data={myPollsList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-											tableId: "MyPollsId"
-										}}
-										action={null}
-									></Table>
-								)}
+
+									<TableComponent
+									data={myPollsList ?? []}
+									columns={PollsTableHeaders}
+									actionHidden={true}
+								  />
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

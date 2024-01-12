@@ -21,12 +21,14 @@ const MyProfile = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
       collections[i].remove();
     }
     setShowModal({ type: null, message: null });
+    setShowUpdateProfileModal(false)
   };
 
   const breadcrumbArr = [
@@ -39,6 +41,7 @@ const MyProfile = () => {
       link: "",
     },
   ];
+
   const fetchUserMeta = () => {
     fetch(`${process.env.PUBLIC_URL}/data/user.json`)
       .then((response) => response.json())
@@ -57,24 +60,25 @@ const MyProfile = () => {
       params: { id: userData.id },
     };
     httpHandler(obj)
-      .then((uData) => {
-        setTimeout(async () => {
-          if (uData?.data?.country?.id) {
-            const obj_ = {
-              url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
-              method: "get"
-            };
-            await httpHandler(obj_)
-              .then((user_) => {
-                userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
-                setUserMeta({
-                  ...userMeta,
-                })
-                pageLoaderHandler('hide')
-              }).catch((error) => console.log(error));
-          }
-          userDataValueMapping(userMeta, uData.data);
-        }, 0);
+      .then(async (uData) => {
+        pageLoaderHandler('hide')
+        if (uData?.data?.country?.id) {
+          const obj_ = {
+            url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + uData?.data?.country?.id,
+            method: "get"
+          };
+          await httpHandler(obj_)
+            .then((user_) => {
+              userMeta.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+              setUserMeta({
+                ...userMeta,
+              })
+            }).catch((error) => {
+              pageLoaderHandler('hide')
+              console.log(error)
+            });
+        }
+        userDataValueMapping(userMeta, uData.data);
         setCurrUserDataNew(uData.data);
       })
       .catch((error) => {
@@ -268,12 +272,8 @@ const MyProfile = () => {
 
   return (
     <React.Fragment>
-      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
-        <div id="loader">
-          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
-        </div>
-      </div>
-      {showUpdateProfileModal && <UpdateProfileModal />}
+
+      {showUpdateProfileModal && <UpdateProfileModal hideModal={hideModal} />}
       <SignatureUploadModal />
 
       <PageHeader

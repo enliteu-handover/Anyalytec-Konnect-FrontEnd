@@ -29,7 +29,7 @@ const PendingApproval = (props) => {
           </div>
         }
         {dashboardDetails && !dashboardDetails.awardApprovals?.length && (
-          <ResponseInfo title="No Awards found" responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="No Requests Pending" responseImg="noRecord" responseClass="response-info" />
         )}
       </div>
     </div>

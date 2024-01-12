@@ -11,7 +11,7 @@ const AwardNominationInfo = (props) => {
   const getMyHashTag = (arg) => {
     const arr = [];
     arg?.map((res) => {
-      return arr?.push(res?.hashtagName);
+      return arr?.push("#" + res?.hashtagName);
     });
     return arr.join(", ");
   }; 
@@ -63,7 +63,7 @@ const AwardNominationInfo = (props) => {
             <div className="n_award_info_div">
               <div className="n_dtls_info">
                 <label className="n_dtls_lb font-helvetica-m">Tags</label>
-                <p className="n_award_category mb-1 text-right">
+                <p className="n_award_category mb-1 text-right eep_truncate_auto">
                   {getMyHashTag(aDataVal?.award?.hashTag)}
                 </p>
               </div>

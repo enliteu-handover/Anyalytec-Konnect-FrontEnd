@@ -8,6 +8,8 @@ import { sharedDataActions } from "../../store/shared-data-slice";
 import { useDispatch } from "react-redux";
 import { clearModalBackdrop } from "../../shared/SharedService";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAward } from "@fortawesome/free-solid-svg-icons";
 
 const BadgeRecognition = (props) => {
 
@@ -160,26 +162,35 @@ const BadgeRecognition = (props) => {
                   </div>
                 </div>
               </div>
+              <a  href=""  
+                      onClick={() => onClickBadgeModalData(data)}
+                      data-toggle="modal"
+                      data-target="#badgeRecogniseModal"
+                >
               <div className="box-content">
                 <h3 className="title">{data.name}</h3>
                 <p className="desc_p">Peer Recognition</p>
                 <ul className="icon">
                   <li>
                     <a
-                      className="badge_modal_a fas fa-award c1"
+                      className="badge_modal_a c1"
                       badgename="Explorer"
                       data-toggle="modal"
                       data-target="#badgeRecogniseModal"
                       onClick={() => onClickBadgeModalData(data)}
-                    ></a>
+                    >
+                      <FontAwesomeIcon icon={faAward} />
+                    </a>
                   </li>
                 </ul>
               </div>
+              </a>
+
             </div>
           </div>            
         ))}
       {badgeData && badgeData.length <= 0 && (
-        <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+        <ResponseInfo title="Add badges to get started!" responseImg="noRecord" responseClass="response-info" />
       )}
       </div>
     </React.Fragment>
