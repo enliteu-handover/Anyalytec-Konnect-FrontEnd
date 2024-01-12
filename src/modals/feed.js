@@ -501,7 +501,8 @@ const CreateFeedbackModal = (props) => {
                                                         [{ align: [] }],
                                                         [{ list: "ordered" }, { list: "bullet" }],
                                                         ["link"],
-                                                        ["emoji"]]
+                                                        ["emoji"]
+                                                    ]
                                                 },
                                                 "emoji-toolbar": true,
                                                 // "emoji-textarea": true,
