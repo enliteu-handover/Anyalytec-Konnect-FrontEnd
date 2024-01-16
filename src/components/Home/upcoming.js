@@ -17,7 +17,7 @@ const Upcomings = (props) => {
                     return (
                         <div className="mytasks_list_div text-left" key={"myTask_" + index}>
                             <div className="">
-                                <Link to={{ pathname: "ecardIndex", state: { activeTab: 'CardsTab' } }} className="c-2c2c2c a_hover_txt_deco_none d_mytasks_list" title="Reduce an attrition" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <Link to={{ pathname: "ecardIndex", state: { activeTab: 'CardsTab' } }} className="c-2c2c2c a_hover_txt_deco_none d_mytasks_list"  style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                     <p className="mb-2 eep_overflow_ellipsis d_mytasks">
                                         <span>{item?.message}</span>
                                     </p>

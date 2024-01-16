@@ -436,14 +436,28 @@ const Forum = () => {
 		}
 	}
 
+	// const dateReceived = (isSort) => {
+
+	// 	setListReverse(isSort);
+	// 	if (!isSort) {
+	// 		setForumList([...forumList].reverse());
+	// 	}
+	// }
+
 	const dateReceived = (isSort) => {
+		const sortedList = [...forumList];
+		sortedList.sort((a, b) => {
+			
+			const dateA = (a.createdAt).toLocaleString();
+			const dateB = (b.createdAt).toLocaleString();
 
+			// Compare the dates
+			return isSort ? dateA.localeCompare(dateB) :dateB.localeCompare(dateA);
+		});
+	
 		setListReverse(isSort);
-		if (!isSort) {
-			setForumList([...forumList].reverse());
-		}
+		setForumList(sortedList);
 	}
-
 	return (
 		<React.Fragment>
 			<div className="row eep-content-section-data no-gutters">

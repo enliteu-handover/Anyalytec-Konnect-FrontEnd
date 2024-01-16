@@ -81,8 +81,9 @@ const AddEcard = (props) => {
         ></EEPSubmitModal>
       )}
       <div className="n_card_add_col_inner" title="Add Template">
-        <div className="add_temp_img n_card_add_col p-3">
-          <div className="outter">
+        <div className="add_temp_img n_card_add_col">
+          <div>
+          <div className="outter p-3">
             <img
               src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`}
               className="plus_white_img"
@@ -90,8 +91,11 @@ const AddEcard = (props) => {
               title="Add Image"
               onClick={()=>{addIconClickHandler()}}
             />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Max 1Mb)
           </div>
+          </div>
+          
+          <div style={{fontSize:'16px',fontWeight:'500',paddingTop:'10px'}}>(Max 1Mb)</div>
+
         </div>
       </div>
       <input

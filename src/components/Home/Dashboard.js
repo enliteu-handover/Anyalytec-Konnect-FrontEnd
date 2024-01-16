@@ -17,7 +17,6 @@ const Dashboard = (props) => {
   const userSessionData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const dispatch = useDispatch();
   // const [startTour, setStartTour] = useState(false);
-
   const breadcrumbArr = [
     {
       label: "Home",
@@ -150,22 +149,22 @@ const Dashboard = (props) => {
                 upcomings: [
                   {
                     id: 1,
-                    message: "Anniversary - Prakash",
+                    message: "Anniversary - Dan Murphy",
                     date: "Today"
                   },
                   {
                     id: 2,
-                    message: "Anniversary - Sam",
+                    message: "Anniversary - Emma Wilson",
                     date: "Today"
                   },
                   {
                     id: 3,
-                    message: "Birthday - Arun",
+                    message: "Birthday - Nathan Jones",
                     date: "Tomorrow"
                   },
                   {
                     id: 4,
-                    message: "Birthday - Ram",
+                    message: "Birthday - Andrew Latham",
                     date: "Tomorrow"
                   }
                 ]

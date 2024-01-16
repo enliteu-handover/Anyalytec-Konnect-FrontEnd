@@ -175,9 +175,9 @@ const IdeaBox = () => {
         if (!isIdeaActive) {
           //setIdeaLists(ideaData.data);
           if (ideaListsReverse) {
-            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())].reverse());
+            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())]);
           } else {
-            setIdeaLists(ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf()));
+            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
           }
           setIdeaData(null);
           setIdeaDataState(false);
@@ -442,11 +442,27 @@ const IdeaBox = () => {
     setCreateModalShow(true);
   }
 
-  const dateReceived = (isSort) => {
-    setIdeaListsReverse(isSort);
-    setIdeaLists([...ideaLists].reverse());
-  }
+  // const dateReceived = (isSort) => {
+  //   setIdeaListsReverse(isSort);
+  //   setIdeaLists([...ideaLists].reverse());
+  // }
 
+  const dateReceived = (isSort) => {
+		const sortedList = [...ideaLists];
+		sortedList.sort((a, b) => {
+			
+			const dateA = (a.createdAt).toLocaleString();
+			const dateB = (b.createdAt).toLocaleString();
+
+			// Compare the dates
+			return isSort ? dateA.localeCompare(dateB) :dateB.localeCompare(dateA);
+		});
+	
+		setIdeaListsReverse(isSort);
+		setIdeaLists(sortedList);
+	}
+
+   console.log(ideaLists,'ooo')
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
