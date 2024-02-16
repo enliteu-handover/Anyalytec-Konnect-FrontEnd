@@ -1,19 +1,17 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { pageLoaderHandler } from "../../helpers";
-import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
 
 const ClosedPolls = (props) => {
 
@@ -123,7 +121,7 @@ const ClosedPolls = (props) => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-			accessorFn: (row) => row.createdAt ?  moment(row.createdAt).format('l'):'--', 
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
 		{
 			header: "View",
