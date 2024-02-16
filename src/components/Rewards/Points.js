@@ -8,11 +8,13 @@ import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import AvailPoints from "./AvailPoints";
 import PointsTable from "./PointsTable";
+import { pageLoaderHandler } from "../../helpers";
 
 const Points = () => {
-
   const [pointsList, setPointsList] = useState({});
   const [filterParams, setFilterParams] = useState({});
+  const [isLoading,setIsLoading] =useState(false)
+
 
   const dispatch = useDispatch();
 
@@ -53,52 +55,64 @@ const Points = () => {
       setFilterParams({});
     }
     fetchPoints(paramsData);
-  }
+  };
 
   const fetchPoints = (paramsInfo = {}) => {
+    setIsLoading(true)
+
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
         url: URL_CONFIG.GET_POINTS,
         method: "get",
-        params: paramsInfo
+        params: paramsInfo,
       };
     } else {
       obj = {
         url: URL_CONFIG.GET_POINTS,
-        method: "get"
+        method: "get",
       };
     }
     httpHandler(obj)
       .then((response) => {
         setPointsList(response.data);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         const errMsg = error.response?.data?.message;
         console.log("fetchPoints error", errMsg);
+    setIsLoading(false)
+
       });
-  }
+  };
 
   useEffect(() => {
     fetchPoints();
+    pageLoaderHandler(isLoading ? 'show':'hide')
   }, []);
 
-
   return (
-
     <React.Fragment>
-      <PageHeader title={`Total Earned Points : ${pointsList?.totalPoints ?? '00'}`}
-        filter={<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />} />
-      <div className="row eep-content-start">
+      <PageHeader
+        title={`Total Earned Points : ${pointsList?.totalPoints ?? "00"}`}
+        filter={
+          <TypeBasedFilter
+            config={TYPE_BASED_FILTER}
+            getFilterParams={getFilterParams}
+          />
+        }
+      />
+     {!isLoading && <div className="row eep-content-start">
         <div className="col-md-3 myPointsLeft_div">
           <AvailPoints pointsList={pointsList} />
         </div>
         <div className="col-md-9 myPointsRight_div">
           <PointsTable pointsList={pointsList} />
         </div>
-      </div>
+      </div>}
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Points;

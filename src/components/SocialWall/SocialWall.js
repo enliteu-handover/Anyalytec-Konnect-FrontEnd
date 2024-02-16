@@ -310,7 +310,7 @@ const SocialWall = () => {
           <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
         </div>
       </div>
-      <div className="row eep-content-section-data">
+     { socialWallList.length > 0 && <div className="row eep-content-section-data">
         <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
           {Object.keys(rankingLists).length > 0 &&
             <SocialWallLeftContent rankingLists={rankingLists} usersPicProps={usersPic} />
@@ -326,7 +326,7 @@ const SocialWall = () => {
             <SocialWallRightContent hastagList={hastagList} />
           }
         </div>
-      </div>
+      </div>}
     </React.Fragment>
   );
 };

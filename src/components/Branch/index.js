@@ -6,7 +6,7 @@ import PageHeader from "../../UI/PageHeader";
 import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { FILTER_CONFIG } from "../../constants/ui-config";
-import { downloadXlsx } from "../../helpers";
+import { downloadXlsx, pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import CreateBranchModal from "../../modals/CreateBranchModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
@@ -22,6 +22,8 @@ const BranchMaster = () => {
         limit: 1000,
         showTable: { label: "15", value: 15 }
     })
+    const [isLoading,setIsLoading] =useState(false)
+
     const [isOpen, setisOpen] = useState(false)
     const [editData, setEditData] = useState(null)
 
@@ -71,6 +73,7 @@ const BranchMaster = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchAllBrachData = (search, limit, offset, arg = {}) => {
+        setIsLoading(true)
 
 
         const obj = {
@@ -111,11 +114,15 @@ const BranchMaster = () => {
                 ...state,
                 data: response?.data
             })
+    setIsLoading(false)
+
         })
     }
 
     useEffect(() => {
         fetchAllBrachData()
+        pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     const hideModal = () => {
@@ -208,7 +215,7 @@ const BranchMaster = () => {
 
                 <div className="eep-user-management eep-content-start" id="content-start">
                     <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible" }}>
-                        <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
+                       { !isLoading && <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
                             <button
                                 className="btn btn-secondary"
                                 aria-controls="user_dataTable"
@@ -231,7 +238,7 @@ const BranchMaster = () => {
                                     <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
                                 }
                             />
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </React.Fragment>

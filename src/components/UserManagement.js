@@ -11,7 +11,7 @@ import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
 import { FILTER_CONFIG } from "../constants/ui-config";
-import { downloadXlsx } from "../helpers";
+import { downloadXlsx, pageLoaderHandler } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 import { idmRoleMappingRolesScreenAccess } from "../idm";
 import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
@@ -23,6 +23,8 @@ const UserManagement = () => {
   const [userData, setUserData] = useState([]);
   const [data, setData] = useState({});
   const [state, setState] = useState({ uploadData: null });
+  const [isLoading,setIsLoading] =useState(false)
+
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
@@ -83,6 +85,8 @@ const UserManagement = () => {
   ];
 
   const fetchUserData = (arg) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.GETALLUSERS,
       method: "get",
@@ -93,16 +97,22 @@ const UserManagement = () => {
     httpHandler(obj)
       .then((userData) => {
         setUserData(userData?.data?.map(v => { return { ...v, name: v?.username } }));
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("fetchUserData error", error);
         //const errMsg = error.response?.data?.message;
+    setIsLoading(false)
+
       });
   };
 
   useEffect(() => {
     const obj = { filterValue: true }
     fetchUserData(obj);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   useEffect(() => {
@@ -371,7 +381,7 @@ const UserManagement = () => {
                   ></Table>
                 )} */}
 
-                <div style={{ position: 'relative' }}>
+              { !isLoading && <div style={{ position: 'relative' }}>
                   <button
                     className="btn btn-secondary"
                     aria-controls="user_dataTable"
@@ -396,7 +406,7 @@ const UserManagement = () => {
                     }
                   />
                 </div>
-
+}
               </div>
             </div>
           </div>

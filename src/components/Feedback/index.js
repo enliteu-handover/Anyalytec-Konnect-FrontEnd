@@ -292,8 +292,11 @@ const Feedback = () => {
       url: URL_CONFIG.MY_FEEDBACK,
       method: "get",
     };
+
+    console.log(paramData,'paramData!!!')
     if (paramData && Object.keys(paramData).length > 0 && paramData !== "") {
       obj["params"] = paramData;
+      console.log(obj["params"] = paramData,'obj["params"] = paramData')
     }
     httpHandler(obj)
       .then((myFeeds) => {
@@ -424,7 +427,7 @@ const Feedback = () => {
                 <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
               }
             />
-            {allSearchfeedback && allSearchfeedback?.length > 0 &&
+            {/* {allSearchfeedback && allSearchfeedback?.length > 0 && */}
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
@@ -445,26 +448,50 @@ const Feedback = () => {
 
                   </div>
                   <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
-                    {ideaData &&
 
-                      <FeedbackDetailView
-                        ideaData={ideaData}
-                        usersPic={usersPic} />
-                    }
+                    {allfeedback?.length>0 ? 
+                    <>
+                    
+                    {ideaData?.length > 0 &&
 
-                    {!ideaData &&
-                      <div className="row eep-content-section-data no-gutters">
-                        <div className="eep_blank_div">
-                          <img src={`${process.env.PUBLIC_URL}/images/icons/static/readData.png`} alt="Read Data" />
-                          <p className="eep_blank_message">Select an item to read</p>
-                        </div>
-                      </div>
+<FeedbackDetailView
+  ideaData={ideaData}
+  usersPic={usersPic} />
+    
+ 
+}
+
+{!ideaData &&
+<div className="row eep-content-section-data no-gutters">
+  <div className="eep_blank_div">
+    <img src={`${process.env.PUBLIC_URL}/images/icons/static/readData.png`} alt="Read Data" />
+    <p className="eep_blank_message">Select an item to read</p>
+  </div>
+</div>
+}
+                    
+                    </>
+                    
+                    :
+                    
+                    <div  className="feedback-listview" style={{margin: 'auto',
+                    width: '50%',
+                    height: '64vh',
+                    alignItems: 'center',
+                    display: "flex",
+                    }} >
+                    <p style={{fontSize:'18px',fontWeight:'500',textAlign:'center',
+                      padding: '10px'}}>No data Found!!!</p>
+                    
+                    </div>
+                    
                     }
+                    
                   </div>
                 </div>
               </React.Fragment>
-            }
-            {allfeedback && allfeedback?.length <= 0 &&
+             {/* }  */}
+            {/* {allfeedback && allfeedback?.length <= 0 &&
               <ResponseInfo
                 title="Nothing to show yet"
                 responseImg="noIdeaShare"
@@ -472,7 +499,7 @@ const Feedback = () => {
                 messageInfo="In the dance of progress, feedback is the music that guides every step of an organization's journey. Write one!"
                 // subMessageInfo="C. S. Lewis"
               />
-            }
+            } */}
           </div>
         </div>
       </div>
