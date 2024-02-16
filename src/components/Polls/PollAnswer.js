@@ -92,7 +92,6 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
-		debugger
 		if (pDataValue) {
 			if (viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
@@ -117,7 +116,6 @@ const PollAnswer = () => {
 	}, [pDataValue]);
 
 	const submitAnswerHandler = (responseID, pData, ans) => {
-		debugger
 		if (!pData.answeredState) {
 			if (responseID && ans?.option) {
 				const obj = {
@@ -263,22 +261,22 @@ const PollAnswer = () => {
 													<label
 														htmlFor={"opt-" + index}
 														// className={`${answeredResponse && answeredResponse.choice[0].value === item.option ? "selected" : ""}`} 
-														className={`${pollData.answeredValue === item.option ? "selected" : ""} ${!isResponsibleState ? "selectall" : ""}`}
+														className={`${pollData?.answeredValue === item?.option ? "selected" : ""} ${!isResponsibleState ? "selectall" : ""}`}
 														onClick={() => submitAnswerHandler(submitResponseID, pollData, item)}
 													>
 														<div className="row no-gutters">
 															<div className="column">
 																<span className="circle"></span>
-																<span className="text">{item.option}</span>
+																<span className="text">{item?.option}</span>
 															</div>
 														</div>
 														{votingState &&
 															<div className="eep_progress_div">
 																<div
-																	className={`progress ${pollData.map ? getProgressClassName(pollData.map[item.option]) : ""}`}
-																	style={{ "--w": `${pollData.map ? pollData.map[item.option] : "0"}` }}
+																	className={`progress ${pollData?.map ? getProgressClassName(pollData?.map[item.option]) : ""}`}
+																	style={{ "--w": `${pollData?.map ? pollData?.map[item.option] : "0"}` }}
 																></div>
-																<span className="percent">{pollData.map ? pollData.map[item.option] + "%" : ""}</span>
+																<span className="percent">{pollData?.map ? pollData?.map[item.option] + "%" : ""}</span>
 															</div>
 														}
 													</label>
