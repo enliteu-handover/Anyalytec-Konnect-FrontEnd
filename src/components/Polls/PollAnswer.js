@@ -92,6 +92,7 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
+		debugger
 		if (pDataValue) {
 			if (viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
@@ -116,6 +117,7 @@ const PollAnswer = () => {
 	}, [pDataValue]);
 
 	const submitAnswerHandler = (responseID, pData, ans) => {
+		debugger
 		if (!pData.answeredState) {
 			if (responseID && ans?.option) {
 				const obj = {
@@ -325,11 +327,11 @@ const PollAnswer = () => {
 									</div>
 								</div>
 							}
-							{!pDataValue &&
+							{/* {!pDataValue &&
 								<div className="col-md-8">
 									<div className="alert alert-danger" role="alert">Not able to fetch property data. Please try again from beginning.</div>
 								</div>
-							}
+							} */}
 						</div>
 					</div>
 				</div>
