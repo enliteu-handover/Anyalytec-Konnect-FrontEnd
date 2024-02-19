@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
-import { downloadXlsx } from "../helpers";
+import { downloadXlsx, pageLoaderHandler } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { TabsActions } from "../store/tabs-slice";
@@ -16,6 +16,7 @@ const Wallet = () => {
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
     const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
     const activeTab = useSelector((state) => state.tabs.activeTab);
+    const [isLoading,setIsLoading] =useState(false)
 
     const [wallet, setWallet] = useState([]);
     const [state, setState] = useState({
@@ -58,7 +59,8 @@ const Wallet = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchWallet = () => {
-
+        setIsLoading(true)
+    
         const obj = {
             url: URL_CONFIG.GET_POINTS_CONFIG,
             method: "get",
@@ -66,9 +68,13 @@ const Wallet = () => {
         httpHandler(obj)
             .then((response) => {
                 setWallet(response?.data?.data ?? []);
+    setIsLoading(false)
+
             })
             .catch((error) => {
                 console.log("ACTIVE_Wallet", error.response);
+    setIsLoading(false)
+
             });
     };
 
@@ -91,6 +97,8 @@ const Wallet = () => {
     useEffect(() => {
         fetchWallet();
         getPointsValue()
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     useEffect(() => {
@@ -161,7 +169,7 @@ const Wallet = () => {
 
     return (
         <React.Fragment>
-            {activeTab && activeTab?.id === 'wallet' && userRolePermission?.adminPanel &&
+            {activeTab && activeTab?.id === 'wallet' && userRolePermission?.adminPanel && !isLoading &&
                 <React.Fragment>
                     <button
                         className="btn btn-secondary"

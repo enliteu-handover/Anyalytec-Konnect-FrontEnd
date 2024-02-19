@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
-import { downloadXlsx } from "../helpers";
+import { downloadXlsx, pageLoaderHandler } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import WalletComponent from "./walletComponent";
@@ -13,6 +13,7 @@ const PointsConfig = () => {
     const dispatch = useDispatch();
     const svgIcons = useSelector((state) => state.sharedData.svgIcons);
     const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+    const [isLoading,setIsLoading] =useState(false)
 
     const [pointsConfig, setPointsConfig] = useState([]);
 
@@ -41,6 +42,8 @@ const PointsConfig = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchpointsConfig = () => {
+    setIsLoading(true)
+
         const obj = {
             url: URL_CONFIG.GET_POINTS_CONFIG,
             method: "get",
@@ -57,14 +60,20 @@ const PointsConfig = () => {
                     }
                 });
                 setPointsConfig(filteredData ?? []);
+    setIsLoading(false)
+
             })
             .catch((error) => {
                 console.log("ACTIVE_pointsConfig", error.response);
+    setIsLoading(false)
+
             });
     };
 
     useEffect(() => {
-        fetchpointsConfig();
+    fetchpointsConfig();
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     const pointsConfigTableHeaders = [
@@ -111,7 +120,7 @@ const PointsConfig = () => {
     return (
         <React.Fragment>
             {userRolePermission?.adminPanel &&
-                <React.Fragment>
+              !isLoading &&  <>
                     {/* <PageHeader title="Points Configuration" /> */}
                     <button
                         className="btn btn-secondary"
@@ -133,7 +142,7 @@ const PointsConfig = () => {
                         columns={pointsConfigTableHeaders}
                         actionHidden={true}
                     />
-                </React.Fragment>
+                </>
             }
 
             {!userRolePermission?.adminPanel &&

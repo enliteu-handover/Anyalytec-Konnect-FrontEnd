@@ -20,6 +20,8 @@ const MySurvey = () => {
 	const [filterParams, setFilterParams] = useState({});
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const dispatch = useDispatch();
+    const [isLoading,setIsLoading] =useState(false)
+
 	const hideModal = () => {
 		let collections = document.getElementsByClassName("modal-backdrop");
 		for (var i = 0; i < collections.length; i++) {
@@ -59,7 +61,8 @@ const MySurvey = () => {
 	}, []);
 
 	const fetchMySurveyDetail = (paramsInfo) => {
-		pageLoaderHandler('show')
+		setIsLoading(true)
+
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -75,19 +78,23 @@ const MySurvey = () => {
 		}
 		httpHandler(obj).then((response) => {
 			setMySurveyList(response.data);
-			pageLoaderHandler('hide')
+			setIsLoading(false)
+
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
 				type: "danger",
 				message: error?.response?.data?.message,
 			});
-			pageLoaderHandler('hide')
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchMySurveyDetail(filterParams);
+		pageLoaderHandler(isLoading ? 'show':'hide')
+
 	}, []);
 
 	const getFilterParams = (paramsData) => {
@@ -149,11 +156,11 @@ const MySurvey = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
-								<TableComponent
+							{!isLoading &&	<TableComponent
 									data={mySurveyList ?? []}
 									columns={surveyTableHeaders}
 									action={<CustomLinkComponent cSettings={tableSettings.view} />}
-								/>
+								/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

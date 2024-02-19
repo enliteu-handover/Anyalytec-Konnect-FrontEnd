@@ -12,9 +12,12 @@ import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import TableComponent from "../../UI/tableComponent";
 import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function AwardApprovalList() {
   const [awardApproval, setAwardApproval] = useState([]);
+  const [isLoading,setIsLoading] =useState(false)
+
   const cSettings = {
     createdAt: {
       classnames: "",
@@ -54,6 +57,7 @@ function AwardApprovalList() {
   ];
 
   const fetchAwardApprovalData = (arg = {}) => {
+    setIsLoading(true)
     const obj = {
       url: URL_CONFIG.MY_APPROVALS,
       method: "get",
@@ -70,9 +74,13 @@ function AwardApprovalList() {
     httpHandler(obj)
       .then((awardApproval) => {
         setAwardApproval(awardApproval.data);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
       });
   };
 
@@ -81,6 +89,8 @@ function AwardApprovalList() {
       filterValue: { label: "Pending", value: false }
     }
     fetchAwardApprovalData(obj);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const dispatch = useDispatch();
@@ -144,11 +154,11 @@ function AwardApprovalList() {
               //   }}
               //   action={null}
               // ></Table> */}
-              <TableComponent
+             { !isLoading&&<TableComponent
 									data={awardApproval ?? []}
 									columns={awardApprovalTableHeaders}
 									action={<ApprovalActions isApprovalState={true} isView={false} />}
-								  />
+								  />}
           </div>
         </div>
       </div>

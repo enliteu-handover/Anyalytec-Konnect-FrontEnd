@@ -479,7 +479,7 @@ const Forum = () => {
 						{createModalShow && <CreateEditCommunicationModal
 							deptOptions={departments} createModalShow={createModalShow}
 							createCommunicationPost={createCommunicationPost}
-							communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
+							communicationModalErr={createModalErr} communicationType="forum"  communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
 								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>

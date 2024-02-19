@@ -8,7 +8,7 @@ import ResponseInfo from "../UI/ResponseInfo";
 import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
 import { FILTER_CONFIG } from "../constants/ui-config";
-import { downloadXlsx } from "../helpers";
+import { downloadXlsx, pageLoaderHandler } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 import CreateDepartmentModal from "../modals/CreateDepartmentModal";
 import DeptActionsModal from "../modals/DeptActionsModal";
@@ -19,6 +19,7 @@ function ListDepartments() {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
   const [deptData, setDeptData] = useState({});
+  const [isLoading,setIsLoading] =useState(false)
 
   const getDeptData = (argu) => {
     setDeptData(argu);
@@ -63,6 +64,7 @@ function ListDepartments() {
   ];
 
   const fetchDepartmentData = async (arg = {}) => {
+    setIsLoading(true)
     const obj = {
       url: URL_CONFIG.ALLDEPARTMENTS,
       method: "get",
@@ -86,9 +88,11 @@ function ListDepartments() {
           updatedAt: moment(item.updatedAt).format('MM/DD/YYYY'),
         }));
         setUserData(getData);
+    setIsLoading(false)
       })
       .catch((error) => {
         console.log("ALLDEPARTMENTS", error.response);
+    setIsLoading(false)
       });
   };
 
@@ -98,6 +102,7 @@ function ListDepartments() {
       filterValue: { label: "Active", value: true }
     }
     fetchDepartmentData(obj);
+    pageLoaderHandler(isLoading ? 'show':'hide')
   }, []);
 
   const dispatch = useDispatch();
@@ -177,7 +182,9 @@ function ListDepartments() {
             <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible" }}>
               <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
-                <button
+              {!isLoading &&
+              <>
+              <button
                   className="btn btn-secondary"
                   aria-controls="user_dataTable"
                   type="button"
@@ -191,14 +198,16 @@ function ListDepartments() {
                 >
                   <span>Excel</span>
                 </button>
-
-                <TableComponent
+              <TableComponent
                   data={userData ?? []}
+                  // noDataFound={userData?.length > 0 ? false : true}
                   columns={userDataTableHeaders}
                   action={
                     <DeptMasterActions getDeptData={getDeptData} />
                   }
                 />
+              </>
+              }
               </div>
             </div>
           </div>

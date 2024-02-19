@@ -68,13 +68,12 @@ function App() {
 
   return (
     <div class="user-element" data-user={theme?.color || "color_one"}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
+      <div id="loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
           </div>
         </div>
-
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         {/* <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
           <div id="loader">
             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />

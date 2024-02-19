@@ -1,5 +1,5 @@
 import { MaterialReactTable } from "material-react-table";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const TableComponent = ({
   columns = [],
@@ -10,12 +10,13 @@ const TableComponent = ({
   customContainerSx = {},
   enableRowSelection = false,
   enableRowNumbers = false,
-  actionFixed = false
+  actionFixed = false,
+  // noDataFound = false,
 }) => {
   const styles = {
     container: {
-      minHeight: '420px',
-      maxHeight: '420px',
+      minHeight: "420px",
+      maxHeight: "420px",
       fontFamily: "helveticaneueregular !important",
       "& .MuiTable-root": {
         borderSpacing: "0px 10px",
@@ -29,18 +30,18 @@ const TableComponent = ({
           //   backgroundColor: '#f5f5f5',
           // },
         },
-        '& .MuiTableRow-root:hover td': {
-          backgroundColor: '#f9f9f9'
+        "& .MuiTableRow-root:hover td": {
+          backgroundColor: "#f9f9f9",
         },
         "& .MuiTableCell-root": {
           fontSize: "14px",
           // position: "relative",
           p: "6px 8px",
-          overflow: 'inherit',
-          zIndex: 'inherit',
+          overflow: "inherit",
+          zIndex: "inherit",
           height: "40px",
           border: "0px",
-          boxShadow: 'none',
+          boxShadow: "none",
           //     // borderRight:'1.5px solid #cccccc',
           // ":after": {
           //   borderRight: "0px",
@@ -78,14 +79,14 @@ const TableComponent = ({
         "& .Mui-TableHeadCell-Content": {
           height: "12px",
           fontSize: "11px",
-          letterSpacing: '2px'
+          letterSpacing: "2px",
         },
         "& .MuiTableRow-root": {
           boxShadow: "none",
         },
-        '& .MuiTableCell-root': {
-          p: '8px 8px'
-        }
+        "& .MuiTableCell-root": {
+          p: "8px 8px",
+        },
       },
 
       "&::-webkit-scrollbar": {
@@ -101,12 +102,13 @@ const TableComponent = ({
       "&::-webkit-scrollbar-track:horizontal": {
         backgroundColor: "#f8f8f8",
       },
-      '&::-webkit-scrollbar-thumb': {
-        background: 'transparent !important',
-      }
+      "&::-webkit-scrollbar-thumb": {
+        background: "transparent !important",
+      },
     },
   };
 
+  // const [wait, setWait] = useState(false);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage, setitemsPerPage] = useState(5);
 
@@ -125,18 +127,25 @@ const TableComponent = ({
   //   setitemsPerPage(Number(e.target.value))
   //   setCurrentPage(1)
   // }
-  return (
-    <div>
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setWait(true);
+  //   }, 1000);
+  // }, []);
+
+  return (
+    <div style={{ position: "relative" }}>
       <MaterialReactTable
         // enablePagination={false}
         // showPagination={false}
         // enablePagination={false}
+        // localization={{ noRecordsToDisplay: "" }}
         enableColumnActions={false}
         enableColumnFilters={false}
         positionActionsColumn="last"
         columns={columns}
-        positionGlobalFilter='left'
+        positionGlobalFilter="left"
         data={data}
         enableRowNumbers={enableRowNumbers}
         enableRowSelection={enableRowSelection}
@@ -154,8 +163,8 @@ const TableComponent = ({
           density: "comfortable",
           showGlobalFilter: searchHidden ? false : true,
           columnPinning: {
-            right: actionFixed ? ['mrt-row-actions'] : [],
-          }
+            right: actionFixed ? ["mrt-row-actions"] : [],
+          },
         }}
         muiSearchTextFieldProps={{
           size: "small",
@@ -163,17 +172,17 @@ const TableComponent = ({
           variant: "outlined",
           sx: {
             "& .MuiOutlinedInput-input": {
-              padding: '6px 7px',
-              fontSize: '14px',
-              borderRadius: '4px'
-            }
+              padding: "6px 7px",
+              fontSize: "14px",
+              borderRadius: "4px",
+            },
           },
           InputProps: {
             endAdornment: (
               <img
                 src={process.env.PUBLIC_URL + `/images/icons/static/search.svg`}
                 alt="Search"
-                style={{ width: '18px' }}
+                style={{ width: "18px" }}
               />
             ),
           },
@@ -182,7 +191,12 @@ const TableComponent = ({
           action ? React.cloneElement(action, { data: data?.[row?.index] }) : ""
         }
         muiTablePaginationProps={{
-          rowsPerPageOptions: [5, 10, 50, (data?.length > 100 ? data?.length : 100)],
+          rowsPerPageOptions: [
+            5,
+            10,
+            50,
+            data?.length > 100 ? data?.length : 100,
+          ],
           showFirstButton: false,
           showLastButton: false,
         }}
@@ -211,16 +225,15 @@ const TableComponent = ({
             boxShadow: "none",
           },
         }}
-      // muiTableBodyCellProps={{
-      //   // align: 'center', 
-      //   sx: {
-      //     border: "0px",
-      //     // borderRight:'1.5px solid #cccccc',
-      //     p: 1,
-      //     position: "relative",
-      //   },
-      // }}
-
+        // muiTableBodyCellProps={{
+        //   // align: 'center',
+        //   sx: {
+        //     border: "0px",
+        //     // borderRight:'1.5px solid #cccccc',
+        //     p: 1,
+        //     position: "relative",
+        //   },
+        // }}
       />
 
       {/* {data?.length > 0 && <div className="row custom-paginations">
@@ -247,6 +260,27 @@ const TableComponent = ({
         </div>
       </div>} */}
 
+      {/* {wait && noDataFound=== true && (
+        <div
+          style={{
+            position: "absolute",
+            top: "165px",
+            right: "0px",
+            left: "0px",
+          }}
+        >
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              fontWeight: "500",
+              fontStyle: "italic",
+            }}
+          >
+            No Record found !!!
+          </p>
+        </div>
+      )} */}
     </div>
   );
 };

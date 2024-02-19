@@ -13,6 +13,7 @@ import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import TableComponent from "../../UI/tableComponent";
 import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function MyFeedback(props) {
   const { fetchAllFeedbacks } = props;
@@ -25,6 +26,7 @@ function MyFeedback(props) {
   const [confirmModalState, setConfirmModalState] = useState(false);
   const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [isLoading,setIsLoading] =useState(false)
 
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
@@ -140,6 +142,8 @@ function MyFeedback(props) {
   ];
 
   const fetchMyFeedsData = (paramData = {}) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.MY_FEEDBACK,
       method: "get",
@@ -150,14 +154,20 @@ function MyFeedback(props) {
     httpHandler(obj)
       .then((myFeeds) => {
         setMyfeedbackList([...myFeeds?.data?.map(v => { return { ...v, name: v?.title } })]);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
       });
   }
 
   useEffect(() => {
     fetchMyFeedsData(yearFilterValue);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const confirmState = (isConfirmed) => {
@@ -241,12 +251,12 @@ function MyFeedback(props) {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-
+{ !isLoading &&
             <TableComponent
               data={myfeedbackList ?? []}
               columns={myFeedbackTableHeaders}
               action={<MyFeedActions deleteFeeds={deleteFeeds} />}
-            />
+            />}
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
 
 const MyForumPosts = (props) => {
 
@@ -21,6 +22,7 @@ const MyForumPosts = (props) => {
   const initUsersPic = usersPic ? usersPic : [];
   const initDeptOptions = deptOptions ? deptOptions : [];
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+  const [isLoading,setIsLoading] =useState(false)
 
   const yrDt = new Date().getFullYear();
   const [yearFilterValue, setYearFilterValue] = useState({ filterby: yrDt });
@@ -117,6 +119,8 @@ const MyForumPosts = (props) => {
   }, [breadcrumbArr, dispatch]);
 
   const fetchMyForumPostsData = (paramData = {}) => {
+    setIsLoading(true)
+    
     const obj = {
       url: URL_CONFIG.MY_FORUMS,
       method: "get",
@@ -127,15 +131,21 @@ const MyForumPosts = (props) => {
     httpHandler(obj)
       .then((myposts) => {
         setMyForumPostsLists([...myposts.data]);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   }
 
   useEffect(() => {
     fetchMyForumPostsData(yearFilterValue);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const disableExistModal = () => {
@@ -398,11 +408,11 @@ const MyForumPosts = (props) => {
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
 
-            <TableComponent
+           { !isLoading && <TableComponent
               data={myForumPostsLists ?? []}
               columns={myForumsTableHeaders}
               action={<MyForumsActions unPostForum={unPostForum} postForum={postForum} deleteForum={deleteForum} editForum={editForum} usersPic={usersPics} />}
-            />
+            />}
           </div>
         </div>
       </div>

@@ -172,14 +172,23 @@ const SocialWallMiddleContent = (props) => {
     setReplyValue(e.target.value);
   };
 
-  const postCommentHandler = (arg, i) => {
+  const postCommentHandler = (arg, indx) => {
     if (arg.commentValue !== "") {
       commentSocialWallPostHandle({
         postSettings: "postComment",
         commentData: arg.commentValue,
         data: arg,
-        indx: i,
+        indx: indx,
       });
+      // const socialWallDataTemp = JSON.parse(JSON.stringify(socialWallData));
+      // for (let i = 0; i < socialWallDataTemp.length; i++) {
+      //   if (i === indx) {
+      //     socialWallDataTemp[i].commentsCount = socialWallDataTemp[i].commentsCount + 1;
+
+      //     console.log(socialWallDataTemp[i].commentsCount + 1,'socialWallDataTemp[i].commentsCount + 1')
+      //   }
+      // }
+      // setSocialWallData([...socialWallDataTemp]);
     }
   };
 
@@ -210,6 +219,8 @@ const SocialWallMiddleContent = (props) => {
     for (let i = 0; i < socialWallDataTemp.length; i++) {
       if (i === indx) {
         socialWallDataTemp[i].commentState.listCommentState = false;
+        socialWallDataTemp[i].commentsCount = socialWallDataTemp[i].commentsCount + 1;
+
       }
     }
     setSocialWallData([...socialWallDataTemp]);

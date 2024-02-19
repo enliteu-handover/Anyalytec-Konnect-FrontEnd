@@ -32,6 +32,7 @@ const SurveyQuestions = () => {
 		}
 		setShowModal({ type: null, message: null });
 	};
+    const [isLoading,setIsLoading] =useState(false)
 
 	const breadcrumbArr = [
 		{
@@ -126,6 +127,7 @@ const SurveyQuestions = () => {
 	}
 
 	const fetchSurveyQuestionDetail = (paramData = {}) => {
+		setIsLoading(true)
 
 		const obj = {
 			url: URL_CONFIG.SURVEY_QUESTIONBANK,
@@ -137,6 +139,8 @@ const SurveyQuestions = () => {
 		httpHandler(obj).then((response) => {
 			const data = response?.data?.map(v => { return { ...v, action: false } })
 			setSurveyQuestionsList(data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
 			setShowModal({
@@ -144,6 +148,8 @@ const SurveyQuestions = () => {
 				type: "danger",
 				message: errMsg,
 			});
+			setIsLoading(false)
+
 		});
 	}
 
@@ -214,11 +220,11 @@ const SurveyQuestions = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
-									<TableComponent
+								{!isLoading &&	<TableComponent
 										data={surveyQuestionsList ?? []}
 										columns={surveyTableHeaders}
 										actionHidden={true}
-									/>
+									/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />
