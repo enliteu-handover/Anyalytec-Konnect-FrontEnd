@@ -243,6 +243,18 @@
   border-radius: 50%;
 }
 
+.searchfeed input {
+  background: #fff;
+  border: 2px solid #EAEAEA !important;
+}
+
+.nodata {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
 .feedback-listview {
   border-radius: 8px;
   padding: 14px 0px;
