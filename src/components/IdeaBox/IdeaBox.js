@@ -36,6 +36,7 @@ const IdeaBox = () => {
     }
     setShowModal({ type: null, message: null });
   };
+  const [isloading, setIsloding] = useState(false);
 
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -111,6 +112,8 @@ const IdeaBox = () => {
     }
 
     fetchIdeas(false);
+    pageLoaderHandler(isloading ? "show": "hide");
+
     return () => {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -150,7 +153,7 @@ const IdeaBox = () => {
   }
 
   const fetchIdeas = async (isIdeaActive, ideaID = null, paramsInfo = {}) => {
-    pageLoaderHandler('show')
+    setIsloding(true)
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -179,20 +182,26 @@ const IdeaBox = () => {
           } else {
             setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
           }
+
           setIdeaData(null);
           setIdeaDataState(false);
-          pageLoaderHandler('hide')
+    setIsloding(false)
+
         } else {
           if (ideaListsReverse) {
             markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
           } else {
             markIdeaAsActiveState(ideaData.data, ideaID);
           }
+    setIsloding(false)
+
         }
       })
       .catch((error) => {
-        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
+
+    setIsloding(false)
+
       });
   }
 
@@ -462,7 +471,6 @@ const IdeaBox = () => {
 		setIdeaLists(sortedList);
 	}
 
-   console.log(ideaLists,'ooo')
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
@@ -504,7 +512,11 @@ const IdeaBox = () => {
                 <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
               }
             />
-            {ideaLists && ideaLists.length > 0 &&
+            {
+             ! isloading &&
+             <>
+             
+             {ideaLists && ideaLists.length > 0 &&
               <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
@@ -536,6 +548,9 @@ const IdeaBox = () => {
                 subMessageInfo="C. S. Lewis"
               />
             }
+             </>
+            }
+           
           </div>
           <div id="myideas" className="tab-pane h-100">
             {/* <PageHeader title="My Idea"

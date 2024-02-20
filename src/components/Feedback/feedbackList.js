@@ -76,7 +76,7 @@ const FeedbackList = (props) => {
         feedFilter={feedFilter}
         DateSort
       />
-     { ideaLists?.length>0 ? <div className="feedback-listview" style={{padding:0}}>
+      <div className="feedback-listview" style={{padding:0}}>
          {/* <div className="form-check"
               style={{ 
                 padding: "10px 0px", display: "flex", justifyContent: "end"
@@ -147,18 +147,7 @@ const FeedbackList = (props) => {
             )
           })}
         </div>
-      </div>:  
-      <div  className="feedback-listview" style={{margin: 'auto',
-      width: '50%',
-      height: '50vh',
-      alignItems: 'center',
-      display: "flex",
-      }} >
-      <p style={{fontSize:'18px',fontWeight:'500',textAlign:'center',
-        padding: '10px'}}>No data Found!!!</p>
-      
       </div>
-      }
     </div>
   )
 }
