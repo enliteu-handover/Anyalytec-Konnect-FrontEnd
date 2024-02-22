@@ -23,12 +23,15 @@ const NominationsApproval = () => {
   const [showApprovalAwardModal, setShowApprovalAwardModal] = useState(false);
   const [hashData, setHashData] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
       collections[i].remove();
     }
     setShowModal({ type: null, message: null });
+    eepHistory.push('awards', { activeTab: 'ApprovalTab' });
+
   };
 
   const fetchAllUsers = () => {
@@ -151,9 +154,9 @@ const NominationsApproval = () => {
         message: arg.message,
       });
     }
-    setTimeout(() => {
-      eepHistory.push('awards', { activeTab: 'ApprovalTab' });
-    }, 1000);
+    // setTimeout(() => {
+      // eepHistory.push('awards', { activeTab: 'ApprovalTab' });
+    // }, 1000);
   };
 
   return (

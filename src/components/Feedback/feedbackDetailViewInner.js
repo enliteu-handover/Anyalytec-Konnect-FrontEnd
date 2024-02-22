@@ -127,7 +127,7 @@ const FeedbackDetailViewInner = (props) => {
               </div>
             }
             <div className="item_blog_like_a_feedback item_blog_like_a_feedback_ text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
-
+              
               <ReactTooltip
                 effect='solid'
                 id={`tooltip_likes${cmtData?.message}`}

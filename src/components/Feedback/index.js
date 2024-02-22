@@ -375,7 +375,8 @@ const Feedback = () => {
             confirmMessage: null,
           });
           hideModal();
-          fetchAllFeedbacks();
+          // fetchAllFeedbacks();
+          onChangeValues({label:"All Post",value:"allpost"})
         })
         .catch((error) => {
           const errMsg =
@@ -518,7 +519,7 @@ const Feedback = () => {
                     <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
                       {
                         <>
-                          {ideaData?.length > 0 && (
+                          {ideaData && (
                             <FeedbackDetailView
                               ideaData={ideaData}
                               usersPic={usersPic}

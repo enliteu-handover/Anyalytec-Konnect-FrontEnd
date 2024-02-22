@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { eepFormatDateTime } from "../../shared/SharedService";
+import ReactTooltip from "react-tooltip";
 
 const ForumCommentsList = (props) => {
 
   const { forumData, comments, getUserPicture, deleteCommentHandler, commentUnLikeHandler, commentLikeHandler, toggleReply, editCommentHandler, editCommentReplyHandler, toggleReplyList, checkIsReplyLiked } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+
   return (
     <div className="mt-2">
       {comments && comments.length > 0 && comments.sort((a, b) => (a.id > b.id) ? 1 : -1).map((subItem, subIndex) => {
@@ -53,14 +55,21 @@ const ForumCommentsList = (props) => {
                   </p>
                 </div>
                 <div className="forum_message_reactions">
-                  <div className="mb-4 fd_like c1" id="4">
+                <ReactTooltip
+                               effect='solid'
+                              id={`tooltip${subIndex}`}
+                            >
+                      {subItem?.forumCommentLikes?.map(c => c?.userId?.firstname === "System" ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
+                      </ReactTooltip>
+                  <div className="mb-4 fd_like c1" id="4" data-tip data-for={`tooltip${subIndex}`}>
                     {subItem.forumReplyIsLiked &&
                       <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Heart" className="forum-eep-img-size" onClick={() => commentUnLikeHandler(subItem, forumData)} />
                     }
-                    {!subItem.forumReplyIsLiked &&
+                    
+                  </div>
+                  {!subItem.forumReplyIsLiked &&
                       <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="HeartDefault" className="forum-eep-img-size" onClick={() => commentLikeHandler(subItem, forumData)} />
                     }
-                  </div>
                   <div className="forum_rplay_icon_div d-flex align-items-center">
                     {subItem?.subChildren?.length > 0 &&
                       <React.Fragment>
@@ -126,12 +135,22 @@ const ForumCommentsList = (props) => {
                           </div>
                           <div className="forum_message_reactions">
                             <div className="mb-4 fd_like c1" id="4">
-                              {checkIsReplyLiked(rItem) &&
+                            <ReactTooltip
+                               effect='solid'
+                              id={`tooltip${subIndex}${subItem}`}
+                            >
+                      {subItem?.forumCommentLikes?.map(c => c?.userId.username)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
+                      </ReactTooltip>
+                        <div data-tip data-for={`tooltip${subIndex}${subItem}`}>
+                      {checkIsReplyLiked(rItem) &&
                                 <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Heart" className="forum-eep-img-size" onClick={() => commentUnLikeHandler(rItem, forumData)} />
                               }
-                              {!checkIsReplyLiked(rItem) &&
+                          
+                        </div>
+                        {!checkIsReplyLiked(rItem) &&
                                 <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="HeartDefault" className="forum-eep-img-size" onClick={() => commentLikeHandler(rItem, forumData)} />
                               }
+                             
                             </div>
                             <div className="forum_rplay_icon_div d-flex align-items-center">
                               <div className="reply_button_style reply_of_reply_button d-flex align-items-center c1" onClick={() => toggleReply(rItem, "new")}>

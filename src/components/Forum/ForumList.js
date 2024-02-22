@@ -2,11 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import SortList from "../../UI/SortList";
 import { eepFormatDateTime } from "../../shared/SharedService";
+import ReactTooltip from "react-tooltip";
 
 const ForumList = (props) => {
   const { forumList, userImageArr, readForum, unReadForum, unFollowForum, followForum, readAll, dateReceived } = props;
 
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
+  const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
   let userPicIndex;
   const getUserPicture = (uID) => {
@@ -84,8 +86,8 @@ const ForumList = (props) => {
                   </div>
                 </div>
                 <div className="forum_responce_container">
-                  <div className="forum_responce">
-                    <span className="forum_responce_commants">
+                  <div className="forum_responce" style={{display:'flex',alignItems:'center'}}>
+                    <div className="forum_responce_commants">
                       {item.forumComments.length > 0 &&
                         <img src={`${process.env.PUBLIC_URL}/images/icons/static/Message.svg`} alt="commant-icon" className="forum-eep-img-size" />
                       }
@@ -93,16 +95,32 @@ const ForumList = (props) => {
                         <img src={`${process.env.PUBLIC_URL}/images/icons/static/MessageDefault.svg`} alt="commant-icon" className="forum-eep-img-size" />
                       }
                       <span className="forum_responce_commants_counts "> {item.forumComments.length} {item.forumComments.length > 0 ? (item.forumComments.length === 1 ? "comment" : "comments") : "comment"}</span>
-                    </span>
-                    <span className="forum_responce_likes">
+                    </div>
+                    <div className="forum_responce_likes">
+                    <ReactTooltip
+                               effect='solid'
+                              id={`tooltip${index}`}
+                            >
+                      {item?.forumLikes?.map(c => c?.userId?.firstname === "System" ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
+                      </ReactTooltip>
+                   <div style={{display:'flex',alignItems:'center'}}>
+
+                      <div className="fd_like c1" id="4" data-tip data-for={`tooltip${index}`}>
                       {item.forumLikes.length > 0 &&
-                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="heart_icon" className="forum-eep-img-size" />
-                      }
-                      {item.forumLikes.length <= 0 &&
-                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="heart_icon" className="forum-eep-img-size" />
-                      }
+                      <>
+                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} style={{marginRight:'2px'}} alt="heart_icon" className="forum-eep-img-size" />
                       <span className="forum_responce_likes_counts "> {item.forumLikes.length} {item.forumLikes.length > 0 ? (item.forumLikes.length === 1 ? "like" : "likes") : "like"}</span>
-                    </span>
+                      </>
+                      }
+                      </div>
+                      {item.forumLikes.length <= 0 &&
+                      <>
+                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`}style={{marginRight:'3px'}} alt="heart_icon" className="forum-eep-img-size" />
+                      <span className="forum_responce_likes_counts "> {item.forumLikes.length} {item.forumLikes.length > 0 ? (item.forumLikes.length === 1 ? "like" : "likes") : "like"}</span>
+                      </>
+                      }
+                      </div>
+                    </div>
                   </div>
                   <div className="forum_responce_posted_time">
                     <span className=""> {eepFormatDateTime(item.createdAt)}</span>

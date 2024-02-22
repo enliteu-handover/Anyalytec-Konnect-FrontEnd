@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { eepFormatDateTime } from "../../shared/SharedService";
 import ResponseInfo from "../../UI/ResponseInfo";
+import ReactTooltip from "react-tooltip";
 
 const IdeaDetailViewInner = (props) => {
 
@@ -68,6 +69,7 @@ const IdeaDetailViewInner = (props) => {
 
     likeAnIdea(arg);
   }
+
   return (
     <React.Fragment>
       {ideaDetail && Object.keys(ideaDetail).length > 0 &&
@@ -118,21 +120,33 @@ const IdeaDetailViewInner = (props) => {
           <div className="ideabox_ideacontent">
             <p className="ideabox-font-style ideacontent_heading ideabox_contentt_size font-helvetica-m" style={{fontWeight:'500'}}>{ideaDetail.title}</p>
             <p className="ideacontent_content ideabox_contentt_size">{ideaDetail.description}</p>
-
-            <div className="item_blog_like_a text-right mb-2">
+            <ReactTooltip
+                               effect='solid'
+                              id={`tooltip${ideaDetail?.id}`}
+                            >
+                      {ideaDetail?.ideaLikes?.map(c => c?.userId?.firstname === "System" ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
+                      </ReactTooltip>
+            <div className="item_blog_like_a  mb-2" style={{display:'flex',justifyContent:'end'}}>
+              <div data-tip data-for={`tooltip${ideaDetail?.id}`} >
               <span className={isDetailListMode ? "c1" : ""}>
+              {isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes).isLiked && isDetailListMode &&
+                  <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" title="" className="post_heart" onClick={() => likeAnIdeaHandler({ isLike: false, iData: ideaDetail })} />
+                }
+              {isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes).isLiked && !isDetailListMode &&
+                  <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" title="" className="post_heart" />
+                }
+              </span>
+              </div>
+              <span className={isDetailListMode ? "c1" : ""}>
+
                 {!isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes).isLiked && isDetailListMode &&
                   <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" title="Dislike" className="post_heart" onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })} />
                 }
-                {isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes).isLiked && isDetailListMode &&
-                  <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" title="Like" className="post_heart" onClick={() => likeAnIdeaHandler({ isLike: false, iData: ideaDetail })} />
-                }
+              
                 {!isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes).isLiked && !isDetailListMode &&
                   <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="like" title="Dislike" className="post_heart" />
                 }
-                {isIdeaLiked(loggedUserData.id, ideaDetail.ideaLikes).isLiked && !isDetailListMode &&
-                  <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="Dislike" title="Like" className="post_heart" />
-                }
+               
               </span>
               {ideaDetail.ideaLikes.length > 0 &&
                 <span className="text-right i_like_count ideabox_contentt_size" style={{ marginLeft: "5px" }}>
