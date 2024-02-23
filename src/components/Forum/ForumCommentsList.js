@@ -8,10 +8,10 @@ const ForumCommentsList = (props) => {
   const { forumData, comments, getUserPicture, deleteCommentHandler, commentUnLikeHandler, commentLikeHandler, toggleReply, editCommentHandler, editCommentReplyHandler, toggleReplyList, checkIsReplyLiked } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-
   return (
     <div className="mt-2">
       {comments && comments.length > 0 && comments.sort((a, b) => (a.id > b.id) ? 1 : -1).map((subItem, subIndex) => {
+       
         return (
           <div className="forum_reply_message forum_reply_message_4" key={"commend_reply_" + subIndex}>
             <div className="forum_reply_content_div">
@@ -59,7 +59,7 @@ const ForumCommentsList = (props) => {
                                effect='solid'
                               id={`tooltip${subIndex}`}
                             >
-                      {subItem?.forumCommentLikes?.map(c => c?.userId?.firstname === "System" ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
+                      {subItem?.forumCommentLikes?.map(c => c?.userId?.username === currentUserData?.username ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
                       </ReactTooltip>
                   <div className="mb-4 fd_like c1" id="4" data-tip data-for={`tooltip${subIndex}`}>
                     {subItem.forumReplyIsLiked &&

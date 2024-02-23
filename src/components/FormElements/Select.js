@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 const SelectDropdown = (props) => {
   const { field, submitted } = props;
   const { RESTConfig = {} } = field;
-
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
 
   const initValue = field.value && field.value !== undefined ? field.value : "";
@@ -66,6 +65,7 @@ const SelectDropdown = (props) => {
     setDefaultValue(defaultValue);
   }, [options, value]);
 
+
   useEffect(() => {
     if (RESTConfig?.url) {
       getDropdownOptions();
@@ -85,9 +85,9 @@ const SelectDropdown = (props) => {
     }
     return value;
   };
+  const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
   const getDropdownOptions = () => {
-
     const obj = {
       url: RESTConfig.url,
       method: RESTConfig.method,
@@ -98,13 +98,11 @@ const SelectDropdown = (props) => {
         const dropdownValues = [];
         data.map((res) => {
           let label = "";
-
           if (!RESTConfig.labelFormattingExists) {
             label = res[RESTConfig.label];
           } else {
             const paramsPattern = /[^{\}]+(?=})/g;
             let extractParams = RESTConfig.label.match(paramsPattern);
-
             let formattedLabel = (" " + RESTConfig.label).slice(1);
             extractParams &&
               extractParams.map((string) => {
@@ -112,12 +110,13 @@ const SelectDropdown = (props) => {
                   "{" + string + "}",
                   res[string]
                 );
-
+     
                 label = formattedLabel;
               });
           }
+          let labelOptions = RESTConfig?.value === "manager.id" ? (res?.username === currentUserData?.username ? ' ' : res?.fullName) : label
           dropdownValues.push({
-            label: label,
+            label: labelOptions,
             value:
               RESTConfig.value.indexOf(".") === -1
                 ? res[RESTConfig.value]
@@ -164,6 +163,10 @@ const SelectDropdown = (props) => {
 
   const fieldClasses = inputIsInvalid ? `${"invalid"}` : "";
 
+   // check option => label conatains empty string                       
+  const validOption =  options.filter(option => option.label.trim() !== '');
+
+
   return (
     <div
       className={`col-md-12 form-group text-left selectField-withReload ${fieldClasses} ${field.mandatory ? "required" : ""
@@ -176,7 +179,7 @@ const SelectDropdown = (props) => {
           <Select
             defaultValue={value}
             value={value}
-            options={options}
+            options={validOption}
             isSearchable={true}
             className={`form-control basic-single ${field.reloadData ? "reloadSelectField" : ""} ${classes.formControl}`}
             name={field.name}
@@ -192,7 +195,7 @@ const SelectDropdown = (props) => {
         )}
         {options && defaultValue && (
           <Select
-            options={options}
+            options={validOption}
             isSearchable={true}
             className={`form-control basic-single ${field.reloadData ? "reloadSelectField" : ""} ${classes.formControl}`}
             name={field.name}

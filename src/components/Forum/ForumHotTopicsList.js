@@ -73,7 +73,7 @@ const ForumHotTopicsList = (props) => {
                       effect='solid'
                       id={`tooltip${index}`}
                     >
-                       {fData.forumLikes?.map(v=>v?.userId?.firstname === "System" ? 'You': v?.userId?.firstname)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
+                       {fData.forumLikes?.map(v=>v?.userId?.username === loggedUserData?.username ? 'You': v?.userId?.firstname)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
                       </ReactTooltip>
                    <div style={{display:'flex',alignItems:'center'}}>
                    <div data-tip data-for={`tooltip${index}`} >
