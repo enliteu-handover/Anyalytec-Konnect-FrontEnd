@@ -42,6 +42,7 @@ const Feedback = () => {
     confirmMessage: null,
   });
   const [isloading, setIsloding] = useState(false);
+  const [mypost, setMypost] = useState(false);
 
 
   const CloseFunction = () => {
@@ -107,8 +108,7 @@ const Feedback = () => {
     fetchDepartmentData();
     fetchAllUsers();
     fetchAllFeedbacks();
-    pageLoaderHandler(isloading ? "show": "hide");
-
+    pageLoaderHandler(isloading ? "show" : "hide");
   }, []);
 
   const triggerCreateModal = () => {
@@ -146,7 +146,7 @@ const Feedback = () => {
   }, []);
 
   const fetchAllFeedbacks = (paramsInfo = {}) => {
-    setIsloding(true)
+    setIsloding(true);
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -169,13 +169,12 @@ const Feedback = () => {
         );
         setFeedbacks(data);
         setSearchFeedbacks(data);
-    setIsloding(false)
-
+        setIsloding(false);
+        
       })
       .catch((error) => {
         console.log("fetchIdeas error", error);
-    setIsloding(false)
-
+        setIsloding(false);
       });
   };
 
@@ -310,12 +309,14 @@ const Feedback = () => {
     if (value?.value === "allpost") {
       fetchAllFeedbacks();
     } else {
-      fetchMyFeedsData({ filterby: yrDt });
+      fetchMyFeedsData({ filterby: yrDt },true);
     }
     setIdeaData(null);
   };
 
-  const fetchMyFeedsData = (paramData = {}) => {
+  const fetchMyFeedsData = (paramData = {},istrue) => {
+    setIsloding(true);
+
     var obj = {
       url: URL_CONFIG.MY_FEEDBACK,
       method: "get",
@@ -328,9 +329,13 @@ const Feedback = () => {
       .then((myFeeds) => {
         setFeedbacks(myFeeds?.data);
         setSearchFeedbacks(myFeeds?.data);
+        setMypost(istrue)
+        setIsloding(false);
+        
       })
       .catch((error) => {
         console.log("error", error.response);
+        setIsloding(false);
       });
   };
 
@@ -370,7 +375,8 @@ const Feedback = () => {
             confirmMessage: null,
           });
           hideModal();
-          fetchAllFeedbacks();
+          // fetchAllFeedbacks();
+          onChangeValues({label:"All Post",value:"allpost"})
         })
         .catch((error) => {
           const errMsg =
@@ -455,7 +461,7 @@ const Feedback = () => {
 
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100 response-allign-middle">
-          {!isloading && <div id="feedback" className="tab-pane active h-100">
+          <div id="feedback" className="tab-pane active h-100">
             {createModalShow && (
               <CreateFeedbackModal
                 deptOptions={deptOptions}
@@ -487,99 +493,70 @@ const Feedback = () => {
               }
             />
 
-            {
+            {/* {allSearchfeedback && allSearchfeedback?.length > 0 && ( */}
+
+            {!isloading && (
               <>
-                {allfeedback && allfeedback?.length <= 0 && (
-                  <div className="row mx-0 justify-content-center">
-                    <div className="col-md-10">
-                      <SortList
-                        arrowSx={{}}
-                        readAllCommunicationsFromList={readAllIdeas}
-                        communicationPostLists={allfeedback}
-                        dateReceivedOrder={dateReceived}
-                        isFeed={true}
+                <React.Fragment>
+                  <div className="row mx-0 ideaaboxContainer">
+                    <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
+                      <FeedbackList
+                        feedbackListsData={allfeedback}
+                        usersPic={usersPic}
+                        viewIdeaData={viewIdeaData}
+                        readIdeaData={readIdeaData}
+                        markImportant={markImportant}
+                        readAllIdeas={readAllIdeas}
+                        dateReceived={dateReceived}
                         onChangeValues={onChangeValues}
                         feedFilter={feedFilter}
+                        onChangeSearch={onChangeSearch}
+                        search={search}
+                        deleteFeedback={deleteFeedback}
+                        mypost={mypost}
                       />
-                      <div className="fixed-filter-feedback mb-3">
-                        <div
-                          className="feedback-search-value"
-                          style={{ padding: 0 }}
-                        >
-                          <input
-                            className="communication-title border_none eep_scroll_y w-100 feed-title"
-                            name="search"
-                            id="search"
-                            rows="2"
-                            placeholder="Search..."
-                            value={search}
-                            onChange={(event) =>
-                              onChangeSearch(event.target.value)
-                            }
-                          />
-                        </div>
-                      </div>
+                    </div>
+                    <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
+                      {
+                        <>
+                          {ideaData && (
+                            <FeedbackDetailView
+                              ideaData={ideaData}
+                              usersPic={usersPic}
+                            />
+                          )}
+
+                          {!ideaData && (
+                            <div className="row eep-content-section-data no-gutters">
+                              <div className="eep_blank_div">
+                                <img
+                                  src={`${process.env.PUBLIC_URL}/images/icons/static/readData.png`}
+                                  alt="Read Data"
+                                />
+                                <p className="eep_blank_message">
+                                  Select an item to read
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      }
                     </div>
                   </div>
-                )}
-              </>
-            }
-            {allSearchfeedback && allSearchfeedback?.length > 0 && (
-              <React.Fragment>
-                <div className="row mx-0 ideaaboxContainer">
-                  <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
-                    <FeedbackList
-                      feedbackListsData={allfeedback}
-                      usersPic={usersPic}
-                      viewIdeaData={viewIdeaData}
-                      readIdeaData={readIdeaData}
-                      markImportant={markImportant}
-                      readAllIdeas={readAllIdeas}
-                      dateReceived={dateReceived}
-                      onChangeValues={onChangeValues}
-                      feedFilter={feedFilter}
-                      onChangeSearch={onChangeSearch}
-                      search={search}
-                      deleteFeedback={deleteFeedback}
-                    />
-                  </div>
-                  <div className="col-md-6 idea_detail_view eep-content-section-data ideabox-border-main eep_scroll_y px-0">
-                    <>
-                      {ideaData?.length > 0 && (
-                        <FeedbackDetailView
-                          ideaData={ideaData}
-                          usersPic={usersPic}
-                        />
-                      )}
+                </React.Fragment>
 
-                      {!ideaData && (
-                        <div className="row eep-content-section-data no-gutters">
-                          <div className="eep_blank_div">
-                            <img
-                              src={`${process.env.PUBLIC_URL}/images/icons/static/readData.png`}
-                              alt="Read Data"
-                            />
-                            <p className="eep_blank_message">
-                              Select an item to read
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  </div>
-                </div>
-              </React.Fragment>
+                {/* {allfeedback && allfeedback?.length <= 0 && (
+                  <ResponseInfo
+                    title="Nothing to show yet"
+                    responseImg="noIdeaShare"
+                    responseClass="response-info"
+                    messageInfo="In the dance of progress, feedback is the music that guides every step of an organization's journey. Write one!"
+                    // subMessageInfo="C. S. Lewis"
+                  />
+                )} */}
+              </>
             )}
-            {allfeedback && allfeedback?.length <= 0 && (
-              <ResponseInfo
-                title="Nothing to show yet"
-                responseImg="noIdeaShare"
-                responseClass="response-info"
-                messageInfo="In the dance of progress, feedback is the music that guides every step of an organization's journey. Write one!"
-                // subMessageInfo="C. S. Lewis"
-              />
-            )}
-          </div>}
+          </div>
         </div>
       </div>
     </React.Fragment>

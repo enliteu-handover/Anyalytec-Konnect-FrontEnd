@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { eepFormatDateTime } from "../../shared/SharedService";
+import ReactTooltip from "react-tooltip";
 
 const ForumHotTopicsList = (props) => {
 
@@ -11,6 +12,8 @@ const ForumHotTopicsList = (props) => {
   const [hotForumList, setHotForumList] = useState([]);
   const hotForumMaxCommentList = 5;
   const hotForumMaxList = 5;
+  const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+
 
   useEffect(() => {
     if(initForumList && initForumList.length > 0) {
@@ -65,14 +68,33 @@ const ForumHotTopicsList = (props) => {
                       <span className="forum_responce_commants_counts "> {fData.forumComments.length} {fData.forumComments.length > 0 ? (fData.forumComments.length === 1 ? "comment" : "comments") : "comment"}</span>
                     </div>
                     <div className="forum_responce_likes forum_responce  d-md-inline-block">
-                      {fData.forumLikes.length > 0 &&
-                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} alt="heart_icon" className="forum-eep-img-size" />
-                      }
-                      {fData.forumLikes.length <= 0 &&
-                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} alt="heart_icon" className="forum-eep-img-size" />
-                      }
-                      <span className="forum_responce_likes_counts "> {fData.forumLikes.length} {fData.forumLikes.length > 0 ? (fData.forumLikes.length === 1 ? "like" : "likes") : "like"}</span>
+                             
+                      <ReactTooltip
+                      effect='solid'
+                      id={`tooltip${index}`}
+                    >
+                       {fData.forumLikes?.map(v=>v?.userId?.firstname === "System" ? 'You': v?.userId?.firstname)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
+                      </ReactTooltip>
+                   <div style={{display:'flex',alignItems:'center'}}>
+                   <div data-tip data-for={`tooltip${index}`} >
+                   {fData.forumLikes.length > 0 &&
+                     <>
+                      <img src={`${process.env.PUBLIC_URL}/images/icons/static/Heart.svg`} style={{marginRight:'2px'}} alt="heart_icon" className="forum-eep-img-size" />
+                      <span className="forum_responce_likes_counts " > {fData.forumLikes.length} {fData.forumLikes.length > 0 ? (fData.forumLikes.length === 1 ? "like" : "likes") : "like"}</span>
+                    </>
+                   }
+
                     </div>
+                    {fData.forumLikes.length <= 0 &&
+                       <>
+                        <img src={`${process.env.PUBLIC_URL}/images/icons/static/HeartDefault.svg`} style={{marginRight:'3px'}} alt="heart_icon" className="forum-eep-img-size" />
+                      <span className="forum_responce_likes_counts " > {fData.forumLikes.length} {fData.forumLikes.length > 0 ? (fData.forumLikes.length === 1 ? "like" : "likes") : "like"}</span>
+
+                       </>
+                      }
+               
+                    </div>
+                   </div>
                   </div>
                   <div className="forum_responce_posted_time">
                     <span className=""> {eepFormatDateTime(fData.createdAt)}</span>
