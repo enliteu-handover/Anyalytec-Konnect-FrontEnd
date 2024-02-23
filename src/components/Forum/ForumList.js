@@ -101,7 +101,7 @@ const ForumList = (props) => {
                                effect='solid'
                               id={`tooltip${index}`}
                             >
-                      {item?.forumLikes?.map(c => c?.userId?.firstname === "System" ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
+                      {item?.forumLikes?.map(c => c?.userId?.username === currentUserData?.username ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(currentUserData?.username, 'You')}
                       </ReactTooltip>
                    <div style={{display:'flex',alignItems:'center'}}>
 

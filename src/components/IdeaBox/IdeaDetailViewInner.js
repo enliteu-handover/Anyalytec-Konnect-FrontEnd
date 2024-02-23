@@ -124,7 +124,7 @@ const IdeaDetailViewInner = (props) => {
                                effect='solid'
                               id={`tooltip${ideaDetail?.id}`}
                             >
-                      {ideaDetail?.ideaLikes?.map(c => c?.userId?.firstname === "System" ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
+                      {ideaDetail?.ideaLikes?.map(c => c?.userId?.username === loggedUserData?.username ? 'You': c?.userId?.firstname)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}
                       </ReactTooltip>
             <div className="item_blog_like_a  mb-2" style={{display:'flex',justifyContent:'end'}}>
               <div data-tip data-for={`tooltip${ideaDetail?.id}`} >
