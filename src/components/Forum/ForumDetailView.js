@@ -429,7 +429,20 @@ const ForumDetailView = () => {
   }
   return (
     <React.Fragment>
-      <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />
+     <div
+     style={{
+      position: 'fixed',
+      /* margin: 0px 22px; */
+      zIndex:'10001',
+      width: '-webkit-fill-available',
+      marginRight: '14px',
+      backgroundColor:'#fff',
+      marginTop: '-15px',
+      padding: '8px 0px',
+      }}
+     > <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />
+     
+     </div>
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
           data={showModal}
@@ -455,7 +468,17 @@ const ForumDetailView = () => {
 
       {forumData && Object.keys(forumData).length > 0 &&
         <div className="row no-gutters forum_discussion_containerr">
-          <div className="tab-content col-md-12 h-100">
+          <div className="tab-content col-md-12 h-100" style={{}}> 
+            <div style={{
+             position: 'fixed',
+             /* margin: 0px 22px; */
+             zIndex:'1000',
+             width: '-webkit-fill-available',
+             marginRight: '14px',
+             backgroundColor:'#fff',
+      marginTop:'56px',
+
+            }}>
             <div className="forum_main_topic">
               <div className="forum_profile_container pr-0">
                 <div className="forum_profile_image">
@@ -570,6 +593,9 @@ const ForumDetailView = () => {
             <div className="fd_comments_count m-2 p-2" id="commentsSize" style={{ borderTop: "1px solid #DBDBDB" }}>
               <span className="fd_count_number">{forumData?.forumComments?.length}</span> <span style={{ color: "#646464" }}> comments</span>
             </div>
+            </div>
+          </div>
+            
             {forumData?.forumComments?.length > 0 &&
               <ForumCommentsList
                 forumData={forumData}
@@ -588,7 +614,6 @@ const ForumDetailView = () => {
             {toggleReplyState.isToggle &&
               <CommentReply toggleReplyState={toggleReplyState} forumData={forumData} closeReply={closeReply} getUserPicture={getUserPicture} clickCommentReplySubmitHandler={clickCommentReplySubmitHandler} updateCommentReplyHandler={updateCommentReplyHandler} />
             }
-          </div>
         </div>
       }
       {/* {forumData && Object.keys(forumData).length <= 0 &&

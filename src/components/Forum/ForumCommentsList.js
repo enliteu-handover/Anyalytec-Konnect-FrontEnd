@@ -9,7 +9,7 @@ const ForumCommentsList = (props) => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   return (
-    <div className="mt-2">
+    <div className="col-md-12" style={{paddingTop:'356px',}}>
       {comments && comments.length > 0 && comments.sort((a, b) => (a.id > b.id) ? 1 : -1).map((subItem, subIndex) => {
        
         return (
