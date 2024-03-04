@@ -284,7 +284,7 @@ const SocialWallMiddleContent = (props) => {
                   <div className="sw_from">
                     <div className="sw_from_data">
                       <Link to="#" className="a_hover_txt_deco_none">
-                        <span className="sw_to_val sw_head_nms">{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? (item?.rewardId?.userId?.firstname ?? '') + ' ' + (item?.rewardId?.userId?.lastname ?? ""):""} </span>
+                        <span className="sw_to_val sw_head_nms">{(item?.rewardId?.userId !== null && item?.rewardId?.userId !== "undefined") ? (item?.rewardId?.userId?.firstname ?? '') + ' ' + (item?.rewardId?.userId?.lastname ?? "") : ""} </span>
                       </Link>
                       <span className="sw_head_con">was enlited by </span>
                       <Link to="#" className="a_hover_txt_deco_none">
@@ -293,7 +293,7 @@ const SocialWallMiddleContent = (props) => {
                     </div>
                     <div className="sw_from_time">
                       <span className="sw_from_time_val">
-                        {item?.createdAt}
+                        {item?.createdAt ?? ""}
                       </span>
                     </div>
                   </div>
