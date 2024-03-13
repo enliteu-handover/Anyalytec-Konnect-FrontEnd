@@ -10,8 +10,6 @@ import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import CommentReply from "./CommentReply";
 import ForumCommentsList from "./ForumCommentsList";
-import ConfirmStateModal from "../../modals/ConfirmStateModal";
-import axios from "axios";
 import { pageLoaderHandler } from "../../helpers";
 
 const ForumDetailView = () => {
