@@ -10,6 +10,7 @@ import CommentReply from "./CommentReply";
 import ForumCommentsList from "./ForumCommentsList";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import axios from "axios";
+import { pageLoaderHandler } from "../../helpers";
 
 const ForumDetailView = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -41,6 +42,8 @@ const ForumDetailView = () => {
     setConfirmModalState(false);
     setForumTempData({});
   };
+	const [isloading, setIsloding] = useState(false);
+
 
   const fileTypeAndImgSrcArray = {
     "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
@@ -71,6 +74,7 @@ const ForumDetailView = () => {
       //setForumData({...initialVal});
       //setForumCommentData(getCustomizedData(initialVal.forumComments));
       getForumById(initialVal);
+		pageLoaderHandler(isloading ? "show": "hide");
       setUsersPics(initialPicVal);
     }
   }, [initialVal, initialPicVal]);
@@ -258,7 +262,7 @@ const ForumDetailView = () => {
   }
 
   const getForumById = (arg) => {
-
+    setIsloding(true)
     const obj = {
       url: URL_CONFIG.FORUM_BY_ID + "?id=" + arg.id,
       method: "get"
@@ -268,7 +272,9 @@ const ForumDetailView = () => {
       setForumCommentData([...getCustomizedData(response?.data?.forumComments)]);
       setToggleComment(false);
       setToggleReplyState({ isToggle: false, cmtData: {}, type: "" });
+      setIsloding(false)
     })
+   
     // .catch((error) => {
     //   const errMsg =
     //     error.response?.data ?
@@ -429,11 +435,12 @@ const ForumDetailView = () => {
   }
   return (
     <React.Fragment>
-     <div
+      {!isloading && <>
+        <div
      style={{
       position: 'fixed',
       /* margin: 0px 22px; */
-      zIndex:'10001',
+      zIndex:'100',
       width: '-webkit-fill-available',
       marginRight: '14px',
       backgroundColor:'#fff',
@@ -472,7 +479,7 @@ const ForumDetailView = () => {
             <div style={{
              position: 'fixed',
              /* margin: 0px 22px; */
-             zIndex:'1000',
+             zIndex:'99',
              width: '-webkit-fill-available',
              marginRight: '14px',
              backgroundColor:'#fff',
@@ -619,6 +626,9 @@ const ForumDetailView = () => {
       {/* {forumData && Object.keys(forumData).length <= 0 &&
         <div className="alert alert-danger" role="alert">Not able to fetch property data. Please try again from beginning.</div>
       } */}
+      
+      </>}
+   
     </React.Fragment>
   );
 

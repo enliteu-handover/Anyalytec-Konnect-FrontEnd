@@ -22,6 +22,8 @@ const MyProfile = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState({ type: null, message: null });
   
+
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {

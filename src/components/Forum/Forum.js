@@ -464,6 +464,8 @@ const Forum = () => {
 		setListReverse(isSort);
 		setForumList(sortedList);
 	}
+	
+	
 	return (
 		<React.Fragment>
 			<div className="row eep-content-section-data no-gutters">

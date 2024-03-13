@@ -10,7 +10,8 @@ const SpotAwardModal = (props) => {
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
   const [awardResponseClassName, setAwardResponseClassName] = useState("");
   const [isclear, setisclear] = useState(false);
-
+  const [selectedDepts, setSelectedDepts] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const getSelectedDeptment = (arg) => {
     const deptArr = [];
     arg.map(res => {
@@ -20,6 +21,20 @@ const SpotAwardModal = (props) => {
   }
 
   const recognizeAwardOnClickHandler = () => {
+    let userIds = [],
+    deptIds = [];
+  selectedUsers.map((res) => {
+    userIds.push(res.value);
+    return res;
+  });
+  
+  selectedDepts.map((res) => {
+    deptIds.push(res.value);
+    return res;
+  });
+  
+  console.log(userIds, "userIds<<<<");
+  console.log(deptIds, "deptIds>>>>");
     const regData = {
       award: {
         id: assignAwardData.data.id
@@ -45,12 +60,20 @@ const SpotAwardModal = (props) => {
       });
   }
 
+  const getUsers =(e)=>{
+    setSelectedDepts(e)
+  }
+
+  const getDepts =(e)=>{
+    setSelectedUsers(e)
+  }
+
   React.useEffect(() => {
     setAwardResponseClassName('')
     setAwardResponseMsg('')
     setSelectedDept([])
     setisclear(!isclear)
-  }, [deptOptions, assignAwardData]);
+  }, [ assignAwardData]);
 
   return (
     <div className="eepModalDiv">
@@ -64,7 +87,9 @@ const SpotAwardModal = (props) => {
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center mb-4">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} />}
-                  <SpotAwardModalInput isclear={isclear} deptOptions={deptOptions} getSelectedDeptment={getSelectedDeptment} />
+                  <SpotAwardModalInput isclear={isclear} deptOptions={deptOptions} getSelectedDeptment={getSelectedDeptment}
+                    getUsers={getUsers}
+                    getDepts={getDepts} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">

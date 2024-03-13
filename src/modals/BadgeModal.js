@@ -17,6 +17,8 @@ const BadgeModal = (props) => {
   const [badgeResponseMsg, setBadgeResponseMsg] = useState("");
   const [badgeResponseClassName, setBadgeResponseClassName] = useState("");
   const [enableRecognize, setEnableRecognize] = useState(false);
+  const [selectedDepts, setSelectedDepts] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const badgeSeledtedUsers = useSelector((state) => state.sharedData.badgeSeledtedUsers);
   const dispatch = useDispatch();
@@ -102,6 +104,21 @@ const BadgeModal = (props) => {
   },[modalData])
 
   const recognizeBadge = (arg) => {
+
+    let userIds = [],
+    deptIds = [];
+  selectedUsers.map((res) => {
+    userIds.push(res.value);
+    return res;
+  });
+  
+  selectedDepts.map((res) => {
+    deptIds.push(res.value);
+    return res;
+  });
+  
+  console.log(userIds, "userIds<<<<");
+  console.log(deptIds, "deptIds>>>>");
     const badgeRecogData = {
       badge:{
         id: modalData.id
@@ -130,6 +147,16 @@ const BadgeModal = (props) => {
         badgeModalSubmitInfo({status:false,message:""});
       });
   }
+  const getUsers =(e)=>{
+    setSelectedDepts(e)
+  }
+
+  const getDepts =(e)=>{
+    setSelectedUsers(e)
+  }
+ 
+
+
 
   return (
     <div className="eepModalDiv">
@@ -150,6 +177,8 @@ const BadgeModal = (props) => {
                     getHashValues = {getHashValues}
                     getRegonitionMsg = {getRegonitionMsg}
                     showBadgeModal = {showBadgeModal}
+                    getUsers={getUsers}
+                    getDepts={getDepts}
                     />
                 </div>
                 <div className="col-md-6 col-lg-6 col-xs-12 col-sm-12 mb-3 assign_users_list_whole_div">
