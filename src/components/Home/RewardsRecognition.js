@@ -647,7 +647,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="login" chartData={loginChart} />
                     }
                     {Object.keys(loginChart).length <= 0 &&
-                      <div className="parent_div" style={{ marginTop: "24vh" }}>
+                      <div className="parent_div" style={{ marginTop: "14vh",height:"200px" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -665,7 +665,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="recognition" chartData={recognitionChart} />
                     }
                     {Object.keys(recognitionChart).length <= 0 &&
-                      <div className="parent_div" style={{ marginTop: "24vh" }}>
+                      <div className="parent_div" style={{ marginTop: "14vh",height:"200px" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -683,7 +683,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="ecards" chartData={ecardChart} />
                     }
                     {Object.keys(ecardChart).length <= 0 &&
-                      <div className="parent_div" style={{ marginTop: "24vh" }}>
+                      <div className="parent_div" style={{ marginTop: "14vh",height:"200px" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -701,7 +701,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="certificate" chartData={certificateChart} />
                     }
                     {Object.keys(certificateChart).length <= 0 &&
-                      <div className="parent_div" style={{ marginTop: "24vh" }}>
+                      <div className="parent_div" style={{ marginTop: "14vh",height:"200px" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No record found</p>
@@ -719,7 +719,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="badge" chartData={badgeChart} />
                     }
                     {Object.keys(badgeChart).length <= 0 &&
-                      <div className="parent_div">
+                      <div className="parent_div" style={{ marginTop: "14vh",height:"200px" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No badges found</p>
@@ -737,7 +737,7 @@ const RewardsRecognition = (props) => {
                       <DashboardCharts chartType="awards" chartData={awardChart} />
                     }
                     {Object.keys(awardChart).length <= 0 &&
-                      <div className="parent_div">
+                      <div className="parent_div" style={{ marginTop: "14vh",height:"200px" }}>
                         <div className="eep_blank_div">
                           <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
                           <p className="eep_blank_quote">No awards found</p>
