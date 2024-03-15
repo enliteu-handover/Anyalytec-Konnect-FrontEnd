@@ -10,6 +10,7 @@ import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import CommentReply from "./CommentReply";
 import ForumCommentsList from "./ForumCommentsList";
+import { pageLoaderHandler } from "../../helpers";
 
 const ForumDetailView = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -41,6 +42,8 @@ const ForumDetailView = () => {
     setConfirmModalState(false);
     setForumTempData({});
   };
+	const [isloading, setIsloding] = useState(false);
+
 
   const fileTypeAndImgSrcArray = {
     "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
@@ -75,6 +78,7 @@ const ForumDetailView = () => {
       //setForumData({...initialVal});
       //setForumCommentData(getCustomizedData(initialVal.forumComments));
       getForumById(initialVal);
+		pageLoaderHandler(isloading ? "show": "hide");
       setUsersPics(initialPicVal);
     }
   }, [initialVal, initialPicVal]);
@@ -262,7 +266,7 @@ const ForumDetailView = () => {
   }
 
   const getForumById = (arg) => {
-
+    setIsloding(true)
     const obj = {
       url: URL_CONFIG.FORUM_BY_ID + "?id=" + arg.id,
       method: "get"
@@ -272,7 +276,9 @@ const ForumDetailView = () => {
       setForumCommentData([...getCustomizedData(response?.data?.forumComments)]);
       setToggleComment(false);
       setToggleReplyState({ isToggle: false, cmtData: {}, type: "" });
+      setIsloding(false)
     })
+   
     // .catch((error) => {
     //   const errMsg =
     //     error.response?.data ?

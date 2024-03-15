@@ -1,63 +1,158 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 const BadgeModalInputs = (props) => {
-
-  const {modalInputData, deptInputOptions, getWallPostStatus, getSelectedDept, getHashValues, getRegonitionMsg, showBadgeModal} = props;
+  const {
+    modalInputData,
+    deptInputOptions,
+    getWallPostStatus,
+    getSelectedDept,
+    getHashValues,
+    getRegonitionMsg,
+    showBadgeModal,
+    getDepts=()=>false,
+    getUsers=()=>false,
+    getAssign=()=>false,
+  } = props;
   const [recogMessage, setRecogMessage] = useState("");
   const [deptValue, setDeptValue] = useState([]);
   const [toggleSwitch, setToggleSwitch] = useState(false);
   const [hashId, setHashId] = useState([]);
   const msgMaxLength = 120;
 
+  const [assignUser, setAssignUser] = useState(null);
+  const [assignUserState, setAssignUserState] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [deptOptions, setDeptOptions] = useState([]);
+  const [assignDepartmentState, setAssignDepartmentState] = useState(false);
+  const [selectedDepts, setSelectedDepts] = useState([]);
+  const [usersOptions, setUsersOptions] = useState([]);
+
   useEffect(() => {
     setDeptValue([]);
     setToggleSwitch(false);
     setHashId([]);
     setRecogMessage("");
-    const checkBox = document.getElementsByClassName('socialHashTag');
-    for(let i=0; i< checkBox.length; i++)
-    {
+    const checkBox = document.getElementsByClassName("socialHashTag");
+    for (let i = 0; i < checkBox.length; i++) {
       checkBox[i].checked = false;
     }
-
-  },[modalInputData, showBadgeModal])
+  }, [modalInputData, showBadgeModal]);
 
   const handleonKeyUp = (e) => {
-    e.target.value = e.target.value.substring(0,msgMaxLength);
+    e.target.value = e.target.value.substring(0, msgMaxLength);
     setRecogMessage(e.target.value);
     getRegonitionMsg(e.target.value);
-  }
-  
+  };
+
   const toggleSwitchHandler = () => {
-    setToggleSwitch(prev => !prev)
+    setToggleSwitch((prev) => !prev);
     let toggleSwitch1 = !toggleSwitch;
     let obj = { wallPost: toggleSwitch1 };
     getWallPostStatus(obj);
-  }
-
-  const onDeptChangeHandler = (eve) => {
-    getSelectedDept(eve);
-    setDeptValue(eve);
   };
+
+  // const onDeptChangeHandler = (eve) => {
+  //   getSelectedDept(eve);
+  //   setDeptValue(eve);
+  // };
 
   const hashOnChangeHandler = (eve) => {
     const { value, checked } = eve.target;
     var hashIdTemp = hashId;
-    if(checked){
-      hashIdTemp.push({id:value})
-    }else{
-      for(let i=0; i<hashIdTemp.length; i++){
-        if(value === hashIdTemp[i].id){
-          hashIdTemp.splice(i,1);
+    if (checked) {
+      hashIdTemp.push({ id: value });
+    } else {
+      for (let i = 0; i < hashIdTemp.length; i++) {
+        if (value === hashIdTemp[i].id) {
+          hashIdTemp.splice(i, 1);
           break;
         }
       }
     }
     setHashId(hashIdTemp);
     getHashValues(hashIdTemp);
-  }
+  };
+
+  const fetchUserData = () => {
+    const obj = {
+      url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE + "?active=true",
+      method: "get",
+    };
+    httpHandler(obj)
+      .then((userData) => {
+        const uOptions = [];
+        userData &&
+          userData.data.map((res) => {
+            uOptions.push({
+              label: res.fullName + " - " + res.department.name,
+              value: res.id,
+            });
+            return res;
+          });
+        setUsersOptions([...uOptions]);
+      })
+      .catch((error) => {
+        console.log("fetchUserData error", error);
+        //const errMsg = error.response?.data?.message;
+      });
+  };
+
+  const fetchDepts = () => {
+    const obj = {
+      url: URL_CONFIG.ALLDEPARTMENTS + "?active=true",
+      method: "get",
+    };
+    httpHandler(obj)
+      .then((dept) => {
+        const dOptions = [];
+        dept &&
+          dept.data.map((res) => {
+            dOptions.push({ label: res.name, value: res.id });
+            return res;
+          });
+        setDeptOptions([...dOptions]);
+      })
+      .catch((error) => {
+        console.log("fetchDepts error", error);
+        //const errMsg = error.response?.data?.message;
+      });
+  };
+  const assignChangeHandler = (event) => {
+    setAssignUser(event);
+    getAssign(event)
+    if (event.value === "Users") {
+      setAssignUserState(true);
+      setAssignDepartmentState(false);
+      fetchUserData();
+    } else if (event.value === "Departments") {
+      setAssignUserState(false);
+      setAssignDepartmentState(true);
+      fetchDepts();
+    }
+  };
+
+  const userChangeHandler = (eve) => {
+    setSelectedUsers([...eve]);
+    setSelectedDepts([]);
+    getDepts([])
+    getUsers([...eve])
+  };
+
+  const deptChangeHandler = (eve) => {
+    setSelectedDepts([...eve]);
+    setSelectedUsers([]);
+    getDepts([])
+    getUsers([...eve])
+  };
+  const options = [
+    { value: "Users", label: "Users" },
+    { value: "Departments", label: "Departments" },
+  ];
+
+  console.log(selectedUsers,'selectedUsers')
 
   return (
     <React.Fragment>
@@ -65,14 +160,26 @@ const BadgeModalInputs = (props) => {
         <div className="row">
           <div className="col-md-12 text-right">
             <div className="eep_recog_enable">
-              <BootstrapSwitchButton checked={toggleSwitch} width={140} onstyle="success" onlabel="WALL POST" offlabel=""  style="toggle_switch" onChange={toggleSwitchHandler} />
+              <BootstrapSwitchButton
+                checked={toggleSwitch}
+                width={140}
+                onstyle="success"
+                onlabel="WALL POST"
+                offlabel=""
+                style="toggle_switch"
+                onChange={toggleSwitchHandler}
+              />
             </div>
           </div>
           <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12 mb-3">
             <div className="text-center">
               <div className="n_badge_add_col_inner_frombadge position-relative bg-white">
                 <img
-                  src={modalInputData?.imageByte?.image ? modalInputData.imageByte.image : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`}
+                  src={
+                    modalInputData?.imageByte?.image
+                      ? modalInputData.imageByte.image
+                      : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
+                  }
                   className="batch_img_modal"
                   alt="Badge Icon"
                   title={modalInputData["name"]}
@@ -84,12 +191,15 @@ const BadgeModalInputs = (props) => {
                   </h5>
                 )}
               </div>
-              <label className="n_badge_add_label"> {modalInputData["name"]} </label>
+              <label className="n_badge_add_label">
+                {" "}
+                {modalInputData["name"]}{" "}
+              </label>
             </div>
           </div>
           <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12">
             <div className=" bg-f5f5f5 p-4 br-10">
-              <div className="col-md-12 d-flex justify-content-between px-0 eep_popupLabelMargin">
+              {/* <div className="col-md-12 d-flex justify-content-between px-0 eep_popupLabelMargin">
                 <label className="font-helvetica-m  mb-0 c-404040">Department</label>
                 <div className="selectall_department_checkbox mr-2">
                   <label className="mb-0">{deptValue.length + "/" + deptInputOptions.length}</label>
@@ -113,7 +223,134 @@ const BadgeModalInputs = (props) => {
                   maxMenuHeight={150}
                   value={deptValue}
                 />
+              </div> */}
+              <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">
+                {/* <div className="mb-3 row"> */}
+                <label
+                  className="col-form-label"
+                  style={{ padding: "7px 0px" }}
+                >
+                  Assign
+                </label>
+                <div className="ccEmail_div" style={{ padding: "0px" }}>
+                  <Select
+                    options={options}
+                    placeholder="Not Yet Select"
+                    classNamePrefix="eep_select_common select"
+                    className={`form-control a_designation basic-single p-0`}
+                    onChange={(event) => assignChangeHandler(event)}
+                    maxMenuHeight={233}
+                    value={assignUser}
+                  />
+                  <div className="login_error_div">
+                    <span
+                      className="login_error un_error text-danger ereorMsg ng-binding"
+                      style={{ display: "inline" }}
+                    ></span>
+                  </div>
+                </div>
+                {/* </div> */}
+
+                {assignUserState && (
+                  <>
+                    <div className="ccEmail_div mt-2 mb-1">
+                      <div
+                        className=" d-flex justify-content-between align-items-center  col-form-label"
+                        style={{
+                          padding: "7px 0px !important",
+                          margin: "0px auto",
+                        }}
+                      >
+                        <label
+                          className="col-form-label"
+                          style={{ padding: "0px" }}
+                        >
+                          Users <span className="users_span"></span>
+                        </label>
+                        <label className="mb-0">
+                          ({selectedUsers.length + "/" + usersOptions.length})
+                        </label>
+                      </div>
+                      <Select
+                        options={[
+                          { label: "Select All", value: "all" },
+                          ...usersOptions,
+                        ]}
+                        placeholder="Not Yet Select"
+                        classNamePrefix="eep_select_common select"
+                        className="border_none br-8 bg-white"
+                        onChange={(event) => {
+                          event.length &&
+                          event.find((option) => option.value === "all")
+                            ? userChangeHandler(usersOptions)
+                            : userChangeHandler(event);
+                        }}
+                        isClearable={true}
+                        isMulti={true}
+                        value={selectedUsers}
+                        style={{ height: "auto" }}
+                        maxMenuHeight={150}
+                      />
+                      <div className="login_error_div">
+                        <span
+                          className="login_error un_error text-danger ereorMsg ng-binding"
+                          style={{ display: "inline" }}
+                        ></span>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {assignDepartmentState && (
+                  <>
+                    <div className="ccEmail_div mt-2 mb-1">
+                      <div
+                        className=" d-flex justify-content-between align-items-center  col-form-label"
+                        style={{
+                          padding: "7px 0px !important",
+                          margin: "0px auto",
+                        }}
+                      >
+                        <label
+                          className="col-form-label"
+                          style={{ padding: "0px" }}
+                        >
+                          Departments <span className="users_span"></span>
+                        </label>
+                        <label className="mb-0">
+                          ({selectedUsers.length + "/" + usersOptions.length})
+                        </label>
+                      </div>
+                      <Select
+                        options={[
+                          { label: "Select All", value: "all" },
+                          ...deptOptions,
+                        ]}
+                        placeholder="Not Yet Select"
+                        classNamePrefix="eep_select_common select"
+                        className="border_none br-8 bg-white"
+                        onChange={(event) => {
+                          event.length &&
+                          event.find((option) => option.value === "all")
+                            ? deptChangeHandler(deptOptions)
+                            : deptChangeHandler(event);
+                        }}
+                        isClearable={true}
+                        isMulti={true}
+                        style={{ height: "auto" }}
+                        maxMenuHeight={150}
+                        value={selectedDepts}
+                      />
+                      <div className="login_error_div">
+                        <span
+                          className="login_error un_error text-danger ereorMsg ng-binding"
+                          style={{ display: "inline" }}
+                        ></span>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
+
               <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12 px-0">
                 <textarea
                   name="message"
@@ -121,18 +358,22 @@ const BadgeModalInputs = (props) => {
                   id="badge_recog_msg"
                   rows="2"
                   placeholder="Message"
-                  maxLength={msgMaxLength} 
+                  maxLength={msgMaxLength}
                   onChange={handleonKeyUp}
                   value={recogMessage}
                 ></textarea>
                 <div className="eep_tags_group_div">
                   <span className="help-block">
                     <p id="characterLeft" className="help-block ">
-                      <span>{recogMessage.length}</span><span>{`/ ${msgMaxLength}`}</span>
+                      <span>{recogMessage.length}</span>
+                      <span>{`/ ${msgMaxLength}`}</span>
                     </p>
                   </span>
                   <div className="eep-dropdown-divider"></div>
-                  <div className="btn-group eep_tags_group hashTag eep_scroll_y" style={{height: "70px"}}>
+                  <div
+                    className="btn-group eep_tags_group hashTag eep_scroll_y"
+                    style={{ height: "70px" }}
+                  >
                     {modalInputData["hashTag"] &&
                       modalInputData["hashTag"].map((dataHash, i) => (
                         <div className="eep_tags" key={"hash_" + i}>

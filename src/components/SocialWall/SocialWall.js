@@ -302,7 +302,6 @@ const SocialWall = () => {
     fetchSocialWallList();
     pageLoaderHandler('show')
   }, []);
-
   return (
     <React.Fragment>
       <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
@@ -310,7 +309,8 @@ const SocialWall = () => {
           <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
         </div>
       </div>
-     { socialWallList.length > 0 && <div className="row eep-content-section-data">
+      
+     { socialWallList.length > 0? <div className="row eep-content-section-data">
         <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
           {Object.keys(rankingLists).length > 0 &&
             <SocialWallLeftContent rankingLists={rankingLists} usersPicProps={usersPic} />
@@ -326,7 +326,12 @@ const SocialWall = () => {
             <SocialWallRightContent hastagList={hastagList} />
           }
         </div>
-      </div>}
+      </div> :   <div className="parent_div" style={{ marginTop: "24vh" }}>
+                        <div className="eep_blank_div">
+                          <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
+                          <p className="eep_blank_quote">No record found</p>
+                        </div>
+                      </div>}
     </React.Fragment>
   );
 };

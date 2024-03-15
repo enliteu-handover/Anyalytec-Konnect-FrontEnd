@@ -24,7 +24,6 @@ const EEPSubmitModal = ({
       }, 3000)
     }
   }, [celebrations]);
-
   return (
     <div className="eepModalDiv">
       <div id="EEPSubmitModal" className="modal fade show" aria-modal="true" style={{ "paddingRight": "17px", display: "block" }}>

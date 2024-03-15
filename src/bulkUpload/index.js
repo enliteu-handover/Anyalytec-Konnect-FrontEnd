@@ -324,6 +324,7 @@ const BulkUploadOrgChart = () => {
                     position: 'fixed',
                     top: '50%',
                     right: '46%',
+                    fontSize:'16px'
                 }}>Start building</div>}
 
             {(!state?.orgChartData?.newUsers) &&

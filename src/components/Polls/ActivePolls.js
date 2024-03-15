@@ -190,7 +190,7 @@ const ActivePolls = () => {
 			{showModal.type !== null && showModal.message !== null && (
 				<EEPSubmitModal data={showModal} className={`modal-addmessage`} hideModal={hideModal}
 					successFooterData={
-						<button type="button" className="eep-btn eep-btn-xsml eep-btn-success" data-dismiss="modal" onClick={hideModal}> Ok </button>
+						<button type="button" className="eep-btn eep-btn-xsml eep-btn-success" data-dismiss="modal" onClick={hideModal}> Ok</button>
 					}
 					errorFooterData={
 						<button type="button" className="eep-btn eep-btn-xsml eep-btn-danger" data-dismiss="modal" onClick={hideModal}> Close </button>

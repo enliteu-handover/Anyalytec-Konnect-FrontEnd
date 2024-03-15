@@ -13,7 +13,8 @@ const NominateAwardModal = (props) => {
   const [awardResponseClassName, setAwardResponseClassName] = useState("");
   const [selectedMonth, setSelectedMonth] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(false);
-
+  const [selectedDepts, setSelectedDepts] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const getAssignObject = (arg) => {
     setAwardResponseMsg("");
     let argTemp = arg;
@@ -49,12 +50,42 @@ const NominateAwardModal = (props) => {
     return isValid;
   }
 
+
+  let userIds = [],
+  deptIds = [];
+selectedUsers.map((res) => {
+  userIds.push(res.value);
+  return res;
+});
+
+selectedDepts.map((res) => {
+  deptIds.push(res.value);
+  return res;
+});
+
+console.log(userIds, "userIds<<<<");
+console.log(deptIds, "deptIds>>>>");
+
   useEffect(() => {
     setBtnDisabled(isValidForm(nominateAwardObj));
   }, [nominateAwardObj]);
 
   const assignNominateAwardHandler = () => {
     if (nominateAwardObj) {
+      let userIds = [],
+      deptIds = [];
+    selectedUsers.map((res) => {
+      userIds.push(res.value);
+      return res;
+    });
+    
+    selectedDepts.map((res) => {
+      deptIds.push(res.value);
+      return res;
+    });
+    
+    console.log(userIds, "userIds<<<<");
+    console.log(deptIds, "deptIds>>>>");
       let obj = {
         url: URL_CONFIG.NOMINATE_AWARD,
         method: "post",
@@ -80,6 +111,13 @@ const NominateAwardModal = (props) => {
   const getSelectedMonth = (arg) => {
     setSelectedMonth(arg);
   }
+  const getUsers =(e)=>{
+    setSelectedDepts(e)
+  }
+
+  const getDepts =(e)=>{
+    setSelectedUsers(e)
+  }
 
   return (
     <div className="eepModalDiv">
@@ -93,7 +131,10 @@ const NominateAwardModal = (props) => {
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} selectedMonth={selectedMonth} />}
-                  <NominateAwardModalInput nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
+                  <NominateAwardModalInput 
+                    getUsers={getUsers}
+                    getDepts={getDepts}
+                  nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">
