@@ -113,7 +113,6 @@ const IdeaBox = () => {
 
     fetchIdeas(false);
     pageLoaderHandler(isloading ? "show": "hide");
-
     return () => {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -121,6 +120,7 @@ const IdeaBox = () => {
         })
       );
     };
+
   }, []);
 
   const fetchDepartmentData = () => {
@@ -177,31 +177,28 @@ const IdeaBox = () => {
       .then((ideaData) => {
         if (!isIdeaActive) {
           //setIdeaLists(ideaData.data);
-          if (ideaListsReverse) {
+          if (ideaListsReverse && ideaData?.data?.length > 0) {
+            // setIdeaLists([])
             setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())]);
           } else {
             setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
           }
-
           setIdeaData(null);
           setIdeaDataState(false);
-    setIsloding(false)
-
         } else {
           if (ideaListsReverse) {
             markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
           } else {
             markIdeaAsActiveState(ideaData.data, ideaID);
           }
-    setIsloding(false)
 
         }
+        setIsloding(false)
+
       })
       .catch((error) => {
         console.log("fetchIdeas error", error);
-
-    setIsloding(false)
-
+         setIsloding(false)
       });
   }
 
@@ -513,11 +510,11 @@ const IdeaBox = () => {
               }
             />
             {
-             ! isloading &&
+             !isloading &&
              <>
              
-             {ideaLists && ideaLists.length > 0 &&
-              <React.Fragment>
+             {ideaLists?.length > 0 &&
+                <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
                     {activeTab && activeTab.id === 'ideas' && <IdeaList
@@ -537,7 +534,7 @@ const IdeaBox = () => {
                     }
                   </div>
                 </div>
-              </React.Fragment>
+              </React.Fragment> 
             }
             {ideaLists && ideaLists?.length <= 0 &&
               <ResponseInfo

@@ -85,7 +85,7 @@ const SelectDropdown = (props) => {
     }
     return value;
   };
-  const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+  // const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
 
   const getDropdownOptions = () => {
     const obj = {
@@ -114,9 +114,9 @@ const SelectDropdown = (props) => {
                 label = formattedLabel;
               });
           }
-          let labelOptions = RESTConfig?.value === "manager.id" ? (res?.username === currentUserData?.username ? ' ' : res?.fullName) : label
+          // let labelOptions = RESTConfig?.value === "manager.id" ? (res?.username === currentUserData?.username ? ' ' : res?.fullName) : label
           dropdownValues.push({
-            label: labelOptions,
+            label: label,
             value:
               RESTConfig.value.indexOf(".") === -1
                 ? res[RESTConfig.value]

@@ -1,6 +1,6 @@
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
@@ -20,6 +20,7 @@ const MySurvey = () => {
 	const [filterParams, setFilterParams] = useState({});
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const dispatch = useDispatch();
+
     const [isLoading,setIsLoading] =useState(false)
 
 	const hideModal = () => {
@@ -130,6 +131,12 @@ const MySurvey = () => {
 			accessorKey: "createdAt",
 			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
+		
+		{
+			header: "View",
+			accessorKey: "action",
+			accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
+		}
 
 	];
 
@@ -159,7 +166,9 @@ const MySurvey = () => {
 							{!isLoading &&	<TableComponent
 									data={mySurveyList ?? []}
 									columns={surveyTableHeaders}
-									action={<CustomLinkComponent cSettings={tableSettings.view} />}
+									actionHidden={true}
+
+									// action={<CustomLinkComponent cSettings={tableSettings.view} />}
 								/>}
 							</div>
 						</div>

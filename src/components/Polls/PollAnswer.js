@@ -67,6 +67,8 @@ const PollAnswer = () => {
 		};
 	}, []);
 
+	
+
 	const sideBarClass = (tooglestate) => {
 		setToggleClass(tooglestate);
 	}
@@ -92,6 +94,7 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
+		
 		if (pDataValue) {
 			if (viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
@@ -105,7 +108,9 @@ const PollAnswer = () => {
 					}
 				}
 			}
-		} else {
+		}
+		
+		else {
 			setPollData(null);
 		}
 
@@ -114,6 +119,7 @@ const PollAnswer = () => {
 			setSubmitResponseID(null);
 		}
 	}, [pDataValue]);
+
 
 	const submitAnswerHandler = (responseID, pData, ans) => {
 		if (!pData.answeredState) {
@@ -250,7 +256,7 @@ const PollAnswer = () => {
 				<div className="eep_with_content p-0">
 					<div className="col-md-12">
 						<div className="row">
-							{pDataValue &&
+							{/* {pDataValue && */}
 								<div className="col-md-8">
 									<label className="my-3" style={{ fontSize: "24px" }}>{pollData ? pollData?.name : ""}</label>
 									<div className="poll-area col-md-6">
@@ -298,7 +304,7 @@ const PollAnswer = () => {
 										</div>
 									}
 								</div>
-							}
+							{/* // }  */}
 							{pollData && pollData?.createdBy?.user_id === currentUserData?.id &&
 								<div className="col-md-4 col-lg-3 col-xs-12 col-sm-12 align-self-start">
 									<div className="col-md-12 bg-f5f5f5 br-10 p-3 mb-3">

@@ -91,9 +91,13 @@ const ToggleSidebar = (props) => {
     }
   }, [toggleSidebarType]);
 
+
+
+
   const togglePendingComponent = () => {
     setShowPendingData(prev => !prev)
   }
+
 
   return (
     <div className="text-center navigation mw-10 eep_sidebar survey_sidebar" id="sidebar" style={{ right: toggleState ? "0" : "-137px" }}>
@@ -105,7 +109,7 @@ const ToggleSidebar = (props) => {
               return (
                 <div className="sidebar-item pb-4" key={"sidebarItem_" + index} onClick={(item?.isCustomComponent) ? togglePendingComponent : undefined}>
                   <div className="pending-survey pending-eep">
-                    <Link to={(item?.link && !item?.isCustomComponent) ? item.link : "#"}>
+                    <Link to={(item?.link && !item?.isCustomComponent) ? item.link : "#"} >
                       <div className={`${item.bgClassName} sidebar-box`}>
                         {item.isCustomComponent &&
                           <div className="round-wave">

@@ -14,6 +14,7 @@ const TableComponent = ({
   // noDataFound = false,
 }) => {
   const styles = {
+  
     container: {
       minHeight: "420px",
       maxHeight: "420px",
@@ -135,8 +136,10 @@ const TableComponent = ({
   // }, []);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div  style={{ position: "relative",}}>
       <MaterialReactTable
+      
+        
         // enablePagination={false}
         // showPagination={false}
         // enablePagination={false}
@@ -146,6 +149,7 @@ const TableComponent = ({
         positionActionsColumn="last"
         columns={columns}
         positionGlobalFilter="left"
+        
         data={data}
         enableRowNumbers={enableRowNumbers}
         enableRowSelection={enableRowSelection}
@@ -157,6 +161,13 @@ const TableComponent = ({
         enableRowActions={actionHidden ? false : true}
         enableGlobalFilter={searchHidden ? false : true}
         enableStickyHeader
+        muiTablePaperProps={{  
+          sx:{
+            "&.MuiPaper-root": {
+              boxShadow: "none",
+            }
+          }
+        }}
         muiTableContainerProps={{ sx: styles.container, ...customContainerSx }}
         enableColumnPinning={true}
         initialState={{

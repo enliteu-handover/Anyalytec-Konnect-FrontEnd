@@ -123,11 +123,11 @@ const ClosedPolls = (props) => {
 			accessorKey: "createdAt",
 			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
-		{
-			header: "View",
-			accessorKey: "action",
-			accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
-		}
+		// {
+		// 	header: "View",
+		// 	accessorKey: "action",
+		// 	accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
+		// }
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -165,7 +165,8 @@ const ClosedPolls = (props) => {
 								{!isLoading &&	<TableComponent
 									data={myPollsList ?? []}
 									columns={PollsTableHeaders}
-									actionHidden={true}
+									// actionHidden={true}
+									action={ <CustomLinkComponent cSettings={tableSettings.view} />}
 								  />}
 							</div>
 						</div>
