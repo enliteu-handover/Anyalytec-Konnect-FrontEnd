@@ -85,7 +85,8 @@ const AwardNominations = () => {
 
   const getUsersList = () => {
     let deptID = aDataVal ? ((aDataVal?.type === "spot_award") ? aDataVal.departmentId?.id :
-      (aDataVal?.type === "nomi_award" ? aDataVal?.nominatorId?.department?.id : null)) : null;
+      (aDataVal?.type === "nomi_award" ?
+        (aDataVal?.departmentId?.id || aDataVal?.nominatorId?.department?.id) : null)) : null;
 
     const obj = {
       url: URL_CONFIG.DEPT_USERS,

@@ -157,7 +157,7 @@ const AssignAwards = (props) => {
         deptOptions={deptOptions}
         assignAwardData={assignAwardData}
       />
-      {showNominateAwardModal &&
+      {showNominateAwardModal && 
         <NominateAwardModal hideModal={hideModal} judgeUsers={judgeUsers} nomiDeptOptions={deptOptions} allUserData={userOptions} assignAwardData={assignAwardData} nominateTypeData={nominateTypeData} modalSubmitInfo={modalSubmitInfo} />
       }
       <div
