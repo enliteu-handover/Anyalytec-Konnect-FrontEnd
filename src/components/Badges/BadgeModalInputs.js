@@ -1,6 +1,6 @@
+import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 const BadgeModalInputs = (props) => {
@@ -12,9 +12,10 @@ const BadgeModalInputs = (props) => {
     getHashValues,
     getRegonitionMsg,
     showBadgeModal,
-    getDepts=()=>false,
-    getUsers=()=>false,
-    getAssign=()=>false,
+    getDepts = () => false,
+    getUsers = () => false,
+    getAssign = () => false,
+    getSelectedUser = () => false
   } = props;
   const [recogMessage, setRecogMessage] = useState("");
   const [deptValue, setDeptValue] = useState([]);
@@ -54,10 +55,16 @@ const BadgeModalInputs = (props) => {
     getWallPostStatus(obj);
   };
 
-  // const onDeptChangeHandler = (eve) => {
-  //   getSelectedDept(eve);
-  //   setDeptValue(eve);
-  // };
+  const onDeptChangeHandler = (eve) => {
+    getSelectedDept(eve);
+    setDeptValue(eve);
+  };
+
+  const onUserChangeHandler = (eve) => {
+
+    getSelectedUser(eve);
+    setSelectedUsers(eve);
+  };
 
   const hashOnChangeHandler = (eve) => {
     const { value, checked } = eve.target;
@@ -76,14 +83,14 @@ const BadgeModalInputs = (props) => {
     getHashValues(hashIdTemp);
   };
 
-  const fetchUserData = () => {
+  const fetchUserData = async () => {
+    const uOptions = [];
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE + "?active=true",
       method: "get",
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((userData) => {
-        const uOptions = [];
         userData &&
           userData.data.map((res) => {
             uOptions.push({
@@ -98,6 +105,7 @@ const BadgeModalInputs = (props) => {
         console.log("fetchUserData error", error);
         //const errMsg = error.response?.data?.message;
       });
+    return uOptions;
   };
 
   const fetchDepts = () => {
@@ -120,14 +128,19 @@ const BadgeModalInputs = (props) => {
         //const errMsg = error.response?.data?.message;
       });
   };
-  const assignChangeHandler = (event) => {
+  const assignChangeHandler = async (event) => {
     setAssignUser(event);
     getAssign(event)
     if (event.value === "Users") {
+      setDeptValue([]);
+      getSelectedDept([]);
       setAssignUserState(true);
       setAssignDepartmentState(false);
-      fetchUserData();
+      const res = await fetchUserData();
+      onUserChangeHandler(res);
     } else if (event.value === "Departments") {
+      setSelectedUsers([]);
+      getSelectedUser([]);
       setAssignUserState(false);
       setAssignDepartmentState(true);
       fetchDepts();
@@ -151,8 +164,6 @@ const BadgeModalInputs = (props) => {
     { value: "Users", label: "Users" },
     { value: "Departments", label: "Departments" },
   ];
-
-  console.log(selectedUsers,'selectedUsers')
 
   return (
     <React.Fragment>
@@ -199,31 +210,7 @@ const BadgeModalInputs = (props) => {
           </div>
           <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12">
             <div className=" bg-f5f5f5 p-4 br-10">
-              {/* <div className="col-md-12 d-flex justify-content-between px-0 eep_popupLabelMargin">
-                <label className="font-helvetica-m  mb-0 c-404040">Department</label>
-                <div className="selectall_department_checkbox mr-2">
-                  <label className="mb-0">{deptValue.length + "/" + deptInputOptions.length}</label>
-                </div>
-              </div>
-              <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">                
-                <Select
-                  options={[{ label: "Select All", value: "all" },...deptInputOptions]}
-                  // options={deptInputOptions}
-                  isSearchable={true}
-                  className={`form-group select_bgwhite p-0`}
-                  name="BadgeSelect"
-                  id="badgeselect"
-                  defaultValue=""
-                  onChange={(event) => {event.length && event.find(option => option.value === 'all') ? onDeptChangeHandler(deptInputOptions) : onDeptChangeHandler(event)}}
-                  disabled=""
-                  classNamePrefix="eep_select_common select"
-                  isClearable={true}
-                  isMulti={true}
-                  style={{ height: "auto" }}
-                  maxMenuHeight={150}
-                  value={deptValue}
-                />
-              </div> */}
+
               <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">
                 {/* <div className="mb-3 row"> */}
                 <label
@@ -251,7 +238,7 @@ const BadgeModalInputs = (props) => {
                 </div>
                 {/* </div> */}
 
-                {assignUserState && (
+                {/* {assignUserState && (
                   <>
                     <div className="ccEmail_div mt-2 mb-1">
                       <div
@@ -281,9 +268,9 @@ const BadgeModalInputs = (props) => {
                         className="border_none br-8 bg-white"
                         onChange={(event) => {
                           event.length &&
-                          event.find((option) => option.value === "all")
-                            ? userChangeHandler(usersOptions)
-                            : userChangeHandler(event);
+                            event.find((option) => option.value === "all")
+                            ? onUserChangeHandler(usersOptions)
+                            : onUserChangeHandler(event);
                         }}
                         isClearable={true}
                         isMulti={true}
@@ -299,53 +286,45 @@ const BadgeModalInputs = (props) => {
                       </div>
                     </div>
                   </>
-                )}
+                )} */}
                 {assignDepartmentState && (
                   <>
-                    <div className="ccEmail_div mt-2 mb-1">
-                      <div
-                        className=" d-flex justify-content-between align-items-center  col-form-label"
-                        style={{
-                          padding: "7px 0px !important",
-                          margin: "0px auto",
-                        }}
+                    <div
+                      className=" d-flex justify-content-between align-items-center  col-form-label"
+                      style={{
+                        padding: "7px 0px !important",
+                        margin: "0px auto",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <label
+                        className="col-form-label"
+                        style={{ padding: "0px" }}
                       >
-                        <label
-                          className="col-form-label"
-                          style={{ padding: "0px" }}
-                        >
-                          Departments <span className="users_span"></span>
-                        </label>
-                        <label className="mb-0">
-                          ({selectedUsers.length + "/" + usersOptions.length})
-                        </label>
-                      </div>
+                        Departments <span className="users_span"></span>
+                      </label>
+                      <label className="mb-0">
+                        ({selectedUsers.length + "/" + usersOptions.length})
+                      </label>
+                    </div>
+                    <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">
                       <Select
-                        options={[
-                          { label: "Select All", value: "all" },
-                          ...deptOptions,
-                        ]}
-                        placeholder="Not Yet Select"
+                        options={[{ label: "Select All", value: "all" }, ...deptInputOptions]}
+                        // options={deptInputOptions}
+                        isSearchable={true}
+                        className={`form-group select_bgwhite p-0`}
+                        name="BadgeSelect"
+                        id="badgeselect"
+                        defaultValue=""
+                        onChange={(event) => { event.length && event.find(option => option.value === 'all') ? onDeptChangeHandler(deptInputOptions) : onDeptChangeHandler(event) }}
+                        disabled=""
                         classNamePrefix="eep_select_common select"
-                        className="border_none br-8 bg-white"
-                        onChange={(event) => {
-                          event.length &&
-                          event.find((option) => option.value === "all")
-                            ? deptChangeHandler(deptOptions)
-                            : deptChangeHandler(event);
-                        }}
                         isClearable={true}
                         isMulti={true}
                         style={{ height: "auto" }}
                         maxMenuHeight={150}
-                        value={selectedDepts}
+                        value={deptValue}
                       />
-                      <div className="login_error_div">
-                        <span
-                          className="login_error un_error text-danger ereorMsg ng-binding"
-                          style={{ display: "inline" }}
-                        ></span>
-                      </div>
                     </div>
                   </>
                 )}

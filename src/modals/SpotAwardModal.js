@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import AssignAwardModalInfo from "../components/Awards/AssigAwardModalInfo";
 import SpotAwardModalInput from "../components/Awards/SpotAwardModalInput";
-import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
 
 const SpotAwardModal = (props) => {
   const { deptOptions, assignAwardData } = props;
@@ -22,24 +22,25 @@ const SpotAwardModal = (props) => {
 
   const recognizeAwardOnClickHandler = () => {
     let userIds = [],
-    deptIds = [];
-  selectedUsers.map((res) => {
-    userIds.push(res.value);
-    return res;
-  });
-  
-  selectedDepts.map((res) => {
-    deptIds.push(res.value);
-    return res;
-  });
-  
-  console.log(userIds, "userIds<<<<");
-  console.log(deptIds, "deptIds>>>>");
+      deptIds = [];
+    selectedUsers.map((res) => {
+      userIds.push({ id: res.value });
+      return res;
+    });
+
+    selectedDepts.map((res) => {
+      deptIds.push({ id: res.value });
+      return res;
+    });
+
+    console.log(userIds, "userIds<<<<");
+    console.log(deptIds, "deptIds>>>>");
     const regData = {
       award: {
         id: assignAwardData.data.id
       },
-      departmentId: selectedDept
+      departmentId: selectedDept,
+      userIds: userIds
     }
     const obj = {
       url: URL_CONFIG.SPOT_AWARD,
@@ -60,12 +61,12 @@ const SpotAwardModal = (props) => {
       });
   }
 
-  const getUsers =(e)=>{
-    setSelectedDepts(e)
+  const getUsers = (e) => {
+    setSelectedUsers(e)
   }
 
-  const getDepts =(e)=>{
-    setSelectedUsers(e)
+  const getDepts = (e) => {
+    setSelectedDepts(e)
   }
 
   React.useEffect(() => {
@@ -73,7 +74,7 @@ const SpotAwardModal = (props) => {
     setAwardResponseMsg('')
     setSelectedDept([])
     setisclear(!isclear)
-  }, [ assignAwardData]);
+  }, [assignAwardData]);
 
   return (
     <div className="eepModalDiv">

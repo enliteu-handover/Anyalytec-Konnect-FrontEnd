@@ -2,7 +2,7 @@ import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Select from "react-select";
 import ReactTooltip from "react-tooltip";
 import PageHeader from "../../UI/PageHeader";
@@ -11,7 +11,6 @@ import { httpHandler } from "../../http/http-interceptor";
 import CertificatePreviewModal from "../../modals/CertificatePreviewModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { useHistory } from "react-router-dom";
 
 const CertificateCompose = () => {
   const eepHistory = useHistory();
@@ -560,7 +559,7 @@ const CertificateCompose = () => {
           return ccValueArr.push(res.value);
         });
       let payOptions = {
-        certificateTo: toValue?.value,
+        certificateTo: toValue,
         ccMail: ccValueArr,
         certificateMessage: message,
         certificateName: certificateName.toUpperCase(),
@@ -605,9 +604,9 @@ const CertificateCompose = () => {
   };
 
   const handleInputChange = (evt) => {
-    setToValue(evt);
+    setToValue(evt?.map(v => v?.value));
     setOpenMenu(false);
-    setToName(evt.label);
+    setToName(evt.map(v => v?.label).join(', '));
     isValidSend();
   };
 
@@ -633,13 +632,16 @@ const CertificateCompose = () => {
   const ccMenuHideShow = (arg) => {
     setOpenCCMenu(arg);
   };
-
-  const isValidSend = () => {
+  console.log('toValue:', toValue)
+  console.log('certificateName:', certificateName)
+  console.log('message:', message)
+  const isValidSend = (evt) => {
     if (
-      toValue !== "undefined" &&
-      toValue !== "" &&
-      certificateName !== "" &&
-      message !== ""
+      toValue?.length > 0 &&
+      // toValue !== "undefined" &&
+      // toValue !== "" &&
+      certificateName  &&
+      message 
     ) {
       setIsSendDisabled(false);
     } else {
@@ -651,14 +653,14 @@ const CertificateCompose = () => {
     { value: "Departments", label: "Departments" },
   ];
 
-  const fetchUserData = () => {
+  const fetchUserData = async () => {
+    const uOptions = [];
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE + "?active=true",
       method: "get",
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((userData) => {
-        const uOptions = [];
         userData &&
           userData.data.map((res) => {
             uOptions.push({
@@ -673,16 +675,17 @@ const CertificateCompose = () => {
         console.log("fetchUserData error", error);
         //const errMsg = error.response?.data?.message;
       });
+    return uOptions
   };
 
-  const fetchDepts = () => {
+  const fetchDepts = async () => {
+    const dOptions = [];
     const obj = {
       url: URL_CONFIG.ALLDEPARTMENTS + "?active=true",
       method: "get",
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((dept) => {
-        const dOptions = [];
         dept &&
           dept.data.map((res) => {
             dOptions.push({ label: res.name, value: res.id });
@@ -694,13 +697,14 @@ const CertificateCompose = () => {
         console.log("fetchDepts error", error);
         //const errMsg = error.response?.data?.message;
       });
+    return dOptions;
   };
-  const assignChangeHandler = (event) => {
+  const assignChangeHandler = async (event) => {
     setAssignUser(event);
     if (event.value === "Users") {
       setAssignUserState(true);
       setAssignDepartmentState(false);
-      fetchUserData();
+      await fetchUserData();
     } else if (event.value === "Departments") {
       setAssignUserState(false);
       setAssignDepartmentState(true);
@@ -711,12 +715,49 @@ const CertificateCompose = () => {
   const userChangeHandler = (eve) => {
     setSelectedUsers([...eve]);
     setSelectedDepts([]);
+    handleInputChange([...eve])
   };
 
   const deptChangeHandler = (eve) => {
     setSelectedDepts([...eve]);
     setSelectedUsers([]);
+    getSelectedDept([...eve])
   };
+
+  const getSelectedDept = (args) => {
+    if (args) {
+      const deptArr = [];
+      args.map(res => {
+        return deptArr.push(res.value)
+      })
+
+      const obj = {
+        url: URL_CONFIG.DEPT_USERS,
+        method: "get",
+        params: {
+          dept: JSON.stringify(deptArr)
+          // deptArr.join()
+        },
+      };
+
+      httpHandler(obj)
+        .then((uData) => {
+          const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
+          var uDatas = uData.data;
+          for (var i = 0; i < uDatas.length; i++) {
+            if (uDatas[i].userId === currentUserData.id) {
+              uDatas.splice(i, 1);
+            }
+          }
+          handleInputChange([...uDatas?.map(v=>({label: v?.fullName, value: v?.id}))])
+        })
+        .catch((error) => {
+          console.log("error", error.response);
+          //const errMsg = error.response?.data?.message;
+        });
+    }
+  }
+
   return (
     <React.Fragment>
       <ReactTooltip effect="solid" />
@@ -818,7 +859,7 @@ const CertificateCompose = () => {
                     Compose Certificate
                   </h4>
                 </div>
-                <div className="col-md-12 compose_text">
+                {/* <div className="col-md-12 compose_text">
                   <div className="mb-4 row">
                     <label
                       htmlFor="certificateTo"
@@ -846,38 +887,7 @@ const CertificateCompose = () => {
                       />
                     </div>
                   </div>
-                </div>
-                <div className="col-md-12">
-                  <div className="mb-4 row">
-                    <label
-                      htmlFor="ccEmail"
-                      className="col-sm-2 col-form-label"
-                    >
-                      CC:
-                    </label>
-                    <div className="col-sm-10 ccEmail_div">
-                      <Select
-                        options={eMailData}
-                        placeholder="Add more recipient's"
-                        isSearchable={true}
-                        className={`form-group select_bgwhite p-0 mb-0`}
-                        name="recipientSelect"
-                        id="recipientselect"
-                        defaultValue=""
-                        onChange={(event) => handleRecipientChange(event)}
-                        onBlur={() => ccMenuHideShow(false)}
-                        onKeyDown={() => ccMenuHideShow(true)}
-                        classNamePrefix="eep_select_common eep_compose_inputs select"
-                        style={{ height: "auto" }}
-                        maxMenuHeight={150}
-                        value={ccValue}
-                        menuIsOpen={openCCMenu}
-                        isMulti={true}
-                        isClearable={false}
-                      />
-                    </div>
-                  </div>
-                </div>
+                </div> */}
                 <div className="col-md-12 mb-2.3">
                   <div className="mb-4 row">
                     <label
@@ -946,7 +956,7 @@ const CertificateCompose = () => {
                           className="border_none br-8 bg-white"
                           onChange={(event) => {
                             event.length &&
-                            event.find((option) => option.value === "all")
+                              event.find((option) => option.value === "all")
                               ? userChangeHandler(usersOptions)
                               : userChangeHandler(event);
                           }}
@@ -1016,7 +1026,7 @@ const CertificateCompose = () => {
                           className="border_none br-8 bg-white"
                           onChange={(event) => {
                             event.length &&
-                            event.find((option) => option.value === "all")
+                              event.find((option) => option.value === "all")
                               ? deptChangeHandler(deptOptions)
                               : deptChangeHandler(event);
                           }}
@@ -1036,6 +1046,39 @@ const CertificateCompose = () => {
                     </div>
                   </div>
                 )}
+
+                <div className="col-md-12">
+                  <div className="mb-4 row">
+                    <label
+                      htmlFor="ccEmail"
+                      className="col-sm-2 col-form-label"
+                    >
+                      CC:
+                    </label>
+                    <div className="col-sm-10 ccEmail_div">
+                      <Select
+                        options={eMailData}
+                        placeholder="Add more recipient's"
+                        isSearchable={true}
+                        className={`form-group select_bgwhite p-0 mb-0`}
+                        name="recipientSelect"
+                        id="recipientselect"
+                        defaultValue=""
+                        onChange={(event) => handleRecipientChange(event)}
+                        onBlur={() => ccMenuHideShow(false)}
+                        onKeyDown={() => ccMenuHideShow(true)}
+                        classNamePrefix="eep_select_common eep_compose_inputs select"
+                        style={{ height: "auto" }}
+                        maxMenuHeight={150}
+                        value={ccValue}
+                        menuIsOpen={openCCMenu}
+                        isMulti={true}
+                        isClearable={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div className="col-md-12">
                   <div className="mb-4 row">
                     <label

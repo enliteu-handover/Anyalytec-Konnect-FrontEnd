@@ -69,30 +69,41 @@ const SpotAwardModalInput = (props) => {
         //const errMsg = error.response?.data?.message;
       });
   };
-  const assignChangeHandler = (event) => {
+  const assignChangeHandler = async (event) => {
     setAssignUser(event);
     if (event.value === "Users") {
+      setSelectedDepts([]);
+      getDepts([]);
       setAssignUserState(true);
       setAssignDepartmentState(false);
       fetchUserData();
+      // const res = await fetchUserData();
+      // onUserChangeHandler(res);
     } else if (event.value === "Departments") {
+      setSelectedUsers([]);
+      getUsers([]);
       setAssignUserState(false);
       setAssignDepartmentState(true);
       fetchDepts();
     }
   };
 
+  const onUserChangeHandler = (eve) => {
+    setSelectedUsers(eve);
+    getUsers(eve);
+  };
+
   const userChangeHandler = (eve) => {
     setSelectedUsers([...eve]);
+    getUsers([...eve]);
     setSelectedDepts([]);
     getDepts([]);
-    getUsers([...eve]);
   };
 
   const deptChangeHandler = (eve) => {
-    setSelectedDepts([...eve]);
     setSelectedUsers([]);
     getDepts([]);
+    setSelectedDepts([...eve]);
     getUsers([...eve]);
   };
   const options = [
@@ -103,6 +114,7 @@ const SpotAwardModalInput = (props) => {
   React.useEffect(() => {
     setDeptValue("");
   }, [isclear]);
+
 
   return (
     <div className="col-md-8 col-lg-8 col-xs-12 col-sm-12">
@@ -148,7 +160,7 @@ const SpotAwardModalInput = (props) => {
 
             <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">
               {/* <div className="mb-3 row"> */}
-              <label className="col-form-label font-helvetica-m c-404040" style={{color:'#404040 !important', padding: "7px 0px" }}>
+              <label className="col-form-label font-helvetica-m c-404040" style={{ color: '#404040 !important', padding: "7px 0px" }}>
                 Assign
               </label>
               <div className="ccEmail_div" style={{ padding: "0px" }}>
@@ -200,7 +212,7 @@ const SpotAwardModalInput = (props) => {
                       className="border_none br-8 bg-white"
                       onChange={(event) => {
                         event.length &&
-                        event.find((option) => option.value === "all")
+                          event.find((option) => option.value === "all")
                           ? userChangeHandler(usersOptions)
                           : userChangeHandler(event);
                       }}
@@ -236,7 +248,7 @@ const SpotAwardModalInput = (props) => {
                         Departments <span className="users_span"></span>
                       </label>
                       <label className="mb-0">
-                        {selectedUsers.length + "/" + usersOptions.length}
+                        {selectedUsers?.length + "/" + usersOptions?.length}
                       </label>
                     </div>
                     <Select
@@ -249,7 +261,7 @@ const SpotAwardModalInput = (props) => {
                       className="border_none br-8 bg-white"
                       onChange={(event) => {
                         event.length &&
-                        event.find((option) => option.value === "all")
+                          event.find((option) => option.value === "all")
                           ? deptChangeHandler(deptOptions)
                           : deptChangeHandler(event);
                       }}

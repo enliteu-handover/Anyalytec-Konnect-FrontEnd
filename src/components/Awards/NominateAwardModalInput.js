@@ -114,6 +114,8 @@ const NominateAwardModalInput = (props) => {
     setSelectedUsers([]);
     getDepts([]);
     getUsers([...eve]);
+    changeDepartmentHandler(eve?.map(v => v.value));
+
   };
   const options = [
     { value: "Users", label: "Users" },
@@ -157,6 +159,7 @@ const NominateAwardModalInput = (props) => {
 
   useEffect(() => {
     setDefaultValues();
+    fetchDepts();
   }, []);
 
   useEffect(() => {
@@ -242,13 +245,13 @@ const NominateAwardModalInput = (props) => {
   };
 
   const changeDepartmentHandler = (event) => {
-    let value1 = event ? event.value : "";
+    let value1 = event ? event : "";
     setNomiDapartment(event);
     if (value1) {
       const obj = {
         url: URL_CONFIG.DEPT_USERS,
         method: "get",
-        params: { dept: value1 },
+        params: { dept: JSON.stringify(value1) },
       };
       httpHandler(obj)
         .then((uData) => {
@@ -267,7 +270,7 @@ const NominateAwardModalInput = (props) => {
 
           setNominatorUsers(optionsTemp);
         })
-        .catch((error) => {});
+        .catch((error) => { });
     }
     // let assignObjectTemp = JSON.parse(JSON.stringify(assignObject));
     // getAssignObject(assignObjectTemp);
@@ -374,6 +377,8 @@ const NominateAwardModalInput = (props) => {
     setJudgeValue({});
     setSelectedDate(null);
     getSelectedMonth([]);
+    setSelectedDepts([]);
+    getDepts([]);
 
     // setSelectedDate({ value: 1, label: 1 })
     setMonthOptions([{ value: 1, label: 1 }]);
@@ -540,8 +545,8 @@ const NominateAwardModalInput = (props) => {
                               data-tip={
                                 nominateTypeDatas["nominateSettings"]
                                   ? nominateTypeDatas["nominateSettings"][
-                                      nominateType
-                                    ].immediateHelpText
+                                    nominateType
+                                  ].immediateHelpText
                                   : ""
                               }
                               data-html={true}
@@ -580,24 +585,48 @@ const NominateAwardModalInput = (props) => {
               <div className="row n_award_inputs_row">
                 <div className="col-md-6 col-lg-6 col-sm-12 col-xs-12 form-group n_award_inputs_col1">
                   <div className="row no-gutters w-100">
-                    {/* <div className="col-md-12 form-group eep-recognition-select2-dropdown_div">
-                      <label className="font-helvetica-m c-404040">Department</label>
+
+                    <div className="col-md-12 form-group eep-recognition-select2-dropdown_div">
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <label
+                          className="col-form-label font-helvetica-m c-404040"
+                          style={{ padding: "0px" }}
+                        >
+                          Departments{" "}
+                          <span className="users_span"></span>
+                        </label>
+                        <label className="mb-0">
+                          {selectedDepts.length +
+                            "/" +
+                            deptOptions.length}
+                        </label>
+                      </div>
                       <Select
                         placeholder="Select Department"
-                        options={nomiDeptOptions}
-                        value={nomiDapartment}
+                        options={[
+                          { label: "Select All", value: "all" },
+                          ...deptOptions,
+                        ]}
+                        value={selectedDepts}
                         classNamePrefix="eep_select_common select"
-                        className={`form-control a_designation basic-single p-0`}
-                        onChange={(event) => changeDepartmentHandler(event)}
+                        className="border_none br-8 bg-white"
+                        // onChange={(event) => changeDepartmentHandler(event)}
                         //defaultValue={nomiDeptOptions[0]}
-                        maxMenuHeight={150}
+                        // maxMenuHeight={150}
+                        isMulti={true}
+                        onChange={(event) => {
+                          event.length &&
+                            event.find((option) => option.value === "all")
+                            ? deptChangeHandler(deptOptions)
+                            : deptChangeHandler(event);
+                        }}
+                        isClearable={true}
                       />
-                    </div> */}
-                    <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">
-                      {/* <div className="mb-3 row"> */}
+                    </div>
+                    {/* <div className="col-md-12 form-group text-left eep-badge-select2-dropdown_div px-0">
                       <label
                         className="col-form-label font-helvetica-m c-404040"
-                        style={{ color:'#404040 !important', padding: "7px 0px" }}
+                        style={{ color: '#404040 !important', padding: "7px 0px" }}
                       >
                         Assign
                       </label>
@@ -618,7 +647,6 @@ const NominateAwardModalInput = (props) => {
                           ></span>
                         </div>
                       </div>
-                      {/* </div> */}
 
                       {assignUserState && (
                         <>
@@ -631,7 +659,7 @@ const NominateAwardModalInput = (props) => {
                               }}
                             >
                               <label
-                        className="col-form-label font-helvetica-m c-404040"
+                                className="col-form-label font-helvetica-m c-404040"
                                 style={{ padding: "0px" }}
                               >
                                 Users <span className="users_span"></span>
@@ -652,7 +680,7 @@ const NominateAwardModalInput = (props) => {
                               className="border_none br-8 bg-white"
                               onChange={(event) => {
                                 event.length &&
-                                event.find((option) => option.value === "all")
+                                  event.find((option) => option.value === "all")
                                   ? userChangeHandler(usersOptions)
                                   : userChangeHandler(event);
                               }}
@@ -704,7 +732,7 @@ const NominateAwardModalInput = (props) => {
                               className="border_none br-8 bg-white"
                               onChange={(event) => {
                                 event.length &&
-                                event.find((option) => option.value === "all")
+                                  event.find((option) => option.value === "all")
                                   ? deptChangeHandler(deptOptions)
                                   : deptChangeHandler(event);
                               }}
@@ -723,7 +751,7 @@ const NominateAwardModalInput = (props) => {
                           </div>
                         </>
                       )}
-                    </div>
+                    </div> */}
                     <div className="col-md-12 form-group eep-recognition-select2-dropdown_div">
                       <label className="font-helvetica-m c-404040">
                         Nominator
@@ -774,8 +802,8 @@ const NominateAwardModalInput = (props) => {
                                 data-tip={
                                   nominateTypeDatas["nominateSettings"]
                                     ? nominateTypeDatas["nominateSettings"][
-                                        nominateType
-                                      ].helpText
+                                      nominateType
+                                    ].helpText
                                     : ""
                                 }
                                 data-html={true}
@@ -840,8 +868,8 @@ const NominateAwardModalInput = (props) => {
                                   data-tip={
                                     nominateTypeDatas["nominateSettings"]
                                       ? nominateTypeDatas["nominateSettings"][
-                                          nominateType
-                                        ].helpText
+                                        nominateType
+                                      ].helpText
                                       : ""
                                   }
                                   data-html={true}

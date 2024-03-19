@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AssignAwardModalInfo from "../components/Awards/AssigAwardModalInfo";
 import NominateAwardModalInput from "../components/Awards/NominateAwardModalInput";
-import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
 
 const NominateAwardModal = (props) => {
 
@@ -51,20 +51,20 @@ const NominateAwardModal = (props) => {
   }
 
 
-  let userIds = [],
-  deptIds = [];
-selectedUsers.map((res) => {
-  userIds.push(res.value);
-  return res;
-});
+  // let userIds = [],
+  //   deptIds = [];
+  // selectedUsers.map((res) => {
+  //   userIds.push(res.value);
+  //   return res;
+  // });
 
-selectedDepts.map((res) => {
-  deptIds.push(res.value);
-  return res;
-});
+  // selectedDepts.map((res) => {
+  //   deptIds.push(res.value);
+  //   return res;
+  // });
 
-console.log(userIds, "userIds<<<<");
-console.log(deptIds, "deptIds>>>>");
+  // console.log(userIds, "userIds<<<<");
+  // console.log(deptIds, "deptIds>>>>");
 
   useEffect(() => {
     setBtnDisabled(isValidForm(nominateAwardObj));
@@ -73,23 +73,23 @@ console.log(deptIds, "deptIds>>>>");
   const assignNominateAwardHandler = () => {
     if (nominateAwardObj) {
       let userIds = [],
-      deptIds = [];
-    selectedUsers.map((res) => {
-      userIds.push(res.value);
-      return res;
-    });
-    
-    selectedDepts.map((res) => {
-      deptIds.push(res.value);
-      return res;
-    });
-    
-    console.log(userIds, "userIds<<<<");
-    console.log(deptIds, "deptIds>>>>");
+        deptIds = [];
+      selectedUsers.map((res) => {
+        userIds.push(res.value);
+        return res;
+      });
+
+      selectedDepts.map((res) => {
+        deptIds.push(res.value);
+        return res;
+      });
+
+      console.log(userIds, "userIds<<<<");
+      console.log(deptIds, "deptIds>>>>");
       let obj = {
         url: URL_CONFIG.NOMINATE_AWARD,
         method: "post",
-        payload: nominateAwardObj,
+        payload: { ...nominateAwardObj, deptIds },
       };
       httpHandler(obj)
         .then((response) => {
@@ -111,11 +111,11 @@ console.log(deptIds, "deptIds>>>>");
   const getSelectedMonth = (arg) => {
     setSelectedMonth(arg);
   }
-  const getUsers =(e)=>{
+  const getUsers = (e) => {
     setSelectedDepts(e)
   }
 
-  const getDepts =(e)=>{
+  const getDepts = (e) => {
     setSelectedUsers(e)
   }
 
@@ -131,10 +131,10 @@ console.log(deptIds, "deptIds>>>>");
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} selectedMonth={selectedMonth} />}
-                  <NominateAwardModalInput 
+                  <NominateAwardModalInput
                     getUsers={getUsers}
                     getDepts={getDepts}
-                  nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
+                    nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">
