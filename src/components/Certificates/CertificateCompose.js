@@ -127,16 +127,35 @@ const CertificateCompose = () => {
     }
   };
 
-  const sendCertHandler = () => {
+  const sendCertHandler = async () => {
+    var arr = [];
     setCertificatePreviewModalShow(false);
-    const obj = {
-      tnm: toName,
-      cnm: certificateName.toUpperCase(),
-      cmsg: message,
-      cbtn: "send",
-    };
+
     if (!getLocation?.state?.isCustomCertificate) {
-      modifyPdf(obj);
+
+      for (const iterator of toValue) {
+        const user = usersOptions?.find(v => v?.value === iterator)
+        const toN = user?.label
+        const obj = {
+          tnm: toN,
+          cnm: certificateName.toUpperCase(),
+          cmsg: message,
+          cbtn: "send",
+        };
+        const res = await modifyPdf(obj, user?.value);
+        arr.push(res)
+      }
+
+      // let obj_ = {
+      //   isIframe: true,
+      //   dataSrc: arr?.[0]?.pdfDataUrl,
+      // };
+      // setPreviewDataUri(obj_);
+      handleSendCertificate({
+        isTemplateCertificate: true,
+        cData: cDataValue,
+        pdfDataUrlVal: arr?.map(v => v),
+      });
     }
     if (getLocation?.state?.isCustomCertificate) {
       handleSendCertificate({
@@ -147,7 +166,7 @@ const CertificateCompose = () => {
     }
   };
 
-  async function modifyPdf(obj) {
+  async function modifyPdf(obj, value) {
     const defaultParameters = JSON.parse(
       '[{"toField":[{"fontsize":33},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",348]},{"rgbcolor":[111,113,121]}]},{"certNameField":[{"fontsize":24},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":"fullwidth"},{"coordinates":["center",454]},{"rgbcolor":[111,113,121]}]},{"certMsgField":[{"fontsize":20},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":562},{"coordinates":[153,285]},{"rgbcolor":[111,113,121]}]},{"certdateField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[126,113]},{"rgbcolor":[111,113,121]}]},{"certsignField":[{"fontsize":18},{"fontname":"HelveticaNue"},{"textalign":"center"},{"maxwidth":189},{"coordinates":[556,85]},{"rgbcolor":[111,113,121]}]},{"certsignimgField":[{"imgalign":"center"},{"maxwidth":189},{"coordinates":[556,107]},{"imgsize":[138,36]}]},{"certSource":"certificate-3.pdf"}]'
     );
@@ -493,16 +512,7 @@ const CertificateCompose = () => {
     }
 
     if (cbtn === "send") {
-      let obj = {
-        isIframe: true,
-        dataSrc: pdfDataUrl,
-      };
-      setPreviewDataUri(obj);
-      handleSendCertificate({
-        isTemplateCertificate: true,
-        cData: cDataValue,
-        pdfDataUrlVal: pdfDataUrl,
-      });
+      return { pdfDataUrl, value };
     }
   }
 
@@ -520,37 +530,35 @@ const CertificateCompose = () => {
         return res;
       });
 
-      console.log(userIds, "userIds<<<<");
-      console.log(deptIds, "deptIds>>>>");
-
-      let imgUrl = "";
+      let imgUrl = [];
       if (cValue?.isTemplateCertificate) {
-        const base64Data = cValue.pdfDataUrlVal.replace(
-          /^data:application\/\w+;base64,/,
-          ""
-        );
+        for (const iterator of cValue.pdfDataUrlVal) {
+          const base64Data = iterator?.pdfDataUrl.replace(
+            /^data:application\/\w+;base64,/,
+            ""
+          );
+          const binaryString = atob(base64Data);
+          const byteNumbers = new Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            byteNumbers[i] = binaryString.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "application/pdf" });
+          const file = new File([blob], "filename.pdf", {
+            type: "application/pdf",
+          });
 
-        const binaryString = atob(base64Data);
-        const byteNumbers = new Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          byteNumbers[i] = binaryString.charCodeAt(i);
+          const formData = new FormData();
+          formData.append("image", file);
+          const obj = {
+            url: URL_CONFIG.UPLOAD_FILES,
+            method: "post",
+            payload: formData,
+          };
+          await httpHandler(obj).then((res) => {
+            imgUrl.push({ img: res?.data?.data?.[0]?.url ?? "", id: iterator?.value })
+          });
         }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: "application/pdf" });
-        const file = new File([blob], "filename.pdf", {
-          type: "application/pdf",
-        });
-
-        const formData = new FormData();
-        formData.append("image", file);
-        const obj = {
-          url: URL_CONFIG.UPLOAD_FILES,
-          method: "post",
-          payload: formData,
-        };
-        await httpHandler(obj).then((res) => {
-          imgUrl = res?.data?.data?.[0]?.url ?? "";
-        });
       }
 
       let ccValueArr = [];
@@ -558,6 +566,7 @@ const CertificateCompose = () => {
         ccValue.map((res) => {
           return ccValueArr.push(res.value);
         });
+
       let payOptions = {
         certificateTo: toValue,
         ccMail: ccValueArr,
@@ -573,6 +582,7 @@ const CertificateCompose = () => {
         //  cValue.isTemplateCertificate ?
         //  { image: cValue.pdfDataUrlVal, name: cValue.cData.name } :
         //  { image: cValue.cData.imageByte.image, name: cValue.cData.name }
+        // CT: cValue.pdfDataUrlVal ?? []
       };
       const payloadObj = {
         url: URL_CONFIG.ASSIGN_CERTIFICATE,
@@ -606,7 +616,8 @@ const CertificateCompose = () => {
   const handleInputChange = (evt) => {
     setToValue(evt?.map(v => v?.value));
     setOpenMenu(false);
-    setToName(evt.map(v => v?.label).join(', '));
+    // setToName(evt.map(v => v?.label).join(', '));
+    setToName('Name of the user');
     isValidSend();
   };
 
@@ -640,8 +651,8 @@ const CertificateCompose = () => {
       toValue?.length > 0 &&
       // toValue !== "undefined" &&
       // toValue !== "" &&
-      certificateName  &&
-      message 
+      certificateName &&
+      message
     ) {
       setIsSendDisabled(false);
     } else {
@@ -749,12 +760,13 @@ const CertificateCompose = () => {
               uDatas.splice(i, 1);
             }
           }
-          handleInputChange([...uDatas?.map(v=>({label: v?.fullName, value: v?.id}))])
+          handleInputChange([...uDatas?.map(v => ({ label: v?.fullName, value: v?.id }))])
+          setUsersOptions([...uDatas?.map(v => ({ label: v?.fullName, value: v?.id }))])
         })
-        .catch((error) => {
-          console.log("error", error.response);
-          //const errMsg = error.response?.data?.message;
-        });
+          .catch((error) => {
+            console.log("error", error.response);
+            //const errMsg = error.response?.data?.message;
+          });
     }
   }
 
@@ -1012,7 +1024,7 @@ const CertificateCompose = () => {
                               right: "6px",
                             }}
                           >
-                            {selectedUsers.length + "/" + usersOptions.length}
+                            {selectedDepts.length + "/" + deptOptions.length}
                           </label>
                         </div>
 
