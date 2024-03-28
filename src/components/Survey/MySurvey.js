@@ -129,7 +129,7 @@ const MySurvey = () => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
+			accessorFn: (row) => row.createdAt ? moment('2024-03-18T06:49:02.520Z').format('l h:mm a'): '--',
 		},
 		
 		{

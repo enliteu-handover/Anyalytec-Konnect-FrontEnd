@@ -11,24 +11,29 @@ require("highcharts/modules/exporting")(Highcharts);
 
 const SurveyCharts = (props) => {
 
-  const {chartData} = props;
+  const {chartData,iSchartDownloadLoading=true} = props;
   const [showChart, setShowChart] = useState(true);
 
   useEffect(() => {
-    setShowChart(false);
-    setTimeout(() => {
-      setShowChart(true);
-    })
-  },[chartData]);
+    if (iSchartDownloadLoading){
+      setShowChart(false);
+      setTimeout(() => {
+        setShowChart(true);
+      })
+    }
 
+  },[chartData]);
+ console.log(iSchartDownloadLoading,'iSchartDownloadLoading')
   const initChartData = chartData ? chartData : {};
 
   return  <React.Fragment>
-    {showChart && <HighchartsReact
+    {showChart && 
+    <HighchartsReact
       highcharts={Highcharts}
       constructorType={"chart"}
       options={initChartData}
-    />}
+    />
+     } 
   </React.Fragment>
  
 }

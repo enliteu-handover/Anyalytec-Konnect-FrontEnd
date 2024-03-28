@@ -10,6 +10,9 @@ import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SurveyCharts from "../Charts/SurveyCharts";
+import html2pdf from "html2pdf.js";
+import { pageLoaderHandler } from "../../helpers";
+
 
 const SurveyResponses = () => {
 
@@ -19,10 +22,12 @@ const SurveyResponses = () => {
 	const [surveyResponseDataRaw, setSurveyResponseDataRaw] = useState([]);
 	const location = useLocation();
 	const sDataValue = location.state ? location.state?.surveyData : null;
+	const [isloading,setIsloading]=useState(false)
 
 	const [surveyResponseStateData, setSurveyResponseStateData] = useState(sDataValue);
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
+	const [allExpended, setAllExpended] = React.useState(false);
 
 	const hideModal = () => {
 		let collections = document.getElementsByClassName("modal-backdrop");
@@ -250,8 +255,8 @@ const SurveyResponses = () => {
 	const getMultipleValueCount = (data, filterValue) => {
 		let answerCountVal = 0;
 		data.filter(y => {
-			const array = y.value.split(',');
-			if (array.indexOf(filterValue) !== -1) {
+			const array = y?.value?.split(',');
+			if (array?.indexOf(filterValue) !== -1) {
 				answerCountVal += 1;
 			}
 			return answerCountVal;
@@ -352,9 +357,44 @@ const SurveyResponses = () => {
 			}
 		}
 	}
+	function convertHtmlToPdf() {
+		const element = document.getElementById('screen');
+		const options = {
+		  margin: 1,
+		  filename: 'surveyresponse.pdf',
+		  image: { type: 'jpeg', quality: 0.98 },
+		  html2canvas: { scale: 1.5,scrollX: 0,
+			scrollY: -window.scrollY,},
+		  jsPDF: { unit: 'mm', format: 'a2', orientation: 'portrait',width: 1020 },
+		  pagebreak: { mode: 'avoid-all' }
+		};
+		setTimeout(()=>{
+		html2pdf().set(options).from(element).save();
+		 setAllExpended(false)
+		 setIsloading(false)
+
+		//  hideBackdrop()
+		//  setisLoadingPdf(false)
+		 // eslint-disable-next-line
+	  },800)
+	
+	}
+	const onClickDownload = async (element) => {
+		// setisLoadingPdf(true)
+		// showBackdrop()
+		setIsloading(true)
+		convertHtmlToPdf()
+	};
 
 	return (
 		<React.Fragment>
+
+        {isloading &&   <div id="page-loader-container" style={{ zIndex: "1051" }}>
+            <div id="loader">
+             <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+			 <div style={{fontSize:'16px',fontWeight:'500',paddingTop:'10px',color:'#000'}}>Downloading Pdf...</div>
+             </div>
+            </div>}
 			{showModal.type !== null && showModal.message !== null && (
 				<EEPSubmitModal
 					data={showModal}
@@ -387,11 +427,13 @@ const SurveyResponses = () => {
 				<ConfirmStateModal hideModal={hideModal} confirmState={confirmState} confirmTitle={confirmStateModalObj.confirmTitle} confirmMessage={confirmStateModalObj.confirmMessage} />
 			}
 
-			<PageHeader title="Survey Results" toggle={<Toggle modalState={modalState} checkState={surveyResponseStateData?.acceptResponse} />} />
+			<PageHeader title="Survey Results" toggle={<Toggle modalState={modalState} checkState={surveyResponseStateData?.acceptResponse} /> } download={<button  onClick={onClickDownload}  className="btn btn-secondary"
+                  aria-controls="user_dataTable"
+                  type="button" style={{marginRight:'8px',borderRadius:'6px'}}>Download Result</button>} />
 			<div className="eep-container-sidebar h-100 eep_scroll_y">
 				<div className="container-sm eep-container-sm">
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
-						<div className="eep_with_content table-responsive eep_datatable_table_div p-3" style={{ visibility: "visible" }}>
+						<div className="eep_with_content table-responsive eep_datatable_table_div p-3" style={{ visibility: "visible" }} id="screen">
 
 							<div className="d-flex mb-3">
 								<h3 className="mb-0">{surveyResponseStateData?.name}</h3>
@@ -409,7 +451,7 @@ const SurveyResponses = () => {
 													<h5 className="">{getQuestionName(sData.surveyQuestion)}</h5>
 													<div className="row justify-content-center">
 														<div className="col-6">
-															<SurveyCharts chartData={getChartData(sData)} />
+															<SurveyCharts iSchartDownloadLoading={allExpended} chartData={getChartData(sData)} />
 														</div>
 													</div>
 												</div>

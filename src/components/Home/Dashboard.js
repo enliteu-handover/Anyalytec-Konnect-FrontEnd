@@ -150,22 +150,28 @@ const Dashboard = (props) => {
                   {
                     id: 1,
                     message: "Anniversary - Dan Murphy",
-                    date: "Today"
+                    date: "Today",
+                    active:'Anniversary'
                   },
                   {
                     id: 2,
                     message: "Anniversary - Emma Wilson",
-                    date: "Today"
+                    date: "Today",
+                    active:'Anniversary'
                   },
                   {
                     id: 3,
                     message: "Birthday - Nathan Jones",
-                    date: "Tomorrow"
+                    date: "Tomorrow",
+                    active:'Birthday'
+
                   },
                   {
                     id: 4,
                     message: "Birthday - Andrew Latham",
-                    date: "Tomorrow"
+                    date: "Tomorrow",
+                    active:'Birthday'
+
                   }
                 ]
               }} />

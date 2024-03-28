@@ -27,6 +27,7 @@
     "highcharts": "^10.2.1",
     "highcharts-react-official": "^1.1.0",
     "history": "^4.10.1",
+    "html2pdf.js": "^0.10.1",
     "jquery-ui-sortable": "^1.0.0",
     "material-react-table": "^1.15.1",
     "moment": "^2.22.2",

@@ -176,18 +176,18 @@ const HallOfFame = (props) => {
                 <h4>Certificates</h4>
                 {hallOfFameDetails?.dashboardCertificateList?.map((item, index) => {
                   return (
-                    <div className="row d_leaderboard_list no-gutters" key={"HOF_Certificates_" + index}>
-                      <div className="col-md-2">
+                    <div className="row d_leaderboard_list no-gutters" style={{alignItems:'center'}} key={"HOF_Certificates_" + index}>
+                      {/* <div className="col-md-2">
                         {item?.imageByte?.includes('.pdf') ?
                           <div className="hall_off_cretificate" style={{ margin: "0px", padding: "0px" }}>
                             <PDF file={item?.imageByte} /></div>
                           :
                           <img src={item?.imageByte} className="profile_pic" alt="Certificate Image" title={item.name} />
-                        }  </div>
-                      <div className="col-md-5 d_leaderboard_align">{item?.name}</div>
-                      <div className="col-md-5 text-right">
+                        }  </div> */}
+                      <div className="col-md-6 d_leaderboard_align">{item?.name}</div>
+                      <div className="col-md-6 text-right">
                         <div className="eep-cardbox-base">
-                          <ul className="d-flex align-items-center justify-content-end px-0">
+                          <ul className="d-flex align-items-center justify-content-end px-0 m-0">
                             {item?.users?.length > 0 && item?.users?.slice(0, 3)?.map((useritem, index) => {
                               return (
                                 <li key={"HOF_Certificates_user_pic" + index}>

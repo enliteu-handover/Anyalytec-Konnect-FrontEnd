@@ -14,7 +14,7 @@ const PendingApproval = (props) => {
           <div className="waitingapprovals_list_div text-left">
             {dashboardDetails.awardApprovals.map((item, index) => {
               return (
-                <div className="col-md-12 px-0 mb-3" key={"waitingapprovals_" + index}>
+                <div className="col-md-12 px-0 mb-3" style={{display:'flex',alignItems:'center',justifyContent:'space-between'}} key={"waitingapprovals_" + index}>
                   <Link to={{ pathname: "nominationsapproval", state: { awardData: item, isApproval: true } }} className="c-2c2c2c a_hover_txt_deco_none d_waitingapprovals_list"
                     title={item?.award?.name}>
                     <p className="mb-2 eep_overflow_ellipsis d_waitingapprovals">
