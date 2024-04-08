@@ -28,7 +28,6 @@ const SurveyAnswer = () => {
     }
     setShowModal({ type: null, message: null });
   };
-
   const [surveyData, setSurveyData] = useState({});
   const eepHistory = useHistory();
 

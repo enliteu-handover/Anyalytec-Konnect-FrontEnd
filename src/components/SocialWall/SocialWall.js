@@ -17,6 +17,7 @@ const SocialWall = () => {
   const [hastagList, setHastagList] = useState([]);
   const [socialWallList, setSocialWallList] = useState([]);
   const [heartAnimateState, setHeartAnimateState] = useState({});
+	const [isloading, setIsloding] = useState(false);
 
   const dispatch = useDispatch();
   const breadcrumbArr = [
@@ -50,6 +51,7 @@ const SocialWall = () => {
   }, []);
 
   const fetchSocialWallUserList = async () => {
+    setIsloding(true)
     const obj = {
       url: URL_CONFIG.SOCIALWALL_GET_USERLIST,
       method: "get"
@@ -57,9 +59,12 @@ const SocialWall = () => {
     await httpHandler(obj)
       .then((response) => {
         setRankingLists(response?.data);
+    setIsloding(false)
+
       })
       .catch((error) => {
         console.log("error", error);
+    setIsloding(false)
       });
   };
 
@@ -103,6 +108,8 @@ const SocialWall = () => {
   };
 
   const fetchSocialWallList = async () => {
+		setIsloding(true)
+
     const obj = {
       url: URL_CONFIG.SOCIALWALL_LIST,
       method: "get",
@@ -120,10 +127,11 @@ const SocialWall = () => {
           return res.createdAt = eepFormatDateTime(res.createdAt);
         });
         setSocialWallList(data);
-        pageLoaderHandler('hide')
+		setIsloding(false)
+
       })
       .catch((error) => {
-        pageLoaderHandler('hide')
+		setIsloding(false)
         console.log("SOCIALWALL_LIST API error => ", error);
       });
   };
@@ -279,11 +287,12 @@ const SocialWall = () => {
       .then((response) => {
         const socialWallListTemp = JSON.parse(JSON.stringify(socialWallList));
         for (let i = 0; i < socialWallListTemp.length; i++) {
-          if (i === arg.indx) {
+          if (i === arg?.indx) {
             socialWallListTemp[i].wallComments = response.data;
             //socialWallListTemp[i].wallComments[i]['subChildren'] = getSubChildren(socialWallListTemp[i].wallComments[i], []);
             socialWallListTemp[i].commentState.typeCommentState = false;
             socialWallListTemp[i].commentState.listCommentState = true;
+            
             break;
           }
         }
@@ -300,7 +309,8 @@ const SocialWall = () => {
     fetchAllUsers();
     fetchHashTag();
     fetchSocialWallList();
-    pageLoaderHandler('show')
+    // pageLoaderHandler('show')
+		pageLoaderHandler(isloading ? "show": "hide");
   }, []);
   return (
     <React.Fragment>
@@ -310,7 +320,10 @@ const SocialWall = () => {
         </div>
       </div>
       
-     { socialWallList.length > 0? <div className="row eep-content-section-data">
+      {!isloading &&
+      <>
+       { socialWallList.length > 0?
+        <div className="row eep-content-section-data">
         <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
           {Object.keys(rankingLists).length > 0 &&
             <SocialWallLeftContent rankingLists={rankingLists} usersPicProps={usersPic} />
@@ -332,6 +345,8 @@ const SocialWall = () => {
                           <p className="eep_blank_quote">No record found</p>
                         </div>
                       </div>}
+      </>
+      }
     </React.Fragment>
   );
 };

@@ -122,7 +122,7 @@ const productSampleJson = [
     "name": "Lifestyle E-Gift",
     "description": "Flat 12% OFF | Applicable on payment via UPI AJIO E-Gift Card – A Style Treat For Everyone! Welcome to AJIO - India’s favourite online shopping destination. Indulge in the world of fashion with the best of global brands, home-grown labels and the trendiest international styles, with just a click. ",
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -207,7 +207,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/232_logo.png"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -288,7 +288,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/68x68-logoclp.jpg"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -369,7 +369,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -450,7 +450,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -529,7 +529,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -609,7 +609,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -689,7 +689,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -769,7 +769,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",
@@ -849,7 +849,7 @@ const productSampleJson = [
       "large": "https://d1o7uku192uawx.cloudfront.net/mobile/media/brands_logo/"
     },
     "price": {
-      "price": "10",
+      "price": "1",
       "type": "",
       "min": "10",
       "max": "10000",

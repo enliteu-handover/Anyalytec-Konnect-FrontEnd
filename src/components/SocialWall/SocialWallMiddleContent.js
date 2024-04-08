@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import LikedInfoModal from "../../modals/LikedInfoModal";
 import SocialWallCommentsList from "./SocialWallCommentsList";
 import Heart from "../../UI/CustomComponents/Heart";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 
 const SocialWallMiddleContent = (props) => {
   const { socialWallList, usersPicProps, likeSocialWallPostHandle, commentSocialWallPostHandle, likeStatus } = props;
@@ -42,6 +44,7 @@ const SocialWallMiddleContent = (props) => {
       return myVar;
     }
   };
+
 
   const getHashTag = (arg) => {
     const arr = [];
@@ -180,6 +183,7 @@ const SocialWallMiddleContent = (props) => {
         data: arg,
         indx: indx,
       });
+      fetchSocialWallCommentDataBySocialID(arg)
       // const socialWallDataTemp = JSON.parse(JSON.stringify(socialWallData));
       // for (let i = 0; i < socialWallDataTemp.length; i++) {
       //   if (i === indx) {
@@ -214,14 +218,43 @@ const SocialWallMiddleContent = (props) => {
     });
   };
 
+  const fetchSocialWallCommentDataBySocialID = (arg) => {
+    const obj = {
+      url: URL_CONFIG.SOCIALWALL_COMMENT_LIST,
+      method: "get",
+      params: { id: arg.id }
+    };
+    httpHandler(obj)
+      .then((response) => {
+        const socialWallListTemp = JSON.parse(JSON.stringify(socialWallList));
+        for (let i = 0; i < socialWallListTemp.length; i++) {
+          if (i === arg?.indx) {
+            socialWallListTemp[i].wallComments = response.data;
+            //socialWallListTemp[i].wallComments[i]['subChildren'] = getSubChildren(socialWallListTemp[i].wallComments[i], []);
+            socialWallListTemp[i].commentState.typeCommentState = false;
+            socialWallListTemp[i].commentState.listCommentState = true;
+            
+            break;
+          }
+        }
+        setSocialWallData([...socialWallListTemp]);
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+        console.log("List Comments API error => ", errMsg, error);
+      });
+  }
+
+
   const lessComments = (arg, indx) => {
     const socialWallDataTemp = JSON.parse(JSON.stringify(socialWallData));
     for (let i = 0; i < socialWallDataTemp.length; i++) {
+      
       if (i === indx) {
         socialWallDataTemp[i].commentState.listCommentState = false;
-        socialWallDataTemp[i].commentsCount = socialWallDataTemp[i].commentsCount + 1;
-
+        socialWallDataTemp[i].commentsCount = socialWallDataTemp[i].commentsCount ;
       }
+      
     }
     setSocialWallData([...socialWallDataTemp]);
   };
@@ -407,7 +440,7 @@ const SocialWallMiddleContent = (props) => {
                       {!item?.commentState?.listCommentState && (
                         <div className="enlite_view_comments enlite_view_less_comments c1" onClick={() => viewAllComments(item, index)}>
                           {item?.commentsCount > 0 && (
-                            <span>View all <span>{item?.commentsCount}</span> comment(s)</span>
+                            <span>View all <span>{item?.wallComments?.length ? item?.wallComments?.length : item?.commentsCount  }</span> comment(s)</span>
                           )}
                         </div>
                       )}

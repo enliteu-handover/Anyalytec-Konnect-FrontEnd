@@ -146,7 +146,6 @@ const ActivePolls = () => {
 	useEffect(() => {
 		fetchActivePollData();
 		pageLoaderHandler(isLoading ? 'show':'hide')
-
 	}, []);
 
 	const confirmState = (isConfirmed) => {

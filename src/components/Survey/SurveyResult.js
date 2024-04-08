@@ -187,6 +187,7 @@ const SurveyResult = () => {
 		{
 			header: "SCORE",
 			accessorKey: "score",
+			accessorFn:(row)=>roundNumber(row?.score)
 		},
 		{
 			header: "RESPONSE",
@@ -200,6 +201,11 @@ const SurveyResult = () => {
 	const sideBarClass = (tooglestate) => {
 		setToggleClass(tooglestate);
 	}
+
+	const roundNumber = (num) => {
+		const roundedNum = Math.round(num * 10) / 10; // Round to the nearest tenth
+		return Math.ceil(roundedNum); // Round up to the nearest whole number
+	  };
 
 	const fetchSurveyResultDetail = (paramsInfo) => {
 		setIsLoading(true)

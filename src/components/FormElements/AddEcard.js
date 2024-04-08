@@ -93,8 +93,8 @@ const AddEcard = (props) => {
             />
           </div>
           </div>
-          
-          <div style={{fontSize:'16px',fontWeight:'500',paddingTop:'10px'}}>(Max 1Mb)</div>
+          <div style={{fontSize:'14px',fontWeight:'500',paddingTop:'4px',color:'#9d9d9d'}}>suggested upload size 600-800px</div>
+          <div style={{fontSize:'14px',fontWeight:'500',paddingTop:'10px',color:'#9d9d9d'}}>(Max 1Mb)</div>
 
         </div>
       </div>
