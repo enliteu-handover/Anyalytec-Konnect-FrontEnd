@@ -94,6 +94,8 @@ const SocialWall = () => {
   };
 
   const fetchHashTag = async () => {
+		setIsloding(true)
+
     const obj = {
       url: URL_CONFIG.SOCIALWALL_HASTAG_LIST,
       method: "get"
@@ -101,9 +103,13 @@ const SocialWall = () => {
     await httpHandler(obj)
       .then((response) => {
         setHastagList(response.data);
+		setIsloding(false)
+
       })
       .catch((error) => {
         console.log("SOCIALWALL_HASTAG_LIST API error => ", error);
+		setIsloding(false)
+
       });
   };
 
@@ -304,6 +310,10 @@ const SocialWall = () => {
       });
   }
 
+
+  console.log(rankingLists,'rankingLists')
+  console.log(hastagList,'hastagList')
+
   useEffect(() => {
     fetchSocialWallUserList();
     fetchAllUsers();
@@ -322,7 +332,7 @@ const SocialWall = () => {
       
       {!isloading &&
       <>
-       { socialWallList.length > 0?
+       { socialWallList.length > 0 || Object.keys(rankingLists).length > 0 || hastagList.length > 0  ?
         <div className="row eep-content-section-data">
         <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
           {Object.keys(rankingLists).length > 0 &&
@@ -336,7 +346,7 @@ const SocialWall = () => {
         </div>
         <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 socialWall_div eep-content-section eep_scroll_y">
           {hastagList && hastagList.length > 0 &&
-            <SocialWallRightContent hastagList={hastagList} />
+            <SocialWallRightContent hastagList={Object.keys(rankingLists).length > 0} />
           }
         </div>
       </div> :   <div className="parent_div" style={{ marginTop: "24vh" }}>

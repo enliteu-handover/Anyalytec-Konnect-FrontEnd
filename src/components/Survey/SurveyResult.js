@@ -192,7 +192,7 @@ const SurveyResult = () => {
 		{
 			header: "RESPONSE",
 			accessorKey: "action",
-			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings?.response} type="survey" />,
+			accessorFn: (row) => <ResponseCustomComponent isLoading={isLoading} data={row} cSettings={cSettings?.response} type="survey" />,
 
 		},
 
@@ -203,8 +203,8 @@ const SurveyResult = () => {
 	}
 
 	const roundNumber = (num) => {
-		const roundedNum = Math.round(num * 10) / 10; // Round to the nearest tenth
-		return Math.ceil(roundedNum); // Round up to the nearest whole number
+		const roundedNum = Math.round(num * 10) / 10;
+		return Math.ceil(roundedNum); 
 	  };
 
 	const fetchSurveyResultDetail = (paramsInfo) => {

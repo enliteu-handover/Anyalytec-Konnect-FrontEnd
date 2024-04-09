@@ -12,6 +12,7 @@ const FormContainer = (props) => {
           <React.Fragment key={i}>
             <Element
               field={field}
+              dateMin={fields[i-1]}
               maxLength={field?.maxLength}
               submitted={submitted}
               onUpload={onUpload}
