@@ -162,9 +162,11 @@ const ModifyUser = () => {
             ...userMetaData,
           })
         }).catch((error) => console.log(error));
-    } else if (field.type === "datePicker" || field.type === "select") {
+    } 
+    else if (field.type === "datePicker" || field.type === "select") {
       uData[field.name] = field.booleanValue ? (event === 'true' ? true : false) : event;
-    } else {
+    } 
+    else {
       uData[field.name] = event;
     }
     // }

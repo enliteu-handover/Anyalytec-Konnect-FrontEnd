@@ -152,22 +152,6 @@
     "fields": [
       {
         "type": "datePicker",
-        "label": "Date of Joining",
-        "name": "dateOfJoining",
-        "mandatory": true,
-        "disabled": false,
-        "display": true,
-        "min": {
-          "subYear": true,
-          "val": 1
-        },
-        "max": {
-          "addMonth": true,
-          "val": 1
-        }
-      },
-      {
-        "type": "datePicker",
         "label": "Date of Birth",
         "name": "dateOfBirth",
         "mandatory": true,
@@ -180,6 +164,22 @@
         "max": {
           "subYear": true,
           "val": 18
+        }
+      },
+      {
+        "type": "datePicker",
+        "label": "Date of Joining",
+        "name": "dateOfJoining",
+        "mandatory": true,
+        "disabled": false,
+        "display": true,
+        "min": {
+          "subYear": true,
+          "val": 18
+        },
+        "max": {
+          "addMonth": true,
+          "val": 3
         }
       },
       {

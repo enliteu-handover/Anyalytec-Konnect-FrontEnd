@@ -321,7 +321,7 @@ const SocialWallMiddleContent = (props) => {
                       </Link>
                       <span className="sw_head_con">was enlited by </span>
                       <Link to="#" className="a_hover_txt_deco_none">
-                        <span className="sw_from_val sw_head_nms">{item?.rewardId?.createdBy?.fullName} </span>
+                        <span className="sw_from_val sw_head_nms">{item?.rewardId?.createdBy?.fullName ?? ''} </span>
                       </Link>
                     </div>
                     <div className="sw_from_time">
