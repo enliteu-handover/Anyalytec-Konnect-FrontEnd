@@ -235,7 +235,7 @@ const TypeBasedFilter = (props) => {
 					<span className="d_filterby_txt">{filterDispValue}</span>
 					<span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.filterArrow }}></span>
 				</button>
-				<div className={`eep-filterOptions ${showFilter ? "d_filterOptionShow" : ""}`}>
+				<div className={`eep-filterOptions ${showFilter ? "d_filterOptionShow" : ""}`} style={{zIndex:99}}>
 					<div className="mb-3 field-wbr">
 						<Select
 							options={config.dropdownOptions}

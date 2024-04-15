@@ -373,6 +373,244 @@ const RewardsRecognition = (props) => {
     }
   }
 
+  const apexChartOptions ={
+    recognition:{
+      labels:['E-Cards', 'Certificates', 'Badges', 'Awards'],
+      chart: {
+        height: 350,
+        type: 'bar',
+      },
+      stroke: {
+      width: 2
+    },
+    
+    grid: {
+      row: {
+        colors: ['#fff', '#f2f2f2']
+      }
+    },
+    xaxis: {
+      categories: ['E-Cards', 'Certificates', 'Badges', 'Awards'],
+      tickPlacement: 'on'
+    },
+    yaxis: {
+      title: {
+        text: '',
+      },
+    },
+     
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          columnWidth: '50%',
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['#000'],
+          boxShadow:'none'
+        }
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 0.85,
+          opacityTo: 0.85,
+          stops: [50, 0, 100]
+        },
+      },
+      series: [
+
+      ],
+    },
+    ecards:{
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+      chart: {
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      
+      series: [],
+    },
+    certificate:{
+      labels: ['Appreciation','Excellence','Achievement'],
+      dataLabels: {
+        enabled: true,
+      },
+
+      chart: {
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      series: [],
+    },
+    badge:{
+      labels:  ['Explorer','Leader','Performer', 'Elite','Team Changer'],
+      dataLabels: {
+        enabled: true,
+      },
+
+      chart: {
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      series: [],
+    },
+    awards:{
+      chart: {
+        height: 350,
+        type: 'bar',
+      },
+      stroke: {
+      width: 2
+    },
+    
+    
+    grid: {
+      row: {
+        colors: ['#fff', '#f2f2f2']
+      }
+    },
+    xaxis: {
+      categories: [
+        'All Star',
+        'Dark Knight',
+        'Legendary',
+        'Leviosa',
+        'Omega',
+        'Performer',
+        'Picasso',
+        'Premier',
+        'Rockstar Rockie',
+        'Super Squad',
+        'Team Infinity',
+        'Transformer'
+      ],
+      tickPlacement: 'on'
+
+    },
+    yaxis: {
+      title: {
+        text: '',
+      },
+    },
+     
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          columnWidth: '50%',
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['#000'],
+        }
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 0.85,
+          opacityTo: 0.85,
+          stops: [50, 0, 100]
+        },
+      },
+      series: [{
+        name: 'Spot Awards',
+        data: [13, 9, 7, 13, 14, 5, 3,
+          8, 11, 4, 10, 12]
+
+      }, {
+        name: 'Nomination Awards',
+        data: [12, 10, 11, 7, 11, 7, 9, 0, 1, 4, 2, 6]
+
+      }]
+    },
+  }
+
   const breadcrumbArr = [
     {
       label: "Home",
@@ -456,77 +694,102 @@ const RewardsRecognition = (props) => {
       loginChartTemp["series"][0]["data"] = [rrData.loginUserCount];
       (rrData.loginUserCount > 0) ? setLoginChart({ ...loginChartTemp }) : setLoginChart({});
       // Login Chart End
-
       // Recognition Chart Start
-      let recognitionChartTemp = defaultChartOptions.recognition;
+      let recognitionChartTemp = apexChartOptions.recognition;
       recognitionChartTemp["series"] = [{
+        "name":'',
         "data": [rrData.eCardsCount, rrData.certificateCount, rrData.badgeCount, rrData.awardCount],
-        colorByPoint: true
+        // colorByPoint: true
       }];
+
       //setRecognitionChart({...recognitionChartTemp});
       (rrData.eCardsCount > 0 || rrData.certificateCount > 0 || rrData.badgeCount > 0 || rrData.awardCount > 0) ? setRecognitionChart({ ...recognitionChartTemp }) : setRecognitionChart({});
       // Recognition Chart End
 
       // E-Cards Chart Start
-      let ecardsTemp = defaultChartOptions.ecards;
-      ecardsTemp["series"] = [{
-        name: 'E-Cards',
-        data: [
-          rrData?.birthdayECardsCount ? ['Birthday', rrData?.birthdayECardsCount] : [],
-          rrData?.anniversaryECardsCount ? ['Anniversary', rrData?.anniversaryECardsCount] : [],
-          rrData?.appreciationECardsCount ? ['Appreciation', rrData?.appreciationECardsCount] : [],
-          rrData?.seasonalECardsCount ? ['Seasonal', rrData?.seasonalECardsCount] : []
-        ]
-      }];
+      let ecardsTemp = apexChartOptions.ecards;
+      let data =[
+           rrData?.birthdayECardsCount ? [rrData?.birthdayECardsCount] : [],
+          rrData?.anniversaryECardsCount ? [rrData?.anniversaryECardsCount] : [],
+          rrData?.appreciationECardsCount ? [ rrData?.appreciationECardsCount] : [],
+          rrData?.seasonalECardsCount ?[rrData?.seasonalECardsCount] : []
+      ]
+      ecardsTemp['labels']=['Birthday','Anniversary','Appreciation','Seasonal']
+      ecardsTemp["series"] = 
+        data;
+      //   {
+      //   name: 'E-Cards',
+      //   data: [
+      //       rrData?.birthdayECardsCount ? ['Birthday', rrData?.birthdayECardsCount] : [],
+      //       rrData?.anniversaryECardsCount ? ['Anniversary', rrData?.anniversaryECardsCount] : [],
+      //       rrData?.appreciationECardsCount ? ['Appreciation', rrData?.appreciationECardsCount] : [],
+      //       rrData?.seasonalECardsCount ? ['Seasonal', rrData?.seasonalECardsCount] : []
+      //   ]
+      // }
       //setEcardChart({...ecardsTemp});
       (rrData.birthdayECardsCount > 0 || rrData.anniversaryECardsCount > 0 || rrData.appreciationECardsCount > 0 || rrData.seasonalECardsCount > 0) ? setEcardChart({ ...ecardsTemp }) : setEcardChart({});
       // E-Cards Chart End
 
       // Certificate Chart Start
-      let certificateTemp = defaultChartOptions.certificate;
+      let certificateTemp = apexChartOptions.certificate;
       //certificateTemp["title"]["text"] = "abcdef";
-      certificateTemp["series"] = [{
-        type: 'pie',
-        name: 'Certificate',
-        innerSize: '50%',
-        data: Object.keys(rrData.categorizedCertificateCount).length > 0 ? Object.entries(rrData.categorizedCertificateCount) : []
-      }];
+      // certificateTemp["series"] = [{
+      
+      //   data: Object.keys(rrData.categorizedCertificateCount).length > 0 ? Object.entries(rrData.categorizedCertificateCount) : []
+      // }];
+      const values = (rrData.categorizedCertificateCount && Object.keys(rrData.categorizedCertificateCount).length > 0)
+      ? Object.values(rrData.categorizedCertificateCount)
+     : [];
+      certificateTemp["series"] = values;
+      // certificateTemp["series"] = [{
+      //   data:values
+      // }];
+
+      
       //setCertificateChart({...certificateTemp});
       (Object.keys(rrData.categorizedCertificateCount).length > 0) ? setCertificateChart({ ...certificateTemp }) : setCertificateChart({});
       // Certificate Chart End
 
       // Badge Chart Start
-      let badgeTemp = defaultChartOptions.badge;
-      badgeTemp["series"] = [{
-        type: 'pie',
-        name: 'Badge',
-        data: Object.keys(rrData.categorizedBadgeCount).length > 0 ? Object.entries(rrData.categorizedBadgeCount) : []
-      }];
+      let badgeTemp = apexChartOptions.badge;
+      const badgeValue = (rrData.categorizedBadgeCount && Object.keys(rrData.categorizedBadgeCount).length > 0)
+      ? Object.values(rrData.categorizedBadgeCount)
+     : [];
+     badgeTemp["series"] = badgeValue;
+      // badgeTemp["series"] = [{
+      //   // type: 'pie',
+      //   // name: 'Badge',
+      //   data: Object.keys(rrData.categorizedBadgeCount).length > 0 ? Object.entries(rrData.categorizedBadgeCount) : []
+      // }];
+
       //setBadgeChart({...badgeTemp});
       (Object.keys(rrData.categorizedBadgeCount).length > 0) ? setBadgeChart({ ...badgeTemp }) : setBadgeChart({});
       // Badge Chart End
 
       // Award Chart Start
-      let awardTemp = defaultChartOptions.awards;
-      awardTemp["xAxis"] = {
-        crosshair: true,
-        categories: Object.keys(rrData.categorizedBadgeCount).length > 0 ? Object.keys(rrData.categorizedBadgeCount) : []
-      }
+      let awardTemp = apexChartOptions.awards;
+      // awardTemp["xaxis"] = {
+      //   // crosshair: true,
+      //   // categories: Object.keys(rrData.categorizedBadgeCount).length > 0 ? Object.keys(rrData.categorizedBadgeCount) : []
+      // }
       let spotAwardArr = [];
       let nomiAwardArr = [];
       Object.keys(rrData["categorizedAwardCount"]).forEach(function (key) {
         spotAwardArr.push(rrData["categorizedAwardCount"][key]["spotCount"]);
         nomiAwardArr.push(rrData["categorizedAwardCount"][key]["nomiCount"]);
       });
-      awardTemp["series"] = [{
+      awardTemp["series"] = [
+        {
         name: 'Spot Awards',
         data: spotAwardArr
       }, {
         name: 'Nomination Awards',
         data: nomiAwardArr
-      }];
+      }
+      
+    ];
       //setAwardChart({...awardTemp});
-      (Object.keys(rrData["categorizedAwardCount"]).length > 0) ? setAwardChart({ ...recognitionChartTemp }) : setAwardChart({});
+      (Object.keys(rrData["categorizedAwardCount"]).length > 0) ? setAwardChart({ ...awardTemp }) : setAwardChart({});
       // Award Chart End
 
     }
@@ -541,6 +804,8 @@ const RewardsRecognition = (props) => {
     }
 
   }, [rrData]);
+
+
 
   return (
     <React.Fragment>
@@ -643,7 +908,7 @@ const RewardsRecognition = (props) => {
                 <div className="bg-white shadow br-15 h-100">
                   <div className="p-3">
                     <label className="d_sect_lbl">Logged IN</label>
-                    {Object.keys(loginChart).length > 0 &&
+                    {Object.keys(loginChart).length > 0&&
                       <DashboardCharts chartType="login" chartData={loginChart} />
                     }
                     {Object.keys(loginChart).length <= 0 &&
