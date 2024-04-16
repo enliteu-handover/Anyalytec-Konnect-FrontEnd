@@ -183,7 +183,10 @@ const SurveyResponses = () => {
         title: {
           enabled: false,
         },
+        
       },
+      
+      
       tooltip: {
         headerFormat: "<b>{point.key}</b><br>",
         pointFormat: "Response: {point.y}",
@@ -203,6 +206,165 @@ const SurveyResponses = () => {
         },
       },
       series: [],
+    },
+  };
+
+
+  
+  const defaultApexChart = {
+    "radio-group": {
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+
+      chart: {
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      series: [],
+    },
+    "radio-group1": {
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+      chart: {
+        type: "pie",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: true,
+            },
+          },
+        },
+      },
+      series: [16, 12, 8, 8],
+    },
+    "checkbox-group": {
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+      chart: {
+        width:500,
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: false,
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          depth: 35,
+         
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      series: [],
+
+      
+      tooltip: {
+        pointFormat: "{series.name}: <b>{point.percentage:.1f}</b>",
+      },
+    },
+    "select": {
+      chart: {
+        height: 350,
+        type: 'bar',
+      },
+      stroke: {
+      width: 2
+    },
+    
+    grid: {
+      row: {
+        colors: ['#fff', '#f2f2f2']
+      }
+    },
+    xaxis: {
+      tickPlacement: 'on'
+    },
+    yaxis: {
+      title: {
+        text: '',
+      },
+    },
+     
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          columnWidth: '50%',
+        }
+      },
+      dataLabels: {
+        enabled: true,
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 0.85,
+          opacityTo: 0.85,
+          stops: [50, 0, 100]
+        },
+      },
+      series: [
+
+      ],
     },
   };
 
@@ -417,10 +579,102 @@ const SurveyResponses = () => {
             let countVal = getMultipleValueCount(chartData.value, vItem);
             return countVal;
           });
+
         chartOptionsTemp["xAxis"] = { categories: valTemp };
         chartOptionsTemp["series"] = [
           { data: optionDataTemp, colorByPoint: true },
         ];
+        return chartOptionsTemp;
+      }
+    }
+  };
+
+  const getApexChartData = (chartData) => {
+    let chartOptionsTemp = {};
+    if (chartData) {
+      if (chartData.type === "radio-group") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultApexChart[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp?.length &&
+          valTemp.map((vItem) => {
+            let countVal = getValueCount(chartData?.value, vItem);
+            return countVal;
+          });
+        let labels =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            return vItem;
+          });
+        chartOptionsTemp["labels"] = labels;
+        chartOptionsTemp["series"] = [optionDataTemp];
+        return chartOptionsTemp;
+      }
+      if (chartData.type === "checkbox-group") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultApexChart[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getMultipleValueCount(chartData.value, vItem);
+            return countVal;
+          });
+        let labels =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            return vItem;
+          });
+        chartOptionsTemp["labels"] = labels;
+        chartOptionsTemp["series"] = [optionDataTemp];
+
+        return chartOptionsTemp;
+      }
+      if (chartData.type === "select") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultApexChart[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData?.surveyQuestion?.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp?.values?.map((item) => item?.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getMultipleValueCount(chartData?.value, vItem);
+            return countVal;
+          });
+        // let optionDataTemp = [];
+        // if (Array.isArray(valTemp) && valTemp?.length > 0) {
+        //   // eslint-disable-next-line array-callback-return
+        //   valTemp?.map((val) => {
+        //     let countVal = getMultipleValueCount(chartData?.value, val);
+        //     optionDataTemp.push({
+        //       name: val,
+        //       data:[countVal],
+        //     });
+        //   });
+        // }
+        chartOptionsTemp["xaxis"] = { categories: valTemp };
+        chartOptionsTemp["series"] = [{name:'',data:optionDataTemp}];
+
         return chartOptionsTemp;
       }
     }
@@ -559,7 +813,6 @@ const SurveyResponses = () => {
                   {surveyResponseData &&
                     surveyResponseData?.length > 0 &&
                     surveyResponseData?.map((sData) => {
-                      
                       if (
                         sData &&
                         (sData.type === "radio-group" ||
@@ -577,7 +830,9 @@ const SurveyResponses = () => {
                                   <div className="col-6">
                                     <SurveyCharts
                                       iSchartDownloadLoading={allExpended}
-                                      chartData={getChartData(sData)}
+                                      chartData={getApexChartData(sData)}
+                                      // chartData={getChartData(sData)}
+
                                     />
                                   </div>
                                 </div>

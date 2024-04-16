@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useMemo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highcharts3d from 'highcharts/highcharts-3d';
 import cylinder from "highcharts/modules/cylinder";
 import HC_more from 'highcharts/highcharts-more';
+import Chart from "react-apexcharts";
+
 highcharts3d(Highcharts);
 cylinder(Highcharts);
 HC_more(Highcharts);
@@ -22,6 +24,7 @@ const DashboardCharts = (props) => {
   },[chartType]);
 
   const initChartData = chartData ? chartData : {};
+
 
   const chartOptions = {
     login: {
@@ -396,14 +399,36 @@ const DashboardCharts = (props) => {
     }
   }
 
+  const showChartData = React.useMemo(() => {
+    let value = [];
+    if (chartData?.chart?.type === "bar") {
+      value = chartData?.series?.[0]?.data;
+    } else if(chartData?.chart?.type === 'donut'){
+      value = chartData?.series;
+    }
+    return value?.some((val) => val > 0);
+  }, [chartData?.chart?.type,chartData?.series]);
+
+
   return  <React.Fragment>
-    {showChart && <HighchartsReact
+    {showChart &&<>
+      {/* <HighchartsReact
       highcharts={Highcharts}
       constructorType={"chart"}
       //options={chartOptions[chartType]}
       //options={chartData}
       options={(initChartData && Object.keys(initChartData).length > 0) ? initChartData : chartOptions[chartType]}
-    />}
+    /> */}
+    {showChartData && <Chart
+              options={initChartData}
+              series={ chartData?.series}
+              type={initChartData?.chart?.type}
+            />}
+          
+    
+    </>}
+
+
  
   {/* <HighchartsReact
     highcharts={Highcharts}
