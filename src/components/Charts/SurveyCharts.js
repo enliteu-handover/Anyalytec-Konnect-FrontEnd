@@ -56,8 +56,8 @@ const SurveyCharts = (props) => {
             />
           ) : (
             <div style={{ textAlign: "center",    padding: '52px 0px',
-            fontSize: '23px',
-            fontWeight: 600, }}>No results yet !</div>
+            fontSize: '14px',
+            fontWeight: 300, color:'#9d9d9d'}}>No results yet!</div>
           )}
         </>
       )}
