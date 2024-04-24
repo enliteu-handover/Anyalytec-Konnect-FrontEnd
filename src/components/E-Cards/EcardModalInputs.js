@@ -4,7 +4,7 @@ import Select from "react-select";
 
 const EcardModalInputs = (props) => {
 
-  const {ccMessageValue, comoseMessageHandler, composeCardCategory, getComposeInputsData} = props;
+  const { ccMessageValue, comoseMessageHandler, composeCardCategory, getComposeInputsData, isDashbaordData } = props;
   let composeCardCategoryVal = composeCardCategory.category;
   const initValue = ccMessageValue[composeCardCategoryVal] ? ccMessageValue[composeCardCategoryVal] : "";
   const initUserOption = composeCardCategory.userData ? composeCardCategory.userData : [];
@@ -34,13 +34,16 @@ const EcardModalInputs = (props) => {
     setToValue([]);
     setCCValue([]);
     clearComposeMessage();
+    if (isDashbaordData && initUserOption?.length > 0) {
+      handleInputChange(isDashbaordData)
+    }
   }, [initValue, initUserOption, initUserEmailOption]);
 
   const clearComposeMessage = () => {
-    comoseMessageHandler( "","", false);
+    comoseMessageHandler("", "", false);
     var elems = document.querySelectorAll(".ccmesg");
-    [].forEach.call(elems, function(el) {
-        el.classList.remove("selected");
+    [].forEach.call(elems, function (el) {
+      el.classList.remove("selected");
     });
   }
 
@@ -53,8 +56,8 @@ const EcardModalInputs = (props) => {
     getComposeInputsData(composeInputsTemp);
   }
 
-  const clkComoseMessageHandler = (e,clkMessage,clkState) => {
-    comoseMessageHandler(e,clkMessage,clkState);
+  const clkComoseMessageHandler = (e, clkMessage, clkState) => {
+    comoseMessageHandler(e, clkMessage, clkState);
     let composeInputsTemp = JSON.parse(JSON.stringify(composeInputs));
     composeInputsTemp.message = clkMessage;
     setComposeInputs(composeInputsTemp);
@@ -62,7 +65,7 @@ const EcardModalInputs = (props) => {
   }
 
   const CustomComposeMessageHandler = (e) => {
-    comoseMessageHandler( "",e.target.value, false);
+    comoseMessageHandler("", e.target.value, false);
     let composeInputsTemp = JSON.parse(JSON.stringify(composeInputs));
     composeInputsTemp.message = e.target.value;
     setComposeInputs(composeInputsTemp);
@@ -76,7 +79,7 @@ const EcardModalInputs = (props) => {
   const ccMenuHideShow = (arg) => {
     setOpenCCMenu(arg);
   }
-  
+
   const handleInputChange = (evt) => {
     setToValue(evt);
     setOpenMenu(false);
@@ -85,7 +88,7 @@ const EcardModalInputs = (props) => {
     setComposeInputs(composeInputsTemp);
     getComposeInputsData(composeInputsTemp);
   }
-  
+
   const handleRecipientChange = (evt) => {
     setCCValue(evt);
     setOpenCCMenu(false);
@@ -99,6 +102,11 @@ const EcardModalInputs = (props) => {
     getComposeInputsData(composeInputsTemp);
   }
 
+  useEffect(() => {
+    if (isDashbaordData && initUserOption?.length > 0) {
+      handleInputChange(isDashbaordData)
+    }
+  }, [isDashbaordData]);
   return (
     <React.Fragment>
       <div className="compose_text">
@@ -166,31 +174,32 @@ const EcardModalInputs = (props) => {
                 <div className="col-sm-12 pb-2 mb-2">Select your message</div>
               )}
               <div className="col-sm-12">
-                <div className="row mb-2 eep_scroll_y" style={{maxHeight:"70px"}}>
-                  {ccMessageArray && ccMessageArray.length > 0 && ccMessageArray.map((mesg,index) => { 
-                    return(
-                    <button type="button" key={"msg_"+index} className="btn btn-secondary btn-lg m-1 ccmesg" 
-                    onClick={(e)=>{clkComoseMessageHandler(e,mesg.message,true);setToggleComposeMessage(false)}}>
-                      Message {index + 1}
-                    </button>
-                  )})}
+                <div className="row mb-2 eep_scroll_y" style={{ maxHeight: "70px" }}>
+                  {ccMessageArray && ccMessageArray.length > 0 && ccMessageArray.map((mesg, index) => {
+                    return (
+                      <button type="button" key={"msg_" + index} className="btn btn-secondary btn-lg m-1 ccmesg"
+                        onClick={(e) => { clkComoseMessageHandler(e, mesg.message, true); setToggleComposeMessage(false) }}>
+                        Message {index + 1}
+                      </button>
+                    )
+                  })}
                 </div>
                 <div className="row col-md-12 px-0 ccMessageAdd_div">
                   <div className="input-group col-md-12 mb-3 ml-2 px-0">
                     <button type="button" className="btn col-md-12 pr-1 ccMessageAdd align-items-center d-flex justify-content-between" onClick={ShowComposeMessageHandler}>
-                     <span>Compose your message</span>
-                      { !toggleComposeMessage ? <span className="mr-1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus_sm }}></span> :
-                      <span className="mr-1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.minus_sm }}></span> }
+                      <span>Compose your message</span>
+                      {!toggleComposeMessage ? <span className="mr-1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus_sm }}></span> :
+                        <span className="mr-1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.minus_sm }}></span>}
                     </button>
                   </div>
                   {toggleComposeMessage && (
                     <div className="input-group col-md-12 mb-3 ml-2 px-0">
-                      <textarea id="ccNewMessage" className="form-control ccNewMessage" rows="3" style={{ resize: "none"}} onKeyUp={CustomComposeMessageHandler}></textarea>
+                      <textarea id="ccNewMessage" className="form-control ccNewMessage" rows="3" style={{ resize: "none" }} onKeyUp={CustomComposeMessageHandler}></textarea>
                     </div>
                   )}
                 </div>
               </div>
-              <input type="hidden" id="ccMessage" className="form-control text-center cc_required ccMessage"/>
+              <input type="hidden" id="ccMessage" className="form-control text-center cc_required ccMessage" />
             </div>
           </div>
         </div>

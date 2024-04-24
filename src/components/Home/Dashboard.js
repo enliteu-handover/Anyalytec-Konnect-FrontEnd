@@ -43,6 +43,18 @@ const Dashboard = (props) => {
     };
   }, []);
   const months = ['months', 'month', 'days', 'day'];
+
+  function removeDuplicates(data) {
+    const uniqueEntries = {};
+    data.forEach(entry => {
+      const key = entry.userId + '-' + entry.active;
+      if (!uniqueEntries[key]) {
+        uniqueEntries[key] = entry;
+      }
+    });
+    return Object.values(uniqueEntries);
+  }
+
   return (
     <React.Fragment>
       {/* <Tour steps={steps} {...tourProps} /> */}
@@ -146,34 +158,9 @@ const Dashboard = (props) => {
             <div className="col-sm-12 col-xs-12 col-md-12 col-lg-6">
               <PendingApproval dashboardDetails={dashboardDetails} />
               <Upcomings dashboardDetails={{
-                upcomings: [
-                  {
-                    id: 1,
-                    message: "Anniversary - Dan Murphy",
-                    date: "Today",
-                    active:'Anniversary'
-                  },
-                  {
-                    id: 2,
-                    message: "Anniversary - Emma Wilson",
-                    date: "Today",
-                    active:'Anniversary'
-                  },
-                  {
-                    id: 3,
-                    message: "Birthday - Nathan Jones",
-                    date: "Tomorrow",
-                    active:'Birthday'
-
-                  },
-                  {
-                    id: 4,
-                    message: "Birthday - Andrew Latham",
-                    date: "Tomorrow",
-                    active:'Birthday'
-
-                  }
-                ]
+                upcomings:
+                  removeDuplicates(dashboardDetails?.
+                    happenings ?? [])
               }} />
             </div>
           </div>

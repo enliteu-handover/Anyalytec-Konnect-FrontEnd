@@ -93,13 +93,12 @@ const ECardIndex = () => {
       );
     };
   }, [userRolePermission]);
-
   return (
     <React.Fragment>
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
           <div id="CardsTab" className="tab-pane active h-100">
-            {activeTab && activeTab.id === `CardsTab` && <ECards />}
+            {activeTab && activeTab.id === `CardsTab` && <ECards isDashbaord={routerData?.active} isDashbaordData={routerData?.isDashbaordData} />}
           </div>
           <div id="InboxTab" className="tab-pane h-100">
             {activeTab && activeTab.id === `InboxTab` && <Inbox />}
