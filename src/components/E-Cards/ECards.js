@@ -253,7 +253,7 @@ const ECards = ({ isDashbaord, isDashbaordData }) => {
         }
       })
     }
-  }, [])
+  }, []) 
 
   const modalSubmitInfo = (arg) => {
     if (arg.status) {
