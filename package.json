@@ -65,8 +65,8 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "set PORT=3001 && NODE_OPTIONS=--max-old-space-size=4096 && react-scripts start",
-    "build": "NODE_OPTIONS=--max-old-space-size=4096 && react-scripts build",
+    "start": "set PORT=3001 && react-scripts start",
+    "build": "react-scripts --max-old-space-size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

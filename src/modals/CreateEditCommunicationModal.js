@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import { useSelector } from "react-redux";
-import forumImg from '../styles/images/forum-Add.svg'
-import ideaBoxImg from '../styles/images/Ideabox-Add.svg'
-import nodataImg from '../styles/images/noData.svg'
+import Select from "react-select";
+// import forumImg from '../styles/images/forum-Add.svg'
 
 const CreateEditCommunicationModal = (props) => {
 
@@ -31,7 +29,7 @@ const CreateEditCommunicationModal = (props) => {
   const [existPostDept, setExistPostDept] = useState([]);
   var titleMaxLength = 150;
   var descMaxLength = 255;
- 
+
   const fileTypeAndImgSrcArray = {
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -159,7 +157,7 @@ const CreateEditCommunicationModal = (props) => {
   const maxFileSize = 1024000;
   var atthFiles = [];
   const onChangeHandler = (event, cType) => {
-    
+
     var file = [];
     file = event.target.files;
     for (let k = 0; k < file.length; k++) {
@@ -189,7 +187,7 @@ const CreateEditCommunicationModal = (props) => {
   };
 
   const updateAttachementFilesData = (fData, fType, vFiles) => {
-    
+
     if (fType === "new") {
       setAttachementFiles([...fData]);
       setModalAttachements([...vFiles]);
@@ -209,7 +207,7 @@ const CreateEditCommunicationModal = (props) => {
   }
 
   const postCommunicationHandler = () => {
-    
+
     const modalDatas = {
       dept: modalDepartment,
       title: modalTitle,
