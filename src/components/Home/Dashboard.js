@@ -22,11 +22,11 @@ const Dashboard = (props) => {
   // const [startTour, setStartTour] = useState(false);
   const breadcrumbArr = [
     {
-      label: "Home",
+      label: t(`dashboard.Home`),
       link: "app/dashboard",
     },
     {
-      label: "Dashboard",
+      label: t(`dashboard.dashboard`),
       link: "#",
     },
   ];
@@ -79,11 +79,11 @@ const Dashboard = (props) => {
                 />
                 <div className="d_u_details">
                   <label className="d_u_name font-helvetica-m my-0">
-                    {t(`message.${[userSessionData.username]}`)}
+                    {t(`dashboard.${[userSessionData.username]}`)}
                   </label>
                   <p className="d_u_dept">
-                    {dashboardDetails?.designation} -{" "}
-                    {dashboardDetails?.departmentName}
+                    {t(`dashboard.${[dashboardDetails?.designation]}`)} -{" "}
+                    {t(`dashboard.${[dashboardDetails?.departmentName]}`)}
                   </p>
                 </div>
                 {/* &nbsp;&nbsp;&nbsp;
@@ -105,7 +105,7 @@ const Dashboard = (props) => {
                       dashboardDetails?.experience
                     }
                     <span className="ml-2">
-                      {dashboardDetails?.experienceType}
+                      {t(`dashboard.${[dashboardDetails?.experienceType]}`)}
                     </span>
                   </label>
                   <p className="text-right mb-1 d_doj opacity-3">
@@ -145,7 +145,10 @@ const Dashboard = (props) => {
                                   {dashboardDetails.directReports > 9
                                     ? dashboardDetails.directReports
                                     : "0" + dashboardDetails.directReports}{" "}
-                                  <span className="ml-2">My Team</span>
+                                  <span className="ml-2">
+                                    {" "}
+                                    {t(`dashboard.My_Team`)}{" "}
+                                  </span>
                                 </label>
                                 <img
                                   src={
@@ -231,7 +234,11 @@ const Dashboard = (props) => {
                                 : "0" + dashboardDetails.teamSize}{" "}
                               <span className="ml-2">
                                 {" "}
-                                {dashboardDetails.departmentName}{" "}
+                                {t(
+                                  `dashboard.${[
+                                    dashboardDetails.departmentName,
+                                  ]}`
+                                )}
                               </span>
                             </label>
                             <img
@@ -283,7 +290,7 @@ const Dashboard = (props) => {
                                           }}
                                           className="uNameLink a_hover_txt_deco_none"
                                         >
-                                          {item.fullName}
+                                          {item?.fullName}
                                         </Link>
                                       </label>
                                     )}

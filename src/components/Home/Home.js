@@ -10,6 +10,7 @@ import Dashboard from "./Dashboard";
 import HallOfFame from "./HallOfFame";
 import RewardsRecognition from "./RewardsRecognition";
 import { pageLoaderHandler } from "../../helpers";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const [usersPic, setUsersPic] = useState([]);
@@ -22,11 +23,14 @@ const Home = () => {
   const history = useHistory();
   const routerData = location.state;
   const [filterParams, setFilterParams] = useState({
-    month: new Date().getMonth() + 1, year: new Date().getFullYear()
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
   });
 
-  const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-
+  const userRolePermission = useSelector(
+    (state) => state.sharedData.userRolePermission
+  );
+  const { t } = useTranslation();
   const breadcrumbArr = [
     {
       label: "Home",
@@ -58,22 +62,21 @@ const Home = () => {
 
   const tabConfig = [
     {
-      title: "My Dashboard",
+      title: t(`dashboard.My Dashboard`),
       id: "My_Dashboard",
-    }
+    },
   ];
 
   useEffect(() => {
-
     if (userRolePermission.employeeEngagementDashboard) {
       tabConfig.push({
-        title: "Organization Stats",
+        title: t(`dashboard.Organization Stats`),
         id: "Rewards_Recognition",
       });
     }
     if (userRolePermission.hallOfFame) {
       tabConfig.push({
-        title: "Hall of Fame",
+        title: t(`dashboard.Hall of Fame`),
         id: "Hall_of_Fame",
       });
     }
@@ -83,7 +86,7 @@ const Home = () => {
       const activeTabId = routerData.activeTab;
       tabConfig.map((res) => {
         if (res.id === activeTabId) {
-          res['active'] = true
+          res["active"] = true;
         }
       });
       dispatch(
@@ -108,9 +111,7 @@ const Home = () => {
       );
     };
     // }
-
   }, [userRolePermission]);
-
 
   useEffect(() => {
     // dispatch(TabsActions.tabOnChange({tabInfo:tabConfig?.[0]}))
@@ -145,40 +146,38 @@ const Home = () => {
   // }
   const getDashboardDetails = async () => {
     try {
-      pageLoaderHandler('show');
-      
+      pageLoaderHandler("show");
+
       const obj = {
         url: URL_CONFIG.DASHBOARD_INDEX,
-        method: "get"
+        method: "get",
       };
-  
+
       const response = await httpHandler(obj);
       setDashboardDetails(response?.data);
-      
-      pageLoaderHandler('hide');
+
+      pageLoaderHandler("hide");
     } catch (error) {
       console.log("getDashboardDetails error", error);
-      pageLoaderHandler('hide');
+      pageLoaderHandler("hide");
     }
-  }
-  
+  };
+
   const fetchAllUsers = () => {
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
       method: "get",
-      isLoader: false
+      isLoader: false,
     };
     httpHandler(obj)
       .then((response) => {
         let userPicTempArry = [];
         response.data.map((item) => {
           if (item?.imageByte?.image) {
-            userPicTempArry.push(
-              {
-                "id": item.id,
-                "pic": item?.imageByte?.image
-              }
-            )
+            userPicTempArry.push({
+              id: item.id,
+              pic: item?.imageByte?.image,
+            });
           }
         });
         setUsersPic(userPicTempArry);
@@ -192,14 +191,14 @@ const Home = () => {
   const fetchHallOfFame = (paramsInfo = {}) => {
     const obj = {
       url: URL_CONFIG.HALL_OF_FAME,
-      method: "get"
+      method: "get",
     };
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj["params"] = paramsInfo;
     }
     httpHandler(obj)
       .then((response) => {
-        setHallOfFameDetails(response.data)
+        setHallOfFameDetails(response.data);
       })
       .catch((error) => {
         console.log("HALLOFFAME API error => ", error);
@@ -208,7 +207,7 @@ const Home = () => {
 
   const getHallOfFameFilterParams = (paramsData) => {
     fetchHallOfFame(paramsData);
-  }
+  };
 
   // const fetchIsNotification = () => {
   //   const obj = {
@@ -239,10 +238,8 @@ const Home = () => {
     }
   }, [activeTab]);
 
-
   let userPicIndex;
   const getUserPicture = (uID) => {
-
     userPicIndex = usersPic.findIndex((x) => x.id === uID);
     return userPicIndex !== -1
       ? usersPic[userPicIndex].pic
@@ -252,14 +249,28 @@ const Home = () => {
     <div className="row eep-content-section-data no-gutters">
       <div className="tab-content col-md-12 h-100">
         <div id="My_Dashboard" className="tab-pane active h-100">
-          {activeTab && activeTab?.id === 'My_Dashboard' &&
-            Object?.entries(dashboardDetails)?.length > 0 && <Dashboard dashboardDetails={dashboardDetails} getUserPicture={getUserPicture} />
-          } </div>
+          {activeTab &&
+            activeTab?.id === "My_Dashboard" &&
+            Object?.entries(dashboardDetails)?.length > 0 && (
+              <Dashboard
+                dashboardDetails={dashboardDetails}
+                getUserPicture={getUserPicture}
+              />
+            )}{" "}
+        </div>
         <div id="Rewards_Recognition" className="tab-pane h-100">
-          {activeTab && activeTab?.id === 'Rewards_Recognition' && <RewardsRecognition allUserDatas={allUserDatas} />}
+          {activeTab && activeTab?.id === "Rewards_Recognition" && (
+            <RewardsRecognition allUserDatas={allUserDatas} />
+          )}
         </div>
         <div id="Hall_of_Fame" className="tab-pane h-100">
-          {activeTab && activeTab?.id === 'Hall_of_Fame' && <HallOfFame hallOfFameDetails={hallOfFameDetails} getHallOfFameFilterParams={getHallOfFameFilterParams} getUserPicture={getUserPicture} />}
+          {activeTab && activeTab?.id === "Hall_of_Fame" && (
+            <HallOfFame
+              hallOfFameDetails={hallOfFameDetails}
+              getHallOfFameFilterParams={getHallOfFameFilterParams}
+              getUserPicture={getUserPicture}
+            />
+          )}
         </div>
       </div>
     </div>
