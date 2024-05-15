@@ -5204,6 +5204,11 @@ tr.question_selected {
   display: none;
 }
 
+[dir=rtl] .eep-filterOptions {
+  right: auto;
+  left: 0;
+}
+
 .d_filterOptionShow {
   display: block;
 }
@@ -5357,6 +5362,7 @@ svg.caret-circle-down:hover .caret {
 
 .title_lbl {
   margin-bottom: 15px;
+  text-align: start;
 }
 
 h4.title_lbl {
@@ -6702,18 +6708,18 @@ table.eep_table_spacer tbody tr td:last-child {
   width: 25px;
   left: -2px;
   bottom: -2.5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transition: 0.4s;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1607843137);
   border-radius: 2rem;
 }
 
 input.eep_toggle_input:focus + .eep_toggle_slider.slider {
-  box-shadow: 0 0 1px #BBDE82;
+  box-shadow: 0 0 1px #bbde82;
 }
 
 input.eep_toggle_input:checked + .eep_toggle_slider.slider {
-  background-color: #BBDE82;
+  background-color: #bbde82;
 }
 
 input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
@@ -6852,8 +6858,8 @@ input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
 }
 .bulk_user_upload_xl .sample_xlsx {
   background: #fff !important;
-  border: 2px dashed #588E21;
-  color: #588E21;
+  border: 2px dashed #588e21;
+  color: #588e21;
 }
 
 .bulk_user_upload {
@@ -6891,7 +6897,7 @@ input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
   right: 6px;
   height: 30px;
   width: 30px;
-  background: #588E21;
+  background: #588e21;
   border-radius: 4px;
 }
 .bulk_user_upload .sample_xlsx .download_icon img {
@@ -7000,7 +7006,7 @@ input.eep_toggle_input:checked + .eep_toggle_slider.slider:before {
   z-index: 1;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #e0e0e0;
 }
 .add-feedback-model .title {
   font-weight: bold;
@@ -7204,6 +7210,14 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   right: 0px;
   left: auto;
   top: 9px;
+}
+
+[dir=rtl] .sidebaricondownup {
+  right: -10px;
+}
+
+[dir=rtl] .sidebaricondownupTrnsform {
+  right: -10px;
 }
 
 .sidebaricondown {

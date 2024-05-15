@@ -1,16 +1,18 @@
 import React from "react";
 //import React, { useEffect, useState } from "react";
 //import Slider from "react-slick";
+import { useTranslation } from "react-i18next";
 
 const SocialWallRightContent = (props) => {
-	
-	const { hastagList } = props;
-	let hastagMaxVal = hastagList?.length ? hastagList[0]?.totalTagCount : 0;
-	let defaultColorCode = "#4e73df";
-	let indeMax = 10;
-	let hasMaxCount = 10;
+  const { t } = useTranslation();
 
-	/*
+  const { hastagList } = props;
+  let hastagMaxVal = hastagList?.length ? hastagList[0]?.totalTagCount : 0;
+  let defaultColorCode = "#4e73df";
+  let indeMax = 10;
+  let hasMaxCount = 10;
+
+  /*
 	const [eventSlider, setEventSlider] = useState({});
 
   const fetchEventSlider = () => {
@@ -65,42 +67,56 @@ const SocialWallRightContent = (props) => {
 	],
   };
 	*/
-	
-	const filterHasTags = hastagList
-	return (
-		<React.Fragment>
-			<div className="bg-f7f7f7 br-15 socialTrendingTags">
-				<div className="tt_head text-center">
-					<label htmlFor="" className="text-center mb-0 tt_lbl">Top Trending Tags</label>
-				</div>
-				<div className="socialTagsLists">
-					{hastagList?.map((item, index) => {
-						let hastagItemVal = item?.totalTagCount;
-						let percent = (hastagItemVal / hastagMaxVal) * 100;
-						let ColorCode = (item?.colorCode !== '' && item?.colorCode !== null) ? item?.colorCode : defaultColorCode;
 
-						if (index <= indeMax
-							// && item?.totalTagCount >= hasMaxCount
-						) {
-							return (
-								<div className="tt_lists" key={"hastag_" + index}>
-									<p className="tt_nm">#{item?.hashtagName}</p>
-									<div className="tt_info">
-										<div className="tt_progress progress rounded-pill">
-											<div role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" className="progress-bar rounded-pill progress-bar-striped progress-bar-animated"
-												style={{ backgroundColor: ColorCode, width: percent + "%" }}></div>
-										</div>
-										<div className="tt_val">{item?.totalTagCount}</div>
-									</div>
-								</div>
-							)
-						}
+  const filterHasTags = hastagList;
+  return (
+    <React.Fragment>
+      <div className="bg-f7f7f7 br-15 socialTrendingTags">
+        <div className="tt_head text-center">
+          <label htmlFor="" className="text-center mb-0 tt_lbl">
+            {t(`SocialWall.Top Trending Tags`)}
+          </label>
+        </div>
+        <div className="socialTagsLists">
+          {hastagList?.map((item, index) => {
+            let hastagItemVal = item?.totalTagCount;
+            let percent = (hastagItemVal / hastagMaxVal) * 100;
+            let ColorCode =
+              item?.colorCode !== "" && item?.colorCode !== null
+                ? item?.colorCode
+                : defaultColorCode;
 
-					})}
-				</div>
-			</div>
+            if (
+              index <= indeMax
+              // && item?.totalTagCount >= hasMaxCount
+            ) {
+              return (
+                <div className="tt_lists" key={"hastag_" + index}>
+                  <p className="tt_nm">#{item?.hashtagName}</p>
+                  <div className="tt_info">
+                    <div className="tt_progress progress rounded-pill">
+                      <div
+                        role="progressbar"
+                        aria-valuenow="74"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        className="progress-bar rounded-pill progress-bar-striped progress-bar-animated"
+                        style={{
+                          backgroundColor: ColorCode,
+                          width: percent + "%",
+                        }}
+                      ></div>
+                    </div>
+                    <div className="tt_val">{item?.totalTagCount}</div>
+                  </div>
+                </div>
+              );
+            }
+          })}
+        </div>
+      </div>
 
-			{/*
+      {/*
 			<div className="bg-f7f7f7 br-15 socialEventSlider">
 				<div className="tt_head text-center">
 					<label htmlFor="" className="text-center mb-0 tt_lbl">Events</label>
@@ -118,8 +134,7 @@ const SocialWallRightContent = (props) => {
 				)}				
 			</div> 
 		*/}
-
-		</React.Fragment>
-	)
-}
+    </React.Fragment>
+  );
+};
 export default SocialWallRightContent;

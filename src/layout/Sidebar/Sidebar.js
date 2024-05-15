@@ -7,7 +7,7 @@ import Communication from "./icon/communication";
 import Dashboard from "./icon/dashboard";
 import DownArrow from "./icon/downArrow";
 import { TabsActions } from "../../store/tabs-slice";
-
+import { useTranslation } from "react-i18next";
 import Library from "./icon/library";
 import Org from "./icon/org";
 import Recognition from "./icon/recognition";
@@ -28,6 +28,7 @@ const Sidebar = (props) => {
   const userRolePermission = useSelector(
     (state) => state.sharedData.userRolePermission
   );
+  const { t } = useTranslation();
 
   const fetchSidebarMenu = () => {
     fetch(`${process.env.PUBLIC_URL}/data/sidebarMenu.json`)
@@ -66,7 +67,7 @@ const Sidebar = (props) => {
     "Rewards.svg": <Rewards color={theme_color} />,
     "download.svg": <Org color={theme_color} />,
   };
-    
+
   const activeTab = useSelector((state) => state?.tabs?.activeTab);
 
   // const handleChangeMenu = (Element,index) => {
@@ -76,16 +77,21 @@ const Sidebar = (props) => {
 
   const handleChangeMenu = (element, index) => {
     //check  same id is exsiting
-    const checkCurrentElement = element?.tabs?.filter((val)=> val?.id === activeTab?.id)
+    const checkCurrentElement = element?.tabs?.filter(
+      (val) => val?.id === activeTab?.id
+    );
     if (element?.subMenu?.tabs) {
       dispatch(
         TabsActions.tabOnChange({ tabInfo: element?.subMenu?.tabs?.[0] })
       );
       dispatch(
         TabsActions.updateTabsconfig({ config: element?.subMenu?.tabs?.[0] })
-      )
-    }
-   else if (element?.tabs && activeTab?.id !== element?.tabs?.[0]?.id && !checkCurrentElement?.length>0) {
+      );
+    } else if (
+      element?.tabs &&
+      activeTab?.id !== element?.tabs?.[0]?.id &&
+      !checkCurrentElement?.length > 0
+    ) {
       dispatch(TabsActions.tabOnChange({ tabInfo: element?.tabs?.[0] }));
       dispatch(TabsActions.updateTabsconfig({ config: element?.tabs?.[0] }));
     }
@@ -94,16 +100,16 @@ const Sidebar = (props) => {
   };
 
   const onSubMenu = (element, index) => {
-  if(element?.tabs){
-    dispatch(
-      TabsActions.updateTabsconfig({
-        config: element?.tabs?.[0],
-      })
-    );
-  }else{
-    return element
-  }
-  }
+    if (element?.tabs) {
+      dispatch(
+        TabsActions.updateTabsconfig({
+          config: element?.tabs?.[0],
+        })
+      );
+    } else {
+      return element;
+    }
+  };
 
   // useEffect(() => {
   //   const activeIndex = sidebarMenu.findIndex(
@@ -113,7 +119,7 @@ const Sidebar = (props) => {
   //     setActiveMenu(activeIndex);
   //   }
   // }, [window.location.pathname, sidebarMenu]);
-  
+
   return (
     <React.Fragment>
       <ul
@@ -121,13 +127,17 @@ const Sidebar = (props) => {
           sidebarToggled ? "eep-navbar-div-sm toggled" : ""
         }`}
         id="accordionSidebar"
+        style={{ padding: "0px" }}
       >
         <li className="nav-item">
-          <div className={`px-3 pt-3 pb-0 profile-greet text-white text-left`}>
-            Hello,
-          </div>
+          <label
+            className={`px-3 pt-3 pb-0 profile-greet text-white text-left`}
+          >
+            {t(`sidebar.Hello`)},
+          </label>
           <div
             className={`px-3 pt-0 pb-2 text-white profile-nm text-wrap card-text`}
+            style={{ textAlign: "start" }}
           >
             <span className="u_full_name mb-2 mt-1">
               {(JSON.parse(user_details)?.firstName ?? "") +
@@ -150,35 +160,44 @@ const Sidebar = (props) => {
               <div
                 className="nav-item"
                 key={"list" + index}
-                style={{ padding: sidebarToggled ? '6px 0px':"6px 12px"}}
+                style={{ padding: sidebarToggled ? "6px 0px" : "6px 12px" }}
               >
                 <Link
-                  className={` nav-link collapsed ${menu?.subMenu?.length>0 ? 'borderSide' : 'borderNone' } `}
+                  className={` nav-link collapsed ${
+                    menu?.subMenu?.length > 0 ? "borderSide" : "borderNone"
+                  } `}
                   data-toggle={`collapse`}
                   data-target={`#collapseSection${index}`}
                   to={menu.isDirectLink ? `/app/` + menu?.link : "#"}
                   onClick={() => handleChangeMenu(menu, index)}
                   aria-expanded={index === activeMenu ? true : false}
                 >
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                  <div dir="ltr">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
                       <span className="eep-menu-icon-sidebar">
                         {icon[menu.icon]}
                       </span>
 
-                      <span>{menu.label}</span>
+                      <span> {t(`sidebar.${menu.label}`)}</span>
                     </div>
 
                     <div className="sideIconMenu">
                       {menu?.subMenu?.length > 0 && !sidebarToggled && (
-                      
-                          <FontAwesomeIcon
-                            icon={faAngleRight}
-                            color={theme_color}
-                            className={` ${activeMenu!==index ? 'sidebaricondownup':'sidebaricondownupTrnsform'}`}
-                          />
-                        )
-                        }
+                        <FontAwesomeIcon
+                          icon={faAngleRight}
+                          color={theme_color}
+                          className={` ${
+                            activeMenu !== index
+                              ? "sidebaricondownup"
+                              : "sidebaricondownupTrnsform"
+                          }`}
+                        />
+                      )}
                     </div>
                   </div>
                 </Link>
@@ -187,11 +206,9 @@ const Sidebar = (props) => {
                   id={`collapseSection${index}`}
                   className={`collapse`}
                   data-parent="#accordionSidebar"
-
                 >
-                  <div className="bg-white py-2 collapse-inner rounded" >
+                  <div className="bg-white py-2 collapse-inner rounded">
                     {menu?.subMenu?.map((submenu, index) => {
-                      
                       return (
                         <Link
                           className={`collapse-item ${
@@ -202,7 +219,7 @@ const Sidebar = (props) => {
                           to={`/app/` + submenu.link}
                           onClick={() => onSubMenu(submenu, index)}
                         >
-                          {submenu.label}
+                          {t(`sidebar.${submenu.label}`)}
                         </Link>
                       );
                     })}
