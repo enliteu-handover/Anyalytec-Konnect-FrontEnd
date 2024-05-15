@@ -9,20 +9,21 @@ import SocialWallLeftContent from "./SocialWallLeftContent";
 import SocialWallMiddleContent from "./SocialWallMiddleContent";
 import SocialWallRightContent from "./SocialWallRightContent";
 import { pageLoaderHandler } from "../../helpers";
+import { useTranslation } from "react-i18next";
 
 const SocialWall = () => {
-
   const [usersPic, setUsersPic] = useState([]);
   const [rankingLists, setRankingLists] = useState({});
   const [hastagList, setHastagList] = useState([]);
   const [socialWallList, setSocialWallList] = useState([]);
   const [heartAnimateState, setHeartAnimateState] = useState({});
-	const [isloading, setIsloding] = useState(false);
+  const [isloading, setIsloding] = useState(false);
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const breadcrumbArr = [
     {
-      label: "Home",
+      label: t(`SocialWall.Home`),
       link: "app/dashboard",
     },
     // {
@@ -30,7 +31,7 @@ const SocialWall = () => {
     //   link: "app/recognition",
     // },
     {
-      label: "SOCIALWALL",
+      label: t(`SocialWall.SOCIALWALL`),
       link: "app/socialwall",
     },
   ];
@@ -51,39 +52,36 @@ const SocialWall = () => {
   }, []);
 
   const fetchSocialWallUserList = async () => {
-    setIsloding(true)
+    setIsloding(true);
     const obj = {
       url: URL_CONFIG.SOCIALWALL_GET_USERLIST,
-      method: "get"
+      method: "get",
     };
     await httpHandler(obj)
       .then((response) => {
         setRankingLists(response?.data);
-    setIsloding(false)
-
+        setIsloding(false);
       })
       .catch((error) => {
         console.log("error", error);
-    setIsloding(false)
+        setIsloding(false);
       });
   };
 
   const fetchAllUsers = async () => {
     const obj = {
       url: URL_CONFIG.ALL_USER_DETAILS_FILTER_RESPONSE,
-      method: "get"
+      method: "get",
     };
     await httpHandler(obj)
       .then((response) => {
         let userPicTempArry = [];
         response?.data?.map((item) => {
           if (item?.imageByte?.image) {
-            userPicTempArry.push(
-              {
-                "id": item.id,
-                "pic": item?.imageByte?.image
-              }
-            )
+            userPicTempArry.push({
+              id: item.id,
+              pic: item?.imageByte?.image,
+            });
           }
         });
         setUsersPic(userPicTempArry);
@@ -94,27 +92,25 @@ const SocialWall = () => {
   };
 
   const fetchHashTag = async () => {
-		setIsloding(true)
+    setIsloding(true);
 
     const obj = {
       url: URL_CONFIG.SOCIALWALL_HASTAG_LIST,
-      method: "get"
+      method: "get",
     };
     await httpHandler(obj)
       .then((response) => {
         setHastagList(response.data);
-		setIsloding(false)
-
+        setIsloding(false);
       })
       .catch((error) => {
         console.log("SOCIALWALL_HASTAG_LIST API error => ", error);
-		setIsloding(false)
-
+        setIsloding(false);
       });
   };
 
   const fetchSocialWallList = async () => {
-		setIsloding(true)
+    setIsloding(true);
 
     const obj = {
       url: URL_CONFIG.SOCIALWALL_LIST,
@@ -122,22 +118,23 @@ const SocialWall = () => {
       params: {
         direction: "asc",
         //  pageSize: 100
-        limit: 100
-      }
+        limit: 100,
+      },
     };
     //pageSize=2&pageNo=0&sortBy=createdAt&direction=desc
     await httpHandler(obj)
       .then((response) => {
         const data = response.data;
-        data && data.length > 0 && data.map(res => {
-          return res.createdAt = eepFormatDateTime(res.createdAt);
-        });
+        data &&
+          data.length > 0 &&
+          data.map((res) => {
+            return (res.createdAt = eepFormatDateTime(res.createdAt));
+          });
         setSocialWallList(data);
-		setIsloding(false)
-
+        setIsloding(false);
       })
       .catch((error) => {
-		setIsloding(false)
+        setIsloding(false);
         console.log("SOCIALWALL_LIST API error => ", error);
       });
   };
@@ -146,10 +143,9 @@ const SocialWall = () => {
     let val = arg ?? { statee: false, id: 0 };
     setHeartAnimateState(val);
     return;
-  }
+  };
 
   const likeSocialWallPostHandle = (arg) => {
-
     if (arg) {
       if (arg.isLike) {
         let obj = {
@@ -157,19 +153,24 @@ const SocialWall = () => {
           //  + "?id=" + arg.data.id,
           payload: { id: arg?.data?.id },
           method: "post",
-          isLoader: false
+          isLoader: false,
         };
-        httpHandler(obj).then(() => {
-          fetchSocialWallSingleData({ id: arg.data.id, indx: arg.indx });
-          likeStatus({ statee: arg.isLike, id: arg.data.id });
-        })
+        httpHandler(obj)
+          .then(() => {
+            fetchSocialWallSingleData({ id: arg.data.id, indx: arg.indx });
+            likeStatus({ statee: arg.isLike, id: arg.data.id });
+          })
           .catch((error) => {
             console.log("likeSocialWallPostHandle API error", error);
           });
       }
       if (!arg.isLike) {
-        const userData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
-        let isLiked = arg.data.socialWallLike.findIndex(x => x.userId.user_id === userData.id);
+        const userData = sessionStorage.userData
+          ? JSON.parse(sessionStorage.userData)
+          : {};
+        let isLiked = arg.data.socialWallLike.findIndex(
+          (x) => x.userId.user_id === userData.id
+        );
         //   obj = {
         //     url: URL_CONFIG.SOCIALWALL_DISLIKE + "?id=" + arg?.data?.socialWallLike[isLiked]?.id,
         //     method: "delete",
@@ -177,15 +178,18 @@ const SocialWall = () => {
         //   };
         // }
         // httpHandler(obj)
-        axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.SOCIALWALL_DISLIKE}` + "?id=" + arg?.data?.socialWallLike[isLiked]?.id
-          // , { data: { id: arg?.data?.socialWallLike[isLiked]?.id } }
-        )
+        axios
+          .delete(
+            `${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.SOCIALWALL_DISLIKE}` +
+              "?id=" +
+              arg?.data?.socialWallLike[isLiked]?.id
+            // , { data: { id: arg?.data?.socialWallLike[isLiked]?.id } }
+          )
           .then(() => {
             fetchSocialWallSingleData({ id: arg.data.id, indx: arg.indx });
             likeStatus({ statee: arg.isLike, id: arg.data.id });
           })
           .catch((error) => {
-
             console.log("likeSocialWallPostHandle API error", error);
           });
       }
@@ -197,7 +201,7 @@ const SocialWall = () => {
       url: URL_CONFIG.SOCIALWALL_SINGLE,
       method: "get",
       params: { id: arg.id },
-      isLoader: false
+      isLoader: false,
     };
     httpHandler(obj)
       .then((response) => {
@@ -213,45 +217,47 @@ const SocialWall = () => {
       .catch((error) => {
         console.log("fetchSocialWallSingleData API error => ", error);
       });
-  }
+  };
 
   const commentSocialWallPostHandle = (arg) => {
     if (arg) {
-
-      if (arg.postSettings === 'postComment') {
+      if (arg.postSettings === "postComment") {
         const payloadData = {
           message: arg.commentData,
           socialWall: {
-            id: arg.data.id
-          }
+            id: arg.data.id,
+          },
         };
         const obj = {
           url: URL_CONFIG.SOCIALWALL_COMMENT,
           method: "post",
-          payload: payloadData
+          payload: payloadData,
         };
         httpHandler(obj)
           .then((response) => {
             fetchSocialWallCommentDataBySocialID(arg);
           })
           .catch((error) => {
-            console.log("commentSocialWallPostHandle API error => ", error.response.data);
+            console.log(
+              "commentSocialWallPostHandle API error => ",
+              error.response.data
+            );
           });
       }
-      if (arg.postSettings === 'listComments') {
+      if (arg.postSettings === "listComments") {
         fetchSocialWallCommentDataBySocialID(arg);
       }
-      if (arg.postSettings === 'postReply') {
+      if (arg.postSettings === "postReply") {
         const payloadData = {
           message: arg.commentData,
           parent: {
-            id: arg.subData.id
-          }
+            id: arg.subData.id,
+          },
         };
         const obj = {
           url: URL_CONFIG.SOCIALWALL_REPLY,
           method: "post",
-          payload: payloadData
+          payload: payloadData,
         };
         httpHandler(obj)
           .then((response) => {
@@ -259,11 +265,14 @@ const SocialWall = () => {
             fetchSocialWallCommentDataBySocialID(arg);
           })
           .catch((error) => {
-            console.log("commentSocialWallPostHandle API error => ", error.response.data);
+            console.log(
+              "commentSocialWallPostHandle API error => ",
+              error.response.data
+            );
           });
       }
     }
-  }
+  };
 
   /*
   const getSubChildren = (arg, ret) => {
@@ -287,7 +296,7 @@ const SocialWall = () => {
     const obj = {
       url: URL_CONFIG.SOCIALWALL_COMMENT_LIST,
       method: "get",
-      params: { id: arg.data.id }
+      params: { id: arg.data.id },
     };
     httpHandler(obj)
       .then((response) => {
@@ -298,21 +307,23 @@ const SocialWall = () => {
             //socialWallListTemp[i].wallComments[i]['subChildren'] = getSubChildren(socialWallListTemp[i].wallComments[i], []);
             socialWallListTemp[i].commentState.typeCommentState = false;
             socialWallListTemp[i].commentState.listCommentState = true;
-            
+
             break;
           }
         }
         setSocialWallList([...socialWallListTemp]);
       })
       .catch((error) => {
-        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+        const errMsg =
+          error.response?.data?.message !== undefined
+            ? error.response?.data?.message
+            : "Something went wrong contact administarator";
         console.log("List Comments API error => ", errMsg, error);
       });
-  }
+  };
 
-
-  console.log(rankingLists,'rankingLists')
-  console.log(hastagList,'hastagList')
+  console.log(rankingLists, "rankingLists");
+  console.log(hastagList, "hastagList");
 
   useEffect(() => {
     fetchSocialWallUserList();
@@ -320,43 +331,71 @@ const SocialWall = () => {
     fetchHashTag();
     fetchSocialWallList();
     // pageLoaderHandler('show')
-		pageLoaderHandler(isloading ? "show": "hide");
+    pageLoaderHandler(isloading ? "show" : "hide");
   }, []);
   return (
     <React.Fragment>
-      <div id="page-loader-container" className="d-none" style={{ zIndex: "1051" }}>
+      <div
+        id="page-loader-container"
+        className="d-none"
+        style={{ zIndex: "1051" }}
+      >
         <div id="loader">
-          <img src={process.env.PUBLIC_URL + "/images/loader.gif"} alt="Loader" />
+          <img
+            src={process.env.PUBLIC_URL + "/images/loader.gif"}
+            alt="Loader"
+          />
         </div>
       </div>
-      
-      {!isloading &&
-      <>
-       { socialWallList.length > 0 || Object.keys(rankingLists).length > 0 || hastagList.length > 0  ?
-        <div className="row eep-content-section-data">
-        <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
-          {Object.keys(rankingLists).length > 0 &&
-            <SocialWallLeftContent rankingLists={rankingLists} usersPicProps={usersPic} />
-          }
-        </div>
-        <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 socialWall_div eep-content-section eep_scroll_y">
-          {socialWallList && socialWallList.length > 0 &&
-            <SocialWallMiddleContent socialWallList={socialWallList} usersPicProps={usersPic} likeSocialWallPostHandle={likeSocialWallPostHandle} commentSocialWallPostHandle={commentSocialWallPostHandle} likeStatus={heartAnimateState} />
-          }
-        </div>
-        <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 socialWall_div eep-content-section eep_scroll_y">
-          {hastagList && hastagList.length > 0 &&
-            <SocialWallRightContent hastagList={Object.keys(rankingLists).length > 0} />
-          }
-        </div>
-      </div> :   <div className="parent_div" style={{ marginTop: "24vh" }}>
-                        <div className="eep_blank_div">
-                          <img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
-                          <p className="eep_blank_quote">No record found</p>
-                        </div>
-                      </div>}
-      </>
-      }
+
+      {!isloading && (
+        <>
+          {socialWallList.length > 0 ||
+          Object.keys(rankingLists).length > 0 ||
+          hastagList.length > 0 ? (
+            <div className="row eep-content-section-data">
+              <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
+                {Object.keys(rankingLists).length > 0 && (
+                  <SocialWallLeftContent
+                    rankingLists={rankingLists}
+                    usersPicProps={usersPic}
+                  />
+                )}
+              </div>
+              <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 socialWall_div eep-content-section eep_scroll_y">
+                {socialWallList && socialWallList.length > 0 && (
+                  <SocialWallMiddleContent
+                    socialWallList={socialWallList}
+                    usersPicProps={usersPic}
+                    likeSocialWallPostHandle={likeSocialWallPostHandle}
+                    commentSocialWallPostHandle={commentSocialWallPostHandle}
+                    likeStatus={heartAnimateState}
+                  />
+                )}
+              </div>
+              <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 socialWall_div eep-content-section eep_scroll_y">
+                {hastagList && hastagList.length > 0 && (
+                  <SocialWallRightContent
+                    hastagList={Object.keys(rankingLists).length > 0}
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="parent_div" style={{ marginTop: "24vh" }}>
+              <div className="eep_blank_div">
+                <img
+                  src={
+                    process.env.PUBLIC_URL + "/images/icons/static/noData.svg"
+                  }
+                  alt="no-data-icon"
+                />
+                <p className="eep_blank_quote">No record found</p>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </React.Fragment>
   );
 };

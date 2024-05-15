@@ -39,7 +39,6 @@
     "Organization Stats": "Organization Stats",
     "Hall of Fame": "Hall of Fame",
     "Search Users": "Search Users",
-
     "Birthday": "Birthday",
     "Anniversary": "Anniversary",
     "Appreciation": "Appreciation",
@@ -71,5 +70,37 @@
     "November": "November",
     "December": "December",
     "Quarter": "Quarter"
+  },
+  "sidebar": {
+    "Hello": "Hello",
+    "Dashboard": "Dashboard",
+    "Recognition": "Recognition",
+    "Library": "Library",
+    "Rewards": "Rewards",
+    "Org Chart": "Org Chart",
+    "Communication": "Communication",
+    "Recognize": "Recognize",
+    "SocialWall": "SocialWall",
+    "Survey": "Survey",
+    "Forums": "Forums",
+    "Polls": "Polls",
+    "Idea Box": "Idea Box",
+    "Feedback": "Feedback"
+  },
+  "SocialWall": {
+    "Home": "Home",
+    "SOCIALWALL": "SOCIALWALL",
+    "Current Ranking": "Current Ranking",
+    "Available Points": "Available Points",
+    "was enlited by": "was enlited by",
+    "Liked By": "Liked By",
+    "others": "others",
+    "View all": "View all",
+    "comment(s)": "comment(s)",
+    "Less comment(s)": "Less comment(s)",
+    "Post": "Post",
+    "Add a reply": "Add a reply",
+    "Reply": "Reply",
+    "Add a comment": "Add a comment"
   }
 }

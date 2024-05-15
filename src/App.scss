@@ -5,6 +5,7 @@ body {
   font: normal 14px "helveticaneueregular" !important;
   letter-spacing: 0.5px !important;
   line-height: 1.5;
+  text-align: start;
 }
 
 ::placeholder {
@@ -14,6 +15,19 @@ body {
 
 .wrapper {
   display: flex;
+}
+
+[dir="rtl"] p {
+  padding-right: 8px;
+}
+[dir="rtl"] label {
+  padding-right: 8px;
+}
+[dir="rtl"] span {
+  padding-right: 8px;
+}
+[dir="rtl"] input {
+  padding-right: 5px;
 }
 
 .wrapper {
@@ -194,9 +208,9 @@ table.dataTable thead .sorting_desc:after {
 
 .table-responsive {
   // padding: 0px !important;
-  .MuiPaper-root{
-    box-shadow:none
-}
+  .MuiPaper-root {
+    box-shadow: none;
+  }
 }
 
 .MuiTableCell-head {
@@ -213,10 +227,6 @@ table.dataTable thead .sorting_desc:after {
   top: 40%;
 }
 
-
-
-
-
 // .quill {
 //   position: relative;
 //   height: 80px;
@@ -232,6 +242,6 @@ table.dataTable thead .sorting_desc:after {
 //   transform: translateY(100%);
 // }
 
-.ql-container{
+.ql-container {
   min-height: 100px;
 }

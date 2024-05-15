@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 import LogoutModal from "../../modals/LogoutModal";
 
 const UserNavItem = () => {
-
-  const userRolePermission = useSelector((state) => state?.sharedData?.userRolePermission);
+  const userRolePermission = useSelector(
+    (state) => state?.sharedData?.userRolePermission
+  );
   const [state, setState] = useState();
 
   React.useEffect(() => {
     setState({
       ...state,
-      "logo": JSON.parse(sessionStorage.getItem('userData'))?.userLogo ?? ""
-    })
-  }, [JSON.parse(sessionStorage.getItem('userData'))?.userLogo])
+      logo: JSON.parse(sessionStorage.getItem("userData"))?.userLogo ?? "",
+    });
+  }, [JSON.parse(sessionStorage.getItem("userData"))?.userLogo]);
 
   return (
     <React.Fragment>
@@ -27,11 +28,13 @@ const UserNavItem = () => {
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-        // to="#"
+          // to="#"
         >
           <img
             className={`img-profile rounded-circle`}
-            src={state?.logo || (process.env.PUBLIC_URL + `/images/user_profile.png`)}
+            src={
+              state?.logo || process.env.PUBLIC_URL + `/images/user_profile.png`
+            }
             alt="profile"
           />
         </a>
@@ -40,22 +43,25 @@ const UserNavItem = () => {
           className="eep-dropdown-menu eep-dropdown-div eep_profile_topbar dropdown-menu dropdown-menu-right shadow animated--grow-in"
           aria-labelledby="userDropdown"
         >
-
           <Link to="/app/myprofile" className="dropdown-item">
             My Profile
           </Link>
 
-          {userRolePermission.adminPanel &&
+          {userRolePermission.adminPanel && (
             <Link to="/app/adminpanel" className="dropdown-item">
               Admin Panel
             </Link>
-          }
+          )}
 
           <Link to="/app/help" className="dropdown-item">
             Help
           </Link>
 
-          <a className="dropdown-item c1" data-toggle="modal" data-target="#logoutModal">
+          <a
+            className="dropdown-item c1"
+            data-toggle="modal"
+            data-target="#logoutModal"
+          >
             Logout
           </a>
         </div>

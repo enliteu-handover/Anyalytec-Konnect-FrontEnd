@@ -6,6 +6,7 @@ body {
   font: normal 14px "helveticaneueregular" !important;
   letter-spacing: 0.5px !important;
   line-height: 1.5;
+  text-align: start;
 }
 
 ::-moz-placeholder {
@@ -20,6 +21,22 @@ body {
 
 .wrapper {
   display: flex;
+}
+
+[dir=rtl] p {
+  padding-right: 8px;
+}
+
+[dir=rtl] label {
+  padding-right: 8px;
+}
+
+[dir=rtl] span {
+  padding-right: 8px;
+}
+
+[dir=rtl] input {
+  padding-right: 5px;
 }
 
 .wrapper .content-wrapper {

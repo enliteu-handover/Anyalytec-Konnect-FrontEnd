@@ -58,7 +58,10 @@ const Upcomings = (props) => {
                   </Link>
                   <div
                     className="text-left d_mytasks_dt mb-0 opacity-3"
-                    style={{ marginTop: "-8px" }}
+                    style={{
+                      marginTop: "-8px",
+                      textAlign: "start !important ",
+                    }}
                   >
                     {item?.date}
                   </div>

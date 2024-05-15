@@ -70,5 +70,36 @@
     "December": "ديسمبر",
     "Quarter": "ربع"
   },
-  "sidebar": {}
+  "sidebar": {
+    "Hello": "مرحبا",
+    "Dashboard": "لوحة القيادة",
+    "Recognition": "التقدير",
+    "Library": "مكتبة",
+    "Rewards": "المكافآت",
+    "Org Chart": "المخطط التنظيمي",
+    "Communication": "الاتصالات",
+    "Recognize": "التعرف",
+    "SocialWall": "الجدار الاجتماعي",
+    "Survey": "استطلاع",
+    "Forums": "منتديات",
+    "Polls": "استطلاعات الرأي",
+    "Idea Box": "صندوق الأفكار",
+    "Feedback": "ملاحظات"
+  },
+  "SocialWall": {
+    "Home": "الصفحة الرئيسية",
+    "SOCIALWALL": "الجدار الاجتماعي",
+    "Current Ranking": "الترتيب الحالي",
+    "Available Points": "النقاط المتاحة",
+    "was enlited by": "تم تسجيله بواسطة",
+    "Liked By": "أعجب بواسطة",
+    "others": "آخرين",
+    "View all": "عرض الكل",
+    "comment(s)": "تعليق(ات)",
+    "Less comment(s)": "تعليقات أقل",
+    "Post": "نشر",
+    "Add a reply": "إضافة رد",
+    "Reply": "رد",
+    "Add a comment": "إضافة تعليق"
+  }
 }
