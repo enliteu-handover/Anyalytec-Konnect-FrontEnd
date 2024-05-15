@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import LogoutModal from "../../modals/LogoutModal";
+import { useTranslation } from "react-i18next";
 
 const UserNavItem = () => {
   const userRolePermission = useSelector(
     (state) => state?.sharedData?.userRolePermission
   );
   const [state, setState] = useState();
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     setState({
@@ -44,17 +46,17 @@ const UserNavItem = () => {
           aria-labelledby="userDropdown"
         >
           <Link to="/app/myprofile" className="dropdown-item">
-            My Profile
+            {t(`navItem.My Profile`)}
           </Link>
 
           {userRolePermission.adminPanel && (
             <Link to="/app/adminpanel" className="dropdown-item">
-              Admin Panel
+              {t(`navItem.Admin Panel`)}
             </Link>
           )}
 
           <Link to="/app/help" className="dropdown-item">
-            Help
+            {t(`navItem.Help`)}
           </Link>
 
           <a
@@ -62,7 +64,7 @@ const UserNavItem = () => {
             data-toggle="modal"
             data-target="#logoutModal"
           >
-            Logout
+            {t(`navItem.Logout`)}
           </a>
         </div>
       </li>

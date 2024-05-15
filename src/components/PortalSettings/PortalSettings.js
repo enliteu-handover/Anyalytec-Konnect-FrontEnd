@@ -13,6 +13,7 @@ import { httpHandler } from "../../http/http-interceptor";
 import { storeStateActions } from "../../store/state";
 // import { httpHandler } from "../../http/http-interceptor";
 // import { URL_CONFIG } from "../../constants/rest-config";
+import i18n from "i18next";
 
 const PortalSettings = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ const PortalSettings = () => {
 
   const handleSubmitAdminPanel = () => {
     const payload = state;
+    console.log(state);
     debugger;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
@@ -94,6 +96,13 @@ const PortalSettings = () => {
       if (state?.color) {
         data["theme"]["color"] = state.color;
       }
+      if (state.language === "English (US)") {
+        i18n.changeLanguage("en");
+      } else if (state.language === "Arabic (AR)") {
+        i18n.changeLanguage("ar");
+      }
+      const dir = i18n.dir(i18n.language);
+      document.documentElement.dir = dir;
       // if (state?.headerLogoByte) {
       data["HeaderLogo"] = state?.headerLogoByte ?? "";
       // }

@@ -102,5 +102,11 @@
     "Reply": "رد",
     "Add a comment": "إضافة تعليق",
     "Top Trending Tags": "أهم العلامات الرائجة"
+  },
+  "navItem": {
+    "My Profile": "الملف الشخصي الخاص بي",
+    "Admin Panel": "لوحة التحكم الإدارية",
+    "Help": "مساعدة",
+    "Logout": "تسجيل الخروج"
   }
 }

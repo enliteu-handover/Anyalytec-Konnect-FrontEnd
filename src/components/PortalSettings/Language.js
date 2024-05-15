@@ -14,13 +14,6 @@ const Language = (props) => {
       }
       setLanguageList([...languageTempObj]);
     });
-    if (argindex === 0) {
-      i18n.changeLanguage("en");
-    } else if (argindex === 1) {
-      i18n.changeLanguage("ar");
-    }
-    const dir = i18n.dir(i18n.language);
-    document.documentElement.dir = dir;
 
     props.setState({
       ...props.state,
@@ -30,6 +23,7 @@ const Language = (props) => {
   console.log(props);
 
   const fetchLanguageData = () => {
+    console.log(props?.state);
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {

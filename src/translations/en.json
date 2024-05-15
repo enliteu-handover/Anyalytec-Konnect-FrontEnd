@@ -103,5 +103,11 @@
     "Reply": "Reply",
     "Add a comment": "Add a comment",
     "Top Trending Tags": "Top Trending Tags"
+  },
+  "navItem": {
+    "My Profile": "My Profile",
+    "Admin Panel": "Admin Panel",
+    "Help": "Help",
+    "Logout": "Logout"
   }
 }
