@@ -35,7 +35,6 @@ const SocialWall = () => {
       link: "app/socialwall",
     },
   ];
-
   useEffect(() => {
     dispatch(
       BreadCrumbActions.updateBreadCrumb({
@@ -390,7 +389,10 @@ const SocialWall = () => {
                   }
                   alt="no-data-icon"
                 />
-                <p className="eep_blank_quote">No record found</p>
+                <p className="eep_blank_quote">
+                  {" "}
+                  {t(`dashboard.No record found `)}
+                </p>
               </div>
             </div>
           )}

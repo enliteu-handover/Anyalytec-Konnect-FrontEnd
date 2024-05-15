@@ -19,10 +19,7 @@ const Upcomings = (props) => {
           dashboardDetails.upcomings &&
           dashboardDetails.upcomings.map((item, index) => {
             return (
-              <div
-                className="mytasks_list_div text-left"
-                key={"myTask_" + index}
-              >
+              <div className="mytasks_list_div " key={"myTask_" + index}>
                 <div className="">
                   <Link
                     to={{
@@ -56,15 +53,15 @@ const Upcomings = (props) => {
                       {t(`dashboard.Send`)}
                     </button>
                   </Link>
-                  <div
-                    className="text-left d_mytasks_dt mb-0 opacity-3"
+                  <label
+                    className="d_mytasks_dt mb-0 opacity-3"
                     style={{
-                      marginTop: "-8px",
-                      textAlign: "start !important ",
+                      textAlign: "start",
+                      paddingRight: "20px",
                     }}
                   >
                     {item?.date}
-                  </div>
+                  </label>
                 </div>
                 {index !== dashboardDetails?.upcomings?.length - 1 && (
                   <div

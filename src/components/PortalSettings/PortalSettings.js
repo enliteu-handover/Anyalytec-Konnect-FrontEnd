@@ -78,6 +78,7 @@ const PortalSettings = () => {
 
   const handleSubmitAdminPanel = () => {
     const payload = state;
+    debugger;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
       method: state?.id ? "put" : "post",

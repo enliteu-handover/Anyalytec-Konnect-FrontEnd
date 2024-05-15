@@ -172,7 +172,7 @@ const Sidebar = (props) => {
                   onClick={() => handleChangeMenu(menu, index)}
                   aria-expanded={index === activeMenu ? true : false}
                 >
-                  <div>
+                  <div dir="ltr">
                     <div
                       style={{
                         display: "flex",
