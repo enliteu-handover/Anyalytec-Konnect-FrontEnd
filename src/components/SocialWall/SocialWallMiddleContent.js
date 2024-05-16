@@ -324,6 +324,16 @@ const SocialWallMiddleContent = (props) => {
     return rCount;
   };
 
+  const changeLabel = (createdAt) => {
+    const label = createdAt.split(" ");
+    if (label.length > 1) {
+      return `${label[0]} ${t(`monthFilter.${label[1]}`)} ${t(
+        `monthFilter.${label[2]}`
+      )} `;
+    }
+    return createdAt;
+  };
+
   const getSubChildren = (arg, ret) => {
     for (var i = 0; i < arg.children.length; i++) {
       arg.children[i]["prentInfo"] = {
@@ -414,8 +424,8 @@ const SocialWallMiddleContent = (props) => {
                           </Link>
                         </div>
                         <div className="sw_from_time">
-                          <span className="sw_from_time_val">
-                            {item?.createdAt ?? ""}
+                          <span className="sw_from_time_val" dir="ltr">
+                            {changeLabel(item?.createdAt)}
                           </span>
                         </div>
                       </div>
@@ -436,7 +446,7 @@ const SocialWallMiddleContent = (props) => {
                     <div className="sw_msg_div d-flex flex-sm-wrap flex-md-nowrap justify-content-between align-items-start mb-3">
                       <div className="sw_msg col-md-8 col-lg-9">
                         <p className="sw_msg_val mb-0">
-                          <span className="font-helvetica-m">
+                          <span className="font-helvetica-m" dir="rtl">
                             @
                             {item?.rewardId?.userId !== null &&
                             item?.rewardId?.userId !== "undefined"
@@ -485,9 +495,9 @@ const SocialWallMiddleContent = (props) => {
                         <div>
                           {item?.socialWallLike &&
                             item?.socialWallLike.length > 0 && (
-                              <div className="sw_enlited_lists d-flex flex-wrap align-items-center mb-3">
+                              <div className="sw_enlited_lists d-flex align-items-center mb-3">
                                 <div className="sw_enlited_pics mr-3">
-                                  <ul className="mb-0 ml-3 pl-0">
+                                  <ul className="mb-0 ml-3 pl-0 clear-p">
                                     {item?.socialWallLike &&
                                       item?.socialWallLike?.length > 0 &&
                                       item?.socialWallLike.map(
@@ -588,6 +598,7 @@ const SocialWallMiddleContent = (props) => {
                               onClick={() => likeSocialWallHandler(item, index)}
                             >
                               <span
+                                style={{ padding: "0px" }}
                                 dangerouslySetInnerHTML={{
                                   __html: svgIcons && svgIcons.enlite_icon,
                                 }}
@@ -605,6 +616,7 @@ const SocialWallMiddleContent = (props) => {
                               {likeStatus?.statee &&
                                 item.id === likeStatus.id && <Heart />}
                               <span
+                                style={{ padding: "0px" }}
                                 dangerouslySetInnerHTML={{
                                   __html: svgIcons && svgIcons.enlited_icon,
                                 }}

@@ -29,7 +29,6 @@ const BULK_ACTION = {
   dropdownOptions: [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
-   
   ],
 };
 
@@ -41,9 +40,9 @@ const TYPE_BASED_FILTER = {
     { label: "Quarter", value: "quarter" },
     { label: "Four Months", value: "fourMonths" },
     { label: "Half Year", value: "halfYear" },
-    { label: "Year", value: "year" }
-  ]
-}
+    { label: "Year", value: "year" },
+  ],
+};
 
 const TYPE_BASED_FILTER_WITH_BETWEEN_DATES = {
   defaultValue: { label: "Month", value: "month" },
@@ -54,8 +53,15 @@ const TYPE_BASED_FILTER_WITH_BETWEEN_DATES = {
     { label: "Quarter", value: "quarter" },
     { label: "Four Months", value: "fourMonths" },
     { label: "Half Year", value: "halfYear" },
-    { label: "Year", value: "year" }
-  ]
-}
+    { label: "Year", value: "year" },
+  ],
+};
 
-export { FILTER_CONFIG, HIDE_SHOW_FILTER_CONFIG, BULK_ACTION, FILTER_LIST_CONFIG, TYPE_BASED_FILTER, TYPE_BASED_FILTER_WITH_BETWEEN_DATES };
+export {
+  FILTER_CONFIG,
+  HIDE_SHOW_FILTER_CONFIG,
+  BULK_ACTION,
+  FILTER_LIST_CONFIG,
+  TYPE_BASED_FILTER,
+  TYPE_BASED_FILTER_WITH_BETWEEN_DATES,
+};

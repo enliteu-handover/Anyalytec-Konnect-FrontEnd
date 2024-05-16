@@ -88,7 +88,11 @@ const SocialWallLeftContent = (props) => {
                       </label>
                     </div>
                     <div className="sr_rank_val">
-                      <label htmlFor="" className="sr_rank_nm">
+                      <label
+                        htmlFor=""
+                        className="sr_rank_nm"
+                        style={{ padding: "0px" }}
+                      >
                         {item?.ranking}
                       </label>
                     </div>

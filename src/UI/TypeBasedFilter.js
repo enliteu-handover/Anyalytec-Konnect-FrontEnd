@@ -275,6 +275,12 @@ const TypeBasedFilter = (props) => {
     );
   });
 
+  const formatOptionLabel = ({ value, label }) => (
+    <div style={{ display: "flex" }}>
+      <div>{t(`monthFilter.${label}`)}</div>
+    </div>
+  );
+
   return (
     <div className="eep-options-div ml-auto my-auto">
       <div
@@ -302,6 +308,7 @@ const TypeBasedFilter = (props) => {
         >
           <div className="mb-3 field-wbr">
             <Select
+              formatOptionLabel={formatOptionLabel}
               options={config.dropdownOptions}
               placeholder=""
               classNamePrefix="eep_select_common contact_number"
@@ -329,7 +336,7 @@ const TypeBasedFilter = (props) => {
           )}
           {filterSettings.isbetweenDates && (
             <React.Fragment>
-              <label> From : </label>
+              <label> {t(`monthFilter.From`)} : </label>
               <div
                 className={`filter-list-div filter-list-date filter-list-default mb-2`}
               >
@@ -346,7 +353,7 @@ const TypeBasedFilter = (props) => {
               <div
                 className={`filter-list-div filter-list-date filter-list-default mb-2`}
               >
-                <label> To : </label>
+                <label> {t(`monthFilter.To`)} : </label>
                 <DatePicker
                   selected={endDate}
                   className="date-picker"

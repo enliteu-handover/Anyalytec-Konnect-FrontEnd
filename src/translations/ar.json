@@ -53,7 +53,10 @@
     "Lead": "قيادة",
     "Achievements": "إنجازات",
     "Ok": "موافق",
-    "Cancel": "إلغاء"
+    "Cancel": "إلغاء",
+    "No upcomings found": "لم يتم العثور على أحداث قادمة",
+    "Today": "اليوم",
+    "DOJ": "تاريخ الانضمام"
   },
   "monthFilter": {
     "January": "يناير",
@@ -68,7 +71,21 @@
     "October": "أكتوبر",
     "November": "نوفمبر",
     "December": "ديسمبر",
-    "Quarter": "ربع"
+    "Quarter": "ربع",
+
+    "Month": "شهر",
+    "Date": "تاريخ",
+    "Between Dates": "بين التواريخ",
+    "Four Months": "أربعة أشهر",
+    "Half Year": "نصف سنة",
+    "Year": "سنة",
+    "From": "من",
+    "To": "إلى",
+    "month": "شهر",
+    "hours": "ساعات",
+    "minute": "دقيقة",
+    "ago": "منذ",
+    "year": "سنة"
   },
   "sidebar": {
     "Hello": "مرحبا",

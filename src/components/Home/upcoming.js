@@ -60,7 +60,7 @@ const Upcomings = (props) => {
                       paddingRight: "20px",
                     }}
                   >
-                    {item?.date}
+                    {t(`dashboard.${item?.date}`)}
                   </label>
                 </div>
                 {index !== dashboardDetails?.upcomings?.length - 1 && (
@@ -74,7 +74,7 @@ const Upcomings = (props) => {
           })}
         {dashboardDetails && !dashboardDetails.upcomings?.length && (
           <ResponseInfo
-            title="No upcomings found"
+            title={t(`dashboard.No upcomings found`)}
             responseImg="noRecord"
             responseClass="response-info"
           />
