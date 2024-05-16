@@ -53,7 +53,10 @@
     "Lead": "Lead",
     "Achievements": "Achievements",
     "Ok": "Ok",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "No upcomings found": "No upcomings found",
+    "Today": "Today",
+    "DOJ": "DOJ"
   },
 
   "monthFilter": {
@@ -69,7 +72,21 @@
     "October": "October",
     "November": "November",
     "December": "December",
-    "Quarter": "Quarter"
+    "Quarter": "Quarter",
+
+    "Month": "month",
+    "Date": "date",
+    "Between Dates": "betweenDates",
+    "Four Months": "fourMonths",
+    "Half Year": "halfYear",
+    "Year": "year",
+    "From": "From",
+    "To": "To",
+    "hours": "hours",
+    "minute": "minute",
+    "ago": "ago",
+    "year": "year",
+    "month": "month"
   },
   "sidebar": {
     "Hello": "Hello",

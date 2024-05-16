@@ -16,6 +16,7 @@ import Rewards from "./icon/rewards";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom/cjs/react-router-dom";
+import i18n from "i18next";
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const Sidebar = (props) => {
     (state) => state.sharedData.userRolePermission
   );
   const { t } = useTranslation();
+
+  const dir = i18n.dir(i18n.language);
 
   const fetchSidebarMenu = () => {
     fetch(`${process.env.PUBLIC_URL}/data/sidebarMenu.json`)
@@ -166,13 +169,14 @@ const Sidebar = (props) => {
                   className={` nav-link collapsed ${
                     menu?.subMenu?.length > 0 ? "borderSide" : "borderNone"
                   } `}
+                  style={{ display: "flex", alignItems: "center" }}
                   data-toggle={`collapse`}
                   data-target={`#collapseSection${index}`}
                   to={menu.isDirectLink ? `/app/` + menu?.link : "#"}
                   onClick={() => handleChangeMenu(menu, index)}
                   aria-expanded={index === activeMenu ? true : false}
                 >
-                  <div dir="ltr">
+                  <div dir={dir}>
                     <div
                       style={{
                         display: "flex",
@@ -185,20 +189,19 @@ const Sidebar = (props) => {
 
                       <span> {t(`sidebar.${menu.label}`)}</span>
                     </div>
-
-                    <div className="sideIconMenu">
-                      {menu?.subMenu?.length > 0 && !sidebarToggled && (
-                        <FontAwesomeIcon
-                          icon={faAngleRight}
-                          color={theme_color}
-                          className={` ${
-                            activeMenu !== index
-                              ? "sidebaricondownup"
-                              : "sidebaricondownupTrnsform"
-                          }`}
-                        />
-                      )}
-                    </div>
+                  </div>
+                  <div className="sideIconMenu">
+                    {menu?.subMenu?.length > 0 && !sidebarToggled && (
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        color={theme_color}
+                        className={` ${
+                          activeMenu !== index
+                            ? "sidebaricondownup"
+                            : "sidebaricondownupTrnsform"
+                        }`}
+                      />
+                    )}
                   </div>
                 </Link>
 

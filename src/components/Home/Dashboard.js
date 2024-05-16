@@ -110,7 +110,7 @@ const Dashboard = (props) => {
                   </label>
                   <p className="text-right mb-1 d_doj opacity-3">
                     {" "}
-                    DOJ:{" "}
+                    {t(`dashboard.DOJ`)}:{" "}
                     {moment(dashboardDetails?.dateOfJoining).format(
                       "DD-MM-YYYY"
                     )}{" "}

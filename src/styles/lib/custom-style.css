@@ -6142,6 +6142,14 @@ table.eep_table_spacer tbody tr td:last-child {
   border-bottom-right-radius: 2rem;
 }
 
+[dir=rtl] .sw_post_comment .input-group-addon,
+.reply_append .input-group-addon {
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+}
+
 .sw_post_comment .input-group-addon:hover,
 .reply_append .input-group-addon:hover {
   background-color: #c2c2c2;
@@ -7194,10 +7202,6 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   margin: 0px;
   width: 34px !important;
   border: none;
-  position: absolute !important;
-  right: 0px;
-  left: auto;
-  top: 9px;
 }
 
 .sidebaricondownup {
@@ -7206,18 +7210,14 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   margin: 0px;
   width: 34px !important;
   border: none;
-  position: absolute !important;
-  right: 0px;
-  left: auto;
-  top: 9px;
+}
+
+[dir=rtl] .sideIconMenu {
+  margin-inline-start: auto;
 }
 
 [dir=rtl] .sidebaricondownup {
-  right: -10px;
-}
-
-[dir=rtl] .sidebaricondownupTrnsform {
-  right: -10px;
+  transform: rotate(180deg);
 }
 
 .sidebaricondown {

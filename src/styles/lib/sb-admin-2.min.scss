@@ -434,6 +434,10 @@ mark {
   max-width: 100%;
   height: auto;
 }
+
+[dir = "rtl"] .clear-p{
+  padding-right: 0px;
+}
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #fff;
