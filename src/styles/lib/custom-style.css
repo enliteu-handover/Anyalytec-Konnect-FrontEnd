@@ -7212,8 +7212,12 @@ body .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
   border: none;
 }
 
-[dir=rtl] .sideIconMenu {
+.sideIconMenu {
   margin-inline-start: auto;
+}
+
+.sideIconMenu svg {
+  padding-bottom: 3px !important;
 }
 
 [dir=rtl] .sidebaricondownup {

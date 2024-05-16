@@ -7803,8 +7803,11 @@ body .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
   // top: 9px;
 }
 
-[dir="rtl"] .sideIconMenu {
+.sideIconMenu {
   margin-inline-start: auto;
+}
+.sideIconMenu svg {
+  padding-bottom: 3px !important;
 }
 [dir="rtl"] .sidebaricondownup {
   -webkit-transform: rotate(180deg);
