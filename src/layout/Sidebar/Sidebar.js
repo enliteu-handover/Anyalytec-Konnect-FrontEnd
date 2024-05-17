@@ -135,6 +135,7 @@ const Sidebar = (props) => {
         <li className="nav-item">
           <label
             className={`px-3 pt-3 pb-0 profile-greet text-white text-left`}
+            style={{ marginBottom: "0px" }}
           >
             {t(`sidebar.Hello`)},
           </label>
