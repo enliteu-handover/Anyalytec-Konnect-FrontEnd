@@ -156,7 +156,7 @@ const SocialWallMiddleContent = (props) => {
           if (
             socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren &&
             socialWallDataTemp[arg.parentIndex].wallComments[i].id ===
-              subChildrenParent.id
+            subChildrenParent.id
           ) {
             for (
               let j = 0;
@@ -325,14 +325,27 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const changeLabel = (createdAt) => {
-    const label = createdAt.split(" ");
-    if (label.length > 1) {
-      return `${label[0]} ${t(`monthFilter.${label[1]}`)} ${t(
-        `monthFilter.${label[2]}`
-      )} `;
+    if(localStorage.getItem('i18nextLng') === 'ar'){
+      
+    if (createdAt?.includes("minute ago")) {
+      return createdAt?.replace("minute ago", "منذ دقيقة");
+    } else if (createdAt?.includes("minutes ago")) {
+      return createdAt?.replace("minutes ago", "منذ دقائق");
+    } else if (createdAt?.includes("hour ago")) {
+      return createdAt?.replace("hour ago", "منذ ساعة");
+    } else if (createdAt?.includes("hours ago")) {
+      return createdAt?.replace("hours ago", "منذ ساعات");
+    } else if (createdAt?.includes("day ago")) {
+      return createdAt?.replace("day ago", "منذ يوم");
+    } else if (createdAt?.includes("days ago")) {
+      return createdAt?.replace("days ago", "منذ أيام");
     }
+  }
+
     return createdAt;
   };
+  
+
 
   const getSubChildren = (arg, ret) => {
     for (var i = 0; i < arg.children.length; i++) {
@@ -382,12 +395,12 @@ const SocialWallMiddleContent = (props) => {
                 key={"socialWall_" + index}
               >
                 <div className="socialWall_inner if need to remove">
-                  <div className="sw_head mb-3 d-flex flex-wrap justify-content-between align-items-center">
-                    <div className="sw_from_div d-flex flex-wrap align-items-center">
+                  <div className="sw_head mb-3 d-flex justify-content-between align-items-center">
+                    <div className="sw_from_div d-flex align-items-center">
                       <img
                         src={
                           item?.rewardId?.userId !== null &&
-                          item?.rewardId?.userId !== "undefined"
+                            item?.rewardId?.userId !== "undefined"
                             ? getUserPicture(item?.rewardId?.userId?.id)
                             : defaultProfilePic
                         }
@@ -395,9 +408,9 @@ const SocialWallMiddleContent = (props) => {
                         alt="Profile Image"
                         title={
                           item?.rewardId?.userId !== null &&
-                          item?.rewardId?.userId !== "undefined"
+                            item?.rewardId?.userId !== "undefined"
                             ? item.rewardId.userId?.firstname +
-                              item.rewardId.userId?.lastname
+                            item.rewardId.userId?.lastname
                             : ""
                         }
                       />
@@ -406,10 +419,10 @@ const SocialWallMiddleContent = (props) => {
                           <Link to="#" className="a_hover_txt_deco_none">
                             <span className="sw_to_val sw_head_nms">
                               {item?.rewardId?.userId !== null &&
-                              item?.rewardId?.userId !== "undefined"
+                                item?.rewardId?.userId !== "undefined"
                                 ? (item?.rewardId?.userId?.firstname ?? "") +
-                                  " " +
-                                  (item?.rewardId?.userId?.lastname ?? "")
+                                " " +
+                                (item?.rewardId?.userId?.lastname ?? "")
                                 : ""}{" "}
                             </span>
                           </Link>
@@ -426,6 +439,7 @@ const SocialWallMiddleContent = (props) => {
                         <div className="sw_from_time">
                           <span className="sw_from_time_val" dir="ltr">
                             {changeLabel(item?.createdAt)}
+                            {/* {item?.createdAt} */}
                           </span>
                         </div>
                       </div>
@@ -449,9 +463,9 @@ const SocialWallMiddleContent = (props) => {
                           <span className="font-helvetica-m" dir="rtl">
                             @
                             {item?.rewardId?.userId !== null &&
-                            item?.rewardId?.userId !== "undefined"
+                              item?.rewardId?.userId !== "undefined"
                               ? item.rewardId.userId?.firstname +
-                                item.rewardId.userId?.lastname
+                              item.rewardId.userId?.lastname
                               : ""}{" "}
                           </span>
                           <span style={{ lineHeight: "1.5rem" }}>
@@ -476,7 +490,7 @@ const SocialWallMiddleContent = (props) => {
                           <img
                             src={
                               item?.rewardId?.imageByte !== null &&
-                              item?.rewardId?.imageByte !== ""
+                                item?.rewardId?.imageByte !== ""
                                 ? item?.rewardId?.imageByte?.image
                                 : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                             }
@@ -546,8 +560,8 @@ const SocialWallMiddleContent = (props) => {
                                                 like?.userId?.lastname}
                                               {item?.socialWallLike.length >
                                                 1 &&
-                                              index < maxLikedCount - 1 &&
-                                              item?.socialWallLike?.length -
+                                                index < maxLikedCount - 1 &&
+                                                item?.socialWallLike?.length -
                                                 1 !==
                                                 index
                                                 ? ", "
@@ -559,7 +573,7 @@ const SocialWallMiddleContent = (props) => {
                                     })}
                                   {item?.socialWallLike &&
                                     item?.socialWallLike?.length >
-                                      maxLikedCount && (
+                                    maxLikedCount && (
                                       <React.Fragment>
                                         <span> and </span>
                                         <Link
@@ -587,9 +601,8 @@ const SocialWallMiddleContent = (props) => {
                         </div>
                         {/* comments */}
                         <div
-                          className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${
-                            isEnlited(item?.socialWallLike) ? "" : "clicked"
-                          }`}
+                          className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"
+                            }`}
                         >
                           {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
                           {isEnlited(item?.socialWallLike) && (

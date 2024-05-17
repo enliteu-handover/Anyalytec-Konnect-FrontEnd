@@ -68,7 +68,7 @@ const SocialWallRightContent = (props) => {
   };
 	*/
 
-  const filterHasTags = hastagList;
+  const filterHasTags = hastagList?.length>0?hastagList:[];
   return (
     <React.Fragment>
       <div className="bg-f7f7f7 br-15 socialTrendingTags">
@@ -78,7 +78,7 @@ const SocialWallRightContent = (props) => {
           </label>
         </div>
         <div className="socialTagsLists">
-          {hastagList?.map((item, index) => {
+          {filterHasTags?.map((item, index) => {
             let hastagItemVal = item?.totalTagCount;
             let percent = (hastagItemVal / hastagMaxVal) * 100;
             let ColorCode =
