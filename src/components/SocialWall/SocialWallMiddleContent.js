@@ -325,26 +325,26 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const changeLabel = (createdAt) => {
-    if(localStorage.getItem('i18nextLng') === 'ar'){
-      
-    if (createdAt?.includes("minute ago")) {
-      return createdAt?.replace("minute ago", "منذ دقيقة");
-    } else if (createdAt?.includes("minutes ago")) {
-      return createdAt?.replace("minutes ago", "منذ دقائق");
-    } else if (createdAt?.includes("hour ago")) {
-      return createdAt?.replace("hour ago", "منذ ساعة");
-    } else if (createdAt?.includes("hours ago")) {
-      return createdAt?.replace("hours ago", "منذ ساعات");
-    } else if (createdAt?.includes("day ago")) {
-      return createdAt?.replace("day ago", "منذ يوم");
-    } else if (createdAt?.includes("days ago")) {
-      return createdAt?.replace("days ago", "منذ أيام");
+    if (localStorage.getItem('i18nextLng') === 'ar') {
+
+      if (createdAt?.includes("minute ago")) {
+        return createdAt?.replace("minute ago", "منذ دقيقة");
+      } else if (createdAt?.includes("minutes ago")) {
+        return createdAt?.replace("minutes ago", "منذ دقائق");
+      } else if (createdAt?.includes("hour ago")) {
+        return createdAt?.replace("hour ago", "منذ ساعة");
+      } else if (createdAt?.includes("hours ago")) {
+        return createdAt?.replace("hours ago", "منذ ساعات");
+      } else if (createdAt?.includes("day ago")) {
+        return createdAt?.replace("day ago", "منذ يوم");
+      } else if (createdAt?.includes("days ago")) {
+        return createdAt?.replace("days ago", "منذ أيام");
+      }
     }
-  }
 
     return createdAt;
   };
-  
+
 
 
   const getSubChildren = (arg, ret) => {
@@ -372,6 +372,15 @@ const SocialWallMiddleContent = (props) => {
     });
     return data;
   };
+
+  const labelPrint = (item) => {
+    debugger
+    return item?.rewardId?.userId !== null &&
+      item?.rewardId?.userId !== "undefined"
+      ? ('@' + item?.rewardId?.userId?.firstname +
+        item?.rewardId?.userId?.lastname)
+      : "";
+  }
 
   return (
     <React.Fragment>
@@ -460,13 +469,8 @@ const SocialWallMiddleContent = (props) => {
                     <div className="sw_msg_div d-flex flex-sm-wrap flex-md-nowrap justify-content-between align-items-start mb-3">
                       <div className="sw_msg col-md-8 col-lg-9">
                         <p className="sw_msg_val mb-0">
-                          <span className="font-helvetica-m" dir="rtl">
-                            @
-                            {item?.rewardId?.userId !== null &&
-                              item?.rewardId?.userId !== "undefined"
-                              ? item.rewardId.userId?.firstname +
-                              item.rewardId.userId?.lastname
-                              : ""}{" "}
+                          <span className="font-helvetica-m" >
+                            {labelPrint(item)}
                           </span>
                           <span style={{ lineHeight: "1.5rem" }}>
                             {" "}
