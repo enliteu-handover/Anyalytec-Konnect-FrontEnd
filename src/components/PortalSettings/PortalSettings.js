@@ -80,7 +80,7 @@ const PortalSettings = () => {
   const handleSubmitAdminPanel = () => {
     const payload = state;
     console.log(state);
-    debugger;
+    // debugger;
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
       method: state?.id ? "put" : "post",
@@ -96,10 +96,13 @@ const PortalSettings = () => {
       if (state?.color) {
         data["theme"]["color"] = state.color;
       }
+      console.log(data);
       if (state.language === "English (US)") {
         i18n.changeLanguage("en");
+        data.arabic = false;
       } else if (state.language === "Arabic (AR)") {
         i18n.changeLanguage("ar");
+        data.arabic = true;
       }
       const dir = i18n.dir(i18n.language);
       document.documentElement.dir = dir;
@@ -119,9 +122,9 @@ const PortalSettings = () => {
     httpHandler(obj).then((reponse) => {
       setState({
         ...state,
-        ...reponse?.data?.[0],
-        loginLogoByte: reponse?.data?.[0]?.loginLogoByte?.image,
-        headerLogoByte: reponse?.data?.[0]?.headerLogoByte?.image ?? "",
+        ...reponse?.data?.[1],
+        loginLogoByte: reponse?.data?.[1]?.loginLogoByte?.image,
+        headerLogoByte: reponse?.data?.[1]?.headerLogoByte?.image ?? "",
       });
     });
   }, []);

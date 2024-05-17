@@ -4,31 +4,28 @@ import i18n from "i18next";
 const Language = (props) => {
   const [languageList, setLanguageList] = useState([]);
 
-  const langSelectHandler = (argindex) => {
-    let languageTempObj = languageList;
-    languageTempObj.map((val, index) => {
-      if (index === argindex) {
-        val.isSelected = true;
-      } else {
-        val.isSelected = false;
-      }
-      setLanguageList([...languageTempObj]);
+  const langSelectHandler = (item) => {
+    const languageTempObj = languageList.map((val) => {
+      return {
+        ...val,
+        isSelected: val.language === item.language ? true : false,
+      };
     });
-
+    setLanguageList(languageTempObj);
     props.setState({
       ...props.state,
       ["language"]: languageTempObj?.find((v) => v.isSelected)?.language,
     });
   };
-  console.log(props);
 
   const fetchLanguageData = () => {
-    console.log(props?.state);
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(props?.state?.language);
         if (props?.state?.language) {
           const date = data?.language.map((v) => {
+            console.log(props?.state?.language);
             if (props?.state?.language === v?.language) {
               v.isSelected = true;
             } else {
@@ -70,7 +67,7 @@ const Language = (props) => {
                     className={`theam_container bg-white d-flex justify-content-center align-items-center ${
                       item.isSelected ? "active-setting" : " "
                     }`}
-                    onClick={() => langSelectHandler(index)}
+                    onClick={() => langSelectHandler(item)}
                   >
                     <p className="title m-2">{item.language}</p>
                   </div>

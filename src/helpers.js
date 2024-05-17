@@ -114,7 +114,7 @@ export const fetchUserPermissions = async (dispatch) => {
 
       const getAndUpdate = sessionStorage.getItem("userData");
       const arabic = (response?.data?.theme).some(
-        (obj) => obj.language === "Arabic (AR)"
+        (obj) => obj.language === "Arabic (AR)" && obj.id === 1
       );
       const addFileds = {
         ...JSON.parse(getAndUpdate),

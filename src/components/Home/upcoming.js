@@ -41,7 +41,9 @@ const Upcomings = (props) => {
                     }}
                   >
                     <p className="mb-2 eep_overflow_ellipsis d_mytasks">
-                      <span>{item?.message}</span>
+                      <span style={{ textTransform: "capitalize" }}>
+                        {item?.message}
+                      </span>
                     </p>
                     <button
                       style={{

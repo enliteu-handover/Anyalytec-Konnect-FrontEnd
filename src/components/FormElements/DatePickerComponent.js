@@ -4,10 +4,10 @@ import React, { useState, useContext, useEffect } from "react";
 // import "../../../node_modules/react-datepicker/dist/react-datepicker.min.css";
 import DatePicker from "react-datepicker";
 import { FormContext } from "./FormContext";
-import { addMonths, subMonths, subYears,addYears } from 'date-fns';
+import { addMonths, subMonths, subYears, addYears } from "date-fns";
 
 const DatePickerComponent = (props) => {
-  const { field, submitted,dateMin } = props;
+  const { field, submitted, dateMin } = props;
 
   const [startDate, setStartDate] = useState();
   const [fieldTouched, setFieldTouched] = useState(false);
@@ -30,29 +30,29 @@ const DatePickerComponent = (props) => {
   };
 
   const handleDatePickerChange = (date, event) => {
+    debugger;
     setStartDate(date);
 
     handleChange(field, date?.toISOString()?.slice(0, 10));
   };
 
-  const handleCalendarClose = () => { };
+  const handleCalendarClose = () => {};
 
-  const handleCalendarOpen = () => { };
+  const handleCalendarOpen = () => {};
 
   const fieldClasses = inputIsInvalid ? `${"invalid"}` : "";
 
- // sperate the date of joing & date of birth  to = years,months,date
+  // sperate the date of joing & date of birth  to = years,months,date
   const date = new Date(dateMin?.value);
   const year = date.getFullYear();
-  const month = date.getMonth()
-  const dates=date.getDate()
+  const month = date.getMonth();
+  const dates = date.getDate();
 
-
-  
   return (
     <div
-      className={`col-md-12 form-group text-left ${field.mandatory ? "required" : ""
-        }`}
+      className={`col-md-12 form-group text-left ${
+        field.mandatory ? "required" : ""
+      }`}
     >
       <label className="control-label">{field.label}</label>
       <div className="eepCustomDatepicker">
@@ -71,11 +71,20 @@ const DatePickerComponent = (props) => {
           dateFormat="yyyy/MM/dd"
           disabled={"disabled" in field ? field["disabled"] : false}
           placeholderText="Click to select a date"
-          minDate={field.min.subYear ? addYears(new Date(year,month,dates), field.min.val) : field.min.addMonth ? addYears(new Date(), field.min.val) : null}
-          maxDate={field.max.subYear ?
-            subYears(new Date(), field.max.val) :
-            field.max.addMonth ?
-              addMonths(new Date(), field.max.val) : null}
+          minDate={
+            field.min.subYear
+              ? addYears(new Date(year, month, dates), field.min.val)
+              : field.min.addMonth
+              ? addYears(new Date(), field.min.val)
+              : null
+          }
+          maxDate={
+            field.max.subYear
+              ? subYears(new Date(), field.max.val)
+              : field.max.addMonth
+              ? addMonths(new Date(), field.max.val)
+              : null
+          }
         />
       </div>
       {inputIsInvalid && (
