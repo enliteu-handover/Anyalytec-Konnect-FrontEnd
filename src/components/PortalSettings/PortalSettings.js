@@ -96,7 +96,6 @@ const PortalSettings = () => {
       if (state?.color) {
         data["theme"]["color"] = state.color;
       }
-      console.log(data);
       if (state.language === "English (US)") {
         i18n.changeLanguage("en");
         data.arabic = false;
@@ -110,24 +109,30 @@ const PortalSettings = () => {
       data["HeaderLogo"] = state?.headerLogoByte ?? "";
       // }
       sessionStorage.setItem("userData", JSON.stringify(data));
+      getPortal();
     });
   };
 
   React.useEffect(() => {
+    getPortal();
+  }, []);
+
+  const getPortal = (id) => {
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
       method: "get",
     };
 
     httpHandler(obj).then((reponse) => {
+      const data = reponse?.data?.find((v) => v.id === 1)
       setState({
         ...state,
-        ...reponse?.data?.[1],
-        loginLogoByte: reponse?.data?.[1]?.loginLogoByte?.image,
-        headerLogoByte: reponse?.data?.[1]?.headerLogoByte?.image ?? "",
+        ...data,
+        loginLogoByte: data?.loginLogoByte?.image,
+        headerLogoByte: data?.headerLogoByte?.image ?? "",
       });
     });
-  }, []);
+  }
 
   return (
     <React.Fragment>
@@ -150,9 +155,8 @@ const PortalSettings = () => {
               <div className="controal_panel_container eep-content-section-data eep_scroll_y bg-f5f5f5 br-10 p-3">
                 <div
                   id="logo"
-                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${
-                    selectSetting.isLogo ? "active-setting" : " "
-                  }`}
+                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${selectSetting.isLogo ? "active-setting" : " "
+                    }`}
                   onClick={() => clickHandler({ type: "isLogo" })}
                 >
                   <div className="controal_panel_label">
@@ -161,9 +165,8 @@ const PortalSettings = () => {
                 </div>
                 <div
                   id="color"
-                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${
-                    selectSetting.isColor ? "active-setting" : " "
-                  }`}
+                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${selectSetting.isColor ? "active-setting" : " "
+                    }`}
                   onClick={() => clickHandler({ type: "isColor" })}
                 >
                   <div className="controal_panel_label">
@@ -172,9 +175,8 @@ const PortalSettings = () => {
                 </div>
                 <div
                   id="date"
-                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${
-                    selectSetting.isDate ? "active-setting" : " "
-                  }`}
+                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${selectSetting.isDate ? "active-setting" : " "
+                    }`}
                   onClick={() => clickHandler({ type: "isDate" })}
                 >
                   <div className="controal_panel_label">
@@ -183,9 +185,8 @@ const PortalSettings = () => {
                 </div>
                 <div
                   id="year"
-                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${
-                    selectSetting.isYear ? "active-setting" : " "
-                  }`}
+                  className={`controal_panel_control bg-white br-5 p-2 mb-3 c1 ${selectSetting.isYear ? "active-setting" : " "
+                    }`}
                   onClick={() => clickHandler({ type: "isYear" })}
                 >
                   <div className="controal_panel_label">
@@ -194,9 +195,8 @@ const PortalSettings = () => {
                 </div>
                 <div
                   id="language"
-                  className={`controal_panel_control bg-white br-5 p-2 c1 ${
-                    selectSetting.isLanguage ? "active-setting" : " "
-                  }`}
+                  className={`controal_panel_control bg-white br-5 p-2 c1 ${selectSetting.isLanguage ? "active-setting" : " "
+                    }`}
                   onClick={() => clickHandler({ type: "isLanguage" })}
                 >
                   <div className="controal_panel_label">
@@ -233,7 +233,7 @@ const PortalSettings = () => {
                 )}
                 {!actionBtn && (
                   <ResponseInfo
-                    title="Click settings from left side."
+                    title="Click settings from left side"
                     responseImg="noRecord"
                     responseClass="response-info"
                   />

@@ -22,15 +22,15 @@ const Language = (props) => {
     fetch(`${process.env.PUBLIC_URL}/data/portalSettings.json`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(props?.state?.language);
         if (props?.state?.language) {
           const date = data?.language.map((v) => {
-            console.log(props?.state?.language);
+
             if (props?.state?.language === v?.language) {
               v.isSelected = true;
             } else {
               v.isSelected = false;
             }
+
             return v;
           });
 

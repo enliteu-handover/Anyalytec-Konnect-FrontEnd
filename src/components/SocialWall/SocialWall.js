@@ -349,9 +349,7 @@ const SocialWall = () => {
 
       {!isloading && (
         <>
-          {socialWallList.length > 0 ||
-          Object.keys(rankingLists).length > 0 ||
-          hastagList.length > 0 ? (
+          {socialWallList.length > 0? (
             <div className="row eep-content-section-data">
               <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
                 {Object.keys(rankingLists).length > 0 && (
@@ -375,7 +373,7 @@ const SocialWall = () => {
               <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 socialWall_div eep-content-section eep_scroll_y">
                 {hastagList && hastagList.length > 0 && (
                   <SocialWallRightContent
-                    hastagList={Object.keys(rankingLists).length > 0}
+                    hastagList={hastagList}
                   />
                 )}
               </div>
@@ -391,7 +389,7 @@ const SocialWall = () => {
                 />
                 <p className="eep_blank_quote">
                   {" "}
-                  {t(`dashboard.No record found `)}
+                  {t(`dashboard.No record found`)}
                 </p>
               </div>
             </div>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Heart from "../../UI/CustomComponents/Heart";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import LikedInfoModal from "../../modals/LikedInfoModal";
 import SocialWallCommentsList from "./SocialWallCommentsList";
-import Heart from "../../UI/CustomComponents/Heart";
-import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
-import { httpHandler } from "../../http/http-interceptor";
-import { useTranslation } from "react-i18next";
 
 const SocialWallMiddleContent = (props) => {
   const {
@@ -325,7 +325,7 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const changeLabel = (createdAt) => {
-    if (localStorage.getItem('i18nextLng') === 'ar') {
+    if (JSON.parse(sessionStorage.getItem("userData"))?.arabic) {
 
       if (createdAt?.includes("minute ago")) {
         return createdAt?.replace("minute ago", "منذ دقيقة");

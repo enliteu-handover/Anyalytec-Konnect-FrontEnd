@@ -74,7 +74,9 @@ const SocialWallLeftContent = (props) => {
                     className="sr_rank_list"
                     key={`SocialWallUserList_` + index}
                   >
-                    <div className="sr_rank_holder">
+                    <div className="sr_rank_holder"
+                    style={{display: 'flex', alignItems: 'center'}}
+                    >
                       {/* <img src={ userPicIndex !== -1 ? usersPicProps[userPicIndex].pic : `${process.env.PUBLIC_URL}/images/user_profile.png`} className="sr_rank_pic" alt="Profile Image" title="Arvind - Engineer" /> */}
                       <img
                         src={getUserPicture(item.user.id)}
@@ -83,7 +85,15 @@ const SocialWallLeftContent = (props) => {
                         title={item?.user?.fullName}
                       />
 
-                      <label htmlFor="" className="sr_rank_nm">
+                      <label htmlFor="" className="sr_rank_nm"
+                        style={{
+                          width: '130px',
+                          overflow: 'visible',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
                         {item?.user?.fullName}
                       </label>
                     </div>
