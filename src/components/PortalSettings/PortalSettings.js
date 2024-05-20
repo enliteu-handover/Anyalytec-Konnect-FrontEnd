@@ -230,7 +230,7 @@ const PortalSettings = () => {
                 )}
                 {!actionBtn && (
                   <ResponseInfo
-                    title="Click settings from left side."
+                    title="Click settings from left side"
                     responseImg="noRecord"
                     responseClass="response-info"
                   />
