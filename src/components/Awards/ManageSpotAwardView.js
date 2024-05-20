@@ -1,10 +1,10 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ManageAwardViewInfo from "./ManageAwardViewInfo";
-import ResponseInfo from "../../UI/ResponseInfo";
-import PageHeader from "../../UI/PageHeader";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom/cjs/react-router-dom";
+import PageHeader from "../../UI/PageHeader";
+import ResponseInfo from "../../UI/ResponseInfo";
+import ManageAwardViewInfo from "./ManageAwardViewInfo";
 
 const ManageSpotAwardView = () => {
 
@@ -43,14 +43,22 @@ const ManageSpotAwardView = () => {
                         <p className="mb-0">Spot Award</p>
                       </div>
                     </div>
-                    <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 px-0 form-group s_awardDept_div eep-recognition-select2-dropdown_div">
+                    {aDataValue?.departmentId?.name && <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 px-0 form-group s_awardDept_div eep-recognition-select2-dropdown_div">
                       <div className="d-flex p-0 mb-2">
                         <label className="font-helvetica-m c-404040">Department</label>
                       </div>
                       <div className="vInputsDiv">
                         <p className="mb-0">{aDataValue?.departmentId?.name}</p>
                       </div>
-                    </div>
+                    </div>}
+                    {aDataValue?.userId?.name && <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12 px-0 form-group s_awardDept_div eep-recognition-select2-dropdown_div">
+                      <div className="d-flex p-0 mb-2">
+                        <label className="font-helvetica-m c-404040">User</label>
+                      </div>
+                      <div className="vInputsDiv">
+                        <p className="mb-0">{aDataValue?.userId?.name}</p>
+                      </div>
+                    </div>}
                   </div>
                 </div>
               </div>

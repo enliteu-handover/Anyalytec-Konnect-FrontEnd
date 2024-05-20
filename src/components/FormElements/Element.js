@@ -10,7 +10,7 @@ import TextArea from "./TextArea";
 import TextField from "./TextField";
 import SelectDropdownIdm from "./idmSelect";
 
-const Elements = ({ field, submitted, onUpload, response, maxLength }) => {
+const Elements = ({ field, dateMin, submitted, onUpload, response, maxLength }) => {
 
   switch (field.type) {
     case "text":
@@ -31,7 +31,7 @@ const Elements = ({ field, submitted, onUpload, response, maxLength }) => {
         field.display && (
           <React.Fragment>
             <div className="eepCustomDatepicker">
-              <DatePickerComponent field={field} submitted={submitted} />
+              <DatePickerComponent dateMin={dateMin} field={field} submitted={submitted} />
             </div>
           </React.Fragment>
         )

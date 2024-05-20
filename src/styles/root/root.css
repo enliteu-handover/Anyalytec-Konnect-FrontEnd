@@ -14,30 +14,30 @@
   --eep-page-title-height: 38px;
 }
 :root .user-element[data-user=color_one] {
-  --eep-tap-bg-color: #000F40;
-  --eep-header-color: #F0F0F0;
-  --eep-menu-bg-color: #000F40;
-  --eep-menu-linear-color: #00030D;
-  --eep-header-bg-color: #EFEFEF;
-  --eep-menu-primary-color: #244AC4;
-  --eep-submenu-bg-color: #1D2A57;
+  --eep-tap-bg-color: #000f40;
+  --eep-header-color: #f0f0f0;
+  --eep-menu-bg-color: #000f40;
+  --eep-menu-linear-color: #00030d;
+  --eep-header-bg-color: #efefef;
+  --eep-menu-primary-color: #244ac4;
+  --eep-submenu-bg-color: #1d2a57;
 }
 :root .user-element[data-user=color_two] {
   --eep-tap-bg-color: #d3d3d38f;
   --eep-header-color: #151419;
-  --eep-menu-bg-color: #FFFFFF;
-  --eep-header-bg-color: #EFEFEF;
-  --eep-menu-primary-color: #244AC4;
+  --eep-menu-bg-color: #ffffff;
+  --eep-header-bg-color: #efefef;
+  --eep-menu-primary-color: #244ac4;
   --eep-submenu-bg-color: #e3e3e3;
 }
 :root .user-element[data-user=color_three] {
-  --eep-tap-bg-color: #2F2F31;
-  --eep-header-color: #F0F0F0;
+  --eep-tap-bg-color: #2f2f31;
+  --eep-header-color: #f0f0f0;
   --eep-menu-bg-color: #141516;
   --eep-menu-linear-color: #080809;
-  --eep-header-bg-color: #EFEFEF;
-  --eep-menu-primary-color: #244AC4;
-  --eep-submenu-bg-color: #2F2F31;
+  --eep-header-bg-color: #efefef;
+  --eep-menu-primary-color: #244ac4;
+  --eep-submenu-bg-color: #2f2f31;
 }
 :root .user-element[data-user=color_four] {
   --eep-tap-bg-color: #273c2c;
@@ -364,6 +364,10 @@ body.sidebar-toggled #accordionSidebar li.nav-item a[data-toggle=collapse] {
 .eep-navbar-div {
   margin-right: 14px;
   background: var(--eep-menu-bg-color);
+}
+
+[dir=rtl] .eep-navbar-div {
+  margin-right: 0px;
 }
 
 .eep-navbar-div .nav-item.active .nav-link {

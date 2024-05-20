@@ -12,9 +12,11 @@ import Filter from "../../UI/Filter";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import TableComponent from "../../UI/tableComponent";
 import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function AwardNominationList() {
   const [awardNomination, setAwardNomination] = useState([]);
+  const [isLoading,setIsLoading] =useState(false)
 
   const cSettings = {
     createdAt: {
@@ -51,6 +53,8 @@ function AwardNominationList() {
   ];
 
   const fetchAwardNominationData = (arg = {}) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.MY_NOMINATIONS,
       method: "get",
@@ -67,9 +71,13 @@ function AwardNominationList() {
     httpHandler(obj)
       .then((awardNomination) => {
         setAwardNomination(awardNomination.data);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   };
@@ -79,6 +87,8 @@ function AwardNominationList() {
       filterValue: { label: "Pending", value: false }
     }
     fetchAwardNominationData(obj);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const dispatch = useDispatch();
@@ -138,12 +148,12 @@ function AwardNominationList() {
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
             {/* {awardNomination && ( */}
 
-
-            <TableComponent
+{
+       !isLoading &&     <TableComponent
               data={awardNomination ?? []}
               columns={awardNominationTableHeaders}
               action={<ApprovalActions isApprovalState={false} isView={true} />}
-            />
+            />}
             {/* )} */}
           </div>
         </div>

@@ -16,6 +16,7 @@ import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SurveyPreviewModal from "./SurveyPreviewModal";
+import { pageLoaderHandler } from "../../helpers";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -47,6 +48,8 @@ const SurveyResult = () => {
 		setConfirmModalState(false);
 		setSurveyTempData({});
 	};
+    const [isLoading,setIsLoading] =useState(false)
+
 
 	const breadcrumbArr = [
 		{
@@ -184,11 +187,12 @@ const SurveyResult = () => {
 		{
 			header: "SCORE",
 			accessorKey: "score",
+			accessorFn:(row)=>roundNumber(row?.score)
 		},
 		{
 			header: "RESPONSE",
 			accessorKey: "action",
-			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings?.response} type="survey" />,
+			accessorFn: (row) => <ResponseCustomComponent isLoading={isLoading} data={row} cSettings={cSettings?.response} type="survey" />,
 
 		},
 
@@ -198,7 +202,14 @@ const SurveyResult = () => {
 		setToggleClass(tooglestate);
 	}
 
+	const roundNumber = (num) => {
+		const roundedNum = Math.round(num * 10) / 10;
+		return Math.ceil(roundedNum); 
+	  };
+
 	const fetchSurveyResultDetail = (paramsInfo) => {
+		setIsLoading(true)
+
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -214,17 +225,23 @@ const SurveyResult = () => {
 		}
 		httpHandler(obj).then((response) => {
 			setSurveyResultList(response.data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
 				type: "danger",
 				message: error?.response?.data?.message,
 			});
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchSurveyResultDetail(filterParams);
+		pageLoaderHandler(isLoading ? 'show':'hide')
+
 	}, []);
 
 	const getFilterParams = (paramsData) => {
@@ -404,11 +421,11 @@ const SurveyResult = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
-									<TableComponent
+								{!isLoading &&	<TableComponent
 										data={surveyResultList ?? []}
 										columns={SurveyResultTableHeaders}
 										action={<SurveyResultCustomComponent markImportantUnimportant={markImportantUnimportant} deleteSurvey={deleteSurvey} republishSurvey={republishSurvey} />}
-									/>
+									/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

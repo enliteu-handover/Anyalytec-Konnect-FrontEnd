@@ -16,7 +16,7 @@ const RewardInfoModal = (props) => {
               <div className="modal-body eep_scroll_y py-0 px-0">
                 <div className="RewardInfo modalBodyHeight d-flex flex-column gride_view">
                   <div className="m_enlitedList_head d-flex align-items-center">
-                    <img src={rewardInfoModalData.data.imageByte} className="profile_pic wh" alt="Image" title={rewardInfoModalData.data.name} />
+                    {/* <img src={rewardInfoModalData.data.imageByte} className="profile_pic wh" alt="Image" title={rewardInfoModalData.data.name} /> */}
                     <span>{rewardInfoModalData.data.name}</span>
                   </div>
                   <div className="gride_colum_template eep_scroll_y">

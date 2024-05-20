@@ -16,6 +16,7 @@ import IdeaViewModal from "./IdeaViewModal";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
 import TableComponent from "../../UI/tableComponent";
 import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function MyIdeas(props) {
 
@@ -37,6 +38,8 @@ function MyIdeas(props) {
   const [communicationModalErr, setCommunicationModalErr] = useState("");
   const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [isLoading,setIsLoading] =useState(false)
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -221,6 +224,8 @@ function MyIdeas(props) {
   ];
 
   const fetchMyIdeasData = (paramData = {}) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.MY_IDEAS,
       method: "get",
@@ -231,15 +236,21 @@ function MyIdeas(props) {
     httpHandler(obj)
       .then((myIdeas) => {
         setMyIdeasList([...myIdeas?.data?.map(v => { return { ...v, name: v?.title } })]);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   }
 
   useEffect(() => {
     fetchMyIdeasData(yearFilterValue);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const confirmState = (isConfirmed) => {
@@ -407,11 +418,11 @@ function MyIdeas(props) {
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
 
-            <TableComponent
+        { !isLoading  &&  <TableComponent
               data={myIdeasList ?? []}
               columns={myIdeasTableHeaders}
               action={<MyIdeaActions unPostIdea={unPostIdea} postIdea={postIdea} deleteIdea={deleteIdea} viewIdea={viewIdea} editIdea={editIdea} />}
-            />
+            />}
           </div>
         </div>
       </div>

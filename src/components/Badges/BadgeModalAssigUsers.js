@@ -28,7 +28,7 @@ const BadgeModalAssigUsers = (props) => {
         return selectedUsersOnInit.push({ id: uid });
       })
     }
-    getFilteredUsers(selectedUsersOnInit);
+    if (selectedUsersOnInit?.length > 0) { getFilteredUsers(selectedUsersOnInit); }
 
   }, [filteredUsers])
 
@@ -49,6 +49,7 @@ const BadgeModalAssigUsers = (props) => {
       })
     }
     getFilteredUsers(selectedUsers);
+    console.log('selectedUsers:', selectedUsers)
   }
 
   const allUsersClickHandher = (e) => {

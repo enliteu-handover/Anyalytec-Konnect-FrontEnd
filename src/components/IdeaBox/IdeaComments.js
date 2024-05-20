@@ -14,6 +14,8 @@ const IdeaComments = (props) => {
   const [errorAtthState, setErrorAtthState] = useState(false);
   const [errorLengthAtthState, setErrorLengthAtthState] = useState(false);
   const [attachementFiles, setAttachementFiles] = useState([]);
+  const [isHovered, setIsHovered] = useState(null);
+
 
   useEffect(() => {
     //if(initIsCommentSubmitted) {
@@ -171,10 +173,30 @@ const IdeaComments = (props) => {
                   <img src={`${process.env.PUBLIC_URL}/images/icons/special/attachment-add.svg`} className="ideabox-attach-img-size_2 image-circle c1 command_attachement right_side_commandadd_icon mr-2" id="command_attachement_plus" alt="attachment-add-icon" onClick={() => addIconClickHandler("exist")} />
                   {attachementFiles.map((item,index) => {
                     return (
-                      <div className="attachments_list mb-0" key={"attachments_list_" + index}>
+                      <div   onMouseEnter={() => setIsHovered(index)}
+      onMouseLeave={() => setIsHovered(null)} className="attachments_list mb-0" key={"attachments_list_" + index}>
                         <div className="attachments_list_a">
+                        { isHovered ===index && <div className="close closed"  onClick={() => {
+              const updatedAttachments = [...attachementFiles];
+              updatedAttachments.splice(index, 1);
+              setAttachementFiles(updatedAttachments);
+            }} style={{fontSize:'14px',    fontSize: '12px',
+    /* background: #000; */
+    borderRadius: '18px',
+    cursor:'pointer',
+    width: '15px',
+    top:'0px',
+    height: '16px',
+    position: 'absolute',
+    padding: '0px 4px',
+    left: '21px',
+    color:' #676767',
+    opacity: 1,
+    background: '#c9c9c9'}}>x</div>}
                           <a className="c1" href={item.atthmentDataURI} target="_thapa" download={item.attachmentName} title={item.attachmentName}>
-                            <img src={item.imgSrcIcon} className="image-circle c1 command-attachement-img-size" alt="icon" />
+                           <img src={item.imgSrcIcon} className="image-circle c1 command-attachement-img-size" alt="icon" />
+        
+                         
                           </a>
                         </div>
                       </div>

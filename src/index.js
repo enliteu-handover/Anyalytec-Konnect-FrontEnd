@@ -11,9 +11,34 @@ import store from "./store/index";
 import "./fonts/helveticaneue/HelveticaNeue.ttf";
 import { BrowserRouter } from "react-router-dom";
 import "./http/http-interceptor";
+import i18next from "i18next";
+import englishContent from "./translations/en.json";
+import arabicContent from "./translations/ar.json";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+
 // import { createBrowserHistory } from "history";
 
 // export const history = createBrowserHistory();
+
+const initOptions = {
+  interpolation: { escapeValue: false },
+  lng: "en",
+  resources: {
+    en: {
+      translation: englishContent,
+    },
+    ar: {
+      translation: arabicContent,
+    },
+  },
+};
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init(initOptions);
 
 ReactDOM.render(
   <Provider store={store}>

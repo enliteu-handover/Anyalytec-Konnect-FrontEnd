@@ -37,6 +37,8 @@ const Forum = () => {
 	const location = useLocation();
 	const history = useHistory();
 	const routerData = location.state;
+	const [isloading, setIsloding] = useState(false);
+
 
 	const breadcrumbArr = [
 		{
@@ -103,6 +105,8 @@ const Forum = () => {
 		}
 
 		getForumList(filterParams);
+		pageLoaderHandler(isloading ? "show": "hide");
+
 		getForumFollowingList();
 
 		return () => {
@@ -196,8 +200,8 @@ const Forum = () => {
 	}
 
 	const getForumList = async (paramsInfo) => {
+		setIsloding(true)
 
-		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -218,11 +222,13 @@ const Forum = () => {
 				} else {
 					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
 				}
-				pageLoaderHandler('hide')
+				setIsloding(false)
+
 			})
 			.catch((error) => {
-				pageLoaderHandler('hide')
 				console.log("getForumList error", error);
+				setIsloding(false)
+				
 			});
 	};
 
@@ -436,14 +442,30 @@ const Forum = () => {
 		}
 	}
 
+	// const dateReceived = (isSort) => {
+
+	// 	setListReverse(isSort);
+	// 	if (!isSort) {
+	// 		setForumList([...forumList].reverse());
+	// 	}
+	// }
+
 	const dateReceived = (isSort) => {
+		const sortedList = [...forumList];
+		sortedList.sort((a, b) => {
+			
+			const dateA = (a.createdAt).toLocaleString();
+			const dateB = (b.createdAt).toLocaleString();
 
+			// Compare the dates
+			return isSort ? dateA.localeCompare(dateB) :dateB.localeCompare(dateA);
+		});
+	
 		setListReverse(isSort);
-		if (!isSort) {
-			setForumList([...forumList].reverse());
-		}
+		setForumList(sortedList);
 	}
-
+	
+	
 	return (
 		<React.Fragment>
 			<div className="row eep-content-section-data no-gutters">
@@ -465,7 +487,7 @@ const Forum = () => {
 						{createModalShow && <CreateEditCommunicationModal
 							deptOptions={departments} createModalShow={createModalShow}
 							createCommunicationPost={createCommunicationPost}
-							communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
+							communicationModalErr={createModalErr} communicationType="forum"  communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
 								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
@@ -474,7 +496,10 @@ const Forum = () => {
 								<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
 							}
 						/>
-						{forumList?.length > 0 &&
+
+						{!isloading &&
+                         <>
+						 {forumList?.length > 0 &&
 							<div className="row mx-0 forum_containerr">
 								<div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
 									{/* <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y"> */}
@@ -524,6 +549,10 @@ const Forum = () => {
 								subMessageInfo="Nat Turner"
 							/>
 						}
+
+                          </>
+						}
+						
 					</div>
 					<div id="myforums" className="tab-pane h-100">
 						{/* <PageHeader title="My Posts"

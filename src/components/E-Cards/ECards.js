@@ -11,7 +11,7 @@ import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import AddEcard from "../FormElements/AddEcard";
 import ImagePreloader from "./ImagePreloader";
 
-const ECards = () => {
+const ECards = ({ isDashbaord, isDashbaordData }) => {
 
   const [isComposeCardModal, setIsComposeCardModal] = useState(false);
   const userSessionData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
@@ -122,15 +122,16 @@ const ECards = () => {
     }
   };
 
-  const fetchCardData = () => {
+  const fetchCardData = async () => {
     setIsLoading(true);
+    var groupByCategory;
     const obj = {
       url: URL_CONFIG.ALL_ECARDS,
       method: "get",
     };
-    httpHandler(obj)
+    await httpHandler(obj)
       .then((response) => {
-        const groupByCategory = response.data.reduce((group, card) => {
+        groupByCategory = response?.data?.reduce((group, card) => {
           const { category } = card;
           group[category] = group[category] ?? [];
           group[category].push(card);
@@ -142,6 +143,7 @@ const ECards = () => {
       .catch((error) => {
         console.log("error", error);
       });
+    return groupByCategory;
   };
 
   const fetchComposeMessageData = () => {
@@ -203,6 +205,56 @@ const ECards = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    if (isDashbaord) {
+      fetchComposeMessageData();
+      fetchUserData();
+      fetchCardData().then((groupByCategory) => {
+        if (isDashbaord === "anniversary") {
+          var collapseBirthday = document.getElementById("collapseAnniversary");
+          collapseBirthday.classList.add("collapse", "show");
+          var collapseBirthday = document.getElementById("collapseBirthday");
+          collapseBirthday.classList.remove("show");
+          var linkElement = document.querySelector('#headingOne .collapsed');
+          linkElement.setAttribute('aria-expanded', 'false');
+          cardHeadClick(isDashbaord)
+          if (groupByCategory?.anniversary?.length > 0) {
+            selectImageHandler({
+              target: {
+                id: "0"
+              }
+            }, groupByCategory?.anniversary, 'anniversary', groupByCategory?.anniversary?.[0]);
+
+            // Find the element that triggers the modal
+            var modalTriggerElement = document.querySelector('[data-target="#ComposeCardModal"]');
+            // Simulate a click event on the element
+            if (modalTriggerElement) {
+              modalTriggerElement.click();
+            }
+
+          }
+        } else if (isDashbaord === "birthday") {
+          cardHeadClick(isDashbaord)
+          if (groupByCategory?.birthday?.length > 0) {
+            selectImageHandler({
+              target: {
+                id: "0"
+              }
+            }, groupByCategory?.birthday, 'birthday', groupByCategory?.birthday?.[0]);
+
+            // Find the element that triggers the modal
+            var modalTriggerElement = document.querySelector('[data-target="#ComposeCardModal"]');
+            // Simulate a click event on the element
+            if (modalTriggerElement) {
+              modalTriggerElement.click();
+            }
+
+          }
+        }
+      })
+    }
+  }, []) 
+
   const modalSubmitInfo = (arg) => {
     if (arg.status) {
       clearModalBackdrop();
@@ -236,7 +288,9 @@ const ECards = () => {
   return (
     <React.Fragment>
       {isComposeCardModal && (
-        <ComposeCardModal composeCardData={composeCardData} composeCardMessages={composeCardMessages} composeCardCategory={composeCardCategory} modalSubmitInfo={modalSubmitInfo} />
+        <ComposeCardModal composeCardData={composeCardData} composeCardMessages={composeCardMessages}
+          composeCardCategory={composeCardCategory} modalSubmitInfo={modalSubmitInfo} isDashbaord={isDashbaord}
+          isDashbaordData={isDashbaordData} />
       )}
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal

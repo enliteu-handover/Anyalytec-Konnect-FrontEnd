@@ -11,6 +11,7 @@ import { httpHandler } from "../../http/http-interceptor";
 import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
 
 const MyLibrary = () => {
 
@@ -18,6 +19,8 @@ const MyLibrary = () => {
     const [librarySurveyList, setlibrarySurveyList] = useState([]);
     const [filterParams, setFilterParams] = useState({});
     const [showModal, setShowModal] = useState({ type: null, message: null });
+    const [isLoading,setIsLoading] =useState(false)
+
     const dispatch = useDispatch();
     const hideModal = () => {
         let collections = document.getElementsByClassName("modal-backdrop");
@@ -58,6 +61,8 @@ const MyLibrary = () => {
     }, []);
 
     const fetchMySurveyDetail = (paramsInfo) => {
+    setIsLoading(true)
+
         let obj;
         if (Object.getOwnPropertyNames(paramsInfo)) {
             obj = {
@@ -73,17 +78,23 @@ const MyLibrary = () => {
         }
         httpHandler(obj).then((response) => {
             setlibrarySurveyList(response.data);
+    setIsLoading(false)
+
         }).catch((error) => {
             setShowModal({
                 ...showModal,
                 type: "danger",
                 message: error?.response?.data?.message,
             });
+    setIsLoading(false)
+
         });
     }
 
     useEffect(() => {
         fetchMySurveyDetail(filterParams);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     const getFilterParams = (paramsData) => {
@@ -148,11 +159,11 @@ const MyLibrary = () => {
                     <div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
                         <div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
                             <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-                                    <TableComponent
+                                   {!isLoading && <TableComponent
                                         data={librarySurveyList ?? []}
                                         columns={surveyTableHeaders}
                                         action={<CustomLinkComponent isLibrary={true} cSettings={tableSettings.view} />}
-                                    />
+                                    />}
                             </div>
                         </div>
                         <ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

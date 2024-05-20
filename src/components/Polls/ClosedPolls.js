@@ -1,19 +1,17 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { pageLoaderHandler } from "../../helpers";
-import TableComponent from "../../UI/tableComponent";
-import moment from "moment";
 
 const ClosedPolls = (props) => {
 
@@ -29,6 +27,7 @@ const ClosedPolls = (props) => {
 		}
 		setShowModal({ type: null, message: null });
 	};
+    const [isLoading,setIsLoading] =useState(false)
 
 	const breadcrumbArr = [
 		{
@@ -61,6 +60,8 @@ const ClosedPolls = (props) => {
 	}, []);
 
 	const fetchMyPollsDetail = (paramsInfo) => {
+		setIsLoading(true)
+
 		pageLoaderHandler('show')
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
@@ -78,6 +79,8 @@ const ClosedPolls = (props) => {
 		httpHandler(obj).then((response) => {
 			setMyPollsList(response.data);
 			pageLoaderHandler('hide')
+			setIsLoading(false)
+
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
@@ -85,11 +88,15 @@ const ClosedPolls = (props) => {
 				message: error?.response?.data?.message,
 			});
 			pageLoaderHandler('hide')
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchMyPollsDetail(filterParams);
+		pageLoaderHandler(isLoading ? 'show':'hide')
+
 	}, []);
 
 	const tableSettings = {
@@ -114,13 +121,13 @@ const ClosedPolls = (props) => {
 		{
 			header: "Date",
 			accessorKey: "createdAt",
-			accessorFn: (row) => row.createdAt ?  moment(row.createdAt).format('l'):'--', 
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
 		},
-		{
-			header: "View",
-			accessorKey: "action",
-			accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
-		}
+		// {
+		// 	header: "View",
+		// 	accessorKey: "action",
+		// 	accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
+		// }
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -155,11 +162,12 @@ const ClosedPolls = (props) => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
-									<TableComponent
+								{!isLoading &&	<TableComponent
 									data={myPollsList ?? []}
 									columns={PollsTableHeaders}
-									actionHidden={true}
-								  />
+									// actionHidden={true}
+									action={ <CustomLinkComponent cSettings={tableSettings.view} />}
+								  />}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

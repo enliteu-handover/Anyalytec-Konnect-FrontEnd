@@ -7,7 +7,7 @@ import { base64ToFile } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
 
 const ComposeCardModal = (props) => {
-  const { composeCardData, composeCardMessages, composeCardCategory, modalSubmitInfo } = props;
+  const { composeCardData, composeCardMessages, composeCardCategory, modalSubmitInfo, isDashbaordData } = props;
 
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const [msg, setMsg] = useState(null);
@@ -59,7 +59,7 @@ const ComposeCardModal = (props) => {
   }, [composeInfoData, composeInputData]);
 
   const handleECardSubmit = async () => {
-    
+
     let finalData = { ...composeInfoData, ...composeInputData };
 
 
@@ -133,7 +133,7 @@ const ComposeCardModal = (props) => {
                 <div className="col-md-7 messagecompose_div Compose_div">
                   <div className="panel panel-default px-4 py-2">
                     <div className="panel-body message">
-                      <EcardModalInputs ccMessageValue={composeCardMessages} comoseMessageHandler={comoseMessageHandler} composeCardCategory={composeCardCategory} getComposeInputsData={getComposeInputsData} />
+                      <EcardModalInputs isDashbaordData={isDashbaordData} ccMessageValue={composeCardMessages} comoseMessageHandler={comoseMessageHandler} composeCardCategory={composeCardCategory} getComposeInputsData={getComposeInputsData} />
                       <div className="col-sm-12 p-0 formaction_div">
                         <div className="form-group row mb-0">
                           <div className="col-sm-1"></div>

@@ -36,6 +36,7 @@ const IdeaBox = () => {
     }
     setShowModal({ type: null, message: null });
   };
+  const [isloading, setIsloding] = useState(false);
 
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
@@ -111,6 +112,7 @@ const IdeaBox = () => {
     }
 
     fetchIdeas(false);
+    pageLoaderHandler(isloading ? "show": "hide");
     return () => {
       dispatch(
         TabsActions.updateTabsconfig({
@@ -118,6 +120,7 @@ const IdeaBox = () => {
         })
       );
     };
+
   }, []);
 
   const fetchDepartmentData = () => {
@@ -150,7 +153,7 @@ const IdeaBox = () => {
   }
 
   const fetchIdeas = async (isIdeaActive, ideaID = null, paramsInfo = {}) => {
-    pageLoaderHandler('show')
+    setIsloding(true)
     let obj;
     if (Object.getOwnPropertyNames(paramsInfo)) {
       obj = {
@@ -174,25 +177,28 @@ const IdeaBox = () => {
       .then((ideaData) => {
         if (!isIdeaActive) {
           //setIdeaLists(ideaData.data);
-          if (ideaListsReverse) {
-            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())].reverse());
+          if (ideaListsReverse && ideaData?.data?.length > 0) {
+            // setIdeaLists([])
+            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())]);
           } else {
-            setIdeaLists(ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf()));
+            setIdeaLists([...ideaData?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
           }
           setIdeaData(null);
           setIdeaDataState(false);
-          pageLoaderHandler('hide')
         } else {
           if (ideaListsReverse) {
             markIdeaAsActiveState([...ideaData.data].reverse(), ideaID);
           } else {
             markIdeaAsActiveState(ideaData.data, ideaID);
           }
+
         }
+        setIsloding(false)
+
       })
       .catch((error) => {
-        pageLoaderHandler('hide')
         console.log("fetchIdeas error", error);
+         setIsloding(false)
       });
   }
 
@@ -442,10 +448,25 @@ const IdeaBox = () => {
     setCreateModalShow(true);
   }
 
+  // const dateReceived = (isSort) => {
+  //   setIdeaListsReverse(isSort);
+  //   setIdeaLists([...ideaLists].reverse());
+  // }
+
   const dateReceived = (isSort) => {
-    setIdeaListsReverse(isSort);
-    setIdeaLists([...ideaLists].reverse());
-  }
+		const sortedList = [...ideaLists];
+		sortedList.sort((a, b) => {
+			
+			const dateA = (a.createdAt).toLocaleString();
+			const dateB = (b.createdAt).toLocaleString();
+
+			// Compare the dates
+			return isSort ? dateA.localeCompare(dateB) :dateB.localeCompare(dateA);
+		});
+	
+		setIdeaListsReverse(isSort);
+		setIdeaLists(sortedList);
+	}
 
   return (
     <React.Fragment>
@@ -488,8 +509,12 @@ const IdeaBox = () => {
                 <TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
               }
             />
-            {ideaLists && ideaLists.length > 0 &&
-              <React.Fragment>
+            {
+             !isloading &&
+             <>
+             
+             {ideaLists?.length > 0 &&
+                <React.Fragment>
                 <div className="row mx-0 ideaaboxContainer">
                   <div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
                     {activeTab && activeTab.id === 'ideas' && <IdeaList
@@ -509,7 +534,7 @@ const IdeaBox = () => {
                     }
                   </div>
                 </div>
-              </React.Fragment>
+              </React.Fragment> 
             }
             {ideaLists && ideaLists?.length <= 0 &&
               <ResponseInfo
@@ -520,6 +545,9 @@ const IdeaBox = () => {
                 subMessageInfo="C. S. Lewis"
               />
             }
+             </>
+            }
+           
           </div>
           <div id="myideas" className="tab-pane h-100">
             {/* <PageHeader title="My Idea"

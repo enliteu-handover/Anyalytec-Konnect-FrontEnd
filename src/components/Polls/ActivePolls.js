@@ -16,6 +16,7 @@ import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import axios from "axios";
 import TableComponent from "../../UI/tableComponent";
 import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 const ActivePolls = () => {
 	const dispatch = useDispatch();
@@ -34,6 +35,8 @@ const ActivePolls = () => {
 		setConfirmModalState(false);
 		setPollTempData({});
 	};
+    const [isLoading,setIsLoading] =useState(false)
+
 	const breadcrumbArr = [
 		{
 			label: "Home",
@@ -123,19 +126,26 @@ const ActivePolls = () => {
 	];
 
 	const fetchActivePollData = () => {
+		setIsLoading(true)
+
 		const obj = {
 			url: URL_CONFIG.ACTIVE_POLLS,
 			method: "get"
 		};
 		httpHandler(obj).then((response) => {
 			setActivePollsList(response.data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			setShowModal({ ...showModal, type: "danger", message: error?.response?.data?.message, });
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchActivePollData();
+		pageLoaderHandler(isLoading ? 'show':'hide')
 	}, []);
 
 	const confirmState = (isConfirmed) => {
@@ -179,7 +189,7 @@ const ActivePolls = () => {
 			{showModal.type !== null && showModal.message !== null && (
 				<EEPSubmitModal data={showModal} className={`modal-addmessage`} hideModal={hideModal}
 					successFooterData={
-						<button type="button" className="eep-btn eep-btn-xsml eep-btn-success" data-dismiss="modal" onClick={hideModal}> Ok </button>
+						<button type="button" className="eep-btn eep-btn-xsml eep-btn-success" data-dismiss="modal" onClick={hideModal}> Ok</button>
 					}
 					errorFooterData={
 						<button type="button" className="eep-btn eep-btn-xsml eep-btn-danger" data-dismiss="modal" onClick={hideModal}> Close </button>
@@ -200,13 +210,13 @@ const ActivePolls = () => {
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 
-								<TableComponent
+								{!isLoading &&<TableComponent
 									data={activePollsList ?? []}
 									columns={ActivePollsTableHeaders}
 									action={
 										<PollActions deletePoll={deletePoll} />
 									}
-								/>
+								/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import { useSelector } from "react-redux";
+import Select from "react-select";
+// import forumImg from '../styles/images/forum-Add.svg'
 
 const CreateEditCommunicationModal = (props) => {
 
@@ -28,7 +29,7 @@ const CreateEditCommunicationModal = (props) => {
   const [existPostDept, setExistPostDept] = useState([]);
   var titleMaxLength = 150;
   var descMaxLength = 255;
- 
+
   const fileTypeAndImgSrcArray = {
     "application/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
     "application/mspowerpoint": process.env.PUBLIC_URL + "/images/icons/special/ppt.svg",
@@ -156,7 +157,7 @@ const CreateEditCommunicationModal = (props) => {
   const maxFileSize = 1024000;
   var atthFiles = [];
   const onChangeHandler = (event, cType) => {
-    
+
     var file = [];
     file = event.target.files;
     for (let k = 0; k < file.length; k++) {
@@ -186,7 +187,7 @@ const CreateEditCommunicationModal = (props) => {
   };
 
   const updateAttachementFilesData = (fData, fType, vFiles) => {
-    
+
     if (fType === "new") {
       setAttachementFiles([...fData]);
       setModalAttachements([...vFiles]);
@@ -206,7 +207,7 @@ const CreateEditCommunicationModal = (props) => {
   }
 
   const postCommunicationHandler = () => {
-    
+
     const modalDatas = {
       dept: modalDepartment,
       title: modalTitle,
@@ -232,7 +233,6 @@ const CreateEditCommunicationModal = (props) => {
   const clearExistingAtth = () => {
     setClearExistingAtthState((prev) => !prev);
   }
-
   return (
     <div className="eepModalDiv">
       <div className="modal fade tc_design show" id="CreateEditCommunicationModal" aria-modal="true" style={{ display: "block" }}>
@@ -241,12 +241,19 @@ const CreateEditCommunicationModal = (props) => {
             <div className="modal-body py-0 px-0 eep_scroll_y">
               <div className="row justify-content-md-center mb-1">
                 <div className="col-md-12 text-center mb-1">
-                  <img src={communicationType && 
-                  communicationType === 'idea' ? 
-                  `${process.env.PUBLIC_URL}/images/icons/static/Ideabox-Add.svg` :
+                  {/* <img src={ 
+                     communicationType === 'idea' ? 
+                  `${ideaBoxImg}` :
                    (communicationType === 'forum' ?
-                   `${process.env.PUBLIC_URL}/images/icons/static/forum-Add.svg` :
-                    `${process.env.PUBLIC_URL}/images/icons/static/noData.svg`)} alt="Communication Icon" />
+                   `${forumImg}` :
+                    `${nodataImg}`)
+                  // communicationType === 'idea' ? 
+                  // `${process.env.PUBLIC_URL}/images/icons/static/Ideabox-Add.svg` :
+                  //  (communicationType === 'forum' ?
+                  //  `${process.env.PUBLIC_URL}/images/icons/static/forum-Add.svg` :
+                  //   `${process.env.PUBLIC_URL}/images/icons/static/noData.svg`)
+                } 
+                    alt="Communication Icon" /> */}
                 </div>
                 <div className="col-md-12 d-flex justify-content-between eep_popupLabelMargin">
                   <label className="font-helvetica-m  mb-0 c-404040 eep_required_label">Post to</label>

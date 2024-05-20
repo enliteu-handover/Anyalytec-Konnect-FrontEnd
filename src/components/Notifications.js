@@ -18,6 +18,7 @@ const Notifications = () => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [checkedData, setCheckedData] = useState([]);
 	const [renderTable, setRenderTable] = useState(true);
+	const [isLoading,setIsLoading] =useState(false)
 
 	const breadcrumbArr = [
 		{
@@ -120,6 +121,8 @@ const Notifications = () => {
 	}
 
 	const fetchNotifications = () => {
+		setIsLoading(true)
+
 		const obj = {
 			url: URL_CONFIG.NOTIFICATIONS_BY_ID,
 			method: "get"
@@ -131,9 +134,13 @@ const Notifications = () => {
 				dispatch(sharedDataActions.getIsNotification({
 					isNotification: response?.data
 				}))
+				setIsLoading(false)
+
 			})
 			.catch((error) => {
 				console.log("fetchNotifications API error", error);
+				setIsLoading(false)
+
 			});
 	}
 
@@ -315,13 +322,13 @@ const Notifications = () => {
 					<div className="table-responsive eep_datatable_table_div p-2" style={{ visibility: "visible" }}>
 						<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
 							{/* {renderTable && */}
-							<TableComponent
+							{!isLoading &&	<TableComponent
 								data={notificationList ?? []}
 								columns={notificationTableHeaders}
 								action={
 									<ActionCustomComponent readUnreadNotifications={readUnreadNotifications} clearNotifications={clearNotifications} />
 								}
-							/>
+							/>}
 							{/* } */}
 						</div>
 					</div>

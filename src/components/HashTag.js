@@ -336,7 +336,12 @@ const HashTag = () => {
         </React.Fragment>
       }
 
-      {hashTag?.length == 0 && <div style={{ marginLeft: "40%" }}>No Data!.</div>}
+      {hashTag?.length === 0 &&  <div style={{
+                    position: 'fixed',
+                    top: '50%',
+                    right: '46%',
+                    fontSize:'16px'
+                }}>No Data !</div>}
       {!userRolePermission.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo

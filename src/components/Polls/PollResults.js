@@ -14,6 +14,7 @@ import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
 import TableComponent from "../../UI/tableComponent";
 import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 const PollResults = () => {
 	const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const PollResults = () => {
 		}
 		setShowModal({ type: null, message: null });
 	};
+    const [isLoading,setIsLoading] =useState(false)
+
 	const breadcrumbArr = [
 		{
 			label: "Home",
@@ -113,6 +116,8 @@ const PollResults = () => {
 	];
 
 	const fetchPollResultDetail = (paramsInfo) => {
+		setIsLoading(true)
+
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -128,6 +133,8 @@ const PollResults = () => {
 		}
 		httpHandler(obj).then((response) => {
 			setPollResultList(response.data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			let errMsg;
 			if (error.response) {
@@ -142,11 +149,15 @@ const PollResults = () => {
 				type: "danger",
 				message: errMsg,
 			});
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchPollResultDetail(filterParams);
+		pageLoaderHandler(isLoading ? 'show':'hide')
+
 	}, []);
 
 	const getFilterParams = (paramsData) => {
@@ -193,12 +204,12 @@ const PollResults = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								<TableComponent
+								{!isLoading &&<TableComponent
 									data={pollResultList ?? []}
 									columns={PollResultTableHeaders}
 									actionHidden={true}
 
-								/>
+								/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

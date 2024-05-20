@@ -7,12 +7,15 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import NominatedAwards from "./NominatedAwards";
 import TableComponent from "../../UI/tableComponent";
+import { pageLoaderHandler } from "../../helpers";
 
 const Nominations = () => {
 
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const [nominatedList, setNominatedList] = useState([]);
   const [awardList, setAwardList] = useState([]);
+  const [isLoading,setIsLoading] =useState(false)
+
 
   let userPicIndex;
   const getUserPicture = (picDataArr, uID) => {
@@ -46,6 +49,8 @@ const Nominations = () => {
   };
 
   const fetchNomineeData = (picDatas) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.NOMINATIONS_LIST,
       method: "get",
@@ -66,14 +71,20 @@ const Nominations = () => {
         });
         setAwardList(awardsInfo);
         setNominatedList(usersInfo);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error);
+    setIsLoading(false)
+
       });
   };
 
   useEffect(() => {
     fetchAllUsers();
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
 
@@ -118,12 +129,12 @@ const Nominations = () => {
           <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
             <div id="awardApprovalDatatable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer">
               {/* {nominatedList && ( */}
-
+{!isLoading &&
               <TableComponent
                 data={nominatedList ?? []}
                 columns={nominatedTableHeaders}
                 actionHidden={true}
-              />
+              />}
               {/* )} */}
             </div>
           </div>

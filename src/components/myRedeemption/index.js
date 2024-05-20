@@ -7,6 +7,7 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import "./style.css";
+import { pageLoaderHandler } from "../../helpers";
 
 const MyProfileCoupon = (props) => {
 
@@ -14,6 +15,7 @@ const MyProfileCoupon = (props) => {
     const [state, setState] = useState({
         data: []
     });
+    const [isLoading,setIsLoading] =useState(false)
 
     const breadcrumbArr = [
         {
@@ -34,9 +36,13 @@ const MyProfileCoupon = (props) => {
             })
         );
         fetchRedeem();
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     const fetchRedeem = () => {
+    setIsLoading(true)
+        
         const obj = {
             url: URL_CONFIG.GET_REDEEM,
             method: "get",
@@ -46,6 +52,8 @@ const MyProfileCoupon = (props) => {
                 ...state,
                 data: response?.data?.data ?? []
             })
+    setIsLoading(false)
+
         })
     }
     const headers = [
@@ -74,12 +82,12 @@ const MyProfileCoupon = (props) => {
     return (
         <React.Fragment>
             <PageHeader title={`Redemptions`} />
-            <TableComponent
+          {!isLoading &&  <TableComponent
                 data={state?.data ?? []}
                 columns={headers}
                 actionHidden={true}
                 enableRowNumbers={true}
-            />
+            />}
         </React.Fragment>
     );
 };

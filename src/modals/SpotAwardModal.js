@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import AssignAwardModalInfo from "../components/Awards/AssigAwardModalInfo";
 import SpotAwardModalInput from "../components/Awards/SpotAwardModalInput";
-import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
 
 const SpotAwardModal = (props) => {
   const { deptOptions, assignAwardData } = props;
@@ -10,7 +10,8 @@ const SpotAwardModal = (props) => {
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
   const [awardResponseClassName, setAwardResponseClassName] = useState("");
   const [isclear, setisclear] = useState(false);
-
+  const [selectedDepts, setSelectedDepts] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const getSelectedDeptment = (arg) => {
     const deptArr = [];
     arg.map(res => {
@@ -20,11 +21,26 @@ const SpotAwardModal = (props) => {
   }
 
   const recognizeAwardOnClickHandler = () => {
+    let userIds = [],
+      deptIds = [];
+    selectedUsers.map((res) => {
+      userIds.push({ id: res.value });
+      return res;
+    });
+
+    selectedDepts.map((res) => {
+      deptIds.push({ id: res.value });
+      return res;
+    });
+
+    console.log(userIds, "userIds<<<<");
+    console.log(deptIds, "deptIds>>>>");
     const regData = {
       award: {
         id: assignAwardData.data.id
       },
-      departmentId: selectedDept
+      departmentId: selectedDept,
+      userIds: userIds
     }
     const obj = {
       url: URL_CONFIG.SPOT_AWARD,
@@ -45,12 +61,20 @@ const SpotAwardModal = (props) => {
       });
   }
 
+  const getUsers = (e) => {
+    setSelectedUsers(e)
+  }
+
+  const getDepts = (e) => {
+    setSelectedDepts(e)
+  }
+
   React.useEffect(() => {
     setAwardResponseClassName('')
     setAwardResponseMsg('')
     setSelectedDept([])
     setisclear(!isclear)
-  }, [deptOptions, assignAwardData]);
+  }, [assignAwardData]);
 
   return (
     <div className="eepModalDiv">
@@ -64,7 +88,9 @@ const SpotAwardModal = (props) => {
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center mb-4">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} />}
-                  <SpotAwardModalInput isclear={isclear} deptOptions={deptOptions} getSelectedDeptment={getSelectedDeptment} />
+                  <SpotAwardModalInput isclear={isclear} deptOptions={deptOptions} getSelectedDeptment={getSelectedDeptment}
+                    getUsers={getUsers}
+                    getDepts={getDepts} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">

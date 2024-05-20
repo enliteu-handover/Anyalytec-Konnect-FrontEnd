@@ -9,6 +9,7 @@ import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import StopAllotedAwardModal from "../../modals/StopAllotedAwardModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
 
 const ManageAwards = () => {
 
@@ -17,6 +18,8 @@ const ManageAwards = () => {
   const [tab, setTab] = useState('');
   const [deletionData, setDeletionData] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [isLoading,setIsLoading] =useState(false)
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -149,6 +152,8 @@ const ManageAwards = () => {
   }
 
   const fetchManageAwardData = (arg) => {
+    setIsLoading(true)
+
     let obj;
     if (arg === "nomi_award") {
       obj = {
@@ -175,9 +180,13 @@ const ManageAwards = () => {
             // type: v?.entity_type || v?.type || ''
           }
         }));
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   };
@@ -185,6 +194,8 @@ const ManageAwards = () => {
   useEffect(() => {
     setTab('nomi_award')
     fetchManageAwardData("nomi_award");
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const confirmState = (arg) => {
@@ -261,7 +272,7 @@ const ManageAwards = () => {
         </div>
 
         <div className="award_manage_div">
-          {tab === "nomi_award" && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+          {tab === "nomi_award" && !isLoading && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
             <TableComponent
               data={awardManage ?? []}
               columns={manageNominationSchedulesTableHeaders}
@@ -269,7 +280,7 @@ const ManageAwards = () => {
             />
           </div>}
 
-          {tab === "spot_award" && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+          {tab === "spot_award" && !isLoading && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
             <TableComponent
               data={awardManage ?? []}
               columns={manageSpotTableHeaders}
