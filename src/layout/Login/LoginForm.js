@@ -163,7 +163,7 @@ const LoginForm = () => {
           allPoints: response?.data?.totalPoints,
           HeaderLogo: response?.data?.HeaderLogo,
           userLogo: response?.data?.userLogo,
-          theme: response?.data?.theme?.[0] ?? {},
+          theme: response?.data?.theme?.find(v => v.id === 1) ?? {},
           orgId: response?.data?.orgId ?? "",
           countryDetails: response?.data?.countryDetails ?? "",
           arabic: arabic,

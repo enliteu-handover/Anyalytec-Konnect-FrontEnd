@@ -123,7 +123,7 @@ export const fetchUserPermissions = async (dispatch) => {
         allPoints: response?.data?.totalPoints,
         HeaderLogo: response?.data?.HeaderLogo,
         userLogo: response?.data?.userLogo,
-        theme: response?.data?.theme?.[0] ?? {},
+        theme: response?.data?.theme?.find((obj) => obj.id === 1) ?? {},
         orgId: response?.data?.orgId ?? "",
         countryDetails: response?.data?.countryDetails ?? "",
         arabic: arabic,

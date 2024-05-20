@@ -96,7 +96,6 @@ const PortalSettings = () => {
       if (state?.color) {
         data["theme"]["color"] = state.color;
       }
-      console.log(data);
       if (state.language === "English (US)") {
         i18n.changeLanguage("en");
         data.arabic = false;
@@ -110,18 +109,22 @@ const PortalSettings = () => {
       data["HeaderLogo"] = state?.headerLogoByte ?? "";
       // }
       sessionStorage.setItem("userData", JSON.stringify(data));
+      getPortal();
     });
   };
 
   React.useEffect(() => {
+    getPortal();
+  }, []);
+
+  const getPortal = (id) => {
     const obj = {
       url: URL_CONFIG.ADD_ADMIN_PANEL,
       method: "get",
     };
 
     httpHandler(obj).then((reponse) => {
-      const data = JSON.parse(sessionStorage.getItem("userData"))?.arabic ?
-        reponse?.data?.find((v) => v.id === 1) : reponse?.data?.find((v) => v.id === 2)
+      const data = reponse?.data?.find((v) => v.id === 1)
       setState({
         ...state,
         ...data,
@@ -129,7 +132,7 @@ const PortalSettings = () => {
         headerLogoByte: data?.headerLogoByte?.image ?? "",
       });
     });
-  }, []);
+  }
 
   return (
     <React.Fragment>
