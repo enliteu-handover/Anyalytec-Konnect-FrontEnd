@@ -1,19 +1,22 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Button from "../../UI/Button";
 import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
-import { idmRoleMapping } from '../../idm';
-import { sharedDataActions } from '../../store/shared-data-slice';
+import { idmRoleMapping } from "../../idm";
+import { sharedDataActions } from "../../store/shared-data-slice";
 import classes from "./LoginForm.module.scss";
-import axios from "axios";
+import i18n from "i18next";
 
 const LoginForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [togglePWIcon, setTogglePWIcon] = useState(true);
-  const pwBgImage = togglePWIcon ? "/images/pw_hide.svg" : "/images/pw_show.svg";
+  const pwBgImage = togglePWIcon
+    ? "/images/pw_hide.svg"
+    : "/images/pw_show.svg";
   const [userName, setUserName] = useState("");
   const [userNameTouched, setUserNameTouched] = useState(false);
   const userNameIsValid = userName.trim() !== "";
@@ -27,18 +30,6 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState("");
 
   const [formIsValid, setFormIsValid] = useState(false);
-
-  useEffect(() => {
-
-    axios.get(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.GIFT_VOUCHER}`)
-      .then(response => {
-        console.log('Qwik gifts---', response?.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-  }, [])
 
   useEffect(() => {
     setFormIsValid(false);
@@ -71,22 +62,16 @@ const LoginForm = () => {
   };
 
   const formSubmissionHandler = async (event) => {
-
     event.preventDefault();
 
     const validate_login_uder = {
       url: URL_CONFIG.USER_VALIDATION,
       method: "post",
       payload: {
-        username: userName
-      }
+        username: userName,
+      },
     };
-    const user_validation = await httpHandler(validate_login_uder)
-    if (!user_validation?.data?.is_valid) {
-      const errMsg = "You are not a valid user, please contact the administrator."
-      setLoginError(errMsg);
-      return
-    }
+
     setUserNameTouched(true);
     setPasswordTouched(true);
 
@@ -96,43 +81,51 @@ const LoginForm = () => {
     };
 
     if (formIsValid) {
+      const user_validation = await httpHandler(validate_login_uder);
+      if (!user_validation?.data?.is_valid) {
+        const errMsg =
+          "You are not a valid user, please contact the administrator.";
+        setLoginError(errMsg);
+        return;
+      }
       const obj = {
         url: URL_CONFIG.AUTH_LOGIN_URL,
         method: "post",
         payload: options1,
         isLoader: true,
-        isAuth: true
+        isAuth: true,
       };
       httpHandler(obj)
         .then(async (userData) => {
           sessionStorage.userData = JSON.stringify({
-            "id": userData.data.data.user?.id,
-            "username": userData?.data?.data?.user?.username,
-            "email": userData?.data?.data?.user?.email_id,
-            "fullName": userData?.data?.data?.user?.username,
-            "tokenType": "Bearer",
-            accessToken: userData?.data?.data?.token
-            // accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjg2ODI0NTE1LCJleHAiOjE2ODY4MjYzMTV9.J-C3XMTogyhBQR-00LkHhBS20MeoiPNrpsCoaRRN_CCxQkPldYnv9vx7tpS5r3leRROgbg8DUtHTjRay16b04g"
+            id: userData.data.data.user?.id,
+            username: userData?.data?.data?.user?.username,
+            email: userData?.data?.data?.user?.email_id,
+            fullName: userData?.data?.data?.user?.username,
+            tokenType: "Bearer",
+            accessToken: userData?.data?.data?.token,
           });
           sessionStorage.loggedInTime = new Date().getTime();
-          await updateToLoginUserTokenHandler(userData?.data?.data?.token)
-          // await idmRolesToUpdateInDb()?.then(async () => {
+          updateToLoginUserTokenHandler(userData?.data?.data?.token);
           await fetchPermission()?.then(() => {
-            if (sessionStorage?.redirect && sessionStorage?.redirect.includes('slack=true')) {
+            if (
+              sessionStorage?.redirect &&
+              sessionStorage?.redirect.includes("slack=true")
+            ) {
               const url = new URL(sessionStorage?.redirect);
               const router = url.pathname;
-              console.log(router);
-              history.push(router + '#' + sessionStorage?.redirect.split('#')[1]);
-              sessionStorage.removeItem('redirect')
+              history.push(
+                router + "#" + sessionStorage?.redirect.split("#")[1]
+              );
+              sessionStorage.removeItem("redirect");
             } else {
-              history.push("/app/dashboard");
+              // history.push("/app/dashboard");
+              window.location.pathname = "/app/dashboard";
             }
-          })
-          // })
+          });
         })
         .catch((error) => {
           console.log("formSubmissionHandler error", error.response);
-          //const errMsg = error.response?.data?.message;
           const errMsg = "Invalid credentials.";
           setLoginError(errMsg);
         });
@@ -140,48 +133,62 @@ const LoginForm = () => {
   };
 
   const updateToLoginUserTokenHandler = async (token) => {
-
     const obj = {
       url: URL_CONFIG.TOKEN_UPDATE,
       method: "post",
       payload: { token: token ?? localStorage.getItem("deviceToken") },
-      isLoader: true
+      isLoader: true,
     };
 
     await httpHandler(obj);
   };
 
   const fetchPermission = async () => {
-
     const obj = {
       url: URL_CONFIG.USER_PERMISSION,
       method: "get",
     };
-    await httpHandler(obj).then(async (response) => {
-      const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
+    await httpHandler(obj)
+      .then(async (response) => {
+        const roleData = await idmRoleMapping(response?.data?.roleId?.idmID);
 
-      const getAndUpdate = sessionStorage.getItem('userData')
-      const addFileds = {
-        ...JSON.parse(getAndUpdate),
-        firstName: response?.data?.firstName,
-        lastName: response?.data?.lastName,
-        allPoints: response?.data?.totalPoints,
-        HeaderLogo: response?.data?.HeaderLogo,
-        userLogo: response?.data?.userLogo,
-        theme: response?.data?.theme?.[0] ?? {},
-      }
-      sessionStorage.setItem('userData', JSON.stringify(addFileds))
-      await dispatch(sharedDataActions.getUserRolePermission({
-        userRolePermission: roleData?.data
-      }));
+        const getAndUpdate = sessionStorage.getItem("userData");
+        const arabic = (response?.data?.theme).some(
+          (obj) => obj.language === "Arabic (AR)" && obj.id === 1
+        );
+        const addFileds = {
+          ...JSON.parse(getAndUpdate),
+          firstName: response?.data?.firstName,
+          lastName: response?.data?.lastName,
+          allPoints: response?.data?.totalPoints,
+          HeaderLogo: response?.data?.HeaderLogo,
+          userLogo: response?.data?.userLogo,
+          theme: response?.data?.theme?.find(v => v.id === 1) ?? {},
+          orgId: response?.data?.orgId ?? "",
+          countryDetails: response?.data?.countryDetails ?? "",
+          arabic: arabic,
+        };
+        sessionStorage.setItem("userData", JSON.stringify(addFileds));
+        // check language ans set in documentElement <HTML></HTML>
 
-    }).catch((error) => {
-      console.log("fetchPermission error", error);
-    });
-  }
+        arabic ? i18n.changeLanguage("ar") : i18n.changeLanguage("en");
+        const dir = i18n.dir(i18n.language);
+        document.documentElement.dir = dir;
+        dispatch(
+          sharedDataActions.getUserRolePermission({
+            userRolePermission: roleData?.data,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log("fetchPermission error", error);
+      });
+  };
 
   const nameInputClasses = nameInputIsInvalid ? `${classes.invalid}` : "";
-  const passwordInputClasses = passWordInputIsInvalid ? `${classes.invalid}` : "";
+  const passwordInputClasses = passWordInputIsInvalid
+    ? `${classes.invalid}`
+    : "";
 
   return (
     <div className={classes.loginFormContainer}>
@@ -235,11 +242,13 @@ const LoginForm = () => {
                     onClick={passwordToggleHandler}
                   ></div>
                 </div>
-                {passWordInputIsInvalid && (
-                  <p className="error-text">Please enter password</p>
-                )}
-                {loginError && <p className="error-text">{loginError}</p>}
               </div>
+              {passWordInputIsInvalid && (
+                <p className="error-text" style={{ bottom: "5px" }}>
+                  Please enter password
+                </p>
+              )}
+              {loginError && <p className="error-text">{loginError}</p>}
             </div>
           </div>
           <div className={classes.btnSubmit_div}>

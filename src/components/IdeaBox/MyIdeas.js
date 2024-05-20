@@ -14,6 +14,9 @@ import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import IdeaViewModal from "./IdeaViewModal";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal"
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function MyIdeas(props) {
 
@@ -35,6 +38,8 @@ function MyIdeas(props) {
   const [communicationModalErr, setCommunicationModalErr] = useState("");
   const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [isLoading,setIsLoading] =useState(false)
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -180,37 +185,47 @@ function MyIdeas(props) {
 
   const myIdeasTableHeaders = [
     {
-      fieldLabel: "Title",
-      fieldValue: "title",
+      header: "Title",
+      accessorKey: "title",
     },
     {
-      fieldLabel: "Favourites",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.favourites} />,
+      header: "Favourites",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.favourites} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.favourites} />,
+
     },
     {
-      fieldLabel: "Likes",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      header: "Likes",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+
     },
     {
-      fieldLabel: "Comments",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      header: "Comments",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "action",
-      component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "action",
+      accessorFn: (row) => moment(row.createdAt).format('l'),
+
+      // component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <MyIdeaActions unPostIdea={unPostIdea} postIdea={postIdea} deleteIdea={deleteIdea} viewIdea={viewIdea} editIdea={editIdea} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <MyIdeaActions unPostIdea={unPostIdea} postIdea={postIdea} deleteIdea={deleteIdea} viewIdea={viewIdea} editIdea={editIdea} />,
+    // },
   ];
 
   const fetchMyIdeasData = (paramData = {}) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.MY_IDEAS,
       method: "get",
@@ -221,24 +236,29 @@ function MyIdeas(props) {
     httpHandler(obj)
       .then((myIdeas) => {
         setMyIdeasList([...myIdeas?.data?.map(v => { return { ...v, name: v?.title } })]);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   }
 
   useEffect(() => {
     fetchMyIdeasData(yearFilterValue);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const confirmState = (isConfirmed) => {
-    
+
     disableExistModal();
     if (isConfirmed) {
       let ideaUpdateObj, formData, httpObj;
       if (ideaTempData.actionType === "unpost" || ideaTempData.actionType === "post") {
-        //console.log("ideaTempData", ideaTempData);
         formData = new FormData();
         ideaUpdateObj = {
           id: ideaTempData.id,
@@ -339,7 +359,6 @@ function MyIdeas(props) {
   }
 
   const onFilterChange = (filterValue) => {
-    console.log("filterValue", filterValue);
     setYearFilterValue({ filterby: filterValue.value });
     fetchMyIdeasData({ filterby: filterValue.value });
   }
@@ -398,18 +417,12 @@ function MyIdeas(props) {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {myIdeasList && (
-              <Table
-                component="userManagement"
-                headers={myIdeasTableHeaders}
-                data={myIdeasList}
-                tableProps={{
-                  classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              ></Table>
-            )}
+
+        { !isLoading  &&  <TableComponent
+              data={myIdeasList ?? []}
+              columns={myIdeasTableHeaders}
+              action={<MyIdeaActions unPostIdea={unPostIdea} postIdea={postIdea} deleteIdea={deleteIdea} viewIdea={viewIdea} editIdea={editIdea} />}
+            />}
           </div>
         </div>
       </div>

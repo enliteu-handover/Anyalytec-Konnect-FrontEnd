@@ -88,7 +88,6 @@ const CreatePoll = () => {
 		
 		if(initPollData) {
 			fetchUserData();
-			console.log("initPollData", initPollData);
 			const {name, type, options, endDate, pollResponse} = initPollData;
 			setPollTitle(name);
 			const ChoiceTypeTemp = ChoiceType.filter(res => res.value === type);
@@ -108,7 +107,6 @@ const CreatePoll = () => {
 			let userOptionsTemp = [];
 			if(pollResponse) {
 				
-				console.log("pollResponse", pollResponse);
 				setAssignUserState(true);
 				setAssignUser({ value: 'Users', label: 'Users' });
 				userOptionsTemp = Array.isArray(pollResponse)&&pollResponse?.map(item => {
@@ -365,8 +363,8 @@ const CreatePoll = () => {
 
 	const CustomInputStartDate = React.forwardRef(({ value, onClick }, ref) => {
 		return (
-			<div className="input-group">
-				<button className="form-control border_none text-left p_enddate" onClick={onClick} ref={ref}>{value ? value : "DD/MM/YYYY"}</button>
+			<div className="input-group" onClick={onClick} ref={ref} style={{cursor:'pointer'}}>
+				<button className="form-control border_none text-left p_enddate" >{value ? value : "DD/MM/YYYY"}</button>
         <span className="eep_addon_separator"></span>
 				<span className="input-group-addon" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.calendar_icon }}></span>
 			</div>

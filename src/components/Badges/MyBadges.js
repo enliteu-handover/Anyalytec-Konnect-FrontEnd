@@ -6,6 +6,7 @@ import ShareToWall from "../../modals/ShareToWall";
 import PageHeader from "../../UI/PageHeader";
 import YearFilter from "../../UI/YearFilter";
 import { formatDate } from "../../shared/SharedService";
+import { pageLoaderHandler } from "../../helpers";
 
 const MyBadge = () => {
 
@@ -14,9 +15,11 @@ const MyBadge = () => {
   const [myBadgeData, setMyBadgeData] = useState([]);
   const [myBadgeModalShow, setMyBadgeModalShow] = useState(false);
   const [shareBadgeID, setShareBadgeID] = useState(null);
+	const [isloading, setIsloding] = useState(false);
 
   const fetchMyBadgeData = (paramData = {}) => {
     
+    setIsloding(true)
     const obj = {
       url: URL_CONFIG.MY_BADGES,
       method: "get",
@@ -27,15 +30,19 @@ const MyBadge = () => {
     httpHandler(obj)
       .then((bData) => {
         setMyBadgeData(bData.data);
+    setIsloding(false)
+
       })
       .catch((error) => {
         console.log("MyBadge error", error.response?.data?.message);
+    setIsloding(false)
+
       });
   };
 
   useEffect(() => {
-    
     fetchMyBadgeData({ filterby: yearFilterValue?.filterby });
+		pageLoaderHandler(isloading ? "show": "hide");
   }, []);
 
   const getMyHashTag = (arg) => {
@@ -60,7 +67,7 @@ const MyBadge = () => {
     <React.Fragment>
       <PageHeader title="My Badges" filter={<YearFilter onFilterChange={onFilterChange} />} />
       {myBadgeModalShow && (<ShareToWall ShareID={shareBadgeID} fetchMyData={fetchMyBadgeData} />)}
-      <div className={`${myBadgeData.length <= 0 ? "h-100 " : "mt-4"} row eep-content-start eep-mybadge-div`} id="content-start">
+      {!isloading &&<div className={`${myBadgeData.length <= 0 ? "h-100 " : "mt-4"} row eep-content-start eep-mybadge-div`} id="content-start">
         {myBadgeData && myBadgeData.length > 0 && myBadgeData.map((data, index) => (
           <div className="col-md-4 col-lg-3 col-xs-4 col-sm-6 text-left badge_col_div card-container" key={'MyBadge_' + index}>
             <div className="card-flip">
@@ -120,9 +127,9 @@ const MyBadge = () => {
           </div>
         ))}
         {myBadgeData && myBadgeData.length <= 0 && (
-          <ResponseInfo title="No record found." responseImg="noRecord" responseClass="response-info" />
+          <ResponseInfo title="Yet to earn badges" responseImg="noRecord" responseClass="response-info" />
         )}
-      </div>
+      </div>}
     </React.Fragment>
   );
 };

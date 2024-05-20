@@ -12,6 +12,9 @@ import ResponseCustomComponent from "../../UI/CustomComponents/ResponseCustomCom
 import PollCustomComponent from "../../UI/CustomComponents/PollCustomComponent";
 import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 const PollResults = () => {
 	const dispatch = useDispatch();
@@ -26,6 +29,8 @@ const PollResults = () => {
 		}
 		setShowModal({ type: null, message: null });
 	};
+    const [isLoading,setIsLoading] =useState(false)
+
 	const breadcrumbArr = [
 		{
 			label: "Home",
@@ -81,52 +86,59 @@ const PollResults = () => {
 
 	const PollResultTableHeaders = [
 		{
-			fieldLabel: "Poll TITLE",
-			fieldValue: "name",
+			header: "Poll TITLE",
+			accessorKey: "name",
 		},
 		{
-			fieldLabel: "END DATE",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={cSettings.endDate} />,
+			header: "END DATE",
+			accessorKey: "endDate",
+			accessorFn: (row) => row.endDate ? moment(row.endDate).format('l') : '--',
+
 		},
 		{
-			fieldLabel: "ANSWERED",
-			fieldValue: "score",
-			component: <PollCustomComponent typee="score" />,
+			header: "ANSWERED",
+			accessorKey: "score",
+			accessorFn: (row) => <PollCustomComponent data={row} typee="score" />,
+
 		},
 		{
-			fieldLabel: "COUNT",
-			fieldValue: "response",
-			component: <PollCustomComponent typee="response" />,
+			header: "COUNT",
+			accessorKey: "response",
+			accessorFn: (row) => <PollCustomComponent data={row} typee="response" />,
+
 		},
 		{
-			fieldLabel: "RESPONSE",
-			fieldValue: "action",
-			component: <ResponseCustomComponent cSettings={cSettings.response} type="polls" />,
+			header: "RESPONSE",
+			accessorKey: "action",
+			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
+
 		}
 	];
 
 	const fetchPollResultDetail = (paramsInfo) => {
+		setIsLoading(true)
+
 		let obj;
-    if(Object.getOwnPropertyNames(paramsInfo)) {
-      obj = {
-        url: URL_CONFIG.POLL,
-        method: "get",
-        params: paramsInfo
-      };
-    } else {
-      obj = {
-        url: URL_CONFIG.POLL,
-        method: "get"
-      };
-    }
+		if (Object.getOwnPropertyNames(paramsInfo)) {
+			obj = {
+				url: URL_CONFIG.POLL,
+				method: "get",
+				params: paramsInfo
+			};
+		} else {
+			obj = {
+				url: URL_CONFIG.POLL,
+				method: "get"
+			};
+		}
 		httpHandler(obj).then((response) => {
-			//console.log("fetchPollResultDetail response :", response.data);
 			setPollResultList(response.data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			let errMsg;
-			if(error.response) {
-				if(error.response.status === 500) {
+			if (error.response) {
+				if (error.response.status === 500) {
 					errMsg = error.response?.data?.details !== undefined && error.response?.data?.details[0] ? error.response?.data?.details[0] : "Something went wrong contact administarator";
 				} else {
 					errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -137,21 +149,25 @@ const PollResults = () => {
 				type: "danger",
 				message: errMsg,
 			});
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchPollResultDetail(filterParams);
+		pageLoaderHandler(isLoading ? 'show':'hide')
+
 	}, []);
 
 	const getFilterParams = (paramsData) => {
-    if(Object.getOwnPropertyNames(filterParams)) {
-      setFilterParams({...paramsData});
-    } else {
-      setFilterParams({});
-    }
-    fetchPollResultDetail(paramsData);
-  }
+		if (Object.getOwnPropertyNames(filterParams)) {
+			setFilterParams({ ...paramsData });
+		} else {
+			setFilterParams({});
+		}
+		fetchPollResultDetail(paramsData);
+	}
 
 	return (
 		<React.Fragment>
@@ -188,18 +204,12 @@ const PollResults = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{pollResultList && (
-									<Table
-										component="userManagement"
-										headers={PollResultTableHeaders}
-										data={pollResultList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
-								)}
+								{!isLoading &&<TableComponent
+									data={pollResultList ?? []}
+									columns={PollResultTableHeaders}
+									actionHidden={true}
+
+								/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

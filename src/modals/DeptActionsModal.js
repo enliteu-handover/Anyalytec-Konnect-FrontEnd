@@ -10,7 +10,6 @@ const DeptActionsModal = (props) => {
 
   //const deptDatas = props.viewDepartment ? props.viewDepartment : {};
   const initDeptDatas = viewDepartment ? viewDepartment : {};
-  //console.log("initDeptDatas", initDeptDatas);
   const options = [
     { value: "true", label: "Active" },
     { value: "false", label: "Inactive" },
@@ -34,7 +33,6 @@ const DeptActionsModal = (props) => {
   }, []);
 
   useEffect(() => {
-    //console.log("initDeptDatas", initDeptDatas);
     setShowSelect(false);
     setResponseMsg("");
     setDeptDatas(initDeptDatas);
@@ -89,7 +87,6 @@ const DeptActionsModal = (props) => {
       method: "put",
       payload: typeof payOptions === 'string' ? JSON.parse(payOptions) : payOptions,
     };
-    //console.log("updateDepartmentHandler obj", obj);
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;
@@ -176,7 +173,7 @@ const DeptActionsModal = (props) => {
                           <div className="d-flex justify-content-between">
                             <div className="d-flex flex-column align-items-start">
                               <label>Status</label>
-                              <p className="font-helvetica-m">{deptMode ? "Active" : "Inactive"}</p>
+                              <p className="font-helvetica-m">{initDeptDatas?.active ? "Active" : "Inactive"}</p>
                             </div>
                             <div className="d-flex flex-column align-items-start">
                               <label>Department ID</label>

@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-// import classes from "./Login.module.scss";
-import ChangePassword from "./ChangePassword";
-import ForgotPassword from "./ForgotPassword";
-import LoginForm from "./LoginForm";
-// import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import SvgComponent from "../../components/ViwerComponents";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import "../../styles/lib/bg-animations.scss";
 import "../../styles/lib/login-style.scss";
-import SvgComponent from "../../components/ViwerComponents";
+import ChangePassword from "./ChangePassword";
+import ForgotPassword from "./ForgotPassword";
+import LoginForm from "./LoginForm";
 
 const Login = () => {
   const [state, setState] = useState({
@@ -84,16 +82,6 @@ const Login = () => {
                   </Route>
                 </Switch>
               </div>
-              {/* {!showForgotPWModule && (
-              <div className={`col-md-6 ${classes.login_sec}`}>
-                <LoginForm />
-              </div>
-            )}
-            {showForgotPWModule && (
-              <div className={`col-md-6 ${classes.login_sec}`}>
-                
-              </div>
-            )} */}
             </div>
           </div>
         </div>

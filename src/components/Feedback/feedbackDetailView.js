@@ -24,15 +24,6 @@ const FeedbackDetailView = (props) => {
     setShowModal({ type: null, message: null });
   };
 
-  let iLikedIndex;
-  const isIdeaLiked = (uID, feedbackLikes) => {
-    iLikedIndex = feedbackLikes.findIndex(x => x.userId.user_id === uID);
-    if (iLikedIndex !== -1) {
-      return { isLiked: true, likedID: feedbackLikes[iLikedIndex].id };
-    } else {
-      return { isLiked: false, likedID: null };
-    }
-  }
 
   const fetchIdeaDetail = () => {
 

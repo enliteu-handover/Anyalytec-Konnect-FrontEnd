@@ -1,3 +1,5 @@
+import { getRoles } from '@crayond_dev/idm-client';
+import moment from 'moment';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -6,16 +8,14 @@ import UserManagementActionDropdown from "../UI/CustomComponents/UserManagementA
 import Filter from "../UI/Filter";
 import PageHeader from "../UI/PageHeader";
 import ResponseInfo from "../UI/ResponseInfo";
-import Table from "../UI/Table";
+import TableComponent from "../UI/tableComponent";
 import { URL_CONFIG } from "../constants/rest-config";
 import { FILTER_CONFIG } from "../constants/ui-config";
+import { downloadXlsx, pageLoaderHandler } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
+import { idmRoleMappingRolesScreenAccess } from "../idm";
 import CreateBulkUploadModal from "../modals/CreateBulkUserModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
-import { getRoles } from '@crayond_dev/idm-client';
-import TableComponent from "../UI/tableComponent";
-import { downloadXlsx } from "../helpers";
-import { idmRoleMappingRoles, idmRoleMappingRolesScreenAccess } from "../idm";
 
 const UserManagement = () => {
 
@@ -23,6 +23,8 @@ const UserManagement = () => {
   const [userData, setUserData] = useState([]);
   const [data, setData] = useState({});
   const [state, setState] = useState({ uploadData: null });
+  const [isLoading,setIsLoading] =useState(false)
+
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
 
@@ -83,6 +85,8 @@ const UserManagement = () => {
   ];
 
   const fetchUserData = (arg) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.GETALLUSERS,
       method: "get",
@@ -93,16 +97,22 @@ const UserManagement = () => {
     httpHandler(obj)
       .then((userData) => {
         setUserData(userData?.data?.map(v => { return { ...v, name: v?.username } }));
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("fetchUserData error", error);
         //const errMsg = error.response?.data?.message;
+    setIsLoading(false)
+
       });
   };
 
   useEffect(() => {
     const obj = { filterValue: true }
     fetchUserData(obj);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   useEffect(() => {
@@ -121,38 +131,39 @@ const UserManagement = () => {
   const userBulkDataTableHeaders = [
     {
       header: "Username",
-      accessorKey: "username",
+      accessorKey: "Username",
     }, {
       header: "First Name",
-      accessorKey: "firstname",
+      accessorKey: "Firstname",
     }, {
       header: "Last Name",
-      accessorKey: "lastname",
+      accessorKey: "Lastname",
     }, {
       header: "Email",
-      accessorKey: "email",
+      accessorKey: "Email",
     }, {
       header: "DOJ",
-      accessorKey: "doj",
+      accessorKey: "DOJ",
     }, {
       header: "DOB",
-      accessorKey: "dob",
-    },
-    {
+      accessorKey: "DOB",
+    }, {
       header: "Designation",
-      accessorKey: "roleName",
+      accessorKey: "Designation",
     }, {
       header: "Contact",
-      accessorKey: "mobile_number",
-    }, {
-      header: "To",
-      accessorKey: "manager",
-    }, {
+      accessorKey: "ContactNumber",
+    },
+     {
+      header: "Department",
+      accessorKey: "Department",
+    },
+     {
       header: "Country",
-      accessorKey: "country",
+      accessorKey: "Country",
     }, {
       header: "Branch",
-      accessorKey: "mobile_number",
+      accessorKey: "Branch",
     }, {
       header: "Status",
       accessorKey: "status",
@@ -226,7 +237,16 @@ const UserManagement = () => {
 
       const payload = [];
       for (const v of payloadConstruction) {
-        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.role?.toLowerCase());
+
+        if (v?.['DOB(dd/mm/yyyy)']) {
+          v.DOB = v?.['DOB(dd/mm/yyyy)'] ?? null
+          delete v?.['DOB(dd/mm/yyyy)']
+        }
+        if (v?.['DOJ(dd/mm/yyyy)']) {
+          v.DOJ = v?.['DOJ(dd/mm/yyyy)'] ?? null
+          delete v?.['DOJ(dd/mm/yyyy)']
+        }
+        const imd_role = roles?.find(c => c?.name?.toLowerCase() === v?.Role?.toLowerCase());
 
         const roleData = await idmRoleMappingRolesScreenAccess(imd_role?.role_permission_mappings?.[0]?.permission?.data?.data ?? []);
         v.role = {
@@ -277,17 +297,22 @@ const UserManagement = () => {
   const handleExportDownload = () => {
     let xlData = userData?.map(v => {
       return {
-        id: v?.id,
-        username: v?.username,
-        firstname: v?.firstname,
-        lastname: v?.lastname,
-        departmentId: v?.department?.id,
-        departmentName: v?.department?.name,
-        designation: v?.designation,
-        email: v?.email,
-        contact: v?.telephoneNumber,
-        roleId: v?.role?.id,
-        roleName: v?.role?.roleName,
+        Id: v?.id,
+        'User Name': v?.username ?? '',
+        'First Name': v?.firstname ?? '',
+        'Last Name': v?.lastname ?? '',
+        'Gender': v?.gender?.label ?? '',
+        'Designation': v?.designation ?? '',
+        'Department Name': v?.department?.name,
+        'Manager Name': v?.managerName ?? '',
+        // 'Manager Name': v?.department?.name,
+        'Email Id': v?.email ?? '',
+        'Contact Number': v?.telephoneNumber ?? '',
+        'Date Of Birth': v?.dateOfBirth ? moment(v?.dateOfBirth).format('DD/MM/YYYY') : '',
+        'Date Of Join': v?.dateOfJoining ? moment(v?.dateOfJoining).format('DD/MM/YYYY') : '',
+        'Role Name': v?.role?.roleName ?? '',
+        "Country Name": (v?.country?.label ?? ''),
+        "Branch Name": v?.branch?.label ?? ''
       }
     })
     downloadXlsx("UserManagements.xlsx", xlData);
@@ -305,7 +330,7 @@ const UserManagement = () => {
         isUpload={isUpload}
         downloadExcel={downloadExcel}
         // url={'https://objectstore.e2enetworks.net/enliteu/Bulk_user_upload_template.xlsx'}
-        url={'https://objectstore.e2enetworks.net/enliteu/user_upload.xlsx'}
+        url={'https://enliteu.objectstore.e2enetworks.net/Bulk%20user%20upload%20Template.xlsx'}
         onSucess={onSucess}
         fileName={state?.uploadData?.name ?? ''}
         handleChange={handleChange}
@@ -340,7 +365,7 @@ const UserManagement = () => {
           ></PageHeader>
 
           <div className="eep-user-management eep-content-start" id="content-start">
-            <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
+            <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible" }} >
               <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
                 {/* {userData && (
                   <Table
@@ -356,34 +381,38 @@ const UserManagement = () => {
                   ></Table>
                 )} */}
 
-                <button
-                  className="btn btn-secondary"
-                  aria-controls="user_dataTable"
-                  type="button"
-                  style={{
-                    position: 'absolute',
-                    zIndex: '100'
-                  }}
-                  onClick={() => handleExportDownload()}
-                >
-                  <span>Excel</span>
-                </button>
+              { !isLoading && <div style={{ position: 'relative' }}>
+                  <button
+                    className="btn btn-secondary"
+                    aria-controls="user_dataTable"
+                    type="button"
+                    style={{
+                      position: 'absolute',
+                      zIndex: '9',
+                      right: '18px',
+                      margin: ' 8px 0px',
+                    }}
+                    onClick={() => handleExportDownload()}
+                  >
+                    <span>Excel</span>
+                  </button>
 
-                {userData?.length > 0 &&
                   <TableComponent
                     data={userData ?? []}
                     columns={userDataTableHeaders}
+                    // actionFixed={fal}
                     action={
                       <UserManagementActionDropdown />
                     }
-                  />}
-
+                  />
+                </div>
+}
               </div>
             </div>
           </div>
         </React.Fragment>
       }
-      {!userRolePermission.adminPanel &&
+      {!userRolePermission?.adminPanel &&
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo
             title="Oops! Looks illigal way."

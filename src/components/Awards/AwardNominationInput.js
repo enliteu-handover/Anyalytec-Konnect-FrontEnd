@@ -106,15 +106,16 @@ const AwardNominationInput = (props) => {
                 <div
                   className="col-md-12 form-group text-left my-1 bg-white assign_users_inner"
                   key={"assignUsers_" + index}
+                  style={{borderRadius:'6px'}}
                 >
                   {!uData.regSetting.hideShowState && (
                     <div
-                      className="assign_users_inner_one"
+                      className="assign_users_inner_one p-2"
                       id={"uParentID_" + index}
                     >
-                      <div className="col-sm-11 form-check">
+                      <div className="col-sm-11 p-0 form-check d-flex align-items-center ">
                         <input
-                          className="form-check-input"
+                          className="mr-3"
                           type="checkbox"
                           // value={uData.fullName}
                           checked={uData?.regSetting?.checkedState ?? false}
@@ -143,11 +144,13 @@ const AwardNominationInput = (props) => {
                         uData.regSetting.checkedState
                           ? "assign_users_inner_two lbl_checked"
                           : "assign_users_inner_two"
+                          
                       }
                       id={"uChildID_" + index}
                     >
                       <div
                         className="col-md-12 px-0 r_a_assign_lbl_div"
+                      style={{padding:'8px'}}
                         onClick={(e) => handleOnClick(e, index, uData, 'click')}
                       >
                         <div className="r_a_assign_lbl_inner">

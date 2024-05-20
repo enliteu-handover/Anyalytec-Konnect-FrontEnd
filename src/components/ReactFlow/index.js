@@ -196,12 +196,8 @@ const LayoutFlow = (props) => {
                 ...obj,
             }
         })
-        console.log('eds', eds);
-        console.log('nodes', nds);
-        console.log('selectedNodeId', selectedNodeId);
         setEdges([...eds])
         setNodes([...nds])
-        // style: { stroke: "red" }
     };
 
     const defaultViewport = { x: 200, y: 20, zoom: 0.7 };
@@ -216,7 +212,7 @@ const LayoutFlow = (props) => {
                 onConnect={ConnectionMode.Loose}
                 defaultViewport={defaultViewport}
             >
-                <Controls />
+                <Controls showInteractive={false} />
             </ReactFlow>
         </React.Fragment>
     );

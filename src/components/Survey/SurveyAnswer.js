@@ -1,14 +1,14 @@
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import PageHeader from "../../UI/PageHeader";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { eepFormatDateTime } from "../../shared/SharedService";
-import $ from "jquery";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 window.jQuery = $;
 window.$ = $;
 require("jquery-ui-sortable");
@@ -28,11 +28,9 @@ const SurveyAnswer = () => {
     }
     setShowModal({ type: null, message: null });
   };
-
   const [surveyData, setSurveyData] = useState({});
   const eepHistory = useHistory();
 
-  // console.log("sDataValue",  location.state);
   const dispatch = useDispatch();
   const breadcrumbArr = [
     {
@@ -69,10 +67,10 @@ const SurveyAnswer = () => {
   }, []);
 
   const appendFormRender = (fData) => {
-    if(fData) {
+    if (fData) {
       const wrap = $('#surveyAnswer');
       $("#surveyAnswer").html('');
-      if(fData !== undefined && fData.length){
+      if (fData !== undefined && fData.length) {
         wrap.formRender({
           dataType: 'json',
           formData: fData
@@ -85,21 +83,21 @@ const SurveyAnswer = () => {
   }
 
   const fetchSurveyInfo = (sData) => {
- if(sData) {
+    if (sData) {
       const obj = {
         url: URL_CONFIG.SHOW_SURVEY,
         method: "get",
-        params: {responseId: sData?.survey?.id}
+        params: { responseId: sData?.survey?.id }
       };
       httpHandler(obj).then((res) => {
-        let surveyDataTemp = []; 
+        let surveyDataTemp = [];
         let jsonTemp;
-        setSurveyData({...res.data});
-        if(res.data && Object.keys(res.data).length) {
+        setSurveyData({ ...res.data });
+        if (res.data && Object.keys(res.data).length) {
 
-          if(res.data.state === "created") {
-            if(res.data.survey && Object.keys(res.data.survey).length) {
-              if(res.data.survey.surveyQuestions && res.data.survey.surveyQuestions.length) {
+          if (res.data.state === "created") {
+            if (res.data.survey && Object.keys(res.data.survey).length) {
+              if (res.data.survey.surveyQuestions && res.data.survey.surveyQuestions.length) {
                 res.data.survey.surveyQuestions.map((item) => {
                   jsonTemp = JSON.parse(item.parameters);
                   surveyDataTemp.push(jsonTemp);
@@ -110,8 +108,8 @@ const SurveyAnswer = () => {
             }
           }
 
-          if(res.data.state === "submitted") {
-            if(res.data.surveyResponseItems && res.data.surveyResponseItems.length) {
+          if (res.data.state === "submitted") {
+            if (res.data.surveyResponseItems && res.data.surveyResponseItems.length) {
               res.data.surveyResponseItems.map((item) => {
                 jsonTemp = JSON.parse(item.parameters);
                 surveyDataTemp.push(jsonTemp);
@@ -134,10 +132,10 @@ const SurveyAnswer = () => {
   }
 
   useEffect(() => {
-    if(sDataValue && Object.keys(sDataValue).length > 0) {
+    if (sDataValue && Object.keys(sDataValue).length > 0) {
       fetchSurveyInfo(sDataValue);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sDataValue]);
 
   const sideBarClass = (tooglestate) => {
@@ -153,46 +151,45 @@ const SurveyAnswer = () => {
     var o = {};
     var a = $(".fb-render :input").serializeArray();
     $.each(a, function () {
-      if(o[this.name] !== undefined) {
-        if(!o[this.name].push) {
+      if (o[this.name] !== undefined) {
+        if (!o[this.name].push) {
           o[this.name] = [o[this.name]];
         }
         o[this.name].push(this.value || '');
       } else {
         o[this.name] = this.value || '';
       }
-    });  
-    if(o && Object.keys(o).length > 0) {
+    });
+    if (o && Object.keys(o).length > 0) {
       for (const [key, value] of Object.entries(o)) {
         formData.append(key, value);
       }
     }
     const obj = {
-			url: URL_CONFIG.SURVEY_SUBMIT,
-			method: "post",
-			formData: formData,
-		};
+      url: URL_CONFIG.SURVEY_SUBMIT,
+      method: "post",
+      formData: formData,
+    };
     httpHandler(obj)
-    .then((response) => {
-      setShowModal({
-        ...showModal,
-        type: "success",
-        message: response?.data?.message,
+      .then((response) => {
+        setShowModal({
+          ...showModal,
+          type: "success",
+          message: response?.data?.message,
+        });
+        setTimeout(() => {
+          setShowModal({ type: null, message: null });
+          eepHistory.push('mysurvey');
+        }, 2000);
+      })
+      .catch((error) => {
+        const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
+        setShowModal({
+          ...showModal,
+          type: "danger",
+          message: errMsg,
+        });
       });
-      setTimeout(() => {
-        setShowModal({ type: null, message: null });
-        eepHistory.push('mysurvey');
-      }, 2000);
-    })
-    .catch((error) => {
-      //console.log("submitAnswerHandler Error", error);
-      const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Oops! Something went wrong. Please contact administrator.";
-      setShowModal({
-        ...showModal,
-        type: "danger",
-        message: errMsg,
-      });
-    });
   }
 
   return (
@@ -238,10 +235,10 @@ const SurveyAnswer = () => {
                       <div id="surveyAnswer" className="tc_design eep_survey_view eep_survey_answer fb-render">
                       </div>
                     </div>
-                    
-                    { surveyData && surveyData?.state === "created" &&
+
+                    {surveyData && surveyData?.state === "created" &&
                       <div className="col-lg-8 text-center mb-3">
-                        <button type="submit" className="eep-btn eep-btn-success" id="answer_survey_submit"  onClick={submitAnswerHandler}>Submit</button>
+                        <button type="submit" className="eep-btn eep-btn-success" id="answer_survey_submit" onClick={submitAnswerHandler}>Submit</button>
                       </div>
                     }
                     {surveyData && surveyData?.state === "submitted" &&

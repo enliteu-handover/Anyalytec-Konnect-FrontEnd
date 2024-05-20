@@ -1,3 +1,4 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -6,6 +7,7 @@ import ResponseInfo from "../../UI/ResponseInfo";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import CreateEditCommunicationModal from "../../modals/CreateEditCommunicationModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
@@ -15,7 +17,6 @@ import ForumFollowingList from "./ForumFollowingList";
 import ForumHotTopicsList from "./ForumHotTopicsList";
 import ForumList from "./ForumList";
 import MyForumPosts from "./MyForumPosts";
-import { pageLoaderHandler } from "../../helpers";
 
 const Forum = () => {
 
@@ -36,6 +37,8 @@ const Forum = () => {
 	const location = useLocation();
 	const history = useHistory();
 	const routerData = location.state;
+	const [isloading, setIsloding] = useState(false);
+
 
 	const breadcrumbArr = [
 		{
@@ -100,6 +103,11 @@ const Forum = () => {
 				})
 			);
 		}
+
+		getForumList(filterParams);
+		pageLoaderHandler(isloading ? "show": "hide");
+
+		getForumFollowingList();
 
 		return () => {
 			dispatch(
@@ -191,8 +199,9 @@ const Forum = () => {
 		getForumList(paramsData);
 	}
 
-	const getForumList = (paramsInfo) => {
-		pageLoaderHandler('show')
+	const getForumList = async (paramsInfo) => {
+		setIsloding(true)
+
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -206,18 +215,20 @@ const Forum = () => {
 				method: "get"
 			};
 		}
-		httpHandler(obj)
+		await httpHandler(obj)
 			.then((forumdata) => {
 				if (listReverse) {
-					setForumList([...forumdata.data]);
+					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())]);
 				} else {
-					setForumList([...forumdata.data].reverse());
+					setForumList([...forumdata?.data?.sort((a, b) => moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf())?.reverse()]);
 				}
-				pageLoaderHandler('hide')
+				setIsloding(false)
+
 			})
 			.catch((error) => {
-				pageLoaderHandler('hide')
 				console.log("getForumList error", error);
+				setIsloding(false)
+				
 			});
 	};
 
@@ -267,12 +278,13 @@ const Forum = () => {
 		fetchAllUsersPics();
 	}, []);
 
-	useEffect(() => {
-		if (activeTab?.id === "forumpot") {
-			getForumList(filterParams);
-			getForumFollowingList();
-		}
-	}, [activeTab]);
+	// useEffect(() => {
+
+	// 	if (activeTab?.id === "forumpot") {
+	// 		getForumList(filterParams);
+	// 		getForumFollowingList();
+	// 	}
+	// }, [activeTab]);
 
 
 	const readForum = (arg) => {
@@ -430,13 +442,30 @@ const Forum = () => {
 		}
 	}
 
-	const dateReceived = (isSort) => {
-		setListReverse(isSort);
-		if (isSort) {
-			setForumList([...forumList].reverse());
-		}
-	}
+	// const dateReceived = (isSort) => {
 
+	// 	setListReverse(isSort);
+	// 	if (!isSort) {
+	// 		setForumList([...forumList].reverse());
+	// 	}
+	// }
+
+	const dateReceived = (isSort) => {
+		const sortedList = [...forumList];
+		sortedList.sort((a, b) => {
+			
+			const dateA = (a.createdAt).toLocaleString();
+			const dateB = (b.createdAt).toLocaleString();
+
+			// Compare the dates
+			return isSort ? dateA.localeCompare(dateB) :dateB.localeCompare(dateA);
+		});
+	
+		setListReverse(isSort);
+		setForumList(sortedList);
+	}
+	
+	
 	return (
 		<React.Fragment>
 			<div className="row eep-content-section-data no-gutters">
@@ -455,7 +484,10 @@ const Forum = () => {
 								}
 							></EEPSubmitModal>
 						)}
-						{createModalShow && <CreateEditCommunicationModal deptOptions={departments} createModalShow={createModalShow} createCommunicationPost={createCommunicationPost} communicationModalErr={createModalErr} communicationType="forum" communicationData={null} />}
+						{createModalShow && <CreateEditCommunicationModal
+							deptOptions={departments} createModalShow={createModalShow}
+							createCommunicationPost={createCommunicationPost}
+							communicationModalErr={createModalErr} communicationType="forum"  communicationData={null} />}
 						<PageHeader title="Forum"
 							navLinksRight={
 								<a className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg c1" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.plus }} data-toggle="modal" data-target="#CreateEditCommunicationModal" onClick={() => setCreateModalShow(true)}></a>
@@ -464,7 +496,10 @@ const Forum = () => {
 								<TypeBasedFilter config={TYPE_BASED_FILTER} getFilterParams={getFilterParams} />
 							}
 						/>
-						{forumList?.length > 0 &&
+
+						{!isloading &&
+                         <>
+						 {forumList?.length > 0 &&
 							<div className="row mx-0 forum_containerr">
 								<div className="col-md-6 eep-content-section-data eep_scroll_y pl-0">
 									{/* <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 pl-0 eep-content-section-data eep_scroll_y"> */}
@@ -514,6 +549,10 @@ const Forum = () => {
 								subMessageInfo="Nat Turner"
 							/>
 						}
+
+                          </>
+						}
+						
 					</div>
 					<div id="myforums" className="tab-pane h-100">
 						{/* <PageHeader title="My Posts"

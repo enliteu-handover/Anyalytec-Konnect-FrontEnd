@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import AssignAwardModalInfo from "../components/Awards/AssigAwardModalInfo";
 import NominateAwardModalInput from "../components/Awards/NominateAwardModalInput";
-import { httpHandler } from "../http/http-interceptor";
 import { URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
 
 const NominateAwardModal = (props) => {
 
-  const { nomiDeptOptions, allUserData, judgeUsers, assignAwardData, nominateTypeData, modalSubmitInfo } = props;
+  const { nomiDeptOptions, hideModal, allUserData, judgeUsers, assignAwardData, nominateTypeData, modalSubmitInfo } = props;
 
   const [nominateAwardObj, setNominateAwardObj] = useState({});
   const [awardResponseMsg, setAwardResponseMsg] = useState("");
   const [awardResponseClassName, setAwardResponseClassName] = useState("");
   const [selectedMonth, setSelectedMonth] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(false);
-
+  const [selectedDepts, setSelectedDepts] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const getAssignObject = (arg) => {
     setAwardResponseMsg("");
     let argTemp = arg;
@@ -49,16 +50,46 @@ const NominateAwardModal = (props) => {
     return isValid;
   }
 
+
+  // let userIds = [],
+  //   deptIds = [];
+  // selectedUsers.map((res) => {
+  //   userIds.push(res.value);
+  //   return res;
+  // });
+
+  // selectedDepts.map((res) => {
+  //   deptIds.push(res.value);
+  //   return res;
+  // });
+
+  // console.log(userIds, "userIds<<<<");
+  // console.log(deptIds, "deptIds>>>>");
+
   useEffect(() => {
     setBtnDisabled(isValidForm(nominateAwardObj));
   }, [nominateAwardObj]);
 
   const assignNominateAwardHandler = () => {
     if (nominateAwardObj) {
+      let userIds = [],
+        deptIds = [];
+      selectedUsers.map((res) => {
+        userIds.push(res.value);
+        return res;
+      });
+
+      selectedDepts.map((res) => {
+        deptIds.push(res.value);
+        return res;
+      });
+
+      console.log(userIds, "userIds<<<<");
+      console.log(deptIds, "deptIds>>>>");
       let obj = {
         url: URL_CONFIG.NOMINATE_AWARD,
         method: "post",
-        payload: nominateAwardObj,
+        payload: { ...nominateAwardObj, deptIds },
       };
       httpHandler(obj)
         .then((response) => {
@@ -80,6 +111,13 @@ const NominateAwardModal = (props) => {
   const getSelectedMonth = (arg) => {
     setSelectedMonth(arg);
   }
+  const getUsers = (e) => {
+    setSelectedDepts(e)
+  }
+
+  const getDepts = (e) => {
+    setSelectedUsers(e)
+  }
 
   return (
     <div className="eepModalDiv">
@@ -87,13 +125,16 @@ const NominateAwardModal = (props) => {
         <div className="modal-dialog w-75" role="document">
           <div className="modal-content">
             <div className="modal-header p-1 border-0 flex-column">
-              <button className="close closed" type="button" data-dismiss="modal" aria-label="Close"></button>
+              <button onClick={() => hideModal()} className="close closed" type="button" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body eep_scroll_y">
               <div className="modalBodyHeight">
                 <div className="row justify-content-md-center">
                   {assignAwardData && Object.keys(assignAwardData).length && <AssignAwardModalInfo awardInfo={assignAwardData} selectedMonth={selectedMonth} />}
-                  <NominateAwardModalInput nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
+                  <NominateAwardModalInput
+                    getUsers={getUsers}
+                    getDepts={getDepts}
+                    nomiDeptOptions={nomiDeptOptions} judgeUsersData={judgeUsers} allUsers={allUserData} nominateTypeDatas={nominateTypeData} getAssignObject={getAssignObject} getSelectedMonth={getSelectedMonth} />
                 </div>
                 <div className="modal-footer border-0 flex-column">
                   <div className="row justify-content-md-center">

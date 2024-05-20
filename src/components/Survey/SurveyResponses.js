@@ -1,43 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import PageHeader from "../../UI/PageHeader";
 import Toggle from "../../UI/Toggle";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import ConfirmStateModal from "../../modals/ConfirmStateModal";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SurveyCharts from "../Charts/SurveyCharts";
+import html2pdf from "html2pdf.js";
+import { pageLoaderHandler } from "../../helpers";
 
 const SurveyResponses = () => {
+  const [toggleClass, setToggleClass] = useState(true);
+  const [toggleSwitch, setToggleSwitch] = useState(false);
+  const [surveyResponseData, setSurveyResponseData] = useState([]);
+  const [surveyResponseDataRaw, setSurveyResponseDataRaw] = useState([]);
+  const location = useLocation();
+  const sDataValue = location.state ? location.state?.surveyData : null;
+  const [isloadingPdf, setIsPdfloading] = useState(false);
 
-	const [toggleClass, setToggleClass] = useState(true);
-	const [toggleSwitch, setToggleSwitch] = useState(false);
-	const [surveyResponseData, setSurveyResponseData] = useState([]);
-	const [surveyResponseDataRaw, setSurveyResponseDataRaw] = useState([]);
-	const location = useLocation();
-	const sDataValue = location.state ? location.state?.surveyData : null;
-	const [surveyResponseStateData, setSurveyResponseStateData] = useState(sDataValue);
-	const [showModal, setShowModal] = useState({ type: null, message: null });
-	const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
+  const [surveyResponseStateData, setSurveyResponseStateData] =
+    useState(sDataValue);
+  const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [confirmStateModalObj, setConfirmStateModalObj] = useState({
+    confirmTitle: null,
+    confirmMessage: null,
+  });
+  const [allExpended, setAllExpended] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-	const hideModal = () => {
-		let collections = document.getElementsByClassName("modal-backdrop");
-		for (var i = 0; i < collections.length; i++) {
-			collections[i].remove();
-		}
-		setShowModal({ type: null, message: null });
-	};
-	const dispatch = useDispatch();
+  const hideModal = () => {
+    let collections = document.getElementsByClassName("modal-backdrop");
+    for (var i = 0; i < collections.length; i++) {
+      collections[i].remove();
+    }
+    setShowModal({ type: null, message: null });
+  };
+  const dispatch = useDispatch();
 
-	const breadcrumbArr = [
-		{
-			label: "Home",
-			link: "app/dashboard",
-		},
-		{
+  const breadcrumbArr = [
+    {
+      label: "Home",
+      link: "app/dashboard",
+    },
+    {
       label: "Communication",
       link: "app/communication",
     },
@@ -45,413 +54,845 @@ const SurveyResponses = () => {
       label: "Survey",
       link: "app/mysurvey",
     },
-		{
-			label: "Survey Responses",
-			link: "",
-		}
-	]
-
-	useEffect(() => {
-		dispatch(
-			BreadCrumbActions.updateBreadCrumb({
-				breadcrumbArr,
-				title: "Survey Results",
-			})
-		);
-		return () => {
-			BreadCrumbActions.updateBreadCrumb({
-				breadcrumbArr: [],
-				title: "",
-			});
-		};
-	}, []);
-
-	const defaultChartOptions = {
-		"radio-group": {
-      chart: {
-        type: 'pie',
-        options3d: {
-          enabled: true,
-          alpha: 45
-        }
-      },
-      title: {
-        text: ''
-      },
-      subtitle: {
-        text: ''
-      },
-      plotOptions: {
-        pie: {
-          innerSize: 100,
-          depth: 45
-        }
-      },
-      series: []
+    {
+      label: "Survey Responses",
+      link: "",
     },
-		"radio-group1": {
+  ];
+
+  useEffect(() => {
+    dispatch(
+      BreadCrumbActions.updateBreadCrumb({
+        breadcrumbArr,
+        title: "Survey Results",
+      })
+    );
+    return () => {
+      BreadCrumbActions.updateBreadCrumb({
+        breadcrumbArr: [],
+        title: "",
+      });
+    };
+  }, []);
+
+  const defaultChartOptions = {
+    "radio-group": {
       chart: {
-        type: 'pie',
-        options3d: {
-          enabled: true,
-          alpha: 45
-        }
-      },
-      title: {
-        text: ''
-      },
-      subtitle: {
-        text: ''
-      },
-      plotOptions: {
-        pie: {
-          innerSize: 100,
-          depth: 45
-        }
-      },
-      series: [{
-        name: 'E-Cards',
-        data: [
-          ['Birthday', 16],
-          ['Anniversary', 12],
-          ['Appreciation', 8],
-          ['Seasonal', 8]
-        ]
-      }]
-    },
-		"checkbox-group": {
-      chart: {
-        type: 'pie',
+        type: "pie",
         options3d: {
           enabled: true,
           alpha: 45,
-          beta: 0
-        }
+        },
       },
       title: {
-        text: ''
+        text: "",
       },
       subtitle: {
-        text: ''
+        text: "",
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+        },
+      },
+      series: [],
+    },
+    "radio-group1": {
+      chart: {
+        type: "pie",
+        options3d: {
+          enabled: true,
+          alpha: 45,
+        },
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+        },
+      },
+      series: [
+        {
+          name: "E-Cards",
+          data: [
+            ["Birthday", 16],
+            ["Anniversary", 12],
+            ["Appreciation", 8],
+            ["Seasonal", 8],
+          ],
+        },
+      ],
+    },
+    "checkbox-group": {
+      chart: {
+        type: "pie",
+        options3d: {
+          enabled: true,
+          alpha: 45,
+          beta: 0,
+        },
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
       },
       accessibility: {
         point: {
-          valueSuffix: '%'
-        }
+          valueSuffix: "%",
+        },
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
+        pointFormat: "{series.name}: <b>{point.percentage:.1f}</b>",
       },
       plotOptions: {
         pie: {
           allowPointSelect: true,
-          cursor: 'pointer',
+          cursor: "pointer",
           depth: 35,
           dataLabels: {
             enabled: true,
-            format: '{point.name}'
-          }
-        }
+            format: "{point.name}",
+          },
+        },
       },
-      series: []
+      series: [],
     },
-		"select": {
+    select: {
       chart: {
-        renderTo: 'container',
-        type: 'column',
+        renderTo: "container",
+        type: "column",
         options3d: {
           enabled: true,
           alpha: 15,
           beta: 15,
           depth: 50,
-          viewDistance: 25
-        }
+          viewDistance: 25,
+        },
       },
       xAxis: {},
       yAxis: {
         title: {
-          enabled: false
-        }
+          enabled: false,
+        },
+        
       },
+      
+      
       tooltip: {
-        headerFormat: '<b>{point.key}</b><br>',
-        pointFormat: 'Response: {point.y}'
+        headerFormat: "<b>{point.key}</b><br>",
+        pointFormat: "Response: {point.y}",
       },
       title: {
-        text: ''
+        text: "",
       },
       subtitle: {
-        text: ''
+        text: "",
       },
       legend: {
-        enabled: false
+        enabled: false,
       },
       plotOptions: {
         column: {
-          depth: 25
+          depth: 25,
+        },
+      },
+      series: [],
+    },
+  };
+
+
+  
+  const defaultApexChart = {
+    "radio-group": {
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+
+      chart: {
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      series: [],
+    },
+    "radio-group1": {
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+      chart: {
+        type: "pie",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: true,
+      },
+      plotOptions: {
+        pie: {
+          innerSize: 100,
+          depth: 45,
+          donut: {
+            labels: {
+              show: true,
+            },
+          },
+        },
+      },
+      series: [16, 12, 8, 8],
+    },
+    "checkbox-group": {
+      labels: [],
+      dataLabels: {
+        enabled: true,
+      },
+      chart: {
+        width:500,
+        type: "donut",
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      legend: {
+        show: false,
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          depth: 35,
+         
+          donut: {
+            labels: {
+              show: false,
+            },
+          },
+        },
+      },
+      series: [],
+
+      
+      tooltip: {
+        pointFormat: "{series.name}: <b>{point.percentage:.1f}</b>",
+      },
+    },
+    "select": {
+      chart: {
+        height: 350,
+        type: 'bar',
+      },
+      stroke: {
+      width: 2
+    },
+    
+    grid: {
+      row: {
+        colors: ['#fff', '#f2f2f2']
+      }
+    },
+    xaxis: {
+      tickPlacement: 'on'
+    },
+    yaxis: {
+      title: {
+        text: '',
+      },
+    },
+     
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          columnWidth: '50%',
         }
       },
-      series: []
+      dataLabels: {
+        enabled: true,
+      },
+      title: {
+        text: "",
+      },
+      subtitle: {
+        text: "",
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 0.85,
+          opacityTo: 0.85,
+          stops: [50, 0, 100]
+        },
+      },
+      series: [
+
+      ],
+    },
+  };
+
+  const sideBarClass = (tooglestate) => {
+    setToggleClass(tooglestate);
+  };
+
+  const fetchSurveyResponses = (surData) => {
+    setIsLoading(true);
+
+    if (surData && Object.keys(surData).length) {
+      const obj = {
+        url: URL_CONFIG.SURVEY_RESPONSE,
+        method: "get",
+        params: { id: surData?.id },
+      };
+      httpHandler(obj)
+        .then((response) => {
+          setSurveyResponseDataRaw(response.data);
+          let sResponseItemData = [];
+          response.data.length &&
+            response.data.map((item) => {
+              item.surveyResponseItems &&
+                item.surveyResponseItems.length &&
+                item.surveyResponseItems.map((subItem) => {
+                  sResponseItemData.push(subItem);
+                });
+              return sResponseItemData;
+            });
+
+          const groupedMap = sResponseItemData.reduce(
+            (entryMap, e) =>
+              entryMap.set(e.surveyQuestion.id, [
+                ...(entryMap.get(e.surveyQuestion.id) || []),
+                e,
+              ]),
+            new Map()
+          );
+          const arr = Array.from(groupedMap, function (item) {
+            return {
+              key: item[0],
+              value: item[1],
+              surveyQuestion: item[1][0]["surveyQuestion"],
+              type: item[1][0]["type"],
+            };
+          });
+          setSurveyResponseData(arr);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: error?.response?.data?.message,
+          });
+          setIsLoading(false);
+        });
     }
-	}
+  };
 
-	const sideBarClass = (tooglestate) => {
-		setToggleClass(tooglestate);
-	}
+  useEffect(() => {
+    fetchSurveyResponses(surveyResponseStateData);
+    pageLoaderHandler(isLoading ? "show" : "hide");
+  }, [surveyResponseStateData]);
 
-	const fetchSurveyResponses = (surData) => {
-		if(surData && Object.keys(surData).length) {
-			const obj = {
-				url: URL_CONFIG.SURVEY_RESPONSE,
-				method: "get",
-				params: {id: surData?.id}
-			};
-			httpHandler(obj).then((response) => {
-				setSurveyResponseDataRaw(response.data);
-				let sResponseItemData = [];
-				response.data.length && response.data.map((item) => {
-					item.surveyResponseItems && item.surveyResponseItems.length && item.surveyResponseItems.map((subItem) => {
-						sResponseItemData.push(subItem);	
-					})
-					return sResponseItemData;
-				});
+  const getValueCount = (data, filterValue) => {
+    let lgth = data.filter((x) => {
+      return x.value === filterValue;
+    }).length;
+    return lgth;
+  };
 
-				const groupedMap = sResponseItemData.reduce(
-					(entryMap, e) => entryMap.set(e.surveyQuestion.id, [...entryMap.get(e.surveyQuestion.id)||[], e]),
-					new Map()
-				);
-				const arr = Array.from(groupedMap, function (item) {
-					return { key: item[0], value: item[1], surveyQuestion:item[1][0]["surveyQuestion"], type:item[1][0]["type"] }
-				});
-				setSurveyResponseData(arr);
-			}).catch((error) => {
-				setShowModal({
-					...showModal,
-					type: "danger",
-					message: error?.response?.data?.message,
-				});
-			});
-		}
-	}
+  const getMultipleValueCount = (data, filterValue) => {
+    let answerCountVal = 0;
+    data.filter((y) => {
+      const array = y?.value?.split(",");
+      if (array?.indexOf(filterValue) !== -1) {
+        answerCountVal += 1;
+      }
+      return answerCountVal;
+    });
+    return answerCountVal;
+  };
 
-	useEffect(() => {
-		fetchSurveyResponses(surveyResponseStateData);
-	}, [surveyResponseStateData]);
+  const modalState = () => {
+    setToggleSwitch(true);
+    setConfirmStateModalObj({
+      confirmTitle: "Are you sure?",
+      confirmMessage:
+        "Do you wish to accept/cancel further response to the survey?",
+    });
+  };
 
+  const confirmState = (arg) => {
+    if (arg) {
+      const obj = {
+        url:
+          URL_CONFIG.SURVEY_ACCEPT_RESPONSE +
+          "?id=" +
+          surveyResponseStateData.id +
+          "&response=" +
+          (surveyResponseStateData.acceptResponse ? "0" : "1"),
+        method: "put",
+      };
+      httpHandler(obj)
+        .then(() => {
+          setShowModal({
+            ...showModal,
+            type: "success",
+            message: surveyResponseStateData.acceptResponse
+              ? "Survey dined for further responses"
+              : "Survey accepted for further responses",
+          });
+          let surveyResponseStateDataTemp = JSON.parse(
+            JSON.stringify(surveyResponseStateData)
+          );
+          if (surveyResponseStateData.acceptResponse) {
+            surveyResponseStateDataTemp["acceptResponse"] = false;
+            setSurveyResponseStateData({ ...surveyResponseStateDataTemp });
+          } else {
+            surveyResponseStateDataTemp["acceptResponse"] = true;
+            setSurveyResponseStateData({ ...surveyResponseStateDataTemp });
+          }
+        })
+        .catch((error) => {
+          const errMsg =
+            error.response?.data?.message !== undefined
+              ? error.response?.data?.message
+              : "Something went wrong contact administarator";
+          setShowModal({
+            ...showModal,
+            type: "danger",
+            message: errMsg,
+          });
+        });
+      setToggleSwitch(false);
+    } else {
+      setToggleSwitch(false);
+    }
+  };
 
-	const getValueCount = (data, filterValue) => {
-		let lgth = data.filter(x => {
-			return x.value === filterValue
-		}).length
-		return lgth;
-	}
+  const getQuestionName = (qParamater) => {
+    let qParamaterTemp = JSON.parse(qParamater.parameters);
+    return qParamaterTemp.label;
+  };
 
-	const getMultipleValueCount = (data, filterValue) => {
-		let answerCountVal = 0;
-		data.filter(y => {
-			const array = y.value.split(',');
-			if(array.indexOf(filterValue) !== -1){
-				answerCountVal += 1;
-			}
-			return answerCountVal;
-		})
-		return answerCountVal;
-	}
+  const getChartData = (chartData) => {
+    let chartOptionsTemp = {};
+    if (chartData) {
+      if (chartData.type === "radio-group") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultChartOptions[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getValueCount(chartData.value, vItem);
+            return [vItem, countVal];
+          });
+        chartOptionsTemp["series"] = [
+          {
+            name: "",
+            data: optionDataTemp,
+          },
+        ];
+        return chartOptionsTemp;
+      }
+      if (chartData.type === "checkbox-group") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultChartOptions[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getMultipleValueCount(chartData.value, vItem);
+            return [vItem, countVal];
+          });
+        chartOptionsTemp["series"] = [
+          {
+            type: "pie",
+            name: "",
+            data: optionDataTemp,
+          },
+        ];
+        return chartOptionsTemp;
+      }
+      if (chartData.type === "select") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultChartOptions[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getMultipleValueCount(chartData.value, vItem);
+            return countVal;
+          });
 
-	const modalState = () => {
-		setToggleSwitch(true);
-		setConfirmStateModalObj({ confirmTitle: "Are you sure?", confirmMessage: "Do you wish to accept/cancel further response to the survey?" });
-	}
+        chartOptionsTemp["xAxis"] = { categories: valTemp };
+        chartOptionsTemp["series"] = [
+          { data: optionDataTemp, colorByPoint: true },
+        ];
+        return chartOptionsTemp;
+      }
+    }
+  };
 
-	const confirmState = (arg) => {
-		if (arg) {
-			const obj = {
-				url: URL_CONFIG.SURVEY_ACCEPT_RESPONSE+"?id="+surveyResponseStateData.id+"&response="+(surveyResponseStateData.acceptResponse ? "0" : "1"),
-				method: "put"
-			};
-			httpHandler(obj).then(() => {
-				setShowModal({
-					...showModal,
-					type: "success",
-					message: surveyResponseStateData.acceptResponse ? "Survey dined for further responses" : "Survey accepted for further responses",
-				});
-				let surveyResponseStateDataTemp = JSON.parse(JSON.stringify(surveyResponseStateData)); 
-				if(surveyResponseStateData.acceptResponse) {
-					surveyResponseStateDataTemp["acceptResponse"] = false;
-					setSurveyResponseStateData({...surveyResponseStateDataTemp});
-				} else {
-					surveyResponseStateDataTemp["acceptResponse"] = true;
-					setSurveyResponseStateData({...surveyResponseStateDataTemp});
-				}
-			}).catch((error) => {
-				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-				setShowModal({
-					...showModal,
-					type: "danger",
-					message: errMsg,
-				});
-			});
-			setToggleSwitch(false);
-		} else {
-			setToggleSwitch(false);
-		}
-	}
+  const getApexChartData = (chartData) => {
+    let chartOptionsTemp = {};
+    if (chartData) {
+      if (chartData.type === "radio-group") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultApexChart[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp?.length &&
+          valTemp.map((vItem) => {
+            let countVal = getValueCount(chartData?.value, vItem);
+            return countVal;
+          });
+        let labels =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            return vItem;
+          });
+        chartOptionsTemp["labels"] = labels;
+        chartOptionsTemp["series"] = [optionDataTemp];
+        return chartOptionsTemp;
+      }
+      if (chartData.type === "checkbox-group") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultApexChart[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp.values.map((item) => item.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getMultipleValueCount(chartData.value, vItem);
+            return countVal;
+          });
+        let labels =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            return vItem;
+          });
+        chartOptionsTemp["labels"] = labels;
+        chartOptionsTemp["series"] = [optionDataTemp];
 
-	const getQuestionName = (qParamater) => {
-		let qParamaterTemp = JSON.parse(qParamater.parameters);
-		return qParamaterTemp.label;
-	}
+        return chartOptionsTemp;
+      }
+      if (chartData.type === "select") {
+        chartOptionsTemp = JSON.parse(
+          JSON.stringify(defaultApexChart[chartData.type])
+        );
+        chartOptionsTemp["series"] = [];
+        let optionsTemp = JSON.parse(chartData?.surveyQuestion?.parameters);
+        let valTemp = [
+          ...new Set(optionsTemp?.values?.map((item) => item?.value)),
+        ];
+        let optionDataTemp =
+          valTemp &&
+          valTemp.length &&
+          valTemp.map((vItem) => {
+            let countVal = getMultipleValueCount(chartData?.value, vItem);
+            return countVal;
+          });
+        // let optionDataTemp = [];
+        // if (Array.isArray(valTemp) && valTemp?.length > 0) {
+        //   // eslint-disable-next-line array-callback-return
+        //   valTemp?.map((val) => {
+        //     let countVal = getMultipleValueCount(chartData?.value, val);
+        //     optionDataTemp.push({
+        //       name: val,
+        //       data:[countVal],
+        //     });
+        //   });
+        // }
+        chartOptionsTemp["xaxis"] = { categories: valTemp };
+        chartOptionsTemp["series"] = [{name:'',data:optionDataTemp}];
 
-	const getChartData = (chartData) => {
-		let chartOptionsTemp = {};
-		if(chartData) {
-			if(chartData.type === "radio-group") {
-				chartOptionsTemp = JSON.parse(JSON.stringify(defaultChartOptions[chartData.type]));
-				chartOptionsTemp["series"] = [];
-				let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
-				let valTemp = [...new Set(optionsTemp.values.map(item => item.value))];
-				let optionDataTemp = valTemp && valTemp.length && valTemp.map((vItem) => {
-					let countVal = getValueCount(chartData.value, vItem);
-					return [vItem, countVal];
-				})
-				chartOptionsTemp["series"] = [{
-					name: "",
-					data: optionDataTemp
-				}];
-				return chartOptionsTemp;
-			}
-			if(chartData.type === "checkbox-group") {
-				chartOptionsTemp = JSON.parse(JSON.stringify(defaultChartOptions[chartData.type]));
-				chartOptionsTemp["series"] = [];
-				let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
-				let valTemp = [...new Set(optionsTemp.values.map(item => item.value))];
-				let optionDataTemp = valTemp && valTemp.length && valTemp.map((vItem) => {
-					let countVal = getMultipleValueCount(chartData.value, vItem);
-					return [vItem, countVal];
-				})
-				chartOptionsTemp["series"] = [{
-					type: 'pie',
-					name: "",
-					data: optionDataTemp
-				}];
-				return chartOptionsTemp;
-			}
-			if(chartData.type === "select") {
-				chartOptionsTemp = JSON.parse(JSON.stringify(defaultChartOptions[chartData.type]));
-				chartOptionsTemp["series"] = [];
-				let optionsTemp = JSON.parse(chartData.surveyQuestion.parameters);
-				let valTemp = [...new Set(optionsTemp.values.map(item => item.value))];
-				let optionDataTemp = valTemp && valTemp.length && valTemp.map((vItem) => {
-					let countVal = getMultipleValueCount(chartData.value, vItem);
-					return countVal;
-				})
-				chartOptionsTemp["xAxis"] = {categories: valTemp};
-				chartOptionsTemp["series"] = [{data: optionDataTemp, colorByPoint: true}];
-				return chartOptionsTemp;
-			}
-		}
-	}
+        return chartOptionsTemp;
+      }
+    }
+  };
 
-	return (
-		<React.Fragment>
-			{showModal.type !== null && showModal.message !== null && (
-				<EEPSubmitModal
-					data={showModal}
-					className={`modal-addmessage`}
-					hideModal={hideModal}
-					successFooterData={
-						<button
-							type="button"
-							className="eep-btn eep-btn-xsml eep-btn-success"
-							data-dismiss="modal"
-							onClick={hideModal}
-						>
-							Ok
-						</button>
-					}
-					errorFooterData={
-						<button
-							type="button"
-							className="eep-btn eep-btn-xsml eep-btn-danger"
-							data-dismiss="modal"
-							onClick={hideModal}
-						>
-							Close
-						</button>
-					}
-				></EEPSubmitModal>
-			)}
+  function convertHtmlToPdf() {
+    const element = document.getElementById("screen");
+    const options = {
+      margin: 1,
+      filename: "surveyresponse.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 1.5, scrollX: 0, scrollY: -window.scrollY },
+      jsPDF: { unit: "mm", format: "a2", orientation: "portrait", width: 1020 },
+      pagebreak: { mode: "avoid-all" },
+    };
+    setTimeout(() => {
+      html2pdf().set(options).from(element).save();
+      setAllExpended(false);
+      setIsPdfloading(false);
 
-	{toggleSwitch &&
-		<ConfirmStateModal hideModal={hideModal} confirmState={confirmState} confirmTitle={confirmStateModalObj.confirmTitle} confirmMessage={confirmStateModalObj.confirmMessage} />
-	}
+      //  hideBackdrop()
+      //  setisLoadingPdf(false)
+      // eslint-disable-next-line
+    }, 800);
+  }
+  const onClickDownload = async (element) => {
+    // setisLoadingPdf(true)
+    // showBackdrop()
+    setIsPdfloading(true);
+    convertHtmlToPdf();
+  };
 
-	<PageHeader title="Survey Results" toggle={<Toggle modalState={modalState} checkState={surveyResponseStateData?.acceptResponse} />} />
-	<div className="eep-container-sidebar h-100 eep_scroll_y">
-		<div className="container-sm eep-container-sm">
-			<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
-				<div className="eep_with_content table-responsive eep_datatable_table_div p-3" style={{ visibility: "visible" }}>
+  return (
+    <React.Fragment>
+      {!isLoading && (
+        <>
+          {isloadingPdf && (
+            <div id="page-loader-container" style={{ zIndex: "1051" }}>
+              <div id="loader">
+                <img
+                  src={process.env.PUBLIC_URL + "/images/loader.gif"}
+                  alt="Loader"
+                />
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "500",
+                    paddingTop: "10px",
+                    color: "#000",
+                  }}
+                >
+                  Downloading Pdf...
+                </div>
+              </div>
+            </div>
+          )}
+          {showModal.type !== null && showModal.message !== null && (
+            <EEPSubmitModal
+              data={showModal}
+              className={`modal-addmessage`}
+              hideModal={hideModal}
+              successFooterData={
+                <button
+                  type="button"
+                  className="eep-btn eep-btn-xsml eep-btn-success"
+                  data-dismiss="modal"
+                  onClick={hideModal}
+                >
+                  Ok
+                </button>
+              }
+              errorFooterData={
+                <button
+                  type="button"
+                  className="eep-btn eep-btn-xsml eep-btn-danger"
+                  data-dismiss="modal"
+                  onClick={hideModal}
+                >
+                  Close
+                </button>
+              }
+            ></EEPSubmitModal>
+          )}
 
-					<div className="d-flex mb-3">
-						<h3 className="mb-0">{surveyResponseStateData?.name}</h3>
-						<div className="ml-auto my-auto">
-							<h3 className="mb-0">{surveyResponseStateData?.response}/{surveyResponseDataRaw?.length}</h3>
-						</div>
-					</div>
+          {toggleSwitch && (
+            <ConfirmStateModal
+              hideModal={hideModal}
+              confirmState={confirmState}
+              confirmTitle={confirmStateModalObj.confirmTitle}
+              confirmMessage={confirmStateModalObj.confirmMessage}
+            />
+          )}
 
-					{surveyResponseData && surveyResponseData?.length > 0 && surveyResponseData?.map((sData) => {
-						if(sData && (sData.type === "radio-group" || sData.type === "checkbox-group" || sData.type === "select")) {
-							return (
-								<div className="col-md-12 px-0 mb-3">
-									<div className="bg-white br-10 h-100 border border-1">
-										<div className="p-3">
-											<h5 className="">{getQuestionName(sData.surveyQuestion)}</h5>
-											<div className="row justify-content-center">
-												<div className="col-6">
-													<SurveyCharts chartData={getChartData(sData)}  />
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							)
-						}
-						if(sData && (sData.type === "text" || sData.type === "textarea")) {
-							return (
-								<div className="col-md-12 px-0 mb-3">
-									<div className="bg-white br-15 h-100 border border-1">
-										<div className="p-3">
-											<h5 className="">{getQuestionName(sData.surveyQuestion)}</h5>
-											{sData.value.length && sData.value.map((item) => {
-												return (
-													<div className="bg-f5f5f5 mb-2 br-5">
-														<div className="p-2">
-															<span>{item.value}</span>
-														</div>
-													</div>
-												)
-											})}
-										</div>
-									</div>
-								</div>
-							)
-						}
-					})}
+          <PageHeader
+            title="Survey Results"
+            toggle={
+              <Toggle
+                modalState={modalState}
+                checkState={surveyResponseStateData?.acceptResponse}
+              />
+            }
+            download={
+              <button
+                onClick={onClickDownload}
+                className="btn btn-secondary"
+                aria-controls="user_dataTable"
+                type="button"
+                style={{ marginRight: "8px", borderRadius: "6px" }}
+              >
+                Download Result
+              </button>
+            }
+          />
+          <div className="eep-container-sidebar h-100 eep_scroll_y">
+            <div className="container-sm eep-container-sm">
+              <div
+                className={`row eep-create-survey-div eep_with_sidebar ${
+                  toggleClass ? "side_open" : ""
+                } vertical-scroll-snap`}
+              >
+                <div
+                  className="eep_with_content table-responsive eep_datatable_table_div p-3"
+                  style={{ visibility: "visible" }}
+                  id="screen"
+                >
+                  <div className="d-flex mb-3">
+                    <h3 className="mb-0">{surveyResponseStateData?.name}</h3>
+                    <div className="ml-auto my-auto">
+                      <h3 className="mb-0">
+                        {surveyResponseStateData?.response}/
+                        {surveyResponseDataRaw?.length}
+                      </h3>
+                    </div>
+                  </div>
 
-					{surveyResponseData && surveyResponseData.length <= 0 &&
-						<div className="eep_blank_div">
-							<img src={process.env.PUBLIC_URL + "/images/icons/static/noData.svg"} alt="no-data-icon" />
-							<p className="eep_blank_quote">No record found</p>
-						</div>
-					}
+                  {surveyResponseData &&
+                    surveyResponseData?.length > 0 &&
+                    surveyResponseData?.map((sData) => {
+                      if (
+                        sData &&
+                        (sData.type === "radio-group" ||
+                          sData.type === "checkbox-group" ||
+                          sData.type === "select")
+                      ) {
+                        return (
+                          <div className="col-md-12 px-0 mb-3">
+                            <div className="bg-white br-10 h-100 border border-1">
+                              <div className="p-3">
+                                <h5 className="">
+                                  {getQuestionName(sData.surveyQuestion)}
+                                </h5>
+                                <div className="row justify-content-center">
+                                  <div className="col-6">
+                                    <SurveyCharts
+                                      iSchartDownloadLoading={allExpended}
+                                      chartData={getApexChartData(sData)}
+                                      // chartData={getChartData(sData)}
 
-				</div>
-				<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />
-			</div>
-		</div>
-	</div>
-		</React.Fragment>
-	);
-}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                      if (
+                        sData &&
+                        (sData.type === "text" || sData.type === "textarea")
+                      ) {
+                        return (
+                          <div className="col-md-12 px-0 mb-3">
+                            <div className="bg-white br-15 h-100 border border-1">
+                              <div className="p-3">
+                                <h5 className="">
+                                  {getQuestionName(sData.surveyQuestion)}
+                                </h5>
+                                {sData.value.length &&
+                                  sData.value.map((item) => {
+                                    return (
+                                      <div className="bg-f5f5f5 mb-2 br-5">
+                                        <div className="p-2">
+                                          <span>{item.value}</span>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+
+                  {surveyResponseData && surveyResponseData.length <= 0 && (
+                    <div className="eep_blank_div">
+                      <img
+                        src={
+                          process.env.PUBLIC_URL +
+                          "/images/icons/static/noData.svg"
+                        }
+                        alt="no-data-icon"
+                      />
+                      <p className="eep_blank_quote">No record found</p>
+                    </div>
+                  )}
+                </div>
+                <ToggleSidebar
+                  toggleSidebarType="survey"
+                  sideBarClass={sideBarClass}
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </React.Fragment>
+  );
+};
 
 export default SurveyResponses;

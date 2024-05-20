@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import IconWithLength from "../../UI/CustomComponents/IconWithLength";
 import MyFeedActions from "../../UI/CustomComponents/MyFeedActions";
@@ -12,6 +11,9 @@ import { httpHandler } from "../../http/http-interceptor";
 import ConfirmStateModal from "../../modals/ConfirmStateModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function MyFeedback(props) {
   const { fetchAllFeedbacks } = props;
@@ -24,6 +26,7 @@ function MyFeedback(props) {
   const [confirmModalState, setConfirmModalState] = useState(false);
   const [confirmStateModalObj, setConfirmStateModalObj] = useState({ confirmTitle: null, confirmMessage: null });
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [isLoading,setIsLoading] =useState(false)
 
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
@@ -99,37 +102,48 @@ function MyFeedback(props) {
 
   const myFeedbackTableHeaders = [
     {
-      fieldLabel: "Title",
-      fieldValue: "title",
+      header: "Title",
+      accessorKey: "title",
     },
     {
-      fieldLabel: "Favourites",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.favourites} />,
+      header: "Favourites",
+      accessorKey: "action",
+      // component: <IconWithLength cSettings={IconWithLengthSettings.favourites} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.favourites} />,
+
     },
     {
-      fieldLabel: "Likes",
-      fieldValue: "action",
-      component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+      header: "Likes",
+      accessorKey: "action",
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+
+      // component: <IconWithLength cSettings={IconWithLengthSettings.likes} />,
     },
     {
-      fieldLabel: "Comments",
-      fieldValue: "action",
+      header: "Comments",
+      accessorKey: "action",
       component: <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+      accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.comments} />,
+
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "action",
-      component: <DateFormatDisplay cSettings={IconWithLengthSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "action",
+      accessorFn: (row) => moment(row.nextRun).format('l'),
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <MyFeedActions deleteFeeds={deleteFeeds} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <MyFeedActions deleteFeeds={deleteFeeds} />,
+    //   accessorFn: (row) => <IconWithLength cSettings={IconWithLengthSettings.likes} />,
+
+    // },
   ];
 
   const fetchMyFeedsData = (paramData = {}) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.MY_FEEDBACK,
       method: "get",
@@ -140,14 +154,20 @@ function MyFeedback(props) {
     httpHandler(obj)
       .then((myFeeds) => {
         setMyfeedbackList([...myFeeds?.data?.map(v => { return { ...v, name: v?.title } })]);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
       });
   }
 
   useEffect(() => {
     fetchMyFeedsData(yearFilterValue);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const confirmState = (isConfirmed) => {
@@ -187,9 +207,7 @@ function MyFeedback(props) {
 
   return (
     <React.Fragment>
-      <PageHeader title="My Feedback" 
-      // navLinksLeft={<Link to="feedback" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}
-      // ></Link>}
+      <PageHeader title="My Feedback"
         filter={
           <YearFilter onFilterChange={onFilterChange} />
         }
@@ -233,18 +251,12 @@ function MyFeedback(props) {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {myfeedbackList && (
-              <Table
-                component="userManagement"
-                headers={myFeedbackTableHeaders}
-                data={myfeedbackList}
-                tableProps={{
-                  classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              ></Table>
-            )}
+{ !isLoading &&
+            <TableComponent
+              data={myfeedbackList ?? []}
+              columns={myFeedbackTableHeaders}
+              action={<MyFeedActions deleteFeeds={deleteFeeds} />}
+            />}
           </div>
         </div>
       </div>

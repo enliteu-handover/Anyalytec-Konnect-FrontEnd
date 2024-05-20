@@ -14,6 +14,9 @@ import PollActions from "../../UI/CustomComponents/PollActions";
 import { httpHandler } from "../../http/http-interceptor";
 import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
 import axios from "axios";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 const ActivePolls = () => {
 	const dispatch = useDispatch();
@@ -32,6 +35,8 @@ const ActivePolls = () => {
 		setConfirmModalState(false);
 		setPollTempData({});
 	};
+    const [isLoading,setIsLoading] =useState(false)
+
 	const breadcrumbArr = [
 		{
 			label: "Home",
@@ -98,63 +103,66 @@ const ActivePolls = () => {
 
 	const ActivePollsTableHeaders = [
 		{
-			fieldLabel: "Poll TITLE",
-			fieldValue: "name",
+			header: "Poll TITLE",
+			accessorKey: "name",
 		},
 		{
-			fieldLabel: "DATE",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={cSettings.endDate} />,
+			header: "DATE",
+			accessorKey: "endDate",
+			accessorFn: (row) => row.endDate ? moment(row.endDate).format('l') : '--',
+
 		},
 		{
-			fieldLabel: "SCORE",
-			fieldValue: "action",
-			component: <PollCustomComponent typee="score" />,
+			header: "SCORE",
+			accessorKey: "action",
+			accessorFn: (row) => <PollCustomComponent data={row} typee="score" />,
+
 		},
 		{
-			fieldLabel: "RESPONSE",
-			fieldValue: "action",
-			component: <ResponseCustomComponent cSettings={cSettings.response} type="polls" />,
-		},
-		{
-			fieldLabel: "Action",
-			fieldValue: "action",
-			component: <PollActions deletePoll={deletePoll} />,
+			header: "RESPONSE",
+			accessorKey: "action",
+			accessorFn: (row) => <ResponseCustomComponent data={row} cSettings={cSettings.response} type="polls" />,
 		},
 	];
 
 	const fetchActivePollData = () => {
+		setIsLoading(true)
+
 		const obj = {
 			url: URL_CONFIG.ACTIVE_POLLS,
 			method: "get"
 		};
 		httpHandler(obj).then((response) => {
-			//console.log("fetchActivePollData response :", response.data);
 			setActivePollsList(response.data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			setShowModal({ ...showModal, type: "danger", message: error?.response?.data?.message, });
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchActivePollData();
+		pageLoaderHandler(isLoading ? 'show':'hide')
 	}, []);
 
 	const confirmState = (isConfirmed) => {
-		
+
 		if (isConfirmed) {
 			axios.delete(`${REST_CONFIG.METHOD}://${REST_CONFIG.BASEURL}/api/v1${URL_CONFIG.POLL}`, { data: { id: pollTempData.id } })
-			.then(() => {
-				disableExistModal();
-				fetchActivePollData();
-			}).catch((error) => {
-				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
-				setShowModal({
-					...showModal,
-					type: "danger",
-					message: errMsg,
+				.then(() => {
+					disableExistModal();
+					fetchActivePollData();
+				}).catch((error) => {
+					const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
+					setShowModal({
+						...showModal,
+						type: "danger",
+						message: errMsg,
+					});
 				});
-			});
 			// 	let httpObj = {
 			// 		url: URL_CONFIG.POLL + "?id=" + pollTempData.id,
 			// 		method: "delete"
@@ -181,7 +189,7 @@ const ActivePolls = () => {
 			{showModal.type !== null && showModal.message !== null && (
 				<EEPSubmitModal data={showModal} className={`modal-addmessage`} hideModal={hideModal}
 					successFooterData={
-						<button type="button" className="eep-btn eep-btn-xsml eep-btn-success" data-dismiss="modal" onClick={hideModal}> Ok </button>
+						<button type="button" className="eep-btn eep-btn-xsml eep-btn-success" data-dismiss="modal" onClick={hideModal}> Ok</button>
 					}
 					errorFooterData={
 						<button type="button" className="eep-btn eep-btn-xsml eep-btn-danger" data-dismiss="modal" onClick={hideModal}> Close </button>
@@ -201,15 +209,14 @@ const ActivePolls = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{activePollsList && (
-									<Table component="userManagement" headers={ActivePollsTableHeaders} data={activePollsList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
-								)}
+
+								{!isLoading &&<TableComponent
+									data={activePollsList ?? []}
+									columns={ActivePollsTableHeaders}
+									action={
+										<PollActions deletePoll={deletePoll} />
+									}
+								/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="polls" sideBarClass={sideBarClass} />

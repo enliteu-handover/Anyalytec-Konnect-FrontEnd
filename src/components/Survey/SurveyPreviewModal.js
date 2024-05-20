@@ -1,12 +1,7 @@
 import React from "react";
 
 const SurveyPreviewModal = (props) => {
-
   const {title, assignUser, selectedDepts, selectedUsers, isRepublish, confirmRepublishSurveyHandler} = props;
-
-  // console.log("assignUser", assignUser, (assignUser === 'Users'))
-  // console.log("selectedDepts", selectedDepts)
-  // console.log("selectedUsers", selectedUsers)
 
   const listOfUsers = [];
   selectedUsers.map((res) => listOfUsers.push(res.label));

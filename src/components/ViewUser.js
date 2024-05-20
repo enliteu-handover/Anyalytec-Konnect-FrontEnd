@@ -159,6 +159,9 @@ const ViewUser = () => {
         if (fld["name"] === "branch") {
           fld["label"] = uData?.branch?.label ?? '';
         }
+        if (fld["name"] === "manager") {
+          fld["value"] = uData?.manager?.username ?? '';
+        }
       }
     }
     setUserMeta((prevState) => {

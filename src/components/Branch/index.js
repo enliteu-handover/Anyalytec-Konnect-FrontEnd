@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import BranchMasterActions from "../../UI/CustomComponents/branchMasterAction";
 import Filter from "../../UI/Filter";
 import PageHeader from "../../UI/PageHeader";
-import ResponseInfo from "../../UI/ResponseInfo";
 import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { FILTER_CONFIG } from "../../constants/ui-config";
-import { downloadXlsx } from "../../helpers";
+import { downloadXlsx, pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import CreateBranchModal from "../../modals/CreateBranchModal";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
@@ -24,6 +22,8 @@ const BranchMaster = () => {
         limit: 1000,
         showTable: { label: "15", value: 15 }
     })
+    const [isLoading,setIsLoading] =useState(false)
+
     const [isOpen, setisOpen] = useState(false)
     const [editData, setEditData] = useState(null)
 
@@ -36,7 +36,7 @@ const BranchMaster = () => {
     const breadcrumbArr = [
         {
             label: "Home",
-            link: "dashboard",
+            link: "app/dashboard",
         },
         {
             label: "Admin Panel",
@@ -60,12 +60,7 @@ const BranchMaster = () => {
         {
             header: "Description",
             accessorKey: "description",
-        },
-        // {
-        //     header: "Action",
-        //     accessorKey: "action",
-        //     component: <BranchMasterActions isDelete={isDelete} getDeptData={getDeptData} />,
-        // },
+        }
     ];
 
     useEffect(() => {
@@ -78,6 +73,7 @@ const BranchMaster = () => {
     }, [breadcrumbArr, dispatch]);
 
     const fetchAllBrachData = (search, limit, offset, arg = {}) => {
+        setIsLoading(true)
 
 
         const obj = {
@@ -116,15 +112,17 @@ const BranchMaster = () => {
         httpHandler(obj).then((response) => {
             setState({
                 ...state,
-                // data: { data: response?.data, totalCount: response?.totalCount ?? 0 },
                 data: response?.data
             })
+    setIsLoading(false)
+
         })
-        // setEditData(null)
     }
 
     useEffect(() => {
         fetchAllBrachData()
+        pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     const hideModal = () => {
@@ -142,7 +140,15 @@ const BranchMaster = () => {
     };
 
     const handleExportDownload = () => {
-        let xlData = state?.data?.data?.map(v => { return { ...v, country: v?.country?.countryName } })
+        let xlData = state?.data?.data?.map(v => {
+            return {
+                Id: v?.id,
+                Name: v?.name,
+                Active: v?.active,
+                Description: v?.description,
+                Country: v?.country?.countryName
+            }
+        })
         downloadXlsx("BranchMasters.xlsx", xlData);
     };
 
@@ -208,34 +214,36 @@ const BranchMaster = () => {
                 ></PageHeader>
 
                 <div className="eep-user-management eep-content-start" id="content-start">
-                    <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }}>
-                        <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
+                    <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible" }}>
+                       { !isLoading && <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
                             <button
                                 className="btn btn-secondary"
                                 aria-controls="user_dataTable"
                                 type="button"
                                 style={{
                                     position: 'absolute',
-                                    zIndex: '100'
+                                     zIndex: '9',
+                                    right: '18px',
+                                    margin: ' 8px 0px',
+
                                 }}
                                 onClick={() => handleExportDownload()}
                             >
                                 <span>Excel</span>
                             </button>
-                            {state?.data?.data?.length > 0 &&
-                                <TableComponent
-                                    data={state?.data?.data ?? []}
-                                    columns={userDataTableHeaders}
-                                    action={
-                                        <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
-                                    }
-                                />}
-                        </div>
+                            <TableComponent
+                                data={state?.data?.data ?? []}
+                                columns={userDataTableHeaders}
+                                action={
+                                    <BranchMasterActions setisOpen={setisOpen} isDelete={isDelete} getDeptData={getDeptData} />
+                                }
+                            />
+                        </div>}
                     </div>
                 </div>
             </React.Fragment>
 
-            {!state?.data?.data?.length > 0 &&
+            {/* {!state?.data?.data?.length > 0 &&
                 <div className="row eep-content-section-data no-gutters">
                     <ResponseInfo
                         title="No branch you have!."
@@ -243,7 +251,7 @@ const BranchMaster = () => {
                         responseClass="response-info"
                     />
                 </div>
-            }
+            } */}
         </React.Fragment>
     );
 };

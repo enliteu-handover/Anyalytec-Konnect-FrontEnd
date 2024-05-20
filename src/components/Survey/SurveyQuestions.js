@@ -1,16 +1,16 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import CheckBoxComponent from "../../UI/CustomComponents/CheckBoxComponent";
 import PageHeader from "../../UI/PageHeader";
 import YearFilter from "../../UI/YearFilter";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import CheckBoxComponent from "../../UI/CustomComponents/CheckBoxComponent";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
 import SurveyPreviewQuestionModal from "./SurveyPreviewQuestionModal";
 
 const SurveyQuestions = () => {
@@ -32,6 +32,7 @@ const SurveyQuestions = () => {
 		}
 		setShowModal({ type: null, message: null });
 	};
+    const [isLoading,setIsLoading] =useState(false)
 
 	const breadcrumbArr = [
 		{
@@ -68,10 +69,10 @@ const SurveyQuestions = () => {
 	}, []);
 
 	const getCheckedData = (cstate, arg) => {
-		
+
 		let checkedDataTemp = JSON.parse(JSON.stringify(checkedData))
-		if (!surveyQuestionsList[cstate]?.action) {
-			checkedDataTemp.push(arg);
+		if (!surveyQuestionsList?.[cstate]?.action) {
+			checkedDataTemp?.push(arg);
 			setCheckedData([...checkedDataTemp]);
 		}
 		else {
@@ -84,8 +85,9 @@ const SurveyQuestions = () => {
 		}
 
 		let values = JSON.parse(JSON.stringify(surveyQuestionsList));
-		values[cstate]['action'] = !values[cstate]['action']
-		setSurveyQuestionsList(values)
+		let v = values?.[cstate]?.['action']
+		v = !values?.[cstate]?.['action'];
+		setSurveyQuestionsList(values);
 	}
 
 	const CustomComponentSettings = {
@@ -97,23 +99,27 @@ const SurveyQuestions = () => {
 
 	const surveyTableHeaders = [
 		{
-			fieldLabel: "#",
-			fieldValue: "action",
-			// component: <CheckBoxComponent getCheckedData={getCheckedData} />,
+			header: "#",
+			accessorKey: "action",
+			size: 18,
+			accessorFn: (row) => <CheckBoxComponent data={row} getCheckedData={getCheckedData} />,
+
 		},
 		{
-			fieldLabel: "SURVEY QUESTION",
-			fieldValue: "question",
+			header: "SURVEY QUESTION",
+			accessorKey: "question",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={CustomComponentSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+			accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
+
 		},
 		{
-			fieldLabel: "Q Type",
-			fieldValue: "type"
-		}
+			header: "Q Type",
+			accessorKey: "type"
+		},
+
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -121,6 +127,7 @@ const SurveyQuestions = () => {
 	}
 
 	const fetchSurveyQuestionDetail = (paramData = {}) => {
+		setIsLoading(true)
 
 		const obj = {
 			url: URL_CONFIG.SURVEY_QUESTIONBANK,
@@ -132,6 +139,8 @@ const SurveyQuestions = () => {
 		httpHandler(obj).then((response) => {
 			const data = response?.data?.map(v => { return { ...v, action: false } })
 			setSurveyQuestionsList(data);
+			setIsLoading(false)
+
 		}).catch((error) => {
 			const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
 			setShowModal({
@@ -139,6 +148,8 @@ const SurveyQuestions = () => {
 				type: "danger",
 				message: errMsg,
 			});
+			setIsLoading(false)
+
 		});
 	}
 
@@ -208,20 +219,12 @@ const SurveyQuestions = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{surveyQuestionsList && (
-									<Table
-										component="userManagement"
-										headers={surveyTableHeaders}
-										data={surveyQuestionsList}
-										getCheckedData={getCheckedData}
-										rowClick={true}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTable", "aria-describedby": "user_dataTable_info",
-										}}
-										action={null}
-									></Table>
-								)}
+
+								{!isLoading &&	<TableComponent
+										data={surveyQuestionsList ?? []}
+										columns={surveyTableHeaders}
+										actionHidden={true}
+									/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

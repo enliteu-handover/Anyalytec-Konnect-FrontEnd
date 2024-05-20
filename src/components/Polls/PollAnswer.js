@@ -67,6 +67,8 @@ const PollAnswer = () => {
 		};
 	}, []);
 
+	
+
 	const sideBarClass = (tooglestate) => {
 		setToggleClass(tooglestate);
 	}
@@ -79,7 +81,6 @@ const PollAnswer = () => {
 				params: { id: pData.id }
 			};
 			httpHandler(obj).then((response) => {
-				// console.log("fetchPollDetail response", response.data);
 				setPollData(response?.data);
 			}).catch((error) => {
 				const errMsg = error.response?.data?.message !== undefined ? error.response?.data?.message : "Something went wrong contact administarator";
@@ -93,7 +94,7 @@ const PollAnswer = () => {
 	}
 
 	useEffect(() => {
-		// console.log("pDataValue & viewTypeValue", pDataValue, viewTypeValue);
+		
 		if (pDataValue) {
 			if (viewTypeValue === "fromPoll") {
 				setSubmitResponseID(pDataValue.id);
@@ -102,13 +103,14 @@ const PollAnswer = () => {
 				fetchPollDetail(pDataValue);
 				if (pDataValue.pollResponse) {
 					let pAnswerIndex = pDataValue.pollResponse.findIndex(x => x.userId.userId === currentUserData.id);
-					console.log("pAnswerIndex", pAnswerIndex);
 					if (pAnswerIndex !== -1) {
 						setSubmitResponseID(pDataValue.pollResponse[pAnswerIndex].id);
 					}
 				}
 			}
-		} else {
+		}
+		
+		else {
 			setPollData(null);
 		}
 
@@ -118,13 +120,10 @@ const PollAnswer = () => {
 		}
 	}, [pDataValue]);
 
+
 	const submitAnswerHandler = (responseID, pData, ans) => {
 		if (!pData.answeredState) {
-			if (responseID && ans.option) {
-				console.log("submitAnswerHandler ans", responseID, ans);
-				// let formData = new FormData();
-				// formData.append('id', responseID);
-				// formData.append('value', ans.option);
+			if (responseID && ans?.option) {
 				const obj = {
 					url: URL_CONFIG.POLL_SUBMIT,
 					method: "post",
@@ -133,7 +132,6 @@ const PollAnswer = () => {
 						value:ans.option
 					}
 				};
-				console.log("submitAnswerHandler obj", obj);
 				httpHandler(obj).then(() => {
 					fetchPollDetail(pData);
 					setVotingState(true);
@@ -224,9 +222,6 @@ const PollAnswer = () => {
 			return 0;
 		}
 	}
-
-	// console.log("setPollData", pollData);
-
 	return (
 		<React.Fragment>
 			<PageHeader title="Polls Answer" />
@@ -261,7 +256,7 @@ const PollAnswer = () => {
 				<div className="eep_with_content p-0">
 					<div className="col-md-12">
 						<div className="row">
-							{pDataValue &&
+							{/* {pDataValue && */}
 								<div className="col-md-8">
 									<label className="my-3" style={{ fontSize: "24px" }}>{pollData ? pollData?.name : ""}</label>
 									<div className="poll-area col-md-6">
@@ -272,22 +267,22 @@ const PollAnswer = () => {
 													<label
 														htmlFor={"opt-" + index}
 														// className={`${answeredResponse && answeredResponse.choice[0].value === item.option ? "selected" : ""}`} 
-														className={`${pollData.answeredValue === item.option ? "selected" : ""} ${!isResponsibleState ? "selectall" : ""}`}
+														className={`${pollData?.answeredValue === item?.option ? "selected" : ""} ${!isResponsibleState ? "selectall" : ""}`}
 														onClick={() => submitAnswerHandler(submitResponseID, pollData, item)}
 													>
 														<div className="row no-gutters">
 															<div className="column">
 																<span className="circle"></span>
-																<span className="text">{item.option}</span>
+																<span className="text">{item?.option}</span>
 															</div>
 														</div>
 														{votingState &&
 															<div className="eep_progress_div">
 																<div
-																	className={`progress ${pollData.map ? getProgressClassName(pollData.map[item.option]) : ""}`}
-																	style={{ "--w": `${pollData.map ? pollData.map[item.option] : "0"}` }}
+																	className={`progress ${pollData?.map ? getProgressClassName(pollData?.map[item.option]) : ""}`}
+																	style={{ "--w": `${pollData?.map ? pollData?.map[item.option] : "0"}` }}
 																></div>
-																<span className="percent">{pollData.map ? pollData.map[item.option] + "%" : ""}</span>
+																<span className="percent">{pollData?.map ? pollData?.map[item.option] + "%" : ""}</span>
 															</div>
 														}
 													</label>
@@ -309,7 +304,7 @@ const PollAnswer = () => {
 										</div>
 									}
 								</div>
-							}
+							{/* // }  */}
 							{pollData && pollData?.createdBy?.user_id === currentUserData?.id &&
 								<div className="col-md-4 col-lg-3 col-xs-12 col-sm-12 align-self-start">
 									<div className="col-md-12 bg-f5f5f5 br-10 p-3 mb-3">
@@ -336,11 +331,11 @@ const PollAnswer = () => {
 									</div>
 								</div>
 							}
-							{!pDataValue &&
+							{/* {!pDataValue &&
 								<div className="col-md-8">
 									<div className="alert alert-danger" role="alert">Not able to fetch property data. Please try again from beginning.</div>
 								</div>
-							}
+							} */}
 						</div>
 					</div>
 				</div>

@@ -8,7 +8,7 @@ import Template from "./Template"
 import Inbox from "./Inbox";
 
 const ECardIndex = () => {
-
+  
   const dispatch = useDispatch();
   const activeTab = useSelector((state) => state.tabs.activeTab);
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
@@ -59,6 +59,7 @@ const ECardIndex = () => {
   ];
 
   useEffect(() => {
+    
     if (userRolePermission.ecardTemplates) {
       tabConfig.push({ title: "Templates", id: "TemplatesTab" })
     }
@@ -74,6 +75,7 @@ const ECardIndex = () => {
           config: tabConfig,
         })
       );
+
       // history.replace({ pathname: history.location.pathname, state: {} });
     } else {
       dispatch(
@@ -91,13 +93,12 @@ const ECardIndex = () => {
       );
     };
   }, [userRolePermission]);
-
   return (
     <React.Fragment>
       <div className="row eep-content-section-data no-gutters">
         <div className="tab-content col-md-12 h-100">
           <div id="CardsTab" className="tab-pane active h-100">
-            {activeTab && activeTab.id === `CardsTab` && <ECards />}
+            {activeTab && activeTab.id === `CardsTab` && <ECards isDashbaord={routerData?.active} isDashbaordData={routerData?.isDashbaordData} />}
           </div>
           <div id="InboxTab" className="tab-pane h-100">
             {activeTab && activeTab.id === `InboxTab` && <Inbox />}

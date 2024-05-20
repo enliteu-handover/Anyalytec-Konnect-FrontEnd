@@ -1,17 +1,17 @@
+import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
 import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
 import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { pageLoaderHandler } from "../../helpers";
 import { httpHandler } from "../../http/http-interceptor";
 import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { pageLoaderHandler } from "../../helpers";
 
 const MySurvey = () => {
 
@@ -20,6 +20,9 @@ const MySurvey = () => {
 	const [filterParams, setFilterParams] = useState({});
 	const [showModal, setShowModal] = useState({ type: null, message: null });
 	const dispatch = useDispatch();
+
+    const [isLoading,setIsLoading] =useState(false)
+
 	const hideModal = () => {
 		let collections = document.getElementsByClassName("modal-backdrop");
 		for (var i = 0; i < collections.length; i++) {
@@ -59,7 +62,8 @@ const MySurvey = () => {
 	}, []);
 
 	const fetchMySurveyDetail = (paramsInfo) => {
-		pageLoaderHandler('show')
+		setIsLoading(true)
+
 		let obj;
 		if (Object.getOwnPropertyNames(paramsInfo)) {
 			obj = {
@@ -75,19 +79,23 @@ const MySurvey = () => {
 		}
 		httpHandler(obj).then((response) => {
 			setMySurveyList(response.data);
-			pageLoaderHandler('hide')
+			setIsLoading(false)
+
 		}).catch((error) => {
 			setShowModal({
 				...showModal,
 				type: "danger",
 				message: error?.response?.data?.message,
 			});
-			pageLoaderHandler('hide')
+			setIsLoading(false)
+
 		});
 	}
 
 	useEffect(() => {
 		fetchMySurveyDetail(filterParams);
+		pageLoaderHandler(isLoading ? 'show':'hide')
+
 	}, []);
 
 	const getFilterParams = (paramsData) => {
@@ -115,19 +123,21 @@ const MySurvey = () => {
 
 	const surveyTableHeaders = [
 		{
-			fieldLabel: "SURVEY TITLE",
-			fieldValue: "survey.name",
+			header: "SURVEY TITLE",
+			accessorKey: "survey.name",
 		},
 		{
-			fieldLabel: "Date",
-			fieldValue: "action",
-			component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+			header: "Date",
+			accessorKey: "createdAt",
+			accessorFn: (row) => row.createdAt ? moment('2024-03-18T06:49:02.520Z').format('l h:mm a'): '--',
 		},
+		
 		{
-			fieldLabel: "View",
-			fieldValue: "action",
-			component: <CustomLinkComponent cSettings={tableSettings.view} />,
+			header: "View",
+			accessorKey: "action",
+			accessorFn: (row) => <CustomLinkComponent data={row} cSettings={tableSettings.view} />,
 		}
+
 	];
 
 	const sideBarClass = (togglestate) => {
@@ -152,19 +162,14 @@ const MySurvey = () => {
 					<div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
 						<div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
 							<div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-								{mySurveyList && (
-									<Table
-										component="MySurvey"
-										headers={surveyTableHeaders}
-										data={mySurveyList}
-										tableProps={{
-											classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-											id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-											tableId: "MySurveyId"
-										}}
-										action={null}
-									></Table>
-								)}
+
+							{!isLoading &&	<TableComponent
+									data={mySurveyList ?? []}
+									columns={surveyTableHeaders}
+									actionHidden={true}
+
+									// action={<CustomLinkComponent cSettings={tableSettings.view} />}
+								/>}
 							</div>
 						</div>
 						<ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

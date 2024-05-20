@@ -16,7 +16,6 @@ const LogoSettings = (props) => {
   }
 
   const checkKey = (objVal, data) => {
-
     const formData = new FormData();
     formData.append("image", data);
     const obj = {
@@ -37,9 +36,6 @@ const LogoSettings = (props) => {
     //   setUploadImgArry(arry);
     // }
   };
-
-  console.log("uploadImgArry  outside :", uploadImgArry);
-
   return (
     <React.Fragment>
 

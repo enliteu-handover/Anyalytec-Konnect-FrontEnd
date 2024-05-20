@@ -10,48 +10,51 @@ import ApprovalActions from "../../UI/CustomComponents/ApprovalActions";
 import NominationStatus from "../../UI/CustomComponents/NominationStatus";
 import Filter from "../../UI/Filter";
 import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import TableComponent from "../../UI/tableComponent";
+import moment from "moment";
+import { pageLoaderHandler } from "../../helpers";
 
 function AwardNominationList() {
   const [awardNomination, setAwardNomination] = useState([]);
+  const [isLoading,setIsLoading] =useState(false)
 
   const cSettings = {
-		createdAt: {
-			classnames: "",
-			objReference: "createdAt"
-		}
-	};
+    createdAt: {
+      classnames: "",
+      objReference: "createdAt"
+    }
+  };
 
   const awardNominationTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Team",
-      fieldValue: "judgeId.department.name",
+      header: "Team",
+      accessorKey: "judgeId.department.name",
     },
     {
-      fieldLabel: "Nominees",
-      fieldValue: "nominations.length",
+      header: "Nominees",
+      accessorKey: "nominations.length",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
-      component: <DateFormatDisplay cSettings={cSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => row.createdAt ? moment(row.createdAt).format('l') : '--',
     },
     {
-      fieldLabel: "Status",
-      fieldValue: "action",
-      component: <NominationStatus />,
+      header: "Status",
+      accessorKey: "action",
+      accessorFn: (row) => <NominationStatus data={row} />,
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <ApprovalActions isApprovalState={false} isView={true} />,
-    },
+
   ];
 
   const fetchAwardNominationData = (arg = {}) => {
+    setIsLoading(true)
+
     const obj = {
       url: URL_CONFIG.MY_NOMINATIONS,
       method: "get",
@@ -62,28 +65,34 @@ function AwardNominationList() {
       arg.filterValue.value !== ""
     ) {
       obj["params"] = {
-        rec:arg.filterValue.value
+        rec: arg.filterValue.value
       };
     }
     httpHandler(obj)
       .then((awardNomination) => {
         setAwardNomination(awardNomination.data);
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error.response);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   };
 
   useEffect(() => {
-    const obj = { 
-      filterValue: { label: "Pending", value: false } 
+    const obj = {
+      filterValue: { label: "Pending", value: false }
     }
     fetchAwardNominationData(obj);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const dispatch = useDispatch();
-  
+
   const breadcrumbArr = [
     {
       label: "Home",
@@ -95,12 +104,12 @@ function AwardNominationList() {
     },
     {
       label: "AWARDS",
-      link: "app/awards",
-    },
-    {
-      label: "Awards and Approvals",
       link: "",
     },
+    // {
+    //   label: "Awards and Approvals",
+    //   link: "",
+    // },
   ];
 
   useEffect(() => {
@@ -137,20 +146,15 @@ function AwardNominationList() {
       <div className="eep-user-management eep-content-start" id="content-start">
         <div className="table-responsive eep_datatable_table_div p-3 mt-3" style={{ visibility: "visible" }} >
           <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }} >
-            {awardNomination && (
-              <Table
-                component="userManagement"
-                headers={awardNominationTableHeaders}
-                data={awardNomination}
-                tableProps={{
-                  classes:
-                    "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable",
-                  "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              ></Table>
-            )}
+            {/* {awardNomination && ( */}
+
+{
+       !isLoading &&     <TableComponent
+              data={awardNomination ?? []}
+              columns={awardNominationTableHeaders}
+              action={<ApprovalActions isApprovalState={false} isView={true} />}
+            />}
+            {/* )} */}
           </div>
         </div>
       </div>

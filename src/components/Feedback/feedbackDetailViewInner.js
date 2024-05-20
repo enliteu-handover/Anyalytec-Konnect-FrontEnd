@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import EmojiPicker, { Emoji, SuggestionMode } from 'emoji-picker-react';
 import moment from 'moment/moment';
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import ReactTooltip from "react-tooltip";
 import ResponseInfo from "../../UI/ResponseInfo";
@@ -12,9 +13,9 @@ import FeedbackDetailViewMore from "./more";
 const FeedbackDetailViewInner = (props) => {
 
   const { ideaDetail, usersPic, handleCommand, likeAnIdea, likeAnIdeaChild, likeAnFeed } = props;
-
   const loggedUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const [isDetailListMode, setIsDetailListMode] = useState(false);
+  const emojiIdRef = useRef(null);
   const [state, setState] = useState({
     more: null,
     openicon: false,
@@ -126,7 +127,7 @@ const FeedbackDetailViewInner = (props) => {
               </div>
             }
             <div className="item_blog_like_a_feedback item_blog_like_a_feedback_ text-left mb-2" style={{ display: "flex", alignItems: 'center' }}>
-
+              
               <ReactTooltip
                 effect='solid'
                 id={`tooltip_likes${cmtData?.message}`}
@@ -254,20 +255,39 @@ const FeedbackDetailViewInner = (props) => {
       return carouselPdfData.push(v)
     }
   })
+ 
+  const onEmojiClose=()=>{
+    if(state?.openicon === true){
+      setState({ ...state, openicon: false })
+    }
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (emojiIdRef.current && !emojiIdRef.current.contains(event.target)) {
+        onEmojiClose();
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [onEmojiClose]);
 
   return (
     <React.Fragment>
       {state?.more?.length > 0 && <FeedbackDetailViewMore data={state?.more} onClearMore={onClearMore} />}
       {ideaDetail && Object.keys(ideaDetail)?.length > 0 &&
         <React.Fragment>
-          <div className="sticky-top right_profile_div_r right_profile_div_r-feed">
+          <div onClick={onEmojiClose}>
+          <div className="sticky-top  bg-efefef right_profile_div_r right_profile_div_r-feed">
             <div className="ideabox-profile-expand-container ideabox-profile-expand-container-header">
               <div className="ideabox-profile-expand-container header-content-wrapperone align-items-center">
-                <div className="rounded-circle" style={{ fontSize: 33 }}>
+                <div className="rounded-circle" style={{ fontSize: 33 ,marginRight:'6px'}}>
                   <img src={emojiLog[ideaDetail?.logo]} /></div>
                 {/* <img src={getUserPicture(ideaDetail.createdBy.id)} alt="profile" className="rounded-circle" /> */}
-                <div className="wrapper-one-content">
-                  <div className="ideabox-font-style header-user-name font-helvetica-m">{ideaDetail?.title}</div>
+                <div className="wrapper-one-content ">
+                  <div className="ideabox-font-style pb-1 header-user-name font-helvetica-m">{ideaDetail?.title}</div>
                   <div className="header-user-destination ideabox_contentt_size">{ideaDetail?.category}</div>
                 </div>
               </div>
@@ -277,12 +297,13 @@ const FeedbackDetailViewInner = (props) => {
                 </div>
               </div>
             </div>
-
           </div>
 
-          <div className="ideabox-font-style ideacontent_heading_feedback ideabox_contentt_size font-helvetica-m" style={{ margin: 0, padding: "10px 10px 0px 50px" }}>
-            {ideaDetail?.show_as}</div>
-          <div style={{ display: "flex" }}>
+         
+          <div style={{ display: "flex" }} onClick={onEmojiClose}>
+            
+            <div style={{width:'100%'}}>
+            <div style={{display:'flex',justifyContent:'start',alignItems:'center'}}>
             <span
               className='image_chat'>
               <img src={
@@ -295,7 +316,12 @@ const FeedbackDetailViewInner = (props) => {
                 }}
               />
             </span>
-            <div className="ideabox_ideacontent msg_content">
+               <div className="ideabox-font-style ideacontent_heading_feedback ideabox_contentt_size font-helvetica-m" style={{ margin: 0, padding: "10px 10px 0px 10px" }}>
+               {ideaDetail?.show_as}
+              </div>
+            </div>
+
+            <div className="ideabox_ideacontent msg_content" style={{width:'unset'}}>
               <p className="ideacontent_content ideabox_contentt_size">
                 <div id='parentElement' dangerouslySetInnerHTML={{ __html: ideaDetail?.description }} />
               </p>
@@ -306,9 +332,6 @@ const FeedbackDetailViewInner = (props) => {
                       if (!atthData.docByte?.image?.includes('.pdf')) {
                         return (
                           <div className="attachment_parent" key={"attachmentLists_" + index}
-                          // onClick={() => setState({
-                          //   ...state, more: carouselData
-                          // })}
                           >
                             <Link
                               to="#"
@@ -317,15 +340,9 @@ const FeedbackDetailViewInner = (props) => {
                               style={{ color: "#fff" }}
                               onClick={() => setState({ ...state, more: carouselData })}
                             >
-                              {/* <a href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}> */}
-
-                              {/* <img src={'/images/icons8-downloading-updates-50.svg'} alt="profile"
-                              className="feedback-download-profile-img-size rounded-circle" /> */}
-
                               <img src={atthData.docByte?.image ? atthData.docByte?.image
                                 : fileTypeAndImgSrcArray['default']} className="image-circle c1 attachment_image_size" alt="icon"
                                 title={atthData.ideaAttachmentsFileName} />
-                              {/* </a> */}
                             </Link>
                           </div>
                         )
@@ -371,7 +388,8 @@ const FeedbackDetailViewInner = (props) => {
                     <ReactTooltip
                       effect='solid'
                       id={`tooltip${i}${v}`}
-                    >{ideaDetail?.feedbackLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
+                    >
+                      {ideaDetail?.feedbackLikes?.[v]?.map(c => c?.username)?.join(', ')?.replaceAll(loggedUserData?.username, 'You')}</ReactTooltip>
                     <div
                       className="emoji"
                       data-tip data-for={`tooltip${i}${v}`}
@@ -379,10 +397,13 @@ const FeedbackDetailViewInner = (props) => {
                         onClickEmoji(
                           ideaDetail?.feedbackLikes?.[v]?.find(c => c.emoji?.unified === v)?.emoji, ideaDetail)
                       }}
-                    > <Emoji
+                    >
+                      <Emoji
                         unified={v}
                         size={16}
-                      />{ideaDetail?.feedbackLikes?.[v]?.map(v => v.username)?.length}</div>
+                      />
+                      {ideaDetail?.feedbackLikes?.[v]?.map(v => v.username)?.length}
+                    </div>
                   </>
                 })}
                 </div>
@@ -392,16 +413,17 @@ const FeedbackDetailViewInner = (props) => {
                   <div>   <span className={"c1"} onClick={() => setState({ ...state, openicon: !state.openicon })}>
 
                     <img src={`${process.env.PUBLIC_URL}/images/Canvas.svg`} alt="like" className="post_heart"
-                    //  onClick={() => likeAnIdeaHandler({ isLike: true, iData: ideaDetail })}
                     />
                     &nbsp;React
                   </span>
+
                     <span className={"c1 c2"}
                       onClick={() => handleCommand()}>
                       <img src={`${process.env.PUBLIC_URL}/images/icons8-comments-50-2.svg`} alt="command" className="post_heart"
                       />
                       &nbsp;Comment   </span>
                   </div>
+
                   <div className='replay' onClick={() => {
                     setIsDetailListMode(!isDetailListMode)
                     handleCommand("replay", !isDetailListMode)
@@ -409,19 +431,25 @@ const FeedbackDetailViewInner = (props) => {
                       ideaDetail?.children?.length === 1 ? ' Comment' : ' Comments'}</div>
                 </div>
               </div>
+              <div style={{width:'100%',maxWidth:'500px'}} onClick={onEmojiClose} id='emojiId' ref={emojiIdRef}>
+
               {state?.openicon &&
-                <EmojiPicker
+                  <EmojiPicker
                   onEmojiClick={(e) => onClickEmoji(e, ideaDetail)}
                   suggestedEmojisMode={SuggestionMode.FREQUENT}
-                />}
+                  
+                />
+                  }
+              </div>
               {isDetailListMode && ideaDetail?.children?.length > 0 &&
                 <React.Fragment>
                   {renderChildComponent(ideaDetail, 0, setOpen)}
                   <br />
                 </React.Fragment>
               }
-
             </div>
+              </div>
+          </div>
           </div>
         </React.Fragment>
       }

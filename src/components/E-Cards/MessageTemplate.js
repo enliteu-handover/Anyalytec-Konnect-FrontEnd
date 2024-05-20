@@ -46,7 +46,6 @@ const MessageTemplate = (props) => {
     };
     httpHandler(obj)
     .then((response) => {
-      //console.log("response", response);
       setMessageData(response.data);
       getMessageTemplate(response.data);
       let scheduledMessageDataTemp = [];
@@ -73,7 +72,6 @@ const MessageTemplate = (props) => {
     };
     httpHandler(obj)
     .then((response) => {
-      //console.log("response", response);
       setMessageData(response.data.message);
       getMessageTemplate(response.data.message);
       let scheduledMessageDataTemp = [];
@@ -119,7 +117,6 @@ const MessageTemplate = (props) => {
     if(arg.message !== "") {
       httpHandler(obj)
       .then((response) => {
-        //console.log("response", response?.data?.message);
         if(templateType.category === 'anniversary') {
           fetchAnniversaryMessageData();
         } else {
@@ -127,8 +124,6 @@ const MessageTemplate = (props) => {
         }
       })
       .catch((error) => {
-        //console.log("errorrrr", error);
-        //const errMsg = error?.response?.data?.message;
         setShowModal({
           ...showModal,
           type: "danger",
@@ -172,7 +167,6 @@ const MessageTemplate = (props) => {
       };
       httpHandler(obj)
         .then((response) => {
-          //console.log("handleBirthdayTemplate resMsg", response);
           if(templateType.category === 'anniversary') {
             fetchAnniversaryMessageData();
           } else {
@@ -180,7 +174,6 @@ const MessageTemplate = (props) => {
           }
         })
         .catch((error) => {
-          //console.log("confirmState errorrrr", error);
           setShowModal({
           ...showModal,
           type: "danger",

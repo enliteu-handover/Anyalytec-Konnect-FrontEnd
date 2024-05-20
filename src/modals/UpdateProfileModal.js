@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { httpHandler } from "../http/http-interceptor";
 import { useSelector } from "react-redux";
-import { URL_CONFIG } from "../constants/rest-config";
 import Select from "react-select";
 import ReactTooltip from "react-tooltip";
+import { URL_CONFIG } from "../constants/rest-config";
+import { httpHandler } from "../http/http-interceptor";
 
-const UpdateProfileModal = () => {
+const UpdateProfileModal = (props) => {
 
   const [togglePWIcon, setTogglePWIcon] = useState(true);
   const [toggleNewPWIcon, setToggleNewPWIcon] = useState(true);
@@ -186,7 +186,7 @@ const UpdateProfileModal = () => {
     // delete currUserData.department.updatedAt;
     // delete currUserData.department.updatedBy;
     const obj = {
-      url: URL_CONFIG.GETUSER,
+      url: URL_CONFIG.USER_CONTACT_UPDATE,
       method: "put",
       payload: payload,
     };
@@ -225,7 +225,7 @@ const UpdateProfileModal = () => {
                 </li>
               </ul>
               <div className="modal-header p-1 border-0 flex-column">
-                <button className="close closed" type="button" data-dismiss="modal" aria-label="Close"></button>
+                <button onClick={() => props?.hideModal()} className="close closed" type="button" data-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="pwd" role="tabpanel" aria-labelledby="pwd-tab">
@@ -269,7 +269,8 @@ const UpdateProfileModal = () => {
                           </div>
                         )}
                         <div className="d-flex justify-content-center">
-                          <button className="eep-btn eep-btn-cancel mr-2" type="button" data-dismiss="modal">
+                          <button className="eep-btn eep-btn-cancel mr-2" type="button" data-dismiss="modal"
+                            onClick={() => props?.hideModal()}>
                             Cancel
                           </button>
                           <button type="submit" className="eep-btn eep-btn-success" disabled={disable} onClick={formSubmissionHandler}>
@@ -305,7 +306,8 @@ const UpdateProfileModal = () => {
                           </div>
                         )}
                         <div className="d-flex justify-content-center">
-                          <button className="eep-btn eep-btn-cancel mr-2" type="button" data-dismiss="modal">
+                          <button className="eep-btn eep-btn-cancel mr-2" type="button" data-dismiss="modal"
+                            onClick={() => props?.hideModal()}>
                             Cancel
                           </button>
                           <button type="submit" className="eep-btn eep-btn-success" onClick={contactFormSubmissionHandler}>

@@ -130,8 +130,6 @@ const Help = () => {
     fetchTourData();
   }, []);
 
-  //console.log("setTourData", tourData);
-
   useEffect(() => {
     if(tourData) {
       let tourSelectedCount = 0;
@@ -145,7 +143,6 @@ const Help = () => {
   }, [tourData]);
 
   const updateTourSelectedHandler = () => {
-    //console.log("updateTourSelectedHandler Clicked");
     const obj = {
       url: URL_CONFIG.TOUR_UPDATE,
       method: "put",

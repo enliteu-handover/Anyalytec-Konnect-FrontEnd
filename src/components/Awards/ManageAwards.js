@@ -1,21 +1,25 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import ManageAwardActions from "../../UI/CustomComponents/ManageAwardActions";
 import PageHeader from "../../UI/PageHeader";
-import Table from "../../UI/Table";
-import ManageAwardActions from "../../UI/CustomComponents/ManageAwardActions"
+import TableComponent from "../../UI/tableComponent";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import StopAllotedAwardModal from "../../modals/StopAllotedAwardModal";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
 
 const ManageAwards = () => {
 
   const [awardManage, setAwardManage] = useState([]);
   const [deletionState, setDeletionState] = useState(false);
+  const [tab, setTab] = useState('');
   const [deletionData, setDeletionData] = useState([]);
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  const [isLoading,setIsLoading] =useState(false)
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
@@ -86,60 +90,70 @@ const ManageAwards = () => {
 
   const manageNominationSchedulesTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Type",
-      fieldValue: "type",
+      header: "Type",
+      accessorKey: "type",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
-      component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => row?.createdAt ? moment(row.createdAt).format('l') : '--',
+
+      // component: <DateFormatDisplay cSettings={tableSettings.createdAt} />,
     },
     {
-      fieldLabel: "Last Run",
-      fieldValue: "lastRun",
-      component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
+      header: "Last Run",
+      accessorKey: "lastRun",
+      // component: <DateFormatDisplay cSettings={tableSettings.lastRun} />,
+      accessorFn: (row) => row?.lastRun ? moment(row.lastRun).format('l') : '--',
+
     },
     {
-      fieldLabel: "Next Run",
-      fieldValue: "nextRun",
-      component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
+      header: "Next Run",
+      accessorKey: "nextRun",
+      // component: <DateFormatDisplay cSettings={tableSettings.nextRun} />,
+      accessorFn: (row) => row.nextRun ? moment(row.nextRun).format('l') : '--',
+
     },
-    {
-      fieldLabel: "Action",
-      fieldValue: "action",
-      component: <ManageAwardActions triggerModal={triggerModal} />,
-    },
+    // {
+    //   header: "Action",
+    //   accessorKey: "action",
+    //   component: <ManageAwardActions triggerModal={triggerModal} />,
+    // },
   ];
 
   const manageSpotTableHeaders = [
     {
-      fieldLabel: "Award Name",
-      fieldValue: "award.name",
+      header: "Award Name",
+      accessorKey: "award.name",
     },
     {
-      fieldLabel: "Department",
-      fieldValue: "departmentId.name",
+      header: "Department",
+      accessorKey: "departmentId.name",
     },
     {
-      fieldLabel: "Date",
-      fieldValue: "createdAt",
+      header: "Date",
+      accessorKey: "createdAt",
+      accessorFn: (row) => row?.createdAt ? moment(row.createdAt).format('l') : '--',
     },
-    {
-      fieldLabel: "Actions",
-      fieldValue: "action",
-      component: <ManageAwardActions triggerModal={triggerModal} />,
-    },
+    // {
+    //   header: "Actions",
+    //   accessorKey: "action",
+    //   component: <ManageAwardActions triggerModal={triggerModal} />,
+    // },
   ];
 
   const clickHandler = (arg) => {
+    setTab(arg)
     fetchManageAwardData(arg);
   }
 
   const fetchManageAwardData = (arg) => {
+    setIsLoading(true)
+
     let obj;
     if (arg === "nomi_award") {
       obj = {
@@ -166,19 +180,26 @@ const ManageAwards = () => {
             // type: v?.entity_type || v?.type || ''
           }
         }));
+    setIsLoading(false)
+
       })
       .catch((error) => {
         console.log("error", error);
+    setIsLoading(false)
+
         //const errMsg = error.response?.data?.message;
       });
   };
 
   useEffect(() => {
+    setTab('nomi_award')
     fetchManageAwardData("nomi_award");
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
   }, []);
 
   const confirmState = (arg) => {
-    
+
     if (arg) {
       //if(deletionData.entityType === "nomi_award") {
       const obj = {
@@ -234,9 +255,42 @@ const ManageAwards = () => {
         ></EEPSubmitModal>
       )}
       {deletionState && <StopAllotedAwardModal deleteMessage={{ msg: "Are you sure?", subMsg: "Do you really want to delete this?" }} confirmState={confirmState} />}
-      <div className="py-4">
-        <div className="row award_manage_div" id="content-start">
-          <div className="col-md-12 mb-4">
+      <div className="py-1" style={{ position: 'relative' }}>
+        <div className="tabSwitch">
+          <button
+            onClick={() => clickHandler("nomi_award")}
+            className={tab === "nomi_award" ? "tabButtonActive" : "tabButton"}
+          >
+            Nomination Schedules
+          </button>
+          <button
+            onClick={() => clickHandler("spot_award")}
+            className={tab === "spot_award" ? "tabButtonActive" : "tabButton"}
+          >
+            Spot
+          </button>
+        </div>
+
+        <div className="award_manage_div">
+          {tab === "nomi_award" && !isLoading && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+            <TableComponent
+              data={awardManage ?? []}
+              columns={manageNominationSchedulesTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+            />
+          </div>}
+
+          {tab === "spot_award" && !isLoading && <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+            <TableComponent
+              data={awardManage ?? []}
+              columns={manageSpotTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+            />
+          </div>}
+        </div>
+
+        {/* <div className="row award_manage_div" id="content-start">
+          <div className="col-md-12">
             <ul className="nav nav-pills eep-nav-pills justify-content-end" id="pills-tab" role="tablist">
               <li className="nav-item" role="presentation">
                 <a className="nav-link active c1" id="pills-nomination-schedule-tab" href="#pills-spot" role="tab" data-toggle="pill" aria-controls="pills-nomination-schedule" aria-selected="true" onClick={() => clickHandler("nomi_award")}>Nomination Schedules</a>
@@ -248,37 +302,29 @@ const ManageAwards = () => {
           </div>
           <div className="col-md-12 tab-content" id="pills-tabContent">
             <div className="tab-pane fade show active" id="pills-spot" role="tabpanel" aria-labelledby="pills-spot-tab">
-              <Table
-                component="ManageAwards"
-                headers={manageNominationSchedulesTableHeaders}
-                data={awardManage}
-                tableProps={{
-                  classes:
-                    "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable",
-                  "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              >
-              </Table>
+              
+             <div className="table-responsive eep_datatable_table_div" style={{ visibility: "visible", overflowX: "hidden" }}>
+
+              <TableComponent
+              data={awardManage ?? []}
+              columns={manageNominationSchedulesTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+              />
+              </div>
             </div>
             <div className="tab-pane fade" id="pills-nomination-schedule" role="tabpanel" aria-labelledby="pills-nomination-schedule-tab">
-              <Table
-                component="ManageAwards"
-                headers={manageSpotTableHeaders}
-                data={awardManage}
-                tableProps={{
-                  classes:
-                    "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                  id: "user_dataTable",
-                  "aria-describedby": "user_dataTable_info",
-                }}
-                action={null}
-              >
-              </Table>
+              
+              <div className="table-responsive eep_datatable_table_div p-2 mt-3" style={{ visibility: "visible", overflowX: "hidden" }}>
+              <TableComponent
+              data={awardManage ?? []}
+              columns={manageSpotTableHeaders}
+              action={<ManageAwardActions triggerModal={triggerModal} />}
+              />
+              </div>
+     
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   );

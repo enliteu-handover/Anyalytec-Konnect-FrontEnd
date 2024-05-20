@@ -21,12 +21,16 @@ const MyProfile = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState({ type: null, message: null });
+  
+
+
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
     for (var i = 0; i < collections.length; i++) {
       collections[i].remove();
     }
     setShowModal({ type: null, message: null });
+    setShowUpdateProfileModal(false)
   };
 
   const breadcrumbArr = [
@@ -39,6 +43,7 @@ const MyProfile = () => {
       link: "",
     },
   ];
+
   const fetchUserMeta = () => {
     fetch(`${process.env.PUBLIC_URL}/data/user.json`)
       .then((response) => response.json())
@@ -270,7 +275,7 @@ const MyProfile = () => {
   return (
     <React.Fragment>
 
-      {showUpdateProfileModal && <UpdateProfileModal />}
+      {showUpdateProfileModal && <UpdateProfileModal hideModal={hideModal} />}
       <SignatureUploadModal />
 
       <PageHeader

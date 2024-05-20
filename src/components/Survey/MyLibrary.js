@@ -1,17 +1,17 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { useDispatch } from "react-redux";
+import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
 import PageHeader from "../../UI/PageHeader";
 import TypeBasedFilter from "../../UI/TypeBasedFilter";
-import { TYPE_BASED_FILTER } from "../../constants/ui-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
-import Table from "../../UI/Table";
-import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
-import { httpHandler } from "../../http/http-interceptor";
+import TableComponent from "../../UI/tableComponent";
 import { URL_CONFIG } from "../../constants/rest-config";
-import DateFormatDisplay from "../../UI/CustomComponents/DateFormatDisplay";
-import CustomLinkComponent from "../../UI/CustomComponents/CustomLinkComponent";
+import { TYPE_BASED_FILTER } from "../../constants/ui-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ToggleSidebar from "../../layout/Sidebar/ToggleSidebar";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import { pageLoaderHandler } from "../../helpers";
 
 const MyLibrary = () => {
 
@@ -19,6 +19,8 @@ const MyLibrary = () => {
     const [librarySurveyList, setlibrarySurveyList] = useState([]);
     const [filterParams, setFilterParams] = useState({});
     const [showModal, setShowModal] = useState({ type: null, message: null });
+    const [isLoading,setIsLoading] =useState(false)
+
     const dispatch = useDispatch();
     const hideModal = () => {
         let collections = document.getElementsByClassName("modal-backdrop");
@@ -59,6 +61,8 @@ const MyLibrary = () => {
     }, []);
 
     const fetchMySurveyDetail = (paramsInfo) => {
+    setIsLoading(true)
+
         let obj;
         if (Object.getOwnPropertyNames(paramsInfo)) {
             obj = {
@@ -74,17 +78,23 @@ const MyLibrary = () => {
         }
         httpHandler(obj).then((response) => {
             setlibrarySurveyList(response.data);
+    setIsLoading(false)
+
         }).catch((error) => {
             setShowModal({
                 ...showModal,
                 type: "danger",
                 message: error?.response?.data?.message,
             });
+    setIsLoading(false)
+
         });
     }
 
     useEffect(() => {
         fetchMySurveyDetail(filterParams);
+    pageLoaderHandler(isLoading ? 'show':'hide')
+
     }, []);
 
     const getFilterParams = (paramsData) => {
@@ -112,20 +122,17 @@ const MyLibrary = () => {
 
     const surveyTableHeaders = [
         {
-            fieldLabel: "SURVEY TITLE",
-            fieldValue: "name",
+            header: "SURVEY TITLE",
+            accessorKey: "name",
         },
         {
-            fieldLabel: "Date",
-            fieldValue: "action",
-            component: <DateFormatDisplay cSettings={tableSettings.created_at} />,
+            header: "Date",
+            accessorKey: "createdAt",
+            accessorFn: (row) => row?.created_at ? moment(row.createdAt).format('l') : '--',
         },
-        {
-            fieldLabel: "View",
-            fieldValue: "action",
-            component: <CustomLinkComponent isLibrary={true} cSettings={tableSettings.view} />,
-        }
+
     ];
+
 
     const sideBarClass = (togglestate) => {
         setToggleClass(togglestate);
@@ -152,19 +159,11 @@ const MyLibrary = () => {
                     <div className={`row eep-create-survey-div eep_with_sidebar ${toggleClass ? "side_open" : ""} vertical-scroll-snap`}>
                         <div className="eep_with_content table-responsive eep_datatable_table_div px-3 py-0 mt-3" style={{ visibility: "visible" }}>
                             <div id="user_dataTable_wrapper" className="dataTables_wrapper dt-bootstrap4 no-footer" style={{ width: "100%" }}>
-                                {librarySurveyList && (
-                                    <Table
-                                        component="LibrarySurvey"
-                                        headers={surveyTableHeaders}
-                                        data={librarySurveyList}
-                                        tableProps={{
-                                            classes: "table stripe eep_datatable_table eep_datatable_table_spacer dataTable no-footer",
-                                            id: "user_dataTablee", "aria-describedby": "user_dataTable_info",
-                                            tableId: "LibrarySurveyId"
-                                        }}
-                                        action={null}
-                                    ></Table>
-                                )}
+                                   {!isLoading && <TableComponent
+                                        data={librarySurveyList ?? []}
+                                        columns={surveyTableHeaders}
+                                        action={<CustomLinkComponent isLibrary={true} cSettings={tableSettings.view} />}
+                                    />}
                             </div>
                         </div>
                         <ToggleSidebar toggleSidebarType="survey" sideBarClass={sideBarClass} />

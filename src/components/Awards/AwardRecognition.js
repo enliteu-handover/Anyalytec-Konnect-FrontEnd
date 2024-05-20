@@ -108,7 +108,9 @@ const AwardRecognition = () => {
                         <div className="a_nomiStatus_div">
                           <img
                             //src={ data.nominated ? `${process.env.PUBLIC_URL}/images/icons/approved.svg` : `${process.env.PUBLIC_URL}/images/icons/waiting.svg` }
-                            src={data.nominated ? (data.nominated && data.recognized ? `${process.env.PUBLIC_URL}/images/icons/approved.svg` : `${process.env.PUBLIC_URL}/images/icons/Nominated.svg`) : `${process.env.PUBLIC_URL}/images/icons/waiting.svg`}
+                            src={data.nominated ? 
+                              (data.nominated && data.recognized ? `${process.env.PUBLIC_URL}/images/icons/approved.svg` :
+                             `${process.env.PUBLIC_URL}/images/icons/Nominated.svg`) : `${process.env.PUBLIC_URL}/images/icons/waiting.svg`}
                             className="a_nomitr_simg"
                             alt={data.nominated ? (data.nominated && data.recognized ? "Approved" : "Nominated") : "Waiting"}
                             title={data.nominated ? (data.nominated && data.recognized ? "Approved" : "Nominated") : "Waiting"}
@@ -156,7 +158,8 @@ const AwardRecognition = () => {
                             </div>
                             <div className="an_dtls_info">
                               <label className="an_dtls_lb">Dept</label>
-                              <p className="an_dtls_p">{data.nominatorId?.department?.name}</p>
+                              {/* <p className="an_dtls_p">{data.nominatorId?.department?.name}</p> */}
+                              <p className="an_dtls_p">{data?.departmentId?.name}</p>
                             </div>
                             <div className="an_dtls_info">
                               <label className="an_dtls_lb">Judge</label>
@@ -205,7 +208,7 @@ const AwardRecognition = () => {
             }
           })}
         {awardData && awardData.length <= 0 && (
-          <ResponseInfo title="No award nominations yet."
+          <ResponseInfo title="No nominations yet"
             messageInfo='Good recognition is the bridge between appreciation and motivation' subMessageInfo='A wise man' responseImg="noRecord" responseClass="response-info" />
         )}
       </div>

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { BreadCrumbActions } from "../../store/breadcrumb-slice";
-import { httpHandler } from "../../http/http-interceptor";
-import { URL_CONFIG } from "../../constants/rest-config";
-import Recognitions from "./Recognitions";
-import UserRecognizeModal from './UserRecognizeModal';
+import { useLocation } from "react-router-dom";
 import ResponseInfo from "../../UI/ResponseInfo";
-import { eepFormatDateTime } from "../../shared/SharedService";
+import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import EEPSubmitModal from "../../modals/EEPSubmitModal";
+import { eepFormatDateTime } from "../../shared/SharedService";
+import { BreadCrumbActions } from "../../store/breadcrumb-slice";
+import RecognitionsDisplayCard from './RecognitionsCard';
+import UserRecognizeModal from './UserRecognizeModal';
 
 const UserDashboard = () => {
 
@@ -62,6 +62,7 @@ const UserDashboard = () => {
   }, []);
 
   const userDashboardDetails = (arg) => {
+    
     if (arg) {
       const obj = {
         url: URL_CONFIG.USER_DASHBOARD,
@@ -79,6 +80,7 @@ const UserDashboard = () => {
   }
 
   useEffect(() => {
+    
     if (userId) {
       setRecUserData(userId.userID);
       userDashboardDetails(userId.userID);
@@ -172,6 +174,7 @@ const UserDashboard = () => {
   }, []);
 
   const userRecognition = (arg) => {
+    
     let argTemp = JSON.parse(JSON.stringify(arg));
     let obj;
     if (arg.isBadge) {
@@ -211,9 +214,8 @@ const UserDashboard = () => {
     setUserRecognizeModalErr(null);
     setUserRecognizeModalState(true);
   }
-
-  //console.log("userDetails", userDetails);
-
+  // console.log('userId',userId?.userID?.id);
+  // console.log('logged',JSON.parse(sessionStorage.userData).id);
   return (
     <React.Fragment>
       {showModal.type !== null && showModal.message !== null && (
@@ -289,7 +291,8 @@ const UserDashboard = () => {
           <div className="col-sm-12 col-xs-12 col-md-6 col-lg-9">
             <div className="row">
               <div className="col-sm-12 col-xs-12 col-md-12 col-lg-6">
-                <Recognitions dashboardDetails={userDetails} />
+                {/* <Recognitions dashboardDetails={userDetails} /> */}
+                <RecognitionsDisplayCard dashboardDetails={userDetails} />
               </div>
 
               <div className="col-sm-12 col-xs-12 col-md-12 col-lg-6 d_progress_stats">
@@ -350,7 +353,7 @@ const UserDashboard = () => {
                   </div>
                 }
                 {userDetails.acheivedBadgeList && !userDetails.acheivedBadgeList.length && (
-                  <ResponseInfo title="No Badges found" responseImg="noRecord" responseClass="response-info" />
+                  <ResponseInfo title="Yet to earn Badges" responseImg="noRecord" responseClass="response-info" />
                 )}
               </div>
             </div>
@@ -373,7 +376,7 @@ const UserDashboard = () => {
                   </div>
                 }
                 {userDetails.acheivedAwardList && !userDetails.acheivedAwardList.length && (
-                  <ResponseInfo title="No Awards found" responseImg="noRecord" responseClass="response-info" />
+                  <ResponseInfo title="Yet to earn Awards" responseImg="noRecord" responseClass="response-info" />
                 )}
               </div>
             </div>

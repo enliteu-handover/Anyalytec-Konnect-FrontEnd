@@ -32,7 +32,7 @@ const ManageAwardActions = (props) => {
         onClick={() => handleDeletion(data)} data-toggle="modal" data-target="#stopAllotedAwardModal">
         <span
           dangerouslySetInnerHTML={{
-            __html: svgIcons && svgIcons.stop_icon,
+            __html: svgIcons && svgIcons.Trash,
           }}
           className="transformScale"
         ></span>

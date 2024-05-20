@@ -5,8 +5,6 @@ const IdeaViewModal = (props) => {
 
   const {ideaTempData, usersPics, ideaViewModalState, hideModal} = props;
 
-  //console.log("IdeaViewModal props", props);
-
   const initModalManualTrigger = ideaViewModalState ? true : false;
   const [modalManualTrigger, setModalManualTrigger] = useState(false);
 

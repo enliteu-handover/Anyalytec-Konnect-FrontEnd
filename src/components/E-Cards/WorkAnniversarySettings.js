@@ -74,7 +74,6 @@ const WorkAnniversarySettings = () => {
     httpHandler(obj)
       .then((response) => {
         setAllYears(response.data);
-        console.log("response.data", response.data, allYears);
         let templateTypeTemp = JSON.parse(JSON.stringify(templateType));
         templateTypeTemp.yearInfo = response.data[0];
         setTemplateType(templateTypeTemp);

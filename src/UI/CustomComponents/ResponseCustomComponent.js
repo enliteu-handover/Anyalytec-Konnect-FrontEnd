@@ -5,23 +5,22 @@ const ResponseCustomComponent = (props) => {
 
 	const { data, cSettings, type } = props;
 	const imgPath = process.env.PUBLIC_URL + "/images/icons/static/";
-
 	const getIconPath = () => {
 		if(data) {
-			if(data[cSettings.objReference] <= 30) {
-				return imgPath + cSettings["minScore"];
+			if(data?.[cSettings?.objReference] <= 30) {
+				return imgPath + cSettings?.["minScore"];
 			}
-			else if(data[cSettings.objReference] >= 31 && data[cSettings.objReference] <= 70) {
-				return imgPath + cSettings["avgScore"];
+			else if(data?.[cSettings?.objReference] >= 31 && data?.[cSettings?.objReference] <= 70) {
+				return imgPath + cSettings?.["avgScore"];
 			}
-			else if(data[cSettings.objReference] >= 71) {
-				return imgPath + cSettings["maxScore"];
+			else if(data?.[cSettings?.objReference] >= 71) {
+				return imgPath + cSettings?.["maxScore"];
 			} 
 			else {
-				return imgPath + cSettings["default"];
+				return imgPath + cSettings?.["default"];
 			}
 		} else {
-			return imgPath + cSettings["default"];
+			return imgPath + cSettings?.["default"];
 		}
 	}
 
@@ -34,7 +33,7 @@ const ResponseCustomComponent = (props) => {
 		>
 		{/* <Link to={type === "survey" ? "surveyresponses" : type === "polls" ? "pollanswer" : "#"}> */}
 			{/* <img src={`${process.env.PUBLIC_URL}/images/icons/${data.score <= 30 ? "res-red.svg" : (data.score >= 31) && (data.score <= 70) ? "res-yellow.svg" : (data.score >= 71) && (data.score <= 100) ? "res-green.svg" : ""}`} height="22px" alt="Response-icon" /> */}
-			<img src={getIconPath()} height="22px" alt={cSettings.title} />
+			<img src={getIconPath()} height="22px" alt={cSettings?.title} />
 		</Link>
 	);
 }

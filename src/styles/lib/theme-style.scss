@@ -630,13 +630,20 @@ a.eep-btn:hover {
   justify-content: flex-end;
   align-items: center;
 }
+.btn-secondaryy-color {
+  background-color: #e6e6e6 !important;
+  border-color: transparent !important;
+  padding:0.3rem 30px !important;
+} 
 .btn-secondaryy {
   // color: #606060 !important;
   // color: #adadad !important;
   background-color: #e6e6e6 !important;
   border-color: transparent !important;
-  padding: 4px 12px !important;
+  padding: 4px 12px;
 }
+
+
 .btn-secondaryy:not(:disabled):not(.disabled).active:focus,
 .btn-secondaryy:not(:disabled):not(.disabled):active:focus,
 .show > .btn-secondaryy.dropdown-toggle:focus {

@@ -81,8 +81,9 @@ const AddEcard = (props) => {
         ></EEPSubmitModal>
       )}
       <div className="n_card_add_col_inner" title="Add Template">
-        <div className="add_temp_img n_card_add_col p-3">
-          <div className="outter">
+        <div className="add_temp_img n_card_add_col">
+          <div>
+          <div className="outter p-3">
             <img
               src={`${process.env.PUBLIC_URL}/images/icons/plus-white.svg`}
               className="plus_white_img"
@@ -91,12 +92,17 @@ const AddEcard = (props) => {
               onClick={()=>{addIconClickHandler()}}
             />
           </div>
+          </div>
+          <div style={{fontSize:'14px',fontWeight:'500',paddingTop:'4px',color:'#9d9d9d'}}>suggested upload size 600-800px</div>
+          <div style={{fontSize:'14px',fontWeight:'500',paddingTop:'10px',color:'#9d9d9d'}}>(Max 1Mb)</div>
+
         </div>
       </div>
       <input
         id="imgFileLoader"
         className="invisible"
         type="file"
+        accept="image/png, image/jpg, image/jpeg"
         onChange={(event) => onChangeHandler(event)}
       />
     </React.Fragment>

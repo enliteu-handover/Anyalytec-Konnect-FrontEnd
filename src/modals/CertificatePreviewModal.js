@@ -19,7 +19,9 @@ const CertificatePreviewModal = (props) => {
               <div className="row justify-content-md-center">
                 {Object.keys(previewDataUri)?.length > 0 && (
                   <div className="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                    <div className="thumbnailWrapper" style={{ margin: "0px; padding: 0px", height: "calc(100vh - 125px)", }}>
+                    <div className="thumbnailWrapper" 
+                    style={{ margin: "0px; padding: 0px", height: "calc(100vh - 125px)", }}
+                    >
                       {previewDataUri.isIframe && (
                         <div className="iframeWrapper eep-content-section eep_scroll_y" style={{ margin: "0px", padding: "0px" }}>
                           <PDF

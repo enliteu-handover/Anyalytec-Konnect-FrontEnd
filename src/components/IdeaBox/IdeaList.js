@@ -67,7 +67,7 @@ const IdeaList = (props) => {
                 <div className="ideabox_username_fav_div">
                   <div className="ideabox_descriptions_div c1" onClick={() => viewIdea(item)}>
                     <h5 className="ideabox-font-style ideabox_user_name_size">{item.createdBy?.firstname + " " + item.createdBy?.lastname}</h5>
-                    <p className="ideabox-font-style ideabox-message-content-heading ideabox_truncate ideabox_contentt_size">{item.title}</p>
+                    <p className="ideabox-font-style ideabox-message-content-heading ideabox_truncate ideabox_contentt_size" style={{fontWeight:'500'}}>{item.title}</p>
                   </div>
                   <div className="funtional_parts" id="funtional_parts">
                     <div className="ideabox-star-position ">

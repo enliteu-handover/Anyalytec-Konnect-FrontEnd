@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import PendingData from "../../components/Survey/PendingData";
-import { httpHandler } from "../../http/http-interceptor";
 import { URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
 import { toggleSidebarActions } from "../../store/toggle-sidebar-state";
 
 const ToggleSidebar = (props) => {
 
   const { toggleSidebarType, sideBarClass } = props;
   const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
-
-  //console.log("ToggleSidebar props", props);
 
   const [toggleState, setToggleState] = useState(true);
   const [showPendingData, setShowPendingData] = useState(false);
@@ -43,7 +41,7 @@ const ToggleSidebar = (props) => {
   const [innerSidebarData, setInnerSidebarData] = useState([]);
 
   const fetchInnerSidebarData = (tType) => {
-    
+
     fetch(`${process.env.PUBLIC_URL}/data/toggleSidebar.json`)
       .then((response) => response.json())
       .then((data) => {
@@ -79,7 +77,6 @@ const ToggleSidebar = (props) => {
       };
     }
     httpHandler(obj).then((res) => {
-      //console.log("fetchPendingData survey", res.data);
       setPendingDatas([...res.data]);
     }).catch((error) => {
       console.log("fetchPendingData error", error);
@@ -94,9 +91,13 @@ const ToggleSidebar = (props) => {
     }
   }, [toggleSidebarType]);
 
+
+
+
   const togglePendingComponent = () => {
     setShowPendingData(prev => !prev)
   }
+
 
   return (
     <div className="text-center navigation mw-10 eep_sidebar survey_sidebar" id="sidebar" style={{ right: toggleState ? "0" : "-137px" }}>
@@ -104,26 +105,26 @@ const ToggleSidebar = (props) => {
         <div className="survey_sidebar_inner">
           <div className="stacking-slide">
             <span id="eep-sidebar-handle" onClick={sideBarToggleHandler}></span>
-            {innerSidebarData.fields && innerSidebarData.fields.length > 0 && innerSidebarData.fields.map((item, index) => {
+            {innerSidebarData?.fields && innerSidebarData?.fields?.length > 0 && innerSidebarData.fields.map((item, index) => {
               return (
-                <div className="sidebar-item pb-4" key={"sidebarItem_" + index} onClick={(item.isCustomComponent) ? togglePendingComponent : undefined}>
+                <div className="sidebar-item pb-4" key={"sidebarItem_" + index} onClick={(item?.isCustomComponent) ? togglePendingComponent : undefined}>
                   <div className="pending-survey pending-eep">
-                    <Link to={item.link && !item.isCustomComponent ? item.link : "#"}>
+                    <Link to={(item?.link && !item?.isCustomComponent) ? item.link : "#"} >
                       <div className={`${item.bgClassName} sidebar-box`}>
                         {item.isCustomComponent &&
                           <div className="round-wave">
                             <div className="circle-ripple">
-                              <h5>{pendingDatas.length}</h5>
+                              <h5>{pendingDatas?.length}</h5>
                             </div>
                           </div>
                         }
-                        {!item.isCustomComponent &&
+                        {!item?.isCustomComponent &&
                           <div className="round">
                             <img src={process.env.PUBLIC_URL + "/images/icons/toggleMenu/" + item.imgSrc} alt="" className="icon-24" />
                           </div>
                         }
                       </div>
-                      <div className="sidebar-box-title">{item.label}</div>
+                      <div className="sidebar-box-title">{item?.label}</div>
                     </Link>
                   </div>
                 </div>

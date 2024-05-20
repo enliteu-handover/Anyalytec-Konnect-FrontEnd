@@ -1,21 +1,21 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import PageHeader from "../../UI/PageHeader";
-import { httpHandler } from "../../http/http-interceptor";
-import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
-import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import Heart from "../../UI/CustomComponents/Heart";
+import PageHeader from "../../UI/PageHeader";
+import { REST_CONFIG, URL_CONFIG } from "../../constants/rest-config";
+import { httpHandler } from "../../http/http-interceptor";
+import ConfirmStateModal from "../../modals/ConfirmStateModal";
+import EEPSubmitModal from "../../modals/EEPSubmitModal";
 import CommentReply from "./CommentReply";
 import ForumCommentsList from "./ForumCommentsList";
-import ConfirmStateModal from "../../modals/ConfirmStateModal";
-import axios from "axios";
+import { pageLoaderHandler } from "../../helpers";
 
 const ForumDetailView = () => {
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const currentUserData = sessionStorage.userData ? JSON.parse(sessionStorage.userData) : {};
   const getLocation = useLocation();
-  //console.log("getLocation", getLocation);
   //const forumDataVal = getLocation.state ? getLocation.state?.forumData : "";
   //const usersPicDataVal = getLocation.state ? getLocation.state?.usersPicData : "";
   const initialVal = getLocation.state ? getLocation.state?.forumData : {};
@@ -42,6 +42,8 @@ const ForumDetailView = () => {
     setConfirmModalState(false);
     setForumTempData({});
   };
+	const [isloading, setIsloding] = useState(false);
+
 
   const fileTypeAndImgSrcArray = {
     "image/pdf": process.env.PUBLIC_URL + "/images/icons/special/pdf.svg",
@@ -68,10 +70,15 @@ const ForumDetailView = () => {
   };
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
+  },[]);
+
+  useEffect(() => {
     if (Object.keys(initialVal).length > 0) {
       //setForumData({...initialVal});
       //setForumCommentData(getCustomizedData(initialVal.forumComments));
       getForumById(initialVal);
+		pageLoaderHandler(isloading ? "show": "hide");
       setUsersPics(initialPicVal);
     }
   }, [initialVal, initialPicVal]);
@@ -259,18 +266,19 @@ const ForumDetailView = () => {
   }
 
   const getForumById = (arg) => {
-
+    setIsloding(true)
     const obj = {
       url: URL_CONFIG.FORUM_BY_ID + "?id=" + arg.id,
       method: "get"
     }
     httpHandler(obj).then((response) => {
-      //console.log("getforum by id response :", response.data);
       setForumData({ ...response?.data });
       setForumCommentData([...getCustomizedData(response?.data?.forumComments)]);
       setToggleComment(false);
       setToggleReplyState({ isToggle: false, cmtData: {}, type: "" });
+      setIsloding(false)
     })
+   
     // .catch((error) => {
     //   const errMsg =
     //     error.response?.data ?
@@ -365,7 +373,6 @@ const ForumDetailView = () => {
   const commentUnLikeHandler = (cmtData, fData) => {
 
     unLikeIndex = cmtData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
-    //console.log("unLikeIndex", unLikeIndex);
     const obj = {
       url: URL_CONFIG.FORUM_COMMENT_LIKE_UNLIKE,
       //  + "?id=" + cmtData.forumCommentLikes[unLikeIndex].id,
@@ -423,21 +430,29 @@ const ForumDetailView = () => {
   }
 
   const checkIsReplyLiked = (rData) => {
-    //console.log("checkIsReplyLiked rData", rData);
     let rLikeIndex = rData.forumCommentLikes.findIndex(x => x.userId?.user_id === currentUserData.id);
-    //console.log("rLikeIndex", rLikeIndex);
     if (rLikeIndex === -1) {
       return false;
     } else {
       return true;
     }
   }
-
-  //console.log("setForumData:", forumData, forumCommentData);
-
   return (
-    <React.Fragment>
-      <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />
+    <div>
+      <div
+        style={{
+          position: 'fixed',
+          /* margin: 0px 22px; */
+          zIndex: 10,
+          width: '-webkit-fill-available',
+          marginRight: '14px',
+          backgroundColor: '#fff',
+          marginTop: '-15px',
+          padding: '8px 0px',
+        }}
+      > <PageHeader title="Forum Pot" navLinksLeft={<Link to="forum" className="text-right c-c1c1c1 ml-2 my-auto eep_nav_icon_div eep_action_svg" dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.lessthan_circle }}></Link>} />
+
+      </div>
       {showModal.type !== null && showModal.message !== null && (
         <EEPSubmitModal
           data={showModal}
@@ -463,146 +478,158 @@ const ForumDetailView = () => {
 
       {forumData && Object.keys(forumData).length > 0 &&
         <div className="row no-gutters forum_discussion_containerr">
-          <div className="tab-content col-md-12 h-100">
-            <div className="forum_main_topic">
-              <div className="forum_profile_container pr-0">
-                <div className="forum_profile_image">
-                  <img src={getUserPicture(forumData.createdBy.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
+          <div className="tab-content col-md-12 h-100" style={{}}>
+            <div style={{
+              position: 'fixed',
+              /* margin: 0px 22px; */
+              zIndex: '1000',
+              width: '-webkit-fill-available',
+              marginRight: '14px',
+              backgroundColor: '#fff',
+              marginTop: '56px',
+
+            }}>
+              <div className="forum_main_topic">
+                <div className="forum_profile_container pr-0">
+                  <div className="forum_profile_image">
+                    <img src={getUserPicture(forumData.createdBy.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
+                  </div>
+                  <div className="forum_profile_content">
+                    <p className="forum_content_title">{forumData.title}</p>
+                    <p className="forum_user_name mb-0">{forumData.createdBy?.firstname + " " + forumData.createdBy?.lastname}</p>
+                  </div>
+                  {forumData.forumAttachmentFileName.length > 0 &&
+                    <div className="fd_attachements_button" onClick={() => showAttachements()}>
+                      <p className="c1 mb-0">{forumData.forumAttachmentFileName.length} {forumData.forumAttachmentFileName.length > 0 ? (forumData.forumAttachmentFileName.length === 1 ? "Attachement" : "Attachements") : "Attachements"}</p>
+                    </div>
+                  }
                 </div>
-                <div className="forum_profile_content">
-                  <p className="forum_content_title">{forumData.title}</p>
-                  <p className="forum_user_name mb-0">{forumData.createdBy?.firstname + " " + forumData.createdBy?.lastname}</p>
+                <div className="eep-dropdown-divider pb-1"></div>
+                {forumData.forumAttachmentFileName.length > 0 && attachementShow &&
+                  <div className="fd_attachemnt_list">
+                    {forumData.forumAttachmentFileName.map((atthData, index) => {
+                      return (
+                        <div className="attachment_parent" key={"attachmentLists_" + index}>
+                          <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
+                            <img src={fileTypeAndImgSrcArray[atthData.contentType]
+                              ? fileTypeAndImgSrcArray[atthData.contentType] :
+                              fileTypeAndImgSrcArray['default']}
+                              className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
+                          </a>
+                        </div>
+                      )
+                    })
+                    }
+                  </div>
+                }
+                <div className="d-block">
+                  <div className="forum_content">
+                    <p className="forum_message_style">{forumData.description}</p>
+                  </div>
+                  <div className="d-flex">
+                    <div className="flex-grow-1"></div>
+                    <div className={`mr-2 liked_heart c1 ${forumData.forumIsEntitled ? "clicked" : " "}`} >
+                      <div className="fd_enlided_icon">
+                        {forumData.forumIsEntitled &&
+                          <React.Fragment>
+                            <div onClick={() => forumCommentsEnlite({ isEnlite: false, cmtData: forumData })}>
+                              {heartAnimateState && <Heart />}
+                              <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon }}></span>
+                            </div>
+                          </React.Fragment>
+                        }
+                        {!forumData.forumIsEntitled &&
+                          <React.Fragment>
+                            <div onClick={() => forumCommentsEnlite({ isEnlite: true, cmtData: forumData })}>
+                              <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon }}></span>
+                            </div>
+                          </React.Fragment>
+                        }
+                      </div>
+                    </div>
+                    <div className="reply_button_style main_topic_reply_button text-right" username="admin" onClick={() => toggleCommentHandler(toggleComment, "", { type: "new", cmtData: {} })}>
+                      <img src={`${process.env.PUBLIC_URL}/images/icons/static/comment.svg`} alt="reply-icon" className="forum-following-img-size c1" style={{ width: "30px", height: "30px" }} />
+                    </div>
+                  </div>
                 </div>
-                {forumData.forumAttachmentFileName.length > 0 &&
-                  <div className="fd_attachements_button" onClick={() => showAttachements()}>
-                    <p className="c1 mb-0">{forumData.forumAttachmentFileName.length} {forumData.forumAttachmentFileName.length > 0 ? (forumData.forumAttachmentFileName.length === 1 ? "Attachement" : "Attachements") : "Attachements"}</p>
+                {forumData.forumIsfollowing &&
+                  <div className="forum_following_topics_img">
+                    <img src={`${process.env.PUBLIC_URL}/images/icons/static/Follow.svg`} className="forum-eep-img-size" />
                   </div>
                 }
               </div>
-              <div className="eep-dropdown-divider pb-1"></div>
-              {forumData.forumAttachmentFileName.length > 0 && attachementShow &&
-                <div className="fd_attachemnt_list">
-                  {forumData.forumAttachmentFileName.map((atthData, index) => {
-                    return (
-                      <div className="attachment_parent" key={"attachmentLists_" + index}>
-                        <a className="c1" href={atthData.docByte?.image} target="_thapa" download={atthData.ideaAttachmentsFileName}>
-                          <img src={fileTypeAndImgSrcArray[atthData.contentType]
-                            ? fileTypeAndImgSrcArray[atthData.contentType] :
-                            fileTypeAndImgSrcArray['default']}
-                            className="image-circle c1 attachment_image_size" alt="icon" title={atthData.ideaAttachmentsFileName} />
-                        </a>
-                      </div>
-                    )
-                  })
-                  }
-                </div>
-              }
-              <div className="d-block">
-                <div className="forum_content">
-                  <p className="forum_message_style">{forumData.description}</p>
-                </div>
-                <div className="d-flex">
-                  <div className="flex-grow-1"></div>
-                  <div className={`mr-2 liked_heart c1 ${forumData.forumIsEntitled ? "clicked" : " "}`} >
-                    <div className="fd_enlided_icon">
-                      {forumData.forumIsEntitled &&
-                        <React.Fragment>
-                          <div onClick={() => forumCommentsEnlite({ isEnlite: false, cmtData: forumData })}>
-                            {heartAnimateState && <Heart />}
-                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlited_icon }}></span>
-                          </div>
-                        </React.Fragment>
+              {toggleComment &&
+                <div className="forum_reply_message forum_append_class_container">
+                  <div className="forum_profile_container" style={{ border: "0px" }}>
+                    <div className="forum_profile_image">
+                      <img src={getUserPicture(currentUserData.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
+                    </div>
+                    <div className="forum_profile_content">
+                      <label className="forum_user_name mb-0">{((currentUserData?.firstName ?? '') + ' ' +
+                        currentUserData?.lastName ?? '')}</label>
+                      <label className="forum_nofpostes d-flex align-items-center mb-0" style={{ fontSize: "12px" }}>
+                        <div className="d-flex cursor_help mb-0" title={forumData.title}><i className="eep_truncate eep_truncate_max">Comment to - <span>{forumData.title}</span></i></div>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="eep-dropdown-divider pb-1"></div>
+                  <div className="forumMainTopicreplyTextArea">
+                    <div className="replyTextArea px-3">
+                      <textarea id="comment" className="eep_scroll_y" rows="3" maxLength={maxTextAreaLength} value={forumComment} onChange={(event) => onChangeForumComment(event)}></textarea>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between px-3">
+                      <span id="rchars">{forumComment.length}/{maxTextAreaLength}</span>
+                      {toggleCommentSetting.type === "new" &&
+                        <div
+                          className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
+                          onClick={() => clickCommentSubmitHandler(forumData)}>
+                          <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
+                        </div>
                       }
-                      {!forumData.forumIsEntitled &&
-                        <React.Fragment>
-                          <div onClick={() => forumCommentsEnlite({ isEnlite: true, cmtData: forumData })}>
-                            <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.enlite_icon }}></span>
-                          </div>
-                        </React.Fragment>
+                      {toggleCommentSetting.type === "edit" &&
+                        <div
+                          className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
+                          onClick={() => updateCommentHandler(forumComment, toggleCommentSetting.cmtData, forumData)}>
+                          <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
+                        </div>
                       }
                     </div>
                   </div>
-                  <div className="reply_button_style main_topic_reply_button text-right" username="admin" onClick={() => toggleCommentHandler(toggleComment, "", { type: "new", cmtData: {} })}>
-                    <img src={`${process.env.PUBLIC_URL}/images/icons/static/comment.svg`} alt="reply-icon" className="forum-following-img-size c1" style={{ width: "30px", height: "30px" }} />
+                  <div className="forumRplayClose c1" onClick={() => setToggleComment(false)}>
+                    <i className="fa fa-times" aria-hidden="true"></i>
                   </div>
-                </div>
-              </div>
-              {forumData.forumIsfollowing &&
-                <div className="forum_following_topics_img">
-                  <img src={`${process.env.PUBLIC_URL}/images/icons/static/Follow.svg`} className="forum-eep-img-size" />
                 </div>
               }
-            </div>
-            {toggleComment &&
-              <div className="forum_reply_message forum_append_class_container">
-                <div className="forum_profile_container" style={{ border: "0px" }}>
-                  <div className="forum_profile_image">
-                    <img src={getUserPicture(currentUserData.id)} alt="forum_profile_picture" className="rounded-circle forum_profile_image_size" />
-                  </div>
-                  <div className="forum_profile_content">
-                    <label className="forum_user_name mb-0">{((currentUserData?.firstName ?? '') + ' ' +
-                      currentUserData?.lastName ?? '')}</label>
-                    <label className="forum_nofpostes d-flex align-items-center mb-0" style={{ fontSize: "12px" }}>
-                      <div className="d-flex cursor_help mb-0" title={forumData.title}><i className="eep_truncate eep_truncate_max">Comment to - <span>{forumData.title}</span></i></div>
-                    </label>
-                  </div>
-                </div>
-                <div className="eep-dropdown-divider pb-1"></div>
-                <div className="forumMainTopicreplyTextArea">
-                  <div className="replyTextArea px-3">
-                    <textarea id="comment" className="eep_scroll_y" rows="3" maxLength={maxTextAreaLength} value={forumComment} onChange={(event) => onChangeForumComment(event)}></textarea>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between px-3">
-                    <span id="rchars">{forumComment.length}/{maxTextAreaLength}</span>
-                    {toggleCommentSetting.type === "new" &&
-                      <div
-                        className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
-                        onClick={() => clickCommentSubmitHandler(forumData)}>
-                        <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
-                      </div>
-                    }
-                    {toggleCommentSetting.type === "edit" &&
-                      <div
-                        className={`${forumComment.length > 0 ? "eep_post_icon c1" : ""}`}
-                        onClick={() => updateCommentHandler(forumComment, toggleCommentSetting.cmtData, forumData)}>
-                        <span dangerouslySetInnerHTML={{ __html: svgIcons && svgIcons.send_icon }}></span>
-                      </div>
-                    }
-                  </div>
-                </div>
-                <div className="forumRplayClose c1" onClick={() => setToggleComment(false)}>
-                  <i className="fa fa-times" aria-hidden="true"></i>
-                </div>
+              <div className="fd_comments_count m-2 p-2" id="commentsSize" style={{ borderTop: "1px solid #DBDBDB" }}>
+                <span className="fd_count_number">{forumData?.forumComments?.length}</span> <span style={{ color: "#646464" }}> comments</span>
               </div>
-            }
-            <div className="fd_comments_count m-2 p-2" id="commentsSize" style={{ borderTop: "1px solid #DBDBDB" }}>
-              <span className="fd_count_number">{forumData?.forumComments?.length}</span> <span style={{ color: "#646464" }}> comments</span>
             </div>
-            {forumData?.forumComments?.length > 0 &&
-              <ForumCommentsList
-                forumData={forumData}
-                comments={forumCommentData}
-                getUserPicture={getUserPicture}
-                deleteCommentHandler={deleteCommentHandler}
-                commentUnLikeHandler={commentUnLikeHandler}
-                commentLikeHandler={commentLikeHandler}
-                toggleReply={toggleReply}
-                editCommentHandler={editCommentHandler}
-                editCommentReplyHandler={editCommentReplyHandler}
-                toggleReplyList={toggleReplyList}
-                checkIsReplyLiked={checkIsReplyLiked}
-              />
-            }
-            {toggleReplyState.isToggle &&
-              <CommentReply toggleReplyState={toggleReplyState} forumData={forumData} closeReply={closeReply} getUserPicture={getUserPicture} clickCommentReplySubmitHandler={clickCommentReplySubmitHandler} updateCommentReplyHandler={updateCommentReplyHandler} />
-            }
           </div>
+
+          {forumData?.forumComments?.length > 0 &&
+            <ForumCommentsList
+              forumData={forumData}
+              comments={forumCommentData}
+              getUserPicture={getUserPicture}
+              deleteCommentHandler={deleteCommentHandler}
+              commentUnLikeHandler={commentUnLikeHandler}
+              commentLikeHandler={commentLikeHandler}
+              toggleReply={toggleReply}
+              editCommentHandler={editCommentHandler}
+              editCommentReplyHandler={editCommentReplyHandler}
+              toggleReplyList={toggleReplyList}
+              checkIsReplyLiked={checkIsReplyLiked}
+            />
+          }
+          {toggleReplyState.isToggle &&
+            <CommentReply toggleReplyState={toggleReplyState} forumData={forumData} closeReply={closeReply} getUserPicture={getUserPicture} clickCommentReplySubmitHandler={clickCommentReplySubmitHandler} updateCommentReplyHandler={updateCommentReplyHandler} />
+          }
         </div>
       }
       {/* {forumData && Object.keys(forumData).length <= 0 &&
         <div className="alert alert-danger" role="alert">Not able to fetch property data. Please try again from beginning.</div>
       } */}
-    </React.Fragment>
+    </div>
   );
 
 }

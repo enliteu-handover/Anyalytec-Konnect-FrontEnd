@@ -27,7 +27,7 @@ const AwardRecognizeModal = (props) => {
   const getMyHashTag = (arg) => {
     const arr = [];
     arg?.map((res) => {
-      return arr.push(res.hashName);
+      return arr.push("#" + res.hashName);
     });
     return arr.join(", ");
   };
@@ -119,7 +119,6 @@ const AwardRecognizeModal = (props) => {
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;
-        console.log("resMsg", resMsg);
         setAwardResponseMsg(resMsg);
         setAwardResponseClassName("response-succ");
         history.push('awards', { activeTab: 'NominatorTab' });
@@ -144,7 +143,6 @@ const AwardRecognizeModal = (props) => {
     httpHandler(obj)
       .then((response) => {
         const resMsg = response?.data?.message;
-        console.log("resMsg", resMsg);
         setAwardResponseMsg("");
         setAwardResponseClassName("");
         modalSubmitInfo({ status: true, message: resMsg });
@@ -201,7 +199,7 @@ const AwardRecognizeModal = (props) => {
                                 {aDataVal && aDataVal?.type === "spot_award" && (
                                   <div className="n_dtls_info">
                                     <label className="n_dtls_lb font-helvetica-m">Tags</label>
-                                    <p className="n_award_category mb-1 text-right">
+                                    <p className="n_award_category mb-1 text-right eep_truncate_auto">
                                       {hashValue.length > 0 ? getMyHashTag(hashValue) : "-"}
                                     </p>
                                   </div>

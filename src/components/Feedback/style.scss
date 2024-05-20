@@ -239,10 +239,10 @@
     margin-bottom: 0px !important;
     margin-top: 0px !important;
 
-    .ideabox_user_name_size {
-        color: #403C47;
-        font-size: 15px;
-    }
+    // .ideabox_user_name_size {
+    //     color: #403C47;
+    //     font-size: 15px;
+    // }
 
     .ideabox_contentt_size {
         color: #717074;
@@ -294,9 +294,20 @@
     display: flex;
     border-radius: 50%;
 }
-
+.searchfeed{
+    & input {
+        background: #fff;
+        border: 2px solid #EAEAEA !important;
+    }
+}
+.nodata{
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        height: 50vh; 
+}
 .feedback-listview {
-    border: 2px solid #EAEAEA;
+    // border: 2px solid #EAEAEA;
     border-radius: 8px;
     padding: 14px 0px;
     height: 100vh;
@@ -352,12 +363,12 @@
 
 
     .ideashorting_div_child {
-        background-color: #ffff;
-        align-items: center;
-        border: none;
-        border-radius: unset;
-        border-bottom: 3px solid #EAEAEA !important;
-        opacity: 1;
+        // background-color: #ffff;
+        // align-items: center;
+        // border: none;
+        // border-radius: 12px;
+        // border-bottom: 0px solid #EAEAEA !important;
+        // opacity: 1;
 
         .funtional_parts {
             display: flex;
@@ -365,11 +376,14 @@
         }
     }
 
-    .ideaMarkedAsRead {
-        background-color: #F9f9f9 !important;
-        // opacity: 0.9;
-    }
-}
+    // .ideaMarkedAsRead {
+    //     background-color: #F9f9f9;
+    //     // opacity: 0.9;
+    //     .idebox-active-navigation{
+    //         background-color: #f1f1f1;
+    //     }
+    // }
+}     
 
 .feedback_arrow_div {
     width: 60%;
@@ -427,4 +441,7 @@
     font-style: italic;
     background-color: #fff;
     padding: 10px;
+}
+.nh{
+    min-height: 100%;
 }

@@ -7,11 +7,11 @@ import ResponseInfo from "../UI/ResponseInfo";
 import { URL_CONFIG } from "../constants/rest-config";
 import { base64ToFile } from "../helpers";
 import { httpHandler } from "../http/http-interceptor";
+import { idmRoleMappingRoles } from "../idm";
 import EEPSubmitModal from "../modals/EEPSubmitModal";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import FormContainer from "./FormElements/FormContainer";
 import { FormContext } from "./FormElements/FormContext";
-import { idmRoleMappingRoles } from "../idm";
 
 const AddUser = () => {
   const dataObj = {};
@@ -21,7 +21,9 @@ const AddUser = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showModal, setShowModal] = useState({ type: null, message: null });
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
-  const userRolePermission = useSelector((state) => state.sharedData.userRolePermission);
+  const userRolePermission = useSelector(
+    (state) => state.sharedData.userRolePermission
+  );
 
   const hideModal = () => {
     let collections = document.getElementsByClassName("modal-backdrop");
@@ -32,7 +34,6 @@ const AddUser = () => {
   };
 
   const handleSubmit = async (event) => {
-    
     event.preventDefault();
     setFormSubmitted(true);
     if (formIsValid) {
@@ -45,8 +46,11 @@ const AddUser = () => {
         uData.role = {
           idm_id: uData?.role?.value,
           role_name: uData?.role?.label,
-          screen: JSON.stringify(roleData?.data)
+          screen: JSON.stringify(roleData?.data),
         };
+      }
+      if (JSON.parse(sessionStorage.getItem("userData"))?.orgId) {
+        uData["orgId"] = JSON.parse(sessionStorage.getItem("userData"))?.orgId;
       }
       const obj = {
         url: URL_CONFIG.GETUSER,
@@ -73,7 +77,6 @@ const AddUser = () => {
   };
 
   useEffect(() => {
-
     const userFields = [];
     for (let fields in userMetaData) {
       if (
@@ -104,8 +107,10 @@ const AddUser = () => {
       if (uData[fld] === undefined) {
         isValidForm = false;
       }
-      if (fld === 'email') {
-        var isphone = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(uData[fld]);
+      if (fld === "email") {
+        var isphone = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+          uData[fld]
+        );
         if (!isphone) {
           isValidForm = false;
         }
@@ -123,11 +128,12 @@ const AddUser = () => {
   }, [uData]);
 
   const handleChange = async (field, event) => {
-
     const value = event;
 
     if (field["name"] === "imageByte") {
-      const file = base64ToFile(value.image?.replace(/^data:image\/\w+;base64,/, ''))
+      const file = base64ToFile(
+        value.image?.replace(/^data:image\/\w+;base64,/, "")
+      );
 
       const formData = new FormData();
       formData.append("image", file);
@@ -138,28 +144,36 @@ const AddUser = () => {
       };
       await httpHandler(obj)
         .then((res) => {
-          uData['profilePic'] = res?.data?.data?.[0]?.url ?? ""
-        }).catch((error) => console.log(error));
-
+          uData["profilePic"] = res?.data?.data?.[0]?.url ?? "";
+        })
+        .catch((error) => console.log(error));
     } else if (field["name"] === "country") {
       field["value"] = value;
       dataObj[field["name"]] = value;
 
       const obj_ = {
         url: URL_CONFIG.GET_ALL_BRANCH_NAME + "?countryId=" + value.id,
-        method: "get"
+        method: "get",
       };
       await httpHandler(obj_)
         .then((user_) => {
-
-          userMetaData.column3.fields[4]["options"] = user_?.data?.map(v => { return { label: v?.name, value: v?.id } });
+          userMetaData.column3.fields[4]["options"] = user_?.data?.map((v) => {
+            return { label: v?.name, value: v?.id };
+          });
           setUserMetaData({
             ...userMetaData,
-          })
-        }).catch((error) => console.log(error));
+          });
+        })
+        .catch((error) => console.log(error));
     } else {
       field["value"] = value;
       dataObj[field["name"]] = value;
+      if (field["name"] === "dateOfBirth") {
+        userMetaData.column3.fields[1].disabled = false;
+        setUserMetaData({
+          ...userMetaData,
+        });
+      }
     }
     setUData((prevState) => {
       return { ...prevState, ...dataObj };
@@ -172,8 +186,19 @@ const AddUser = () => {
     fetch(`${process.env.PUBLIC_URL}/data/user.json`)
       .then((response) => response.json())
       .then((data) => {
-        setUserMetaData(data);
-      }).catch((error) => console.log(error));;
+        setUserMetaData({
+          ...data,
+          column3: {
+            ...data.column3,
+            fields: [
+              ...data.column3.fields.map((ary) =>
+                ary.name === "dateOfJoining" ? { ...ary, disabled: true } : ary
+              ),
+            ],
+          },
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -211,7 +236,7 @@ const AddUser = () => {
 
   return (
     <React.Fragment>
-      {userRolePermission.adminPanel &&
+      {userRolePermission.adminPanel && (
         <React.Fragment>
           {showModal.type !== null && showModal.message !== null && (
             <EEPSubmitModal
@@ -239,7 +264,8 @@ const AddUser = () => {
               }
             ></EEPSubmitModal>
           )}
-          <PageHeader title="Register User"
+          <PageHeader
+            title="Register User"
             navLinksLeft={
               <Link
                 className="text-right c-c1c1c1 mr-2 my-auto eep_nav_icon_div eep_action_svg"
@@ -278,8 +304,9 @@ const AddUser = () => {
                     <button
                       type="submit"
                       disabled={!formIsValid}
-                      className={`eep-btn eep-btn-success mx-auto ${!formIsValid ? "" : ""
-                        }`}
+                      className={`eep-btn eep-btn-success mx-auto ${
+                        !formIsValid ? "" : ""
+                      }`}
                     >
                       Create User
                     </button>
@@ -289,8 +316,8 @@ const AddUser = () => {
             </FormContext.Provider>
           </div>
         </React.Fragment>
-      }
-      {!userRolePermission.adminPanel &&
+      )}
+      {!userRolePermission.adminPanel && (
         <div className="row eep-content-section-data no-gutters">
           <ResponseInfo
             title="Oops! Looks illigal way."
@@ -299,7 +326,7 @@ const AddUser = () => {
             messageInfo="Contact Administrator."
           />
         </div>
-      }
+      )}
     </React.Fragment>
   );
 };

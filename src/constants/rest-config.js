@@ -2,7 +2,7 @@
 const REST_CONFIG = {
   // BASEURL: '127.0.0.1:3000',
   // METHOD: 'http',
-  // BASEURL_AUTH: process.env.REACT_APP_BASEURL_AUTH,
+  // BASEURL_AUTH: 'localhost:5000',
 
   BASEURL: process.env.REACT_APP_BASEURL,
   METHOD: process.env.REACT_APP_METHOD,
@@ -16,7 +16,7 @@ const REST_CONFIG = {
   FIREBASE_APP_ID: process.env.REACT_APP_FIREBASE_APP_ID,
   FIREBASE_MEASUREMENT_ID: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
   FIREBASE_VAPIDKEY: process.env.REACT_APP_FIREBASE_VAPIDKEY,
-  SENTRY_AUTH_TOKEN: process.env.REACT_APP_SENTRY_AUTH_TOKEN
+  SENTRY_AUTH_TOKEN: process.env.REACT_APP_SENTRY_AUTH_TOKEN 
 };
 
 // QA Instance Apache 9 Demo 
@@ -213,9 +213,15 @@ const URL_CONFIG = {
   GET_LIBRARY_SURVEY: "/surveys/get-library",
   SHOW_LIBRARY_SURVEY: "/surveys/surveylibraryshow",
   USER_VALIDATION: "/auth/user_validation",
+  USER_CONTACT_UPDATE: "/users/user-contact",
 
 
-  GIFT_VOUCHER: "/gifts/oauth2/verify",
+  GIFT_VOUCHER: "/gifts/getRedemption",
+  POST_REDEEM: "/gifts/postRedeem",
+  GET_REDEEM: "/gifts/getRedeemPoints",
+  GET_POINTS_CONFIG: "/gifts/getPointsConfig",
+  ADD_POINTS_CONFIG: "/gifts/updatePoints",
+  GET_POINTS_VALUE: "/gifts/getPointsValue",
 };
 
 export { REST_CONFIG, URL_CONFIG };

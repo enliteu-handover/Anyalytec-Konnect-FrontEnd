@@ -121,7 +121,6 @@ const IdeaDetailView = (props) => {
 
     httpHandler(obj)
       .then(() => {
-        //console.log("likeAnIdea API response => ",response);
         if (likeInfo.isLike) {
           fetchIdeaDetail();
         }

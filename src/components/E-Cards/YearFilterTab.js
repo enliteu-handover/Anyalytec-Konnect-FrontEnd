@@ -9,8 +9,6 @@ const YearFilterTab = (props) => {
 
   const {allYears, getAnniversaryYearInfo, refreshYearInfo} = props;
 
-  console.log("YearFilterTab props", props);
-  
   const [allYear, setAllYear] = useState([]);
   const [deletionState, setDeletionState] = useState(false);
   const [deletionData, setDeletionData] = useState([]);
@@ -60,7 +58,6 @@ const YearFilterTab = (props) => {
       };
       httpHandler(obj)
         .then((response) => {
-          //console.log("handleBirthdayTemplate resMsg", response);
           refreshYearInfo(true);
         })
         .catch((error) => {

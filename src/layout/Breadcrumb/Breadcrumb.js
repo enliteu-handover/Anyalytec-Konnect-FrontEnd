@@ -2,10 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ isTrue }) => {
   const getBreadCrumb = useSelector((state) => state.breadcrumb.breadCrumbArr);
   return (
-    <div className="row eep_tab_menus eep_breadcrumb_whole_div no-gutters">
+    <div className="row eep_tab_menus eep_breadcrumb_whole_div no-gutters" style={{ position: isTrue && "absolute" }}>
       <div className="eep_breadcrumb_div">
         <nav
           className="eep-breadcrumb content-lr-padding"
@@ -13,9 +13,8 @@ const Breadcrumb = () => {
         >
           <ol className="breadcrumb">
             {getBreadCrumb?.map((val, i) => {
-              const classValue = `breadcrumb-item ${
-                i === getBreadCrumb.length - 1 ? "active" : ""
-              }`;
+              const classValue = `breadcrumb-item ${i === getBreadCrumb.length - 1 ? "active" : ""
+                }`;
               return (
                 <li className={classValue} key={`list_${i}`}>
                   {i !== getBreadCrumb.length - 1 && (
