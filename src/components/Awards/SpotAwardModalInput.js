@@ -102,9 +102,9 @@ const SpotAwardModalInput = (props) => {
 
   const deptChangeHandler = (eve) => {
     setSelectedUsers([]);
-    getDepts([]);
+    getUsers([]);
     setSelectedDepts([...eve]);
-    getUsers([...eve]);
+    getDepts([...eve]);
   };
   const options = [
     { value: "Users", label: "Users" },
