@@ -79,11 +79,11 @@ const Dashboard = (props) => {
                 />
                 <div className="d_u_details">
                   <label className="d_u_name font-helvetica-m my-0">
-                    {t(`dashboard.${[userSessionData.username]}`)}
+                    {userSessionData.username}
                   </label>
                   <p className="d_u_dept">
-                    {t(`dashboard.${[dashboardDetails?.designation]}`)} -{" "}
-                    {t(`dashboard.${[dashboardDetails?.departmentName]}`)}
+                    {dashboardDetails?.designation} -{" "}
+                    {dashboardDetails?.departmentName}
                   </p>
                 </div>
                 {/* &nbsp;&nbsp;&nbsp;
@@ -105,7 +105,7 @@ const Dashboard = (props) => {
                       dashboardDetails?.experience
                     }
                     <span className="ml-2">
-                      {t(`dashboard.${[dashboardDetails?.experienceType]}`)}
+                      {dashboardDetails?.experienceType}
                     </span>
                   </label>
                   <p className="text-right mb-1 d_doj opacity-3">

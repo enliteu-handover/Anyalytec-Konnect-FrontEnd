@@ -46,7 +46,7 @@ const PendingApproval = (props) => {
                         alt="program-icon"
                       />
                       <span className="pl-1">
-                        {t(`dashboard.${[item?.award?.name]}`)}
+                        {item?.award?.name}
                       </span>
                     </p>
                   </Link>

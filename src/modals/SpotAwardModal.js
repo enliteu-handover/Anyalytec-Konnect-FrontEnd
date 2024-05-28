@@ -39,7 +39,7 @@ const SpotAwardModal = (props) => {
       award: {
         id: assignAwardData.data.id
       },
-      departmentId: selectedDept,
+      departmentId: selectedDept?.length > 0 ? selectedDept : deptIds,
       userIds: userIds
     }
     const obj = {
