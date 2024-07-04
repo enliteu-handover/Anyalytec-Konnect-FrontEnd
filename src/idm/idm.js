@@ -1,7 +1,8 @@
-// import { UserManagement } from "@crayond_dev/user-management-test";
+import { UserManagement } from "@crayond_dev/user-management-test";
 import React, { useEffect } from "react";
 import { BreadCrumbActions } from "../store/breadcrumb-slice";
 import { useDispatch } from "react-redux";
+import { REST_CONFIG } from "../constants/rest-config";
 
 const IdmRoleMapping = (props) => {
     const dispatch = useDispatch();
@@ -35,12 +36,11 @@ const IdmRoleMapping = (props) => {
         };
     }, []);
     return (
-        "Loading...."
-        // <UserManagement
-        //     apiUrl="https://dev-idm-api.crayond.com/api/v1"
-        //     apiToken={"ASC4PK0UVE5OOCO8NK"}
-        //     title={"Role Management"}
-        // />
+        <UserManagement
+            apiUrl={REST_CONFIG.IDM_URL}
+            apiToken={REST_CONFIG.API_KEY}
+            title={"Role Management"}
+        />
     );
 };
 export default IdmRoleMapping; 
