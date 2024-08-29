@@ -7,6 +7,7 @@ import { URL_CONFIG } from "../../constants/rest-config";
 import { httpHandler } from "../../http/http-interceptor";
 import LikedInfoModal from "../../modals/LikedInfoModal";
 import SocialWallCommentsList from "./SocialWallCommentsList";
+import { useInView } from "react-intersection-observer";
 
 const SocialWallMiddleContent = (props) => {
   const {
@@ -15,6 +16,9 @@ const SocialWallMiddleContent = (props) => {
     likeSocialWallPostHandle,
     commentSocialWallPostHandle,
     likeStatus,
+    fetchSocialWallList,
+    stopFetch,
+    infiniteLoader,
   } = props;
   const svgIcons = useSelector((state) => state.sharedData.svgIcons);
   const userData = sessionStorage.userData
@@ -27,11 +31,18 @@ const SocialWallMiddleContent = (props) => {
   const maxLikedCount = 3;
   const defaultProfilePic = process.env.PUBLIC_URL + "/images/user_profile.png";
   const [subChildrenParent, setSubChildrenParent] = useState({});
+  const { ref, inView } = useInView();
   const { t } = useTranslation();
 
   useEffect(() => {
     setSocialWallData(socialWallList);
   }, [socialWallList]);
+
+  useEffect(() => {
+    if (inView && !stopFetch) {
+      fetchSocialWallList();
+    }
+  }, [inView, stopFetch]);
 
   let userPicIndex;
   const getUserPicture = (uID) => {
@@ -156,7 +167,7 @@ const SocialWallMiddleContent = (props) => {
           if (
             socialWallDataTemp[arg.parentIndex].wallComments[i].subChildren &&
             socialWallDataTemp[arg.parentIndex].wallComments[i].id ===
-            subChildrenParent.id
+              subChildrenParent.id
           ) {
             for (
               let j = 0;
@@ -326,7 +337,6 @@ const SocialWallMiddleContent = (props) => {
 
   const changeLabel = (createdAt) => {
     if (JSON.parse(sessionStorage.getItem("userData"))?.arabic) {
-
       if (createdAt?.includes("minute ago")) {
         return createdAt?.replace("minute ago", "منذ دقيقة");
       } else if (createdAt?.includes("minutes ago")) {
@@ -344,8 +354,6 @@ const SocialWallMiddleContent = (props) => {
 
     return createdAt;
   };
-
-
 
   const getSubChildren = (arg, ret) => {
     for (var i = 0; i < arg.children.length; i++) {
@@ -374,13 +382,13 @@ const SocialWallMiddleContent = (props) => {
   };
 
   const labelPrint = (item) => {
-    debugger
     return item?.rewardId?.userId !== null &&
       item?.rewardId?.userId !== "undefined"
-      ? ('@' + item?.rewardId?.userId?.firstname +
-        item?.rewardId?.userId?.lastname)
+      ? "@" +
+          item?.rewardId?.userId?.firstname +
+          item?.rewardId?.userId?.lastname
       : "";
-  }
+  };
 
   return (
     <React.Fragment>
@@ -390,7 +398,22 @@ const SocialWallMiddleContent = (props) => {
           usersPicData={usersPicProps}
         />
       )}
-
+      {infiniteLoader && (
+        <div
+          style={{
+            position: "fixed",
+            left: "50%",
+            translate: "50%",
+            top: "50%",
+          }}
+        >
+          <img
+            src={process.env.PUBLIC_URL + "/images/loader.gif"}
+            alt="Loader"
+            style={{ width: "100px" }}
+          />
+        </div>
+      )}
       {socialWallData &&
         socialWallData?.length &&
         socialWallData
@@ -400,6 +423,7 @@ const SocialWallMiddleContent = (props) => {
             let hashArr = getHashTag(item?.rewardId?.hashTag);
             return (
               <div
+                style={{ opacity: infiniteLoader ? 0.5 : 1 }}
                 className="bg-f7f7f7 br-15 socialWall"
                 key={"socialWall_" + index}
               >
@@ -409,7 +433,7 @@ const SocialWallMiddleContent = (props) => {
                       <img
                         src={
                           item?.rewardId?.userId !== null &&
-                            item?.rewardId?.userId !== "undefined"
+                          item?.rewardId?.userId !== "undefined"
                             ? getUserPicture(item?.rewardId?.userId?.id)
                             : defaultProfilePic
                         }
@@ -417,9 +441,9 @@ const SocialWallMiddleContent = (props) => {
                         alt="Profile Image"
                         title={
                           item?.rewardId?.userId !== null &&
-                            item?.rewardId?.userId !== "undefined"
+                          item?.rewardId?.userId !== "undefined"
                             ? item.rewardId.userId?.firstname +
-                            item.rewardId.userId?.lastname
+                              item.rewardId.userId?.lastname
                             : ""
                         }
                       />
@@ -428,10 +452,10 @@ const SocialWallMiddleContent = (props) => {
                           <Link to="#" className="a_hover_txt_deco_none">
                             <span className="sw_to_val sw_head_nms">
                               {item?.rewardId?.userId !== null &&
-                                item?.rewardId?.userId !== "undefined"
+                              item?.rewardId?.userId !== "undefined"
                                 ? (item?.rewardId?.userId?.firstname ?? "") +
-                                " " +
-                                (item?.rewardId?.userId?.lastname ?? "")
+                                  " " +
+                                  (item?.rewardId?.userId?.lastname ?? "")
                                 : ""}{" "}
                             </span>
                           </Link>
@@ -469,7 +493,7 @@ const SocialWallMiddleContent = (props) => {
                     <div className="sw_msg_div d-flex flex-sm-wrap flex-md-nowrap justify-content-between align-items-start mb-3">
                       <div className="sw_msg col-md-8 col-lg-9">
                         <p className="sw_msg_val mb-0">
-                          <span className="font-helvetica-m" >
+                          <span className="font-helvetica-m">
                             {labelPrint(item)}
                           </span>
                           <span style={{ lineHeight: "1.5rem" }}>
@@ -494,7 +518,7 @@ const SocialWallMiddleContent = (props) => {
                           <img
                             src={
                               item?.rewardId?.imageByte !== null &&
-                                item?.rewardId?.imageByte !== ""
+                              item?.rewardId?.imageByte !== ""
                                 ? item?.rewardId?.imageByte?.image
                                 : `${process.env.PUBLIC_URL}/images/icons/static/No-Icon.svg`
                             }
@@ -564,8 +588,8 @@ const SocialWallMiddleContent = (props) => {
                                                 like?.userId?.lastname}
                                               {item?.socialWallLike.length >
                                                 1 &&
-                                                index < maxLikedCount - 1 &&
-                                                item?.socialWallLike?.length -
+                                              index < maxLikedCount - 1 &&
+                                              item?.socialWallLike?.length -
                                                 1 !==
                                                 index
                                                 ? ", "
@@ -577,7 +601,7 @@ const SocialWallMiddleContent = (props) => {
                                     })}
                                   {item?.socialWallLike &&
                                     item?.socialWallLike?.length >
-                                    maxLikedCount && (
+                                      maxLikedCount && (
                                       <React.Fragment>
                                         <span> and </span>
                                         <Link
@@ -605,8 +629,9 @@ const SocialWallMiddleContent = (props) => {
                         </div>
                         {/* comments */}
                         <div
-                          className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${isEnlited(item?.socialWallLike) ? "" : "clicked"
-                            }`}
+                          className={`enlite_comments_layer d-flex justify-content-between align-items-center liked_heart ${
+                            isEnlited(item?.socialWallLike) ? "" : "clicked"
+                          }`}
                         >
                           {/* liked_heart  ${isEnlited(item?.socialWallLike) ? "clicked" : ""} */}
                           {isEnlited(item?.socialWallLike) && (
@@ -734,6 +759,7 @@ const SocialWallMiddleContent = (props) => {
               </div>
             );
           })}
+      <div style={{ position: "relative", bottom: "20px" }} ref={ref}></div>
     </React.Fragment>
   );
 };
