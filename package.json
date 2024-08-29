@@ -67,9 +67,8 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "set PORT=3001 && react-scripts start",
+    "start": "set PORT=8080 && react-scripts start",
     "build": "react-scripts --max-old-space-size=4096 build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
