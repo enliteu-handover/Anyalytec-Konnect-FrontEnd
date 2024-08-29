@@ -13,9 +13,13 @@ import { useTranslation } from "react-i18next";
 
 const SocialWall = () => {
   const [usersPic, setUsersPic] = useState([]);
+  const [offset, setOffset] = useState(0);
   const [rankingLists, setRankingLists] = useState({});
   const [hastagList, setHastagList] = useState([]);
+  const [infiniteLoader, setInfiniteLoader] = useState(false);
   const [socialWallList, setSocialWallList] = useState([]);
+  const [stopFetch, setStopFetch] = useState(false);
+
   const [heartAnimateState, setHeartAnimateState] = useState({});
   const [isloading, setIsloding] = useState(false);
   const { t } = useTranslation();
@@ -109,16 +113,17 @@ const SocialWall = () => {
   };
 
   const fetchSocialWallList = async () => {
-    setIsloding(true);
+    setInfiniteLoader(true);
 
     const obj = {
       url: URL_CONFIG.SOCIALWALL_LIST,
       method: "get",
       params: {
         direction: "asc",
-        //  pageSize: 100
-        limit: 100,
+        limit: 10,
+        offset: offset,
       },
+      isLoader: false,
     };
     //pageSize=2&pageNo=0&sortBy=createdAt&direction=desc
     await httpHandler(obj)
@@ -129,11 +134,13 @@ const SocialWall = () => {
           data.map((res) => {
             return (res.createdAt = eepFormatDateTime(res.createdAt));
           });
-        setSocialWallList(data);
-        setIsloding(false);
+        setSocialWallList([...socialWallList, ...data]);
+        setInfiniteLoader(false);
+        setOffset(offset + 10);
+        setStopFetch(data.length < 10 ? true : false);
       })
       .catch((error) => {
-        setIsloding(false);
+        setInfiniteLoader(false);
         console.log("SOCIALWALL_LIST API error => ", error);
       });
   };
@@ -321,9 +328,6 @@ const SocialWall = () => {
       });
   };
 
-  console.log(rankingLists, "rankingLists");
-  console.log(hastagList, "hastagList");
-
   useEffect(() => {
     fetchSocialWallUserList();
     fetchAllUsers();
@@ -332,6 +336,7 @@ const SocialWall = () => {
     // pageLoaderHandler('show')
     pageLoaderHandler(isloading ? "show" : "hide");
   }, []);
+
   return (
     <React.Fragment>
       <div
@@ -349,7 +354,7 @@ const SocialWall = () => {
 
       {!isloading && (
         <>
-          {socialWallList.length > 0? (
+          {socialWallList.length > 0 ? (
             <div className="row eep-content-section-data">
               <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 position_sticky">
                 {Object.keys(rankingLists).length > 0 && (
@@ -363,6 +368,9 @@ const SocialWall = () => {
                 {socialWallList && socialWallList.length > 0 && (
                   <SocialWallMiddleContent
                     socialWallList={socialWallList}
+                    fetchSocialWallList={fetchSocialWallList}
+                    infiniteLoader={infiniteLoader}
+                    stopFetch={stopFetch}
                     usersPicProps={usersPic}
                     likeSocialWallPostHandle={likeSocialWallPostHandle}
                     commentSocialWallPostHandle={commentSocialWallPostHandle}
@@ -372,9 +380,7 @@ const SocialWall = () => {
               </div>
               <div className="col-sm-12 col-xs-12 col-md-3 col-lg-3 socialWall_div eep-content-section eep_scroll_y">
                 {hastagList && hastagList.length > 0 && (
-                  <SocialWallRightContent
-                    hastagList={hastagList}
-                  />
+                  <SocialWallRightContent hastagList={hastagList} />
                 )}
               </div>
             </div>
